@@ -1,0 +1,235 @@
+[[events]]
+key = "secretary_chat_command_office"
+action_key = "chat"
+actor_tags = ["secretary"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "secretary_share_snack_social"
+action_key = "share_snack"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "command_office"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "secretary_praise_office"
+action_key = "praise"
+actor_tags = ["secretary"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "secretary_touch_head_soft"
+action_key = "touch_head"
+actor_tags = ["secretary"]
+location_keys = ["command_office", "cafeteria", "dock"]
+time_slots = ["afternoon", "evening", "night"]
+
+[[events]]
+key = "secretary_serve_tea_office"
+action_key = "serve_tea"
+actor_tags = ["secretary"]
+location_keys = ["command_office", "cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "secretary_listen_evening"
+action_key = "listen"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "secretary_clink_harbor"
+action_key = "clink_cups"
+actor_tags = ["secretary"]
+location_keys = ["dock", "cafeteria"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "secretary_hug_evening"
+action_key = "hug"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "secretary_train_together_ground"
+action_key = "train_together"
+actor_tags = ["secretary"]
+location_keys = ["training_ground"]
+time_slots = ["afternoon"]
+
+[[events]]
+key = "secretary_rest_evening"
+action_key = "rest"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dormitory_a", "dock"]
+time_slots = ["afternoon", "evening", "night"]
+
+[[events]]
+key = "secretary_study_office"
+action_key = "study"
+actor_tags = ["secretary"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "secretary_study_library"
+action_key = "study"
+actor_tags = ["secretary"]
+location_keys = ["library"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "secretary_cook_cafeteria"
+action_key = "cook"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "secretary_meal_cafeteria"
+action_key = "eat_meal"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "secretary_invite_meal_cafeteria"
+action_key = "invite_meal"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "secretary_tease_private"
+action_key = "tease"
+actor_tags = ["secretary"]
+location_keys = ["bathhouse", "dormitory_a"]
+time_slots = ["night", "late_night"]
+min_affection = 1
+required_stage = "friendly"
+requires_private = true
+
+[[events]]
+key = "secretary_invite_date_evening"
+action_key = "invite_date"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dock", "bathhouse"]
+time_slots = ["afternoon", "evening", "night"]
+required_stage = "like"
+requires_date = false
+
+[[events]]
+key = "secretary_end_date"
+action_key = "end_date"
+actor_tags = ["secretary"]
+time_slots = ["afternoon", "evening", "night", "late_night"]
+requires_date = true
+
+[[events]]
+key = "secretary_gift_date"
+action_key = "gift"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+requires_date = true
+
+[[events]]
+key = "secretary_dessert_date"
+action_key = "dessert_date"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+requires_date = true
+
+[[events]]
+key = "secretary_room_visit_dormitory"
+action_key = "room_visit"
+actor_tags = ["secretary"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "like"
+
+[[events]]
+key = "secretary_enter_room_dormitory"
+action_key = "enter_room"
+actor_tags = ["secretary"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+
+[[events]]
+key = "secretary_walk_together_harbor"
+action_key = "walk_together"
+actor_tags = ["secretary"]
+location_keys = ["dock"]
+time_slots = ["afternoon", "evening"]
+requires_date = false
+
+[[events]]
+key = "secretary_lap_pillow_follow"
+action_key = "lap_pillow"
+actor_tags = ["secretary"]
+location_keys = ["dock", "cafeteria", "dormitory_a"]
+time_slots = ["evening", "night"]
+requires_following = true
+
+[[events]]
+key = "secretary_care_soft"
+action_key = "care"
+actor_tags = ["secretary"]
+location_keys = ["cafeteria", "dormitory_a", "bathhouse"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "secretary_care_infirmary"
+action_key = "care"
+actor_tags = ["secretary"]
+location_keys = ["infirmary"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "secretary_kiss_love"
+action_key = "kiss"
+actor_tags = ["secretary"]
+location_keys = ["dock", "cafeteria", "dormitory_a", "bathhouse"]
+time_slots = ["evening", "night"]
+required_stage = "love"
+
+[[events]]
+key = "secretary_confess_love"
+action_key = "confess"
+actor_tags = ["secretary"]
+location_keys = ["command_office", "dock", "cafeteria", "dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "love"
+
+# ── 约会专属事件 ──
+
+[[events]]
+key = "secretary_date_watch_sea"
+action_key = "date_watch_sea"
+actor_tags = ["secretary"]
+location_keys = ["dock"]
+time_slots = ["evening", "night"]
+requires_date = true
+required_stage = "love"
+
+[[events]]
+key = "secretary_date_tease_private"
+action_key = "date_tease"
+actor_tags = ["secretary"]
+location_keys = ["bathhouse", "dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+requires_private = true

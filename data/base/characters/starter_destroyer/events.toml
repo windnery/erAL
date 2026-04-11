@@ -1,0 +1,134 @@
+[[events]]
+key = "destroyer_chat_command_office"
+action_key = "chat"
+actor_tags = ["destroyer"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "destroyer_serve_tea_fast"
+action_key = "serve_tea"
+actor_tags = ["destroyer"]
+location_keys = ["command_office", "cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "destroyer_listen_harbor"
+action_key = "listen"
+actor_tags = ["destroyer"]
+location_keys = ["dock", "cafeteria"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "destroyer_clink_harbor"
+action_key = "clink_cups"
+actor_tags = ["destroyer"]
+location_keys = ["dock", "cafeteria"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "destroyer_share_snack_social"
+action_key = "share_snack"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria", "command_office", "dock"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "destroyer_train_together_ground"
+action_key = "train_together"
+actor_tags = ["destroyer"]
+location_keys = ["training_ground"]
+time_slots = ["afternoon"]
+
+[[events]]
+key = "destroyer_rest_break"
+action_key = "rest"
+actor_tags = ["destroyer"]
+location_keys = ["dock", "cafeteria", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+
+[[events]]
+key = "destroyer_rest_garden"
+action_key = "rest"
+actor_tags = ["destroyer"]
+location_keys = ["garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "destroyer_study_office"
+action_key = "study"
+actor_tags = ["destroyer"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "destroyer_cook_cafeteria"
+action_key = "cook"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "destroyer_meal_cafeteria"
+action_key = "eat_meal"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "destroyer_invite_meal_cafeteria"
+action_key = "invite_meal"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "destroyer_walk_together_harbor"
+action_key = "walk_together"
+actor_tags = ["destroyer"]
+location_keys = ["dock"]
+time_slots = ["afternoon", "evening"]
+requires_date = false
+
+[[events]]
+key = "destroyer_gift_date"
+action_key = "gift"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+requires_date = true
+
+[[events]]
+key = "destroyer_dessert_date"
+action_key = "dessert_date"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+requires_date = true
+
+[[events]]
+key = "destroyer_room_visit_dormitory"
+action_key = "room_visit"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "like"
+
+[[events]]
+key = "destroyer_enter_room_dormitory"
+action_key = "enter_room"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+
+[[events]]
+key = "destroyer_care_friendly"
+action_key = "care"
+actor_tags = ["destroyer"]
+location_keys = ["dock", "dormitory_a", "cafeteria"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"

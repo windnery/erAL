@@ -1,0 +1,297 @@
+[[entries]]
+key = "cruiser_chat_cafeteria"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "巡洋舰把餐盘往旁边挪了挪，示意你可以直接坐过来。",
+  "「餐后的这点时间最适合聊天了。前辈如果不急，我很乐意再多陪一会儿。」",
+]
+
+[[entries]]
+key = "cruiser_serve_tea_calm"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她接过热茶时先闻了闻香气，像是连这一步都不愿意省略。",
+  "「谢谢。和前辈一起喝茶的时候，时间总会慢下来一点。」",
+]
+
+[[entries]]
+key = "cruiser_listen_gentle"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她把那些压在心里的话慢慢说出来，语速不快，却能听出明显松了口气。",
+  "「能这样被前辈安静听着，对我来说比想象中更重要。」",
+]
+
+[[entries]]
+key = "cruiser_clink_harbor"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她把杯子轻轻碰上来，动作克制得刚刚好，像是连这一声清响都算进了节奏里。",
+  "「这种碰杯的时刻，如果对象是前辈，我会更想认真记住。」",
+]
+
+[[entries]]
+key = "cruiser_share_snack_calm"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她接过零食后先认真看了一眼包装，像是在确认你是不是特地挑过。",
+  "「谢谢。和前辈一起吃的话，味道总会比平时更好一点。」",
+]
+
+[[entries]]
+key = "cruiser_praise_office"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她轻轻笑了一下，明明是在接受夸奖，语气却依旧稳稳当当。",
+  "「能得到前辈这样的评价，我会把今天剩下的工作也处理得更从容。」",
+]
+
+[[entries]]
+key = "cruiser_rest_quiet"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她把肩膀放松下来时动作很小，像是连休息这件事都不愿意显得太张扬。",
+  "「这样安静待一会儿，其实比我想象中更能恢复状态。」",
+]
+
+[[entries]]
+key = "cruiser_study_office"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她读资料时很专注，偶尔抬眼和你交换一句看法，气氛便自然地往前推进了一点。",
+  "「和前辈一起学习的时候，很多问题会比一个人想得更清楚。」",
+]
+
+[[entries]]
+key = "cruiser_cook_cafeteria"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她处理食材的动作稳稳当当，像是在厨房里也能维持和指挥室一样的从容节奏。",
+  "「料理和战术一样，火候与顺序都不能乱。前辈，接下来麻烦你把盘子递给我。」",
+]
+
+[[entries]]
+key = "cruiser_meal_cafeteria"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她用餐的动作总是很安静，但并不会显得疏远，反而让人更容易把心情放平。",
+  "「这种时候不用急着说话。能这样一起坐着，就已经很不错了。」",
+]
+
+[[entries]]
+key = "cruiser_invite_meal_cafeteria"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她听完你的邀请后没有立刻回答，只是温和地望着你，像在确认你是不是也期待这一餐。",
+  "「好啊。比起匆忙解决，我更想和前辈好好把这顿饭吃完。」",
+]
+
+[[entries]]
+key = "cruiser_date_watch_sea"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "海风吹过时，她把视线投向远处的水面，整个人都显得比平时柔和许多。",
+  "「如果前辈愿意的话，这样的夜景我想再和你多看几次。」",
+]
+
+[[entries]]
+key = "cruiser_gift_date"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她接过礼物后没有立刻说话，而是先低头看了很久，像是在把这份瞬间安静收藏起来。",
+  "「谢谢。比起礼物本身，我大概会先记住前辈把它交到我手里的样子。」",
+]
+
+[[entries]]
+key = "cruiser_dessert_date"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "甜点的甜味慢慢化开时，她连说话的语速都比平常更缓了一些。",
+  "「如果约会总能有这样的余韵，我会很愿意把它延长一点。」",
+]
+
+[[entries]]
+key = "cruiser_room_visit_dormitory"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她把门轻轻推开后站在一旁给你留出位置，动作自然得像是早就想过会有这一幕。",
+  "「进来吧。比起把你留在门外，我更想让今晚的谈话继续下去。」",
+]
+
+[[entries]]
+key = "cruiser_enter_room_dormitory"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "你真正走进房间后，她把门轻轻带上，神情依旧平静，可声音却低了下来。",
+  "「既然已经进来了，那今晚就别急着把这段时间还给外面的世界。」",
+]
+
+[[entries]]
+key = "cruiser_care_soft"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "你替她把那些细小的不便一一处理好后，她只是低低“嗯”了一声，却没有把手抽回去。",
+  "「被这样照料，会让我不小心想依赖前辈更多一点。」",
+]
+
+[[entries]]
+key = "cruiser_care_infirmary"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "医务室的白光让一切都显得格外安静，她却因为你在身边而比平时更容易放下戒备。",
+  "「在这里被前辈照顾，总会让我觉得连呼吸都慢了下来。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "巡洋舰的语调始终很稳，连普通的闲聊都带着一种让人安心的从容。",
+]
+
+[[entries]]
+key = "serve_tea"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她接过茶后先安静地抿了一口，像是连情绪都被热气慢慢熨平了。",
+]
+
+[[entries]]
+key = "listen"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "你没有打断她，她也就顺着那份平静把想说的话慢慢说完了。",
+]
+
+[[entries]]
+key = "clink_cups"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "这一下碰杯并不热闹，却有种恰到好处的默契感。",
+]
+
+[[entries]]
+key = "share_snack"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她吃东西的节奏不快，像是连这点放松时间也安排得很有条理。",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她接受夸奖时并不张扬，只是那份安静的满足感很难藏住。",
+]
+
+[[entries]]
+key = "rest"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "短暂的休息让她整个人都显得比刚才更缓和，也更接近真正放松的样子。",
+]
+
+[[entries]]
+key = "study"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "和她一起学习时，连沉默都显得很有秩序，不会让人觉得尴尬。",
+]
+
+[[entries]]
+key = "cook"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她把料理做得像安排日程一样稳妥，连香味都来得从容而清晰。",
+]
+
+[[entries]]
+key = "eat_meal"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "安静地吃完一顿饭后，连原本浮着的疲惫都像被慢慢压下去了。",
+]
+
+[[entries]]
+key = "invite_meal"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她接受了你的邀请，这顿饭也因此带上了比日常更多一点的私人感。",
+]
+
+[[entries]]
+key = "care"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她任由你替她处理好那些小麻烦，像是默认了这份照顾本身就是一种亲近。",
+]
+
+[[entries]]
+key = "gift"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "礼物落进她掌心时，她的笑意并不张扬，却比平时更久没有散去。",
+]
+
+[[entries]]
+key = "dessert_date"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "甜点让这次约会的气氛变得更柔和，也更像只属于你们两人的闲暇时刻。",
+]
+
+[[entries]]
+key = "room_visit"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "你随着她来到房间门口，原本开放的约会路线也慢慢收束成只属于她的私人空间。",
+]
+
+[[entries]]
+key = "enter_room"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "房门轻轻合上后，她看向你的目光也比刚才更近，更像在等待你下一句更认真的话。",
+]
+
+[[entries]]
+key = "date_watch_sea"
+actor_key = "starter_cruiser"
+priority = 0
+lines = [
+  "她与你并肩站在海边时，连沉默都显得很舒服，像是没必要再刻意找话题了。",
+]

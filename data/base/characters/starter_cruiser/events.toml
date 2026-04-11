@@ -1,0 +1,136 @@
+[[events]]
+key = "cruiser_chat_cafeteria"
+action_key = "chat"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "cruiser_serve_tea_calm"
+action_key = "serve_tea"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "command_office"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "cruiser_listen_gentle"
+action_key = "listen"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "dock", "bathhouse"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "cruiser_clink_harbor"
+action_key = "clink_cups"
+actor_tags = ["cruiser"]
+location_keys = ["dock", "cafeteria"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "cruiser_share_snack_calm"
+action_key = "share_snack"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "dock"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "cruiser_praise_office"
+action_key = "praise"
+actor_tags = ["cruiser"]
+location_keys = ["command_office"]
+time_slots = ["afternoon"]
+
+[[events]]
+key = "cruiser_rest_quiet"
+action_key = "rest"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+
+[[events]]
+key = "cruiser_study_office"
+action_key = "study"
+actor_tags = ["cruiser"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "cruiser_cook_cafeteria"
+action_key = "cook"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "cruiser_meal_cafeteria"
+action_key = "eat_meal"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "cruiser_invite_meal_cafeteria"
+action_key = "invite_meal"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "cruiser_date_watch_sea"
+action_key = "date_watch_sea"
+actor_tags = ["cruiser"]
+location_keys = ["dock"]
+time_slots = ["evening", "night"]
+requires_date = true
+required_stage = "love"
+
+[[events]]
+key = "cruiser_gift_date"
+action_key = "gift"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+requires_date = true
+
+[[events]]
+key = "cruiser_dessert_date"
+action_key = "dessert_date"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+requires_date = true
+
+[[events]]
+key = "cruiser_room_visit_dormitory"
+action_key = "room_visit"
+actor_tags = ["cruiser"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "like"
+
+[[events]]
+key = "cruiser_enter_room_dormitory"
+action_key = "enter_room"
+actor_tags = ["cruiser"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+
+[[events]]
+key = "cruiser_care_soft"
+action_key = "care"
+actor_tags = ["cruiser"]
+location_keys = ["cafeteria", "bathhouse", "dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "cruiser_care_infirmary"
+action_key = "care"
+actor_tags = ["cruiser"]
+location_keys = ["infirmary"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"

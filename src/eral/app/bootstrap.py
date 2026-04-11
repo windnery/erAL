@@ -1,0 +1,231 @@
+"""Dependency assembly for the erAL runtime."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+from eral.app.config import AppConfig
+from eral.content.character_packs import CharacterPack, load_character_packs
+from eral.content.characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
+from eral.content.commands import CommandDefinition, load_command_definitions
+from eral.content.dialogue import DialogueEntry, load_dialogue_entries
+from eral.content.events import EventDefinition, load_event_definitions
+from eral.content.marks import MarkDefinition, load_mark_definitions
+from eral.content.port_map import load_port_map
+from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
+from eral.content.settlement import SettlementRule, load_settlement_rules
+from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
+from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
+from eral.domain.map import PortMap
+from eral.domain.stats import ActorNumericState, WorldEraCompatState
+from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
+from eral.engine.events import EventBus
+from eral.engine.paths import RuntimePaths
+from eral.engine.runtime_logger import RuntimeLogger
+from eral.systems.commands import CommandService
+from eral.systems.companions import CompanionService
+from eral.systems.dates import DateService
+from eral.systems.dialogue import DialogueService
+from eral.systems.events import EventService
+from eral.systems.game_loop import GameLoop
+from eral.systems.navigation import NavigationService
+from eral.systems.relationships import RelationshipService
+from eral.systems.schedule import ScheduleService
+from eral.systems.scene import SceneService
+from eral.systems.save import SaveService
+from eral.systems.settlement import SettlementService
+
+
+@dataclass(slots=True)
+class Application:
+    """The assembled application container."""
+
+    root: Path
+    config: AppConfig
+    paths: RuntimePaths
+    stat_axes: StatAxisCatalog
+    tw_axes: TwAxisRegistry
+    port_map: PortMap
+    character_packs: tuple[CharacterPack, ...]
+    roster: tuple[CharacterDefinition, ...]
+    relationship_stages: tuple[RelationshipStageDefinition, ...]
+    events: tuple[EventDefinition, ...]
+    dialogue: tuple[DialogueEntry, ...]
+    settlement_rules: tuple[SettlementRule, ...]
+    commands: tuple[CommandDefinition, ...]
+    event_bus: EventBus
+    world: WorldState
+    game_loop: GameLoop
+    settlement_service: SettlementService
+    relationship_service: RelationshipService
+    companion_service: CompanionService
+    date_service: DateService
+    scene_service: SceneService
+    event_service: EventService
+    dialogue_service: DialogueService
+    command_service: CommandService
+    navigation_service: NavigationService
+    schedule_service: ScheduleService
+    save_service: SaveService
+    runtime_logger: RuntimeLogger
+
+
+def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverrides") -> None:
+    """Apply per-character initial stat overrides after zeroing."""
+    for key, value in overrides.base.items():
+        stats.base.set(key, value)
+    for key, value in overrides.palam.items():
+        stats.palam.set(key, value)
+    for era_index, value in overrides.abl.items():
+        stats.compat.abl.set(era_index, value)
+    for era_index, value in overrides.talent.items():
+        stats.compat.talent.set(era_index, value)
+    for era_index, value in overrides.cflag.items():
+        stats.compat.cflag.set(era_index, value)
+
+
+def create_application(root: Path | None = None) -> Application:
+    root_path = (root or Path.cwd()).resolve()
+    config_path = root_path / "config.ini"
+    stat_axes_path = root_path / "data" / "base" / "stat_axes.toml"
+    tw_axes_path = root_path / "data" / "generated" / "tw_axis_registry.json"
+    port_map_path = root_path / "data" / "base" / "port_map.toml"
+    characters_path = root_path / "data" / "base" / "characters.toml"
+    character_packs_path = root_path / "data" / "base" / "characters"
+    relationship_stages_path = root_path / "data" / "base" / "relationship_stages.toml"
+    settlement_rules_path = root_path / "data" / "base" / "settlement_rules.toml"
+    commands_path = root_path / "data" / "base" / "commands.toml"
+    marks_path = root_path / "data" / "base" / "marks.toml"
+
+    events_path = root_path / "data" / "base" / "events.toml"
+    dialogue_path = root_path / "data" / "base" / "dialogue.toml"
+
+    paths = RuntimePaths.from_root(root_path)
+    paths.ensure_runtime_dirs()
+
+    config = AppConfig.load(config_path)
+    stat_axes = load_stat_axis_catalog(stat_axes_path)
+    tw_axes = load_tw_axis_registry(tw_axes_path)
+    port_map = load_port_map(port_map_path)
+    character_packs = load_character_packs(character_packs_path)
+    roster = tuple(pack.character for pack in character_packs) or load_character_definitions(characters_path)
+    relationship_stages = load_relationship_stages(relationship_stages_path)
+    global_events = load_event_definitions(events_path)
+    global_dialogue = load_dialogue_entries(dialogue_path)
+    pack_events = tuple(event for pack in character_packs for event in pack.events)
+    pack_dialogue = tuple(entry for pack in character_packs for entry in pack.dialogue)
+    events = global_events + pack_events
+    dialogue = global_dialogue + pack_dialogue
+    settlement_rules = load_settlement_rules(settlement_rules_path)
+    commands = load_command_definitions(commands_path)
+    mark_defs = load_mark_definitions(marks_path)
+    mark_definitions = {m.key: m for m in mark_defs}
+    start_location = port_map.starting_location()
+    event_bus = EventBus()
+    runtime_logger = RuntimeLogger(paths=paths)
+
+    world = WorldState(
+        current_day=1,
+        current_time_slot=TimeSlot.from_name(config.start_time_slot),
+        player_name=config.player_name,
+        active_location=PortLocation(
+            key=start_location.key,
+            display_name=start_location.display_name,
+        ),
+        compat=WorldEraCompatState.zeroed(tw_axes),
+        characters=[],
+    )
+    schedule_service = ScheduleService(roster={character.key: character for character in roster})
+    for definition in roster:
+        stats = ActorNumericState.zeroed(stat_axes, tw_axes)
+        _apply_initial_stats(stats, definition.initial_stats)
+        world.characters.append(
+            CharacterState(
+                key=definition.key,
+                display_name=definition.display_name,
+                location_key=definition.initial_location,
+                tags=definition.tags,
+                stats=stats,
+                marks=dict(definition.initial_stats.marks),
+            )
+        )
+    schedule_service.refresh_world(world)
+
+    # Sync derived fields from initial CFLAG overrides before relationship resolution
+    for actor in world.characters:
+        actor.sync_derived_fields()
+
+    game_loop = GameLoop(
+        event_bus=event_bus,
+        schedule_service=schedule_service,
+        runtime_logger=runtime_logger,
+    )
+    relationship_service = RelationshipService(stages=relationship_stages)
+    companion_service = CompanionService()
+    date_service = DateService(companion_service=companion_service)
+    settlement_service = SettlementService(
+        rules=settlement_rules,
+        relationship_service=relationship_service,
+    )
+    scene_service = SceneService()
+    event_service = EventService(events=events, relationship_service=relationship_service)
+    dialogue_service = DialogueService(entries=dialogue)
+    command_service = CommandService(
+        commands={command.key: command for command in commands},
+        settlement=settlement_service,
+        port_map=port_map,
+        scene_service=scene_service,
+        event_service=event_service,
+        dialogue_service=dialogue_service,
+        relationship_service=relationship_service,
+        companion_service=companion_service,
+        date_service=date_service,
+        runtime_logger=runtime_logger,
+        mark_definitions=mark_definitions,
+    )
+    navigation_service = NavigationService(
+        port_map=port_map,
+        companion_service=companion_service,
+        event_bus=event_bus,
+        runtime_logger=runtime_logger,
+    )
+    relationship_service.refresh_world(world)
+    companion_service.refresh_world(world)
+    date_service.refresh_world(world)
+    save_service = SaveService(
+        paths=paths,
+        stat_axes=stat_axes,
+        tw_axes=tw_axes,
+        runtime_logger=runtime_logger,
+    )
+    return Application(
+        root=root_path,
+        config=config,
+        paths=paths,
+        stat_axes=stat_axes,
+        tw_axes=tw_axes,
+        port_map=port_map,
+        character_packs=character_packs,
+        roster=roster,
+        relationship_stages=relationship_stages,
+        events=events,
+        dialogue=dialogue,
+        settlement_rules=settlement_rules,
+        commands=commands,
+        event_bus=event_bus,
+        world=world,
+        game_loop=game_loop,
+        settlement_service=settlement_service,
+        relationship_service=relationship_service,
+        companion_service=companion_service,
+        date_service=date_service,
+        scene_service=scene_service,
+        event_service=event_service,
+        dialogue_service=dialogue_service,
+        command_service=command_service,
+        navigation_service=navigation_service,
+        schedule_service=schedule_service,
+        save_service=save_service,
+        runtime_logger=runtime_logger,
+    )

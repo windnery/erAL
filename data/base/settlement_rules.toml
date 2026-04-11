@@ -1,0 +1,107 @@
+[[rules]]
+source = "affection"
+target_family = "palam"
+target_key = "favor"
+scale = 1
+
+[[rules]]
+source = "affection"
+target_family = "cflag"
+target_index = 2
+scale = 1
+
+[[rules]]
+source = "joy"
+target_family = "base"
+target_key = "mood"
+scale = 1
+
+[[rules]]
+source = "joy"
+target_family = "cflag"
+target_index = 4
+scale = 1
+
+[[rules]]
+source = "obedience"
+target_family = "palam"
+target_key = "obedience"
+scale = 1
+
+[[rules]]
+source = "obedience"
+target_family = "cflag"
+target_index = 6
+scale = 1
+
+[[rules]]
+source = "lust"
+target_family = "palam"
+target_key = "lust"
+scale = 1
+
+[[rules]]
+source = "submission"
+target_family = "palam"
+target_key = "submission"
+scale = 1
+
+[[rules]]
+source = "pain"
+target_family = "palam"
+target_key = "pain"
+scale = 1
+
+[[rules]]
+source = "fear"
+target_family = "palam"
+target_key = "fear"
+scale = 1
+
+[[rules]]
+source = "disgust"
+target_family = "palam"
+target_key = "disgust"
+scale = 1
+
+[[rules]]
+source = "unclean"
+target_family = "palam"
+target_key = "discomfort"
+scale = 1
+
+[[rules]]
+source = "conquest"
+target_family = "palam"
+target_key = "superiority"
+scale = 1
+
+[[rules]]
+source = "exposure"
+target_family = "palam"
+target_key = "shame"
+scale = 1
+
+[[rules]]
+source = "temptation"
+target_family = "palam"
+target_key = "lust"
+scale = 1
+
+[[rules]]
+source = "service"
+target_family = "cflag"
+target_index = 4
+scale = 1
+
+[[rules]]
+source = "trust"
+target_family = "cflag"
+target_index = 4
+scale = 1
+
+[[rules]]
+source = "humiliation"
+target_family = "palam"
+target_key = "shame"
+scale = 1

@@ -1,0 +1,328 @@
+[[commands]]
+key = "chat"
+display_name = "闲聊"
+category = "daily"
+location_tags = ["public", "social", "work"]
+time_slots = ["morning", "afternoon", "evening", "night"]
+source = { affection = 2, joy = 1 }
+
+[[commands]]
+key = "paperwork"
+display_name = "一起处理文书"
+category = "work"
+location_tags = ["work"]
+time_slots = ["morning", "afternoon"]
+source = { affection = 1, service = 2, obedience = 1 }
+
+[[commands]]
+key = "share_snack"
+display_name = "分享零食"
+category = "daily"
+location_tags = ["public", "social", "food", "work"]
+time_slots = ["morning", "afternoon", "evening"]
+source = { affection = 3, joy = 2 }
+
+[[commands]]
+key = "praise"
+display_name = "夸奖"
+category = "daily"
+location_tags = ["public", "social", "work"]
+time_slots = ["morning", "afternoon", "evening"]
+source = { affection = 2, joy = 1, obedience = 1 }
+
+[[commands]]
+key = "touch_head"
+display_name = "摸头"
+category = "daily"
+location_tags = ["public", "social", "work", "food", "harbor"]
+time_slots = ["morning", "afternoon", "evening", "night"]
+source = { affection = 1, joy = 1 }
+
+[[commands]]
+key = "serve_tea"
+display_name = "泡茶"
+category = "daily"
+location_tags = ["work", "social", "food"]
+time_slots = ["morning", "afternoon", "evening"]
+source = { affection = 1, trust = 1, joy = 1 }
+
+[[commands]]
+key = "listen"
+display_name = "听牢骚"
+category = "daily"
+location_tags = ["social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+source = { affection = 1, trust = 2 }
+
+[[commands]]
+key = "clink_cups"
+display_name = "碰杯"
+category = "daily"
+location_tags = ["social", "food", "harbor"]
+time_slots = ["evening", "night"]
+source = { affection = 1, trust = 1, joy = 2 }
+
+[[commands]]
+key = "hug"
+display_name = "拥抱"
+category = "daily"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+required_stage = "friendly"
+source = { affection = 2, joy = 1, temptation = 1 }
+
+[[commands]]
+key = "care"
+display_name = "照料"
+category = "daily"
+location_tags = ["social", "food", "private", "harbor"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+source = { affection = 2, trust = 1, obedience = 1 }
+
+[[commands]]
+key = "scold"
+display_name = "训斥"
+category = "daily"
+location_tags = ["public", "work"]
+time_slots = ["morning", "afternoon"]
+source = { fear = 1, humiliation = 1, obedience = 1 }
+
+[[commands]]
+key = "train_together"
+display_name = "一起训练"
+category = "work"
+location_tags = ["training"]
+time_slots = ["morning", "afternoon"]
+source = { affection = 1, service = 1, obedience = 1 }
+
+[[commands]]
+key = "rest"
+display_name = "休息"
+category = "work"
+location_tags = ["public", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+source = { trust = 1, joy = 1 }
+
+[[commands]]
+key = "study"
+display_name = "学习"
+category = "work"
+location_tags = ["work"]
+time_slots = ["morning", "afternoon"]
+source = { trust = 1, service = 1 }
+
+[[commands]]
+key = "cook"
+display_name = "做饭"
+category = "work"
+location_tags = ["food"]
+time_slots = ["afternoon", "evening"]
+source = { affection = 1, service = 1, joy = 1 }
+
+[[commands]]
+key = "eat_meal"
+display_name = "吃饭"
+category = "work"
+location_tags = ["food"]
+time_slots = ["morning", "afternoon", "evening"]
+source = { affection = 1, joy = 2 }
+
+[[commands]]
+key = "invite_meal"
+display_name = "邀请吃饭"
+category = "work"
+location_tags = ["food"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+source = { affection = 2, trust = 1, joy = 2 }
+
+[[commands]]
+key = "nap"
+display_name = "午睡"
+category = "work"
+location_tags = ["private", "food", "harbor"]
+time_slots = ["afternoon"]
+source = { joy = 1, trust = 1 }
+
+[[commands]]
+key = "tease"
+display_name = "调戏"
+category = "intimacy"
+location_tags = ["private", "social"]
+time_slots = ["evening", "night", "late_night"]
+min_affection = 1
+required_stage = "friendly"
+apply_marks = { teased = 1 }
+source = { temptation = 2, affection = 1, lust = 1 }
+
+[[commands]]
+key = "invite_follow"
+display_name = "邀请同行"
+category = "follow"
+location_tags = ["public", "social", "work", "private", "food", "training", "harbor"]
+time_slots = ["morning", "afternoon", "evening", "night"]
+required_stage = "friendly"
+requires_following = false
+operation = "start_follow"
+source = { affection = 1, joy = 1 }
+
+[[commands]]
+key = "dismiss_follow"
+display_name = "告别"
+category = "follow"
+location_tags = ["public", "social", "work", "private", "food", "training", "harbor"]
+time_slots = ["morning", "afternoon", "evening", "night", "late_night"]
+requires_following = true
+operation = "stop_follow"
+source = {}
+
+[[commands]]
+key = "walk_together"
+display_name = "并肩散步"
+category = "follow"
+location_tags = ["public", "harbor"]
+time_slots = ["morning", "afternoon", "evening"]
+requires_following = true
+requires_date = false
+source = { affection = 2, joy = 2 }
+
+[[commands]]
+key = "lap_pillow"
+display_name = "膝枕"
+category = "follow"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+requires_following = true
+source = { affection = 2, joy = 1, trust = 1 }
+
+[[commands]]
+key = "kiss"
+display_name = "接吻"
+category = "intimacy"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+required_stage = "love"
+apply_marks = { kissed = 1 }
+source = { affection = 3, joy = 1, temptation = 2 }
+
+[[commands]]
+key = "confess"
+display_name = "告白"
+category = "intimacy"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["evening", "night"]
+required_stage = "love"
+apply_marks = { confessed = 1 }
+source = { affection = 2, joy = 2, obedience = 1 }
+
+[[commands]]
+key = "invite_date"
+display_name = "邀请约会"
+category = "date"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+required_stage = "like"
+requires_following = true
+requires_date = false
+operation = "start_date"
+source = { affection = 1, joy = 1 }
+
+[[commands]]
+key = "end_date"
+display_name = "结束约会"
+category = "date"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night", "late_night"]
+requires_date = true
+operation = "end_date"
+source = {}
+
+# ── 约会专属指令 ──
+
+[[commands]]
+key = "hold_hands"
+display_name = "牵手"
+category = "date"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+requires_date = true
+required_stage = "like"
+source = { affection = 2, joy = 2 }
+
+[[commands]]
+key = "date_stroll"
+display_name = "散步"
+category = "date"
+location_tags = ["public", "harbor"]
+time_slots = ["afternoon", "evening"]
+requires_date = true
+source = { affection = 2, joy = 3 }
+
+[[commands]]
+key = "date_meal"
+display_name = "一起用餐"
+category = "date"
+location_tags = ["food"]
+time_slots = ["morning", "afternoon", "evening"]
+requires_date = true
+source = { affection = 3, joy = 3 }
+
+[[commands]]
+key = "gift"
+display_name = "送礼"
+category = "date"
+location_tags = ["public", "social", "food", "harbor", "private"]
+time_slots = ["afternoon", "evening", "night"]
+requires_date = true
+source = { affection = 3, trust = 1, joy = 1 }
+
+[[commands]]
+key = "dessert_date"
+display_name = "一起吃甜点"
+category = "date"
+location_tags = ["food"]
+time_slots = ["afternoon", "evening"]
+requires_date = true
+source = { affection = 2, joy = 3 }
+
+[[commands]]
+key = "room_visit"
+display_name = "探访房间"
+category = "date"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "like"
+source = { affection = 2, trust = 1 }
+
+[[commands]]
+key = "enter_room"
+display_name = "进入房间"
+category = "date"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+source = { affection = 2, trust = 2, temptation = 1 }
+
+[[commands]]
+key = "date_watch_sea"
+display_name = "一起看海"
+category = "date"
+location_tags = ["harbor"]
+time_slots = ["evening", "night"]
+requires_date = true
+required_stage = "love"
+source = { affection = 4, joy = 2, temptation = 1 }
+
+[[commands]]
+key = "date_tease"
+display_name = "趁约会调戏"
+category = "date"
+location_tags = ["private", "social"]
+time_slots = ["evening", "night", "late_night"]
+requires_date = true
+required_stage = "love"
+apply_marks = { teased = 1 }
+source = { temptation = 3, affection = 2, lust = 2 }

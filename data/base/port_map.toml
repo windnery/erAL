@@ -1,0 +1,112 @@
+[meta]
+key = "starter_port"
+display_name = "碧蓝航线 · 起始港区"
+
+[[locations]]
+key = "command_office"
+display_name = "指挥室"
+zone = "hq"
+tags = ["core", "work", "public"]
+start = true
+
+[[locations]]
+key = "main_corridor"
+display_name = "主走廊"
+zone = "hq"
+tags = ["core", "transit", "public"]
+
+[[locations]]
+key = "dormitory_a"
+display_name = "宿舍A"
+zone = "residential"
+tags = ["residential", "private"]
+visibility = "private"
+
+[[locations]]
+key = "cafeteria"
+display_name = "食堂"
+zone = "support"
+tags = ["social", "food", "public"]
+
+[[locations]]
+key = "library"
+display_name = "图书室"
+zone = "support"
+tags = ["study", "work", "public"]
+
+[[locations]]
+key = "infirmary"
+display_name = "医务室"
+zone = "support"
+tags = ["medical", "care", "private"]
+visibility = "private"
+
+[[locations]]
+key = "bathhouse"
+display_name = "浴场"
+zone = "support"
+tags = ["social", "private"]
+visibility = "private"
+
+[[locations]]
+key = "training_ground"
+display_name = "训练场"
+zone = "military"
+tags = ["training", "public"]
+
+[[locations]]
+key = "dock"
+display_name = "码头"
+zone = "harbor"
+tags = ["harbor", "public"]
+
+[[locations]]
+key = "garden"
+display_name = "庭院"
+zone = "residential"
+tags = ["social", "rest", "public"]
+
+[[connections]]
+from = "command_office"
+to = "main_corridor"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "dormitory_a"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "cafeteria"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "library"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "infirmary"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "bathhouse"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "training_ground"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "dock"
+bidirectional = true
+
+[[connections]]
+from = "main_corridor"
+to = "garden"
+bidirectional = true

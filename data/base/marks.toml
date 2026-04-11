@@ -1,0 +1,62 @@
+# MARK 烙印定义
+# group: 用于分类显示，max_level: 该烙印的上限等级
+
+# ── 关系类 ──
+
+[[marks]]
+key = "confessed"
+display_name = "已告白"
+group = "relationship"
+max_level = 1
+
+[[marks]]
+key = "kissed"
+display_name = "已接吻"
+group = "relationship"
+max_level = 1
+
+[[marks]]
+key = "oath"
+display_name = "已誓约"
+group = "relationship"
+max_level = 1
+
+# ── 调教/亲密类 ──
+
+[[marks]]
+key = "teased"
+display_name = "被调戏过"
+group = "intimacy"
+max_level = 3
+
+[[marks]]
+key = "touched"
+display_name = "被触碰过"
+group = "intimacy"
+max_level = 3
+
+[[marks]]
+key = "night_visit"
+display_name = "被夜袭过"
+group = "intimacy"
+max_level = 1
+
+# ── 状态类 ──
+
+[[marks]]
+key = "drunk"
+display_name = "醉酒"
+group = "condition"
+max_level = 3
+
+[[marks]]
+key = "embarrassed"
+display_name = "害羞中"
+group = "condition"
+max_level = 2
+
+[[marks]]
+key = "angry"
+display_name = "生气"
+group = "condition"
+max_level = 2

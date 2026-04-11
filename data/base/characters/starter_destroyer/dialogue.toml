@@ -1,0 +1,297 @@
+[[entries]]
+key = "destroyer_chat_command_office"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "驱逐舰本来还在椅子上晃腿，看见你靠近后一下子精神了起来。",
+  "「前辈，你是来找我聊天的吗？那我可不会客气哦！」",
+]
+
+[[entries]]
+key = "destroyer_serve_tea_fast"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她接过茶杯后先小心吹了吹热气，结果还是因为太急着喝差点烫到舌头。",
+  "「呜哇，好险……不过前辈泡的茶真的挺好喝！」",
+]
+
+[[entries]]
+key = "destroyer_listen_harbor"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她本来只是想随口抱怨两句，结果越说越起劲，手上动作都跟着夸张起来。",
+  "「不过能被前辈认真听着，感觉连发牢骚都变得没那么烦了。」",
+]
+
+[[entries]]
+key = "destroyer_clink_harbor"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她用力把杯子碰了过来，清脆的声音一响，整个人看起来都更开心了。",
+  "「来！前辈，今晚就当是我们的小小庆功会！」",
+]
+
+[[entries]]
+key = "destroyer_share_snack_social"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她接过零食的动作快得像抢到了战利品，眼睛一下就亮了起来。",
+  "「这个味道不错！下次我们直接带着它去甲板上吃吧！」",
+]
+
+[[entries]]
+key = "destroyer_train_together_ground"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "训练才刚开始，她就已经把节奏拉得飞快，像是生怕你跟不上。",
+  "「来吧前辈，今天一定要比昨天更利落！」",
+]
+
+[[entries]]
+key = "destroyer_rest_break"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她嘴上说只是休息一下，下一秒却已经把整个人往椅背上一靠，像是一下子泄了气。",
+  "「呼……原来只要前辈在旁边，我连发呆都能更安心一点。」",
+]
+
+[[entries]]
+key = "destroyer_rest_garden"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "庭院里的风一吹，她刚才那点强撑出来的精神立刻散掉了一半，整个人都松了下来。",
+  "「这里的风真舒服……前辈，果然偶尔偷个懒也是必要的吧？」",
+]
+
+[[entries]]
+key = "destroyer_study_office"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她努力把注意力压回桌上的资料，可偶尔还是会忍不住偷偷看你一眼。",
+  "「我有在认真学啦，只是……前辈别总盯着我看嘛！」",
+]
+
+[[entries]]
+key = "destroyer_cook_cafeteria"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "厨房里的香气才刚冒出来，她就先一步露出了得意的笑，好像已经默认今晚会很成功。",
+  "「好香吧？前辈，再等一下，马上就能让你尝第一口！」",
+]
+
+[[entries]]
+key = "destroyer_meal_cafeteria"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她吃饭时的样子比说话的时候安静不了多久，很快就又开始兴奋地点评起每一道味道。",
+  "「果然还是大家一起吃的时候最有精神！」",
+]
+
+[[entries]]
+key = "destroyer_invite_meal_cafeteria"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她听到你的邀请后立刻抬起头来，像是根本不需要多考虑就能给出答案。",
+  "「当然去！和前辈一起吃饭这种事，我怎么可能拒绝啊！」",
+]
+
+[[entries]]
+key = "destroyer_walk_together_harbor"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她走在你身边时总忍不住往前探半步，像是随时都会拉着你跑起来。",
+  "「只是散步也挺好，不过如果前辈想绕远一点，我也完全奉陪！」",
+]
+
+[[entries]]
+key = "destroyer_gift_date"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她一开始还想装作若无其事，可接过礼物的瞬间眼睛就亮得藏不住了。",
+  "「这个真的给我？前辈，你这也太会挑时机了吧！」",
+]
+
+[[entries]]
+key = "destroyer_dessert_date"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她拿到甜点后立刻露出了像赢了比赛一样的表情，连坐姿都跟着轻快了许多。",
+  "「约会的时候吃甜的果然最对了！前辈，你也快尝一口！」",
+]
+
+[[entries]]
+key = "destroyer_room_visit_dormitory"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她把门推开后还回头确认你有没有跟上，像是完全没打算把你晾在外面。",
+  "「来都来了，进门前可不许临阵退缩哦，前辈！」",
+]
+
+[[entries]]
+key = "destroyer_enter_room_dormitory"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "你真的踏进房间后，她反而先紧张了一下，脚步都跟着慢了半拍。",
+  "「咳……虽然是我让你进来的，但现在还是稍微有点心跳过快了。」",
+]
+
+[[entries]]
+key = "destroyer_care_friendly"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她嘴上说着“这点小事我自己也行”，动作却老老实实停了下来让你帮忙。",
+  "「咳……既然是前辈主动的，那我就勉强接受照顾一下吧。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "驱逐舰说起话来像连珠炮一样，连空气都变得热闹了许多。",
+]
+
+[[entries]]
+key = "serve_tea"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她捧着茶杯的样子很乖，可眼神还是亮晶晶的，像马上又会蹦出新的话题。",
+]
+
+[[entries]]
+key = "listen"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她把心里那点小抱怨一股脑说完后，整个人都明显轻快了下来。",
+]
+
+[[entries]]
+key = "clink_cups"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她碰杯的动作一点都不含糊，像连这种小事也要做得热热闹闹。",
+]
+
+[[entries]]
+key = "share_snack"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "和她分享零食之后，原本安静的气氛一下子被带得活跃起来。",
+]
+
+[[entries]]
+key = "train_together"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她把训练当成比赛一样认真，连结束后还在回味刚才的节奏。",
+]
+
+[[entries]]
+key = "rest"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她本来还闹腾着，真坐下来休息后却很快露出了松口气的表情。",
+]
+
+[[entries]]
+key = "study"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她一边学习一边努力让自己不要分心，认真得有点可爱。",
+]
+
+[[entries]]
+key = "cook"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她在厨房里忙得很起劲，连周围空气都变得比刚才热闹了不少。",
+]
+
+[[entries]]
+key = "eat_meal"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "这顿饭吃得热闹又痛快，连原本的疲惫感都像被一起扫掉了。",
+]
+
+[[entries]]
+key = "invite_meal"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她几乎是立刻答应了你的邀约，像是本来就等着你开口一样。",
+]
+
+[[entries]]
+key = "walk_together"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她边走边东张西望，像是任何一点新鲜事都能让她重新兴奋起来。",
+]
+
+[[entries]]
+key = "care"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "你帮她处理好那些细枝末节后，她一下子露出了很有精神的笑容。",
+]
+
+[[entries]]
+key = "gift"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她把礼物抱在怀里，连声音都因为兴奋而明显抬高了些。",
+]
+
+[[entries]]
+key = "dessert_date"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "甜点一端上来，她整个人都像被重新充满了电。",
+]
+
+[[entries]]
+key = "room_visit"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "你跟着她来到房间门口，原本热闹的约会气氛也慢慢收进了更私人的空间里。",
+]
+
+[[entries]]
+key = "enter_room"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "你走进房间后，她虽然嘴上还在逞强，动作却已经明显慢了下来。",
+]

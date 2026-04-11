@@ -1,0 +1,2 @@
+# 全局事件定义（不属于任何角色的公共事件）
+# 角色专属事件请放在 data/base/characters/<key>/events.toml

@@ -1,0 +1,2 @@
+# 全局对话定义（不属于任何角色的系统文本）
+# 角色专属对话请放在 data/base/characters/<key>/dialogue.toml

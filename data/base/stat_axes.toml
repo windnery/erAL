@@ -1,0 +1,488 @@
+# Imported from eraTW numeric semantics.
+
+[[base]]
+key = "stamina"
+era_index = 0
+label = "体力"
+group = "core"
+
+[[base]]
+key = "spirit"
+era_index = 1
+label = "気力"
+group = "core"
+
+[[base]]
+key = "ejaculation"
+era_index = 2
+label = "射精"
+group = "sexual"
+
+[[base]]
+key = "lactation"
+era_index = 3
+label = "母乳"
+group = "sexual"
+
+[[base]]
+key = "bladder"
+era_index = 4
+label = "尿意"
+group = "body"
+
+[[base]]
+key = "erection"
+era_index = 5
+label = "勃起"
+group = "sexual"
+
+[[base]]
+key = "semen"
+era_index = 6
+label = "精力"
+group = "sexual"
+
+[[base]]
+key = "mana"
+era_index = 7
+label = "法力"
+group = "magic"
+
+[[base]]
+key = "tsp"
+era_index = 8
+label = "TSP"
+group = "special"
+
+[[base]]
+key = "mood"
+era_index = 10
+label = "ムード"
+group = "emotion"
+
+[[base]]
+key = "reason"
+era_index = 11
+label = "理性"
+group = "emotion"
+
+[[base]]
+key = "anger"
+era_index = 12
+label = "怒り"
+group = "emotion"
+
+[[base]]
+key = "workload"
+era_index = 13
+label = "工作量"
+group = "activity"
+
+[[base]]
+key = "depth"
+era_index = 14
+label = "深度"
+group = "scene"
+
+[[base]]
+key = "drunkenness"
+era_index = 15
+label = "酒気"
+group = "condition"
+
+[[base]]
+key = "stealth"
+era_index = 16
+label = "潜伏率"
+group = "condition"
+
+[[base]]
+key = "height"
+era_index = 20
+label = "身長"
+group = "body_shape"
+
+[[base]]
+key = "weight"
+era_index = 21
+label = "体重"
+group = "body_shape"
+
+[[base]]
+key = "bust"
+era_index = 22
+label = "バスト"
+group = "body_shape"
+
+[[base]]
+key = "waist"
+era_index = 23
+label = "ウェスト"
+group = "body_shape"
+
+[[base]]
+key = "hips"
+era_index = 24
+label = "ヒップ"
+group = "body_shape"
+
+[[base]]
+key = "pleasure_c_afterglow"
+era_index = 30
+label = "Ｃ絶頂余韻"
+group = "afterglow"
+
+[[base]]
+key = "pleasure_v_afterglow"
+era_index = 31
+label = "Ｖ絶頂余韻"
+group = "afterglow"
+
+[[base]]
+key = "pleasure_a_afterglow"
+era_index = 32
+label = "Ａ絶頂余韻"
+group = "afterglow"
+
+[[base]]
+key = "pleasure_b_afterglow"
+era_index = 33
+label = "Ｂ絶頂余韻"
+group = "afterglow"
+
+[[base]]
+key = "pleasure_m_afterglow"
+era_index = 34
+label = "Ｍ絶頂余韻"
+group = "afterglow"
+
+[[base]]
+key = "orgasm_afterglow"
+era_index = 35
+label = "絶頂余韻"
+group = "afterglow"
+
+[[palam]]
+key = "pleasure_c"
+era_index = 0
+label = "快Ｃ"
+group = "pleasure"
+
+[[palam]]
+key = "pleasure_v"
+era_index = 1
+label = "快Ｖ"
+group = "pleasure"
+
+[[palam]]
+key = "pleasure_a"
+era_index = 2
+label = "快Ａ"
+group = "pleasure"
+
+[[palam]]
+key = "pleasure_b"
+era_index = 3
+label = "快Ｂ"
+group = "pleasure"
+
+[[palam]]
+key = "pleasure_m"
+era_index = 4
+label = "快Ｍ"
+group = "pleasure"
+
+[[palam]]
+key = "lubrication"
+era_index = 9
+label = "潤滑"
+group = "body"
+
+[[palam]]
+key = "obedience"
+era_index = 10
+label = "恭順"
+group = "mind"
+
+[[palam]]
+key = "lust"
+era_index = 11
+label = "欲情"
+group = "mind"
+
+[[palam]]
+key = "submission"
+era_index = 12
+label = "屈服"
+group = "mind"
+
+[[palam]]
+key = "mastery"
+era_index = 13
+label = "習得"
+group = "growth"
+
+[[palam]]
+key = "shame"
+era_index = 14
+label = "恥情"
+group = "mind"
+
+[[palam]]
+key = "pain"
+era_index = 15
+label = "苦痛"
+group = "mind"
+
+[[palam]]
+key = "fear"
+era_index = 16
+label = "恐怖"
+group = "mind"
+
+[[palam]]
+key = "favor"
+era_index = 20
+label = "好意"
+group = "relationship"
+
+[[palam]]
+key = "superiority"
+era_index = 21
+label = "優越"
+group = "relationship"
+
+[[palam]]
+key = "disgust"
+era_index = 30
+label = "反感"
+group = "negative"
+
+[[palam]]
+key = "discomfort"
+era_index = 31
+label = "不快"
+group = "negative"
+
+[[palam]]
+key = "depression"
+era_index = 32
+label = "抑鬱"
+group = "negative"
+
+[[palam]]
+key = "sleeping_scene"
+era_index = 33
+label = "眠姦"
+group = "negative"
+
+[[palam]]
+key = "denial"
+era_index = 100
+label = "否定"
+group = "negative"
+
+[[source]]
+key = "pleasure_c"
+era_index = 0
+label = "快Ｃ"
+group = "pleasure"
+
+[[source]]
+key = "pleasure_v"
+era_index = 1
+label = "快Ｖ"
+group = "pleasure"
+
+[[source]]
+key = "pleasure_a"
+era_index = 2
+label = "快Ａ"
+group = "pleasure"
+
+[[source]]
+key = "pleasure_b"
+era_index = 3
+label = "快Ｂ"
+group = "pleasure"
+
+[[source]]
+key = "pleasure_m"
+era_index = 4
+label = "快Ｍ"
+group = "pleasure"
+
+[[source]]
+key = "fluid"
+era_index = 9
+label = "液体"
+group = "body"
+
+[[source]]
+key = "affection"
+era_index = 10
+label = "情愛"
+group = "emotion"
+
+[[source]]
+key = "sexual_act"
+era_index = 11
+label = "性行動"
+group = "action"
+
+[[source]]
+key = "achievement"
+era_index = 12
+label = "達成"
+group = "action"
+
+[[source]]
+key = "pain"
+era_index = 13
+label = "苦痛"
+group = "negative"
+
+[[source]]
+key = "fear"
+era_index = 14
+label = "恐怖"
+group = "negative"
+
+[[source]]
+key = "lust"
+era_index = 15
+label = "欲情"
+group = "emotion"
+
+[[source]]
+key = "obedience"
+era_index = 16
+label = "恭順"
+group = "emotion"
+
+[[source]]
+key = "exposure"
+era_index = 17
+label = "露出"
+group = "action"
+
+[[source]]
+key = "submission"
+era_index = 18
+label = "屈従"
+group = "emotion"
+
+[[source]]
+key = "joy"
+era_index = 20
+label = "歓楽"
+group = "positive"
+
+[[source]]
+key = "conquest"
+era_index = 21
+label = "征服"
+group = "positive"
+
+[[source]]
+key = "passive"
+era_index = 22
+label = "受動"
+group = "positive"
+
+[[source]]
+key = "unclean"
+era_index = 30
+label = "不潔"
+group = "negative"
+
+[[source]]
+key = "frustration"
+era_index = 31
+label = "鬱屈"
+group = "negative"
+
+[[source]]
+key = "deviation"
+era_index = 32
+label = "逸脱"
+group = "negative"
+
+[[source]]
+key = "disgust"
+era_index = 33
+label = "反感"
+group = "negative"
+
+[[source]]
+key = "give_pleasure_c"
+era_index = 40
+label = "与快Ｃ"
+group = "outgoing_pleasure"
+
+[[source]]
+key = "give_pleasure_v"
+era_index = 41
+label = "与快Ｖ"
+group = "outgoing_pleasure"
+
+[[source]]
+key = "give_pleasure_a"
+era_index = 42
+label = "与快Ａ"
+group = "outgoing_pleasure"
+
+[[source]]
+key = "give_pleasure_b"
+era_index = 43
+label = "与快Ｂ"
+group = "outgoing_pleasure"
+
+[[source]]
+key = "give_pleasure_m"
+era_index = 44
+label = "与快Ｍ"
+group = "outgoing_pleasure"
+
+[[source]]
+key = "temptation"
+era_index = 50
+label = "誘惑"
+group = "outgoing_action"
+
+[[source]]
+key = "humiliation"
+era_index = 51
+label = "侮辱"
+group = "outgoing_action"
+
+[[source]]
+key = "provocation"
+era_index = 52
+label = "挑発"
+group = "outgoing_action"
+
+[[source]]
+key = "service"
+era_index = 53
+label = "奉仕"
+group = "outgoing_action"
+
+[[source]]
+key = "coercion"
+era_index = 54
+label = "強要"
+group = "outgoing_action"
+
+[[source]]
+key = "sadism"
+era_index = 55
+label = "加虐"
+group = "outgoing_action"
+
+[[source]]
+key = "magic_mark"
+era_index = 233
+label = "魔力印记"
+group = "special"
+

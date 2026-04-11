@@ -1,0 +1,6920 @@
+{
+  "base": [
+    {
+      "key": "base_0",
+      "era_index": 0,
+      "label": "体力",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_1",
+      "era_index": 1,
+      "label": "気力",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_2",
+      "era_index": 2,
+      "label": "射精",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_3",
+      "era_index": 3,
+      "label": "母乳",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_4",
+      "era_index": 4,
+      "label": "尿意",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_5",
+      "era_index": 5,
+      "label": "勃起",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_6",
+      "era_index": 6,
+      "label": "精力",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_7",
+      "era_index": 7,
+      "label": "法力",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_8",
+      "era_index": 8,
+      "label": "TSP",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_10",
+      "era_index": 10,
+      "label": "ムード",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_11",
+      "era_index": 11,
+      "label": "理性",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_12",
+      "era_index": 12,
+      "label": "怒り",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_13",
+      "era_index": 13,
+      "label": "工作量",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_14",
+      "era_index": 14,
+      "label": "深度",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_15",
+      "era_index": 15,
+      "label": "酒気",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_16",
+      "era_index": 16,
+      "label": "潜伏率",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_20",
+      "era_index": 20,
+      "label": "身長",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_21",
+      "era_index": 21,
+      "label": "体重",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_22",
+      "era_index": 22,
+      "label": "バスト",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_23",
+      "era_index": 23,
+      "label": "ウェスト",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_24",
+      "era_index": 24,
+      "label": "ヒップ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_30",
+      "era_index": 30,
+      "label": "Ｃ絶頂余韻",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_31",
+      "era_index": 31,
+      "label": "Ｖ絶頂余韻",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_32",
+      "era_index": 32,
+      "label": "Ａ絶頂余韻",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_33",
+      "era_index": 33,
+      "label": "Ｂ絶頂余韻",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_34",
+      "era_index": 34,
+      "label": "Ｍ絶頂余韻",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "base_35",
+      "era_index": 35,
+      "label": "絶頂余韻",
+      "section": null,
+      "notes": null
+    }
+  ],
+  "palam": [
+    {
+      "key": "palam_0",
+      "era_index": 0,
+      "label": "快Ｃ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_1",
+      "era_index": 1,
+      "label": "快Ｖ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_2",
+      "era_index": 2,
+      "label": "快Ａ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_3",
+      "era_index": 3,
+      "label": "快Ｂ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_4",
+      "era_index": 4,
+      "label": "快Ｍ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_9",
+      "era_index": 9,
+      "label": "潤滑",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_10",
+      "era_index": 10,
+      "label": "恭順",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_11",
+      "era_index": 11,
+      "label": "欲情",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_12",
+      "era_index": 12,
+      "label": "屈服",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_13",
+      "era_index": 13,
+      "label": "習得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_14",
+      "era_index": 14,
+      "label": "恥情",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_15",
+      "era_index": 15,
+      "label": "苦痛",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_16",
+      "era_index": 16,
+      "label": "恐怖",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_20",
+      "era_index": 20,
+      "label": "好意",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_21",
+      "era_index": 21,
+      "label": "優越",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_30",
+      "era_index": 30,
+      "label": "反感",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_31",
+      "era_index": 31,
+      "label": "不快",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_32",
+      "era_index": 32,
+      "label": "抑鬱",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_33",
+      "era_index": 33,
+      "label": "眠姦",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "palam_100",
+      "era_index": 100,
+      "label": "否定",
+      "section": null,
+      "notes": null
+    }
+  ],
+  "source": [
+    {
+      "key": "source_0",
+      "era_index": 0,
+      "label": "快Ｃ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_1",
+      "era_index": 1,
+      "label": "快Ｖ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_2",
+      "era_index": 2,
+      "label": "快Ａ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_3",
+      "era_index": 3,
+      "label": "快Ｂ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_4",
+      "era_index": 4,
+      "label": "快Ｍ",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_9",
+      "era_index": 9,
+      "label": "液体",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_10",
+      "era_index": 10,
+      "label": "情愛",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_11",
+      "era_index": 11,
+      "label": "性行動",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_12",
+      "era_index": 12,
+      "label": "達成",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_13",
+      "era_index": 13,
+      "label": "苦痛",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_14",
+      "era_index": 14,
+      "label": "恐怖",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_15",
+      "era_index": 15,
+      "label": "欲情",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_16",
+      "era_index": 16,
+      "label": "恭順",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_17",
+      "era_index": 17,
+      "label": "露出",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_18",
+      "era_index": 18,
+      "label": "屈従",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_20",
+      "era_index": 20,
+      "label": "歓楽",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_21",
+      "era_index": 21,
+      "label": "征服",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_22",
+      "era_index": 22,
+      "label": "受動",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_30",
+      "era_index": 30,
+      "label": "不潔",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_31",
+      "era_index": 31,
+      "label": "鬱屈",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_32",
+      "era_index": 32,
+      "label": "逸脱",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_33",
+      "era_index": 33,
+      "label": "反感",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "source_40",
+      "era_index": 40,
+      "label": "与快Ｃ",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_41",
+      "era_index": 41,
+      "label": "与快Ｖ",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_42",
+      "era_index": 42,
+      "label": "与快Ａ",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_43",
+      "era_index": 43,
+      "label": "与快Ｂ",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_44",
+      "era_index": 44,
+      "label": "与快Ｍ",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_50",
+      "era_index": 50,
+      "label": "誘惑",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_51",
+      "era_index": 51,
+      "label": "侮辱",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_52",
+      "era_index": 52,
+      "label": "挑発",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_53",
+      "era_index": 53,
+      "label": "奉仕",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_54",
+      "era_index": 54,
+      "label": "強要",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_55",
+      "era_index": 55,
+      "label": "加虐",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    },
+    {
+      "key": "source_233",
+      "era_index": 233,
+      "label": "魔力印记",
+      "section": "MASTERのSOURCEはTARGETが管理したほうがいろいろ便利",
+      "notes": null
+    }
+  ],
+  "abl": [
+    {
+      "key": "abl_0",
+      "era_index": 0,
+      "label": "Ｃ感覚",
+      "section": "感覚",
+      "notes": null
+    },
+    {
+      "key": "abl_1",
+      "era_index": 1,
+      "label": "Ｖ感覚",
+      "section": "感覚",
+      "notes": null
+    },
+    {
+      "key": "abl_2",
+      "era_index": 2,
+      "label": "Ａ感覚",
+      "section": "感覚",
+      "notes": null
+    },
+    {
+      "key": "abl_3",
+      "era_index": 3,
+      "label": "Ｂ感覚",
+      "section": "感覚",
+      "notes": null
+    },
+    {
+      "key": "abl_4",
+      "era_index": 4,
+      "label": "Ｍ感覚",
+      "section": "感覚",
+      "notes": null
+    },
+    {
+      "key": "abl_9",
+      "era_index": 9,
+      "label": "親密",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_10",
+      "era_index": 10,
+      "label": "従順",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_11",
+      "era_index": 11,
+      "label": "欲望",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_12",
+      "era_index": 12,
+      "label": "技巧",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_13",
+      "era_index": 13,
+      "label": "奉仕精神",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_14",
+      "era_index": 14,
+      "label": "露出癖",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_15",
+      "era_index": 15,
+      "label": "受虐属性",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_16",
+      "era_index": 16,
+      "label": "施虐属性",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_17",
+      "era_index": 17,
+      "label": "百合属性",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_18",
+      "era_index": 18,
+      "label": "断袖属性",
+      "section": "基本",
+      "notes": null
+    },
+    {
+      "key": "abl_30",
+      "era_index": 30,
+      "label": "自慰中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_31",
+      "era_index": 31,
+      "label": "精液中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_32",
+      "era_index": 32,
+      "label": "百合中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_33",
+      "era_index": 33,
+      "label": "断袖中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_34",
+      "era_index": 34,
+      "label": "膣射中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_35",
+      "era_index": 35,
+      "label": "肛射中毒",
+      "section": "中毒",
+      "notes": null
+    },
+    {
+      "key": "abl_40",
+      "era_index": 40,
+      "label": "清掃技能",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_41",
+      "era_index": 41,
+      "label": "話術技能",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_42",
+      "era_index": 42,
+      "label": "戦闘能力",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_43",
+      "era_index": 43,
+      "label": "教養",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_44",
+      "era_index": 44,
+      "label": "料理技能",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_45",
+      "era_index": 45,
+      "label": "音楽技能",
+      "section": "技能",
+      "notes": null
+    },
+    {
+      "key": "abl_50",
+      "era_index": 50,
+      "label": "指",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_51",
+      "era_index": 51,
+      "label": "舌",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_52",
+      "era_index": 52,
+      "label": "胸",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_53",
+      "era_index": 53,
+      "label": "腰",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_54",
+      "era_index": 54,
+      "label": "膣",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_55",
+      "era_index": 55,
+      "label": "肛門",
+      "section": "性技",
+      "notes": null
+    },
+    {
+      "key": "abl_60",
+      "era_index": 60,
+      "label": "TSLv",
+      "section": "性技",
+      "notes": null
+    }
+  ],
+  "talent": [
+    {
+      "key": "talent_0",
+      "era_index": 0,
+      "label": "処女",
+      "section": "性別系列",
+      "notes": ";(1= 処女 2=再生処女 -1=無自覚非処女）"
+    },
+    {
+      "key": "talent_1",
+      "era_index": 1,
+      "label": "非童貞",
+      "section": "性別系列",
+      "notes": ";(0= 童貞 ビット0膣性交経験済み ビット1肛門性交経験済み)"
+    },
+    {
+      "key": "talent_2",
+      "era_index": 2,
+      "label": "性別",
+      "section": "性別系列",
+      "notes": ";(1=女性器（bit0）　2=男性器（bit1）　3=扶她（bit0&bit1）)"
+    },
+    {
+      "key": "talent_3",
+      "era_index": 3,
+      "label": "恋慕",
+      "section": "陥落素質系列",
+      "notes": ";愛情に似た感情を抱いている状態。=2で上位互換"
+    },
+    {
+      "key": "talent_4",
+      "era_index": 4,
+      "label": "淫乱",
+      "section": "陥落素質系列",
+      "notes": ";色欲に乱れきった状態。=2で上位互換"
+    },
+    {
+      "key": "talent_5",
+      "era_index": 5,
+      "label": "服従",
+      "section": "陥落素質系列",
+      "notes": null
+    },
+    {
+      "key": "talent_6",
+      "era_index": 6,
+      "label": "キス未経験",
+      "section": "陥落素質系列",
+      "notes": null
+    },
+    {
+      "key": "talent_7",
+      "era_index": 7,
+      "label": "恋人",
+      "section": "陥落素質系列",
+      "notes": ";互いに想い人となった状態。1人のみ"
+    },
+    {
+      "key": "talent_8",
+      "era_index": 8,
+      "label": "思慕",
+      "section": "陥落素質系列",
+      "notes": null
+    },
+    {
+      "key": "talent_9",
+      "era_index": 9,
+      "label": "妊娠願望",
+      "section": "陥落素質系列",
+      "notes": ";你の兒童が欲しいと思っています\t原則口上のみ取得・OGAMIKAOSHI＆子宝祈願効果UP"
+    },
+    {
+      "key": "talent_10",
+      "era_index": 10,
+      "label": "胆量",
+      "section": "性格",
+      "notes": null
+    },
+    {
+      "key": "talent_11",
+      "era_index": 11,
+      "label": "態度",
+      "section": "1=堅強,;指令を実行しにくい。売却の際に従順4以上必要",
+      "notes": null
+    },
+    {
+      "key": "talent_12",
+      "era_index": 12,
+      "label": "応答",
+      "section": "1=叛逆,;指令を実行しにくい。売却の際に従順4以上必要。PALAM:恭順と欲情が上がりにくい",
+      "notes": null
+    },
+    {
+      "key": "talent_13",
+      "era_index": 13,
+      "label": "自尊心",
+      "section": "1=傲慢,;ABL:従順と奉仕精神が上げにくい。",
+      "notes": null
+    },
+    {
+      "key": "talent_14",
+      "era_index": 14,
+      "label": "傲嬌",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";指令が実行しにくいが、従順Lv4以上で反転"
+    },
+    {
+      "key": "talent_15",
+      "era_index": 15,
+      "label": "心情",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";気分の良し悪しってあるよね"
+    },
+    {
+      "key": "talent_16",
+      "era_index": 16,
+      "label": "容姿",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";-1=醜悪 1= 容姿端麗"
+    },
+    {
+      "key": "talent_17",
+      "era_index": 17,
+      "label": "年齢",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";-1=兒童 0=青年 1= 中年 2=老人"
+    },
+    {
+      "key": "talent_18",
+      "era_index": 18,
+      "label": "懒散",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";私室が汚れやすい、掃除技能が反映されにくい"
+    },
+    {
+      "key": "talent_19",
+      "era_index": 19,
+      "label": "性情不定",
+      "section": "1=自尊心高,;指令を実行しにくい。PALAM:屈服が上がりにくい",
+      "notes": ";心情が変わりやすい"
+    },
+    {
+      "key": "talent_20",
+      "era_index": 20,
+      "label": "自制心",
+      "section": "性への関心",
+      "notes": ";売却の際に欲望4以上必要。屈服、快楽系PALAMが上がりにくく、反発が上がりやすい"
+    },
+    {
+      "key": "talent_21",
+      "era_index": 21,
+      "label": "冷漠",
+      "section": "性への関心",
+      "notes": ":PALAM:恭順、欲情、屈服、恐怖、反感が上がりにくい"
+    },
+    {
+      "key": "talent_22",
+      "era_index": 22,
+      "label": "感情缺乏",
+      "section": "性への関心",
+      "notes": ":PALAMが全体的に上がりにくい"
+    },
+    {
+      "key": "talent_23",
+      "era_index": 23,
+      "label": "性的兴趣",
+      "section": "性への関心",
+      "notes": null
+    },
+    {
+      "key": "talent_24",
+      "era_index": 24,
+      "label": "开朗／阴郁",
+      "section": "1=好奇心,:指令を実行しやすい。PALAM:習得が上がりやすい",
+      "notes": null
+    },
+    {
+      "key": "talent_25",
+      "era_index": 25,
+      "label": "一線越えない",
+      "section": "1=開朗,PALAM:抑鬱が上がりにくい",
+      "notes": ";全てのABLが上げにくく、恭順が上がりにくいが、陥落後は反転する。"
+    },
+    {
+      "key": "talent_26",
+      "era_index": 26,
+      "label": "目立ちたがり",
+      "section": "1=開朗,PALAM:抑鬱が上がりにくい",
+      "notes": ";指令を実行しやすい。PALAM:露出が上げやすい"
+    },
+    {
+      "key": "talent_27",
+      "era_index": 27,
+      "label": "無知",
+      "section": "1=開朗,PALAM:抑鬱が上がりにくい",
+      "notes": ";性的なことに対する知識がない"
+    },
+    {
+      "key": "talent_30",
+      "era_index": 30,
+      "label": "貞操",
+      "section": "乙女心",
+      "notes": null
+    },
+    {
+      "key": "talent_31",
+      "era_index": 31,
+      "label": "自己愛",
+      "section": "1=贞操重视,情愛系調教の効果が低い。PALAM:反感が上がりやすい",
+      "notes": null
+    },
+    {
+      "key": "talent_32",
+      "era_index": 32,
+      "label": "抵抗",
+      "section": "1=解放,;ABL:受虐属性が上げやすい。PALAM:欲情と屈服が上がりやすい",
+      "notes": ";指令を実行しにくい。PALAM:抑欝、反発が上がりやすく、恭順が上がりにくい。従順Lv3以上で消滅"
+    },
+    {
+      "key": "talent_33",
+      "era_index": 33,
+      "label": "羞恥心",
+      "section": "1=解放,;ABL:受虐属性が上げやすい。PALAM:欲情と屈服が上がりやすい",
+      "notes": null
+    },
+    {
+      "key": "talent_34",
+      "era_index": 34,
+      "label": "把柄",
+      "section": "1=害羞,指令を実行しにくい。露出系調教の効果が高い",
+      "notes": ";指令を実行しやすい"
+    },
+    {
+      "key": "talent_40",
+      "era_index": 40,
+      "label": "痛覚",
+      "section": "体質",
+      "notes": null
+    },
+    {
+      "key": "talent_41",
+      "era_index": 41,
+      "label": "濡れやすさ",
+      "section": "1=怕痛,PALAM:苦痛と反感が上がりやすい",
+      "notes": null
+    },
+    {
+      "key": "talent_46",
+      "era_index": 46,
+      "label": "伐採Lv",
+      "section": "技術",
+      "notes": null
+    },
+    {
+      "key": "talent_47",
+      "era_index": 47,
+      "label": "釣りLv",
+      "section": "技術",
+      "notes": null
+    },
+    {
+      "key": "talent_48",
+      "era_index": 48,
+      "label": "採集Lv",
+      "section": "技術",
+      "notes": null
+    },
+    {
+      "key": "talent_49",
+      "era_index": 49,
+      "label": "調合Lv",
+      "section": "技術",
+      "notes": null
+    },
+    {
+      "key": "talent_50",
+      "era_index": 50,
+      "label": "習得速度",
+      "section": "技術",
+      "notes": "; -1=学習慢 1=学習快"
+    },
+    {
+      "key": "talent_51",
+      "era_index": 51,
+      "label": "器用な指",
+      "section": "技術",
+      "notes": null
+    },
+    {
+      "key": "talent_52",
+      "era_index": 52,
+      "label": "舌使い",
+      "section": "技術",
+      "notes": ";口交系調教の効果が高くなる"
+    },
+    {
+      "key": "talent_53",
+      "era_index": 53,
+      "label": "擅長用針",
+      "section": "技術",
+      "notes": ";針を用いる指令の効果が高くなる"
+    },
+    {
+      "key": "talent_54",
+      "era_index": 54,
+      "label": "猫舌",
+      "section": "技術",
+      "notes": ";口交系調教に制限が課され、効果が変化する"
+    },
+    {
+      "key": "talent_55",
+      "era_index": 55,
+      "label": "調合知識",
+      "section": "技術",
+      "notes": ";特殊な道具を購入できる。指令「媚薬」の体力と気力の消費が少ない"
+    },
+    {
+      "key": "talent_56",
+      "era_index": 56,
+      "label": "薬毒耐性",
+      "section": "技術",
+      "notes": ";媚薬、利尿剤などの薬を使用指令が実行不可、指令以外のものは可能"
+    },
+    {
+      "key": "talent_57",
+      "era_index": 57,
+      "label": "漏尿癖",
+      "section": "技術",
+      "notes": ";放尿指令が常に使えるようになる。絶頂時に放尿。"
+    },
+    {
+      "key": "talent_60",
+      "era_index": 60,
+      "label": "自慰しやすい",
+      "section": "潔癖度",
+      "notes": ";自慰関連が実行しやすい。ABL:自慰中毒が上げやすい"
+    },
+    {
+      "key": "talent_61",
+      "era_index": 61,
+      "label": "汚臭耐性",
+      "section": "潔癖度",
+      "notes": ";-2=潔癖症 -1=汚臭敏感 1=汚臭鈍感 2=汚臭無視"
+    },
+    {
+      "key": "talent_62",
+      "era_index": 62,
+      "label": "献身的",
+      "section": "潔癖度",
+      "notes": ";奉仕系調教を実行しやすい。ABL:奉仕精神が上げやすい。PALAM:屈服が上がりやすい"
+    },
+    {
+      "key": "talent_70",
+      "era_index": 70,
+      "label": "快感応答",
+      "section": "正直度",
+      "notes": null
+    },
+    {
+      "key": "talent_71",
+      "era_index": 71,
+      "label": "容易中毒",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";中毒系のABLが上げやすい"
+    },
+    {
+      "key": "talent_72",
+      "era_index": 72,
+      "label": "容易高潮",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";指令を実行しやすい。調教時にABLが上がる事がある"
+    },
+    {
+      "key": "talent_73",
+      "era_index": 73,
+      "label": "自慰狂",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";Ｃ系指令及び自慰系指令の効果UP"
+    },
+    {
+      "key": "talent_74",
+      "era_index": 74,
+      "label": "淫壺",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";Ｖ系指令の効果UP"
+    },
+    {
+      "key": "talent_75",
+      "era_index": 75,
+      "label": "尻穴狂",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";Ａ系指令の効果UP"
+    },
+    {
+      "key": "talent_76",
+      "era_index": 76,
+      "label": "淫乳",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";Ｂ系指令の効果UP"
+    },
+    {
+      "key": "talent_77",
+      "era_index": 77,
+      "label": "接吻魔",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";M系指令の効果UP"
+    },
+    {
+      "key": "talent_78",
+      "era_index": 78,
+      "label": "子宮口性感",
+      "section": "1=接受快感,;指令を実行しやすい。ABL:欲望と奉仕精神が上げやすい。PALAM:欲情が上がりやすい",
+      "notes": ";子宮口開発経験が増えるとつくフレーバー素質"
+    },
+    {
+      "key": "talent_80",
+      "era_index": 80,
+      "label": "倒錯的",
+      "section": "性愛性",
+      "notes": ";SM系調教の効果が高い。受虐狂系、中毒系のABLが上がりやすい"
+    },
+    {
+      "key": "talent_81",
+      "era_index": 81,
+      "label": "性別嗜好",
+      "section": "性愛性",
+      "notes": null
+    },
+    {
+      "key": "talent_82",
+      "era_index": 82,
+      "label": "施虐狂",
+      "section": "3=不信任人類",
+      "notes": ";調教者の時に指令を実行しやすい。ABL:奉仕精神が上げにくい"
+    },
+    {
+      "key": "talent_83",
+      "era_index": 83,
+      "label": "受虐狂",
+      "section": "3=不信任人類",
+      "notes": ";指令を実行しやすい。受虐狂系のABLがあがりやすい"
+    },
+    {
+      "key": "talent_84",
+      "era_index": 84,
+      "label": "嫉妬",
+      "section": "3=不信任人類",
+      "notes": ";(現在では実装されていない)"
+    },
+    {
+      "key": "talent_85",
+      "era_index": 85,
+      "label": "迷信",
+      "section": "3=不信任人類",
+      "notes": ";指令を実行しやすい。PALAM:屈服が上がりやすい"
+    },
+    {
+      "key": "talent_86",
+      "era_index": 86,
+      "label": "小悪魔",
+      "section": "3=不信任人類",
+      "notes": ";調教者の時に指令を実行しやすい"
+    },
+    {
+      "key": "talent_90",
+      "era_index": 90,
+      "label": "狐",
+      "section": "魅了",
+      "notes": ";助手化の際に妖狐になる"
+    },
+    {
+      "key": "talent_91",
+      "era_index": 91,
+      "label": "妖狐",
+      "section": "魅了",
+      "notes": ";調教者の時にPALAM:恥情が上がりやすい。助手時に「媚薬」が手に入る事がある"
+    },
+    {
+      "key": "talent_92",
+      "era_index": 92,
+      "label": "魅力",
+      "section": "魅了",
+      "notes": ";売却額・報酬増加"
+    },
+    {
+      "key": "talent_93",
+      "era_index": 93,
+      "label": "魅惑",
+      "section": "魅了",
+      "notes": ";調教者の時に指令を実行しやすい。調教者の時にPALAMが全体的に上がりやすい"
+    },
+    {
+      "key": "talent_94",
+      "era_index": 94,
+      "label": "謎之魅力",
+      "section": "魅了",
+      "notes": ";売却額・報酬増加、調教者の時に指令を実行しやすい。調教者の時にPALAMが全体的に上がりやすい"
+    },
+    {
+      "key": "talent_100",
+      "era_index": 100,
+      "label": "体型",
+      "section": "身体特徴",
+      "notes": ";-5=小人 -2=幼児体型 -1=矮小体型 1=長身 2=巨躯 5=巨人"
+    },
+    {
+      "key": "talent_101",
+      "era_index": 101,
+      "label": "Ｃ感度",
+      "section": "身体特徴",
+      "notes": ";-1=鈍感 1=敏感"
+    },
+    {
+      "key": "talent_102",
+      "era_index": 102,
+      "label": "Ｖ感度",
+      "section": "身体特徴",
+      "notes": ";-1=鈍感 1=敏感"
+    },
+    {
+      "key": "talent_103",
+      "era_index": 103,
+      "label": "Ａ感度",
+      "section": "身体特徴",
+      "notes": ";-1=鈍感 1=敏感"
+    },
+    {
+      "key": "talent_104",
+      "era_index": 104,
+      "label": "Ｂ感度",
+      "section": "身体特徴",
+      "notes": ";-1=鈍感 1=敏感"
+    },
+    {
+      "key": "talent_105",
+      "era_index": 105,
+      "label": "胸围",
+      "section": "身体特徴",
+      "notes": ";-2=絶壁 -1 = 貧乳 0=並乳 1=巨乳 2=爆乳"
+    },
+    {
+      "key": "talent_106",
+      "era_index": 106,
+      "label": "Ｍ感度",
+      "section": "身体特徴",
+      "notes": ";-1=鈍感 1=敏感"
+    },
+    {
+      "key": "talent_108",
+      "era_index": 108,
+      "label": "ヒップサイズ",
+      "section": "身体特徴",
+      "notes": ";-2=纖臀 -1 = 小臀 0=並臀 1=潤臀 2=豊臀"
+    },
+    {
+      "key": "talent_120",
+      "era_index": 120,
+      "label": "濃厚精液",
+      "section": "身体特徴",
+      "notes": null
+    },
+    {
+      "key": "talent_121",
+      "era_index": 121,
+      "label": "酒耐性",
+      "section": "身体特徴",
+      "notes": ";-2=不會喝酒 -1=不擅于喝酒 1=很擅于喝酒 2=酒豪 3=海量"
+    },
+    {
+      "key": "talent_122",
+      "era_index": 122,
+      "label": "精愛味覚",
+      "section": "身体特徴",
+      "notes": null
+    },
+    {
+      "key": "talent_130",
+      "era_index": 130,
+      "label": "回復速度",
+      "section": "特殊",
+      "notes": ";-1=回復慢,;体力回復量が少なくなる 1=回復快,体力回復量が多くなる"
+    },
+    {
+      "key": "talent_133",
+      "era_index": 133,
+      "label": "日光浴",
+      "section": "特殊",
+      "notes": ";昼休憩時体力回復量上昇"
+    },
+    {
+      "key": "talent_134",
+      "era_index": 134,
+      "label": "月光浴",
+      "section": "特殊",
+      "notes": ";夜休憩時体力回復量上昇"
+    },
+    {
+      "key": "talent_135",
+      "era_index": 135,
+      "label": "治療",
+      "section": "特殊",
+      "notes": ";助手の時に体力回復量上昇"
+    },
+    {
+      "key": "talent_136",
+      "era_index": 136,
+      "label": "鼓舞",
+      "section": "特殊",
+      "notes": ";助手の時に指令を実行しやすい。助手の時に調教終了後の自慰回数増加"
+    },
+    {
+      "key": "talent_137",
+      "era_index": 137,
+      "label": "大胃王",
+      "section": "特殊",
+      "notes": ";ご飯がおいしい"
+    },
+    {
+      "key": "talent_138",
+      "era_index": 138,
+      "label": "不可思議的根",
+      "section": "特殊",
+      "notes": ";助手化の際に扶她になる"
+    },
+    {
+      "key": "talent_139",
+      "era_index": 139,
+      "label": "変化",
+      "section": "特殊",
+      "notes": ";変化能力持ち"
+    },
+    {
+      "key": "talent_141",
+      "era_index": 141,
+      "label": "狂気",
+      "section": "特殊",
+      "notes": ";売却額・報酬が低下する"
+    },
+    {
+      "key": "talent_142",
+      "era_index": 142,
+      "label": "風騷",
+      "section": "特殊",
+      "notes": ";抱き寄せが無条件で成功するが好感度が上がりにくい"
+    },
+    {
+      "key": "talent_143",
+      "era_index": 143,
+      "label": "動物耳",
+      "section": "特殊",
+      "notes": ";2=兎耳 3=犬耳 4=猫耳"
+    },
+    {
+      "key": "talent_144",
+      "era_index": 144,
+      "label": "禁断的知識",
+      "section": "特殊",
+      "notes": ";特殊な道具の購入や指令の実行ができる"
+    },
+    {
+      "key": "talent_145",
+      "era_index": 145,
+      "label": "人気",
+      "section": "特殊",
+      "notes": ";売却額・報酬増加"
+    },
+    {
+      "key": "talent_146",
+      "era_index": 146,
+      "label": "具現",
+      "section": "特殊",
+      "notes": ";助手化の際に扶她になる"
+    },
+    {
+      "key": "talent_149",
+      "era_index": 149,
+      "label": "母乳体質",
+      "section": "特殊",
+      "notes": ";噴乳するようになる"
+    },
+    {
+      "key": "talent_150",
+      "era_index": 150,
+      "label": "幼児／幼児退行",
+      "section": "特殊",
+      "notes": ";調教者の時に相手を母乳体質にする。胸関連の調教の効果が高い"
+    },
+    {
+      "key": "talent_151",
+      "era_index": 151,
+      "label": "幼稚",
+      "section": "特殊",
+      "notes": ";調教者の時に胸関連の調教の効果が高くなる"
+    },
+    {
+      "key": "talent_152",
+      "era_index": 152,
+      "label": "精力超群",
+      "section": "特殊",
+      "notes": ";射精が早くなる、一日の最大射精可能数が増える"
+    },
+    {
+      "key": "talent_153",
+      "era_index": 153,
+      "label": "妊娠",
+      "section": "特殊",
+      "notes": ";兒童を身ごもってる"
+    },
+    {
+      "key": "talent_154",
+      "era_index": 154,
+      "label": "育児中",
+      "section": "特殊",
+      "notes": ";兒童を育てている最中"
+    },
+    {
+      "key": "talent_155",
+      "era_index": 155,
+      "label": "母性",
+      "section": "特殊",
+      "notes": ";子を産んだ母の愛。一部労役の報酬が上がる"
+    },
+    {
+      "key": "talent_156",
+      "era_index": 156,
+      "label": "初潮",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_157",
+      "era_index": 157,
+      "label": "劣情察知",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_158",
+      "era_index": 158,
+      "label": "内裤走私者",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_159",
+      "era_index": 159,
+      "label": "居場所察知",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_160",
+      "era_index": 160,
+      "label": "汚部屋察知",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_161",
+      "era_index": 161,
+      "label": "音楽知識",
+      "section": "特殊",
+      "notes": ";1=楽器知識 2=歌唱知識 3=舞踏知識;音楽や歌に深い造詣を持っている。ある程度経験を積むと取得可能"
+    },
+    {
+      "key": "talent_162",
+      "era_index": 162,
+      "label": "音感",
+      "section": "特殊",
+      "notes": ";-1=音痴 1=音感 2=絶対音感;音に対する感覚。普利茲姆利巴ズやみすちー等は独断と偏見で絶対音感持ち。きわめて多くの経験を積めば一応習得できる"
+    },
+    {
+      "key": "talent_163",
+      "era_index": 163,
+      "label": "水棲",
+      "section": "特殊",
+      "notes": ";雨で回復、夏場の日差しで消耗"
+    },
+    {
+      "key": "talent_164",
+      "era_index": 164,
+      "label": "氷精",
+      "section": "特殊",
+      "notes": ";雪で回復、夏場の日差しで消耗"
+    },
+    {
+      "key": "talent_165",
+      "era_index": 165,
+      "label": "種族",
+      "section": "特殊",
+      "notes": ";"
+    },
+    {
+      "key": "talent_166",
+      "era_index": 166,
+      "label": "半白澤",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_167",
+      "era_index": 167,
+      "label": "集合",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_169",
+      "era_index": 169,
+      "label": "Ｍ鈍感無視",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_170",
+      "era_index": 170,
+      "label": "Ｃ鈍感無視",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_171",
+      "era_index": 171,
+      "label": "Ｂ鈍感無視",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_172",
+      "era_index": 172,
+      "label": "Ｖ鈍感無視",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_173",
+      "era_index": 173,
+      "label": "Ａ鈍感無視",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_174",
+      "era_index": 174,
+      "label": "清掃中毒",
+      "section": "特殊",
+      "notes": ";部屋が汚いと興奮できない"
+    },
+    {
+      "key": "talent_175",
+      "era_index": 175,
+      "label": "千客万来",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_176",
+      "era_index": 176,
+      "label": "左拥右抱",
+      "section": "特殊",
+      "notes": "恋人が複数作れる"
+    },
+    {
+      "key": "talent_182",
+      "era_index": 182,
+      "label": "掃除係",
+      "section": "特殊",
+      "notes": ";拠点角色の時汚れを落とす"
+    },
+    {
+      "key": "talent_183",
+      "era_index": 183,
+      "label": "双槍",
+      "section": "特殊",
+      "notes": ";モノが二本。どういうことなの…"
+    },
+    {
+      "key": "talent_184",
+      "era_index": 184,
+      "label": "愛欲",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_185",
+      "era_index": 185,
+      "label": "炮友",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_189",
+      "era_index": 189,
+      "label": "妄想的産物",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_190",
+      "era_index": 190,
+      "label": "人类",
+      "section": "特殊",
+      "notes": ";1=人类 2=仙人 3=天人 4=月人 5=外界人"
+    },
+    {
+      "key": "talent_191",
+      "era_index": 191,
+      "label": "妖怪",
+      "section": "特殊",
+      "notes": ";1=妖怪 2=鬼 3=吸血鬼 4=河童 5=天狗 6=妖獣 7=妖鳥 8=妖蟲 9=悪魔 10=小人 11=座敷童子 12=山童"
+    },
+    {
+      "key": "talent_192",
+      "era_index": 192,
+      "label": "妖精",
+      "section": "特殊",
+      "notes": ";1=妖精"
+    },
+    {
+      "key": "talent_193",
+      "era_index": 193,
+      "label": "神霊",
+      "section": "特殊",
+      "notes": ";1=神霊 2=死神 3=閻魔 4=道祖神 5=古神人 6=天使"
+    },
+    {
+      "key": "talent_194",
+      "era_index": 194,
+      "label": "幽霊",
+      "section": "特殊",
+      "notes": ";1=幽霊 2=騒霊 3=亡霊 4=悪霊"
+    },
+    {
+      "key": "talent_195",
+      "era_index": 195,
+      "label": "付喪神",
+      "section": "特殊",
+      "notes": ";1=付喪神"
+    },
+    {
+      "key": "talent_196",
+      "era_index": 196,
+      "label": "人形",
+      "section": "特殊",
+      "notes": ";1=人形 2=机械 3=魔像 4=埴輪 5=僵尸 99=人形の乙女"
+    },
+    {
+      "key": "talent_197",
+      "era_index": 197,
+      "label": "追加種族",
+      "section": "特殊",
+      "notes": ";1=巫女 2=魔法使 3=女僕 4=蓬莱人"
+    },
+    {
+      "key": "talent_198",
+      "era_index": 198,
+      "label": "人妻",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_199",
+      "era_index": 199,
+      "label": "風俗嬢",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_200",
+      "era_index": 200,
+      "label": "魔界人",
+      "section": "特殊",
+      "notes": null
+    },
+    {
+      "key": "talent_220",
+      "era_index": 220,
+      "label": "FAIRY_FRIEND",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";progress along fairy track, gives bonuses to nature-related commands such as foraging"
+    },
+    {
+      "key": "talent_221",
+      "era_index": 221,
+      "label": "妻",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";custom code (1=fiancé(e) 2=spouse)"
+    },
+    {
+      "key": "talent_222",
+      "era_index": 222,
+      "label": "妾",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";"
+    },
+    {
+      "key": "talent_223",
+      "era_index": 223,
+      "label": "力持ち",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";custom code,"
+    },
+    {
+      "key": "talent_224",
+      "era_index": 224,
+      "label": "噂話者",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";custom code"
+    },
+    {
+      "key": "talent_225",
+      "era_index": 225,
+      "label": "酒造家",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";1=酒造家 2=杜氏"
+    },
+    {
+      "key": "talent_250",
+      "era_index": 250,
+      "label": "形状",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";"
+    },
+    {
+      "key": "talent_254",
+      "era_index": 254,
+      "label": "讓幽霊懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_255",
+      "era_index": 255,
+      "label": "讓人偶懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_256",
+      "era_index": 256,
+      "label": "讓天狗懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_257",
+      "era_index": 257,
+      "label": "讓蓬莱懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_258",
+      "era_index": 258,
+      "label": "讓付喪神懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_259",
+      "era_index": 259,
+      "label": "讓鬼懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_260",
+      "era_index": 260,
+      "label": "讓巫女懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_261",
+      "era_index": 261,
+      "label": "讓妖精懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_262",
+      "era_index": 262,
+      "label": "讓妖怪懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_263",
+      "era_index": 263,
+      "label": "讓神霊懷孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_264",
+      "era_index": 264,
+      "label": "万能孕",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_270",
+      "era_index": 270,
+      "label": "熟悉擦弹",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_271",
+      "era_index": 271,
+      "label": "Extend",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_272",
+      "era_index": 272,
+      "label": "霊力充填",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_273",
+      "era_index": 273,
+      "label": "大角虫",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": null
+    },
+    {
+      "key": "talent_274",
+      "era_index": 274,
+      "label": "積み石ランカー",
+      "section": "addition custom code, this range seems to be unused for now",
+      "notes": ";(1=積み石ビギナー 2=積み石ルーキー 3=積み石艾麗ト 4=積み石ベテラン 5=積み石マスター 6=積み石王)"
+    },
+    {
+      "key": "talent_278",
+      "era_index": 278,
+      "label": "悟性",
+      "section": "天赋系统相关",
+      "notes": ";(-2 = 朽愚, -1 = 愚笨, 1 = 聪慧, 2 = 灵性)"
+    },
+    {
+      "key": "talent_280",
+      "era_index": 280,
+      "label": "昨日重现",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_281",
+      "era_index": 281,
+      "label": "幸运儿",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_282",
+      "era_index": 282,
+      "label": "黄金律",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_283",
+      "era_index": 283,
+      "label": "大魔法师",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_284",
+      "era_index": 284,
+      "label": "高难开局",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_285",
+      "era_index": 285,
+      "label": "神性",
+      "section": "魔法DLC相关",
+      "notes": null
+    },
+    {
+      "key": "talent_295",
+      "era_index": 295,
+      "label": "催眠技能Lv",
+      "section": "hypnosis patch",
+      "notes": null
+    },
+    {
+      "key": "talent_296",
+      "era_index": 296,
+      "label": "敏感な身体",
+      "section": "hypnosis patch",
+      "notes": ";added"
+    },
+    {
+      "key": "talent_297",
+      "era_index": 297,
+      "label": "催眠耐性",
+      "section": "hypnosis patch",
+      "notes": ";added (-2 = Very Weak Will, -1 = Weak Will, 1 = Strong Will, 2 = Very Strong Will, 3 = Iron Will, 4 = Hypnotist)"
+    },
+    {
+      "key": "talent_298",
+      "era_index": 298,
+      "label": "反発抑制",
+      "section": "hypnosis patch",
+      "notes": null
+    },
+    {
+      "key": "talent_299",
+      "era_index": 299,
+      "label": "合意誤認",
+      "section": "hypnosis patch",
+      "notes": null
+    },
+    {
+      "key": "talent_300",
+      "era_index": 300,
+      "label": "路人",
+      "section": "hypnosis patch",
+      "notes": ";いわゆる汎用角色"
+    },
+    {
+      "key": "talent_310",
+      "era_index": 310,
+      "label": "PregnancyType_OLD",
+      "section": "302,精神力",
+      "notes": ";no longer used, value should be converted to new format"
+    },
+    {
+      "key": "talent_311",
+      "era_index": 311,
+      "label": "NESTING",
+      "section": "302,精神力",
+      "notes": null
+    },
+    {
+      "key": "talent_312",
+      "era_index": 312,
+      "label": "PREGNANCY_TYPE",
+      "section": "302,精神力",
+      "notes": ";(PREGNANCY_NORMAL = 0 (通常), PREGNANCY_LITTERS = 1 (多胎), PREGNANCY_EGGS = 2 (産卵（単）), PREGNANCY_CLUTCH = 3 (産卵（多）))"
+    },
+    {
+      "key": "talent_313",
+      "era_index": 313,
+      "label": "HYPERFERTILE",
+      "section": "302,精神力",
+      "notes": null
+    },
+    {
+      "key": "talent_711",
+      "era_index": 711,
+      "label": "濃厚精液殘留",
+      "section": "(0=通常 1=多胎 2=産卵（単） 3=産卵（多） 4=",
+      "notes": ";有濃厚者通用"
+    }
+  ],
+  "flag": [
+    {
+      "key": "flag_0",
+      "era_index": 0,
+      "label": "休憩FLAG",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_1",
+      "era_index": 1,
+      "label": "SYS_EVENT起動FLAG",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_2",
+      "era_index": 2,
+      "label": "長筒襪着用",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_3",
+      "era_index": 3,
+      "label": "宴会的有無",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_4",
+      "era_index": 4,
+      "label": "難易度",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_5",
+      "era_index": 5,
+      "label": "游戏模式",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_6",
+      "era_index": 6,
+      "label": "情景文本設定",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_7",
+      "era_index": 7,
+      "label": "口上文本設定",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "flag_9",
+      "era_index": 9,
+      "label": "每日变更事件",
+      "section": "口上文本+情景文本設定時\tFLAG:6=1 FLAG:7= 2",
+      "notes": null
+    },
+    {
+      "key": "flag_10",
+      "era_index": 10,
+      "label": "陥落人数",
+      "section": "口上文本+情景文本設定時\tFLAG:6=1 FLAG:7= 2",
+      "notes": null
+    },
+    {
+      "key": "flag_11",
+      "era_index": 11,
+      "label": "周回数",
+      "section": "口上文本+情景文本設定時\tFLAG:6=1 FLAG:7= 2",
+      "notes": null
+    },
+    {
+      "key": "flag_12",
+      "era_index": 12,
+      "label": "本日の累計好感度上昇量",
+      "section": "口上文本+情景文本設定時\tFLAG:6=1 FLAG:7= 2",
+      "notes": null
+    },
+    {
+      "key": "flag_15",
+      "era_index": 15,
+      "label": "住宿人物",
+      "section": "口上文本+情景文本設定時\tFLAG:6=1 FLAG:7= 2",
+      "notes": null
+    },
+    {
+      "key": "flag_17",
+      "era_index": 17,
+      "label": "偷情人数",
+      "section": "16,空的部屋角色,住宿人物と統合,もし住宿人物の２つ目を使用ことになったらこれを使って下さい",
+      "notes": null
+    },
+    {
+      "key": "flag_18",
+      "era_index": 18,
+      "label": "警告牌使用",
+      "section": "現状ではFLAG:17は@EVENTTURNENDでリセットされるので使用したい場合は修正して下さい",
+      "notes": null
+    },
+    {
+      "key": "flag_19",
+      "era_index": 19,
+      "label": "享用処女",
+      "section": "現状ではFLAG:17は@EVENTTURNENDでリセットされるので使用したい場合は修正して下さい",
+      "notes": null
+    },
+    {
+      "key": "flag_20",
+      "era_index": 20,
+      "label": "料理",
+      "section": "現状ではFLAG:17は@EVENTTURNENDでリセットされるので使用したい場合は修正して下さい",
+      "notes": null
+    },
+    {
+      "key": "flag_28",
+      "era_index": 28,
+      "label": "好感度上昇率",
+      "section": "(bit=0:メニュー手動決定,1:異物混入不可,2:薬物混入不可,10:自動味付け_普通,11:自動味付け_濃い,12:自動味付け_薄い)",
+      "notes": null
+    },
+    {
+      "key": "flag_29",
+      "era_index": 29,
+      "label": "信頼度上昇率",
+      "section": "(bit=0:メニュー手動決定,1:異物混入不可,2:薬物混入不可,10:自動味付け_普通,11:自動味付け_濃い,12:自動味付け_薄い)",
+      "notes": null
+    },
+    {
+      "key": "flag_30",
+      "era_index": 30,
+      "label": "宴会開催FLAG",
+      "section": "宴会関係---------",
+      "notes": ";(0=宴会無 1=霊夢一时兴起的酒宴)"
+    },
+    {
+      "key": "flag_31",
+      "era_index": 31,
+      "label": "宴会規模",
+      "section": "宴会関係---------",
+      "notes": ";(工作量として設定される)"
+    },
+    {
+      "key": "flag_32",
+      "era_index": 32,
+      "label": "宴会会場",
+      "section": "宴会関係---------",
+      "notes": null
+    },
+    {
+      "key": "flag_33",
+      "era_index": 33,
+      "label": "開始時間",
+      "section": "宴会関係---------",
+      "notes": null
+    },
+    {
+      "key": "flag_34",
+      "era_index": 34,
+      "label": "開始日",
+      "section": "宴会関係---------",
+      "notes": null
+    },
+    {
+      "key": "flag_35",
+      "era_index": 35,
+      "label": "参加人数",
+      "section": "宴会関係---------",
+      "notes": null
+    },
+    {
+      "key": "flag_36",
+      "era_index": 36,
+      "label": "悪天候中止FLAG",
+      "section": "宴会関係---------",
+      "notes": ";(0=無 1=中止あり)"
+    },
+    {
+      "key": "flag_37",
+      "era_index": 37,
+      "label": "宴会差し入れ",
+      "section": "宴会関係---------",
+      "notes": null
+    },
+    {
+      "key": "flag_41",
+      "era_index": 41,
+      "label": "委托接口１",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_42",
+      "era_index": 42,
+      "label": "委托接口２",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_43",
+      "era_index": 43,
+      "label": "委托接口３",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_44",
+      "era_index": 44,
+      "label": "委托接口４",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_45",
+      "era_index": 45,
+      "label": "委托接口５",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_50",
+      "era_index": 50,
+      "label": "追加恋人枠",
+      "section": "-----------------",
+      "notes": null
+    },
+    {
+      "key": "flag_69",
+      "era_index": 69,
+      "label": "寻找委托",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_70",
+      "era_index": 70,
+      "label": "時間停止",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_71",
+      "era_index": 71,
+      "label": "禁自慰",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_72",
+      "era_index": 72,
+      "label": "抱負",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_73",
+      "era_index": 73,
+      "label": "约会的对象",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_74",
+      "era_index": 74,
+      "label": "道具購入済み",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_75",
+      "era_index": 75,
+      "label": "新聞購読",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_76",
+      "era_index": 76,
+      "label": "神簽契約",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_77",
+      "era_index": 77,
+      "label": "路人孕ませ数",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_78",
+      "era_index": 78,
+      "label": "篤信",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_80",
+      "era_index": 80,
+      "label": "気温",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_81",
+      "era_index": 81,
+      "label": "最高気温",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_82",
+      "era_index": 82,
+      "label": "最低気温",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_83",
+      "era_index": 83,
+      "label": "下雨几率",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_84",
+      "era_index": 84,
+      "label": "畑拡張",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_85",
+      "era_index": 85,
+      "label": "澆水代行",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_86",
+      "era_index": 86,
+      "label": "收藏隙間",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_87",
+      "era_index": 87,
+      "label": "C隙間自動仕様",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_88",
+      "era_index": 88,
+      "label": "自動縁結び",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_89",
+      "era_index": 89,
+      "label": "異常気象",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_90",
+      "era_index": 90,
+      "label": "加護",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_91",
+      "era_index": 91,
+      "label": "野菜娘デイリー",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_92",
+      "era_index": 92,
+      "label": "守矢10連ガチャキャンペーン",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_93",
+      "era_index": 93,
+      "label": "可疑商品品質",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_94",
+      "era_index": 94,
+      "label": "可疑商品購入日",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_95",
+      "era_index": 95,
+      "label": "可疑商品効果",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_96",
+      "era_index": 96,
+      "label": "傘耐久度",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_97",
+      "era_index": 97,
+      "label": "ミラダ支給",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_98",
+      "era_index": 98,
+      "label": "路人子管理",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_99",
+      "era_index": 99,
+      "label": "潜伏",
+      "section": "FLAG:51:bit表記:36クラウンピース,37純狐,38ヘカ,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63",
+      "notes": null
+    },
+    {
+      "key": "flag_100",
+      "era_index": 100,
+      "label": "風チラCT",
+      "section": "0 = 潜伏 1 = 探索 2 = 会話",
+      "notes": null
+    },
+    {
+      "key": "flag_200",
+      "era_index": 200,
+      "label": "気絶中断",
+      "section": "0 = 潜伏 1 = 探索 2 = 会話",
+      "notes": null
+    },
+    {
+      "key": "flag_560",
+      "era_index": 560,
+      "label": "祈願内容",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_561",
+      "era_index": 561,
+      "label": "精力強化回数",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_562",
+      "era_index": 562,
+      "label": "大掃除",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_563",
+      "era_index": 563,
+      "label": "重婚可能人数",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_564",
+      "era_index": 564,
+      "label": "恋慕特典",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_565",
+      "era_index": 565,
+      "label": "恋慕特典2",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_566",
+      "era_index": 566,
+      "label": "恋人特典",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_567",
+      "era_index": 567,
+      "label": "恋人特典2",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_580",
+      "era_index": 580,
+      "label": "子宝祈願",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_581",
+      "era_index": 581,
+      "label": "守矢约会権",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_582",
+      "era_index": 582,
+      "label": "一時滞在",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_590",
+      "era_index": 590,
+      "label": "天滴坤神",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_591",
+      "era_index": 591,
+      "label": "チュート文累計",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_592",
+      "era_index": 592,
+      "label": "チュートBONUS進行",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_593",
+      "era_index": 593,
+      "label": "チュート文速度",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_594",
+      "era_index": 594,
+      "label": "チュートログ",
+      "section": "550～559,各角色の祈願による来訪フラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_700",
+      "era_index": 700,
+      "label": "獲得胖次種数",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_701",
+      "era_index": 701,
+      "label": "実績解除システム",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_702",
+      "era_index": 702,
+      "label": "実績解除システム２",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_703",
+      "era_index": 703,
+      "label": "好感度BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_704",
+      "era_index": 704,
+      "label": "面識BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_705",
+      "era_index": 705,
+      "label": "胖次BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_706",
+      "era_index": 706,
+      "label": "陥落BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_707",
+      "era_index": 707,
+      "label": "孕ませBONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_708",
+      "era_index": 708,
+      "label": "技能BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_709",
+      "era_index": 709,
+      "label": "弾幕勝負BONUS取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_710",
+      "era_index": 710,
+      "label": "酒ボーナス取得状況",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_711",
+      "era_index": 711,
+      "label": "魔法BONUS取得状况",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_800",
+      "era_index": 800,
+      "label": "畑１的作物",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_801",
+      "era_index": 801,
+      "label": "畑１的种植天数",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_802",
+      "era_index": 802,
+      "label": "畑１的生长度",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_803",
+      "era_index": 803,
+      "label": "畑１还没浇水",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_804",
+      "era_index": 804,
+      "label": "畑２的作物",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_805",
+      "era_index": 805,
+      "label": "畑２的种植天数",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_806",
+      "era_index": 806,
+      "label": "畑２的生长度",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_807",
+      "era_index": 807,
+      "label": "畑２还没浇水",
+      "section": "601～690,各訪問者のばったりフラグ",
+      "notes": null
+    },
+    {
+      "key": "flag_820",
+      "era_index": 820,
+      "label": "地主",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_821",
+      "era_index": 821,
+      "label": "田地工作的成果",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_822",
+      "era_index": 822,
+      "label": "年貢",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_823",
+      "era_index": 823,
+      "label": "農民難易度",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_824",
+      "era_index": 824,
+      "label": "地主貸付金",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_825",
+      "era_index": 825,
+      "label": "年始貸付金",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_826",
+      "era_index": 826,
+      "label": "返済延滞回数",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_827",
+      "era_index": 827,
+      "label": "収穫納入回数",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_828",
+      "era_index": 828,
+      "label": "累積収穫評価",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_829",
+      "era_index": 829,
+      "label": "前回収穫評価",
+      "section": "小作人你用",
+      "notes": null
+    },
+    {
+      "key": "flag_830",
+      "era_index": 830,
+      "label": "カモられ指数",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_831",
+      "era_index": 831,
+      "label": "筹码流通",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_832",
+      "era_index": 832,
+      "label": "筹码人気",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_833",
+      "era_index": 833,
+      "label": "筹码変動状況",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_834",
+      "era_index": 834,
+      "label": "筹码変動累積",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_835",
+      "era_index": 835,
+      "label": "会員ランク",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_836",
+      "era_index": 836,
+      "label": "￥流通",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_837",
+      "era_index": 837,
+      "label": "￥人気",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_838",
+      "era_index": 838,
+      "label": "￥変動状況",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_839",
+      "era_index": 839,
+      "label": "￥変動累積",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_840",
+      "era_index": 840,
+      "label": "前回筹码設定月",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_841",
+      "era_index": 841,
+      "label": "赌场訪問日",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_842",
+      "era_index": 842,
+      "label": "賭場訪問日",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_850",
+      "era_index": 850,
+      "label": "掃除中毒",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_851",
+      "era_index": 851,
+      "label": "原本体格",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_852",
+      "era_index": 852,
+      "label": "開運大紋購入回数",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_853",
+      "era_index": 853,
+      "label": "胖次輸送",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_860",
+      "era_index": 860,
+      "label": "酒虫",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_861",
+      "era_index": 861,
+      "label": "最後一次訪问酒屋日期",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_862",
+      "era_index": 862,
+      "label": "酒屋里的累積購入額",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_863",
+      "era_index": 863,
+      "label": "酒屋的累積転売利益",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_864",
+      "era_index": 864,
+      "label": "酒屋的売却率FLAG",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_865",
+      "era_index": 865,
+      "label": "酒屋買取強化",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_866",
+      "era_index": 866,
+      "label": "原木種類",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_867",
+      "era_index": 867,
+      "label": "最後に木材商に訪れた日",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_868",
+      "era_index": 868,
+      "label": "最後に製材所に訪れた日",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_869",
+      "era_index": 869,
+      "label": "最後に家具屋に訪れた日",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_870",
+      "era_index": 870,
+      "label": "作成中家具",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_871",
+      "era_index": 871,
+      "label": "家具作成残り",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_872",
+      "era_index": 872,
+      "label": "土産屋特价销卖",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_873",
+      "era_index": 873,
+      "label": "潜伏場所",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_874",
+      "era_index": 874,
+      "label": "市場の神",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_880",
+      "era_index": 880,
+      "label": "ファッション",
+      "section": "カモられ指数はVIPルーム向けに作ったが仕様固まりきらなくて保留中",
+      "notes": null
+    },
+    {
+      "key": "flag_998",
+      "era_index": 998,
+      "label": "守矢神簽约会的对象",
+      "section": "900-910 路人好感度",
+      "notes": null
+    },
+    {
+      "key": "flag_999",
+      "era_index": 999,
+      "label": "神簽と守矢神簽関係",
+      "section": "约会的对象の角色番号格納",
+      "notes": null
+    },
+    {
+      "key": "flag_1000",
+      "era_index": 1000,
+      "label": "版本升级処理",
+      "section": "bit表記 0:神簽選択済, 1:神簽今日引いたか, 2:守矢神簽選択済, 3:守矢神簽入れ替え可能",
+      "notes": null
+    },
+    {
+      "key": "flag_1001",
+      "era_index": 1001,
+      "label": "消耗品自動購入",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1002",
+      "era_index": 1002,
+      "label": "垃圾显示OFF",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1003",
+      "era_index": 1003,
+      "label": "能力表示一覧",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1004",
+      "era_index": 1004,
+      "label": "能力表示詳細",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1005",
+      "era_index": 1005,
+      "label": "いつでも寝られる",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1007",
+      "era_index": 1007,
+      "label": "生理周期可視化",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1008",
+      "era_index": 1008,
+      "label": "状态表示用",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1009",
+      "era_index": 1009,
+      "label": "テストプレイ用オナバレ強制発生",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1010",
+      "era_index": 1010,
+      "label": "配药経験",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1011",
+      "era_index": 1011,
+      "label": "借书",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1012",
+      "era_index": 1012,
+      "label": "借书返还期限",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1013",
+      "era_index": 1013,
+      "label": "快速过滤;（bit",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": "0=onoff,1=V,2=A,3=愛撫,4=道具,5=奉仕,6=SM 7=性騷擾）"
+    },
+    {
+      "key": "flag_1014",
+      "era_index": 1014,
+      "label": "停下脚步",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1015",
+      "era_index": 1015,
+      "label": "推倒",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1016",
+      "era_index": 1016,
+      "label": "瞬間移動",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1017",
+      "era_index": 1017,
+      "label": "住宿事件",
+      "section": "1001～1999,オプション及びバリアント初期設定",
+      "notes": null
+    },
+    {
+      "key": "flag_1019",
+      "era_index": 1019,
+      "label": "移動先表示",
+      "section": "1018,AA表示 廃止して",
+      "notes": null
+    },
+    {
+      "key": "flag_1021",
+      "era_index": 1021,
+      "label": "自室施錠",
+      "section": "1020,改築",
+      "notes": null
+    },
+    {
+      "key": "flag_1022",
+      "era_index": 1022,
+      "label": "泳池",
+      "section": "1020,改築",
+      "notes": null
+    },
+    {
+      "key": "flag_1023",
+      "era_index": 1023,
+      "label": "出禁人数",
+      "section": "(bit,0=自走 1=温水 2=淋浴 3=不思議な泡)",
+      "notes": null
+    },
+    {
+      "key": "flag_1024",
+      "era_index": 1024,
+      "label": "交流来訪模式",
+      "section": "(bit,0=自走 1=温水 2=淋浴 3=不思議な泡)",
+      "notes": null
+    },
+    {
+      "key": "flag_1025",
+      "era_index": 1025,
+      "label": "妊娠開关",
+      "section": "(bit,0=自走 1=温水 2=淋浴 3=不思議な泡)",
+      "notes": null
+    },
+    {
+      "key": "flag_1026",
+      "era_index": 1026,
+      "label": "USERCOM開关",
+      "section": "(bit,0=自走 1=温水 2=淋浴 3=不思議な泡)",
+      "notes": null
+    },
+    {
+      "key": "flag_1027",
+      "era_index": 1027,
+      "label": "脱衣選択",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";(1=全裸 2=半脱)"
+    },
+    {
+      "key": "flag_1028",
+      "era_index": 1028,
+      "label": "察知模式",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1029",
+      "era_index": 1029,
+      "label": "胖次泥棒",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";(1=毎回くすねる 2=毎回脱がすだけ)"
+    },
+    {
+      "key": "flag_1030",
+      "era_index": 1030,
+      "label": "扮演",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1031",
+      "era_index": 1031,
+      "label": "口上色",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1032",
+      "era_index": 1032,
+      "label": "Look表示用乳房",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1033",
+      "era_index": 1033,
+      "label": "Look表示用乳頭",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1034",
+      "era_index": 1034,
+      "label": "能力表記",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1035",
+      "era_index": 1035,
+      "label": "Counter地文控制",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1036",
+      "era_index": 1036,
+      "label": "セクシー胖次追加",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1037",
+      "era_index": 1037,
+      "label": "スキップムーブ",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1038",
+      "era_index": 1038,
+      "label": "内職",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1039",
+      "era_index": 1039,
+      "label": "ABLUP省略",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1040",
+      "era_index": 1040,
+      "label": "甲斐性無",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1041",
+      "era_index": 1041,
+      "label": "画像表示設定",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";ON/OFF"
+    },
+    {
+      "key": "flag_1042",
+      "era_index": 1042,
+      "label": "画像表示",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";ON/OFF 兼表示人数"
+    },
+    {
+      "key": "flag_1043",
+      "era_index": 1043,
+      "label": "画像表示位置",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";PRINT_TARGET_IMAGEの描画align値 0=center 1=left"
+    },
+    {
+      "key": "flag_1044",
+      "era_index": 1044,
+      "label": "アニメーション",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";画像アニメーション設定 兼繰り返し回数 0～5"
+    },
+    {
+      "key": "flag_1045",
+      "era_index": 1045,
+      "label": "画像枠表示",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";画像に枠をつけるか ON/OFF"
+    },
+    {
+      "key": "flag_1046",
+      "era_index": 1046,
+      "label": "射精画像種類",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";0～2　0.断面+効果音　1.断面のみ　2.効果音のみ"
+    },
+    {
+      "key": "flag_1047",
+      "era_index": 1047,
+      "label": "立絵種類",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";0で立絵 1で顔絵"
+    },
+    {
+      "key": "flag_1048",
+      "era_index": 1048,
+      "label": "挿絵表示",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";挿絵のみ(正常位アニメ)の表示設定　AAの替え(受精のほう)には効かないやつ"
+    },
+    {
+      "key": "flag_1049",
+      "era_index": 1049,
+      "label": "挿入アニメ过滤器",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";挿入アニメを表示不会うにする(bit 0=挿入中 1=絶頂 2=射精)"
+    },
+    {
+      "key": "flag_1050",
+      "era_index": 1050,
+      "label": "胖次収集状況タイプB",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1051",
+      "era_index": 1051,
+      "label": "ＦＫ判定",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": ";bit 1=自覚無しでも記録 2=阴茎でも記録"
+    },
+    {
+      "key": "flag_1055",
+      "era_index": 1055,
+      "label": "家事過濾器",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1056",
+      "era_index": 1056,
+      "label": "妊娠日程倍率",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1057",
+      "era_index": 1057,
+      "label": "TARGETの情報表示モード",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1060",
+      "era_index": 1060,
+      "label": "陥落路線変化",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1061",
+      "era_index": 1061,
+      "label": "告白禁止",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1062",
+      "era_index": 1062,
+      "label": "無知自動喪失禁止",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1063",
+      "era_index": 1063,
+      "label": "兒童描写",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1064",
+      "era_index": 1064,
+      "label": "好意理性短縮",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1065",
+      "era_index": 1065,
+      "label": "兒童の性別",
+      "section": "（bit,0=污渍显示 1=相手を変える 2=能力表示 3=能力表示（マスター）4=Ｖ过滤器 5=Ａ过滤器 6=愛撫过滤器 7=道具过滤器 8=奉仕过滤器 9=？ 10=性騷擾过滤器 11=指令过滤器 12=履歴表示 13=自動時止め移動）",
+      "notes": null
+    },
+    {
+      "key": "flag_1067",
+      "era_index": 1067,
+      "label": "依頼スルー",
+      "section": "1066,自動喘息",
+      "notes": null
+    },
+    {
+      "key": "flag_1069",
+      "era_index": 1069,
+      "label": "巨乳差分表示",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1070",
+      "era_index": 1070,
+      "label": "追加エフェクト",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1071",
+      "era_index": 1071,
+      "label": "自慰画像非表示",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1072",
+      "era_index": 1072,
+      "label": "多尺寸",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1073",
+      "era_index": 1073,
+      "label": "自動掃除",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1074",
+      "era_index": 1074,
+      "label": "並び替え",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1075",
+      "era_index": 1075,
+      "label": "おもらし有効",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1076",
+      "era_index": 1076,
+      "label": "採集再抽選",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1077",
+      "era_index": 1077,
+      "label": "背景色推移",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1078",
+      "era_index": 1078,
+      "label": "カウンター制裁",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1079",
+      "era_index": 1079,
+      "label": "アナル開発無効",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1080",
+      "era_index": 1080,
+      "label": "風チラ発生",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1081",
+      "era_index": 1081,
+      "label": "誤爆無効",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1082",
+      "era_index": 1082,
+      "label": "現在TARGETのみ顔絵",
+      "section": "1068,引継ぎ設定保存済み",
+      "notes": null
+    },
+    {
+      "key": "flag_1098",
+      "era_index": 1098,
+      "label": "魔法强度",
+      "section": "五重绝顶魔法",
+      "notes": null
+    },
+    {
+      "key": "flag_1099",
+      "era_index": 1099,
+      "label": "魔法印记开关",
+      "section": "五重绝顶魔法",
+      "notes": null
+    },
+    {
+      "key": "flag_6400",
+      "era_index": 6400,
+      "label": "蟲の採集サービス",
+      "section": "1500～1599は乐谱所持用",
+      "notes": ";虫采集服务"
+    },
+    {
+      "key": "flag_2021",
+      "era_index": 2021,
+      "label": "XRay_show",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_219",
+      "era_index": 219,
+      "label": "睡四小时",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_236",
+      "era_index": 236,
+      "label": "不会生气",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9000",
+      "era_index": 9000,
+      "label": "LUSTMODE",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9001",
+      "era_index": 9001,
+      "label": "CHEATMENU",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9002",
+      "era_index": 9002,
+      "label": "CHEATMENUCONFIRM",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9003",
+      "era_index": 9003,
+      "label": "TIME_COMPRESSION",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9012",
+      "era_index": 9012,
+      "label": "STABLEBYPASS",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9013",
+      "era_index": 9013,
+      "label": "PREG_SPEED",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9014",
+      "era_index": 9014,
+      "label": "PREG_SHOW_PROB",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9015",
+      "era_index": 9015,
+      "label": "PREG_PROB_MULT",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9016",
+      "era_index": 9016,
+      "label": "CHARISMA_INGAME_DAY",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9017",
+      "era_index": 9017,
+      "label": "TUTORIAL_INITIAL_D",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9018",
+      "era_index": 9018,
+      "label": "CHILD_LIMIT_BYPASS",
+      "section": "1500～1599は乐谱所持用",
+      "notes": null
+    },
+    {
+      "key": "flag_9019",
+      "era_index": 9019,
+      "label": "DANGEROUS_TRAVEL",
+      "section": "1500～1599は乐谱所持用",
+      "notes": ";uses dangerous underground shortcuts to speed up travel"
+    },
+    {
+      "key": "flag_9020",
+      "era_index": 9020,
+      "label": "催眠on",
+      "section": "hypnosis patch",
+      "notes": null
+    },
+    {
+      "key": "flag_9021",
+      "era_index": 9021,
+      "label": "催眠強度",
+      "section": "hypnosis patch",
+      "notes": null
+    },
+    {
+      "key": "flag_9030",
+      "era_index": 9030,
+      "label": "MALLET_BACKLASH",
+      "section": "--------------",
+      "notes": ";set to 1 if backlash happens"
+    },
+    {
+      "key": "flag_9120",
+      "era_index": 9120,
+      "label": "TWINS_CHANCE",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9121",
+      "era_index": 9121,
+      "label": "TRIPLETS_CHANCE",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9122",
+      "era_index": 9122,
+      "label": "EGGNANCY",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9123",
+      "era_index": 9123,
+      "label": "CHILD_SUPPORT_RELIEF",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9124",
+      "era_index": 9124,
+      "label": "MOB_PREGNANCY_TYPES",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9125",
+      "era_index": 9125,
+      "label": "USE_EXPANDED_PREGNANCY_OPTIONS",
+      "section": "--------------",
+      "notes": null
+    },
+    {
+      "key": "flag_9126",
+      "era_index": 9126,
+      "label": "DEFAULT_PREGNANCY_MODE",
+      "section": "--------------",
+      "notes": null
+    }
+  ],
+  "cflag": [
+    {
+      "key": "cflag_1",
+      "era_index": 1,
+      "label": "既成事実",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "cflag_2",
+      "era_index": 2,
+      "label": "好感度",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_3",
+      "era_index": 3,
+      "label": "異常経験",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_4",
+      "era_index": 4,
+      "label": "信頼度",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_6",
+      "era_index": 6,
+      "label": "態度",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_7",
+      "era_index": 7,
+      "label": "基本服装セット",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_8",
+      "era_index": 8,
+      "label": "服装オプション",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_10",
+      "era_index": 10,
+      "label": "弱み握り",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_11",
+      "era_index": 11,
+      "label": "弱み握られ",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_12",
+      "era_index": 12,
+      "label": "デート中",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_13",
+      "era_index": 13,
+      "label": "デート後イベントフラグ",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_14",
+      "era_index": 14,
+      "label": "生解禁",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_15",
+      "era_index": 15,
+      "label": "ローター挿入",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_16",
+      "era_index": 16,
+      "label": "ローターA挿入",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_17",
+      "era_index": 17,
+      "label": "ダメ出し",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_18",
+      "era_index": 18,
+      "label": "面識",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_19",
+      "era_index": 19,
+      "label": "合意判定",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_20",
+      "era_index": 20,
+      "label": "宴会参加",
+      "section": "(BIT 0=接吻 1=诶嘿嘿 2=恋人 3=A 4=SM)",
+      "notes": null
+    },
+    {
+      "key": "cflag_30",
+      "era_index": 30,
+      "label": "神社在住",
+      "section": "（0=不参加 1=参加 2=主催者 3=脱落済み）",
+      "notes": null
+    },
+    {
+      "key": "cflag_31",
+      "era_index": 31,
+      "label": "继承",
+      "section": "CFLAG:神社在住は「MAIN_MAPの住人である場合に自室の場所ID（拠点Map版）を記録」している（MAIN_MAPに住んでいない場合は0）",
+      "notes": null
+    },
+    {
+      "key": "cflag_32",
+      "era_index": 32,
+      "label": "大家候補",
+      "section": "(BIT 0=恋慕 1=恋人 2=自慰狂 3=淫壺 4=尻穴狂 5=淫乳 6=接吻魔)",
+      "notes": null
+    },
+    {
+      "key": "cflag_33",
+      "era_index": 33,
+      "label": "居住必要信赖度",
+      "section": "(BIT 0=恋慕 1=恋人 2=自慰狂 3=淫壺 4=尻穴狂 5=淫乳 6=接吻魔)",
+      "notes": null
+    },
+    {
+      "key": "cflag_34",
+      "era_index": 34,
+      "label": "家賃",
+      "section": "(BIT 0=恋慕 1=恋人 2=自慰狂 3=淫壺 4=尻穴狂 5=淫乳 6=接吻魔)",
+      "notes": null
+    },
+    {
+      "key": "cflag_35",
+      "era_index": 35,
+      "label": "固有指令",
+      "section": "(BIT 0=恋慕 1=恋人 2=自慰狂 3=淫壺 4=尻穴狂 5=淫乳 6=接吻魔)",
+      "notes": null
+    },
+    {
+      "key": "cflag_36",
+      "era_index": 36,
+      "label": "口上実装状況",
+      "section": "(BIT 0=恋慕 1=恋人 2=自慰狂 3=淫壺 4=尻穴狂 5=淫乳 6=接吻魔)",
+      "notes": null
+    },
+    {
+      "key": "cflag_41",
+      "era_index": 41,
+      "label": "オナバレ",
+      "section": "40,偷情败露",
+      "notes": null
+    },
+    {
+      "key": "cflag_42",
+      "era_index": 42,
+      "label": "夜這い",
+      "section": "(1=目撃された 2=見られてキレた 3=ヤられちゃった)",
+      "notes": null
+    },
+    {
+      "key": "cflag_43",
+      "era_index": 43,
+      "label": "ヤラせちゃった",
+      "section": "(BIT 0=ソフト1=性騷擾2=ガチ性騷擾3=合意非挿入4=合意ックス5=レイプ6=説得7=逃亡8=侵入成功)",
+      "notes": null
+    },
+    {
+      "key": "cflag_45",
+      "era_index": 45,
+      "label": "前回の口上実装状況",
+      "section": "合意無で行為に及んだ場合つく",
+      "notes": null
+    },
+    {
+      "key": "cflag_284",
+      "era_index": 284,
+      "label": "勃起度",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_285",
+      "era_index": 285,
+      "label": "勃起度２",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_286",
+      "era_index": 286,
+      "label": "膣内射精",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_287",
+      "era_index": 287,
+      "label": "肛門射精",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_288",
+      "era_index": 288,
+      "label": "口内精液",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_289",
+      "era_index": 289,
+      "label": "脸上精液",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_290",
+      "era_index": 290,
+      "label": "手上精液",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_291",
+      "era_index": 291,
+      "label": "没穿内裤",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_292",
+      "era_index": 292,
+      "label": "無自覚破瓜用",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_293",
+      "era_index": 293,
+      "label": "获得胖次",
+      "section": "CFLAG:240～260は睡衣パターン記憶用",
+      "notes": null
+    },
+    {
+      "key": "cflag_295",
+      "era_index": 295,
+      "label": "ただならぬ開放感ソース追加",
+      "section": "294,你の胖次",
+      "notes": null
+    },
+    {
+      "key": "cflag_300",
+      "era_index": 300,
+      "label": "現在位置",
+      "section": "294,你の胖次",
+      "notes": null
+    },
+    {
+      "key": "cflag_301",
+      "era_index": 301,
+      "label": "前一次的位置",
+      "section": "294,你の胖次",
+      "notes": null
+    },
+    {
+      "key": "cflag_302",
+      "era_index": 302,
+      "label": "あなた前ターン位置",
+      "section": "294,你の胖次",
+      "notes": ";主角前一次的位置"
+    },
+    {
+      "key": "cflag_310",
+      "era_index": 310,
+      "label": "地位",
+      "section": "294,你の胖次",
+      "notes": null
+    },
+    {
+      "key": "cflag_311",
+      "era_index": 311,
+      "label": "初期位置",
+      "section": "294,你の胖次",
+      "notes": null
+    },
+    {
+      "key": "cflag_313",
+      "era_index": 313,
+      "label": "睡眠",
+      "section": "時刻系はCFLAG:350～を見よ",
+      "notes": null
+    },
+    {
+      "key": "cflag_316",
+      "era_index": 316,
+      "label": "衰弱",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_317",
+      "era_index": 317,
+      "label": "诶嘿嘿",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_318",
+      "era_index": 318,
+      "label": "ブチギレ",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_319",
+      "era_index": 319,
+      "label": "同室",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_320",
+      "era_index": 320,
+      "label": "同行",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_321",
+      "era_index": 321,
+      "label": "幽閉",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_322",
+      "era_index": 322,
+      "label": "心情不快",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_323",
+      "era_index": 323,
+      "label": "風呂",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_324",
+      "era_index": 324,
+      "label": "情事目撃",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_325",
+      "era_index": 325,
+      "label": "行動",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_326",
+      "era_index": 326,
+      "label": "職場",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_327",
+      "era_index": 327,
+      "label": "行動時間",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_328",
+      "era_index": 328,
+      "label": "徹夜",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_329",
+      "era_index": 329,
+      "label": "同行準備",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_330",
+      "era_index": 330,
+      "label": "隠密中",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_331",
+      "era_index": 331,
+      "label": "恶作剧",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_332",
+      "era_index": 332,
+      "label": "味覚嗜好",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_333",
+      "era_index": 333,
+      "label": "延迟",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_334",
+      "era_index": 334,
+      "label": "陪睡中",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_335",
+      "era_index": 335,
+      "label": "大掃除",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_336",
+      "era_index": 336,
+      "label": "招待",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_337",
+      "era_index": 337,
+      "label": "遭遇位置",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_338",
+      "era_index": 338,
+      "label": "清い交際",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_339",
+      "era_index": 339,
+      "label": "体目当て",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_340",
+      "era_index": 340,
+      "label": "积攒度",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_341",
+      "era_index": 341,
+      "label": "時間停止換装",
+      "section": "315,就寝時間",
+      "notes": null
+    },
+    {
+      "key": "cflag_343",
+      "era_index": 343,
+      "label": "睡衣",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_344",
+      "era_index": 344,
+      "label": "時間停止行動",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_345",
+      "era_index": 345,
+      "label": "時間停止バレ",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_346",
+      "era_index": 346,
+      "label": "现在忙得抽不出手",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_347",
+      "era_index": 347,
+      "label": "自慰过了",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_348",
+      "era_index": 348,
+      "label": "片付け工作量",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_349",
+      "era_index": 349,
+      "label": "片付け場所",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_350",
+      "era_index": 350,
+      "label": "職種",
+      "section": "342,休日移動済",
+      "notes": null
+    },
+    {
+      "key": "cflag_351",
+      "era_index": 351,
+      "label": "身体測定",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_352",
+      "era_index": 352,
+      "label": "来訪時間",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_353",
+      "era_index": 353,
+      "label": "帰宅時間",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_354",
+      "era_index": 354,
+      "label": "就寝時間",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_355",
+      "era_index": 355,
+      "label": "起床時間",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_356",
+      "era_index": 356,
+      "label": "よく行く地域",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_358",
+      "era_index": 358,
+      "label": "自宅位置",
+      "section": "40,清掃 41,会話 42,戦闘 43,教養 44,料理 45,音楽 46,遊び 47,商売中 48,宴会の準備 49,宴会に参加 50,片づけ 51,宴会後の酔い 52,お酒 53,家事 54,採集 55,釣り 56,調合 兽王园修改",
+      "notes": null
+    },
+    {
+      "key": "cflag_359",
+      "era_index": 359,
+      "label": "拠点来訪",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_360",
+      "era_index": 360,
+      "label": "出禁",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_361",
+      "era_index": 361,
+      "label": "全年",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_362",
+      "era_index": 362,
+      "label": "翌日来訪",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_363",
+      "era_index": 363,
+      "label": "移動率補正",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_364",
+      "era_index": 364,
+      "label": "移動節度",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_365",
+      "era_index": 365,
+      "label": "最後に来訪した日",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_366",
+      "era_index": 366,
+      "label": "来訪抑制値",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_367",
+      "era_index": 367,
+      "label": "素材販売",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_368",
+      "era_index": 368,
+      "label": "めくれ補正",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_370",
+      "era_index": 370,
+      "label": "眠姦発覚",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_371",
+      "era_index": 371,
+      "label": "眠姦口上有",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_372",
+      "era_index": 372,
+      "label": "時間停止口上有",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_373",
+      "era_index": 373,
+      "label": "扮演口上有",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_374",
+      "era_index": 374,
+      "label": "破瓜中止口上有",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_375",
+      "era_index": 375,
+      "label": "口上内抱き寄せ判定_初回",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_376",
+      "era_index": 376,
+      "label": "口上内抱き寄せ判定_通常",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_377",
+      "era_index": 377,
+      "label": "推倒禁止",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_378",
+      "era_index": 378,
+      "label": "今日の運勢",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_379",
+      "era_index": 379,
+      "label": "来訪不能",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_380",
+      "era_index": 380,
+      "label": "魔力回収",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_381",
+      "era_index": 381,
+      "label": "小槌",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_382",
+      "era_index": 382,
+      "label": "変異前的形状",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_383",
+      "era_index": 383,
+      "label": "バレンタイン",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_384",
+      "era_index": 384,
+      "label": "最後に会った日",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_385",
+      "era_index": 385,
+      "label": "清醒劑",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_386",
+      "era_index": 386,
+      "label": "本来の初期位置",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_387",
+      "era_index": 387,
+      "label": "获得的礼物",
+      "section": "拠点Mapでは使えない点に要注意",
+      "notes": null
+    },
+    {
+      "key": "cflag_388",
+      "era_index": 388,
+      "label": "送出的礼物",
+      "section": "MASTERは任意でお気に入りにした贈り物,CHARAはお気に入りの贈り物",
+      "notes": null
+    },
+    {
+      "key": "cflag_389",
+      "era_index": 389,
+      "label": "礼物保管库",
+      "section": "MASTERは贈り物を渡した述べ回数と最後に贈り物を渡した角色の履歴,CHARAはMASTERに送出的礼物",
+      "notes": null
+    },
+    {
+      "key": "cflag_390",
+      "era_index": 390,
+      "label": "生活時間補正",
+      "section": "MASTERは事前に買っておいた贈り物,CHARAは最後に获得的礼物",
+      "notes": null
+    },
+    {
+      "key": "cflag_391",
+      "era_index": 391,
+      "label": "口調",
+      "section": "MASTERは事前に買っておいた贈り物,CHARAは最後に获得的礼物",
+      "notes": null
+    },
+    {
+      "key": "cflag_399",
+      "era_index": 399,
+      "label": "每日礼物",
+      "section": "MASTERは事前に買っておいた贈り物,CHARAは最後に获得的礼物",
+      "notes": null
+    },
+    {
+      "key": "cflag_403",
+      "era_index": 403,
+      "label": "依頼状況",
+      "section": "402,旧地獄温泉特殊事件",
+      "notes": null
+    },
+    {
+      "key": "cflag_404",
+      "era_index": 404,
+      "label": "依頼内容",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_410",
+      "era_index": 410,
+      "label": "",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_411",
+      "era_index": 411,
+      "label": "依頼対象１",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_412",
+      "era_index": 412,
+      "label": "依頼対象２",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_413",
+      "era_index": 413,
+      "label": "依頼対象３",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_414",
+      "era_index": 414,
+      "label": "依頼対象４",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_415",
+      "era_index": 415,
+      "label": "依頼対象５",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_416",
+      "era_index": 416,
+      "label": "依頼対象６",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_417",
+      "era_index": 417,
+      "label": "依頼対象７",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_418",
+      "era_index": 418,
+      "label": "依頼対象８",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_419",
+      "era_index": 419,
+      "label": "依頼対象９",
+      "section": "103 依頼終了（成功）/104 依頼終了（期限切れ）/105 依頼終了（報告忘れ）/106 依頼終了（失敗）",
+      "notes": null
+    },
+    {
+      "key": "cflag_420",
+      "era_index": 420,
+      "label": "来訪補正_博",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_421",
+      "era_index": 421,
+      "label": "来訪補正_寺",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_422",
+      "era_index": 422,
+      "label": "来訪補正_里",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_423",
+      "era_index": 423,
+      "label": "来訪補正_湖",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_424",
+      "era_index": 424,
+      "label": "来訪補正_竹",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_425",
+      "era_index": 425,
+      "label": "来訪補正_森",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_426",
+      "era_index": 426,
+      "label": "来訪補正_冥",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_427",
+      "era_index": 427,
+      "label": "来訪補正_山",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_428",
+      "era_index": 428,
+      "label": "来訪補正_守",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_429",
+      "era_index": 429,
+      "label": "来訪補正_地",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_430",
+      "era_index": 430,
+      "label": "来訪補正_月",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_431",
+      "era_index": 431,
+      "label": "来訪補正_魔",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_450",
+      "era_index": 450,
+      "label": "来訪位置_博",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_451",
+      "era_index": 451,
+      "label": "来訪位置_寺",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_452",
+      "era_index": 452,
+      "label": "来訪位置_里",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_453",
+      "era_index": 453,
+      "label": "来訪位置_湖",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_454",
+      "era_index": 454,
+      "label": "来訪位置_竹",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_455",
+      "era_index": 455,
+      "label": "来訪位置_森",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_456",
+      "era_index": 456,
+      "label": "来訪位置_冥",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_457",
+      "era_index": 457,
+      "label": "来訪位置_山",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_458",
+      "era_index": 458,
+      "label": "来訪位置_守",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_459",
+      "era_index": 459,
+      "label": "来訪位置_地",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_460",
+      "era_index": 460,
+      "label": "来訪位置_月",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_461",
+      "era_index": 461,
+      "label": "来訪位置_魔",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_490",
+      "era_index": 490,
+      "label": "kojo_option",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_495",
+      "era_index": 495,
+      "label": "kojo_version",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_500",
+      "era_index": 500,
+      "label": "喜欢的体位",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_501",
+      "era_index": 501,
+      "label": "肛門開発許可",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_502",
+      "era_index": 502,
+      "label": "処女喪失記念日",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_503",
+      "era_index": 503,
+      "label": "処女喪失対象",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_504",
+      "era_index": 504,
+      "label": "処女喪失对手",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_505",
+      "era_index": 505,
+      "label": "童貞喪失記念日",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_506",
+      "era_index": 506,
+      "label": "童貞喪失对手",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_507",
+      "era_index": 507,
+      "label": "尻穴処女喪失記念日",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_508",
+      "era_index": 508,
+      "label": "尻穴処女喪失対象",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_509",
+      "era_index": 509,
+      "label": "尻穴処女喪失对手",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_510",
+      "era_index": 510,
+      "label": "初吻喪失記念日",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_511",
+      "era_index": 511,
+      "label": "初吻喪失对手",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_512",
+      "era_index": 512,
+      "label": "初吻喪失対象",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_513",
+      "era_index": 513,
+      "label": "Ａ破瓜違和感確認",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_515",
+      "era_index": 515,
+      "label": "累計膣内精液",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_516",
+      "era_index": 516,
+      "label": "累計肛門精液",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_517",
+      "era_index": 517,
+      "label": "累計精飲",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_518",
+      "era_index": 518,
+      "label": "累計精浴",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_519",
+      "era_index": 519,
+      "label": "累計膣内射精",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_520",
+      "era_index": 520,
+      "label": "累計肛門射精",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_521",
+      "era_index": 521,
+      "label": "累計口内射精",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_522",
+      "era_index": 522,
+      "label": "累計精浴射精",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_523",
+      "era_index": 523,
+      "label": "累计射精",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_524",
+      "era_index": 524,
+      "label": "子宫精液",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_526",
+      "era_index": 526,
+      "label": "潜伏状態",
+      "section": "各拠点マップへの来訪率補正",
+      "notes": null
+    },
+    {
+      "key": "cflag_527",
+      "era_index": 527,
+      "label": "睡眠姦",
+      "section": "(0=潜伏 1=探索 2=会話）",
+      "notes": null
+    },
+    {
+      "key": "cflag_528",
+      "era_index": 528,
+      "label": "烂酔奸",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_529",
+      "era_index": 529,
+      "label": "不會喝酒",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_530",
+      "era_index": 530,
+      "label": "强行内射",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_531",
+      "era_index": 531,
+      "label": "陰毛",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_532",
+      "era_index": 532,
+      "label": "Ｖ漏出阻止",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_533",
+      "era_index": 533,
+      "label": "Ａ漏出阻止",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_534",
+      "era_index": 534,
+      "label": "胎児愛情値",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_550",
+      "era_index": 550,
+      "label": "害羞",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_551",
+      "era_index": 551,
+      "label": "誘惑",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_552",
+      "era_index": 552,
+      "label": "積極性",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_553",
+      "era_index": 553,
+      "label": "攻",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_560",
+      "era_index": 560,
+      "label": "性格傾向",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_561",
+      "era_index": 561,
+      "label": "自動喘息",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_562",
+      "era_index": 562,
+      "label": "別顔有",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_563",
+      "era_index": 563,
+      "label": "別立ち有",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_564",
+      "era_index": 564,
+      "label": "差し替え適用",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_591",
+      "era_index": 591,
+      "label": "Ｖ過濾器",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_592",
+      "era_index": 592,
+      "label": "Ａ過濾器",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_593",
+      "era_index": 593,
+      "label": "UFilter",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_594",
+      "era_index": 594,
+      "label": "EStimFilter",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_595",
+      "era_index": 595,
+      "label": "奉仕過濾器",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_596",
+      "era_index": 596,
+      "label": "ＳＭ過濾器",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_597",
+      "era_index": 597,
+      "label": "性騷擾過濾器",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_598",
+      "era_index": 598,
+      "label": "自動ゴム",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_599",
+      "era_index": 599,
+      "label": "allowKojoCom",
+      "section": "(0=無 1=恶作剧 2=睡眠姦)",
+      "notes": null
+    },
+    {
+      "key": "cflag_650",
+      "era_index": 650,
+      "label": "睡衣指定",
+      "section": "ただし、300ならお気に入り衣装、301ならパンイチ、302なら全裸が指定される",
+      "notes": null
+    },
+    {
+      "key": "cflag_651",
+      "era_index": 651,
+      "label": "きょうのぱんつ",
+      "section": "今日内裤",
+      "notes": null
+    },
+    {
+      "key": "cflag_652",
+      "era_index": 652,
+      "label": "睡衣胖次",
+      "section": "今日内裤",
+      "notes": null
+    },
+    {
+      "key": "cflag_653",
+      "era_index": 653,
+      "label": "指定胖次",
+      "section": "今日内裤",
+      "notes": null
+    },
+    {
+      "key": "cflag_655",
+      "era_index": 655,
+      "label": "套装",
+      "section": "今日内裤",
+      "notes": ";お気入り衣装を設定したかどうか、送り仮名がややこしいのでひらがなにします"
+    },
+    {
+      "key": "cflag_656",
+      "era_index": 656,
+      "label": "衣装一時変更",
+      "section": "今日内裤",
+      "notes": ";これ立っているときは服を脱がす指令を実行するまで便装に戻らない"
+    },
+    {
+      "key": "cflag_661",
+      "era_index": 661,
+      "label": "きょうのブラ",
+      "section": "今日内衣",
+      "notes": null
+    },
+    {
+      "key": "cflag_662",
+      "era_index": 662,
+      "label": "睡衣ブラ",
+      "section": "今日内衣",
+      "notes": null
+    },
+    {
+      "key": "cflag_663",
+      "era_index": 663,
+      "label": "上半身内衣確認",
+      "section": "653,指定ブラ;とりあえず実装はしない",
+      "notes": null
+    },
+    {
+      "key": "cflag_664",
+      "era_index": 664,
+      "label": "下半身内衣確認",
+      "section": "653,指定ブラ;とりあえず実装はしない",
+      "notes": null
+    },
+    {
+      "key": "cflag_665",
+      "era_index": 665,
+      "label": "睡衣上半身内衣確認",
+      "section": "653,指定ブラ;とりあえず実装はしない",
+      "notes": null
+    },
+    {
+      "key": "cflag_666",
+      "era_index": 666,
+      "label": "睡衣下半身内衣確認",
+      "section": "653,指定ブラ;とりあえず実装はしない",
+      "notes": null
+    },
+    {
+      "key": "cflag_700",
+      "era_index": 700,
+      "label": "着替え実行",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_899",
+      "era_index": 899,
+      "label": "膣内精液",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_900",
+      "era_index": 900,
+      "label": "生理周期",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": ";7で危険日"
+    },
+    {
+      "key": "cflag_901",
+      "era_index": 901,
+      "label": "子宮内精子",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_902",
+      "era_index": 902,
+      "label": "妊娠",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_903",
+      "era_index": 903,
+      "label": "妊娠経過日数",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_904",
+      "era_index": 904,
+      "label": "乳ランクアップ",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_905",
+      "era_index": 905,
+      "label": "回復速度降低",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_906",
+      "era_index": 906,
+      "label": "無自覚妊娠",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_907",
+      "era_index": 907,
+      "label": "由于妊娠而追加尺寸",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_908",
+      "era_index": 908,
+      "label": "出産経過日",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_909",
+      "era_index": 909,
+      "label": "育児人数",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_910",
+      "era_index": 910,
+      "label": "身に覚え_母",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_911",
+      "era_index": 911,
+      "label": "妊娠自覚状態",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_912",
+      "era_index": 912,
+      "label": "兒童人数",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_913",
+      "era_index": 913,
+      "label": "子宝補正",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_914",
+      "era_index": 914,
+      "label": "産休中",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_915",
+      "era_index": 915,
+      "label": "身に覚え_父",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_916",
+      "era_index": 916,
+      "label": "産休タイプ",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_917",
+      "era_index": 917,
+      "label": "誰の子",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_919",
+      "era_index": 919,
+      "label": "妖怪変化",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_920",
+      "era_index": 920,
+      "label": "路人顔パターン",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_921",
+      "era_index": 921,
+      "label": "败犬",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_922",
+      "era_index": 922,
+      "label": "路人子セーブスロット",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_923",
+      "era_index": 923,
+      "label": "路人子GID_服_通常",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_924",
+      "era_index": 924,
+      "label": "路人子GID_服_笑顔",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_925",
+      "era_index": 925,
+      "label": "路人子GID_服_憤怒",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_926",
+      "era_index": 926,
+      "label": "路人子GID_裸_通常",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_927",
+      "era_index": 927,
+      "label": "路人子GID_裸_笑顔",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_928",
+      "era_index": 928,
+      "label": "路人子GID_裸_憤怒",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_930",
+      "era_index": 930,
+      "label": "弾幕勝負勝利",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_931",
+      "era_index": 931,
+      "label": "弾幕特能",
+      "section": "これ稍微工夫すればお風呂の着替えや睡衣着替えにも応用効きそうです",
+      "notes": null
+    },
+    {
+      "key": "cflag_932",
+      "era_index": 932,
+      "label": "斗虫直接勝利",
+      "section": "(BIT 0=言笑自若1=温柔敦厚2=勇気凛々3=豪放磊落4=怪力乱神5=洽覧深識6=残忍酷薄7=乾坤一擲8=狷介孤高9=幽愁暗恨)",
+      "notes": null
+    },
+    {
+      "key": "cflag_933",
+      "era_index": 933,
+      "label": "料理勝負勝利",
+      "section": "(BIT 0=言笑自若1=温柔敦厚2=勇気凛々3=豪放磊落4=怪力乱神5=洽覧深識6=残忍酷薄7=乾坤一擲8=狷介孤高9=幽愁暗恨)",
+      "notes": null
+    },
+    {
+      "key": "cflag_950",
+      "era_index": 950,
+      "label": "変化先",
+      "section": "(BIT 0=言笑自若1=温柔敦厚2=勇気凛々3=豪放磊落4=怪力乱神5=洽覧深識6=残忍酷薄7=乾坤一擲8=狷介孤高9=幽愁暗恨)",
+      "notes": null
+    },
+    {
+      "key": "cflag_951",
+      "era_index": 951,
+      "label": "変化元",
+      "section": "キャラ番号",
+      "notes": null
+    },
+    {
+      "key": "cflag_970",
+      "era_index": 970,
+      "label": "種付けられ自覚",
+      "section": "キャラ番号",
+      "notes": null
+    },
+    {
+      "key": "cflag_998",
+      "era_index": 998,
+      "label": "剧本选择",
+      "section": "キャラ番号",
+      "notes": null
+    },
+    {
+      "key": "cflag_999",
+      "era_index": 999,
+      "label": "剧本用继承值",
+      "section": "キャラ番号",
+      "notes": ";会在继承进行下一轮游戏时保留"
+    },
+    {
+      "key": "cflag_6000",
+      "era_index": 6000,
+      "label": "大运蘑菇",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_6001",
+      "era_index": 6001,
+      "label": "每回合随机数",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_6002",
+      "era_index": 6002,
+      "label": "每回合随机数2",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_6300",
+      "era_index": 6300,
+      "label": "GMF_現在拠点位置",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_6320",
+      "era_index": 6320,
+      "label": "GMF_约会中同行转换",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_6326",
+      "era_index": 6326,
+      "label": "GMF_職場拠点位置",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9112",
+      "era_index": 9112,
+      "label": "口上用童貞喪失判定",
+      "section": "自定义使用域",
+      "notes": ";enables a subsection of M_KOJO_EVENT_KX_PERMISSION that lets dialogues have custom conditions where trying to take a character's penile virginity will succeed or fail"
+    },
+    {
+      "key": "cflag_9113",
+      "era_index": 9113,
+      "label": "口上用アナル処女喪失判定",
+      "section": "自定义使用域",
+      "notes": ";same as above, but for anal virginity"
+    },
+    {
+      "key": "cflag_9116",
+      "era_index": 9116,
+      "label": "RevServiceFilter",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9117",
+      "era_index": 9117,
+      "label": "RevSexFilter",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9118",
+      "era_index": 9118,
+      "label": "STANDING_TOGGLE",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9120",
+      "era_index": 9120,
+      "label": "PullOutPromiseDenied",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9121",
+      "era_index": 9121,
+      "label": "WIFE_THE_DUST_ID",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9122",
+      "era_index": 9122,
+      "label": "LIVE_IN_WIFE",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9123",
+      "era_index": 9123,
+      "label": "EXTENDED_TRAITS_SET",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9124",
+      "era_index": 9124,
+      "label": "ALLOW_BATH",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9125",
+      "era_index": 9125,
+      "label": "MORNING_TIPS",
+      "section": "自定义使用域",
+      "notes": ";does character have night tips, for authors"
+    },
+    {
+      "key": "cflag_9126",
+      "era_index": 9126,
+      "label": "MORNING_TIPS_DISABLED",
+      "section": "自定义使用域",
+      "notes": ";are their night tips enabled in the settings"
+    },
+    {
+      "key": "cflag_9115",
+      "era_index": 9115,
+      "label": "BUTT_SIZE_UPDATED",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9127",
+      "era_index": 9127,
+      "label": "IS_DUPLICATE",
+      "section": "自定义使用域",
+      "notes": ";is a duplicated character"
+    },
+    {
+      "key": "cflag_9128",
+      "era_index": 9128,
+      "label": "FAVORITE_OVERRIDE_UNDERWEAR",
+      "section": "自定义使用域",
+      "notes": ";overrides the underwear for the favorite outfit"
+    },
+    {
+      "key": "cflag_9129",
+      "era_index": 9129,
+      "label": "WIFE_VISITATION",
+      "section": "自定义使用域",
+      "notes": ";wives and concubines will try to visit every day"
+    },
+    {
+      "key": "cflag_9133",
+      "era_index": 9133,
+      "label": "NO_LEGS",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9134",
+      "era_index": 9134,
+      "label": "ACTIVE_BODY",
+      "section": "自定义使用域",
+      "notes": ";for characters with more than one body"
+    },
+    {
+      "key": "cflag_9135",
+      "era_index": 9135,
+      "label": "AUTOMATIC_UNDRESS",
+      "section": "自定义使用域",
+      "notes": ";0=follow default, 1=always undress, 2=don't undress"
+    },
+    {
+      "key": "cflag_9150",
+      "era_index": 9150,
+      "label": "Hypno_Orgasm_Denial",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9151",
+      "era_index": 9151,
+      "label": "Morning_Event_Guaranteed",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9152",
+      "era_index": 9152,
+      "label": "Times_Made_Exhibitionist",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9153",
+      "era_index": 9153,
+      "label": "Times_Made_Nudist",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9170",
+      "era_index": 9170,
+      "label": "WithChildCount",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9171",
+      "era_index": 9171,
+      "label": "BirthEventsCount",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9172",
+      "era_index": 9172,
+      "label": "LatestChildCount",
+      "section": "自定义使用域",
+      "notes": null
+    },
+    {
+      "key": "cflag_9173",
+      "era_index": 9173,
+      "label": "LatestEggGiftDay",
+      "section": "自定义使用域",
+      "notes": null
+    }
+  ],
+  "tflag": [
+    {
+      "key": "tflag_1",
+      "era_index": 1,
+      "label": "射精部位",
+      "section": null,
+      "notes": "; (ビット 1=膣内 2=肛門 3=手淫 4=口淫 5=乳交 6=素股 7=足交 8=体表 9=肛門奉仕"
+    },
+    {
+      "key": "tflag_2",
+      "era_index": 2,
+      "label": "破瓜抑制FLAG",
+      "section": null,
+      "notes": ";（処女で快Vを得た場合、経験を変動させない)"
+    },
+    {
+      "key": "tflag_3",
+      "era_index": 3,
+      "label": "SELECTCOM保存",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_4",
+      "era_index": 4,
+      "label": "破瓜FLAG",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_5",
+      "era_index": 5,
+      "label": "推倒",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_10",
+      "era_index": 10,
+      "label": "Ｖ挿入継続",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_11",
+      "era_index": 11,
+      "label": "Ａ挿入継続",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_12",
+      "era_index": 12,
+      "label": "逆強姦継続",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_13",
+      "era_index": 13,
+      "label": "好感度入らない",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_14",
+      "era_index": 14,
+      "label": "挿入不可",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_20",
+      "era_index": 20,
+      "label": "時姦刻印取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_21",
+      "era_index": 21,
+      "label": "反発刻印取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_22",
+      "era_index": 22,
+      "label": "苦痛刻印取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_23",
+      "era_index": 23,
+      "label": "快楽刻印取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_24",
+      "era_index": 24,
+      "label": "屈服刻印取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_25",
+      "era_index": 25,
+      "label": "刻印従順変化",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_40",
+      "era_index": 40,
+      "label": "Info表示中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_50",
+      "era_index": 50,
+      "label": "特殊COM",
+      "section": null,
+      "notes": ";(1=六九式 2=岩清水 3=Gスポット刺激 4=乱牡丹 5=手淫口交 6= 7= 8= 六九式乳交 13=交互挿入 17=同時吸乳头)"
+    },
+    {
+      "key": "tflag_60",
+      "era_index": 60,
+      "label": "MASTERの口使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_61",
+      "era_index": 61,
+      "label": "MASTERの手使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_62",
+      "era_index": 62,
+      "label": "MASTERのＣ使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_63",
+      "era_index": 63,
+      "label": "MASTERのＶ使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_64",
+      "era_index": 64,
+      "label": "MASTERのＡ使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_65",
+      "era_index": 65,
+      "label": "MASTERのＢ使用中",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_70",
+      "era_index": 70,
+      "label": "不让推倒",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_86",
+      "era_index": 86,
+      "label": "授乳コマンド",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_88",
+      "era_index": 88,
+      "label": "キス合意取得",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_89",
+      "era_index": 89,
+      "label": "信頼度変化なし",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_90",
+      "era_index": 90,
+      "label": "理性削り",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_91",
+      "era_index": 91,
+      "label": "情緒上昇抑制",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_92",
+      "era_index": 92,
+      "label": "情緒BONUS",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_93",
+      "era_index": 93,
+      "label": "口上特殊補正",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_95",
+      "era_index": 95,
+      "label": "好感度BONUS",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_96",
+      "era_index": 96,
+      "label": "好感度减少",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_97",
+      "era_index": 97,
+      "label": "好感度管理",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_98",
+      "era_index": 98,
+      "label": "信赖度管理",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_99",
+      "era_index": 99,
+      "label": "信赖度管理之２",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_100",
+      "era_index": 100,
+      "label": "調教中COMABLE管理",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_101",
+      "era_index": 101,
+      "label": "調教自動実行管理",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_102",
+      "era_index": 102,
+      "label": "COMABLE管理",
+      "section": null,
+      "notes": null
+    },
+    {
+      "key": "tflag_103",
+      "era_index": 103,
+      "label": "切换到前一回的TARGET",
+      "section": "(1=日常ON 2=ウフフON 3=相手から被逆推)",
+      "notes": null
+    },
+    {
+      "key": "tflag_104",
+      "era_index": 104,
+      "label": "現在的TARGET",
+      "section": "(1=日常ON 2=ウフフON 3=相手から被逆推)",
+      "notes": null
+    },
+    {
+      "key": "tflag_105",
+      "era_index": 105,
+      "label": "攝像機",
+      "section": "(0なら指定しない) TARGET変更用（変更したい相手が入ってる）",
+      "notes": null
+    },
+    {
+      "key": "tflag_106",
+      "era_index": 106,
+      "label": "MASTERのＰ挿入中",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_107",
+      "era_index": 107,
+      "label": "抱住模式",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_108",
+      "era_index": 108,
+      "label": "抱きつき解放ポイント",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_109",
+      "era_index": 109,
+      "label": "被逆推開始時間",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_110",
+      "era_index": 110,
+      "label": "MASTERの亲热",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_117",
+      "era_index": 117,
+      "label": "妄想中",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_120",
+      "era_index": 120,
+      "label": "接吻マーク",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_121",
+      "era_index": 121,
+      "label": "套套内",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_122",
+      "era_index": 122,
+      "label": "绷帯",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_123",
+      "era_index": 123,
+      "label": "耳補正",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_124",
+      "era_index": 124,
+      "label": "パール期限",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_125",
+      "era_index": 125,
+      "label": "パール挿入個数",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_126",
+      "era_index": 126,
+      "label": "パール入れた人",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_127",
+      "era_index": 127,
+      "label": "パール排出チェック",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_128",
+      "era_index": 128,
+      "label": "仕返し",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_131",
+      "era_index": 131,
+      "label": "茶",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_140",
+      "era_index": 140,
+      "label": "畑仕事成功度",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_141",
+      "era_index": 141,
+      "label": "使用楽器",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_142",
+      "era_index": 142,
+      "label": "GipsLV",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_150",
+      "era_index": 150,
+      "label": "前回のASSIPLAYの履歴",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_151",
+      "era_index": 151,
+      "label": "前回の特殊COM",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_152",
+      "era_index": 152,
+      "label": "前回のダブル○○系指令におけるTARGET以外の参加者（LOCAL）",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_153",
+      "era_index": 153,
+      "label": "前回の指令結果",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_160",
+      "era_index": 160,
+      "label": "尺寸显示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_161",
+      "era_index": 161,
+      "label": "服装表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_162",
+      "era_index": 162,
+      "label": "能力表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_163",
+      "era_index": 163,
+      "label": "経験表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_164",
+      "era_index": 164,
+      "label": "性技表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_165",
+      "era_index": 165,
+      "label": "素質表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_166",
+      "era_index": 166,
+      "label": "刻印表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_167",
+      "era_index": 167,
+      "label": "道具表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_168",
+      "era_index": 168,
+      "label": "浮気歴表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_169",
+      "era_index": 169,
+      "label": "個人情報表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_170",
+      "era_index": 170,
+      "label": "PALAM非表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_171",
+      "era_index": 171,
+      "label": "Status非表示",
+      "section": "(0=固定照相机 1=MASTER撮影 2=助手撮影)",
+      "notes": null
+    },
+    {
+      "key": "tflag_173",
+      "era_index": 173,
+      "label": "USERCOM非表示",
+      "section": "172,表示道具種類",
+      "notes": null
+    },
+    {
+      "key": "tflag_174",
+      "era_index": 174,
+      "label": "LOOK非表示",
+      "section": "172,表示道具種類",
+      "notes": null
+    },
+    {
+      "key": "tflag_192",
+      "era_index": 192,
+      "label": "口上によるCOM成否判定",
+      "section": "172,表示道具種類",
+      "notes": null
+    },
+    {
+      "key": "tflag_193",
+      "era_index": 193,
+      "label": "SELECTCOM的分岐",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_194",
+      "era_index": 194,
+      "label": "不影响SOURCE等的SELECTCOM的分岐",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_195",
+      "era_index": 195,
+      "label": "遠距離移動",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_196",
+      "era_index": 196,
+      "label": "掃除量",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_197",
+      "era_index": 197,
+      "label": "打水",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_198",
+      "era_index": 198,
+      "label": "午睡",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_199",
+      "era_index": 199,
+      "label": "一日一回",
+      "section": "(-2=指令終了、-1＝強制失敗、0=COM依存、1=強制成功0R強制大成功",
+      "notes": null
+    },
+    {
+      "key": "tflag_200",
+      "era_index": 200,
+      "label": "从打工中赚到的金額",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_201",
+      "era_index": 201,
+      "label": "醒酒药",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_202",
+      "era_index": 202,
+      "label": "まかない",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_203",
+      "era_index": 203,
+      "label": "幸運補正",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_204",
+      "era_index": 204,
+      "label": "角色列表",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_205",
+      "era_index": 205,
+      "label": "運搬",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_206",
+      "era_index": 206,
+      "label": "遠距離移動之２",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_207",
+      "era_index": 207,
+      "label": "労働量",
+      "section": "15のお出かけイベント2は、行きの判定に使うものとする",
+      "notes": null
+    },
+    {
+      "key": "tflag_209",
+      "era_index": 209,
+      "label": "大衆浴場FLAG",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_210",
+      "era_index": 210,
+      "label": "大衆浴場時限入湯回数",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_211",
+      "era_index": 211,
+      "label": "旧地獄温泉FLAG",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_212",
+      "era_index": 212,
+      "label": "旧地獄温泉時限入湯回数",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_213",
+      "era_index": 213,
+      "label": "胖次収奪",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_214",
+      "era_index": 214,
+      "label": "上门清扫",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_215",
+      "era_index": 215,
+      "label": "约会前好感度",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_216",
+      "era_index": 216,
+      "label": "你起床",
+      "section": "208,傘耐久度",
+      "notes": null
+    },
+    {
+      "key": "tflag_217",
+      "era_index": 217,
+      "label": "七夕",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_218",
+      "era_index": 218,
+      "label": "重さ",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_219",
+      "era_index": 219,
+      "label": "移動不能メッセージ",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_220",
+      "era_index": 220,
+      "label": "赌场入場時筹码",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_221",
+      "era_index": 221,
+      "label": "OPPAI",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_222",
+      "era_index": 222,
+      "label": "宴会場",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_223",
+      "era_index": 223,
+      "label": "仙香玉兎",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_224",
+      "era_index": 224,
+      "label": "GG設置位置",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_225",
+      "era_index": 225,
+      "label": "劇毒身軀",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_226",
+      "era_index": 226,
+      "label": "描写中の兒童",
+      "section": "TIME:3+DAY * 1440",
+      "notes": null
+    },
+    {
+      "key": "tflag_227",
+      "era_index": 227,
+      "label": "泡風呂",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_228",
+      "era_index": 228,
+      "label": "マット貸し出し",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_229",
+      "era_index": 229,
+      "label": "约会道中",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_230",
+      "era_index": 230,
+      "label": "掀裙子すぎ",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_231",
+      "era_index": 231,
+      "label": "膝枕した",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_232",
+      "era_index": 232,
+      "label": "地圖切換",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_233",
+      "era_index": 233,
+      "label": "直前路人子Map",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_234",
+      "era_index": 234,
+      "label": "弾幕補正１",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_235",
+      "era_index": 235,
+      "label": "弾幕補正２",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_236",
+      "era_index": 236,
+      "label": "宴会状態",
+      "section": "育児中の兒童は親の角色番号が入る,自立後は兒童番号×1000+角色番号",
+      "notes": null
+    },
+    {
+      "key": "tflag_237",
+      "era_index": 237,
+      "label": "大荒れ予報の日",
+      "section": "0=開始前、98=開催中(未確認)、99=開催中、100=終了(未確認)、101=終了",
+      "notes": null
+    },
+    {
+      "key": "tflag_240",
+      "era_index": 240,
+      "label": "探索試行回数",
+      "section": "0=開始前、98=開催中(未確認)、99=開催中、100=終了(未確認)、101=終了",
+      "notes": null
+    },
+    {
+      "key": "tflag_241",
+      "era_index": 241,
+      "label": "会話回数",
+      "section": "0=開始前、98=開催中(未確認)、99=開催中、100=終了(未確認)、101=終了",
+      "notes": null
+    },
+    {
+      "key": "tflag_242",
+      "era_index": 242,
+      "label": "固有遭遇イベント",
+      "section": "0=開始前、98=開催中(未確認)、99=開催中、100=終了(未確認)、101=終了",
+      "notes": null
+    },
+    {
+      "key": "tflag_300",
+      "era_index": 300,
+      "label": "時間経過",
+      "section": "地域別にbit管理",
+      "notes": null
+    },
+    {
+      "key": "tflag_301",
+      "era_index": 301,
+      "label": "",
+      "section": "地域別にbit管理",
+      "notes": null
+    },
+    {
+      "key": "tflag_302",
+      "era_index": 302,
+      "label": "SKIPASSIKOJO",
+      "section": "地域別にbit管理",
+      "notes": null
+    },
+    {
+      "key": "tflag_303",
+      "era_index": 303,
+      "label": "TRAIN_MESSAGE_CALLED",
+      "section": "地域別にbit管理",
+      "notes": null
+    },
+    {
+      "key": "tflag_700",
+      "era_index": 700,
+      "label": "オナホ増設タンク",
+      "section": "ここは広域変数である必要性は单薄的ので@強行開始新的游戏内でDIMる仕様変更も可能",
+      "notes": null
+    },
+    {
+      "key": "tflag_900",
+      "era_index": 900,
+      "label": "GiftsHide",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_901",
+      "era_index": 901,
+      "label": "SeedUsed",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_902",
+      "era_index": 902,
+      "label": "ChildFuckUp",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_903",
+      "era_index": 903,
+      "label": "EjacChange",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_904",
+      "era_index": 904,
+      "label": "ScheduleHide",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_905",
+      "era_index": 905,
+      "label": "PreviousPerformances",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_906",
+      "era_index": 906,
+      "label": "HandlingDuplicateCharacter",
+      "section": "custom code",
+      "notes": ";temp flag to store the id of the duplicated character we're working with so that we can use the CSV values of the original"
+    },
+    {
+      "key": "tflag_907",
+      "era_index": 907,
+      "label": "ComPartner",
+      "section": "custom code",
+      "notes": ";indicates if TARGET can join in on current COM"
+    },
+    {
+      "key": "tflag_908",
+      "era_index": 908,
+      "label": "LastArea",
+      "section": "custom code",
+      "notes": ";the area the player just left while moving to another area"
+    },
+    {
+      "key": "tflag_909",
+      "era_index": 909,
+      "label": "HideSongs",
+      "section": "custom code",
+      "notes": ";used to determine if songs should be displayed in the character info overview"
+    },
+    {
+      "key": "tflag_910",
+      "era_index": 910,
+      "label": "MalletSemen",
+      "section": "custom code",
+      "notes": ";semen enhanced by mallet"
+    },
+    {
+      "key": "tflag_911",
+      "era_index": 911,
+      "label": "DangerousTravelBonus",
+      "section": "custom code",
+      "notes": ";from daily travel fortune, affects risk"
+    },
+    {
+      "key": "tflag_912",
+      "era_index": 912,
+      "label": "DangerousTravelDisaster",
+      "section": "custom code",
+      "notes": ";from daily travel fortune, multiplier that increases chance of major disaster"
+    },
+    {
+      "key": "tflag_913",
+      "era_index": 913,
+      "label": "ProposedToday",
+      "section": "custom code",
+      "notes": null
+    },
+    {
+      "key": "tflag_914",
+      "era_index": 914,
+      "label": "HideFallingStates",
+      "section": "custom code",
+      "notes": ";used to determine if falling states section should be collapsed in characer info"
+    },
+    {
+      "key": "tflag_915",
+      "era_index": 915,
+      "label": "HideSkillAcquisition",
+      "section": "custom code",
+      "notes": "used to determine if skill acquisition segment should be collapsed in character info"
+    },
+    {
+      "key": "tflag_916",
+      "era_index": 916,
+      "label": "ウサギの出張お掃除",
+      "section": "custom code",
+      "notes": ";formerly 905 from tr branch, whoops"
+    },
+    {
+      "key": "tflag_917",
+      "era_index": 917,
+      "label": "WeddingNight",
+      "section": "custom code",
+      "notes": ";set during the wedding for deflowering purposes"
+    }
+  ]
+}
