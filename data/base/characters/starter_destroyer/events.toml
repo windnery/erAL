@@ -132,3 +132,157 @@ actor_tags = ["destroyer"]
 location_keys = ["dock", "dormitory_a", "cafeteria"]
 time_slots = ["evening", "night"]
 required_stage = "friendly"
+
+# ── 日常互动 C 批：道歉 / 帮忙工作 / 轻拍脸颊 / 戳脸颊 / 朗读 ──
+
+[[events]]
+key = "destroyer_apologize_quick"
+action_key = "apologize"
+actor_tags = ["destroyer"]
+location_keys = ["command_office", "cafeteria", "dock"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "destroyer_help_work_eager"
+action_key = "help_work"
+actor_tags = ["destroyer"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "destroyer_pat_cheek_bright"
+action_key = "pat_cheek"
+actor_tags = ["destroyer"]
+location_keys = ["command_office", "cafeteria"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "destroyer_poke_cheek_react"
+action_key = "poke_cheek"
+actor_tags = ["destroyer"]
+location_keys = ["command_office", "cafeteria"]
+time_slots = ["afternoon", "evening", "night"]
+required_stage = "like"
+
+[[events]]
+key = "destroyer_read_aloud_lively"
+action_key = "read_aloud"
+actor_tags = ["destroyer"]
+location_keys = ["library", "cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+# ── 轻亲密 B 批：邀请去暗处 / 一起入睡 / 房间内接吻 / 夜袭 ──
+
+[[events]]
+key = "destroyer_invite_dark_place_whisper"
+action_key = "invite_dark_place"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a", "bathhouse"]
+time_slots = ["evening", "night", "late_night"]
+required_stage = "love"
+requires_date = true
+
+[[events]]
+key = "destroyer_sleep_together_warm"
+action_key = "sleep_together"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["night", "late_night"]
+required_stage = "love"
+requires_date = true
+
+[[events]]
+key = "destroyer_room_kiss_gentle"
+action_key = "room_kiss"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+required_stage = "love"
+requires_date = true
+
+[[events]]
+key = "destroyer_night_visit_sneak"
+action_key = "night_visit"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["late_night"]
+required_stage = "love"
+
+# ── 同行 B 批：同行休息 / 送回房间 / 陪同训练 / 一起吃饭 ──
+
+[[events]]
+key = "destroyer_follow_rest_playful"
+action_key = "follow_rest"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria", "dock", "dormitory_a"]
+time_slots = ["afternoon", "evening", "night"]
+requires_following = true
+
+[[events]]
+key = "destroyer_escort_room_reluctant"
+action_key = "escort_room"
+actor_tags = ["destroyer"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night", "late_night"]
+requires_following = true
+required_stage = "like"
+
+[[events]]
+key = "destroyer_follow_training_eager"
+action_key = "follow_training"
+actor_tags = ["destroyer"]
+location_keys = ["training_ground"]
+time_slots = ["morning", "afternoon"]
+requires_following = true
+
+[[events]]
+key = "destroyer_follow_meal_happy"
+action_key = "follow_meal"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+requires_following = true
+
+# ── 约会 C 批：买东西 / 花店 / 一起喝酒 / 约会钓鱼 / 买便当 ──
+
+[[events]]
+key = "destroyer_buy_things_stroll"
+action_key = "buy_things"
+actor_tags = ["destroyer"]
+location_keys = ["dock", "cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+requires_date = true
+
+[[events]]
+key = "destroyer_flower_shop_pick"
+action_key = "flower_shop"
+actor_tags = ["destroyer"]
+location_keys = ["garden", "dock"]
+time_slots = ["morning", "afternoon"]
+requires_date = true
+
+[[events]]
+key = "destroyer_drink_together_tipsy"
+action_key = "drink_together"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria", "dock"]
+time_slots = ["evening", "night"]
+requires_date = true
+required_stage = "like"
+
+[[events]]
+key = "destroyer_fishing_date_cast"
+action_key = "fishing_date"
+actor_tags = ["destroyer"]
+location_keys = ["dock"]
+time_slots = ["morning", "afternoon"]
+requires_date = true
+
+[[events]]
+key = "destroyer_takeout_bento_pack"
+action_key = "takeout_bento"
+actor_tags = ["destroyer"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+requires_date = true

@@ -162,6 +162,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             requires_date=None,
             required_marks={"confessed": 1},
             apply_marks={},
+            remove_marks=(),
             source={},
         )
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)
@@ -187,6 +188,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             requires_date=None,
             required_marks={"confessed": 1},
             apply_marks={},
+            remove_marks=(),
             source={},
         )
         self.actor.set_mark("confessed", 1, max_level=1)

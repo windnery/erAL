@@ -81,6 +81,7 @@ class CommandService:
         trigger_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
         self._apply_operation(world, actor, command)
         self._apply_marks(actor, command)
+        self._remove_marks(actor, command)
         settled_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
         triggered_events = self.event_service.triggered_events(trigger_scene)
         if not triggered_events:
@@ -235,6 +236,15 @@ class CommandService:
             if self.mark_definitions and mark_key in self.mark_definitions:
                 max_level = self.mark_definitions[mark_key].max_level
             actor.add_mark(mark_key, delta, max_level)
+
+    @staticmethod
+    def _remove_marks(
+        actor: CharacterState,
+        command: CommandDefinition,
+    ) -> None:
+        for mark_key in command.remove_marks:
+            if mark_key in actor.marks:
+                del actor.marks[mark_key]
 
     def _apply_operation(
         self,

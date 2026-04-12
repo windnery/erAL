@@ -295,3 +295,351 @@ priority = 0
 lines = [
   "你走进房间后，她虽然嘴上还在逞强，动作却已经明显慢了下来。",
 ]
+
+# ── MARK 条件分支：embarrassed / angry / drunk ──
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "她张了好几次嘴都没能顺畅说出一句完整的话，指尖不停扯着衣角，整个人像一颗快冒烟的炮弹。",
+  "「才、才不是在害羞！我只是在想怎么回答比较帅而已……你别一直盯着我看啊！」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "被你夸奖后她的脸一下子红到了耳根，嘴上嗷嗷叫着否认，脚步却不自觉地往你这边挪了半步。",
+  "「前辈你突然说这种话是不讲武德的！……不过，如果你真的这么觉得的话，那我就勉为其难收下好了。」",
+]
+
+[[entries]]
+key = "touch_head"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "你的手刚碰上她的头顶，她整个人就像触电一样弹了一下，紧接着又僵在原地没有躲开。",
+  "「呜……这个犯规！现在这个状态下被摸头根本没法冷静啊……你再、再摸一下也不是不行啦。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { angry = 1 }
+lines = [
+  "她把脸扭向另一边，干脆不看你，嘴里偶尔蹦出来的词短得像在故意省力气。",
+  "「……哼。现在不想跟你说话。除非你自己知道为什么。」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { angry = 1 }
+lines = [
+  "你夸她的时候她偷偷瞟了你一眼，又飞快地把视线收回去，鼓着腮帮子像在跟自己较劲。",
+  "「别以为夸两句就能让我消气……不过，你说的那个优点，确实是我没错啦。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { drunk = 1 }
+lines = [
+  "酒后的她比平时更管不住嘴，什么话都往外倒，连平时藏着掖着的小心思都一股脑说了出来。",
+  "「前辈你知道吗，其实我每天最期待的就是你来找我！不是聊天就是训练……反正只要你在就好！」",
+]
+
+[[entries]]
+key = "clink_cups"
+actor_key = "starter_destroyer"
+priority = 5
+required_marks = { drunk = 1 }
+lines = [
+  "她举着杯子豪迈地碰了过来，力气大得酒液溅出了杯沿，脸上却笑得比任何时候都灿烂。",
+  "「干杯！再来一杯！跟前辈喝酒真的好开心——今晚我们不醉不归！」",
+]
+
+# ── 日常互动 C 批：道歉 / 帮忙工作 / 轻拍脸颊 / 戳脸颊 / 朗读 ──
+
+[[entries]]
+key = "destroyer_apologize_quick"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她本来还想绷着脸再坚持一会儿，结果你刚一开口道歉，她的表情就先塌了下来。",
+  "「呜……前辈你这样认真道歉的话，我根本没办法继续生气嘛！」",
+]
+
+[[entries]]
+key = "destroyer_help_work_eager"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她搬了把椅子紧挨着你坐下，眼睛飞快地扫过桌上的文件，整个人都跃跃欲试。",
+  "「前辈交给我吧！保证比你一个人干快多了——我们可是最佳搭档啊！」",
+]
+
+[[entries]]
+key = "destroyer_pat_cheek_bright"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她被轻轻拍了一下脸颊后先是一愣，随即整张脸都亮了起来，像被按下了什么开心开关。",
+  "「嘿嘿，前辈这是在夸我可爱吗？那我就大方收下了！」",
+]
+
+[[entries]]
+key = "destroyer_poke_cheek_react"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她被戳了一下后立刻鼓起腮帮子瞪过来，可那双眼睛里的笑意根本藏不住。",
+  "「前辈你等着！下次我也要戳回来——绝对不手下留情！」",
+]
+
+[[entries]]
+key = "destroyer_read_aloud_lively"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她托着腮趴在桌上，视线追随着你翻页的动作，听到精彩的地方还会忍不住拍一下桌面。",
+  "「前辈继续继续！下一段呢？我都等不及想知道后面怎么样了！」",
+]
+
+# ── 轻亲密 B 批：邀请去暗处 / 一起入睡 / 房间内接吻 / 夜袭 ──
+
+[[entries]]
+key = "destroyer_invite_dark_place_whisper"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她先左右看了看，确认没人注意到之后，突然一把拉住你的袖口就往角落里走。",
+  "「嘘——跟我来！被发现的话就不好了……不过光是这个就够刺激了吧！」",
+]
+
+[[entries]]
+key = "destroyer_sleep_together_warm"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她钻进被子的动作又快又利落，可真躺下来后却突然安静了，呼吸也变得不自觉地轻了。",
+  "「……嘿嘿，没想到真的跟你一起躺下了。那个……前辈不准笑我，我脸好像有点烫。」",
+]
+
+[[entries]]
+key = "destroyer_room_kiss_gentle"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "你凑近的时候她下意识闭上了眼睛，睫毛却抖个不停，指尖紧紧攥着衣角。",
+  "嘴唇碰上的那一瞬，她整个人都僵住了，过了好几秒才慢慢松开握紧的手。",
+  "「前辈你犯规了……心脏跳这么快，根本没办法假装没事嘛。」",
+]
+
+[[entries]]
+key = "destroyer_night_visit_sneak"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她本来已经缩在被子里了，听到动静后立刻探出半个脑袋，眼睛在黑暗里亮得像两颗星星。",
+  "「前辈？你半夜跑过来……是不是做了什么梦梦见我了？」",
+  "她往旁边挪了挪，声音却比刚才小了很多：「开玩笑的啦……不过，你要是冷的话，这边还有位置。」",
+]
+
+[[entries]]
+key = "invite_dark_place"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她跟着你躲到一个没人的地方，紧张和兴奋让她的脚步都比平时更轻快。",
+]
+
+[[entries]]
+key = "sleep_together"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她虽然嘴上还在小声嘟囔着什么，身体却已经不自觉地往你这边靠了过来。",
+]
+
+[[entries]]
+key = "room_kiss"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "房间里的吻让她整个人都静了下来，只有耳尖的红怎么也退不下去。",
+]
+
+[[entries]]
+key = "night_visit"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "深夜的不速之客反而让她露出了比白天更柔软的表情，像是早就等着这一刻似的。",
+]
+
+# ── 同行 B 批：同行休息 / 送回房间 / 陪同训练 / 一起吃饭 ──
+
+[[entries]]
+key = "destroyer_follow_rest_playful"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她跟着你找了个地方坐下，腿还没晃两下就整个人瘫进椅背里，嘴角却还挂着笑。",
+  "「嘿嘿，跟着前辈一起休息果然比自己偷懒更心安理得！」",
+]
+
+[[entries]]
+key = "destroyer_escort_room_reluctant"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她走到房间门口时脚步明显放慢了，像是在把这段路的时间拉得更长。",
+  "「到了啊……明明还可以再多走一段的嘛。算了，明天也跟定你了！」",
+]
+
+[[entries]]
+key = "destroyer_follow_training_eager"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她一听到训练就先你一步冲了出去，中途又折回来拽住你的袖子往前拉。",
+  "「快点快点！跟着前辈训练的机会我可不打算浪费！」",
+]
+
+[[entries]]
+key = "destroyer_follow_meal_happy"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她在餐桌前坐下来时比谁都积极，连筷子都还没摆好就已经开始研究今天有什么菜了。",
+  "「跟着前辈吃饭就是好啊！今天的份量我也要翻倍！」",
+]
+
+[[entries]]
+key = "follow_rest"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她跟着你找了个角落休息，很快就恢复了精神。",
+]
+
+[[entries]]
+key = "escort_room"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "你送她回到房间门口，她一步三回头地进去了。",
+]
+
+[[entries]]
+key = "follow_training"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她跟着你一起训练，劲头比平时还要足。",
+]
+
+[[entries]]
+key = "follow_meal"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她跟着你一起吃饭，全程都特别开心。",
+]
+
+# ── 约会 C 批：买东西 / 花店 / 一起喝酒 / 约会钓鱼 / 买便当 ──
+
+[[entries]]
+key = "destroyer_buy_things_stroll"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她一进店就左看右看恨不得把每样东西都摸一遍，最后还是跑回来拉你的袖子问哪件好。",
+  "「前辈帮我选嘛！你的眼光肯定比我好——而且被你挑中的东西，我一定会好好珍惜的！」",
+]
+
+[[entries]]
+key = "destroyer_flower_shop_pick"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她一看到满屋子的花就忍不住深吸了一口气，整个人都像被按下了减速键。",
+  "「哇……好香。前辈，我觉得约会来花店真是选对了！下次换我带你来吧？」",
+]
+
+[[entries]]
+key = "destroyer_drink_together_tipsy"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她才喝了两口就开始晃脑袋，脸红得像刚跑完一千米，还非说自己的酒量没有问题。",
+  "「我没事！真的没事！只是这个地板好像有点歪而已……前辈你别笑我！」",
+]
+
+[[entries]]
+key = "destroyer_fishing_date_cast"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她刚把鱼线甩出去就立刻趴到水边盯着浮漂，一动不动得像换了个人。",
+  "「前辈别说话——鱼会被吓跑的！……不过说实话，这样安静等你提竿也挺有意思的。」",
+]
+
+[[entries]]
+key = "destroyer_takeout_bento_pack"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她接过便当盒后先用力闻了一下，然后两眼放光地把你的份也检查了一遍。",
+  "「这个闻起来超棒的！前辈我们快找个地方坐下来吃吧，我已经等不及了！」",
+]
+
+[[entries]]
+key = "buy_things"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她逛起店来精力充沛，恨不得把每个货架都翻一遍。",
+]
+
+[[entries]]
+key = "flower_shop"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "花店的香气让她的步伐一下子慢了下来，整个人都变得出奇安静。",
+]
+
+[[entries]]
+key = "drink_together"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "几口下肚她的脸颊就红透了，却还是逞强说再来一杯也没问题。",
+]
+
+[[entries]]
+key = "fishing_date"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "水边的钓鱼让平日里坐不住的她意外地安静了下来。",
+]
+
+[[entries]]
+key = "takeout_bento"
+actor_key = "starter_destroyer"
+priority = 0
+lines = [
+  "她抱着便当盒时眼睛都在发光，连走路都忍不住加快了步伐。",
+]

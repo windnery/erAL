@@ -24,6 +24,7 @@ class CommandDefinition:
     requires_date: bool | None
     required_marks: dict[str, int]
     apply_marks: dict[str, int]
+    remove_marks: tuple[str, ...]
     source: dict[str, int]
     category: str = "daily"
 
@@ -56,6 +57,7 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             apply_marks={
                 str(k): int(v) for k, v in item.get("apply_marks", {}).items()
             },
+            remove_marks=tuple(item.get("remove_marks", [])),
             source={str(key): int(value) for key, value in item.get("source", {}).items()},
         )
         for item in raw_data.get("commands", [])

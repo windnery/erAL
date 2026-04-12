@@ -1,2 +1,26 @@
 # 全局对话定义（不属于任何角色的系统文本）
 # 角色专属对话请放在 data/base/characters/<key>/dialogue.toml
+
+# ── 状态标记验证条目 ──
+# 这些条目用于验证 required_marks 管道跑通，角色包补充真实差分时可覆盖
+
+[[entries]]
+key = "scold"
+actor_key = "_any"
+lines = ["她的表情一下子变得很难看。"]
+required_marks = { angry = 1 }
+priority = 1
+
+[[entries]]
+key = "tease"
+actor_key = "_any"
+lines = ["她的脸一下子红透了。"]
+required_marks = { embarrassed = 1 }
+priority = 1
+
+[[entries]]
+key = "clink_cups"
+actor_key = "_any"
+lines = ["她喝得双颊微红，眼神有些朦胧。"]
+required_marks = { drunk = 1 }
+priority = 1

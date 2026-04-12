@@ -274,5 +274,67 @@ class DialogueRealDataTests(unittest.TestCase):
         self.assertTrue(any("分享" in line or "气氛" in line for line in result.messages))
 
 
+class DialogueMarkBranchingTests(unittest.TestCase):
+    """Test that MARK-conditional dialogue entries produce different lines."""
+
+    def setUp(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        self.app = create_application(repo_root)
+        self.actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+
+    def test_chat_without_embarrassed_mark_uses_default(self) -> None:
+        """Without embarrassed mark, chat should use the default/fallback lines."""
+        self.assertFalse(self.actor.has_mark("embarrassed"))
+        scene = _scene(actor_key="starter_secretary", action_key="chat", marks={})
+        lines = self.app.dialogue_service._lookup("chat", scene)
+        # Should NOT contain embarrassed-variant text
+        self.assertTrue(len(lines) > 0)
+
+    def test_chat_with_embarrassed_mark_uses_variant(self) -> None:
+        """With embarrassed mark, chat should use the MARK-conditional variant."""
+        scene_no_mark = _scene(actor_key="starter_secretary", action_key="chat", marks={})
+        lines_no_mark = self.app.dialogue_service._lookup("chat", scene_no_mark)
+
+        scene_with_mark = _scene(actor_key="starter_secretary", action_key="chat", marks={"embarrassed": 1})
+        lines_with_mark = self.app.dialogue_service._lookup("chat", scene_with_mark)
+
+        # The MARK-conditional variant should be different from default
+        self.assertNotEqual(lines_no_mark, lines_with_mark)
+
+    def test_praise_with_angry_mark_uses_variant(self) -> None:
+        """With angry mark, praise should use a different variant."""
+        scene_no_mark = _scene(actor_key="starter_secretary", action_key="praise", marks={})
+        lines_no_mark = self.app.dialogue_service._lookup("praise", scene_no_mark)
+
+        scene_with_mark = _scene(actor_key="starter_secretary", action_key="praise", marks={"angry": 1})
+        lines_with_mark = self.app.dialogue_service._lookup("praise", scene_with_mark)
+
+        self.assertNotEqual(lines_no_mark, lines_with_mark)
+
+    def test_clink_cups_with_drunk_mark_uses_variant(self) -> None:
+        """With drunk mark, clink_cups should use a different variant."""
+        scene_no_mark = _scene(
+            actor_key="starter_secretary", action_key="clink_cups",
+            time_slot="evening", marks={},
+        )
+        lines_no_mark = self.app.dialogue_service._lookup("clink_cups", scene_no_mark)
+
+        scene_with_mark = _scene(
+            actor_key="starter_secretary", action_key="clink_cups",
+            time_slot="evening", marks={"drunk": 1},
+        )
+        lines_with_mark = self.app.dialogue_service._lookup("clink_cups", scene_with_mark)
+
+        self.assertNotEqual(lines_no_mark, lines_with_mark)
+
+    def test_at_least_three_marks_have_branching(self) -> None:
+        """Verify at least 3 different marks produce branching dialogue."""
+        marks_with_branching = set()
+        for entry in self.app.dialogue_service.entries:
+            if entry.required_marks:
+                marks_with_branching.update(entry.required_marks.keys())
+        self.assertGreaterEqual(len(marks_with_branching), 3)
+
+
 if __name__ == "__main__":
     unittest.main()

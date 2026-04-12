@@ -425,6 +425,183 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertNotIn("chat", keys)
         self.assertNotIn("share_snack", keys)
 
+    def test_follow_rest_requires_following(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.AFTERNOON
+
+        with self.assertRaises(ValueError):
+            self.app.command_service.execute(
+                self.app.world,
+                actor_key=actor.key,
+                command_key="follow_rest",
+            )
+
+        actor.affection = 2
+        actor.stats.compat.cflag.set(2, 2)
+        self.app.relationship_service.update_actor(actor)
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="follow_rest",
+        )
+
+        self.assertEqual(result.action_key, "follow_rest")
+
+    def test_escort_room_requires_like_stage(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
+        actor.affection = 2
+        actor.stats.compat.cflag.set(2, 2)
+        self.app.relationship_service.update_actor(actor)
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+
+        with self.assertRaises(ValueError):
+            self.app.command_service.execute(
+                self.app.world,
+                actor_key=actor.key,
+                command_key="escort_room",
+            )
+
+    def test_buy_things_requires_date(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.AFTERNOON
+
+        with self.assertRaises(ValueError):
+            self.app.command_service.execute(
+                self.app.world,
+                actor_key=actor.key,
+                command_key="buy_things",
+            )
+
+        actor.affection = 4
+        actor.trust = 3
+        actor.stats.compat.cflag.set(2, 4)
+        actor.stats.compat.cflag.set(4, 3)
+        self.app.relationship_service.update_actor(actor)
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_date",
+        )
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="buy_things",
+        )
+
+        self.assertEqual(result.action_key, "buy_things")
+
+    def test_drink_together_applies_drunk_mark(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
+        self.app.world.active_location.key = "cafeteria"
+        self.app.world.active_location.display_name = "食堂"
+        actor.location_key = "cafeteria"
+        actor.affection = 4
+        actor.trust = 3
+        actor.stats.compat.cflag.set(2, 4)
+        actor.stats.compat.cflag.set(4, 3)
+        self.app.relationship_service.update_actor(actor)
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_date",
+        )
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="drink_together",
+        )
+
+        self.assertEqual(result.action_key, "drink_together")
+        self.assertTrue(actor.has_mark("drunk"))
+
+    def test_invite_dark_place_requires_date_and_love(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
+        actor.affection = 6
+        actor.trust = 4
+        actor.stats.compat.cflag.set(2, 6)
+        actor.stats.compat.cflag.set(4, 4)
+        self.app.relationship_service.update_actor(actor)
+
+        with self.assertRaises(ValueError):
+            self.app.command_service.execute(
+                self.app.world,
+                actor_key=actor.key,
+                command_key="invite_dark_place",
+            )
+
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_date",
+        )
+        self.app.world.active_location.key = "bathhouse"
+        self.app.world.active_location.display_name = "浴场"
+        actor.location_key = "bathhouse"
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_dark_place",
+        )
+
+        self.assertEqual(result.action_key, "invite_dark_place")
+
+    def test_room_kiss_applies_kissed_mark(self) -> None:
+        actor = self._actor()
+        self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
+        self.app.world.active_location.key = "bathhouse"
+        self.app.world.active_location.display_name = "浴场"
+        actor.location_key = "bathhouse"
+        actor.affection = 6
+        actor.trust = 4
+        actor.stats.compat.cflag.set(2, 6)
+        actor.stats.compat.cflag.set(4, 4)
+        self.app.relationship_service.update_actor(actor)
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_follow",
+        )
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="invite_date",
+        )
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="room_kiss",
+        )
+
+        self.assertEqual(result.action_key, "room_kiss")
+        self.assertTrue(actor.has_mark("kissed"))
+
     def test_busy_world_blocks_daily_command_execution(self) -> None:
         actor = self._actor()
         self.app.world.is_busy = True

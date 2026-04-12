@@ -28,12 +28,12 @@ class CharacterPackTests(unittest.TestCase):
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.abl[41], 1)
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.talent[92], 1)
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.marks["kissed"], 1)
-        self.assertEqual(len(pack_map["starter_secretary"].events), 30)
-        self.assertEqual(len(pack_map["starter_secretary"].dialogue), 73)
-        self.assertEqual(len(pack_map["starter_destroyer"].events), 18)
-        self.assertEqual(len(pack_map["starter_destroyer"].dialogue), 35)
-        self.assertEqual(len(pack_map["starter_cruiser"].events), 18)
-        self.assertEqual(len(pack_map["starter_cruiser"].dialogue), 35)
+        self.assertEqual(len(pack_map["starter_secretary"].events), 48)
+        self.assertEqual(len(pack_map["starter_secretary"].dialogue), 111)
+        self.assertEqual(len(pack_map["starter_destroyer"].events), 36)
+        self.assertEqual(len(pack_map["starter_destroyer"].dialogue), 73)
+        self.assertEqual(len(pack_map["starter_cruiser"].events), 36)
+        self.assertEqual(len(pack_map["starter_cruiser"].dialogue), 73)
 
     def test_content_validator_accepts_current_pack_layout(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]

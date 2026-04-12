@@ -558,6 +558,79 @@ lines = [
   "「效率确实不错……虽然注意力偶尔会跑偏。」",
 ]
 
+# ── MARK 条件分支：embarrassed / angry / drunk ──
+
+[[entries]]
+key = "chat"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "她试图像平时那样打开话题，可语气里的从容明显打了折扣，视线也不自觉地往旁边偏了几次。",
+  "「没什么好聊的……不对，我的意思是，现在不是聊这个的时候。」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "你夸她的时候她下意识攥紧了袖口，明明想表现得若无其事，耳尖的颜色却什么都瞒不住。",
+  "「这种时候说这种话……指挥官，你是故意让我更难维持镇定吗？」",
+]
+
+[[entries]]
+key = "touch_head"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { embarrassed = 1 }
+lines = [
+  "手掌落在她头顶的瞬间，她的肩膀猛地一缩，整个人像是被按下了暂停键，连呼吸都忘了继续。",
+  "「……够了。再摸下去，我真的会——」",
+  "她没有说完，只是把脸埋得更低了。",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { angry = 1 }
+lines = [
+  "她回答你的每一句都短得像在省墨水，语气平稳得反而比发脾气更让人难受。",
+  "「……如果没什么正事，我想先把手头的工作处理完。」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { angry = 1 }
+lines = [
+  "她听完你的夸奖后只是淡淡看了你一眼，既没有否认，也没有接话，沉默本身就是一种态度。",
+  "「这种话，等你想清楚自己做过什么再说也不迟。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { drunk = 1 }
+lines = [
+  "酒意让她平时那些滴水不漏的措辞全都松动了几分，说出的话比预想中更直白也更柔软。",
+  "「指挥官……其实我一直想说，你偶尔不在的时候，办公室会比平时安静得让人不太习惯。」",
+]
+
+[[entries]]
+key = "clink_cups"
+actor_key = "starter_secretary"
+priority = 5
+required_marks = { drunk = 1 }
+lines = [
+  "她把杯子碰过来的时候力度比平时重了几分，杯里的酒液晃荡着几乎要溢出来。",
+  "「再喝一杯也没关系……反正今晚的我不算执勤状态，对吧？」",
+]
+
 # ── 约会专属指令对话 ──
 
 [[entries]]
@@ -643,4 +716,281 @@ required_stage = "oath"
 lines = [
   "她没有躲开，反而抬起眼看你，神情复杂。",
   "「都走到这一步了……再说什么拒绝也没意义了吧。」",
+]
+
+# ── 日常互动 C 批：道歉 / 帮忙工作 / 轻拍脸颊 / 戳脸颊 / 朗读 ──
+
+[[entries]]
+key = "secretary_apologize_sincere"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她看着你认真道歉的样子，嘴角的线条慢慢软了下来，最后轻轻叹了口气。",
+  "「……既然你愿意这么说，那就算了。不过下次注意一点，我不想总是重复原谅同一件事。」",
+]
+
+[[entries]]
+key = "secretary_help_work_together"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她递过来一叠待处理的文件，虽然嘴上没说什么，手指却在你接过时多停留了一瞬。",
+  "「难得主动帮忙，那就别偷懒。不过……有你在旁边，效率确实会好一些。」",
+]
+
+[[entries]]
+key = "secretary_pat_cheek_gentle"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "指尖碰到她脸颊的瞬间，她的睫毛颤了一下，却没有退开，只是耳尖悄悄泛了红。",
+  "「……这种事，至少挑没人的时候再做吧。被看到的话，我可没法解释。」",
+]
+
+[[entries]]
+key = "secretary_poke_cheek_playful"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她被戳了一下后先是愣住，随即偏过头瞪了你一眼，但那目光里分明藏着笑意。",
+  "「指挥官，你现在的行为可不在任何一条工作条例里……不过，仅此一次。」",
+]
+
+[[entries]]
+key = "secretary_read_aloud_quiet"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "你的朗读声在安静的空间里缓缓流淌，她翻页的手不知什么时候停了下来，只是静静听着。",
+  "「声音比我想象的更适合念这一段……如果你愿意，下次可以从第一章开始读给我听。」",
+]
+
+# ── 轻亲密 B 批：邀请去暗处 / 一起入睡 / 房间内接吻 / 夜袭 ──
+
+[[entries]]
+key = "secretary_invite_dark_place_whisper"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她察觉到你的意图后没有拒绝，只是不动声色地确认了一下周围有没有人注意。",
+  "「……跟我来。不过先说好，这种事只有现在，不许变成习惯。」",
+]
+
+[[entries]]
+key = "secretary_sleep_together_warm"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她背对着你躺下，呼吸却比平时明显慢了半拍，肩膀也微微绷紧。",
+  "片刻后，她的声音从被子里闷闷地传出来：「……不要趁机靠太近。」",
+  "话音刚落，她的手却从被子边缘悄悄伸了过来。",
+]
+
+[[entries]]
+key = "secretary_room_kiss_gentle"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "当你的唇轻轻落在她嘴角时，她整个人都僵了一瞬，连睫毛都在微微发颤。",
+  "「……笨蛋。」",
+  "她别过脸，可声音轻得像是怕震碎什么：「再来一次的话……这次，我不躲。」",
+]
+
+[[entries]]
+key = "secretary_night_visit_sneak"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "房门被轻轻推开时，她其实还没有睡着，只是装作被吵醒的样子撑起身子。",
+  "「……这么晚了，你到底在打什么主意。」",
+  "她让出了床边的一点位置，语气里没有半分赶人的意思：「算了。既然来了，就别回去了。」",
+]
+
+[[entries]]
+key = "invite_dark_place"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "你带着她走到一个安静的角落，连呼吸声都变得比平时更清晰了。",
+]
+
+[[entries]]
+key = "sleep_together"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "两个人在黑暗中安静地躺下，彼此的体温隔着被褥慢慢渗透过来。",
+]
+
+[[entries]]
+key = "room_kiss"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "房间里的亲吻比任何地方都更安静，也更让人心跳失序。",
+]
+
+[[entries]]
+key = "night_visit"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "深夜的造访让她的防线比白天松了许多，连看你时的目光都不一样了。",
+]
+
+# ── 同行 B 批：同行休息 / 送回房间 / 陪同训练 / 一起吃饭 ──
+
+[[entries]]
+key = "secretary_follow_rest_calm"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她跟在你身旁坐下来时动作很轻，像是怕打碎这段难得的宁静。",
+  "「……跟着你到这里来休息，倒也不算浪费时间。」",
+]
+
+[[entries]]
+key = "secretary_escort_room_quiet"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "走廊里的脚步声轻得只剩下两个人的节奏，她停在房间门口时没有立刻推门进去。",
+  "「送我到这里就够了……不过，如果你还想多站一会儿，我也不赶你走。」",
+]
+
+[[entries]]
+key = "secretary_follow_training_steady"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她跟在你身后进入训练场时步伐依旧沉稳，只是偶尔会不自觉地缩短你们之间的距离。",
+  "「既然跟来了，就不会拖后腿。倒是指挥官，别因为我在就放水。」",
+]
+
+[[entries]]
+key = "secretary_follow_meal_together"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她坐在你对面时比平时多了一份随性，连拿筷子的动作都显得不那么拘谨了。",
+  "「跟着你来吃饭……其实比一个人在办公桌前对付要像样得多。」",
+]
+
+[[entries]]
+key = "follow_rest"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "她在你身旁安静地休息了一会儿，紧绷的表情也慢慢柔和了下来。",
+]
+
+[[entries]]
+key = "escort_room"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "你送她回到房间，走廊里只剩两个人的脚步声。",
+]
+
+[[entries]]
+key = "follow_training"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "她跟着你一起完成了训练，呼吸依旧沉稳而有条理。",
+]
+
+[[entries]]
+key = "follow_meal"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "她跟着你一起用餐，比起平时少了几分客套，多了几分自然。",
+]
+
+# ── 约会 C 批：买东西 / 花店 / 一起喝酒 / 约会钓鱼 / 买便当 ──
+
+[[entries]]
+key = "secretary_buy_things_stroll"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她跟在你身后浏览货架时很安静，但每当你拿起一件商品，她都会不动声色地投来审视的目光。",
+  "「买东西的品味还算及格……不过下一次，换我替你挑吧。」",
+]
+
+[[entries]]
+key = "secretary_flower_shop_pick"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "花店的香气让她下意识放慢了脚步，手指在花枝间悬了一会儿才选定一束。",
+  "「……不是给自己选的。只是觉得这束花放在指挥室里会比较合适。」",
+]
+
+[[entries]]
+key = "secretary_drink_together_tipsy"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "几杯之后她的脸颊染上了一层薄红，端着酒杯的指尖也比平时松弛了些。",
+  "「平时不怎么喝酒……但偶尔一次的话，似乎也不坏。只是别趁机记下我现在这副样子。」",
+]
+
+[[entries]]
+key = "secretary_fishing_date_cast"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她坐在水边时难得没有在看文件，而是把注意力放在了浮漂的每一丝晃动上。",
+  "「安静等鱼上钩的耐心我倒是不缺……不过现在，我更在意的是你有没有认真在看漂。」",
+]
+
+[[entries]]
+key = "secretary_takeout_bento_pack"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她把便当盒仔细打量了一遍后递给你，像是在确认包装有没有疏漏。",
+  "「买便当这种小事我自己也能处理……但既然是约会，就当作是你的一份心意收下了。」",
+]
+
+[[entries]]
+key = "buy_things"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "两人一起逛了逛店铺，她偶尔会停下来认真地比较几件商品。",
+]
+
+[[entries]]
+key = "flower_shop"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "花店的空气让约会的节奏不由自主地慢了下来。",
+]
+
+[[entries]]
+key = "drink_together"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "杯中的酒液在灯光下晃动，她的神情比平时松弛了不少。",
+]
+
+[[entries]]
+key = "fishing_date"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "水边安静得只剩风声和偶尔的鱼跃声，约会的节奏自然地慢了下来。",
+]
+
+[[entries]]
+key = "takeout_bento"
+actor_key = "starter_secretary"
+priority = 0
+lines = [
+  "她接过便当时的动作很利落，却在确认了你的份之后才动手拆开自己的。",
 ]

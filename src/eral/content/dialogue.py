@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -24,6 +24,7 @@ class DialogueEntry:
     requires_private: bool | None = None
     requires_date: bool | None = None
     requires_following: bool | None = None
+    required_marks: dict[str, int] = field(default_factory=dict)
     priority: int = 0
 
 
@@ -52,6 +53,9 @@ def load_dialogue_entries(path: Path) -> tuple[DialogueEntry, ...]:
             requires_private=item.get("requires_private"),
             requires_date=item.get("requires_date"),
             requires_following=item.get("requires_following"),
+            required_marks={
+                str(k): int(v) for k, v in item.get("required_marks", {}).items()
+            },
             priority=int(item.get("priority", 0)),
         )
         for item in raw_data.get("entries", [])

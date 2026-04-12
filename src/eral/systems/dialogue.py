@@ -28,14 +28,25 @@ class DialogueService:
 
     def _lookup(self, key: str, scene: SceneContext) -> tuple[str, ...]:
         best: DialogueEntry | None = None
+        fallback: DialogueEntry | None = None
         for entry in self.entries:
-            if entry.key != key or entry.actor_key != scene.actor_key:
+            if entry.key != key:
+                continue
+            if entry.actor_key == "_any":
+                if not self._matches(entry, scene):
+                    continue
+                if fallback is None or entry.priority > fallback.priority:
+                    fallback = entry
+                continue
+            if entry.actor_key != scene.actor_key:
                 continue
             if not self._matches(entry, scene):
                 continue
             if best is None or entry.priority > best.priority:
                 best = entry
-        return best.lines if best is not None else ()
+        if best is not None:
+            return best.lines
+        return fallback.lines if fallback is not None else ()
 
     @staticmethod
     def _matches(entry: DialogueEntry, scene: SceneContext) -> bool:
@@ -57,4 +68,7 @@ class DialogueService:
             return False
         if entry.requires_following is not None and scene.is_following != entry.requires_following:
             return False
+        for mark_key, min_level in entry.required_marks.items():
+            if scene.marks.get(mark_key, 0) < min_level:
+                return False
         return True
