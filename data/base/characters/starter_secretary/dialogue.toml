@@ -502,6 +502,46 @@ lines = [
 key = "chat"
 actor_key = "starter_secretary"
 priority = 5
+required_stage = "friendly"
+lines = [
+  "她的措辞不再像最初那样字斟句酌，偶尔还会主动说起港区以外的事情。",
+  "「这种闲聊……要是被其他舰船看到，大概会说我不务正业吧。不过我不在乎。」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_secretary"
+priority = 5
+required_stage = "friendly"
+lines = [
+  "她听完你的夸奖后停顿了一下，然后别过脸去，但嘴角分明弯了一下。",
+  "「……既然你都这么说了，那我就当做是对这段时间工作的肯定吧。」",
+]
+
+[[entries]]
+key = "rest"
+actor_key = "starter_secretary"
+priority = 5
+required_stage = "friendly"
+lines = [
+  "她放下手中的笔，靠在椅背上时难得露出了一丝不带工作表情的放松。",
+  "「偶尔这样什么都不做也不错……有前辈陪着的时候，休息好像也不算浪费时间了。」",
+]
+
+[[entries]]
+key = "touch_head"
+actor_key = "starter_secretary"
+priority = 5
+required_stage = "friendly"
+lines = [
+  "你的手落在她头顶时她先是一愣，随后叹了口气却没有躲开，耳尖悄悄红了一些。",
+  "「……这种事情，等我心情好的时候再说吧。——不过今天，就算了。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_secretary"
+priority = 5
 required_stage = "like"
 lines = [
   "秘书舰的语气比往常随意了些，偶尔还会主动说起港区以外的事情。",
@@ -993,4 +1033,60 @@ actor_key = "starter_secretary"
 priority = 0
 lines = [
   "她接过便当时的动作很利落，却在确认了你的份之后才动手拆开自己的。",
+]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "secretary_chat_embarrassed"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "秘书舰看到你靠近后明显绷了一下，指尖无意识地叠在一起，视线飘向窗外又收了回来。",
+  "「……有什么事等一会儿再说。我现在……不太适合正常对话。」",
+]
+
+[[entries]]
+key = "secretary_chat_drunk"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "酒意让她平时那些滴水不漏的措辞全都松动了几分，露出一种平时绝对看不到的坦诚表情。",
+  "「指挥官……你知道吗，我有时候觉得文书工作比面对你更容易。因为你让我没办法只靠理性来判断事情。」",
+]
+
+[[entries]]
+key = "secretary_chat_angry"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "她抬起眼看了你一下，随即又垂下目光，安静得像一页还没被翻过的文件。",
+  "「……如果你不是来道歉的话，我还有工作要处理。」",
+]
+
+[[entries]]
+key = "secretary_praise_embarrassed"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "你的夸奖让她下意识地握紧了手中的笔，嘴角几度想要压下去，却最终还是微微翘了起来。",
+  "「……谢谢你。不过这种话以后请挑没人的时候说。现在的表情……我不希望你看到。」",
+]
+
+[[entries]]
+key = "secretary_apologize_angry"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "你的道歉让她的表情慢慢软化，虽然嘴上还没有完全松口，目光却不再刻意回避你了。",
+  "「……我知道了。那这次就到这里。不过下次再做同样的事，我不会这么轻易原谅你的。」",
+]
+
+[[entries]]
+key = "secretary_kiss_confessed"
+actor_key = "starter_secretary"
+priority = 10
+lines = [
+  "告白之后的吻不再需要试探。她主动微微侧过脸，睫毛轻颤着接受了你全部的靠近。",
+  "「……嗯。再来一次也可以。反正已经不需要再藏着了。」",
 ]

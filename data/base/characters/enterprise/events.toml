@@ -25,3 +25,198 @@ action_key = "train_together"
 actor_tags = ["enterprise"]
 location_keys = ["training_ground"]
 time_slots = ["afternoon"]
+
+# ── 日常互动 ──
+
+[[events]]
+key = "enterprise_paperwork_report"
+action_key = "paperwork"
+actor_tags = ["enterprise"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "enterprise_serve_tea_serious"
+action_key = "serve_tea"
+actor_tags = ["enterprise"]
+location_keys = ["command_office"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "enterprise_care_wounded"
+action_key = "care"
+actor_tags = ["enterprise"]
+location_keys = ["infirmary", "dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "enterprise_listen_duty"
+action_key = "listen"
+actor_tags = ["enterprise"]
+location_keys = ["command_office", "dock"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "enterprise_scold_after_fail"
+action_key = "scold"
+actor_tags = ["enterprise"]
+location_keys = ["command_office", "training_ground"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "enterprise_apologize_formal"
+action_key = "apologize"
+actor_tags = ["enterprise"]
+location_keys = ["command_office", "garden"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "enterprise_help_work_office"
+action_key = "help_work"
+actor_tags = ["enterprise"]
+location_keys = ["command_office"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "enterprise_pat_cheek_rare"
+action_key = "pat_cheek"
+actor_tags = ["enterprise"]
+location_keys = ["garden", "command_office"]
+time_slots = ["evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "enterprise_read_aloud_library"
+action_key = "read_aloud"
+actor_tags = ["enterprise"]
+location_keys = ["library"]
+time_slots = ["morning", "afternoon"]
+
+# ── 同行 ──
+
+[[events]]
+key = "enterprise_walk_dock"
+action_key = "walk_together"
+actor_tags = ["enterprise"]
+location_keys = ["dock", "garden"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "enterprise_follow_rest_garden"
+action_key = "follow_rest"
+actor_tags = ["enterprise"]
+location_keys = ["garden", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "enterprise_escort_dormitory"
+action_key = "escort_room"
+actor_tags = ["enterprise"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "like"
+
+[[events]]
+key = "enterprise_follow_training_serious"
+action_key = "follow_training"
+actor_tags = ["enterprise"]
+location_keys = ["training_ground"]
+time_slots = ["morning", "afternoon"]
+
+# ── 约会 ──
+
+[[events]]
+key = "enterprise_date_stroll_dock"
+action_key = "date_stroll"
+actor_tags = ["enterprise"]
+location_keys = ["dock", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "enterprise_date_meal_cafeteria"
+action_key = "date_meal"
+actor_tags = ["enterprise"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "enterprise_hold_hands_quiet"
+action_key = "hold_hands"
+actor_tags = ["enterprise"]
+location_keys = ["garden", "dock"]
+time_slots = ["evening"]
+required_stage = "like"
+
+[[events]]
+key = "enterprise_fishing_date_dock"
+action_key = "fishing_date"
+actor_tags = ["enterprise"]
+location_keys = ["dock"]
+time_slots = ["morning", "afternoon"]
+
+# ── 轻亲密 ──
+
+[[events]]
+key = "enterprise_kiss_sunset"
+action_key = "kiss"
+actor_tags = ["enterprise"]
+location_keys = ["garden", "dock"]
+time_slots = ["evening"]
+required_stage = "love"
+
+[[events]]
+key = "enterprise_confess_dock"
+action_key = "confess"
+actor_tags = ["enterprise"]
+location_keys = ["dock"]
+time_slots = ["night"]
+required_stage = "love"
+
+[[events]]
+key = "enterprise_sleep_together_rare"
+action_key = "sleep_together"
+actor_tags = ["enterprise"]
+location_keys = ["dormitory_a"]
+time_slots = ["night", "late_night"]
+required_stage = "love"
+
+# ── MARK 条件事件 ──
+
+[[events]]
+key = "enterprise_chat_embarrassed"
+action_key = "chat"
+actor_tags = ["enterprise"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "enterprise_praise_drunk"
+action_key = "praise"
+actor_tags = ["enterprise"]
+required_marks = { drunk = 1 }
+
+[[events]]
+key = "enterprise_scold_angry_response"
+action_key = "scold"
+actor_tags = ["enterprise"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "enterprise_apologize_angry"
+action_key = "apologize"
+actor_tags = ["enterprise"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "enterprise_kiss_confessed"
+action_key = "kiss"
+actor_tags = ["enterprise"]
+required_stage = "love"
+required_marks = { confessed = 1 }
+
+[[events]]
+key = "enterprise_care_embarrassed"
+action_key = "care"
+actor_tags = ["enterprise"]
+required_stage = "friendly"
+required_marks = { embarrassed = 1 }

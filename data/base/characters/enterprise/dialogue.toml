@@ -22,6 +22,136 @@ actor_key = "enterprise"
 priority = 10
 lines = ["企业把训练计划递到你手里，条目已经整齐地排好了。", "「既然一起训练，就别浪费彼此的时间。」"]
 
+# ── 日常互动事件文本 ──
+
+[[entries]]
+key = "enterprise_paperwork_report"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业将整理好的文件摞成整齐的一叠，推到你面前。", "「今天的报告已经归档。如果需要补充，随时叫我。」"]
+
+[[entries]]
+key = "enterprise_serve_tea_serious"
+actor_key = "enterprise"
+priority = 10
+lines = ["她把茶杯放在你桌角，杯把精确地朝向右手方向。", "「温度刚好，趁热喝。这是命令……不是，这是建议。」"]
+
+[[entries]]
+key = "enterprise_care_wounded"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业轻轻检查你手臂上的擦伤，动作比平时更小心。", "「受伤就报告，别逞强。你的状态关系到整个港区。」"]
+
+[[entries]]
+key = "enterprise_listen_duty"
+actor_key = "enterprise"
+priority = 10
+lines = ["她侧身靠在栏杆上，视线从海面移回你身上。", "「说吧，我在听——不限于公务。」"]
+
+[[entries]]
+key = "enterprise_scold_after_fail"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业的语气比平时严厉了几分，但指尖微微收紧。", "「这不是你的真实水平。调整状态，下次不许再犯。」"]
+
+[[entries]]
+key = "enterprise_apologize_formal"
+actor_key = "enterprise"
+priority = 10
+lines = ["她顿了顿，声音比平时低了一些。", "「……是我考虑不周。你的建议我会认真采纳。」"]
+
+[[entries]]
+key = "enterprise_help_work_office"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业拉开旁边的椅子，直接开始帮你分拣文件。", "「加班的效率取决于分工。这部分我来。」"]
+
+[[entries]]
+key = "enterprise_pat_cheek_rare"
+actor_key = "enterprise"
+priority = 10
+lines = ["她显然没预料到这个动作，耳尖微微泛红。", "「……下次请提前告知。我不排斥，只是需要准备。」"]
+
+[[entries]]
+key = "enterprise_read_aloud_library"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业翻开那本战术手册，声线平稳清晰。", "「这一章的要点已经标注。要不要我复述一遍？」"]
+
+# ── 同行事件文本 ──
+
+[[entries]]
+key = "enterprise_walk_dock"
+actor_key = "enterprise"
+priority = 10
+lines = ["她放慢脚步和你并肩而行，海风把声音吹散了一些。", "「平时走路太快了……和你一起的时候可以慢一点。」"]
+
+[[entries]]
+key = "enterprise_follow_rest_garden"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业靠在庭院的长椅上，终于把肩上的紧张卸下了一些。", "「难得和你一起什么都不做，这也算是一种训练。」"]
+
+[[entries]]
+key = "enterprise_escort_dormitory"
+actor_key = "enterprise"
+priority = 10
+lines = ["她在宿舍门口停下脚步，却犹豫着没有立刻转身。", "「……晚安。明天也请多指教。」"]
+
+[[entries]]
+key = "enterprise_follow_training_serious"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业亲自示范了标准动作，然后站在一旁看你的表现。", "「姿势不对会受伤。跟着我的节奏来。」"]
+
+# ── 约会事件文本 ──
+
+[[entries]]
+key = "enterprise_date_stroll_dock"
+actor_key = "enterprise"
+priority = 10
+lines = ["她收起了那份永远攥在手中的报告，陪你慢慢走。", "「约会的时候不想公务的事……尽量。」"]
+
+[[entries]]
+key = "enterprise_date_meal_cafeteria"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业把餐盘端得端端正正，但坐下来之后放松了肩膀。", "「偶尔不用在意礼仪也可以。你面前不用端着。」"]
+
+[[entries]]
+key = "enterprise_hold_hands_quiet"
+actor_key = "enterprise"
+priority = 10
+lines = ["她没有说话，只是把你的手握紧了一点。", "「……这样就好。不需要更多。」"]
+
+[[entries]]
+key = "enterprise_fishing_date_dock"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业安静地坐在码头上，鱼竿稳稳握在手中。", "「钓鱼和打仗一样，耐心比冲动重要。」"]
+
+# ── 轻亲密事件文本 ──
+
+[[entries]]
+key = "enterprise_kiss_sunset"
+actor_key = "enterprise"
+priority = 10
+lines = ["夕阳映在她微微发红的脸颊上，她主动闭上了眼。", "「这是……我的选择。不需要理由。」"]
+
+[[entries]]
+key = "enterprise_confess_dock"
+actor_key = "enterprise"
+priority = 10
+lines = ["她的手微微颤抖，但目光从未移开。", "「你是我最信任的人——不止是作为指挥官。」"]
+
+[[entries]]
+key = "enterprise_sleep_together_rare"
+actor_key = "enterprise"
+priority = 10
+lines = ["她背对着你躺下，声音轻到几乎听不见。", "「别误会……只是今天，想离你近一点。」"]
+
+# ── 兜底对话 ──
+
 [[entries]]
 key = "chat"
 actor_key = "enterprise"
@@ -45,3 +175,212 @@ key = "train_together"
 actor_key = "enterprise"
 priority = 1
 lines = ["「动作别乱，我会配合你的节奏。」"]
+
+[[entries]]
+key = "paperwork"
+actor_key = "enterprise"
+priority = 1
+lines = ["「文件在这。需要我协助整理吗？」"]
+
+[[entries]]
+key = "serve_tea"
+actor_key = "enterprise"
+priority = 1
+lines = ["「茶泡好了，趁热。」"]
+
+[[entries]]
+key = "scold"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……下次别让我再指出同样的错误。」"]
+
+[[entries]]
+key = "apologize"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……知道了。我不会再犯同样的失误。」"]
+
+[[entries]]
+key = "help_work"
+actor_key = "enterprise"
+priority = 1
+lines = ["「这部分我来处理，你专注另一边。」"]
+
+[[entries]]
+key = "care"
+actor_key = "enterprise"
+priority = 1
+lines = ["「你的状态怎么样？需要休息就开口。」"]
+
+[[entries]]
+key = "listen"
+actor_key = "enterprise"
+priority = 1
+lines = ["「说吧，我在听。」"]
+
+[[entries]]
+key = "touch_head"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……嗯，我不讨厌。」"]
+
+[[entries]]
+key = "hug"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……只允许这一次。」"]
+
+[[entries]]
+key = "walk_together"
+actor_key = "enterprise"
+priority = 1
+lines = ["「你的步速，我会配合。」"]
+
+[[entries]]
+key = "follow_rest"
+actor_key = "enterprise"
+priority = 1
+lines = ["「在你旁边休息，也算任务的一部分。」"]
+
+[[entries]]
+key = "escort_room"
+actor_key = "enterprise"
+priority = 1
+lines = ["「送到这里。晚安。」"]
+
+[[entries]]
+key = "invite_follow"
+actor_key = "enterprise"
+priority = 1
+lines = ["「同行？没问题，我跟你走。」"]
+
+[[entries]]
+key = "invite_date"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……约会吗。好吧，今天破例。」"]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "enterprise"
+priority = 1
+lines = ["「手……可以。别握太久。」"]
+
+[[entries]]
+key = "kiss"
+actor_key = "enterprise"
+priority = 1
+lines = ["「……这是我的选择。」"]
+
+[[entries]]
+key = "confess"
+actor_key = "enterprise"
+priority = 1
+lines = ["「你是我唯一信任到这种程度的人。」"]
+
+# ── 阶段差分 ──
+
+[[entries]]
+key = "chat"
+actor_key = "enterprise"
+priority = 5
+required_stage = "friendly"
+lines = ["「有什么事？我现在心情不错，可以多聊两句。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "enterprise"
+priority = 5
+required_stage = "like"
+lines = ["「你来了。正好，有些话只能跟你说。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "enterprise"
+priority = 5
+required_stage = "love"
+lines = ["「……比起报告，我更想先听你说话。」"]
+
+[[entries]]
+key = "praise"
+actor_key = "enterprise"
+priority = 5
+required_stage = "like"
+lines = ["「被你认可的话……确实比勋章更让人高兴。」"]
+
+[[entries]]
+key = "rest"
+actor_key = "enterprise"
+priority = 5
+required_stage = "like"
+lines = ["「只要你在旁边，我就能真正放松下来。」"]
+
+[[entries]]
+key = "touch_head"
+actor_key = "enterprise"
+priority = 5
+required_stage = "like"
+lines = ["「当着别人的面……算了，随你。」"]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "enterprise"
+priority = 5
+required_stage = "love"
+lines = ["「握紧一点也没关系。我不会走。」"]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "enterprise_chat_embarrassed"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "企业看到你靠近时明显僵了一下，随即别过脸去，可耳尖那一抹绯红完全藏不住。",
+  "「……别过来了。我现在没办法正常跟你说话。这不是……这不是因为讨厌你。」",
+]
+
+[[entries]]
+key = "enterprise_praise_drunk"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "酒后的企业听到你的夸奖后，难得地露出了一个不太设防的笑容，手指无意识地绕着杯沿。",
+  "「被你这么说……比完成任务还要高兴呢。指挥官，这种话你平时也可以多说一点的。」",
+]
+
+[[entries]]
+key = "enterprise_scold_angry_response"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "你的训斥让她抿紧了嘴唇，但眼底那点受伤的光芒一闪而过，随即被倔强地压了回去。",
+  "「……我接受你的批评。但希望你也记得，我一直是在尽全力。」",
+]
+
+[[entries]]
+key = "enterprise_apologize_angry"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "你认错的态度让她原本绷紧的肩线慢慢松了下来，虽然眼神还带着几分不服气，却已经不再闪躲。",
+  "「……既然你肯这样说，那我就当作你已经反省过了。下不为例。」",
+]
+
+[[entries]]
+key = "enterprise_kiss_confessed"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "彼此已经确认过心意后的亲吻，多了一分不必再躲闪的坦然。她闭上眼，轻轻回握住你的手。",
+  "「……嗯。再来一次也可以。」",
+]
+
+[[entries]]
+key = "enterprise_care_embarrassed"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "你细心照料她的动作让企业不知所措，她侧过脸试图回避你的目光，指尖却不自觉地攥紧了衣角。",
+  "「……我自己能处理的。不过，既然是你……这次就让你帮忙吧。」",
+]

@@ -255,6 +255,78 @@ class EventPipelineTests(unittest.TestCase):
         self.assertIn("cruiser_care_infirmary", result.triggered_events)
         self.assertTrue(any("医务室" in line or "安静" in line for line in result.messages))
 
+    # ── MARK 条件事件触发 ──
+
+    def test_chat_with_embarrassed_mark_triggers_secretary_mark_event(self) -> None:
+        secretary = self._actor()
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.active_location.key = "command_office"
+        secretary.location_key = "command_office"
+        secretary.add_mark("embarrassed", 1)
+
+        result = self.app.command_service.execute(
+            self.app.world, actor_key="starter_secretary", command_key="chat",
+        )
+
+        self.assertIn("secretary_chat_embarrassed", result.triggered_events)
+        self.assertTrue(any("不太适合" in line or "没办法" in line for line in result.messages))
+
+    def test_chat_without_mark_does_not_trigger_mark_event(self) -> None:
+        secretary = self._actor()
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.active_location.key = "command_office"
+        secretary.location_key = "command_office"
+
+        result = self.app.command_service.execute(
+            self.app.world, actor_key="starter_secretary", command_key="chat",
+        )
+
+        self.assertNotIn("secretary_chat_embarrassed", result.triggered_events)
+        self.assertNotIn("secretary_chat_drunk", result.triggered_events)
+        self.assertNotIn("secretary_chat_angry", result.triggered_events)
+
+    def test_apologize_with_angry_mark_triggers_destroyer_mark_event(self) -> None:
+        destroyer = next(a for a in self.app.world.characters if a.key == "starter_destroyer")
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.active_location.key = "command_office"
+        destroyer.location_key = "command_office"
+        destroyer.add_mark("angry", 1)
+
+        result = self.app.command_service.execute(
+            self.app.world, actor_key="starter_destroyer", command_key="apologize",
+        )
+
+        self.assertIn("destroyer_apologize_angry", result.triggered_events)
+        self.assertTrue(any("没办法继续生气" in line for line in result.messages))
+
+    def test_enterprise_chat_embarrassed_mark_event(self) -> None:
+        enterprise = next(a for a in self.app.world.characters if a.key == "enterprise")
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.active_location.key = "dock"
+        enterprise.location_key = "dock"
+        enterprise.add_mark("embarrassed", 1)
+
+        result = self.app.command_service.execute(
+            self.app.world, actor_key="enterprise", command_key="chat",
+        )
+
+        self.assertIn("enterprise_chat_embarrassed", result.triggered_events)
+        self.assertTrue(any("没办法正常" in line for line in result.messages))
+
+    def test_laffey_chat_drunk_mark_event(self) -> None:
+        laffey = next(a for a in self.app.world.characters if a.key == "laffey")
+        self.app.world.current_time_slot = TimeSlot.EVENING
+        self.app.world.active_location.key = "dock"
+        laffey.location_key = "dock"
+        laffey.add_mark("drunk", 1)
+
+        result = self.app.command_service.execute(
+            self.app.world, actor_key="laffey", command_key="chat",
+        )
+
+        self.assertIn("laffey_chat_drunk", result.triggered_events)
+        self.assertTrue(any("最喜欢" in line for line in result.messages))
+
 
 if __name__ == "__main__":
     unittest.main()

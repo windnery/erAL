@@ -286,3 +286,41 @@ actor_tags = ["destroyer"]
 location_keys = ["cafeteria"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_date = true
+
+# ── MARK 条件事件 ──
+
+[[events]]
+key = "destroyer_chat_embarrassed"
+action_key = "chat"
+actor_tags = ["destroyer"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "destroyer_chat_drunk"
+action_key = "chat"
+actor_tags = ["destroyer"]
+required_marks = { drunk = 1 }
+
+[[events]]
+key = "destroyer_chat_angry"
+action_key = "chat"
+actor_tags = ["destroyer"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "destroyer_praise_embarrassed"
+action_key = "praise"
+actor_tags = ["destroyer"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "destroyer_touch_head_embarrassed"
+action_key = "touch_head"
+actor_tags = ["destroyer"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "destroyer_apologize_angry"
+action_key = "apologize"
+actor_tags = ["destroyer"]
+required_marks = { angry = 1 }

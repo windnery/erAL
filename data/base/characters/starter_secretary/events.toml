@@ -387,3 +387,42 @@ actor_tags = ["secretary"]
 location_keys = ["cafeteria"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_following = true
+
+# ── MARK 条件事件 ──
+
+[[events]]
+key = "secretary_chat_embarrassed"
+action_key = "chat"
+actor_tags = ["secretary"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "secretary_chat_drunk"
+action_key = "chat"
+actor_tags = ["secretary"]
+required_marks = { drunk = 1 }
+
+[[events]]
+key = "secretary_chat_angry"
+action_key = "chat"
+actor_tags = ["secretary"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "secretary_praise_embarrassed"
+action_key = "praise"
+actor_tags = ["secretary"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "secretary_apologize_angry"
+action_key = "apologize"
+actor_tags = ["secretary"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "secretary_kiss_confessed"
+action_key = "kiss"
+actor_tags = ["secretary"]
+required_stage = "love"
+required_marks = { confessed = 1 }

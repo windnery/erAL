@@ -558,6 +558,78 @@ lines = [
   "她跟着你一起用餐，气氛比平时更安静也更亲近。",
 ]
 
+# ── 阶段差分：friendly / like / love ──
+
+[[entries]]
+key = "chat"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "friendly"
+lines = [
+  "她和你说话时不再像最初那样讲究措辞，偶尔也会停下来听你把话说完再接。",
+  "「前辈，和你聊天的时候总是不知不觉就说多了……不过我不讨厌这种感觉。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "like"
+lines = [
+  "她的目光在你的侧脸多停留了几秒，等话题告一段落后才轻声补了一句。",
+  "「和前辈在一起的时候，我总是比平时更想说话呢……这大概算是一种特权吧。」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "love"
+lines = [
+  "她安静地看着你，嘴角弯起的弧度比任何时候都柔和，像是终于不再需要用礼貌来保持距离。",
+  "「前辈……我有时候会想，如果每一天都能像现在这样和你说说话，那该多好。」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "like"
+lines = [
+  "她微微低下头接受了你的夸奖，指尖不自觉地拢了拢耳边的碎发，掩饰那一丝藏在表情下的喜悦。",
+  "「谢谢前辈……被你这样认真夸奖的时候，我总觉得自己还需要更努力一点，才配得上这句话。」",
+]
+
+[[entries]]
+key = "rest"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "like"
+lines = [
+  "她在你身旁坐下后终于不再维持平时那种端正的坐姿，肩膀也自然地向你的方向偏了一些。",
+  "「前辈在身边的时候，我好像可以放心地什么都不想……这对我来说很奢侈呢。」",
+]
+
+[[entries]]
+key = "touch_head"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "like"
+lines = [
+  "你的手掌覆在她发顶时她缓缓合上了眼，睫毛轻轻颤了颤，随后嘴角浮起一丝浅笑。",
+  "「前辈的手很温柔……这样的时刻，我愿意再安静地多待一会儿。」",
+]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "starter_cruiser"
+priority = 5
+required_stage = "love"
+lines = [
+  "她把手轻轻搭在你的掌心里，指尖微凉却安稳，像是早就想好了这个答案。",
+  "「牵手这件事……如果对象是前辈的话，我愿意一直这样走下去。」",
+]
+
 # ── 约会 C 批：买东西 / 花店 / 一起喝酒 / 约会钓鱼 / 买便当 ──
 
 [[entries]]
@@ -643,4 +715,60 @@ actor_key = "starter_cruiser"
 priority = 0
 lines = [
   "她接过便当后没有急着打开，而是先找了一处安静的位置才慢慢拆开。",
+]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "cruiser_chat_embarrassed"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她安静地听你说着话题，偶尔轻轻点头，可指尖不自觉地交叠在膝上，泄露了那一丝不易察觉的慌乱。",
+  "「嗯……我还在听。只是现在，好像很难像平时那样从容地回应你呢。」",
+]
+
+[[entries]]
+key = "cruiser_chat_drunk"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "酒后的她比平时更容易笑，说话的尾音拖得更长更软，偶尔还会不自觉地把视线停留在你脸上。",
+  "「前辈……你知道吗，平时我不太敢说这种话，但现在说出来好像也没关系——能和你像这样待在一起，我真的觉得很幸福。」",
+]
+
+[[entries]]
+key = "cruiser_chat_angry"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她依旧维持着得体的姿态回应你的话，可语气里的温度明显降了几度，像是刻意保持的距离感。",
+  "「嗯。嗯，是这样。如果没有别的事，我先去忙了。」",
+]
+
+[[entries]]
+key = "cruiser_praise_embarrassed"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她微微低下头接受了你的夸奖，脸颊上的绯色很淡，却比任何言语都更诚实。",
+  "「前辈在这种时候也不肯放过我呢……不过，谢谢。被你这样肯定，我确实很开心。」",
+]
+
+[[entries]]
+key = "cruiser_touch_head_embarrassed"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "你的手落在她发顶时，她的呼吸明显顿了一拍，随后缓缓闭上眼，像是默许了这份比平时更难招架的亲密。",
+  "「……前辈，这样会让我更没法冷静的。不过……如果你不急着收回手的话，我可以再保持一会儿。」",
+]
+
+[[entries]]
+key = "cruiser_apologize_angry"
+actor_key = "starter_cruiser"
+priority = 10
+lines = [
+  "她听完你的道歉后沉默了一会儿，最终轻轻叹了口气，那层刻意维持的疏离感也跟着散了大半。",
+  "「……谢谢你能这样说。我并不是不愿意原谅你，只是需要一点时间。」",
 ]

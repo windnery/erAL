@@ -557,6 +557,78 @@ lines = [
   "她跟着你一起吃饭，全程都特别开心。",
 ]
 
+# ── 阶段差分：friendly / like / love ──
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "friendly"
+lines = [
+  "她跟你说话时比以前更随意了些，偶尔还会用手指戳一下你的手臂来强调重点。",
+  "「前辈，我最近发现跟你聊天的时候时间过得特别快——这绝对是好事吧？」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "like"
+lines = [
+  "她不再像以前那样只在有话题时才开口，有时候就算什么都不说，也会自然地凑到你旁边坐着。",
+  "「前辈，就算我们什么也不做，只是这样待着我也觉得挺好的……诶，我说了什么奇怪的话吗？」",
+]
+
+[[entries]]
+key = "chat"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "love"
+lines = [
+  "她歪着头看你，眼神里少了几分平时的闹腾，多了一种不太遮掩的依赖。",
+  "「前辈，我最近总是忍不住想找你……这大概就是书上说的那种心情吧。你懂的对不对？」",
+]
+
+[[entries]]
+key = "praise"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "like"
+lines = [
+  "你夸完之后她先是用力鼓了两下掌，像是在帮你确认效果，可耳根已经悄悄红了一圈。",
+  "「前辈你终于发现了！我厉害的地方可不止这些哦——不过被你这么说出来，感觉比打赢训练赛还开心！」",
+]
+
+[[entries]]
+key = "rest"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "like"
+lines = [
+  "她坐下来后很自然地把脑袋往你肩膀的方向靠了靠，嘴上还在念叨着今天的趣事。",
+  "「前辈在的话，休息都变得不太想动了……就再赖一会儿吧，五分钟！不，十分钟！」",
+]
+
+[[entries]]
+key = "touch_head"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "like"
+lines = [
+  "你的手刚放上去，她就仰起脸冲你露出一个大大的笑容，完全没有躲开的意思。",
+  "「嘿嘿，前辈摸头的力道我给满分！……这种事情多来几次我完全不会嫌多的！」",
+]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "starter_destroyer"
+priority = 5
+required_stage = "love"
+lines = [
+  "她先你一步把手伸了过来，五根手指急切地穿过你的指缝扣紧，像怕你会松开似的。",
+  "「前辈的手好暖……我以前不觉得牵手有什么特别的，但跟你牵的话就完全不一样了。」",
+]
+
 # ── 约会 C 批：买东西 / 花店 / 一起喝酒 / 约会钓鱼 / 买便当 ──
 
 [[entries]]
@@ -642,4 +714,60 @@ actor_key = "starter_destroyer"
 priority = 0
 lines = [
   "她抱着便当盒时眼睛都在发光，连走路都忍不住加快了步伐。",
+]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "destroyer_chat_embarrassed"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她一看到你的脸就整个人炸了起来，手指不停地扯着衣角，嘴巴张了好几次都没能说出完整的话。",
+  "「才、才不是在害羞！我只是在想怎么回答比较帅而已……前辈你别一直盯着我看啊！」",
+]
+
+[[entries]]
+key = "destroyer_chat_drunk"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "酒后的她完全管不住嘴，连平时藏着掖着的小心思都一股脑说了出来，声音比平时高了整整一个八度。",
+  "「前辈你知道吗，其实我每天最期待的就是你来找我！不管聊天还是训练，反正只要你在就好！」",
+]
+
+[[entries]]
+key = "destroyer_chat_angry"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "她把脸扭向另一边，干脆不看你，嘴里偶尔蹦出来的词短得像在故意省力气。",
+  "「……哼。现在不想跟你说话。除非你自己知道为什么。」",
+]
+
+[[entries]]
+key = "destroyer_praise_embarrassed"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "被你夸奖后她的脸一下子红到了耳根，嘴上嗷嗷叫着否认，脚步却不自觉地往你这边挪了半步。",
+  "「前辈你突然说这种话是不讲武德的！……不过，如果你真的这么觉得的话，那我就勉为其难收下好了。」",
+]
+
+[[entries]]
+key = "destroyer_touch_head_embarrassed"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "你的手刚碰上她的头顶，她整个人就像触电一样弹了一下，紧接着又僵在原地没有躲开。",
+  "「呜……这个犯规！现在这个状态下被摸头根本没法冷静啊……你再、再摸一下也不是不行啦。」",
+]
+
+[[entries]]
+key = "destroyer_apologize_angry"
+actor_key = "starter_destroyer"
+priority = 10
+lines = [
+  "你刚一开口道歉，她的表情就先塌了下来，鼓着的腮帮子也慢慢瘪了回去。",
+  "「呜……前辈你这样认真道歉的话，我根本没办法继续生气嘛！」",
 ]

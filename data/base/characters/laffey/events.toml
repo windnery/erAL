@@ -25,3 +25,199 @@ action_key = "listen"
 actor_tags = ["laffey"]
 location_keys = ["dock", "garden"]
 time_slots = ["evening", "night"]
+
+# ── 日常互动 ──
+
+[[events]]
+key = "laffey_praise_sleepy"
+action_key = "praise"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_share_snack_slow"
+action_key = "share_snack"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_serve_tea_drowsy"
+action_key = "serve_tea"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria", "dormitory_a"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_care_dormitory"
+action_key = "care"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a", "infirmary"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "laffey_apologize_soft"
+action_key = "apologize"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a", "cafeteria"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "laffey_pat_cheek_peek"
+action_key = "pat_cheek"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dormitory_a"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "laffey_poke_cheek_yawn"
+action_key = "poke_cheek"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria", "dormitory_a"]
+time_slots = ["afternoon", "evening"]
+required_stage = "like"
+
+[[events]]
+key = "laffey_read_aloud_drowsy"
+action_key = "read_aloud"
+actor_tags = ["laffey"]
+location_keys = ["library", "garden"]
+time_slots = ["afternoon"]
+
+[[events]]
+key = "laffey_cook_slow"
+action_key = "cook"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+# ── 同行 ──
+
+[[events]]
+key = "laffey_walk_garden"
+action_key = "walk_together"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_follow_rest_dormitory"
+action_key = "follow_rest"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_escort_yawn"
+action_key = "escort_room"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a"]
+time_slots = ["evening", "night"]
+required_stage = "like"
+
+[[events]]
+key = "laffey_follow_meal_happy"
+action_key = "follow_meal"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+# ── 约会 ──
+
+[[events]]
+key = "laffey_date_stroll_garden"
+action_key = "date_stroll"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "laffey_date_meal_cafeteria"
+action_key = "date_meal"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "laffey_hold_hands_warm"
+action_key = "hold_hands"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dock"]
+time_slots = ["evening"]
+required_stage = "like"
+
+[[events]]
+key = "laffey_flower_shop_date"
+action_key = "flower_shop"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dock"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "laffey_fishing_date_dock"
+action_key = "fishing_date"
+actor_tags = ["laffey"]
+location_keys = ["dock"]
+time_slots = ["morning", "afternoon"]
+
+# ── 轻亲密 ──
+
+[[events]]
+key = "laffey_kiss_eyes_closed"
+action_key = "kiss"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a", "garden"]
+time_slots = ["night"]
+required_stage = "love"
+
+[[events]]
+key = "laffey_confess_quiet"
+action_key = "confess"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a", "dock"]
+time_slots = ["night"]
+required_stage = "love"
+
+[[events]]
+key = "laffey_sleep_together_cling"
+action_key = "sleep_together"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a"]
+time_slots = ["night", "late_night"]
+required_stage = "love"
+
+# ── MARK 条件事件 ──
+
+[[events]]
+key = "laffey_chat_embarrassed"
+action_key = "chat"
+actor_tags = ["laffey"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "laffey_chat_drunk"
+action_key = "chat"
+actor_tags = ["laffey"]
+required_marks = { drunk = 1 }
+
+[[events]]
+key = "laffey_apologize_angry"
+action_key = "apologize"
+actor_tags = ["laffey"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "laffey_touch_head_embarrassed"
+action_key = "touch_head"
+actor_tags = ["laffey"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "laffey_kiss_confessed"
+action_key = "kiss"
+actor_tags = ["laffey"]
+required_stage = "love"
+required_marks = { confessed = 1 }

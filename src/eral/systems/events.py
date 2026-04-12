@@ -17,7 +17,7 @@ class EventService:
     relationship_service: RelationshipService
 
     def triggered_events(self, scene: SceneContext) -> tuple[str, ...]:
-        matched: list[str] = []
+        matched: list[tuple[str, int]] = []
         for event in self.events:
             if event.action_key != scene.action_key:
                 continue
@@ -45,7 +45,9 @@ class EventService:
                 if scene.marks.get(mark_key, 0) < min_level:
                     break
             else:
-                matched.append(event.key)
+                specificity = len(event.required_marks)
+                matched.append((event.key, specificity))
                 continue
             # mark check failed — skip this event
-        return tuple(matched)
+        matched.sort(key=lambda pair: -pair[1])
+        return tuple(key for key, _ in matched)

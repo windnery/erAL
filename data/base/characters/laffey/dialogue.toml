@@ -22,6 +22,142 @@ actor_key = "laffey"
 priority = 10
 lines = ["海风吹得她的声音有点轻，却没把那份专注吹散。", "「嗯，拉菲记住了。之后也会继续听。」"]
 
+# ── 日常互动事件文本 ──
+
+[[entries]]
+key = "laffey_praise_sleepy"
+actor_key = "laffey"
+priority = 10
+lines = ["她眨了眨眼，好一会儿才意识到你在夸她。", "「嗯……谢谢。拉菲再清醒一下就回你。」"]
+
+[[entries]]
+key = "laffey_share_snack_slow"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲慢吞吞地把手里的零食递到你嘴边。", "「这个味道不错……指挥官也尝一口？」"]
+
+[[entries]]
+key = "laffey_serve_tea_drowsy"
+actor_key = "laffey"
+priority = 10
+lines = ["她端着茶杯走过来的时候差点被自己的脚绊了一下。", "「茶……没洒。放心喝。」"]
+
+[[entries]]
+key = "laffey_care_dormitory"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲伸出手背贴了贴你的额头，动作比平时认真。", "「没有发烧……但是脸色不太好。要拉菲陪吗？」"]
+
+[[entries]]
+key = "laffey_apologize_soft"
+actor_key = "laffey"
+priority = 10
+lines = ["她低下头，声音轻得像在自言自语。", "「……拉菲知道错了。下次会注意的。」"]
+
+[[entries]]
+key = "laffey_pat_cheek_peek"
+actor_key = "laffey"
+priority = 10
+lines = ["她微微偏头，从你的掌心里偷偷看你。", "「……指挥官的手，很暖。」"]
+
+[[entries]]
+key = "laffey_poke_cheek_yawn"
+actor_key = "laffey"
+priority = 10
+lines = ["被戳之后她没有躲，反而把脸往你手指上蹭了一下。", "「再戳一下也可以……反正拉菲不困……大概。」"]
+
+[[entries]]
+key = "laffey_read_aloud_drowsy"
+actor_key = "laffey"
+priority = 10
+lines = ["她念着念着声音越来越小，最后差点打起瞌睡。", "「……对不起，这一段拉菲重新念。」"]
+
+[[entries]]
+key = "laffey_cook_slow"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲动作很慢但很仔细地把蔬菜切好。", "「做饭的时候不能打瞌睡……拉菲知道。」"]
+
+# ── 同行事件文本 ──
+
+[[entries]]
+key = "laffey_walk_garden"
+actor_key = "laffey"
+priority = 10
+lines = ["她抓着你的袖口慢慢走，偶尔被花丛吸引停几秒。", "「和指挥官一起散步……比睡觉还舒服。」"]
+
+[[entries]]
+key = "laffey_follow_rest_dormitory"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲直接靠在你肩膀上，眼皮已经开始打架。", "「指挥官的肩膀……比枕头还好。」"]
+
+[[entries]]
+key = "laffey_escort_yawn"
+actor_key = "laffey"
+priority = 10
+lines = ["她打了个哈欠，但还是拉着你的手不放。", "「送到门口就好了……但是手不要放开。」"]
+
+[[entries]]
+key = "laffey_follow_meal_happy"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲看到食堂的瞬间眼睛终于亮了。", "「和指挥官一起吃饭……拉菲会全部吃完的。」"]
+
+# ── 约会事件文本 ──
+
+[[entries]]
+key = "laffey_date_stroll_garden"
+actor_key = "laffey"
+priority = 10
+lines = ["她难得地走在你前面半步，时不时回头确认你在。", "「约会的时候……拉菲想要走慢一点。」"]
+
+[[entries]]
+key = "laffey_date_meal_cafeteria"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲认真地把你的那份也摆好，动作比平时利索。", "「约会餐……拉菲会好好享受的。」"]
+
+[[entries]]
+key = "laffey_hold_hands_warm"
+actor_key = "laffey"
+priority = 10
+lines = ["她把你的手握住，然后塞进自己的口袋里。", "「手冷的话……拉菲可以帮你暖暖。」"]
+
+[[entries]]
+key = "laffey_flower_shop_date"
+actor_key = "laffey"
+priority = 10
+lines = ["她蹲在花丛前看了好久，最后指了一朵最朴素的。", "「这朵像拉菲……不显眼，但是很耐看。」"]
+
+[[entries]]
+key = "laffey_fishing_date_dock"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲安静地抱着鱼竿，风把她的头发吹得乱七八糟。", "「钓鱼需要耐心……拉菲最不缺的就是耐心和瞌睡。」"]
+
+# ── 轻亲密事件文本 ──
+
+[[entries]]
+key = "laffey_kiss_eyes_closed"
+actor_key = "laffey"
+priority = 10
+lines = ["她闭着眼微微仰起头，睫毛轻轻颤了一下。", "「……不用紧张。拉菲准备好了。」"]
+
+[[entries]]
+key = "laffey_confess_quiet"
+actor_key = "laffey"
+priority = 10
+lines = ["她的声音比平时清醒了很多，像是把全部精力都用在了这句话上。", "「指挥官……是拉菲不想睡醒的理由。」"]
+
+[[entries]]
+key = "laffey_sleep_together_cling"
+actor_key = "laffey"
+priority = 10
+lines = ["她缩进被子里，伸手拉住你的衣角。", "「别走……拉菲今天想靠着指挥官睡。」"]
+
+# ── 兜底对话 ──
+
 [[entries]]
 key = "chat"
 actor_key = "laffey"
@@ -45,3 +181,215 @@ key = "listen"
 actor_key = "laffey"
 priority = 1
 lines = ["「继续说吧，拉菲不会走神。」"]
+
+[[entries]]
+key = "praise"
+actor_key = "laffey"
+priority = 1
+lines = ["「被夸了……拉菲会努力保持清醒的。」"]
+
+[[entries]]
+key = "share_snack"
+actor_key = "laffey"
+priority = 1
+lines = ["「要吃吗？拉菲还有。」"]
+
+[[entries]]
+key = "serve_tea"
+actor_key = "laffey"
+priority = 1
+lines = ["「茶泡好了……应该没放错。」"]
+
+[[entries]]
+key = "care"
+actor_key = "laffey"
+priority = 1
+lines = ["「不舒服的话……拉菲可以陪着你。」"]
+
+[[entries]]
+key = "apologize"
+actor_key = "laffey"
+priority = 1
+lines = ["「……对不起。拉菲下次会注意。」"]
+
+[[entries]]
+key = "pat_cheek"
+actor_key = "laffey"
+priority = 1
+lines = ["「嗯……暖暖的。」"]
+
+[[entries]]
+key = "poke_cheek"
+actor_key = "laffey"
+priority = 1
+lines = ["「……拉菲没睡着哦。」"]
+
+[[entries]]
+key = "read_aloud"
+actor_key = "laffey"
+priority = 1
+lines = ["「读到哪里了……拉菲接着念。」"]
+
+[[entries]]
+key = "cook"
+actor_key = "laffey"
+priority = 1
+lines = ["「拉菲可以帮忙……只是要慢一点。」"]
+
+[[entries]]
+key = "hug"
+actor_key = "laffey"
+priority = 1
+lines = ["「……拉菲不想放手。」"]
+
+[[entries]]
+key = "walk_together"
+actor_key = "laffey"
+priority = 1
+lines = ["「一起走……慢慢走。」"]
+
+[[entries]]
+key = "follow_rest"
+actor_key = "laffey"
+priority = 1
+lines = ["「在指挥官旁边休息……最安心。」"]
+
+[[entries]]
+key = "escort_room"
+actor_key = "laffey"
+priority = 1
+lines = ["「到了……明天见。」"]
+
+[[entries]]
+key = "follow_meal"
+actor_key = "laffey"
+priority = 1
+lines = ["「一起吃饭……拉菲不会打瞌睡的。」"]
+
+[[entries]]
+key = "invite_follow"
+actor_key = "laffey"
+priority = 1
+lines = ["「同行？拉菲跟上。」"]
+
+[[entries]]
+key = "invite_date"
+actor_key = "laffey"
+priority = 1
+lines = ["「约会……拉菲会撑住不睡的。」"]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "laffey"
+priority = 1
+lines = ["「手……可以一直牵着吗？」"]
+
+[[entries]]
+key = "kiss"
+actor_key = "laffey"
+priority = 1
+lines = ["「……嗯。拉菲不讨厌。」"]
+
+[[entries]]
+key = "confess"
+actor_key = "laffey"
+priority = 1
+lines = ["「指挥官是拉菲的……特别的人。」"]
+
+# ── 阶段差分 ──
+
+[[entries]]
+key = "chat"
+actor_key = "laffey"
+priority = 5
+required_stage = "friendly"
+lines = ["「指挥官来了……拉菲会努力不打瞌睡的。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "laffey"
+priority = 5
+required_stage = "like"
+lines = ["「你来找拉菲了……好开心。差点醒不过来。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "laffey"
+priority = 5
+required_stage = "love"
+lines = ["「只要指挥官在……拉菲就不想睡了。」"]
+
+[[entries]]
+key = "praise"
+actor_key = "laffey"
+priority = 5
+required_stage = "like"
+lines = ["「被指挥官夸奖……比午觉还舒服。」"]
+
+[[entries]]
+key = "rest"
+actor_key = "laffey"
+priority = 5
+required_stage = "like"
+lines = ["「靠着指挥官休息的话……比在被窝里还安心。」"]
+
+[[entries]]
+key = "touch_head"
+actor_key = "laffey"
+priority = 5
+required_stage = "like"
+lines = ["「再摸一会儿……拉菲不困，只是舒服。」"]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "laffey"
+priority = 5
+required_stage = "love"
+lines = ["「不要放开……一直牵着好不好？」"]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "laffey_chat_embarrassed"
+actor_key = "laffey"
+priority = 10
+lines = [
+  "拉菲缩了缩脖子，把脸埋进领口里，只露出一双微微泛红的耳朵。",
+  "「……别说奇怪的话。拉菲现在脑袋很热，没办法正常思考……」",
+]
+
+[[entries]]
+key = "laffey_chat_drunk"
+actor_key = "laffey"
+priority = 10
+lines = [
+  "微醺的拉菲比平时更黏人，说话的尾音软绵绵的，整个人的重量都往你这边靠了过来。",
+  "「指挥官……拉菲最喜欢你了。这个平时不好意思说，但是现在可以说了吧？」",
+]
+
+[[entries]]
+key = "laffey_apologize_angry"
+actor_key = "laffey"
+priority = 10
+lines = [
+  "你蹲下来认真道歉后，她揪着你衣角的手渐渐松了，嘴上虽然还没完全消气，眼神已经不再躲着你了。",
+  "「……哼。拉菲暂时原谅你了。不过要补偿……至少要摸头三次才行。」",
+]
+
+[[entries]]
+key = "laffey_touch_head_embarrassed"
+actor_key = "laffey"
+priority = 10
+lines = [
+  "你的手掌覆在她头顶时，她整个人都软了下来，像一只被顺了毛的猫，耳朵红得几乎冒烟。",
+  "「呜……现在被摸头的话，拉菲的心脏会……会跳得太快了……」",
+]
+
+[[entries]]
+key = "laffey_kiss_confessed"
+actor_key = "laffey"
+priority = 10
+lines = [
+  "告白之后的亲吻不再需要犹豫。她主动微微仰起脸，闭上眼等待你的靠近。",
+  "「……嗯。因为是喜欢的人，所以……再多亲几下也没关系的。」",
+]
