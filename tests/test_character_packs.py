@@ -8,22 +8,36 @@ import uuid
 from pathlib import Path
 
 from eral.content.character_packs import load_character_packs
+from eral.content.marks import load_mark_definitions
+from eral.content.stat_axes import load_stat_axis_catalog
+from eral.content.tw_axis_registry import load_tw_axis_registry
 from eral.tools.validate_content import validate_content
 
 
 class CharacterPackTests(unittest.TestCase):
     def test_loads_starter_secretary_pack(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
-        packs = load_character_packs(repo_root / "data" / "base" / "characters")
+        stat_axes = load_stat_axis_catalog(repo_root / "data" / "base" / "stat_axes.toml")
+        tw_axes = load_tw_axis_registry(repo_root / "data" / "generated" / "tw_axis_registry.json")
+        mark_keys = {m.key for m in load_mark_definitions(repo_root / "data" / "base" / "marks.toml")}
+        packs = load_character_packs(
+            repo_root / "data" / "base" / "characters",
+            stat_axes=stat_axes,
+            tw_axes=tw_axes,
+            mark_keys=mark_keys,
+        )
 
         pack_map = {pack.character.key: pack for pack in packs}
-        self.assertEqual(len(packs), 3)
+        self.assertEqual(len(packs), 5)
         self.assertIn("starter_secretary", pack_map)
         self.assertIn("starter_destroyer", pack_map)
         self.assertIn("starter_cruiser", pack_map)
+        self.assertIn("enterprise", pack_map)
+        self.assertIn("laffey", pack_map)
         self.assertEqual(pack_map["starter_secretary"].character.schedule["night"], "bathhouse")
         self.assertEqual(pack_map["starter_destroyer"].character.schedule["morning"], "command_office")
         self.assertEqual(pack_map["starter_cruiser"].character.schedule["morning"], "cafeteria")
+        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.base["stamina"], 650)
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.palam["favor"], 1)
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.abl[41], 1)
         self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.talent[92], 1)
@@ -34,6 +48,13 @@ class CharacterPackTests(unittest.TestCase):
         self.assertEqual(len(pack_map["starter_destroyer"].dialogue), 73)
         self.assertEqual(len(pack_map["starter_cruiser"].events), 36)
         self.assertEqual(len(pack_map["starter_cruiser"].dialogue), 73)
+        self.assertEqual(len(pack_map["enterprise"].events), 4)
+        self.assertEqual(len(pack_map["enterprise"].dialogue), 8)
+        self.assertEqual(pack_map["enterprise"].character.initial_stats.base["stamina"], 1200)
+        self.assertEqual(pack_map["enterprise"].character.initial_stats.palam["favor"], 3)
+        self.assertEqual(pack_map["laffey"].character.initial_stats.base["stamina"], 900)
+        self.assertEqual(pack_map["laffey"].character.initial_stats.palam["favor"], 2)
+        self.assertEqual(pack_map["laffey"].character.initial_stats.marks["kissed"], 1)
 
     def test_content_validator_accepts_current_pack_layout(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]

@@ -140,11 +140,30 @@ class InitialStatsTests(unittest.TestCase):
         app = create_application(self.repo_root)
         actor = next(actor for actor in app.world.characters if actor.key == "starter_cruiser")
 
+        self.assertEqual(actor.stats.base.get("stamina"), 650)
         self.assertEqual(actor.stats.palam.get("favor"), 1)
         self.assertEqual(actor.stats.compat.abl.get(41), 1)
         self.assertEqual(actor.stats.compat.talent.get(92), 1)
         self.assertEqual(actor.trust, 1)
         self.assertTrue(actor.has_mark("kissed"))
+
+    def test_enterprise_and_laffey_initial_stats_apply_after_bootstrap(self) -> None:
+        app = create_application(self.repo_root)
+        enterprise = next(actor for actor in app.world.characters if actor.key == "enterprise")
+        laffey = next(actor for actor in app.world.characters if actor.key == "laffey")
+
+        self.assertEqual(enterprise.stats.base.get("stamina"), 1200)
+        self.assertEqual(enterprise.stats.base.get("spirit"), 900)
+        self.assertEqual(enterprise.stats.palam.get("favor"), 3)
+        self.assertEqual(enterprise.stats.compat.abl.get(41), 2)
+        self.assertEqual(enterprise.affection, 4)
+        self.assertTrue(enterprise.has_mark("confessed"))
+
+        self.assertEqual(laffey.stats.base.get("stamina"), 900)
+        self.assertEqual(laffey.stats.palam.get("favor"), 2)
+        self.assertEqual(laffey.stats.compat.talent.get(92), 1)
+        self.assertEqual(laffey.affection, 3)
+        self.assertTrue(laffey.has_mark("kissed"))
 
 
 if __name__ == "__main__":

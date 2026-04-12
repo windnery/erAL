@@ -1,0 +1,47 @@
+[[entries]]
+key = "laffey_chat_cafeteria"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲抱着杯子慢吞吞地抬眼看你，像是刚从午睡边缘被叫醒。", "「指挥官想聊天的话……拉菲会听着的。」"]
+
+[[entries]]
+key = "laffey_headpat_garden"
+actor_key = "laffey"
+priority = 10
+lines = ["她先是眯了眯眼，随后顺势把额头贴得更近了一点。", "「这个动作，拉菲不讨厌……可以多一下。」"]
+
+[[entries]]
+key = "laffey_rest_dormitory"
+actor_key = "laffey"
+priority = 10
+lines = ["拉菲把被角往怀里一拢，给你留出旁边那块刚好能坐下的位置。", "「休息的时候待在一起，效率也会变高。」"]
+
+[[entries]]
+key = "laffey_listen_dock"
+actor_key = "laffey"
+priority = 10
+lines = ["海风吹得她的声音有点轻，却没把那份专注吹散。", "「嗯，拉菲记住了。之后也会继续听。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "laffey"
+priority = 1
+lines = ["「慢一点说，拉菲有在认真听。」"]
+
+[[entries]]
+key = "touch_head"
+actor_key = "laffey"
+priority = 1
+lines = ["「唔……这样会让人更想睡。」"]
+
+[[entries]]
+key = "rest"
+actor_key = "laffey"
+priority = 1
+lines = ["「拉菲觉得，和指挥官一起发呆也算休整。」"]
+
+[[entries]]
+key = "listen"
+actor_key = "laffey"
+priority = 1
+lines = ["「继续说吧，拉菲不会走神。」"]

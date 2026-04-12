@@ -1,0 +1,27 @@
+[[events]]
+key = "laffey_chat_cafeteria"
+action_key = "chat"
+actor_tags = ["laffey"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "laffey_headpat_garden"
+action_key = "touch_head"
+actor_tags = ["laffey"]
+location_keys = ["garden", "dormitory_a"]
+time_slots = ["afternoon", "night"]
+
+[[events]]
+key = "laffey_rest_dormitory"
+action_key = "rest"
+actor_tags = ["laffey"]
+location_keys = ["dormitory_a"]
+time_slots = ["night", "late_night"]
+
+[[events]]
+key = "laffey_listen_dock"
+action_key = "listen"
+actor_tags = ["laffey"]
+location_keys = ["dock", "garden"]
+time_slots = ["evening", "night"]

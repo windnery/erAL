@@ -1,0 +1,12 @@
+key = "laffey"
+display_name = "拉菲"
+tags = ["laffey", "destroyer", "eagle_union", "sleepy"]
+initial_location = "dormitory_a"
+
+[schedule]
+dawn = "dormitory_a"
+morning = "cafeteria"
+afternoon = "garden"
+evening = "dock"
+night = "dormitory_a"
+late_night = "dormitory_a"

@@ -1,0 +1,12 @@
+key = "enterprise"
+display_name = "企业"
+tags = ["enterprise", "carrier", "eagle_union", "serious"]
+initial_location = "dock"
+
+[schedule]
+dawn = "dormitory_a"
+morning = "dock"
+afternoon = "training_ground"
+evening = "command_office"
+night = "garden"
+late_night = "dormitory_a"

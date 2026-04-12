@@ -3,21 +3,6 @@ display_name = "巡洋舰"
 tags = ["starter", "cruiser", "calm"]
 initial_location = "cafeteria"
 
-[initial_stats.palam]
-favor = 1
-
-[initial_stats.abl]
-"41" = 1
-
-[initial_stats.talent]
-"92" = 1
-
-[initial_stats.cflag]
-"4" = 1
-
-[initial_stats.marks]
-kissed = 1
-
 [schedule]
 dawn = "dormitory_a"
 morning = "cafeteria"

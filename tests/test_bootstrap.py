@@ -19,7 +19,7 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(app.world.current_day, 1)
         self.assertEqual(app.world.active_location.key, "command_office")
         self.assertEqual(app.port_map.key, "starter_port")
-        self.assertEqual(len(app.world.characters), 3)
+        self.assertEqual(len(app.world.characters), 5)
         secretary = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
         cruiser = next(actor for actor in app.world.characters if actor.key == "starter_cruiser")
         self.assertEqual(secretary.location_key, "command_office")

@@ -80,5 +80,30 @@ class SaveLoadTests(unittest.TestCase):
         self.assertIn("load", action_types)
 
 
+    def test_load_restores_enterprise_and_laffey_seeded_stats(self) -> None:
+        enterprise = next(actor for actor in self.app.world.characters if actor.key == "enterprise")
+        laffey = next(actor for actor in self.app.world.characters if actor.key == "laffey")
+
+        self.app.save_service.save_world(self.app.world)
+
+        enterprise.stats.base.set("stamina", 1)
+        enterprise.stats.compat.cflag.set(2, 0)
+        enterprise.marks["confessed"] = 0
+        laffey.stats.palam.set("favor", 0)
+        laffey.stats.compat.cflag.set(2, 0)
+        laffey.marks["kissed"] = 0
+
+        restored = self.app.save_service.load_world()
+        restored_enterprise = next(actor for actor in restored.characters if actor.key == "enterprise")
+        restored_laffey = next(actor for actor in restored.characters if actor.key == "laffey")
+
+        self.assertEqual(restored_enterprise.stats.base.get("stamina"), 1200)
+        self.assertEqual(restored_enterprise.stats.compat.cflag.get(2), 4)
+        self.assertEqual(restored_enterprise.marks["confessed"], 1)
+        self.assertEqual(restored_laffey.stats.palam.get("favor"), 2)
+        self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 3)
+        self.assertEqual(restored_laffey.marks["kissed"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()

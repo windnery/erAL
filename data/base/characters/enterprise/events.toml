@@ -1,0 +1,27 @@
+[[events]]
+key = "enterprise_chat_dock"
+action_key = "chat"
+actor_tags = ["enterprise"]
+location_keys = ["dock", "command_office"]
+time_slots = ["morning", "evening"]
+
+[[events]]
+key = "enterprise_praise_evening"
+action_key = "praise"
+actor_tags = ["enterprise"]
+location_keys = ["command_office", "garden"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "enterprise_rest_garden"
+action_key = "rest"
+actor_tags = ["enterprise"]
+location_keys = ["garden", "dormitory_a"]
+time_slots = ["night", "late_night"]
+
+[[events]]
+key = "enterprise_train_ground"
+action_key = "train_together"
+actor_tags = ["enterprise"]
+location_keys = ["training_ground"]
+time_slots = ["afternoon"]

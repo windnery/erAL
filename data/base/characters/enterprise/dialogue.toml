@@ -1,0 +1,47 @@
+[[entries]]
+key = "enterprise_chat_dock"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业抬手压了压帽檐，视线仍旧稳稳落在你身上。", "「汇报之前，先让我确认你今天的状态。」"]
+
+[[entries]]
+key = "enterprise_praise_evening"
+actor_key = "enterprise"
+priority = 10
+lines = ["她听完夸奖后沉默了半秒，随后才把那点笑意收进眼底。", "「如果这是你的真实评价，我会把它当成新的标准。」"]
+
+[[entries]]
+key = "enterprise_rest_garden"
+actor_key = "enterprise"
+priority = 10
+lines = ["夜风把她的发梢吹得微微扬起，难得让她显得没那么紧绷。", "「就休息一会儿。你在这里，我也能稍微放松一点。」"]
+
+[[entries]]
+key = "enterprise_train_ground"
+actor_key = "enterprise"
+priority = 10
+lines = ["企业把训练计划递到你手里，条目已经整齐地排好了。", "「既然一起训练，就别浪费彼此的时间。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "enterprise"
+priority = 1
+lines = ["「直接说重点，我在听。」"]
+
+[[entries]]
+key = "praise"
+actor_key = "enterprise"
+priority = 1
+lines = ["「夸奖先记下，之后用结果来证明更有说服力。」"]
+
+[[entries]]
+key = "rest"
+actor_key = "enterprise"
+priority = 1
+lines = ["「休整不是松懈，是为了下一次更稳地出击。」"]
+
+[[entries]]
+key = "train_together"
+actor_key = "enterprise"
+priority = 1
+lines = ["「动作别乱，我会配合你的节奏。」"]
