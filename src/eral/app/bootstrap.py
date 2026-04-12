@@ -108,7 +108,13 @@ def create_application(root: Path | None = None) -> Application:
     stat_axes = load_stat_axis_catalog(stat_axes_path)
     tw_axes = load_tw_axis_registry(tw_axes_path)
     port_map = load_port_map(port_map_path)
-    character_packs = load_character_packs(character_packs_path)
+    mark_defs = load_mark_definitions(marks_path)
+    character_packs = load_character_packs(
+        character_packs_path,
+        stat_axes=stat_axes,
+        tw_axes=tw_axes,
+        mark_keys={mark.key for mark in mark_defs},
+    )
     roster = tuple(pack.character for pack in character_packs) or load_character_definitions(characters_path)
     relationship_stages = load_relationship_stages(relationship_stages_path)
     global_events = load_event_definitions(events_path)
@@ -119,7 +125,6 @@ def create_application(root: Path | None = None) -> Application:
     dialogue = global_dialogue + pack_dialogue
     settlement_rules = load_settlement_rules(settlement_rules_path)
     commands = load_command_definitions(commands_path)
-    mark_defs = load_mark_definitions(marks_path)
     mark_definitions = {m.key: m for m in mark_defs}
     start_location = port_map.starting_location()
     event_bus = EventBus()
