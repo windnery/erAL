@@ -6,9 +6,12 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
+from eral.content.character_stats import load_split_initial_stats
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, _parse_initial_stats
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
 from eral.content.events import EventDefinition, load_event_definitions
+from eral.content.stat_axes import StatAxisCatalog
+from eral.content.tw_axis_registry import TwAxisRegistry
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,7 +23,13 @@ class CharacterPack:
     dialogue: tuple[DialogueEntry, ...]
 
 
-def load_character_packs(path: Path) -> tuple[CharacterPack, ...]:
+def load_character_packs(
+    path: Path,
+    *,
+    stat_axes: StatAxisCatalog | None = None,
+    tw_axes: TwAxisRegistry | None = None,
+    mark_keys: set[str] | None = None,
+) -> tuple[CharacterPack, ...]:
     """Load character packs from directory entries."""
 
     if not path.exists():
@@ -33,7 +42,15 @@ def load_character_packs(path: Path) -> tuple[CharacterPack, ...]:
         character_file = entry / "character.toml"
         if not character_file.exists():
             continue
-        character = _load_character_file(character_file)
+        initial_stats = None
+        if stat_axes is not None and tw_axes is not None and mark_keys is not None:
+            initial_stats = load_split_initial_stats(
+                entry,
+                stat_axes=stat_axes,
+                tw_axes=tw_axes,
+                mark_keys=mark_keys,
+            )
+        character = _load_character_file(character_file, initial_stats=initial_stats)
         events = (
             load_event_definitions(entry / "events.toml")
             if (entry / "events.toml").exists()
@@ -49,7 +66,11 @@ def load_character_packs(path: Path) -> tuple[CharacterPack, ...]:
     return tuple(packs)
 
 
-def _load_character_file(path: Path) -> CharacterDefinition:
+def _load_character_file(
+    path: Path,
+    *,
+    initial_stats: InitialStatOverrides | None = None,
+) -> CharacterDefinition:
     with path.open("rb") as handle:
         raw_data = tomllib.load(handle)
 
@@ -59,5 +80,5 @@ def _load_character_file(path: Path) -> CharacterDefinition:
         tags=tuple(raw_data.get("tags", [])),
         initial_location=raw_data["initial_location"],
         schedule={str(key): str(value) for key, value in raw_data.get("schedule", {}).items()},
-        initial_stats=_parse_initial_stats(raw_data.get("initial_stats")),
+        initial_stats=initial_stats or _parse_initial_stats(raw_data.get("initial_stats")),
     )
