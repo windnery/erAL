@@ -5,7 +5,7 @@
 当前 `erAL` 已经具备以下基础：
 
 - 已导入 `eraTW` 的数值轴注册表，运行时同时持有命名轴 `BASE/PALAM/SOURCE` 与兼容轴 `ABL/TALENT/FLAG/CFLAG/TFLAG`
-- 角色包已支持基础档案、日程、事件、对话，以及部分 `initial_stats`
+- 角色包已支持基础档案、日程、事件、对话，以及部分角色初始数值
 - 仓库内存在 3 个 `starter_*` 角色包，适合作为系统占位或样例内容
 
 用户要求第一批先只做 2 个可测试角色，使用企业与拉菲；如果占位角色仍有价值则保留；角色数值标签最终要尽量与 `eraTW` 保持一致；`erArk` 的第一次大更新可以作为内容组织和系统分层的参考，但不要求在这一批次直接实现其全部功能。
@@ -14,7 +14,7 @@
 
 - 保留现有 `starter_*` 角色，继续承担占位角色和系统样例职责
 - 新增企业、拉菲两个正式测试角色包，用于后续事件、口上和数值验证
-- 扩展角色包初始数值能力，稳定支持 `BASE/PALAM/ABL/TALENT/CFLAG`，为后续更多 `eraTW` 数值接入打基础
+- 将角色初始数值升级为按数值族拆分的独立 TOML 文件，为后续更多 `eraTW` 数值接入打基础
 - 明确第一批只做“角色数据与数值结构对齐”，不把 `erArk` 的 AI 地文、纸娃娃地文、编辑器等大系统塞进本批
 
 ## 非目标
@@ -22,7 +22,7 @@
 - 本批不实现 `erArkEditor`
 - 本批不实现 AI 生成地文流水线
 - 本批不实现纸娃娃地文系统
-- 本批不要求完成企业、拉菲的正式口上内容，只要求角色包结构可承载后续口上接入
+- 本批不要求完成企业、拉菲的正式口上内容，只要求角色包目录结构可承载后续口上接入
 - 本批不一次性补完所有 `eraTW` 行为语义，只先打通角色侧的存储、加载、校验和初始化
 
 ## 方案比较
@@ -98,20 +98,26 @@
   - 要求：不承载正式碧蓝航线角色身份
 - 新增 `enterprise` 与 `laffey` 角色包
   - 作用：第一批正式测试角色
-  - 要求：具备独立 `character.toml`，并预留 `events.toml` 与 `dialogue.toml`
+  - 要求：具备独立 `character.toml`，并采用按数值族拆分的 TOML 文件结构，同时预留 `events.toml` 与 `dialogue.toml`
 
 ### 角色包能力
 
-角色包需要稳定支持如下初始数值段：
+角色包的初始数值不再内嵌在 `character.toml` 中，而是按数值族拆分为独立文件：
 
-- `initial_stats.base`
-- `initial_stats.palam`
-- `initial_stats.abl`
-- `initial_stats.talent`
-- `initial_stats.cflag`
-- `initial_stats.marks`
+- `base.toml`
+- `palam.toml`
+- `abl.toml`
+- `talent.toml`
+- `cflag.toml`
+- `marks.toml`
 
-第一批不新增新的角色包语法层级，优先沿用现有 `initial_stats` 结构，避免把内容作者接口做复杂。
+这样做的原因是：
+
+- 当标签数量向 `eraTW` 靠拢时，单一 `character.toml` 会迅速臃肿
+- 按族拆分后，程序员和玩家都能一眼看出文件与数值族的对应关系
+- 未来若接入编辑器或批量校对工具，拆分文件更容易做差异比较、局部编辑与格式校验
+
+第一批不再坚持沿用单一 `initial_stats` 结构，而是把角色档案与角色数值彻底拆开。
 
 ## 数据与运行时设计
 
@@ -123,15 +129,20 @@
 
 ### 初值注入原则
 
-- 如果角色包提供命名轴初值，按键名写入对应 `StatBlock`
-- 如果角色包提供兼容轴初值，按 `era_index` 写入对应 `IndexedStatBlock`
-- 对于未声明的数值，保持零值，不在角色包层做人为补默认
+- `character.toml` 只负责角色档案、标签、地点、日程等元信息
+- `base.toml` 与 `palam.toml` 使用命名 key 写入对应 `StatBlock`
+- `abl.toml`、`talent.toml`、`cflag.toml` 使用 `era_index` 写入对应 `IndexedStatBlock`
+- `marks.toml` 继续保存 marks 初值
+- 对于未提供的数值文件或未声明的数值项，保持零值，不在角色包层做人为补默认
 
 ### 校验原则
 
 - 内容加载器需要继续保证角色包结构完整
-- 若角色包引用了不存在的命名轴 key，应视为内容错误
-- 若角色包引用了不存在的 compat `era_index`，应视为内容错误
+- `character.toml` 为必需文件
+- 数值文件按需存在，但一旦存在就必须通过对应族的格式校验
+- 若角色包在 `base.toml` 或 `palam.toml` 中引用了不存在的命名轴 key，应视为内容错误
+- 若角色包在 `abl.toml`、`talent.toml`、`cflag.toml` 中引用了不存在的 compat `era_index`，应视为内容错误
+- `marks.toml` 中引用未定义 mark key，应视为内容错误
 - `starter_*` 与正式角色都必须走同一套校验逻辑
 
 ## 第一批实施内容
@@ -149,9 +160,19 @@
 - `events.toml`
 - `dialogue.toml`
 
+并按需增加数值文件：
+
+- `base.toml`
+- `palam.toml`
+- `abl.toml`
+- `talent.toml`
+- `cflag.toml`
+- `marks.toml`
+
 其中：
 
-- `character.toml` 先提供档案、标签、初始地点、日程和初始数值
+- `character.toml` 只提供档案、标签、初始地点和日程
+- 各数值 TOML 只承载对应族的初始值
 - `events.toml` 可先保持最小合法结构，确保后续可扩展
 - `dialogue.toml` 可先提供最小合法结构，确保后续口上接入路径稳定
 
@@ -169,7 +190,7 @@
 测试应覆盖：
 
 - 新角色可被加载
-- 新角色的 `BASE/PALAM/ABL/TALENT/CFLAG/marks` 初值正确注入
+- 新角色的 `BASE/PALAM/ABL/TALENT/CFLAG/marks` 初值能从拆分数值文件正确注入
 - 旧 `starter_*` 角色仍可加载，不因新角色方案失效
 - 保存/读档链路不会丢失新增角色的初始数值
 
@@ -191,7 +212,7 @@
 
 ### 编辑器
 
-本批不写编辑器，但要避免角色包格式频繁改版。第一批选择沿用并巩固现有 TOML 结构，就是为未来编辑器提供稳定输入格式。
+本批不写编辑器，但要避免角色包格式频繁改版。第一批直接采用按数值族拆分的 TOML 结构，就是为未来编辑器提供稳定输入格式。
 
 ## 风险与应对
 
@@ -213,8 +234,8 @@
 
 应对：
 
-- 保持 `character.toml + events.toml + dialogue.toml` 三件套
-- 避免本批引入临时性、难编辑的嵌套结构
+- 保持 `character.toml + 数值族 TOML + events.toml + dialogue.toml` 的稳定边界
+- 避免本批继续依赖会膨胀失控的内嵌 `initial_stats` 结构
 
 ## 测试策略
 
