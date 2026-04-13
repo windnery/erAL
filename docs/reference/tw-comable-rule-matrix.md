@@ -388,4 +388,4 @@
 
 - [ ] 把 `erAL` 当前命令表补一个“命令分类”字段
 - [ ] 给 `erAL` 增加“约会途中”与“忙碌中”这类流程状态
-- [ ] 让 `available_commands_for_actor()` 拆成多层 gate
+- [x] 让 `available_commands_for_actor()` 拆成多层 gate（2026-04-12 已落地 `CommandCategoryGate / GlobalModeGate / CommandSpecificGate`，并保留 actor 不在场时的优先失败语义）

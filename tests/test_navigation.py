@@ -7,6 +7,7 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.world import TimeSlot
+from tests.support.real_actors import actor_by_key
 
 
 class NavigationTests(unittest.TestCase):
@@ -15,7 +16,7 @@ class NavigationTests(unittest.TestCase):
         self.app = create_application(repo_root)
 
     def _actor(self):
-        return next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        return actor_by_key(self.app, "enterprise")
 
     def test_move_player_to_neighboring_location(self) -> None:
         result = self.app.navigation_service.move_player(self.app.world, "main_corridor")

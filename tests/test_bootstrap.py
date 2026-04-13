@@ -7,6 +7,7 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.world import TimeSlot
+from tests.support.real_actors import actor_by_key
 
 
 class BootstrapTests(unittest.TestCase):
@@ -19,11 +20,11 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(app.world.current_day, 1)
         self.assertEqual(app.world.active_location.key, "command_office")
         self.assertEqual(app.port_map.key, "starter_port")
-        self.assertEqual(len(app.world.characters), 5)
-        secretary = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
-        cruiser = next(actor for actor in app.world.characters if actor.key == "starter_cruiser")
-        self.assertEqual(secretary.location_key, "command_office")
-        self.assertEqual(cruiser.location_key, "cafeteria")
+        self.assertGreaterEqual(len(app.world.characters), 2)
+        enterprise = actor_by_key(app, "enterprise")
+        laffey = actor_by_key(app, "laffey")
+        self.assertEqual(enterprise.location_key, "dock")
+        self.assertEqual(laffey.location_key, "cafeteria")
         self.assertFalse(app.world.is_busy)
         self.assertFalse(app.world.is_date_traveling)
 

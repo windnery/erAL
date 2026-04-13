@@ -10,6 +10,7 @@ from eral.domain.map import PortMap, PortConnection, PortMapLocation
 from eral.domain.world import CharacterState, WorldState, PortLocation, TimeSlot
 from eral.systems.navigation import NavigationService
 from eral.systems.companions import CompanionService
+from tests.support.real_actors import actor_by_key
 
 
 def _make_port_map() -> PortMap:
@@ -83,13 +84,13 @@ class NavigationVisibilityTests(unittest.TestCase):
 
     def test_can_see_private_true_when_following(self) -> None:
         app = create_application(Path(__file__).resolve().parents[1])
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(app, "enterprise")
         actor.is_following = True
         self.assertTrue(app.navigation_service.can_see_private(app.world))
 
     def test_can_see_private_true_when_on_date(self) -> None:
         app = create_application(Path(__file__).resolve().parents[1])
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(app, "enterprise")
         actor.is_on_date = True
         self.assertTrue(app.navigation_service.can_see_private(app.world))
 
@@ -105,7 +106,7 @@ class NavigationVisibilityTests(unittest.TestCase):
         app = create_application(Path(__file__).resolve().parents[1])
         # Move to main_corridor first — it's the hub connecting to private locations
         app.navigation_service.move_player(app.world, "main_corridor")
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(app, "enterprise")
         actor.location_key = "main_corridor"
         actor.is_following = True
         destinations = app.navigation_service.visible_destinations(app.world)
@@ -127,7 +128,7 @@ class NavigationVisibilityTests(unittest.TestCase):
         app = create_application(Path(__file__).resolve().parents[1])
         # Move to main_corridor first
         app.navigation_service.move_player(app.world, "main_corridor")
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(app, "enterprise")
         actor.is_following = True
         result = app.navigation_service.move_player(app.world, "dormitory_a")
         self.assertEqual(result.action_key, "move")

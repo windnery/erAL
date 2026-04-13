@@ -9,10 +9,11 @@ from eral.app.bootstrap import create_application
 from eral.content.dialogue import DialogueEntry
 from eral.domain.scene import SceneContext
 from eral.systems.dialogue import DialogueService
+from tests.support.real_actors import place_player_with_actor
 
 
 def _scene(
-    actor_key: str = "starter_secretary",
+    actor_key: str = "enterprise",
     action_key: str = "tease",
     time_slot: str = "evening",
     location_key: str = "cafeteria",
@@ -31,7 +32,7 @@ def _scene(
 ) -> SceneContext:
     return SceneContext(
         actor_key=actor_key,
-        actor_tags=("secretary",),
+        actor_tags=("enterprise",),
         action_key=action_key,
         current_day=1,
         time_slot=time_slot,
@@ -59,21 +60,21 @@ class DialogueMarkConditionTests(unittest.TestCase):
 
     def test_required_marks_missing_does_not_match(self) -> None:
         entry = DialogueEntry(
-            key="tease", actor_key="starter_secretary", lines=(),
+            key="tease", actor_key="enterprise", lines=(),
             required_marks={"embarrassed": 1},
         )
         self.assertFalse(self.service._matches(entry, _scene(marks={})))
 
     def test_required_marks_present_matches(self) -> None:
         entry = DialogueEntry(
-            key="tease", actor_key="starter_secretary", lines=(),
+            key="tease", actor_key="enterprise", lines=(),
             required_marks={"embarrassed": 1},
         )
         self.assertTrue(self.service._matches(entry, _scene(marks={"embarrassed": 1})))
 
     def test_required_marks_insufficient_level_does_not_match(self) -> None:
         entry = DialogueEntry(
-            key="tease", actor_key="starter_secretary", lines=(),
+            key="tease", actor_key="enterprise", lines=(),
             required_marks={"drunk": 2},
         )
         self.assertFalse(self.service._matches(entry, _scene(marks={"drunk": 1})))
@@ -81,7 +82,7 @@ class DialogueMarkConditionTests(unittest.TestCase):
 
     def test_multiple_required_marks_all_must_pass(self) -> None:
         entry = DialogueEntry(
-            key="tease", actor_key="starter_secretary", lines=(),
+            key="tease", actor_key="enterprise", lines=(),
             required_marks={"embarrassed": 1, "drunk": 1},
         )
         self.assertFalse(self.service._matches(entry, _scene(marks={"embarrassed": 1})))
@@ -112,7 +113,7 @@ class DialogueMarkFallbackTests(unittest.TestCase):
                 required_marks={"angry": 1},
             ),
             DialogueEntry(
-                key="scold", actor_key="starter_secretary",
+                key="scold", actor_key="enterprise",
                 lines=("secretary angry",), priority=1,
                 required_marks={"angry": 1},
             ),
@@ -129,7 +130,7 @@ class DialogueMarkFallbackTests(unittest.TestCase):
                 required_marks={"angry": 1},
             ),
             DialogueEntry(
-                key="scold", actor_key="starter_secretary",
+                key="scold", actor_key="enterprise",
                 lines=("secretary default",), priority=0,
             ),
         )
@@ -147,8 +148,9 @@ class CommandMarkApplicationTests(unittest.TestCase):
         self.app = create_application(repo_root)
         self.actor = next(
             actor for actor in self.app.world.characters
-            if actor.key == "starter_secretary"
+            if actor.key == "enterprise"
         )
+        place_player_with_actor(self.app, self.actor)
 
     def _advance_to_friendly(self) -> None:
         """Push affection high enough for friendly stage + min_affection=1."""
@@ -187,12 +189,18 @@ class CommandMarkApplicationTests(unittest.TestCase):
         self.assertTrue(self.actor.has_mark("teased", 1))
 
     def test_scold_applies_angry_mark(self) -> None:
+        self.app.world.active_location.key = "command_office"
+        self.app.world.active_location.display_name = "指挥室"
+        self.actor.location_key = "command_office"
         self.app.command_service.execute(
             self.app.world, actor_key=self.actor.key, command_key="scold",
         )
         self.assertTrue(self.actor.has_mark("angry", 1))
 
     def test_serve_tea_applies_drunk_mark(self) -> None:
+        self.app.world.active_location.key = "command_office"
+        self.app.world.active_location.display_name = "指挥室"
+        self.actor.location_key = "command_office"
         self.app.command_service.execute(
             self.app.world, actor_key=self.actor.key, command_key="serve_tea",
         )

@@ -1,0 +1,295 @@
+# ── 日常互动事件文本 ──
+
+[[entries]]
+key = "javelin_chat_cafeteria"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪嘴里还叼着半块饼干，看到你就开心地挥了挥手。", "「指挥官！我刚在想找你呢～要不要一起吃点心？」"]
+
+[[entries]]
+key = "javelin_touch_head_happy"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪合上眼享受了几秒，然后突然抬头冲你笑。", "「嘿嘿，再摸一下也没关系的哦！」"]
+
+[[entries]]
+key = "javelin_praise_excited"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪听到夸奖后眼睛瞬间亮了起来，整个人都在用力点头。", "「真的吗！指挥官这么说的！我要记下来——」"]
+
+[[entries]]
+key = "javelin_share_snack_garden"
+actor_key = "javelin"
+priority = 10
+lines = ["她从口袋里掏出一包薯片，大方地递到你面前。", "「来来来，这个口味的超好吃！我昨天刚发现的～」"]
+
+[[entries]]
+key = "javelin_rest_dock"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪靠在码头栏杆上，风吹得她头发乱飞，她也不在意。", "「嗯——这种时候什么都不想就很舒服呢～」"]
+
+[[entries]]
+key = "javelin_train_challenge"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪做了个标准的拉伸姿势，然后冲你招手。", "「来比比看！今天我一定能跑得比指挥官快！」"]
+
+[[entries]]
+key = "javelin_serve_tea_bright"
+actor_key = "javelin"
+priority = 10
+lines = ["她双手捧着茶杯小心翼翼地走过来，差点被自己的脚绊到。", "「没事没事！茶没洒！……大概没洒吧？」"]
+
+[[entries]]
+key = "javelin_care_sincere"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪难得地安静下来，握住你的手认真地看着。", "「指挥官要好好照顾自己……不然我会担心的。」"]
+
+[[entries]]
+key = "javelin_listen_headtilt"
+actor_key = "javelin"
+priority = 10
+lines = ["她歪着头听你说话，偶尔发出「嗯嗯」的附和声。", "「原来是这样啊……然后呢然后呢？」"]
+
+[[entries]]
+key = "javelin_apologize_puppy"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪低着头，手指在身后绞在一起。", "「……对不起啦。我下次一定不会了！真的！」"]
+
+[[entries]]
+key = "javelin_pat_cheek_blink"
+actor_key = "javelin"
+priority = 10
+lines = ["她眨了眨眼睛，脸颊泛起淡淡的红晕，但没有躲开。", "「咦……？指挥官的手好暖……嗯，不讨厌啦。」"]
+
+[[entries]]
+key = "javelin_poke_cheek_grin"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪捂着脸颊笑得弯了腰，完全没有要逃的意思。", "「哈哈哈好痒！再来再来——才怪啦～」"]
+
+# ── 同行事件文本 ──
+
+[[entries]]
+key = "javelin_walk_garden"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪蹦蹦跳跳地走在你身边，偶尔回过头确认你还在。", "「花好好看！指挥官慢点走嘛，我还没看够～」"]
+
+[[entries]]
+key = "javelin_follow_rest_cafeteria"
+actor_key = "javelin"
+priority = 10
+lines = ["她趴在桌上，但还是不忘记给你递了一杯果汁。", "「休息的时候就要这样嘛……指挥官也喝～」"]
+
+[[entries]]
+key = "javelin_follow_meal_happy"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪给自己和你各盛了一大碗饭，笑得眯起了眼睛。", "「和指挥官一起吃饭！今天的饭好像格外好吃呢～」"]
+
+[[entries]]
+key = "javelin_follow_training_bouncy"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪在旁边做着热身操，活力满满得完全看不到累的迹象。", "「我来当指挥官的对练搭档！放心，我会控制力度的……大概？」"]
+
+# ── 约会事件文本 ──
+
+[[entries]]
+key = "javelin_date_stroll_garden"
+actor_key = "javelin"
+priority = 10
+lines = ["她挽着你的手臂，每经过一朵花都要停下来看一会。", "「约会好开心～指挥官喜欢哪朵花？我觉得那朵蓝的最像大海！」"]
+
+[[entries]]
+key = "javelin_date_meal_cafeteria"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪把菜单翻了个遍，最后还是点了和你一样的套餐。", "「和指挥官吃一样的东西！这样就有两份好心情了～」"]
+
+[[entries]]
+key = "javelin_hold_hands_excited"
+actor_key = "javelin"
+priority = 10
+lines = ["她一下子握住你的手，十指扣得很紧。", "「牵手！嘿嘿，标枪一直想这么做的～」"]
+
+[[entries]]
+key = "javelin_fishing_date_dock"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪坐不住，一会儿看水面一会儿看你，鱼竿都差点丢进海里。", "「钓鱼好难保持安静啊……不过和指挥官在一起就很开心了！」"]
+
+[[entries]]
+key = "javelin_flower_shop_date"
+actor_key = "javelin"
+priority = 10
+lines = ["她把一束小花举到你面前，自己先闻了一大口。", "「指挥官！这个香味让我想到你～不知道为什么，嘿嘿。」"]
+
+# ── 轻亲密事件文本 ──
+
+[[entries]]
+key = "javelin_kiss_blush"
+actor_key = "javelin"
+priority = 10
+lines = ["她的脸红得快要烧起来了，但还是鼓起勇气踮起脚尖。", "「指挥官……我喜欢你。比谁都喜欢！」"]
+
+[[entries]]
+key = "javelin_confess_determined"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪深吸一口气，像是做了一辈子中最重要的决定。", "「我、我听好了！标枪要永远陪在指挥官身边——这是命令，不许拒绝！」"]
+
+# ── 兜底对话 ──
+
+[[entries]]
+key = "chat"
+actor_key = "javelin"
+priority = 1
+lines = ["「指挥官～有什么事就找标枪吧！」"]
+
+[[entries]]
+key = "praise"
+actor_key = "javelin"
+priority = 1
+lines = ["「嘿嘿，被夸了好开心～」"]
+
+[[entries]]
+key = "rest"
+actor_key = "javelin"
+priority = 1
+lines = ["「啊～终于可以休息了～」"]
+
+[[entries]]
+key = "train_together"
+actor_key = "javelin"
+priority = 1
+lines = ["「来吧指挥官！今天也一起加油！」"]
+
+[[entries]]
+key = "serve_tea"
+actor_key = "javelin"
+priority = 1
+lines = ["「茶来咯！小心烫～」"]
+
+[[entries]]
+key = "tease"
+actor_key = "javelin"
+priority = 1
+lines = ["「呜、指挥官坏心眼！」"]
+
+[[entries]]
+key = "invite_follow"
+actor_key = "javelin"
+priority = 1
+lines = ["「同行吗？我愿意！走走走～」"]
+
+[[entries]]
+key = "walk_together"
+actor_key = "javelin"
+priority = 1
+lines = ["「和指挥官一起走好开心～」"]
+
+[[entries]]
+key = "invite_date"
+actor_key = "javelin"
+priority = 1
+lines = ["「约会！？……嗯！我愿意！」"]
+
+[[entries]]
+key = "hold_hands"
+actor_key = "javelin"
+priority = 1
+lines = ["「牵手可以让标枪充电～」"]
+
+[[entries]]
+key = "kiss"
+actor_key = "javelin"
+priority = 1
+lines = ["「指挥官……标枪最喜欢你了。」"]
+
+[[entries]]
+key = "confess"
+actor_key = "javelin"
+priority = 1
+lines = ["「我会一直在指挥官身边的！永远！」"]
+
+# ── 阶段差分 ──
+
+[[entries]]
+key = "chat"
+actor_key = "javelin"
+priority = 5
+required_stage = "friendly"
+lines = ["「指挥官！今天要不要一起去食堂？我想和你多待一会～」"]
+
+[[entries]]
+key = "chat"
+actor_key = "javelin"
+priority = 5
+required_stage = "like"
+lines = ["「嘿嘿，看到指挥官就安心了呢～今天也请多关照啦！」"]
+
+[[entries]]
+key = "chat"
+actor_key = "javelin"
+priority = 5
+required_stage = "love"
+lines = ["「指挥官来了！……嗯，今天还没开始就想你了。」"]
+
+[[entries]]
+key = "praise"
+actor_key = "javelin"
+priority = 5
+required_stage = "like"
+lines = ["「被指挥官夸了……是不是可以更开心一点？答案是——可以！」"]
+
+[[entries]]
+key = "rest"
+actor_key = "javelin"
+priority = 5
+required_stage = "like"
+lines = ["「标枪在指挥官旁边休息的话，恢复速度翻倍～这是实话！」"]
+
+[[entries]]
+key = "touch_head"
+actor_key = "javelin"
+priority = 5
+required_stage = "like"
+lines = ["「指挥官的手好暖……嗯，标枪不嫌弃的，随时都可以摸。」"]
+
+# ── MARK 条件事件对话 ──
+
+[[entries]]
+key = "javelin_chat_embarrassed"
+actor_key = "javelin"
+priority = 10
+lines = ["标枪双手捂着发烫的脸颊，话说得断断续续。", "「不是不是不是！我没有在想奇怪的事情！……大概吧。」"]
+
+[[entries]]
+key = "javelin_chat_drunk"
+actor_key = "javelin"
+priority = 10
+lines = ["微醺的标枪两颊绯红，说话比平时更直白了。", "「指挥官～你知道标枪最最最最喜欢谁吗？就是你啦！今天才说的哦～」"]
+
+[[entries]]
+key = "javelin_scold_angry_pout"
+actor_key = "javelin"
+priority = 10
+lines = ["她鼓着腮帮，眼眶里有一点湿意但倔强地不肯掉下来。", "「……我知道了。但指挥官也不用说那么重嘛！」"]
+
+[[entries]]
+key = "javelin_care_embarrassed"
+actor_key = "javelin"
+priority = 10
+lines = ["你关心的动作让标枪整个人僵住了，指尖攥紧衣角说不出话。", "「……我没事的。但是，谢谢你……指挥官。」"]
+
+[[entries]]
+key = "javelin_kiss_confessed"
+actor_key = "javelin"
+priority = 10
+lines = ["告白之后的第一个吻，她小小地颤抖了一下，然后温柔地回握住你的手。", "「嗯……再来一次也可以哦，指挥官只需要说就好了。」"]

@@ -15,7 +15,7 @@ from eral.tools.validate_content import validate_content
 
 
 class CharacterPackTests(unittest.TestCase):
-    def test_loads_starter_secretary_pack(self) -> None:
+    def test_loads_all_real_character_packs(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         stat_axes = load_stat_axis_catalog(repo_root / "data" / "base" / "stat_axes.toml")
         tw_axes = load_tw_axis_registry(repo_root / "data" / "generated" / "tw_axis_registry.json")
@@ -28,28 +28,24 @@ class CharacterPackTests(unittest.TestCase):
         )
 
         pack_map = {pack.character.key: pack for pack in packs}
-        self.assertEqual(len(packs), 5)
-        self.assertIn("starter_secretary", pack_map)
-        self.assertIn("starter_destroyer", pack_map)
-        self.assertIn("starter_cruiser", pack_map)
+        self.assertGreaterEqual(len(packs), 3)
         self.assertIn("enterprise", pack_map)
         self.assertIn("laffey", pack_map)
-        self.assertEqual(pack_map["starter_secretary"].character.schedule["night"], "bathhouse")
-        self.assertEqual(pack_map["starter_destroyer"].character.schedule["morning"], "command_office")
-        self.assertEqual(pack_map["starter_cruiser"].character.schedule["morning"], "cafeteria")
-        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.base["stamina"], 650)
-        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.palam["favor"], 1)
-        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.abl[41], 1)
-        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.talent[92], 1)
-        self.assertEqual(pack_map["starter_cruiser"].character.initial_stats.marks["kissed"], 1)
-        self.assertEqual(len(pack_map["starter_secretary"].events), 54)
-        self.assertEqual(len(pack_map["starter_secretary"].dialogue), 121)
-        self.assertEqual(len(pack_map["starter_destroyer"].events), 42)
-        self.assertEqual(len(pack_map["starter_destroyer"].dialogue), 86)
-        self.assertEqual(len(pack_map["starter_cruiser"].events), 42)
-        self.assertEqual(len(pack_map["starter_cruiser"].dialogue), 86)
+        self.assertIn("javelin", pack_map)
+        self.assertEqual(pack_map["enterprise"].character.schedule["night"], "garden")
+        self.assertEqual(pack_map["laffey"].character.schedule["afternoon"], "garden")
+        self.assertEqual(pack_map["javelin"].character.schedule["afternoon"], "cafeteria")
+        self.assertEqual(pack_map["javelin"].character.initial_stats.base["stamina"], 450)
+        self.assertEqual(pack_map["javelin"].character.initial_stats.palam["favor"], 1)
+        self.assertEqual(pack_map["javelin"].character.initial_stats.abl[41], 1)
+        self.assertEqual(pack_map["javelin"].character.initial_stats.talent[92], 1)
+        self.assertEqual(pack_map["javelin"].character.initial_stats.marks["kissed"], 1)
         self.assertEqual(len(pack_map["enterprise"].events), 30)
         self.assertEqual(len(pack_map["enterprise"].dialogue), 58)
+        self.assertEqual(len(pack_map["laffey"].events), 30)
+        self.assertEqual(len(pack_map["laffey"].dialogue), 60)
+        self.assertGreaterEqual(len(pack_map["javelin"].events), 20)
+        self.assertGreaterEqual(len(pack_map["javelin"].dialogue), 30)
         self.assertEqual(pack_map["enterprise"].character.initial_stats.base["stamina"], 1200)
         self.assertEqual(pack_map["enterprise"].character.initial_stats.palam["favor"], 3)
         self.assertEqual(pack_map["laffey"].character.initial_stats.base["stamina"], 900)

@@ -1,0 +1,208 @@
+# ── 日常互动 ──
+
+[[events]]
+key = "javelin_chat_cafeteria"
+action_key = "chat"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "javelin_touch_head_happy"
+action_key = "touch_head"
+actor_tags = ["javelin"]
+location_keys = ["garden", "cafeteria", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_praise_excited"
+action_key = "praise"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "training_ground", "garden"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "javelin_share_snack_garden"
+action_key = "share_snack"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_rest_dock"
+action_key = "rest"
+actor_tags = ["javelin"]
+location_keys = ["dock", "garden"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "javelin_train_challenge"
+action_key = "train_together"
+actor_tags = ["javelin"]
+location_keys = ["training_ground"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "javelin_serve_tea_bright"
+action_key = "serve_tea"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_care_sincere"
+action_key = "care"
+actor_tags = ["javelin"]
+location_keys = ["dormitory_a", "cafeteria"]
+time_slots = ["evening", "night"]
+required_stage = "friendly"
+
+[[events]]
+key = "javelin_listen_headtilt"
+action_key = "listen"
+actor_tags = ["javelin"]
+location_keys = ["dock", "garden"]
+time_slots = ["evening", "night"]
+
+[[events]]
+key = "javelin_apologize_puppy"
+action_key = "apologize"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "javelin_pat_cheek_blink"
+action_key = "pat_cheek"
+actor_tags = ["javelin"]
+location_keys = ["garden", "cafeteria"]
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+
+[[events]]
+key = "javelin_poke_cheek_grin"
+action_key = "poke_cheek"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+required_stage = "like"
+
+# ── 同行 ──
+
+[[events]]
+key = "javelin_walk_garden"
+action_key = "walk_together"
+actor_tags = ["javelin"]
+location_keys = ["garden", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_follow_rest_cafeteria"
+action_key = "follow_rest"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria", "garden"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_follow_meal_happy"
+action_key = "follow_meal"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "javelin_follow_training_bouncy"
+action_key = "follow_training"
+actor_tags = ["javelin"]
+location_keys = ["training_ground"]
+time_slots = ["morning", "afternoon"]
+
+# ── 约会 ──
+
+[[events]]
+key = "javelin_date_stroll_garden"
+action_key = "date_stroll"
+actor_tags = ["javelin"]
+location_keys = ["garden", "dock"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_date_meal_cafeteria"
+action_key = "date_meal"
+actor_tags = ["javelin"]
+location_keys = ["cafeteria"]
+time_slots = ["afternoon", "evening"]
+
+[[events]]
+key = "javelin_hold_hands_excited"
+action_key = "hold_hands"
+actor_tags = ["javelin"]
+location_keys = ["garden", "dock", "cafeteria"]
+time_slots = ["evening"]
+required_stage = "like"
+
+[[events]]
+key = "javelin_fishing_date_dock"
+action_key = "fishing_date"
+actor_tags = ["javelin"]
+location_keys = ["dock"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "javelin_flower_shop_date"
+action_key = "flower_shop"
+actor_tags = ["javelin"]
+location_keys = ["garden", "dock"]
+time_slots = ["morning", "afternoon"]
+
+# ── 轻亲密 ──
+
+[[events]]
+key = "javelin_kiss_blush"
+action_key = "kiss"
+actor_tags = ["javelin"]
+location_keys = ["garden", "dock", "dormitory_a"]
+time_slots = ["night"]
+required_stage = "love"
+
+[[events]]
+key = "javelin_confess_determined"
+action_key = "confess"
+actor_tags = ["javelin"]
+location_keys = ["dock", "garden"]
+time_slots = ["night"]
+required_stage = "love"
+
+# ── MARK 条件事件 ──
+
+[[events]]
+key = "javelin_chat_embarrassed"
+action_key = "chat"
+actor_tags = ["javelin"]
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "javelin_chat_drunk"
+action_key = "chat"
+actor_tags = ["javelin"]
+required_marks = { drunk = 1 }
+
+[[events]]
+key = "javelin_scold_angry_pout"
+action_key = "scold"
+actor_tags = ["javelin"]
+required_marks = { angry = 1 }
+
+[[events]]
+key = "javelin_care_embarrassed"
+action_key = "care"
+actor_tags = ["javelin"]
+required_stage = "friendly"
+required_marks = { embarrassed = 1 }
+
+[[events]]
+key = "javelin_kiss_confessed"
+action_key = "kiss"
+actor_tags = ["javelin"]
+required_stage = "love"
+required_marks = { confessed = 1 }

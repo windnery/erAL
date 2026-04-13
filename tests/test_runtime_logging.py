@@ -8,6 +8,7 @@ import uuid
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 
 
 class RuntimeLoggingTests(unittest.TestCase):
@@ -26,7 +27,9 @@ class RuntimeLoggingTests(unittest.TestCase):
         return [json.loads(line) for line in log_path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
     def test_command_success_writes_log_entry(self) -> None:
-        actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
 
         self.app.command_service.execute(
             self.app.world,
@@ -39,13 +42,14 @@ class RuntimeLoggingTests(unittest.TestCase):
         entry = entries[-1]
         self.assertEqual(entry["kind"], "command")
         self.assertEqual(entry["action_key"], "chat")
-        self.assertEqual(entry["actor_key"], "starter_secretary")
+        self.assertEqual(entry["actor_key"], "enterprise")
         self.assertEqual(entry["day"], 1)
         self.assertEqual(entry["time_slot"], "morning")
         self.assertIn("triggered_events", entry)
 
     def test_command_failure_writes_reason(self) -> None:
-        actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         self.app.world.active_location.key = "bathhouse"
         self.app.world.active_location.display_name = "浴场"
@@ -63,7 +67,7 @@ class RuntimeLoggingTests(unittest.TestCase):
         entry = entries[-1]
         self.assertEqual(entry["kind"], "command_failed")
         self.assertEqual(entry["action_key"], "tease")
-        self.assertEqual(entry["actor_key"], "starter_secretary")
+        self.assertEqual(entry["actor_key"], "enterprise")
         self.assertIn("reason", entry)
         self.assertIn("好感", entry["reason"])
 

@@ -9,6 +9,7 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.ui.cli import _build_menu
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 
 
 class SaveLoadTests(unittest.TestCase):
@@ -20,7 +21,9 @@ class SaveLoadTests(unittest.TestCase):
         self.app.paths.saves = temp_saves
 
     def test_quicksave_writes_json_file(self) -> None:
-        actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
         self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -32,10 +35,12 @@ class SaveLoadTests(unittest.TestCase):
         self.assertTrue(save_path.exists())
         payload = json.loads(save_path.read_text(encoding="utf-8"))
         self.assertEqual(payload["current_day"], 1)
-        self.assertEqual(payload["active_location"]["key"], "command_office")
+        self.assertEqual(payload["active_location"]["key"], "dock")
 
     def test_load_restores_world_state(self) -> None:
-        actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
         self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -60,7 +65,7 @@ class SaveLoadTests(unittest.TestCase):
         self.app.companion_service.refresh_world(restored)
         self.app.date_service.refresh_world(restored)
 
-        restored_actor = next(actor for actor in restored.characters if actor.key == "starter_secretary")
+        restored_actor = next(actor for actor in restored.characters if actor.key == "enterprise")
         self.assertEqual(restored.active_location.key, "main_corridor")
         self.assertEqual(restored_actor.location_key, "main_corridor")
         self.assertEqual(restored_actor.affection, 3)

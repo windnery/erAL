@@ -6,6 +6,8 @@ import unittest
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
+from eral.domain.compat_semantics import CFLAGKey, actor_cflag
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
 
 
@@ -15,15 +17,19 @@ class RelationshipTests(unittest.TestCase):
         self.app = create_application(repo_root)
 
     def _actor(self):
-        return next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        return actor_by_key(self.app, "enterprise")
 
     def test_default_stage_is_stranger(self) -> None:
         actor = self._actor()
+        reset_progress(actor)
+        self.app.relationship_service.update_actor(actor)
         self.assertIsNotNone(actor.relationship_stage)
         self.assertEqual(actor.relationship_stage.key, "stranger")
 
     def test_chat_advances_stage_to_friendly(self) -> None:
         actor = self._actor()
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
         self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -34,8 +40,8 @@ class RelationshipTests(unittest.TestCase):
 
     def test_sync_derived_fields_matches_cflag(self) -> None:
         actor = self._actor()
-        actor.stats.compat.cflag.set(2, 42)
-        actor.stats.compat.cflag.set(4, 17)
+        actor_cflag.set(actor, CFLAGKey.AFFECTION, 42)
+        actor_cflag.set(actor, CFLAGKey.TRUST, 17)
         actor.sync_derived_fields()
 
         self.assertEqual(actor.affection, 42)

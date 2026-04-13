@@ -101,8 +101,8 @@
 
 - [`dates.py`](D:\project\myERA\erAL\src\eral\systems\dates.py)
 - [`commands.toml`](D:\project\myERA\erAL\data\base\commands.toml)
-- [`events.toml`](D:\project\myERA\erAL\data\base\characters\starter_secretary\events.toml)
-- [`dialogue.toml`](D:\project\myERA\erAL\data\base\characters\starter_secretary\dialogue.toml)
+- [`events.toml`](D:\project\myERA\erAL\data\base\characters\enterprise\events.toml)
+- [`dialogue.toml`](D:\project\myERA\erAL\data\base\characters\enterprise\dialogue.toml)
 
 ### Ark 工程模式
 

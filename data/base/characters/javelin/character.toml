@@ -1,0 +1,12 @@
+key = "javelin"
+display_name = "标枪"
+tags = ["javelin", "destroyer", "royal_navy", "cheerful"]
+initial_location = "cafeteria"
+
+[schedule]
+dawn = "dormitory_a"
+morning = "training_ground"
+afternoon = "cafeteria"
+evening = "garden"
+night = "dock"
+late_night = "dormitory_a"

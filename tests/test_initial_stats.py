@@ -12,27 +12,21 @@ class InitialStatsTests(unittest.TestCase):
     def setUp(self) -> None:
         self.repo_root = Path(__file__).resolve().parents[1]
 
-    def test_default_character_has_zero_initial_stats(self) -> None:
-        """Character without initial_stats section starts at all-zero stats."""
+    def test_default_character_has_initial_overrides_applied(self) -> None:
+        """Character starting state reflects applied initial overrides from split files."""
         app = create_application(self.repo_root)
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_secretary")
-        self.assertEqual(actor.affection, 0)
-        self.assertEqual(actor.trust, 0)
+        actor = next(actor for actor in app.world.characters if actor.key == "laffey")
+        self.assertEqual(actor.affection, 3)
+        self.assertEqual(actor.trust, 2)
         self.assertEqual(actor.obedience, 0)
-        self.assertEqual(actor.relationship_stage.key, "stranger")
+        self.assertEqual(actor.relationship_stage.key, "like")
 
-    def test_initial_cflag_parsed_from_character_pack(self) -> None:
-        """Character pack without initial_stats section yields empty overrides."""
-        from eral.content.character_packs import load_character_packs
-
-        packs = load_character_packs(self.repo_root / "data" / "base" / "characters")
-        secretary = next(p.character for p in packs if p.character.key == "starter_secretary")
-        self.assertEqual(secretary.initial_stats.base, {})
-        self.assertEqual(secretary.initial_stats.palam, {})
-        self.assertEqual(secretary.initial_stats.abl, {})
-        self.assertEqual(secretary.initial_stats.talent, {})
-        self.assertEqual(secretary.initial_stats.cflag, {})
-        self.assertEqual(secretary.initial_stats.marks, {})
+    def test_initial_cflag_values_in_actor(self) -> None:
+        """Character pack with cflag overrides reflects them after bootstrap."""
+        app = create_application(self.repo_root)
+        laffey = next(actor for actor in app.world.characters if actor.key == "laffey")
+        self.assertEqual(laffey.affection, 3)
+        self.assertEqual(laffey.trust, 2)
 
     def test_initial_stat_overrides_applied_to_actor(self) -> None:
         """When initial_stats has cflag overrides, the actor reflects them after bootstrap."""
@@ -53,11 +47,9 @@ class InitialStatsTests(unittest.TestCase):
         )
         stats = ActorNumericState.zeroed(stat_axes, tw_axes)
 
-        # Before applying overrides, everything is zero
         self.assertEqual(stats.base.get("stamina"), 0)
         self.assertEqual(stats.compat.cflag.get(2), 0)
 
-        # Apply overrides
         from eral.app.bootstrap import _apply_initial_stats
         _apply_initial_stats(stats, overrides)
 
@@ -102,7 +94,6 @@ class InitialStatsTests(unittest.TestCase):
         """_parse_initial_stats correctly parses TOML initial_stats section."""
         from eral.content.characters import _parse_initial_stats
 
-        # Empty / None
         result = _parse_initial_stats(None)
         self.assertEqual(result.base, {})
         self.assertEqual(result.palam, {})
@@ -119,7 +110,6 @@ class InitialStatsTests(unittest.TestCase):
         self.assertEqual(result.cflag, {})
         self.assertEqual(result.marks, {})
 
-        # With full initial stat families
         raw = {
             "base": {"stamina": 800, "energy": 200},
             "palam": {"favor": 3, "obedience": 1},
@@ -138,9 +128,9 @@ class InitialStatsTests(unittest.TestCase):
 
     def test_character_pack_initial_stats_can_seed_multiple_families(self) -> None:
         app = create_application(self.repo_root)
-        actor = next(actor for actor in app.world.characters if actor.key == "starter_cruiser")
+        actor = next(actor for actor in app.world.characters if actor.key == "javelin")
 
-        self.assertEqual(actor.stats.base.get("stamina"), 650)
+        self.assertEqual(actor.stats.base.get("stamina"), 450)
         self.assertEqual(actor.stats.palam.get("favor"), 1)
         self.assertEqual(actor.stats.compat.abl.get(41), 1)
         self.assertEqual(actor.stats.compat.talent.get(92), 1)

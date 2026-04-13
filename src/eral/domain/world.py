@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import StrEnum
 
+from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 from eral.domain.relationship import RelationshipStage
 from eral.domain.stats import ActorNumericState, WorldEraCompatState
 
@@ -71,9 +72,9 @@ class CharacterState:
     def sync_derived_fields(self) -> None:
         """Synchronise derived fields from the authoritative CFLAG block."""
 
-        self.affection = self.stats.compat.cflag.get(2)
-        self.trust = self.stats.compat.cflag.get(4)
-        self.obedience = self.stats.compat.cflag.get(6)
+        self.affection = actor_cflag.get(self, CFLAGKey.AFFECTION)
+        self.trust = actor_cflag.get(self, CFLAGKey.TRUST)
+        self.obedience = actor_cflag.get(self, CFLAGKey.OBEDIENCE)
 
     def has_mark(self, key: str, min_level: int = 1) -> bool:
         """Check whether a mark is present at or above the given level."""

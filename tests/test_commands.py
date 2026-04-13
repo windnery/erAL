@@ -7,20 +7,24 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.content.commands import load_command_definitions
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 
 
 class CommandPipelineTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         self.app = create_application(repo_root)
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
 
     def _actor(self):
-        return next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        return actor_by_key(self.app, "enterprise")
 
     def test_chat_command_applies_source_and_settles_to_stats(self) -> None:
         result = self.app.command_service.execute(
             self.app.world,
-            actor_key="starter_secretary",
+            actor_key="enterprise",
             command_key="chat",
         )
         actor = self._actor()
@@ -33,12 +37,16 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertEqual(actor.stats.source.get("affection"), 0)
 
     def test_work_command_updates_obedience_and_trust(self) -> None:
+        actor = self._actor()
+        self.app.world.active_location.key = "command_office"
+        self.app.world.active_location.display_name = "指挥室"
+        actor.location_key = "command_office"
+
         result = self.app.command_service.execute(
             self.app.world,
-            actor_key="starter_secretary",
+            actor_key="enterprise",
             command_key="paperwork",
         )
-        actor = self._actor()
 
         self.assertEqual(result.action_key, "paperwork")
         self.assertEqual(actor.stats.palam.get("obedience"), 1)
@@ -51,7 +59,7 @@ class CommandPipelineTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.app.command_service.execute(
                 self.app.world,
-                actor_key="starter_secretary",
+                actor_key="enterprise",
                 command_key="tease",
             )
 
@@ -65,7 +73,7 @@ class CommandPipelineTests(unittest.TestCase):
 
         result = self.app.command_service.execute(
             self.app.world,
-            actor_key="starter_secretary",
+            actor_key="enterprise",
             command_key="tease",
         )
 
@@ -90,7 +98,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_praise_command_increases_affection_and_obedience(self) -> None:
         result = self.app.command_service.execute(
             self.app.world,
-            actor_key="starter_secretary",
+            actor_key="enterprise",
             command_key="praise",
         )
         actor = self._actor()
@@ -104,7 +112,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_scold_command_settles_negative_palam(self) -> None:
         result = self.app.command_service.execute(
             self.app.world,
-            actor_key="starter_secretary",
+            actor_key="enterprise",
             command_key="scold",
         )
         actor = self._actor()
@@ -269,6 +277,9 @@ class CommandPipelineTests(unittest.TestCase):
 
     def test_serve_tea_command_increases_trust(self) -> None:
         actor = self._actor()
+        self.app.world.active_location.key = "command_office"
+        self.app.world.active_location.display_name = "指挥室"
+        actor.location_key = "command_office"
         result = self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -619,6 +630,9 @@ class CommandPipelineTests(unittest.TestCase):
 
     def test_help_work_increases_service(self) -> None:
         actor = self._actor()
+        self.app.world.active_location.key = "command_office"
+        self.app.world.active_location.display_name = "指挥室"
+        actor.location_key = "command_office"
 
         result = self.app.command_service.execute(
             self.app.world,
@@ -926,6 +940,19 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="chat",
             )
 
+
+
+    def test_actor_not_present_reason_still_beats_gate_failures(self) -> None:
+        actor = self._actor()
+        self.app.world.is_busy = True
+        actor.location_key = "harbor"
+
+        with self.assertRaisesRegex(ValueError, "目标角色不在当前地点"):
+            self.app.command_service.execute(
+                self.app.world,
+                actor_key=actor.key,
+                command_key="chat",
+            )
 
 
 if __name__ == "__main__":

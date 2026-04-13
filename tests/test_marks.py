@@ -9,6 +9,7 @@ from eral.app.bootstrap import create_application
 from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.domain.world import CharacterState
 from eral.domain.stats import ActorNumericState
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 
 
 class MarkDefinitionTests(unittest.TestCase):
@@ -102,7 +103,9 @@ class MarkCommandIntegrationTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         self.app = create_application(repo_root)
-        self.actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        place_player_with_actor(self.app, self.actor)
 
     def test_tease_command_applies_teased_mark(self) -> None:
         self.actor.affection = 1

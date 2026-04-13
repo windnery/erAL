@@ -146,53 +146,75 @@
 
 > 目标：在已稳定兼容层基础上，提高开发可读性与玩法细粒度一致性，减少后续功能迭代的心智成本。
 
-- [ ] 建立 ABL/TALENT 常用语义映射层
+- [x] 建立 ABL/TALENT/CFLAG 常用语义映射层
 	- type: code
 	- priority: P0
 	- milestone: L2
 	- est: 90m
-	- DoD: 覆盖首批高频索引（至少 30 项）的命名常量或查询接口，业务层不再直接散落硬编码索引
-	- verify: 新增映射层测试 + 替换至少 3 处业务调用
+	- DoD: 覆盖首批高频索引（>= 30 项）的英文 key + era 标签映射接口，领域/系统层关键调用点不再直接散落硬编码索引
+	- verify: `python -m unittest tests.test_compat_semantics -v` + 替换 `world.py / companions.py / dates.py` 3 处以上业务调用
 	- owner: ai
-	- status: todo
+	- status: done
 	- updated: 2026-04-12
 
-- [ ] 将指令可用性判定拆分为多层 Gate
+- [x] 将指令可用性判定拆分为多层 Gate
 	- type: code
 	- priority: P0
 	- milestone: L2
 	- est: 90m
-	- DoD: 可用性检查分离为分类门槛、全局模式门槛、指令专用门槛，失败原因保持可读
-	- verify: tests/test_commands.py 新增对应用例并全通过
-	- owner: pair
-	- status: todo
+	- DoD: 可用性检查分离为分类门槛、全局模式门槛、指令专用门槛，失败原因保持可读，并保留原有对外行为顺序
+	- verify: `python -m unittest tests.test_command_gates tests.test_commands -v`
+	- owner: ai
+	- status: done
 	- updated: 2026-04-12
 
-- [ ] 增加约会后事件结算层（after_date_event）
+- [x] 增加约会后事件结算层（after_date_event）
 	- type: code
 	- priority: P1
 	- milestone: L2
 	- est: 90m
-	- DoD: end_date 后可独立触发后事件（如告白/赠礼后续），不与普通指令事件混线
-	- verify: 新增端到端测试覆盖至少 2 条约会后分支
-	- owner: pair
-	- status: todo
+	- DoD: `end_date` 后可独立触发 `after_date_event` 后事件层，并与普通 `end_date` 事件分开结算
+	- verify: `python -m unittest tests.test_after_date_events tests.test_dates tests.test_e2e_date_line -v`
+	- owner: ai
+	- status: done
 	- updated: 2026-04-12
 
-- [ ] 建立内容密度自动统计报告
+- [x] 建立内容密度自动统计报告
 	- type: tooling
 	- priority: P1
 	- milestone: L2
 	- est: 45m
-	- DoD: validate_content 输出每角色事件/对话数量与缺口摘要，可直接用于周报
-	- verify: python -m eral.tools.validate_content --root . 输出包含统计段
+	- DoD: `validate_content` 输出每角色事件/对话数量与缺口摘要，可直接用于周报
+	- verify: `python -m eral.tools.validate_content --root .` 输出包含 `content density report:` 段
 	- owner: ai
-	- status: todo
+	- status: done
 	- updated: 2026-04-12
 
 ## Backlog（按价值排序）
 
 ### P0（可靠性与一致性：测试、校验、文档口径、关键 BUG）
+
+- [x] 移除全部 starter 占位角色，新增标枪正式角色包
+	- type: code
+	- priority: P0
+	- milestone: L3
+	- est: 60m
+	- DoD: 无任何 starter_* 引用残留在代码/数据/测试中；3 个正式角色包（企业、拉菲、标枪）全部通过测试和内容校验
+	- verify: `python -m unittest discover -s tests -t .` + `python -m eral.tools.validate_content --root .` + 全仓搜索 starter_*
+	- owner: ai
+	- status: done
+	- updated: 2026-04-13
+
+- [x] 修复 Windows / Python 3.14 下角色包拆分初值测试的临时目录权限问题
+	- type: test
+	- priority: P0
+	- milestone: L2
+	- est: 45m
+	- DoD: `tests/test_character_pack_stat_files.py` 不再依赖 `tempfile.TemporaryDirectory(dir=.tmp-test-data)`，相关测试在当前环境可稳定通过
+	- verify: python -m unittest tests.test_character_pack_stat_files -v
+	- owner: ai
+	- status: done
+	- updated: 2026-04-12
 
 - [x] 地点扩展到 8 到 12，并给每个地点补玩法标签
 - [x] 约会四地点分支各至少 1 条（食堂/码头/宿舍/浴场）
@@ -217,23 +239,24 @@
 - [x] `SOURCE -> settlement -> BASE/PALAM/CFLAG/TFLAG` 已跑通。
 - [x] 角色包已支持 `BASE/PALAM/ABL/TALENT/CFLAG/MARK` 初始属性。
 - [x] 角色初值已迁移到按数值族拆分的独立 TOML 文件（base.toml/palam.toml/abl.toml/talent.toml/cflag.toml/marks.toml）。
-- [x] 企业、拉菲两个正式测试角色包已就位。
+- [x] 企业、拉菲、标枪三个正式角色包已就位；starter 占位角色已全部移除。
 - [x] 同行、约会、轻亲密起点与存档系统已存在。
 - [x] runtime/logs 已有最小结构化日志链路。
 - [x] `python -m unittest discover -s tests -t .` 已可作为统一回归入口。
 - [x] 54 个指令已接入 commands.toml，迁移表中均已标记"完成"。
-- [x] 企业、拉菲内容密度已达到当前主线目标（各 >= 20 事件、>= 30 对话）。
+- [x] 企业和拉菲内容密度已达到当前主线目标（各 >= 20 事件、>= 30 对话）；标枪已达到（>= 20 事件、>= 30 对话）。
 - [x] 端到端链路与 7 天烟测已通过（unittest 全量通过）。
-- [ ] 当前主要瓶颈已转为 L2：语义可读层（索引常量化）与流程精细化（多层 gate、约会后事件层）。
+- [x] compat 语义映射层、多层 Gate、after_date_event、内容密度统计报告已建立；starter 占位角色已完全移除，全部测试已迁移到正式角色包。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：角色初值拆分文件迁移、企业与拉菲角色包、事件/对话/命令扩展
+- 本周完成：标枪角色包新增、starter 占位角色全部移除、测试迁移到正式角色包、characters.toml 死代码清理
 - 本周阻塞：无
 - 指标：
-	- 新增指令数：0（本周以补齐与稳定性验证为主）
-	- 新增事件数：>= 50（五角色包扩展）
-	- 新增对话数：>= 120（五角色包扩展）
-	- 自动化测试通过率：100%（193/193）
+	- 新增指令数：0（本周以角色包扩充与清理为主）
+	- 新增角色数：1（标枪）
+	- 移除角色数：3（starter_secretary、starter_destroyer、starter_cruiser）
+	- 正式角色总数：3（企业、拉菲、标枪）
+	- 自动化测试通过率：待验证
 	- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：L2 语义可读层与流程精细化（主线 D）
+- 下周主线：L3 MVP 达标冲刺

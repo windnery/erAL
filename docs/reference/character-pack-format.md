@@ -41,17 +41,17 @@ data/base/characters/<character_key>/
 示例：
 
 ```toml
-key = "starter_secretary"
-display_name = "秘书舰"
-tags = ["starter", "secretary"]
-initial_location = "command_office"
+key = "enterprise"
+display_name = "企业"
+tags = ["enterprise", "carrier", "eagle_union", "serious"]
+initial_location = "dock"
 
 [schedule]
 dawn = "dormitory_a"
-morning = "command_office"
+morning = "dock"
 afternoon = "training_ground"
-evening = "cafeteria"
-night = "bathhouse"
+evening = "command_office"
+night = "garden"
 late_night = "dormitory_a"
 ```
 
@@ -78,9 +78,9 @@ late_night = "dormitory_a"
 
 ```toml
 [[events]]
-key = "secretary_tease_private"
+key = "enterprise_tease_private"
 action_key = "tease"
-actor_tags = ["secretary"]
+actor_tags = ["enterprise"]
 location_keys = ["bathhouse", "dormitory_a"]
 time_slots = ["night", "late_night"]
 min_affection = 1
@@ -123,24 +123,24 @@ required_marks = { embarrassed = 1 }
 # 兜底对话（最低优先级，无条件）
 [[entries]]
 key = "chat"
-actor_key = "starter_secretary"
+actor_key = "enterprise"
 priority = 0
-lines = ["你和秘书舰安静地聊了一会儿。"]
+lines = ["「直接说重点，我在听。」"]
 
 # 条件变体（中优先级，按场景条件区分）
 [[entries]]
 key = "chat"
-actor_key = "starter_secretary"
+actor_key = "enterprise"
 priority = 5
 required_stage = "like"
-lines = ["秘书舰的语气比往常随意了些。"]
+lines = ["「你来了。正好，有些话只能跟你说。」"]
 
 # 事件触发型（高优先级，条件精确匹配）
 [[entries]]
-key = "secretary_chat_command_office"
-actor_key = "starter_secretary"
+key = "enterprise_chat_dock"
+actor_key = "enterprise"
 priority = 10
-lines = ["秘书舰放下手中的报告文件夹，露出一个恰到好处的微笑。"]
+lines = ["企业抬手压了压帽檐，视线仍旧稳稳落在你身上。"]
 ```
 
 ## 6. 拆分数值文件
@@ -210,4 +210,4 @@ confessed = 1
 7. `dialogue.actor_key` 必须和角色包 key 一致（`_any` 除外）
 8. `events.action_key` 必须能在命令表里找到
 9. `schedule` 和 `events.location_keys` 中引用的地点必须存在
-10. 这些规则由 `python -m eral.tools.validate_content --root .` 检查
+10. 这些规则由 `python -m eral.tools.validate_content --root .` 检查；命令行现在还会额外输出 `content density report:`，汇总每个角色包的事件数、对话数与数量缺口摘要。

@@ -1,4 +1,6 @@
 __pycache__/
 *.py[cod]
 runtime/
+.tmp-test-data/
+docs/superpowers/
 .worktrees/

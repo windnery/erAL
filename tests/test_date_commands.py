@@ -6,6 +6,9 @@ import unittest
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
+from eral.content.dialogue import DialogueEntry
+from eral.content.events import EventDefinition
+from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
 
 
 class DateCommandAvailabilityTests(unittest.TestCase):
@@ -14,7 +17,9 @@ class DateCommandAvailabilityTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         self.app = create_application(repo_root)
-        self.actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        place_player_with_actor(self.app, self.actor)
         # Set up like stage for date invitation
         self.actor.affection = 3
         self.actor.trust = 2
@@ -139,7 +144,9 @@ class DateCommandExecutionTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         self.app = create_application(repo_root)
-        self.actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        place_player_with_actor(self.app, self.actor)
         self.actor.affection = 3
         self.actor.trust = 2
         self.actor.stats.compat.cflag.set(2, 3)
@@ -237,10 +244,59 @@ class DateCommandExecutionTests(unittest.TestCase):
 class DateEventTriggerTests(unittest.TestCase):
     """Test that date-specific events fire correctly."""
 
+    def _install_date_event_fixtures(self) -> None:
+        self.app.event_service.events = self.app.event_service.events + (
+            EventDefinition(
+                key="enterprise_date_watch_sea_fixture",
+                action_key="date_watch_sea",
+                actor_tags=("enterprise",),
+                location_keys=("dock",),
+                time_slots=("night",),
+                min_affection=10,
+                min_trust=8,
+                min_obedience=None,
+                required_stage="love",
+                requires_date=True,
+                requires_private=False,
+                required_marks={},
+            ),
+            EventDefinition(
+                key="enterprise_enter_room_fixture",
+                action_key="enter_room",
+                actor_tags=("enterprise",),
+                location_keys=("dormitory_a",),
+                time_slots=("night",),
+                min_affection=10,
+                min_trust=8,
+                min_obedience=None,
+                required_stage="love",
+                requires_date=True,
+                requires_private=True,
+                required_marks={},
+            ),
+        )
+        self.app.dialogue_service.entries = self.app.dialogue_service.entries + (
+            DialogueEntry(
+                key="enterprise_date_watch_sea_fixture",
+                actor_key="enterprise",
+                lines=("她望向夜海，声音比海风还轻。",),
+                priority=10,
+            ),
+            DialogueEntry(
+                key="enterprise_enter_room_fixture",
+                actor_key="enterprise",
+                lines=("她在宿舍门口停了一瞬，还是让你跟了进去。",),
+                priority=10,
+            ),
+        )
+
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         self.app = create_application(repo_root)
-        self.actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        place_player_with_actor(self.app, self.actor)
+        self._install_date_event_fixtures()
         self.actor.affection = 10
         self.actor.trust = 8
         self.actor.stats.compat.cflag.set(2, 10)
@@ -263,7 +319,7 @@ class DateEventTriggerTests(unittest.TestCase):
         result = self.app.command_service.execute(
             self.app.world, actor_key=self.actor.key, command_key="date_watch_sea",
         )
-        self.assertIn("secretary_date_watch_sea", result.triggered_events)
+        self.assertIn("enterprise_date_watch_sea_fixture", result.triggered_events)
 
     def test_enter_room_triggers_dormitory_event(self) -> None:
         self.app.navigation_service.move_player(self.app.world, "main_corridor")
@@ -272,7 +328,7 @@ class DateEventTriggerTests(unittest.TestCase):
         result = self.app.command_service.execute(
             self.app.world, actor_key=self.actor.key, command_key="enter_room",
         )
-        self.assertIn("secretary_enter_room_dormitory", result.triggered_events)
+        self.assertIn("enterprise_enter_room_fixture", result.triggered_events)
 
 
 if __name__ == "__main__":

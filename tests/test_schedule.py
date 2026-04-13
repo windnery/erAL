@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
+from tests.support.real_actors import actor_by_key
 
 
 class ScheduleTests(unittest.TestCase):
@@ -14,8 +15,8 @@ class ScheduleTests(unittest.TestCase):
         self.app = create_application(repo_root)
 
     def test_time_advance_refreshes_character_location(self) -> None:
-        actor = next(actor for actor in self.app.world.characters if actor.key == "starter_secretary")
-        self.assertEqual(actor.location_key, "command_office")
+        actor = actor_by_key(self.app, "enterprise")
+        self.assertEqual(actor.location_key, "dock")
 
         self.app.game_loop.advance_time(self.app.world)
         self.assertEqual(self.app.world.current_time_slot.value, "afternoon")
@@ -23,7 +24,7 @@ class ScheduleTests(unittest.TestCase):
 
         self.app.game_loop.advance_time(self.app.world)
         self.assertEqual(self.app.world.current_time_slot.value, "evening")
-        self.assertEqual(actor.location_key, "cafeteria")
+        self.assertEqual(actor.location_key, "command_office")
 
 
 if __name__ == "__main__":
