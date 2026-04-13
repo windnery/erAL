@@ -13,6 +13,107 @@
 
 ## 本期主线
 
+### 主线 E：L3 数值闭环与体力系统稳定化（当前）
+
+> 目标：把已接入的体力/气力骨架、关系成长公式与新阈值体系跑成“可平衡、可回归、可继续扩内容”的稳定版本。
+
+- [x] 完成体力/气力系统首轮平衡表（指令分档 + 恢复分档）
+	- type: design
+	- priority: P0
+	- milestone: L3
+	- est: 90m
+	- DoD: 覆盖 daily/work/follow/date/recovery 五类动作，给出 downbase 分档与恢复目标区间；文档与 commands.toml 一致
+	- verify: 对照 `docs/specs/体力与气力系统.md` + 抽样 20 条指令核对
+	- owner: pair
+	- status: done
+	- updated: 2026-04-14
+
+- [x] 修正恢复指令 key 冲突与命令清单一致性
+	- type: code
+	- priority: P0
+	- milestone: L3
+	- est: 45m
+	- DoD: commands.toml 中不存在重复 key；恢复类指令命名和操作语义一致；旧 nap 改为 relax_together（一起放松），新增 recovery 类 nap（小憩）/sleep（就寝）/bathe（泡澡）
+	- verify: `python -m eral.tools.validate_content --root .` + 全仓搜索确认无重复 key
+	- owner: ai
+	- status: done
+	- updated: 2026-04-14
+
+- [x] 为 VitalGate / 晕倒推进 / 恢复链路补充端到端回归
+	- type: test
+	- priority: P0
+	- milestone: L3
+	- est: 90m
+	- DoD: 覆盖"气力归零禁用指令""体力归零晕倒并推进到次日 dawn""sleep/nap/bathe 恢复差异"三条主链；35 个 test_vitals 测试全通过
+	- verify: `python -m unittest tests.test_vitals tests.test_commands tests.test_smoke_playable -v`
+	- owner: ai
+	- status: done
+	- updated: 2026-04-14
+
+- [ ] 修正恢复指令 key 冲突与命令清单一致性（nap 重名问题）
+	- type: code
+	- priority: P0
+	- milestone: L3
+	- est: 45m
+	- DoD: commands.toml 中不存在重复 key；恢复类指令命名和操作语义一致
+	- verify: `python -m eral.tools.validate_content --root .` + 全仓搜索 `key = "nap"`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 为 VitalGate / 晕倒推进 / 恢复链路补充端到端回归
+	- type: test
+	- priority: P0
+	- milestone: L3
+	- est: 90m
+	- DoD: 覆盖“气力归零禁用指令”“体力归零晕倒并推进到次日 dawn”“sleep/nap/bathe 恢复差异”三条主链
+	- verify: `python -m unittest tests.test_vitals tests.test_commands tests.test_smoke_playable -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+
+- [ ] 关系成长公式与阶段门槛出一版可调参数说明
+	- type: docs
+	- priority: P1
+	- milestone: L3
+	- est: 60m
+	- DoD: 明确 relationship_growth.toml 与 relationship_stages.toml 的调参规则、推荐区间、回归检查项
+	- verify: 人工检查文档 + 对应测试可按参数变化快速调整
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] L3 基础闸门：完成“连续 14 天可玩（基础版）”烟测
+	- type: test
+	- priority: P1
+	- milestone: L3
+	- est: 60m
+	- DoD: 14 天循环覆盖移动-互动-结算-时间推进-恢复，流程无中断
+	- verify: `python -m unittest tests.test_smoke_playable -v`
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] L3 体验闸门：完成“连续 14 天可玩（全链路版）”烟测
+	- type: test
+	- priority: P1
+	- milestone: L3
+	- est: 90m
+	- DoD: 14 天循环包含工作/同行/约会/恢复/晕倒恢复至少各 1 次，且关键状态迁移与事件触发无异常
+	- verify: `python -m unittest tests.test_smoke_playable -v`
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+### L3 退出条件（阶段切换闸门）
+
+- [ ] `commands.toml` 无重复 key，且字段通过校验
+- [ ] Vital 主链回归通过（气力门控 / 体力晕倒推进 / sleep-nap-bathe 差异）
+- [ ] 连续 14 天可玩（基础版）通过
+- [ ] 连续 14 天可玩（全链路版）通过
+- [ ] relationship_growth 与 relationship_stages 调参说明已落文档并通过人工核验
+
 ### 主线 A：L0 架构与质量基线
 
 - [x] 统一 TODO 与指导书的里程碑、优先级、状态口径
@@ -219,17 +320,24 @@
 - [x] 地点扩展到 8 到 12，并给每个地点补玩法标签
 - [x] 约会四地点分支各至少 1 条（食堂/码头/宿舍/浴场）
 - [x] 指令失败反馈标准化（地点/时段/关系/状态原因）
+- [x] 清理测试文件 UTF-8 BOM 与行尾格式不一致问题（避免跨平台噪声 diff）
+- [ ] 建立 `commands.toml` 重复 key 与非法字段 CI 检查
 
 ### P1（架构与工具能力：可观测性、自动化、内容管线）
 
 - [x] 内容校验器增加"条目数量缺口"检查
 - [x] 增加"多角色并行游玩"回归测试
-- [x] 生活/工作 B 批 `rest / study / cook / eat_meal / invite_meal / nap` 已进入命令系统
+- [x] 生活/工作 B 批 `relax_together / study / cook / eat_meal / invite_meal / nap` 已进入命令系统
 - [x] `library / infirmary / garden` 已开始承载专属事件钩子与口上内容
+- [x] 体力/气力系统已完整实现：VitalService、VitalGate、晕倒推进、疲劳、恢复指令、MAXBASE 上限
+- [ ] 修 ABL_INTIMACY_INDEX bug（12→9）+ 接入 ABL 升级管道到结算流程
+- [ ] 工作系统：舰娘行为状态（activity 字段）+ ActivityGate + help_work 要求舰娘在工作
+- [ ] 将关系成长与体力恢复参数抽出“预设档位”（easy/normal/hard）
+- [ ] 为内容密度报告增加“阶段覆盖率”指标（friendly/like/love/oath）
 
 ### P2（MVP 后或低优先级）
 
-- [ ] 将指令迁移表改为体感收益优先队列
+- [ ] 将指令迁移表改为体感收益优先队列（已完成命令迁移后转为平衡用途）
 - [ ] 深层 H 相关系统（明确不进入当前迭代）
 - [ ] UI 形态升级（CLI 以外）
 
@@ -247,16 +355,24 @@
 - [x] 企业和拉菲内容密度已达到当前主线目标（各 >= 20 事件、>= 30 对话）；标枪已达到（>= 20 事件、>= 30 对话）。
 - [x] 端到端链路与 7 天烟测已通过（unittest 全量通过）。
 - [x] compat 语义映射层、多层 Gate、after_date_event、内容密度统计报告已建立；starter 占位角色已完全移除，全部测试已迁移到正式角色包。
+- [x] 体力/气力系统规格文档已建立并接入 specs 导航。
+- [x] 命令层已支持 `downbase` 消耗与恢复类 operation（sleep/nap/bathe）管线。
+- [x] `VitalService`、`VitalGate`、自然恢复与晕倒后推进到次日 dawn 已接入主流程。
+- [x] 关系阶段阈值、`FAVOR_CALC/TRUST_CALC` 与测试辅助工厂已升级为可配置化。
+- [x] 体力/气力完整链路已通过：DOWNBASE→疲劳计算、自然恢复/睡眠恢复/小憩/泡澡、气力归零禁用指令、体力归零晕倒推进到次日、MAXBASE 上限强制执行。
+- [x] `fatigue` 字段已加入 CharacterState 并接入存档序列化。
+- [x] 旧 `nap`（午睡）已改为 `relax_together`（一起放松），恢复类指令无 key 冲突。
+- [x] ABL 提升系统已有骨架（`abl_upgrade.py` + `abl_upgrade.toml`）但未接入结算管道，`relationships.py` 中 `ABL_INTIMACY_INDEX=12` 指向技巧而非亲密（bug）。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：标枪角色包新增、starter 占位角色全部移除、测试迁移到正式角色包、characters.toml 死代码清理
-- 本周阻塞：无
+- 本周完成：体力气力系统完整实现（VitalService/VitalGate/恢复/晕倒推进/fatigue序列化）；nap key 冲突修复；relax_together 指令重命名；234 测试全通过
+- 本周阻塞：ABL_INTIMACY_INDEX bug 待修；ABL 升级管道未接入；工作系统（舰娘行为状态）尚未实现
 - 指标：
-	- 新增指令数：0（本周以角色包扩充与清理为主）
-	- 新增角色数：1（标枪）
-	- 移除角色数：3（starter_secretary、starter_destroyer、starter_cruiser）
+	- 新增指令数：4（relax_together 重命名 + nap/sleep/bathe 新增）
+	- 新增角色数：0
+	- 移除角色数：0
 	- 正式角色总数：3（企业、拉菲、标枪）
-	- 自动化测试通过率：待验证
+	- 自动化测试通过率：234/234（100%）
 	- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：L3 MVP 达标冲刺
+- 下周主线：修 ABL_INTIMACY_INDEX bug → 接入 ABL 升级管道 → 工作系统（舰娘行为状态 + ActivityGate）

@@ -1,4 +1,4 @@
-"""MARK system tests — definitions, character state, command integration."""
+﻿"""MARK system tests — definitions, character state, command integration."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from eral.app.bootstrap import create_application
 from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.domain.world import CharacterState
 from eral.domain.stats import ActorNumericState
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class MarkDefinitionTests(unittest.TestCase):
@@ -108,8 +109,10 @@ class MarkCommandIntegrationTests(unittest.TestCase):
         place_player_with_actor(self.app, self.actor)
 
     def test_tease_command_applies_teased_mark(self) -> None:
-        self.actor.affection = 1
-        self.actor.stats.compat.cflag.set(2, 1)
+        self.actor.affection = 210
+        self.actor.trust = 110
+        self.actor.stats.compat.cflag.set(2, 210)
+        self.actor.stats.compat.cflag.set(4, 110)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         self.app.world.active_location.key = "bathhouse"
@@ -125,8 +128,10 @@ class MarkCommandIntegrationTests(unittest.TestCase):
         self.assertEqual(self.actor.marks["teased"], 1)
 
     def test_tease_mark_respects_max_level(self) -> None:
-        self.actor.affection = 1
-        self.actor.stats.compat.cflag.set(2, 1)
+        self.actor.affection = 210
+        self.actor.trust = 110
+        self.actor.stats.compat.cflag.set(2, 210)
+        self.actor.stats.compat.cflag.set(4, 110)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         self.app.world.active_location.key = "bathhouse"
@@ -168,6 +173,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             remove_marks=(),
             source={},
             downbase={},
+            success_tiers=(0.1, 1.0, 2.0),
         )
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)
         self.assertFalse(
@@ -195,6 +201,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             remove_marks=(),
             source={},
             downbase={},
+            success_tiers=(0.1, 1.0, 2.0),
         )
         self.actor.set_mark("confessed", 1, max_level=1)
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)

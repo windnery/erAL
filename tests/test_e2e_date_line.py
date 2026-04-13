@@ -27,8 +27,11 @@ class DateLineE2ETests(unittest.TestCase):
 
     def _set_stage_like(self, actor) -> None:
         """Ensure actor is at least at 'like' stage."""
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        actor.stats.compat.cflag.set(2, 420)
+        actor.stats.compat.cflag.set(4, 220)
+        actor.affection = 420
+        actor.trust = 220
+        actor.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(actor)
         self.assertGreaterEqual(actor.relationship_stage.rank, 2)
 
@@ -132,10 +135,11 @@ class LightIntimacyLineE2ETests(unittest.TestCase):
 
     def _advance_to_love(self, actor) -> None:
         """Advance actor relationship to love stage."""
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
-        actor.affection = 6
-        actor.trust = 4
+        actor.stats.compat.cflag.set(2, 850)
+        actor.stats.compat.cflag.set(4, 450)
+        actor.stats.compat.abl.set(12, 5)
+        actor.affection = 850
+        actor.trust = 450
         self.app.relationship_service.update_actor(actor)
         self.assertEqual(actor.relationship_stage.key, "love")
 

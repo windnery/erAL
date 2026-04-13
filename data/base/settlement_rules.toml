@@ -5,21 +5,9 @@ target_key = "favor"
 scale = 1
 
 [[rules]]
-source = "affection"
-target_family = "cflag"
-target_index = 2
-scale = 1
-
-[[rules]]
 source = "joy"
 target_family = "base"
 target_key = "mood"
-scale = 1
-
-[[rules]]
-source = "joy"
-target_family = "cflag"
-target_index = 4
 scale = 1
 
 [[rules]]
@@ -32,7 +20,7 @@ scale = 1
 source = "obedience"
 target_family = "cflag"
 target_index = 6
-scale = 1
+scale = 0.05
 
 [[rules]]
 source = "lust"
@@ -89,19 +77,79 @@ target_key = "lust"
 scale = 1
 
 [[rules]]
-source = "service"
-target_family = "cflag"
-target_index = 4
-scale = 1
-
-[[rules]]
-source = "trust"
-target_family = "cflag"
-target_index = 4
-scale = 1
-
-[[rules]]
 source = "humiliation"
 target_family = "palam"
 target_key = "shame"
 scale = 1
+
+[[rules]]
+source = "passive"
+target_family = "palam"
+target_key = "obedience"
+scale = 1
+
+[[rules]]
+source = "achievement"
+target_family = "palam"
+target_key = "mastery"
+scale = 1
+
+[[rules]]
+source = "sexual_act"
+target_family = "palam"
+target_key = "lust"
+scale = 1
+
+[[rules]]
+source = "pleasure_c"
+target_family = "palam"
+target_key = "pleasure_c"
+scale = 1
+
+[[rules]]
+source = "pleasure_v"
+target_family = "palam"
+target_key = "pleasure_v"
+scale = 1
+
+[[rules]]
+source = "pleasure_a"
+target_family = "palam"
+target_key = "pleasure_a"
+scale = 1
+
+[[rules]]
+source = "pleasure_b"
+target_family = "palam"
+target_key = "pleasure_b"
+scale = 1
+
+[[rules]]
+source = "pleasure_m"
+target_family = "palam"
+target_key = "pleasure_m"
+scale = 1
+
+[[rules]]
+source = "fluid"
+target_family = "palam"
+target_key = "lubrication"
+scale = 1
+
+[[rules]]
+source = "deviation"
+target_family = "palam"
+target_key = "disgust"
+scale = 1
+
+[[rules]]
+source = "frustration"
+target_family = "palam"
+target_key = "depression"
+scale = 1
+
+[[rules]]
+source = "give_pleasure_c"
+target_family = "palam"
+target_key = "pleasure_c"
+scale = 0.5

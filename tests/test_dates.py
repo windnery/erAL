@@ -1,4 +1,4 @@
-"""Date flow tests."""
+﻿"""Date flow tests."""
 
 from __future__ import annotations
 
@@ -7,7 +7,8 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class DateTests(unittest.TestCase):
@@ -21,6 +22,14 @@ class DateTests(unittest.TestCase):
         place_player_with_actor(self.app, actor)
         return actor
 
+    def _seed_like(self, actor) -> None:
+        actor.affection = 420
+        actor.trust = 220
+        actor_cflag.set(actor, CFLAGKey.AFFECTION, 420)
+        actor_cflag.set(actor, CFLAGKey.TRUST, 220)
+        actor.stats.compat.abl.set(12, 3)
+        self.app.relationship_service.update_actor(actor)
+
     def test_invite_date_requires_follow_and_like_stage(self) -> None:
         actor = self._actor()
 
@@ -31,11 +40,7 @@ class DateTests(unittest.TestCase):
                 command_key="invite_date",
             )
 
-        actor.affection = 3
-        actor.trust = 2
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 3)
-        actor_cflag.set(actor, CFLAGKey.TRUST, 2)
-        self.app.relationship_service.update_actor(actor)
+        self._seed_like(actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
 
         self.app.command_service.execute(
@@ -59,11 +64,7 @@ class DateTests(unittest.TestCase):
 
     def test_end_date_clears_date_state(self) -> None:
         actor = self._actor()
-        actor.affection = 3
-        actor.trust = 2
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 3)
-        actor_cflag.set(actor, CFLAGKey.TRUST, 2)
-        self.app.relationship_service.update_actor(actor)
+        self._seed_like(actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
 
         self.app.command_service.execute(

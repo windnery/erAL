@@ -1,4 +1,4 @@
-"""Date-specific command branch tests — date commands availability and execution."""
+﻿"""Date-specific command branch tests — date commands availability and execution."""
 
 from __future__ import annotations
 
@@ -8,7 +8,8 @@ from pathlib import Path
 from eral.app.bootstrap import create_application
 from eral.content.dialogue import DialogueEntry
 from eral.content.events import EventDefinition
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class DateCommandAvailabilityTests(unittest.TestCase):
@@ -21,10 +22,11 @@ class DateCommandAvailabilityTests(unittest.TestCase):
         reset_progress(self.actor)
         place_player_with_actor(self.app, self.actor)
         # Set up like stage for date invitation
-        self.actor.affection = 3
-        self.actor.trust = 2
-        self.actor.stats.compat.cflag.set(2, 3)
-        self.actor.stats.compat.cflag.set(4, 2)
+        self.actor.affection = 420
+        self.actor.trust = 220
+        self.actor.stats.compat.cflag.set(2, 420)
+        self.actor.stats.compat.cflag.set(4, 220)
+        self.actor.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
 
@@ -147,10 +149,11 @@ class DateCommandExecutionTests(unittest.TestCase):
         self.actor = actor_by_key(self.app, "enterprise")
         reset_progress(self.actor)
         place_player_with_actor(self.app, self.actor)
-        self.actor.affection = 3
-        self.actor.trust = 2
-        self.actor.stats.compat.cflag.set(2, 3)
-        self.actor.stats.compat.cflag.set(4, 2)
+        self.actor.affection = 420
+        self.actor.trust = 220
+        self.actor.stats.compat.cflag.set(2, 420)
+        self.actor.stats.compat.cflag.set(4, 220)
+        self.actor.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
         # Start date
@@ -168,9 +171,9 @@ class DateCommandExecutionTests(unittest.TestCase):
             self.app.world, actor_key=self.actor.key, command_key="hold_hands",
         )
         self.assertEqual(result.action_key, "hold_hands")
-        # hold_hands source: affection=2, joy=2
+        # hold_hands source: affection=100, joy=80
         self.assertIn("affection", result.source_deltas)
-        self.assertEqual(result.source_deltas["affection"], 2)
+        self.assertEqual(result.source_deltas["affection"], 100)
 
     def test_date_meal_at_cafeteria(self) -> None:
         # cafeteria has "food" tag → date_meal is available
@@ -203,10 +206,11 @@ class DateCommandExecutionTests(unittest.TestCase):
         keys = [cmd.key for cmd in available]
         self.assertNotIn("enter_room", keys)
 
-        self.actor.affection = 10
-        self.actor.trust = 8
-        self.actor.stats.compat.cflag.set(2, 10)
-        self.actor.stats.compat.cflag.set(4, 8)
+        self.actor.affection = 850
+        self.actor.trust = 450
+        self.actor.stats.compat.cflag.set(2, 850)
+        self.actor.stats.compat.cflag.set(4, 450)
+        self.actor.stats.compat.abl.set(12, 5)
         self.app.relationship_service.update_actor(self.actor)
         available = self.app.command_service.available_commands_for_actor(
             self.app.world, self.actor.key,
@@ -224,10 +228,11 @@ class DateCommandExecutionTests(unittest.TestCase):
 
     def test_date_watch_sea_available_at_love_stage_on_dock(self) -> None:
         # Advance to love stage
-        self.actor.affection = 10
-        self.actor.trust = 8
-        self.actor.stats.compat.cflag.set(2, 10)
-        self.actor.stats.compat.cflag.set(4, 8)
+        self.actor.affection = 850
+        self.actor.trust = 450
+        self.actor.stats.compat.cflag.set(2, 850)
+        self.actor.stats.compat.cflag.set(4, 450)
+        self.actor.stats.compat.abl.set(12, 5)
         self.app.relationship_service.update_actor(self.actor)
         # Move to dock (harbor tag)
         self.app.navigation_service.move_player(self.app.world, "main_corridor")
@@ -252,8 +257,8 @@ class DateEventTriggerTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("dock",),
                 time_slots=("night",),
-                min_affection=10,
-                min_trust=8,
+                min_affection=800,
+                min_trust=400,
                 min_obedience=None,
                 required_stage="love",
                 requires_date=True,
@@ -266,8 +271,8 @@ class DateEventTriggerTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("dormitory_a",),
                 time_slots=("night",),
-                min_affection=10,
-                min_trust=8,
+                min_affection=800,
+                min_trust=400,
                 min_obedience=None,
                 required_stage="love",
                 requires_date=True,
@@ -297,10 +302,11 @@ class DateEventTriggerTests(unittest.TestCase):
         reset_progress(self.actor)
         place_player_with_actor(self.app, self.actor)
         self._install_date_event_fixtures()
-        self.actor.affection = 10
-        self.actor.trust = 8
-        self.actor.stats.compat.cflag.set(2, 10)
-        self.actor.stats.compat.cflag.set(4, 8)
+        self.actor.affection = 850
+        self.actor.trust = 450
+        self.actor.stats.compat.cflag.set(2, 850)
+        self.actor.stats.compat.cflag.set(4, 450)
+        self.actor.stats.compat.abl.set(12, 5)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         # Start date

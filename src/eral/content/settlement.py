@@ -17,7 +17,7 @@ class SettlementRule:
     target_family: AxisFamily
     target_key: str | None = None
     target_index: int | None = None
-    scale: int = 1
+    scale: float = 1.0
 
 
 def load_settlement_rules(path: Path) -> tuple[SettlementRule, ...]:
@@ -32,7 +32,7 @@ def load_settlement_rules(path: Path) -> tuple[SettlementRule, ...]:
             target_family=AxisFamily(item["target_family"]),
             target_key=item.get("target_key"),
             target_index=item.get("target_index"),
-            scale=int(item.get("scale", 1)),
+            scale=float(item.get("scale", 1)),
         )
         for item in raw_data.get("rules", [])
     )

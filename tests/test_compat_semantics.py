@@ -1,4 +1,4 @@
-"""Tests for compat semantic registry and access helpers."""
+﻿"""Tests for compat semantic registry and access helpers."""
 
 from __future__ import annotations
 
@@ -17,7 +17,8 @@ from eral.domain.compat_semantics import (
     actor_talent,
     build_default_compat_semantics,
 )
-from tests.support.real_actors import actor_by_key, reset_progress
+from tests.support.real_actors import actor_by_key
+from tests.support.stages import reset_progress
 
 
 class CompatSemanticsTests(unittest.TestCase):

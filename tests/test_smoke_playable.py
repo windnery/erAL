@@ -7,10 +7,17 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.world import TimeSlot
+from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 
 
 def _actor(world, key: str):
     return next(a for a in world.characters if a.key == key)
+
+
+def _seed_friendly(actor) -> None:
+    actor_cflag.set(actor, CFLAGKey.AFFECTION, 210)
+    actor_cflag.set(actor, CFLAGKey.TRUST, 110)
+    actor.sync_derived_fields()
 
 
 def _advance_to(app, world, day: int, slot: TimeSlot) -> None:
@@ -38,6 +45,7 @@ class ThreeDayPlayableSmokeTests(unittest.TestCase):
         self.app.navigation_service.move_player(world, "dock")
         self.app.command_service.execute(world, enterprise.key, "chat")
         self.app.command_service.execute(world, enterprise.key, "touch_head")
+        _seed_friendly(enterprise)
         self.app.command_service.execute(world, enterprise.key, "invite_follow")
 
         self.app.game_loop.advance_time(world)
@@ -75,8 +83,8 @@ class ThreeDayPlayableSmokeTests(unittest.TestCase):
         self.app.navigation_service.move_player(world, "dock")
         self.app.command_service.execute(world, laffey.key, "clink_cups")
 
-        self.assertGreaterEqual(enterprise.affection, 2)
-        self.assertTrue(enterprise.is_following is False or enterprise.affection >= 2)
+        self.assertGreaterEqual(enterprise.affection, 210)
+        self.assertTrue(enterprise.is_following is False or enterprise.affection >= 210)
         self.assertGreaterEqual(laffey.affection, 1)
 
 
@@ -113,6 +121,7 @@ class SevenDayPlayableSmokeTests(unittest.TestCase):
         self._cmd("enterprise", "chat")
         self._cmd("enterprise", "touch_head")
         self._cmd("enterprise", "praise")
+        _seed_friendly(_actor(self.world, "enterprise"))
 
         self._advance_to(1, TimeSlot.AFTERNOON)
         self._go("training_ground")
@@ -128,6 +137,7 @@ class SevenDayPlayableSmokeTests(unittest.TestCase):
     def _play_day2(self) -> None:
         self._advance_to(2, TimeSlot.MORNING)
         self._go("dock")
+        _seed_friendly(_actor(self.world, "enterprise"))
         self._cmd("enterprise", "invite_follow")
 
         self._advance_to(2, TimeSlot.AFTERNOON)
@@ -237,7 +247,7 @@ class SevenDayPlayableSmokeTests(unittest.TestCase):
         self.assertGreaterEqual(self.world.current_day, 7)
 
         ent = _actor(self.world, "enterprise")
-        self.assertGreaterEqual(ent.affection, 5)
+        self.assertGreaterEqual(ent.affection, 210)
 
         for key in ("laffey", "javelin"):
             actor = _actor(self.world, key)

@@ -8,6 +8,7 @@ from eral.domain.world import TimeSlot, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.schedule import ScheduleService
+from eral.systems.vital import VitalService
 
 
 @dataclass(slots=True)
@@ -16,6 +17,7 @@ class GameLoop:
 
     event_bus: EventBus
     schedule_service: ScheduleService | None = None
+    vital_service: VitalService | None = None
     runtime_logger: RuntimeLogger | None = None
 
     def advance_time(self, world: WorldState) -> None:
@@ -28,6 +30,9 @@ class GameLoop:
         world.current_time_slot = next_slot
         if self.schedule_service is not None:
             self.schedule_service.refresh_world(world)
+        if self.vital_service is not None:
+            for character in world.characters:
+                self.vital_service.natural_recovery(character)
         self.event_bus.publish(
             "time.advanced",
             previous_slot=previous_slot.value,
@@ -45,3 +50,16 @@ class GameLoop:
                 location_key=world.active_location.key,
                 triggered_events=[],
             )
+
+    def advance_to_dawn(self, world: WorldState) -> None:
+        """Advance time to next dawn, applying natural recovery each slot.
+
+        Used when an actor faints — forces sleep until start of next day.
+        """
+        while True:
+            previous_slot = world.current_time_slot
+            next_slot = previous_slot.next()
+            if next_slot == TimeSlot.DAWN:
+                self.advance_time(world)
+                break
+            self.advance_time(world)

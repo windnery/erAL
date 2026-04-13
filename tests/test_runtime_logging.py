@@ -1,4 +1,4 @@
-"""Runtime logging tests for key gameplay chains."""
+﻿"""Runtime logging tests for key gameplay chains."""
 
 from __future__ import annotations
 
@@ -8,7 +8,8 @@ import uuid
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class RuntimeLoggingTests(unittest.TestCase):

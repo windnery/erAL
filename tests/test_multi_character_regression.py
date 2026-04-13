@@ -37,10 +37,11 @@ class MultiCharacterRegressionTests(unittest.TestCase):
         self.javelin.location_key = "command_office"
         self.app.command_service.execute(world, self.javelin.key, "chat")
 
-        self.enterprise.affection = 3
-        self.enterprise.trust = 2
-        self.enterprise.stats.compat.cflag.set(2, 3)
-        self.enterprise.stats.compat.cflag.set(4, 2)
+        self.enterprise.affection = 420
+        self.enterprise.trust = 220
+        self.enterprise.stats.compat.cflag.set(2, 420)
+        self.enterprise.stats.compat.cflag.set(4, 220)
+        self.enterprise.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(self.enterprise)
 
         world.current_time_slot = TimeSlot.EVENING
@@ -61,9 +62,9 @@ class MultiCharacterRegressionTests(unittest.TestCase):
         self.assertFalse(self.laffey.is_following)
         self.assertFalse(self.javelin.is_on_date)
 
-        self.assertGreaterEqual(self.enterprise.affection, 4)
-        self.assertGreaterEqual(self.laffey.affection, 2)
-        self.assertGreaterEqual(self.javelin.affection, 1)
+        self.assertGreaterEqual(self.enterprise.affection, 311)
+        self.assertGreaterEqual(self.laffey.affection, 311)
+        self.assertGreaterEqual(self.javelin.affection, 56)
         self.assertEqual(world.date_partner_key, self.enterprise.key)
 
     def test_multi_character_dialogue_resolution_stays_actor_scoped(self) -> None:

@@ -4,7 +4,8 @@ display_name = "闲聊"
 category = "daily"
 location_tags = ["public", "social", "work"]
 time_slots = ["morning", "afternoon", "evening", "night"]
-source = { affection = 2, joy = 1 }
+source = { affection = 50, joy = 30 }
+downbase = { stamina = 5, spirit = 10 }
 
 [[commands]]
 key = "paperwork"
@@ -12,7 +13,8 @@ display_name = "一起处理文书"
 category = "work"
 location_tags = ["work"]
 time_slots = ["morning", "afternoon"]
-source = { affection = 1, service = 2, obedience = 1 }
+source = { affection = 30, service = 100, obedience = 30 }
+downbase = { stamina = 20, spirit = 40 }
 
 [[commands]]
 key = "share_snack"
@@ -20,7 +22,8 @@ display_name = "分享零食"
 category = "daily"
 location_tags = ["public", "social", "food", "work"]
 time_slots = ["morning", "afternoon", "evening"]
-source = { affection = 3, joy = 2 }
+source = { affection = 80, joy = 60 }
+downbase = { stamina = 5, spirit = 10 }
 
 [[commands]]
 key = "praise"
@@ -28,7 +31,8 @@ display_name = "夸奖"
 category = "daily"
 location_tags = ["public", "social", "work"]
 time_slots = ["morning", "afternoon", "evening"]
-source = { affection = 2, joy = 1, obedience = 1 }
+source = { affection = 50, joy = 30, obedience = 30 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "touch_head"
@@ -36,7 +40,8 @@ display_name = "摸头"
 category = "daily"
 location_tags = ["public", "social", "work", "food", "harbor"]
 time_slots = ["morning", "afternoon", "evening", "night"]
-source = { affection = 1, joy = 1 }
+source = { affection = 40, joy = 30 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "serve_tea"
@@ -44,7 +49,8 @@ display_name = "泡茶"
 category = "daily"
 location_tags = ["work", "social", "food"]
 time_slots = ["morning", "afternoon", "evening"]
-source = { affection = 1, trust = 1, joy = 1 }
+source = { affection = 30, trust = 30, joy = 20 }
+downbase = { stamina = 5, spirit = 10 }
 apply_marks = { drunk = 1 }
 
 [[commands]]
@@ -53,7 +59,8 @@ display_name = "听牢骚"
 category = "daily"
 location_tags = ["social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
-source = { affection = 1, trust = 2 }
+source = { affection = 40, trust = 60 }
+downbase = { spirit = 30 }
 
 [[commands]]
 key = "clink_cups"
@@ -61,7 +68,8 @@ display_name = "碰杯"
 category = "daily"
 location_tags = ["social", "food", "harbor"]
 time_slots = ["evening", "night"]
-source = { affection = 1, trust = 1, joy = 2 }
+source = { affection = 30, trust = 30, joy = 60 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "hug"
@@ -70,7 +78,8 @@ category = "daily"
 location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 required_stage = "friendly"
-source = { affection = 2, joy = 1, temptation = 1 }
+source = { affection = 100, joy = 50, temptation = 50 }
+downbase = { stamina = 5, spirit = 20 }
 
 [[commands]]
 key = "care"
@@ -79,7 +88,8 @@ category = "daily"
 location_tags = ["social", "food", "private", "harbor"]
 time_slots = ["evening", "night"]
 required_stage = "friendly"
-source = { affection = 2, trust = 1, obedience = 1 }
+source = { affection = 80, trust = 50, obedience = 30 }
+downbase = { stamina = 15, spirit = 40 }
 
 [[commands]]
 key = "scold"
@@ -87,7 +97,8 @@ display_name = "训斥"
 category = "daily"
 location_tags = ["public", "work"]
 time_slots = ["morning", "afternoon"]
-source = { fear = 1, humiliation = 1, obedience = 1 }
+source = { fear = 100, humiliation = 50, obedience = 60 }
+downbase = { stamina = 10, spirit = 20 }
 apply_marks = { angry = 1 }
 
 [[commands]]
@@ -96,7 +107,8 @@ display_name = "一起训练"
 category = "work"
 location_tags = ["training"]
 time_slots = ["morning", "afternoon"]
-source = { affection = 1, service = 1, obedience = 1 }
+source = { affection = 30, service = 80, obedience = 40 }
+downbase = { stamina = 30, spirit = 40 }
 
 [[commands]]
 key = "rest"
@@ -104,7 +116,8 @@ display_name = "休息"
 category = "work"
 location_tags = ["public", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
-source = { trust = 1, joy = 1 }
+source = { trust = 30, joy = 30 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "study"
@@ -112,7 +125,8 @@ display_name = "学习"
 category = "work"
 location_tags = ["work"]
 time_slots = ["morning", "afternoon"]
-source = { trust = 1, service = 1 }
+source = { trust = 30, service = 50 }
+downbase = { stamina = 10, spirit = 30 }
 
 [[commands]]
 key = "cook"
@@ -120,7 +134,8 @@ display_name = "做饭"
 category = "work"
 location_tags = ["food"]
 time_slots = ["afternoon", "evening"]
-source = { affection = 1, service = 1, joy = 1 }
+source = { affection = 40, service = 80, joy = 30 }
+downbase = { stamina = 20, spirit = 20 }
 
 [[commands]]
 key = "eat_meal"
@@ -128,7 +143,8 @@ display_name = "吃饭"
 category = "work"
 location_tags = ["food"]
 time_slots = ["morning", "afternoon", "evening"]
-source = { affection = 1, joy = 2 }
+source = { affection = 30, joy = 60 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "invite_meal"
@@ -137,15 +153,18 @@ category = "work"
 location_tags = ["food"]
 time_slots = ["afternoon", "evening"]
 required_stage = "friendly"
-source = { affection = 2, trust = 1, joy = 2 }
+source = { affection = 80, trust = 40, joy = 80 }
+downbase = { stamina = 10, spirit = 30 }
 
 [[commands]]
-key = "nap"
-display_name = "午睡"
+key = "relax_together"
+display_name = "一起放松"
 category = "work"
 location_tags = ["private", "food", "harbor"]
-time_slots = ["afternoon"]
-source = { joy = 1, trust = 1 }
+time_slots = ["afternoon", "evening"]
+required_stage = "friendly"
+source = { joy = 30, trust = 20 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "tease"
@@ -155,7 +174,8 @@ location_tags = ["private", "social"]
 time_slots = ["evening", "night", "late_night"]
 min_affection = 1
 required_stage = "friendly"
-source = { temptation = 2, affection = 1, lust = 1, humiliation = 1 }
+source = { temptation = 100, affection = 50, lust = 80, humiliation = 60 }
+downbase = { stamina = 10, spirit = 50 }
 apply_marks = { teased = 1, embarrassed = 1 }
 
 [[commands]]
@@ -167,7 +187,8 @@ time_slots = ["morning", "afternoon", "evening", "night"]
 required_stage = "friendly"
 requires_following = false
 operation = "start_follow"
-source = { affection = 1, joy = 1 }
+source = { affection = 40, joy = 30 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "dismiss_follow"
@@ -178,6 +199,7 @@ time_slots = ["morning", "afternoon", "evening", "night", "late_night"]
 requires_following = true
 operation = "stop_follow"
 source = {}
+downbase = {}
 
 [[commands]]
 key = "walk_together"
@@ -187,7 +209,8 @@ location_tags = ["public", "harbor"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_following = true
 requires_date = false
-source = { affection = 2, joy = 2 }
+source = { affection = 80, joy = 80 }
+downbase = { stamina = 10, spirit = 20 }
 
 [[commands]]
 key = "lap_pillow"
@@ -196,7 +219,9 @@ category = "follow"
 location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 requires_following = true
-source = { affection = 2, joy = 1, trust = 1 }
+source = { affection = 100, joy = 50, trust = 50 }
+downbase = { stamina = 5, spirit = 30 }
+success_tiers = [0.1, 1.0, 2.0]
 
 [[commands]]
 key = "kiss"
@@ -206,7 +231,8 @@ location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 required_stage = "love"
 apply_marks = { kissed = 1 }
-source = { affection = 3, joy = 1, temptation = 2 }
+source = { affection = 150, pleasure_m = 40, joy = 60, temptation = 80, sexual_act = 50 }
+downbase = { spirit = 50 }
 
 [[commands]]
 key = "confess"
@@ -216,7 +242,8 @@ location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["evening", "night"]
 required_stage = "love"
 apply_marks = { confessed = 1 }
-source = { affection = 2, joy = 2, obedience = 1 }
+source = { affection = 100, joy = 80, obedience = 50 }
+downbase = { spirit = 80 }
 
 [[commands]]
 key = "invite_date"
@@ -228,7 +255,8 @@ required_stage = "like"
 requires_following = true
 requires_date = false
 operation = "start_date"
-source = { affection = 1, joy = 1 }
+source = { affection = 40, joy = 40 }
+downbase = { spirit = 20 }
 
 [[commands]]
 key = "end_date"
@@ -239,8 +267,7 @@ time_slots = ["afternoon", "evening", "night", "late_night"]
 requires_date = true
 operation = "end_date"
 source = {}
-
-# ── 约会专属指令 ──
+downbase = {}
 
 [[commands]]
 key = "hold_hands"
@@ -250,7 +277,8 @@ location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 requires_date = true
 required_stage = "like"
-source = { affection = 2, joy = 2 }
+source = { affection = 100, joy = 80 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "date_stroll"
@@ -259,7 +287,8 @@ category = "date"
 location_tags = ["public", "harbor"]
 time_slots = ["afternoon", "evening"]
 requires_date = true
-source = { affection = 2, joy = 3 }
+source = { affection = 100, joy = 120 }
+downbase = { stamina = 10, spirit = 20 }
 
 [[commands]]
 key = "date_meal"
@@ -268,7 +297,8 @@ category = "date"
 location_tags = ["food"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_date = true
-source = { affection = 3, joy = 3 }
+source = { affection = 120, joy = 100 }
+downbase = { stamina = 5, spirit = 10 }
 
 [[commands]]
 key = "gift"
@@ -277,7 +307,8 @@ category = "date"
 location_tags = ["public", "social", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 requires_date = true
-source = { affection = 3, trust = 1, joy = 1 }
+source = { affection = 150, trust = 50, joy = 50 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "dessert_date"
@@ -286,7 +317,8 @@ category = "date"
 location_tags = ["food"]
 time_slots = ["afternoon", "evening"]
 requires_date = true
-source = { affection = 2, joy = 3 }
+source = { affection = 80, joy = 100 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "room_visit"
@@ -296,7 +328,8 @@ location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_date = true
 required_stage = "like"
-source = { affection = 2, trust = 1 }
+source = { affection = 80, trust = 50 }
+downbase = { spirit = 20 }
 
 [[commands]]
 key = "enter_room"
@@ -306,7 +339,8 @@ location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_date = true
 required_stage = "love"
-source = { affection = 2, trust = 2, temptation = 1 }
+source = { affection = 100, trust = 80, temptation = 60 }
+downbase = { spirit = 40 }
 
 [[commands]]
 key = "date_watch_sea"
@@ -316,7 +350,8 @@ location_tags = ["harbor"]
 time_slots = ["evening", "night"]
 requires_date = true
 required_stage = "love"
-source = { affection = 4, joy = 2, temptation = 1 }
+source = { affection = 180, joy = 100, temptation = 50 }
+downbase = { stamina = 10, spirit = 30 }
 
 [[commands]]
 key = "date_tease"
@@ -327,9 +362,8 @@ time_slots = ["evening", "night", "late_night"]
 requires_date = true
 required_stage = "love"
 apply_marks = { teased = 1, embarrassed = 1 }
-source = { temptation = 3, affection = 2, lust = 2 }
-
-# ── 日常互动 C 批 ──
+source = { temptation = 150, affection = 100, lust = 120 }
+downbase = { stamina = 10, spirit = 60 }
 
 [[commands]]
 key = "apologize"
@@ -337,7 +371,8 @@ display_name = "道歉"
 category = "daily"
 location_tags = ["public", "social", "work", "private", "food"]
 time_slots = ["morning", "afternoon", "evening", "night"]
-source = { affection = 1, trust = 2 }
+source = { affection = 30, trust = 60 }
+downbase = { spirit = 20 }
 remove_marks = ["angry"]
 
 [[commands]]
@@ -346,7 +381,8 @@ display_name = "帮忙工作"
 category = "work"
 location_tags = ["work"]
 time_slots = ["morning", "afternoon"]
-source = { affection = 2, trust = 1, service = 2 }
+source = { affection = 60, trust = 30, service = 100 }
+downbase = { stamina = 20, spirit = 40 }
 
 [[commands]]
 key = "pat_cheek"
@@ -355,7 +391,8 @@ category = "daily"
 location_tags = ["public", "social", "private", "food"]
 time_slots = ["morning", "afternoon", "evening"]
 required_stage = "friendly"
-source = { affection = 1, joy = 2, temptation = 1 }
+source = { affection = 50, joy = 60, temptation = 30 }
+downbase = { spirit = 5 }
 apply_marks = { embarrassed = 1 }
 
 [[commands]]
@@ -365,7 +402,8 @@ category = "daily"
 location_tags = ["public", "social", "private", "food"]
 time_slots = ["afternoon", "evening", "night"]
 required_stage = "like"
-source = { affection = 1, joy = 2, humiliation = 1 }
+source = { affection = 50, joy = 60, humiliation = 40 }
+downbase = { spirit = 5 }
 apply_marks = { embarrassed = 1 }
 
 [[commands]]
@@ -374,9 +412,8 @@ display_name = "朗读"
 category = "daily"
 location_tags = ["study", "social", "private"]
 time_slots = ["morning", "afternoon", "evening"]
-source = { affection = 1, trust = 1, joy = 1 }
-
-# ── 同行 B 批 ──
+source = { affection = 30, trust = 40, joy = 30 }
+downbase = { stamina = 10, spirit = 30 }
 
 [[commands]]
 key = "follow_rest"
@@ -385,7 +422,8 @@ category = "follow"
 location_tags = ["public", "food", "harbor", "private"]
 time_slots = ["afternoon", "evening", "night"]
 requires_following = true
-source = { trust = 1, joy = 2 }
+source = { trust = 40, joy = 60 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "escort_room"
@@ -395,7 +433,8 @@ location_tags = ["residential", "private"]
 time_slots = ["evening", "night", "late_night"]
 requires_following = true
 required_stage = "like"
-source = { affection = 2, trust = 2 }
+source = { affection = 80, trust = 80 }
+downbase = { stamina = 10, spirit = 20 }
 
 [[commands]]
 key = "follow_training"
@@ -404,7 +443,8 @@ category = "follow"
 location_tags = ["training"]
 time_slots = ["morning", "afternoon"]
 requires_following = true
-source = { affection = 1, service = 1, obedience = 1 }
+source = { affection = 40, service = 100, obedience = 40 }
+downbase = { stamina = 30, spirit = 50 }
 
 [[commands]]
 key = "follow_meal"
@@ -413,9 +453,8 @@ category = "follow"
 location_tags = ["food"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_following = true
-source = { affection = 2, joy = 2 }
-
-# ── 约会 C 批 ──
+source = { affection = 80, joy = 80 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "buy_things"
@@ -424,7 +463,8 @@ category = "date"
 location_tags = ["public", "social", "harbor"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_date = true
-source = { affection = 1, joy = 2, service = 1 }
+source = { affection = 50, joy = 60, service = 40 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "flower_shop"
@@ -433,7 +473,8 @@ category = "date"
 location_tags = ["public", "social", "harbor"]
 time_slots = ["morning", "afternoon"]
 requires_date = true
-source = { affection = 3, joy = 2 }
+source = { affection = 150, joy = 100 }
+downbase = { spirit = 10 }
 
 [[commands]]
 key = "drink_together"
@@ -443,7 +484,8 @@ location_tags = ["food", "social", "harbor"]
 time_slots = ["evening", "night"]
 requires_date = true
 required_stage = "like"
-source = { affection = 1, trust = 1, joy = 2 }
+source = { affection = 60, trust = 40, joy = 80 }
+downbase = { stamina = 5, spirit = 20 }
 apply_marks = { drunk = 1 }
 
 [[commands]]
@@ -453,7 +495,8 @@ category = "date"
 location_tags = ["harbor"]
 time_slots = ["morning", "afternoon"]
 requires_date = true
-source = { affection = 2, joy = 3, trust = 1 }
+source = { affection = 100, joy = 120, trust = 50 }
+downbase = { stamina = 20, spirit = 30 }
 
 [[commands]]
 key = "takeout_bento"
@@ -462,9 +505,8 @@ category = "date"
 location_tags = ["food", "public"]
 time_slots = ["morning", "afternoon", "evening"]
 requires_date = true
-source = { affection = 1, joy = 2 }
-
-# ── 轻亲密 B 批 ──
+source = { affection = 40, joy = 60 }
+downbase = { spirit = 5 }
 
 [[commands]]
 key = "invite_dark_place"
@@ -474,7 +516,8 @@ location_tags = ["private", "harbor"]
 time_slots = ["evening", "night", "late_night"]
 required_stage = "love"
 requires_date = true
-source = { temptation = 2, affection = 1, lust = 1 }
+source = { temptation = 120, affection = 60, lust = 100 }
+downbase = { spirit = 50 }
 
 [[commands]]
 key = "sleep_together"
@@ -484,7 +527,8 @@ location_tags = ["private"]
 time_slots = ["night", "late_night"]
 required_stage = "love"
 requires_date = true
-source = { affection = 3, trust = 2, temptation = 1 }
+source = { affection = 150, trust = 80, temptation = 60 }
+downbase = { spirit = 50 }
 
 [[commands]]
 key = "room_kiss"
@@ -495,7 +539,8 @@ time_slots = ["evening", "night", "late_night"]
 required_stage = "love"
 requires_date = true
 apply_marks = { kissed = 1 }
-source = { affection = 3, temptation = 3, lust = 2 }
+source = { affection = 180, temptation = 150, lust = 100, joy = 50 }
+downbase = { stamina = 10, spirit = 60 }
 
 [[commands]]
 key = "night_visit"
@@ -505,4 +550,35 @@ location_tags = ["private"]
 time_slots = ["late_night"]
 required_stage = "love"
 apply_marks = { night_visit = 1 }
-source = { temptation = 3, affection = 1, lust = 2 }
+source = { temptation = 200, affection = 50, lust = 150 }
+downbase = { stamina = 20, spirit = 80 }
+
+[[commands]]
+key = "nap"
+display_name = "小憩"
+category = "recovery"
+location_tags = ["private", "work", "social"]
+time_slots = ["afternoon", "evening", "night"]
+operation = "nap"
+source = {}
+downbase = {}
+
+[[commands]]
+key = "sleep"
+display_name = "就寝"
+category = "recovery"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+operation = "sleep"
+source = {}
+downbase = {}
+
+[[commands]]
+key = "bathe"
+display_name = "泡澡"
+category = "recovery"
+location_tags = ["bathhouse"]
+time_slots = ["afternoon", "evening", "night"]
+operation = "bathe"
+source = { joy = 30, trust = 20 }
+downbase = {}

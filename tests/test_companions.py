@@ -1,4 +1,4 @@
-"""Companion and follow tests."""
+﻿"""Companion and follow tests."""
 
 from __future__ import annotations
 
@@ -7,7 +7,8 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class CompanionTests(unittest.TestCase):
@@ -21,11 +22,16 @@ class CompanionTests(unittest.TestCase):
         place_player_with_actor(self.app, actor)
         return actor
 
+    def _seed_friendly(self, actor) -> None:
+        actor.affection = 210
+        actor.trust = 110
+        actor_cflag.set(actor, CFLAGKey.AFFECTION, 210)
+        actor_cflag.set(actor, CFLAGKey.TRUST, 110)
+        self.app.relationship_service.update_actor(actor)
+
     def test_invite_follow_starts_follow_and_moves_with_player(self) -> None:
         actor = self._actor()
-        actor.affection = 2
-        actor.trust = 0
-        self.app.relationship_service.update_actor(actor)
+        self._seed_friendly(actor)
 
         self.app.command_service.execute(
             self.app.world,
@@ -47,8 +53,7 @@ class CompanionTests(unittest.TestCase):
 
     def test_dismiss_follow_stops_following(self) -> None:
         actor = self._actor()
-        actor.affection = 2
-        self.app.relationship_service.update_actor(actor)
+        self._seed_friendly(actor)
 
         self.app.command_service.execute(
             self.app.world,
@@ -66,9 +71,7 @@ class CompanionTests(unittest.TestCase):
 
     def test_walk_together_available_when_following_at_public_location(self) -> None:
         actor = self._actor()
-        actor.affection = 2
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 2)
-        self.app.relationship_service.update_actor(actor)
+        self._seed_friendly(actor)
 
         self.app.command_service.execute(
             self.app.world,
@@ -87,9 +90,7 @@ class CompanionTests(unittest.TestCase):
     def test_lap_pillow_available_when_following(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
-        actor.affection = 2
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 2)
-        self.app.relationship_service.update_actor(actor)
+        self._seed_friendly(actor)
 
         self.app.command_service.execute(
             self.app.world,

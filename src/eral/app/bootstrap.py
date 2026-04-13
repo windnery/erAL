@@ -18,8 +18,11 @@ from eral.content.settlement import SettlementRule, load_settlement_rules
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.maxbase import load_maxbase
+from eral.systems.vital import VitalService
 from eral.content.imprint import load_imprint_thresholds
+from eral.content.talent_effects import load_talent_effects
 from eral.systems.imprint import ImprintService
+from eral.systems.favor_calc import load_growth_formula, load_trust_formula
 from eral.domain.map import PortMap
 from eral.domain.stats import ActorNumericState, WorldEraCompatState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
@@ -71,6 +74,7 @@ class Application:
     navigation_service: NavigationService
     schedule_service: ScheduleService
     save_service: SaveService
+    vital_service: VitalService
     runtime_logger: RuntimeLogger
 
 
@@ -134,6 +138,9 @@ def create_application(root: Path | None = None) -> Application:
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     mark_definitions = {m.key: m for m in mark_defs}
     mark_max_levels = {m.key: m.max_level for m in mark_defs}
+    talent_effects = load_talent_effects(root_path / "data" / "base" / "talent_effects.toml")
+    favor_formula = load_growth_formula(root_path / "data" / "base" / "relationship_growth.toml")
+    trust_formula = load_trust_formula(root_path / "data" / "base" / "relationship_growth.toml")
     start_location = port_map.starting_location()
     event_bus = EventBus()
     runtime_logger = RuntimeLogger(paths=paths)
@@ -172,6 +179,7 @@ def create_application(root: Path | None = None) -> Application:
     game_loop = GameLoop(
         event_bus=event_bus,
         schedule_service=schedule_service,
+        vital_service=None,
         runtime_logger=runtime_logger,
     )
     relationship_service = RelationshipService(stages=relationship_stages)
@@ -182,10 +190,17 @@ def create_application(root: Path | None = None) -> Application:
         relationship_service=relationship_service,
         imprint_check=ImprintService(imprint_thresholds),
         mark_max_levels=mark_max_levels,
+        favor_formula=favor_formula,
+        trust_formula=trust_formula,
     )
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
     dialogue_service = DialogueService(entries=dialogue)
+    vital_service = VitalService(
+        max_values=maxbase.max_values,
+        recover_rates=maxbase.recover_rates,
+        talent_effects=talent_effects,
+    )
     command_service = CommandService(
         commands={command.key: command for command in commands},
         settlement=settlement_service,
@@ -194,11 +209,13 @@ def create_application(root: Path | None = None) -> Application:
         event_service=event_service,
         dialogue_service=dialogue_service,
         relationship_service=relationship_service,
+        vital_service=vital_service,
         companion_service=companion_service,
         date_service=date_service,
         runtime_logger=runtime_logger,
         mark_definitions=mark_definitions,
-        maxbase=maxbase,
+        talent_effects=talent_effects,
+        game_loop=game_loop,
     )
     navigation_service = NavigationService(
         port_map=port_map,
@@ -215,6 +232,7 @@ def create_application(root: Path | None = None) -> Application:
         tw_axes=tw_axes,
         runtime_logger=runtime_logger,
     )
+    game_loop.vital_service = vital_service
     return Application(
         root=root_path,
         config=config,
@@ -243,5 +261,6 @@ def create_application(root: Path | None = None) -> Application:
         navigation_service=navigation_service,
         schedule_service=schedule_service,
         save_service=save_service,
+        vital_service=vital_service,
         runtime_logger=runtime_logger,
     )

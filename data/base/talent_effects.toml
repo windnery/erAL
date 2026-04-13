@@ -1,0 +1,223 @@
+# TALENT effects on SOURCE settlement pipeline.
+# Each entry defines a multiplier or addition applied during SOURCE_EXTRA phase.
+# era_index: the TALENT era_index from tw_axis_registry.
+# formula: "multiply" scales existing SOURCE, "add" adds a flat bonus, "recovery_modifier" is for recovery.
+# expression: a Python expression where v = talent_value. Available: max(), min(), int().
+# source_key: which SOURCE axis this modifies. "" means no direct SOURCE modification.
+# talent_value=0 means absent: multiply effects are skipped (1x), add effects add 0.
+
+[[effect]]
+era_index = 101
+label = "C sensitivity"
+category = "sense"
+source_key = "pleasure_c"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 102
+label = "V sensitivity"
+category = "sense"
+source_key = "pleasure_v"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 103
+label = "A sensitivity"
+category = "sense"
+source_key = "pleasure_a"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 104
+label = "B sensitivity"
+category = "sense"
+source_key = "pleasure_b"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 105
+label = "M sensitivity"
+category = "sense"
+source_key = "pleasure_m"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 10
+label = "Pain awareness"
+category = "pain"
+source_key = "pain"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 11
+label = "Recovery speed"
+category = "recovery"
+source_key = ""
+formula = "recovery_modifier"
+expression = "(v + 4) / 4"
+
+[[effect]]
+era_index = 60
+label = "Resistance"
+category = "relation"
+source_key = "affection"
+formula = "multiply"
+expression = "max(0.1, 1.0 - 0.1 * v)"
+
+[[effect]]
+era_index = 60
+label = "Resistance"
+category = "relation"
+source_key = "trust"
+formula = "multiply"
+expression = "max(0.1, 1.0 - 0.1 * v)"
+
+[[effect]]
+era_index = 61
+label = "Devoted"
+category = "relation"
+source_key = "service"
+formula = "multiply"
+expression = "1.0 + 0.2 * v"
+
+[[effect]]
+era_index = 61
+label = "Devoted"
+category = "relation"
+source_key = "affection"
+formula = "multiply"
+expression = "1.0 + 0.1 * v"
+
+[[effect]]
+era_index = 62
+label = "Self-control"
+category = "relation"
+source_key = "lust"
+formula = "multiply"
+expression = "max(0.1, 1.0 - 0.15 * v)"
+
+[[effect]]
+era_index = 62
+label = "Self-control"
+category = "relation"
+source_key = "submission"
+formula = "multiply"
+expression = "max(0.1, 1.0 - 0.1 * v)"
+
+[[effect]]
+era_index = 64
+label = "Emotionless"
+category = "relation"
+source_key = "joy"
+formula = "multiply"
+expression = "max(0.0, 1.0 - 0.3 * v)"
+
+[[effect]]
+era_index = 64
+label = "Emotionless"
+category = "relation"
+source_key = "affection"
+formula = "multiply"
+expression = "max(0.1, 1.0 - 0.2 * v)"
+
+[[effect]]
+era_index = 65
+label = "Pleasure response"
+category = "sense"
+source_key = "lust"
+formula = "multiply"
+expression = "1.0 + 0.15 * v"
+
+[[effect]]
+era_index = 65
+label = "Pleasure response"
+category = "relation"
+source_key = "affection"
+formula = "multiply"
+expression = "1.0 + 0.1 * v"
+
+[[effect]]
+era_index = 78
+label = "Yearning"
+category = "relation"
+source_key = "affection"
+formula = "add"
+expression = "v * 50"
+
+[[effect]]
+era_index = 78
+label = "Yearning"
+category = "relation"
+source_key = "joy"
+formula = "multiply"
+expression = "1.0 + 0.2 * v"
+
+[[effect]]
+era_index = 79
+label = "In love"
+category = "relation"
+source_key = "affection"
+formula = "multiply"
+expression = "1.0 + 0.3 * v"
+
+[[effect]]
+era_index = 79
+label = "In love"
+category = "relation"
+source_key = "joy"
+formula = "multiply"
+expression = "1.0 + 0.2 * v"
+
+[[effect]]
+era_index = 79
+label = "In love"
+category = "relation"
+source_key = "disgust"
+formula = "multiply"
+expression = "max(0.0, 1.0 - 0.2 * v)"
+
+[[effect]]
+era_index = 80
+label = "Lewd"
+category = "sense"
+source_key = "lust"
+formula = "multiply"
+expression = "1.0 + 0.3 * v"
+
+[[effect]]
+era_index = 80
+label = "Lewd"
+category = "relation"
+source_key = "submission"
+formula = "multiply"
+expression = "1.0 + 0.2 * v"
+
+[[effect]]
+era_index = 80
+label = "Lewd"
+category = "relation"
+source_key = "disgust"
+formula = "multiply"
+expression = "max(0.0, 1.0 - 0.3 * v)"
+
+[[effect]]
+era_index = 81
+label = "Wetness"
+category = "sense"
+source_key = "fluid"
+formula = "multiply"
+expression = "1.0 + 0.2 * v"
+
+[[effect]]
+era_index = 278
+label = "Aptitude"
+category = "growth"
+source_key = ""
+formula = "aptitude_offset"
+expression = "v"

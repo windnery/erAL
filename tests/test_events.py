@@ -1,4 +1,4 @@
-"""Event and dialogue pipeline tests using injected fixtures over real actors."""
+﻿"""Event and dialogue pipeline tests using injected fixtures over real actors."""
 
 from __future__ import annotations
 
@@ -10,7 +10,8 @@ from eral.content.dialogue import DialogueEntry
 from eral.content.events import EventDefinition
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 from eral.domain.world import TimeSlot
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class EventPipelineTests(unittest.TestCase):
@@ -46,7 +47,7 @@ class EventPipelineTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("bathhouse",),
                 time_slots=("night",),
-                min_affection=1,
+                min_affection=50,
                 min_trust=None,
                 min_obedience=None,
                 required_stage=None,
@@ -74,8 +75,8 @@ class EventPipelineTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("dock",),
                 time_slots=("evening",),
-                min_affection=6,
-                min_trust=4,
+                min_affection=800,
+                min_trust=400,
                 min_obedience=None,
                 required_stage="love",
                 requires_date=False,
@@ -102,8 +103,8 @@ class EventPipelineTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("cafeteria",),
                 time_slots=("evening",),
-                min_affection=3,
-                min_trust=2,
+                min_affection=300,
+                min_trust=150,
                 min_obedience=None,
                 required_stage="like",
                 requires_date=True,
@@ -116,8 +117,8 @@ class EventPipelineTests(unittest.TestCase):
                 actor_tags=("laffey",),
                 location_keys=("cafeteria",),
                 time_slots=("evening",),
-                min_affection=3,
-                min_trust=2,
+                min_affection=300,
+                min_trust=150,
                 min_obedience=None,
                 required_stage="like",
                 requires_date=True,
@@ -183,17 +184,19 @@ class EventPipelineTests(unittest.TestCase):
         self.app.dialogue_service.entries = self.app.dialogue_service.entries + fixture_dialogue
 
     def _set_like(self, actor) -> None:
-        actor.affection = 3
-        actor.trust = 2
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 3)
-        actor_cflag.set(actor, CFLAGKey.TRUST, 2)
+        actor.affection = 420
+        actor.trust = 220
+        actor_cflag.set(actor, CFLAGKey.AFFECTION, 420)
+        actor_cflag.set(actor, CFLAGKey.TRUST, 220)
+        actor.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(actor)
 
     def _set_love(self, actor) -> None:
-        actor.affection = 6
-        actor.trust = 4
-        actor_cflag.set(actor, CFLAGKey.AFFECTION, 6)
-        actor_cflag.set(actor, CFLAGKey.TRUST, 4)
+        actor.affection = 850
+        actor.trust = 450
+        actor_cflag.set(actor, CFLAGKey.AFFECTION, 850)
+        actor_cflag.set(actor, CFLAGKey.TRUST, 450)
+        actor.stats.compat.abl.set(12, 5)
         self.app.relationship_service.update_actor(actor)
 
     def test_chat_triggers_fixture_dialogue(self) -> None:
@@ -208,8 +211,10 @@ class EventPipelineTests(unittest.TestCase):
         self.assertTrue(any("状态" in line or "汇报" in line for line in result.messages))
 
     def test_tease_triggers_private_fixture_dialogue(self) -> None:
-        self.enterprise.affection = 1
-        actor_cflag.set(self.enterprise, CFLAGKey.AFFECTION, 1)
+        self.enterprise.affection = 210
+        self.enterprise.trust = 110
+        actor_cflag.set(self.enterprise, CFLAGKey.AFFECTION, 210)
+        actor_cflag.set(self.enterprise, CFLAGKey.TRUST, 110)
         self.app.relationship_service.update_actor(self.enterprise)
         self.app.world.current_time_slot = TimeSlot.NIGHT
         self.app.world.active_location.key = "bathhouse"

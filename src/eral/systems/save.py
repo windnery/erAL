@@ -99,6 +99,7 @@ class SaveService:
             actor.is_following = bool(actor_payload.get("is_following", False))
             actor.follow_ready = bool(actor_payload.get("follow_ready", False))
             actor.is_on_date = bool(actor_payload.get("is_on_date", False))
+            actor.fatigue = int(actor_payload.get("fatigue", 0))
             actor.marks = {str(k): int(v) for k, v in actor_payload.get("marks", {}).items()}
             actor.sync_derived_fields()
             world.characters.append(actor)
@@ -118,6 +119,7 @@ class SaveService:
             "is_following": actor.is_following,
             "follow_ready": actor.follow_ready,
             "is_on_date": actor.is_on_date,
+            "fatigue": actor.fatigue,
             "marks": actor.marks,
             "stats": {
                 "base": actor.stats.base.values,

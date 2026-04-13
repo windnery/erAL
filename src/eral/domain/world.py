@@ -67,6 +67,7 @@ class CharacterState:
     is_following: bool = False
     follow_ready: bool = False
     is_on_date: bool = False
+    fatigue: int = 0
     marks: dict[str, int] = field(default_factory=dict)
 
     def sync_derived_fields(self) -> None:

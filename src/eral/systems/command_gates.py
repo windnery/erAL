@@ -8,6 +8,7 @@ from typing import Protocol
 from eral.content.commands import CommandDefinition
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.relationships import RelationshipService
+from eral.systems.vital import VitalService
 
 
 @dataclass(frozen=True, slots=True)
@@ -17,6 +18,7 @@ class CommandAvailabilityContext:
     command: CommandDefinition
     location_tags: tuple[str, ...]
     relationship_service: RelationshipService
+    vital_service: VitalService | None = None
 
 
 class CommandAvailabilityGate(Protocol):
@@ -40,6 +42,26 @@ class GlobalModeGate:
             return "当前处于忙碌状态，无法执行该指令。"
         if world.is_date_traveling and command.category == "date":
             return "当前处于约会途中，无法执行该约会指令。"
+        return None
+
+
+@dataclass(frozen=True, slots=True)
+class VitalGate:
+    """Block commands when actor's vitals are depleted."""
+
+    def failure_reason(self, context: CommandAvailabilityContext) -> str | None:
+        actor = context.actor
+        command = context.command
+        vital = context.vital_service
+        if vital is None:
+            return None
+
+        if vital.is_fainted(actor):
+            return "体力耗尽，已晕倒。"
+
+        if vital.is_spirit_depleted(actor) and command.downbase.get("spirit", 0) > 0:
+            return "气力耗尽，无法执行该指令。"
+
         return None
 
 
@@ -83,6 +105,7 @@ __all__ = [
     "CommandAvailabilityContext",
     "CommandAvailabilityGate",
     "CommandCategoryGate",
-    "CommandSpecificGate",
     "GlobalModeGate",
+    "VitalGate",
+    "CommandSpecificGate",
 ]

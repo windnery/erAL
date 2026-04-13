@@ -1,4 +1,4 @@
-"""Tests for layered command availability gates."""
+﻿"""Tests for layered command availability gates."""
 
 from __future__ import annotations
 
@@ -13,7 +13,8 @@ from eral.systems.command_gates import (
     CommandSpecificGate,
     GlobalModeGate,
 )
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class CommandGateTests(unittest.TestCase):
@@ -52,6 +53,7 @@ class CommandGateTests(unittest.TestCase):
             remove_marks=(),
             source={},
             downbase={},
+            success_tiers=(0.1, 1.0, 2.0),
             category="",
         )
 

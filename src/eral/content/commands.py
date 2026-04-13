@@ -27,6 +27,7 @@ class CommandDefinition:
     remove_marks: tuple[str, ...]
     source: dict[str, int]
     downbase: dict[str, int]
+    success_tiers: tuple[float, ...]
     category: str = "daily"
 
 
@@ -61,6 +62,7 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             remove_marks=tuple(item.get("remove_marks", [])),
             source={str(key): int(value) for key, value in item.get("source", {}).items()},
             downbase={str(key): int(value) for key, value in item.get("downbase", {}).items()},
+            success_tiers=tuple(float(v) for v in item.get("success_tiers", [0.1, 1.0, 2.0])),
         )
         for item in raw_data.get("commands", [])
     )

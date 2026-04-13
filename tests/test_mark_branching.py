@@ -153,8 +153,11 @@ class CommandMarkApplicationTests(unittest.TestCase):
         place_player_with_actor(self.app, self.actor)
 
     def _advance_to_friendly(self) -> None:
-        """Push affection high enough for friendly stage + min_affection=1."""
-        self.actor.stats.compat.cflag.set(2, 3)  # affection
+        """Push affection high enough for friendly stage (210/110)."""
+        self.actor.stats.compat.cflag.set(2, 210)  # affection
+        self.actor.stats.compat.cflag.set(4, 110)   # trust
+        self.actor.affection = 210
+        self.actor.trust = 110
         self.actor.sync_derived_fields()
         from eral.systems.relationships import RelationshipService
         from eral.content.relationships import load_relationship_stages
@@ -165,9 +168,12 @@ class CommandMarkApplicationTests(unittest.TestCase):
         rs.update_actor(self.actor)
 
     def _advance_to_love(self) -> None:
-        """Push affection + trust high enough for love stage."""
-        self.actor.stats.compat.cflag.set(2, 10)  # affection
-        self.actor.stats.compat.cflag.set(4, 6)   # trust
+        """Push affection + trust high enough for love stage (850/450 + ABL:12=5)."""
+        self.actor.stats.compat.cflag.set(2, 850)  # affection
+        self.actor.stats.compat.cflag.set(4, 450)   # trust
+        self.actor.stats.compat.abl.set(12, 5)       # intimacy
+        self.actor.affection = 850
+        self.actor.trust = 450
         self.actor.sync_derived_fields()
         from eral.systems.relationships import RelationshipService
         from eral.content.relationships import load_relationship_stages

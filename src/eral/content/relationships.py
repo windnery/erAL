@@ -15,14 +15,12 @@ class RelationshipStageDefinition:
     display_name: str
     min_affection: int
     min_trust: int
+    min_intimacy: int = 0
+    no_dislike_mark: bool = False
+    requires_item: str = ""
 
 
 def load_relationship_stages(path: Path) -> tuple[RelationshipStageDefinition, ...]:
-    """Load relationship stage thresholds from TOML.
-
-    Stages must be ordered by ascending min_affection, then min_trust.
-    """
-
     with path.open("rb") as handle:
         raw_data = tomllib.load(handle)
 
@@ -32,6 +30,9 @@ def load_relationship_stages(path: Path) -> tuple[RelationshipStageDefinition, .
             display_name=item["display_name"],
             min_affection=int(item["min_affection"]),
             min_trust=int(item["min_trust"]),
+            min_intimacy=int(item.get("min_intimacy", 0)),
+            no_dislike_mark=bool(item.get("no_dislike_mark", False)),
+            requires_item=item.get("requires_item", ""),
         )
         for item in raw_data.get("stages", [])
     )
@@ -46,4 +47,3 @@ def load_relationship_stages(path: Path) -> tuple[RelationshipStageDefinition, .
             )
 
     return stages
-

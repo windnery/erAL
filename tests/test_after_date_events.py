@@ -1,4 +1,4 @@
-"""Tests for after-date follow-up event resolution."""
+﻿"""Tests for after-date follow-up event resolution."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from eral.app.bootstrap import create_application
 from eral.content.dialogue import DialogueEntry
 from eral.content.events import EventDefinition
 from eral.domain.world import TimeSlot
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class AfterDateEventTests(unittest.TestCase):
@@ -29,8 +30,8 @@ class AfterDateEventTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("cafeteria",),
                 time_slots=("evening",),
-                min_affection=3,
-                min_trust=2,
+                min_affection=310,
+                min_trust=160,
                 min_obedience=None,
                 required_stage="like",
                 requires_date=False,
@@ -43,8 +44,8 @@ class AfterDateEventTests(unittest.TestCase):
                 actor_tags=("enterprise",),
                 location_keys=("cafeteria",),
                 time_slots=("evening",),
-                min_affection=6,
-                min_trust=4,
+                min_affection=850,
+                min_trust=450,
                 min_obedience=None,
                 required_stage="love",
                 requires_date=False,
@@ -73,15 +74,17 @@ class AfterDateEventTests(unittest.TestCase):
         self.app.navigation_service.move_player(self.app.world, "cafeteria")
         self.actor.location_key = "cafeteria"
         if love:
-            self.actor.affection = 6
-            self.actor.trust = 4
-            self.actor.stats.compat.cflag.set(2, 6)
-            self.actor.stats.compat.cflag.set(4, 4)
+            self.actor.affection = 850
+            self.actor.trust = 450
+            self.actor.stats.compat.cflag.set(2, 850)
+            self.actor.stats.compat.cflag.set(4, 450)
+            self.actor.stats.compat.abl.set(12, 5)
         else:
-            self.actor.affection = 3
-            self.actor.trust = 2
-            self.actor.stats.compat.cflag.set(2, 3)
-            self.actor.stats.compat.cflag.set(4, 2)
+            self.actor.affection = 420
+            self.actor.trust = 220
+            self.actor.stats.compat.cflag.set(2, 420)
+            self.actor.stats.compat.cflag.set(4, 220)
+            self.actor.stats.compat.abl.set(12, 3)
         self.app.relationship_service.update_actor(self.actor)
         if confessed:
             self.actor.add_mark("confessed", 1)

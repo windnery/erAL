@@ -3,27 +3,42 @@ key = "stranger"
 display_name = "陌生"
 min_affection = 0
 min_trust = 0
+min_intimacy = 0
+no_dislike_mark = false
+requires_item = ""
 
 [[stages]]
 key = "friendly"
 display_name = "友好"
-min_affection = 1
-min_trust = 0
+min_affection = 200
+min_trust = 100
+min_intimacy = 0
+no_dislike_mark = false
+requires_item = ""
 
 [[stages]]
 key = "like"
 display_name = "喜欢"
-min_affection = 3
-min_trust = 2
+min_affection = 400
+min_trust = 200
+min_intimacy = 3
+no_dislike_mark = false
+requires_item = ""
 
 [[stages]]
 key = "love"
 display_name = "爱"
-min_affection = 6
-min_trust = 4
+min_affection = 800
+min_trust = 400
+min_intimacy = 5
+no_dislike_mark = true
+requires_item = ""
 
 [[stages]]
 key = "oath"
 display_name = "誓约"
-min_affection = 10
-min_trust = 6
+min_affection = 2000
+min_trust = 1000
+min_intimacy = 8
+no_dislike_mark = true
+requires_item = "pledge_ring"

@@ -16,17 +16,17 @@ class InitialStatsTests(unittest.TestCase):
         """Character starting state reflects applied initial overrides from split files."""
         app = create_application(self.repo_root)
         actor = next(actor for actor in app.world.characters if actor.key == "laffey")
-        self.assertEqual(actor.affection, 3)
-        self.assertEqual(actor.trust, 2)
+        self.assertEqual(actor.affection, 310)
+        self.assertEqual(actor.trust, 160)
         self.assertEqual(actor.obedience, 0)
-        self.assertEqual(actor.relationship_stage.key, "like")
+        self.assertEqual(actor.relationship_stage.key, "friendly")
 
     def test_initial_cflag_values_in_actor(self) -> None:
         """Character pack with cflag overrides reflects them after bootstrap."""
         app = create_application(self.repo_root)
         laffey = next(actor for actor in app.world.characters if actor.key == "laffey")
-        self.assertEqual(laffey.affection, 3)
-        self.assertEqual(laffey.trust, 2)
+        self.assertEqual(laffey.affection, 310)
+        self.assertEqual(laffey.trust, 160)
 
     def test_initial_stat_overrides_applied_to_actor(self) -> None:
         """When initial_stats has cflag overrides, the actor reflects them after bootstrap."""
@@ -134,7 +134,7 @@ class InitialStatsTests(unittest.TestCase):
         self.assertEqual(actor.stats.palam.get("favor"), 1)
         self.assertEqual(actor.stats.compat.abl.get(41), 1)
         self.assertEqual(actor.stats.compat.talent.get(92), 1)
-        self.assertEqual(actor.trust, 1)
+        self.assertEqual(actor.trust, 35)
         self.assertTrue(actor.has_mark("kissed"))
 
     def test_enterprise_and_laffey_initial_stats_apply_after_bootstrap(self) -> None:
@@ -146,13 +146,13 @@ class InitialStatsTests(unittest.TestCase):
         self.assertEqual(enterprise.stats.base.get("spirit"), 900)
         self.assertEqual(enterprise.stats.palam.get("favor"), 3)
         self.assertEqual(enterprise.stats.compat.abl.get(41), 2)
-        self.assertEqual(enterprise.affection, 4)
+        self.assertEqual(enterprise.affection, 310)
         self.assertTrue(enterprise.has_mark("confessed"))
 
         self.assertEqual(laffey.stats.base.get("stamina"), 900)
         self.assertEqual(laffey.stats.palam.get("favor"), 2)
         self.assertEqual(laffey.stats.compat.talent.get(92), 1)
-        self.assertEqual(laffey.affection, 3)
+        self.assertEqual(laffey.affection, 310)
         self.assertTrue(laffey.has_mark("kissed"))
 
 

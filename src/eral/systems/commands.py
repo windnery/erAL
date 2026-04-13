@@ -15,14 +15,19 @@ from eral.systems.command_gates import (
     CommandCategoryGate,
     CommandSpecificGate,
     GlobalModeGate,
+    VitalGate,
 )
 from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
 from eral.systems.companions import CompanionService
 from eral.systems.dates import DateService
+from eral.systems.game_loop import GameLoop
 from eral.systems.relationships import RelationshipService
 from eral.systems.scene import SceneService
 from eral.systems.settlement import SettlementService
+from eral.systems.source_extra import apply_source_extra
+from eral.systems.vital import VitalService
+from eral.content.talent_effects import TalentEffect
 
 
 @dataclass(slots=True)
@@ -36,18 +41,24 @@ class CommandService:
     event_service: EventService
     dialogue_service: DialogueService
     relationship_service: RelationshipService
+    vital_service: VitalService | None = None
     companion_service: CompanionService | None = None
     date_service: DateService | None = None
+    game_loop: GameLoop | None = None
     mark_definitions: dict[str, MarkDefinition] | None = None
     runtime_logger: RuntimeLogger | None = None
-    maxbase: dict[str, int] | None = None
+    talent_effects: tuple[TalentEffect, ...] = ()
 
-    def _maxbase_for(self, key: str) -> int:
-        if self.maxbase and key in self.maxbase:
-            return self.maxbase[key]
-        return 9999
+    def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
+        if self.vital_service is not None:
+            self.vital_service.apply_downbase(actor, downbase)
+        else:
+            for base_key, delta in downbase.items():
+                current = actor.stats.base.get(base_key)
+                new_val = max(0, current - delta)
+                actor.stats.base.set(base_key, new_val)
 
-    def available_commands(self, world: WorldState) -> tuple[CommandDefinition, ...]:
+    def execute(self, world: WorldState, actor_key: str, command_key: str) -> ActionResult:
         location = self.port_map.location_by_key(world.active_location.key)
         available: list[CommandDefinition] = []
 
@@ -89,11 +100,16 @@ class CommandService:
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
 
-        for base_key, delta in command.downbase.items():
-            current = actor.stats.base.get(base_key)
-            maxbase = self._maxbase_for(base_key)
-            new_val = max(0, current - delta)
-            actor.stats.base.set(base_key, new_val)
+        apply_source_extra(actor.stats, self.talent_effects)
+
+        self._apply_downbase(actor, command.downbase)
+
+        fainted = False
+        if self.vital_service is not None and self.vital_service.is_fainted(actor):
+            fainted = True
+            self.vital_service.sleep_recovery(actor)
+            if self.game_loop is not None:
+                self.game_loop.advance_to_dawn(world)
 
         changes = self.settlement.settle_actor(world, actor)
         trigger_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
@@ -123,6 +139,7 @@ class CommandService:
             source_deltas=dict(command.source),
             changes=changes,
             messages=dialogue_lines or [f"{actor.display_name} handled command {command.display_name}."],
+            fainted=fainted,
         )
 
     def _log_success(
@@ -195,6 +212,7 @@ class CommandService:
             command=command,
             location_tags=location_tags,
             relationship_service=self.relationship_service,
+            vital_service=self.vital_service,
         )
 
     @staticmethod
@@ -202,6 +220,7 @@ class CommandService:
         return (
             CommandCategoryGate(),
             GlobalModeGate(),
+            VitalGate(),
             CommandSpecificGate(),
         )
 
@@ -280,9 +299,17 @@ class CommandService:
         actor: CharacterState,
         command: CommandDefinition,
     ) -> None:
-        if self.companion_service is None or command.operation is None:
+        if command.operation is None:
             return
-        if command.operation == "start_follow":
+        if command.operation == "sleep" and self.vital_service is not None:
+            self.vital_service.sleep_recovery(actor)
+        elif command.operation == "nap" and self.vital_service is not None:
+            self.vital_service.rest_recovery(actor)
+        elif command.operation == "bathe" and self.vital_service is not None:
+            self.vital_service.bathe_recovery(actor)
+        elif self.companion_service is None:
+            return
+        elif command.operation == "start_follow":
             self.companion_service.start_follow(world, actor)
         elif command.operation == "stop_follow":
             self.companion_service.stop_follow(world, actor)

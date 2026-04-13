@@ -1,4 +1,4 @@
-"""Relationship stage tests."""
+﻿"""Relationship stage tests."""
 
 from __future__ import annotations
 
@@ -7,7 +7,8 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
 
 
@@ -26,7 +27,7 @@ class RelationshipTests(unittest.TestCase):
         self.assertIsNotNone(actor.relationship_stage)
         self.assertEqual(actor.relationship_stage.key, "stranger")
 
-    def test_chat_advances_stage_to_friendly(self) -> None:
+    def test_chat_increments_affection(self) -> None:
         actor = self._actor()
         reset_progress(actor)
         place_player_with_actor(self.app, actor)
@@ -35,8 +36,8 @@ class RelationshipTests(unittest.TestCase):
             actor_key=actor.key,
             command_key="chat",
         )
-        self.assertEqual(actor.affection, 2)
-        self.assertEqual(actor.relationship_stage.key, "friendly")
+        self.assertEqual(actor.affection, 40)
+        self.assertEqual(actor.stats.palam.get("favor"), 50)
 
     def test_sync_derived_fields_matches_cflag(self) -> None:
         actor = self._actor()

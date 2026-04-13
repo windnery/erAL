@@ -29,6 +29,7 @@ class ActionResult:
     source_deltas: dict[str, int] = field(default_factory=dict)
     changes: list[AppliedChange] = field(default_factory=list)
     messages: list[str] = field(default_factory=list)
+    fainted: bool = False
 
 
 @dataclass(slots=True)

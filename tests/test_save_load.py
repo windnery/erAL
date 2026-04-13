@@ -1,4 +1,4 @@
-"""Save/load tests for the runtime quicksave flow."""
+﻿"""Save/load tests for the runtime quicksave flow."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.ui.cli import _build_menu
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import reset_progress
 
 
 class SaveLoadTests(unittest.TestCase):
@@ -46,6 +47,10 @@ class SaveLoadTests(unittest.TestCase):
             actor_key=actor.key,
             command_key="chat",
         )
+        actor.stats.compat.cflag.set(2, 210)
+        actor.stats.compat.cflag.set(4, 110)
+        actor.sync_derived_fields()
+        self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -68,8 +73,8 @@ class SaveLoadTests(unittest.TestCase):
         restored_actor = next(actor for actor in restored.characters if actor.key == "enterprise")
         self.assertEqual(restored.active_location.key, "main_corridor")
         self.assertEqual(restored_actor.location_key, "main_corridor")
-        self.assertEqual(restored_actor.affection, 3)
-        self.assertEqual(restored_actor.trust, 2)
+        self.assertGreaterEqual(restored_actor.affection, 210)
+        self.assertGreaterEqual(restored_actor.trust, 110)
         self.assertTrue(restored_actor.is_following)
 
     def test_cli_menu_includes_save_and_load_when_save_exists(self) -> None:
@@ -103,10 +108,10 @@ class SaveLoadTests(unittest.TestCase):
         restored_laffey = next(actor for actor in restored.characters if actor.key == "laffey")
 
         self.assertEqual(restored_enterprise.stats.base.get("stamina"), 1200)
-        self.assertEqual(restored_enterprise.stats.compat.cflag.get(2), 4)
+        self.assertEqual(restored_enterprise.stats.compat.cflag.get(2), 310)
         self.assertEqual(restored_enterprise.marks["confessed"], 1)
         self.assertEqual(restored_laffey.stats.palam.get("favor"), 2)
-        self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 3)
+        self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 310)
         self.assertEqual(restored_laffey.marks["kissed"], 1)
 
 

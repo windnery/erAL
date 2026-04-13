@@ -1,0 +1,35 @@
+# Relationship growth formulas (FAVOR_CALC / TRUST_CALC).
+# These formulas compute affection/trust delta from SOURCE after settlement.
+# They replace the simple scale=0.05 direct CFLAG routing for affection/trust.
+#
+# The formula receives the accumulated positive and negative SOURCE values
+# and the actor's TALENT/ABL modifiers, then outputs a CFLAG delta.
+
+[favor_calc]
+description = "好感度变化公式：基于正负SOURCE差值，受关系阶段与TALENT修正"
+base_positive_keys = ["affection", "joy", "service", "trust"]
+base_negative_keys = ["fear", "disgust", "humiliation"]
+relationship_stage_multiplier = { "stranger" = 0.5, "friendly" = 0.8, "like" = 1.0, "love" = 1.3, "oath" = 1.5 }
+talent_modifiers = [
+    { era_index = 60, effect = "resistance", multiplier = -0.1 },
+    { era_index = 61, effect = "devoted", multiplier = 0.1 },
+    { era_index = 64, effect = "emotionless", multiplier = -0.2 },
+    { era_index = 78, effect = "yearning", multiplier = 0.2 },
+    { era_index = 79, effect = "in_love", multiplier = 0.3 },
+    { era_index = 65, effect = "pleasure_response", multiplier = 0.1 },
+]
+clamp_min = 0
+clamp_max = 500
+
+[trust_calc]
+description = "信赖度变化公式：基于信赖相关SOURCE，受服従/亲密修正"
+base_positive_keys = ["trust", "joy", "service"]
+base_negative_keys = ["fear", "disgust"]
+relationship_stage_multiplier = { "stranger" = 0.6, "friendly" = 0.9, "like" = 1.0, "love" = 1.2, "oath" = 1.4 }
+talent_modifiers = [
+    { era_index = 60, effect = "resistance", multiplier = -0.1 },
+    { era_index = 61, effect = "devoted", multiplier = 0.15 },
+    { era_index = 64, effect = "emotionless", multiplier = -0.15 },
+]
+clamp_min = 0
+clamp_max = 300

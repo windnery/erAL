@@ -11,6 +11,7 @@ from .relationships import RelationshipService
 from .schedule import ScheduleService
 from .scene import SceneService
 from .settlement import SettlementService
+from .vital import VitalService
 
 __all__ = [
     "CommandService",
@@ -24,4 +25,5 @@ __all__ = [
     "ScheduleService",
     "SceneService",
     "SettlementService",
+    "VitalService",
 ]

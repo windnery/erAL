@@ -5,15 +5,15 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from eral.app.bootstrap import create_application
 from eral.content.commands import load_command_definitions
-from tests.support.real_actors import actor_by_key, place_player_with_actor, reset_progress
+from tests.support.expected import cflag_obedience_delta, favor_delta, trust_delta
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import ABL_INTIMACY_INDEX, make_app, reset_progress, seed_friendly, seed_like, seed_love, seed_stranger, stage_threshold
 
 
 class CommandPipelineTests(unittest.TestCase):
     def setUp(self) -> None:
-        repo_root = Path(__file__).resolve().parents[1]
-        self.app = create_application(repo_root)
+        self.app = make_app()
         actor = actor_by_key(self.app, "enterprise")
         reset_progress(actor)
         place_player_with_actor(self.app, actor)
@@ -30,10 +30,10 @@ class CommandPipelineTests(unittest.TestCase):
         actor = self._actor()
 
         self.assertEqual(result.action_key, "chat")
-        self.assertEqual(actor.affection, 2)
-        self.assertEqual(actor.trust, 1)
-        self.assertEqual(actor.stats.palam.get("favor"), 2)
-        self.assertEqual(actor.stats.base.get("mood"), 1)
+        self.assertEqual(actor.affection, favor_delta({"affection": 50, "joy": 30}, "stranger"))
+        self.assertEqual(actor.trust, trust_delta({"affection": 50, "joy": 30}, "stranger"))
+        self.assertEqual(actor.stats.palam.get("favor"), 50)
+        self.assertEqual(actor.stats.base.get("mood"), 30)
         self.assertEqual(actor.stats.source.get("affection"), 0)
 
     def test_work_command_updates_obedience_and_trust(self) -> None:
@@ -49,9 +49,9 @@ class CommandPipelineTests(unittest.TestCase):
         )
 
         self.assertEqual(result.action_key, "paperwork")
-        self.assertEqual(actor.stats.palam.get("obedience"), 1)
-        self.assertEqual(actor.stats.compat.cflag.get(6), 1)
-        self.assertEqual(actor.trust, 2)
+        self.assertEqual(actor.stats.palam.get("obedience"), 30)
+        self.assertEqual(actor.stats.compat.cflag.get(6), cflag_obedience_delta(30))
+        self.assertEqual(actor.trust, trust_delta({"affection": 30, "service": 100, "obedience": 30}, "stranger"))
 
     def test_tease_requires_minimum_affection_and_time_slot(self) -> None:
         actor = self._actor()
@@ -63,8 +63,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="tease",
             )
 
-        actor.affection = 1
-        actor.stats.compat.cflag.set(2, 1)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         self.app.world.active_location.key = "bathhouse"
@@ -81,8 +80,7 @@ class CommandPipelineTests(unittest.TestCase):
 
     def test_tease_failure_reports_time_slot_reason(self) -> None:
         actor = self._actor()
-        actor.affection = 1
-        actor.stats.compat.cflag.set(2, 1)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.world.active_location.key = "bathhouse"
         self.app.world.active_location.display_name = "浴场"
@@ -104,10 +102,10 @@ class CommandPipelineTests(unittest.TestCase):
         actor = self._actor()
 
         self.assertEqual(result.action_key, "praise")
-        self.assertEqual(actor.affection, 2)
-        self.assertEqual(actor.trust, 1)
-        self.assertEqual(actor.stats.palam.get("obedience"), 1)
-        self.assertEqual(actor.stats.compat.cflag.get(6), 1)
+        self.assertEqual(actor.affection, favor_delta({"affection": 50, "joy": 30, "obedience": 30}, "stranger"))
+        self.assertEqual(actor.trust, trust_delta({"affection": 50, "joy": 30, "obedience": 30}, "stranger"))
+        self.assertEqual(actor.stats.palam.get("obedience"), 30)
+        self.assertEqual(actor.stats.compat.cflag.get(6), cflag_obedience_delta(30))
 
     def test_scold_command_settles_negative_palam(self) -> None:
         result = self.app.command_service.execute(
@@ -118,9 +116,9 @@ class CommandPipelineTests(unittest.TestCase):
         actor = self._actor()
 
         self.assertEqual(result.action_key, "scold")
-        self.assertEqual(actor.stats.palam.get("fear"), 1)
-        self.assertEqual(actor.stats.palam.get("shame"), 1)
-        self.assertEqual(actor.stats.palam.get("obedience"), 1)
+        self.assertEqual(actor.stats.palam.get("fear"), 100)
+        self.assertEqual(actor.stats.palam.get("shame"), 50)
+        self.assertEqual(actor.stats.palam.get("obedience"), 60)
 
     def test_train_together_requires_training_ground(self) -> None:
         actor = self._actor()
@@ -142,8 +140,8 @@ class CommandPipelineTests(unittest.TestCase):
         )
 
         self.assertEqual(result.action_key, "train_together")
-        self.assertEqual(actor.affection, 1)
-        self.assertEqual(actor.trust, 1)
+        self.assertEqual(actor.affection, favor_delta({"affection": 30, "service": 80, "obedience": 40}, "stranger"))
+        self.assertEqual(actor.trust, trust_delta({"affection": 30, "service": 80, "obedience": 40}, "stranger"))
 
     def test_walk_together_requires_following(self) -> None:
         actor = self._actor()
@@ -177,8 +175,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="hug",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         result = self.app.command_service.execute(
             self.app.world,
@@ -199,8 +196,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="lap_pillow",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -229,10 +225,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_kiss_applies_kissed_mark(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
 
         result = self.app.command_service.execute(
@@ -247,10 +240,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_confess_applies_confessed_mark(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
 
         result = self.app.command_service.execute(
@@ -287,8 +277,8 @@ class CommandPipelineTests(unittest.TestCase):
         )
 
         self.assertEqual(result.action_key, "serve_tea")
-        self.assertEqual(actor.trust, 2)
-        self.assertEqual(actor.affection, 1)
+        self.assertEqual(actor.trust, trust_delta({"affection": 30, "trust": 30, "joy": 20}, "stranger"))
+        self.assertEqual(actor.affection, favor_delta({"affection": 30, "trust": 30, "joy": 20}, "stranger"))
 
     def test_clink_cups_requires_evening_social_location(self) -> None:
         actor = self._actor()
@@ -327,8 +317,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="care",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         result = self.app.command_service.execute(
             self.app.world,
@@ -349,7 +338,7 @@ class CommandPipelineTests(unittest.TestCase):
         )
 
         self.assertEqual(result.action_key, "rest")
-        self.assertEqual(actor.trust, 2)
+        self.assertEqual(actor.trust, trust_delta({"trust": 30, "joy": 30}, "stranger"))
 
     def test_study_requires_work_location(self) -> None:
         actor = self._actor()
@@ -412,9 +401,12 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="invite_meal",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
+        self.app.navigation_service.move_player(self.app.world, "main_corridor")
+        self.app.navigation_service.move_player(self.app.world, "cafeteria")
+        actor.location_key = "cafeteria"
+
         result = self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -447,8 +439,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="follow_rest",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -466,8 +457,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_escort_room_requires_like_stage(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -493,10 +483,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="buy_things",
             )
 
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -522,10 +509,7 @@ class CommandPipelineTests(unittest.TestCase):
         self.app.world.active_location.key = "cafeteria"
         self.app.world.active_location.display_name = "食堂"
         actor.location_key = "cafeteria"
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -549,10 +533,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_invite_dark_place_requires_date_and_love(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
 
         with self.assertRaises(ValueError):
@@ -562,6 +543,8 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="invite_dark_place",
             )
 
+        seed_love(actor)
+        self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
             actor_key=actor.key,
@@ -589,10 +572,7 @@ class CommandPipelineTests(unittest.TestCase):
         self.app.world.active_location.key = "bathhouse"
         self.app.world.active_location.display_name = "浴场"
         actor.location_key = "bathhouse"
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -626,7 +606,7 @@ class CommandPipelineTests(unittest.TestCase):
 
         self.assertEqual(result.action_key, "apologize")
         self.assertFalse(actor.has_mark("angry"))
-        self.assertGreater(actor.trust, 0)
+        self.assertGreaterEqual(actor.trust, trust_delta({"affection": 30, "trust": 60}, "stranger"))
 
     def test_help_work_increases_service(self) -> None:
         actor = self._actor()
@@ -641,7 +621,7 @@ class CommandPipelineTests(unittest.TestCase):
         )
 
         self.assertEqual(result.action_key, "help_work")
-        self.assertGreaterEqual(actor.affection, 2)
+        self.assertGreaterEqual(actor.affection, favor_delta({"affection": 60, "trust": 30, "service": 100}, "stranger"))
 
     def test_pat_cheek_requires_friendly_stage(self) -> None:
         actor = self._actor()
@@ -653,8 +633,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="pat_cheek",
             )
 
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         result = self.app.command_service.execute(
             self.app.world,
@@ -676,10 +655,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="poke_cheek",
             )
 
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         result = self.app.command_service.execute(
             self.app.world,
@@ -717,12 +693,10 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="follow_training",
             )
 
-        # 回到指挥室发起同行，再到训练场
         self.app.navigation_service.move_player(self.app.world, "main_corridor")
         self.app.navigation_service.move_player(self.app.world, "command_office")
         actor.location_key = "command_office"
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -743,8 +717,7 @@ class CommandPipelineTests(unittest.TestCase):
 
     def test_follow_meal_requires_following(self) -> None:
         actor = self._actor()
-        actor.affection = 2
-        actor.stats.compat.cflag.set(2, 2)
+        seed_friendly(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -774,10 +747,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="flower_shop",
             )
 
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -800,10 +770,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_fishing_date_requires_date_and_harbor(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.AFTERNOON
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -830,10 +797,7 @@ class CommandPipelineTests(unittest.TestCase):
     def test_takeout_bento_requires_date(self) -> None:
         actor = self._actor()
         self.app.world.current_time_slot = self.app.world.current_time_slot.AFTERNOON
-        actor.affection = 4
-        actor.trust = 3
-        actor.stats.compat.cflag.set(2, 4)
-        actor.stats.compat.cflag.set(4, 3)
+        seed_like(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -868,10 +832,7 @@ class CommandPipelineTests(unittest.TestCase):
                 command_key="sleep_together",
             )
 
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -897,12 +858,8 @@ class CommandPipelineTests(unittest.TestCase):
 
     def test_night_visit_applies_mark(self) -> None:
         actor = self._actor()
-        # 先在 night 时段发起同行和约会（invite_follow/invite_date 不支持 late_night）
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
-        actor.affection = 6
-        actor.trust = 4
-        actor.stats.compat.cflag.set(2, 6)
-        actor.stats.compat.cflag.set(4, 4)
+        seed_love(actor)
         self.app.relationship_service.update_actor(actor)
         self.app.command_service.execute(
             self.app.world,
@@ -917,7 +874,6 @@ class CommandPipelineTests(unittest.TestCase):
         self.app.navigation_service.move_player(self.app.world, "main_corridor")
         self.app.navigation_service.move_player(self.app.world, "dormitory_a")
         actor.location_key = "dormitory_a"
-        # 切到 late_night 再执行夜袭
         self.app.world.current_time_slot = self.app.world.current_time_slot.LATE_NIGHT
 
         result = self.app.command_service.execute(
@@ -939,8 +895,6 @@ class CommandPipelineTests(unittest.TestCase):
                 actor_key=actor.key,
                 command_key="chat",
             )
-
-
 
     def test_actor_not_present_reason_still_beats_gate_failures(self) -> None:
         actor = self._actor()
