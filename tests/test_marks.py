@@ -167,6 +167,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             apply_marks={},
             remove_marks=(),
             source={},
+            downbase={},
         )
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)
         self.assertFalse(
@@ -193,6 +194,7 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             apply_marks={},
             remove_marks=(),
             source={},
+            downbase={},
         )
         self.actor.set_mark("confessed", 1, max_level=1)
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)

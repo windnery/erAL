@@ -17,6 +17,7 @@ from eral.content.relationships import RelationshipStageDefinition, load_relatio
 from eral.content.settlement import SettlementRule, load_settlement_rules
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
+from eral.content.maxbase import load_maxbase
 from eral.domain.map import PortMap
 from eral.domain.stats import ActorNumericState, WorldEraCompatState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
@@ -97,6 +98,7 @@ def create_application(root: Path | None = None) -> Application:
     settlement_rules_path = root_path / "data" / "base" / "settlement_rules.toml"
     commands_path = root_path / "data" / "base" / "commands.toml"
     marks_path = root_path / "data" / "base" / "marks.toml"
+    maxbase_path = root_path / "data" / "base" / "maxbase.toml"
 
     events_path = root_path / "data" / "base" / "events.toml"
     dialogue_path = root_path / "data" / "base" / "dialogue.toml"
@@ -125,6 +127,7 @@ def create_application(root: Path | None = None) -> Application:
     dialogue = global_dialogue + pack_dialogue
     settlement_rules = load_settlement_rules(settlement_rules_path)
     commands = load_command_definitions(commands_path)
+    maxbase = load_maxbase(maxbase_path)
     mark_definitions = {m.key: m for m in mark_defs}
     start_location = port_map.starting_location()
     event_bus = EventBus()
@@ -188,6 +191,7 @@ def create_application(root: Path | None = None) -> Application:
         date_service=date_service,
         runtime_logger=runtime_logger,
         mark_definitions=mark_definitions,
+        maxbase=maxbase,
     )
     navigation_service = NavigationService(
         port_map=port_map,

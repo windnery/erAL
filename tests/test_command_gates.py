@@ -51,6 +51,7 @@ class CommandGateTests(unittest.TestCase):
             apply_marks={},
             remove_marks=(),
             source={},
+            downbase={},
             category="",
         )
 

@@ -26,6 +26,7 @@ class CommandDefinition:
     apply_marks: dict[str, int]
     remove_marks: tuple[str, ...]
     source: dict[str, int]
+    downbase: dict[str, int]
     category: str = "daily"
 
 
@@ -59,6 +60,7 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             },
             remove_marks=tuple(item.get("remove_marks", [])),
             source={str(key): int(value) for key, value in item.get("source", {}).items()},
+            downbase={str(key): int(value) for key, value in item.get("downbase", {}).items()},
         )
         for item in raw_data.get("commands", [])
     )

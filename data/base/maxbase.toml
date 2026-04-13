@@ -1,0 +1,22 @@
+# BASE 上限与恢复速率定义
+# 参照 eraTW 的 MAXBASE 机制
+
+[[entries]]
+key = "stamina"
+max_value = 2000
+recover_rate = 10
+
+[[entries]]
+key = "spirit"
+max_value = 1500
+recover_rate = 10
+
+[[entries]]
+key = "mood"
+max_value = 1000
+recover_rate = 5
+
+[[entries]]
+key = "reason"
+max_value = 1000
+recover_rate = 5

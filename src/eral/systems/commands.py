@@ -40,6 +40,12 @@ class CommandService:
     date_service: DateService | None = None
     mark_definitions: dict[str, MarkDefinition] | None = None
     runtime_logger: RuntimeLogger | None = None
+    maxbase: dict[str, int] | None = None
+
+    def _maxbase_for(self, key: str) -> int:
+        if self.maxbase and key in self.maxbase:
+            return self.maxbase[key]
+        return 9999
 
     def available_commands(self, world: WorldState) -> tuple[CommandDefinition, ...]:
         location = self.port_map.location_by_key(world.active_location.key)
@@ -82,6 +88,12 @@ class CommandService:
         scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
+
+        for base_key, delta in command.downbase.items():
+            current = actor.stats.base.get(base_key)
+            maxbase = self._maxbase_for(base_key)
+            new_val = max(0, current - delta)
+            actor.stats.base.set(base_key, new_val)
 
         changes = self.settlement.settle_actor(world, actor)
         trigger_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
