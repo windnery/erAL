@@ -1,14 +1,4 @@
-"""Settlement pipeline with CUP/CDOWN intermediate layer.
-
-Mirrors eraTW's settlement flow:
-1. SOURCE → CUP/CDOWN (positive/negative split)
-2. SOURCE_EXTRA (TALENT multiplier hooks, to be filled later)
-3. DOWNBASE → BASE (stamina/spirit consumption, to be filled later)
-4. PALAM += CUP - CDOWN
-5. CFLAG/BASE direct write (affection, trust, mood, etc.)
-6. PALAMLV threshold check → imprint triggers (to be filled later)
-7. Clear SOURCE/CUP/CDOWN
-"""
+"""Settlement pipeline with CUP/CDOWN intermediate layer."""
 
 from __future__ import annotations
 
@@ -16,33 +6,9 @@ from dataclasses import dataclass, field
 
 from eral.content.settlement import SettlementRule
 from eral.content.stat_axes import AxisFamily
-from eral.domain.actions import AppliedChange
-from eral.domain.stats import StatBlock
+from eral.domain.actions import AppliedChange, CupBoard
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.relationships import RelationshipService
-
-
-@dataclass(slots=True)
-class CupBoard:
-    """Per-turn accumulation buffer for CUP (positive) and CDOWN (negative).
-
-    Mirrors eraTW's CUP/CDOWN mechanism. After all SOURCE rules are applied,
-    PALAM gets += CUP - CDOWN, then both are cleared.
-    CFLAG and BASE are written directly without going through this buffer.
-    """
-
-    cup: dict[str, int] = field(default_factory=dict)
-    cdown: dict[str, int] = field(default_factory=dict)
-
-    def add_cup(self, key: str, value: int) -> None:
-        self.cup[key] = self.cup.get(key, 0) + value
-
-    def add_cdown(self, key: str, value: int) -> None:
-        self.cdown[key] = self.cdown.get(key, 0) + value
-
-    def clear(self) -> None:
-        self.cup.clear()
-        self.cdown.clear()
 
 
 @dataclass(slots=True)
@@ -51,6 +17,8 @@ class SettlementService:
 
     rules: tuple[SettlementRule, ...]
     relationship_service: RelationshipService | None = None
+    imprint_check: object | None = None
+    mark_max_levels: dict[str, int] | None = None
 
     def settle_actor(self, world: WorldState, actor: CharacterState) -> list[AppliedChange]:
         """Execute full settlement pipeline for one actor.
@@ -110,7 +78,11 @@ class SettlementService:
             after = actor.stats.palam.add(key, net)
             changes.append(AppliedChange("palam", key, before, after, net))
 
-        # Phase 4: Sync and clear
+        # Phase 4: Imprint check (刻印判定)
+        if self.imprint_check is not None and self.mark_max_levels is not None:
+            self.imprint_check.check_and_apply(actor, board, self.mark_max_levels)
+
+        # Phase 5: Sync and clear
         actor.sync_derived_fields()
         if self.relationship_service is not None:
             self.relationship_service.update_actor(actor)

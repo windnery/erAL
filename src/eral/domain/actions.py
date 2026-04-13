@@ -29,3 +29,26 @@ class ActionResult:
     source_deltas: dict[str, int] = field(default_factory=dict)
     changes: list[AppliedChange] = field(default_factory=list)
     messages: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
+class CupBoard:
+    """Per-turn accumulation buffer for CUP (positive) and CDOWN (negative).
+
+    Mirrors eraTW's CUP/CDOWN mechanism. After all SOURCE rules are applied,
+    PALAM gets += CUP - CDOWN, then both are cleared.
+    CFLAG and BASE are written directly without going through this buffer.
+    """
+
+    cup: dict[str, int] = field(default_factory=dict)
+    cdown: dict[str, int] = field(default_factory=dict)
+
+    def add_cup(self, key: str, value: int) -> None:
+        self.cup[key] = self.cup.get(key, 0) + value
+
+    def add_cdown(self, key: str, value: int) -> None:
+        self.cdown[key] = self.cdown.get(key, 0) + value
+
+    def clear(self) -> None:
+        self.cup.clear()
+        self.cdown.clear()

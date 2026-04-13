@@ -18,6 +18,8 @@ from eral.content.settlement import SettlementRule, load_settlement_rules
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.maxbase import load_maxbase
+from eral.content.imprint import load_imprint_thresholds
+from eral.systems.imprint import ImprintService
 from eral.domain.map import PortMap
 from eral.domain.stats import ActorNumericState, WorldEraCompatState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
@@ -99,6 +101,7 @@ def create_application(root: Path | None = None) -> Application:
     commands_path = root_path / "data" / "base" / "commands.toml"
     marks_path = root_path / "data" / "base" / "marks.toml"
     maxbase_path = root_path / "data" / "base" / "maxbase.toml"
+    imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
 
     events_path = root_path / "data" / "base" / "events.toml"
     dialogue_path = root_path / "data" / "base" / "dialogue.toml"
@@ -128,7 +131,9 @@ def create_application(root: Path | None = None) -> Application:
     settlement_rules = load_settlement_rules(settlement_rules_path)
     commands = load_command_definitions(commands_path)
     maxbase = load_maxbase(maxbase_path)
+    imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     mark_definitions = {m.key: m for m in mark_defs}
+    mark_max_levels = {m.key: m.max_level for m in mark_defs}
     start_location = port_map.starting_location()
     event_bus = EventBus()
     runtime_logger = RuntimeLogger(paths=paths)
@@ -175,6 +180,8 @@ def create_application(root: Path | None = None) -> Application:
     settlement_service = SettlementService(
         rules=settlement_rules,
         relationship_service=relationship_service,
+        imprint_check=ImprintService(imprint_thresholds),
+        mark_max_levels=mark_max_levels,
     )
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
