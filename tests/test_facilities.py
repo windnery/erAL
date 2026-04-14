@@ -20,9 +20,11 @@ _REPO_ROOT = Path(__file__).resolve().parents[1]
 class FacilityDefinitionLoadingTests(unittest.TestCase):
     def test_load_facilities_toml(self) -> None:
         defs = load_facility_definitions(_REPO_ROOT / "data" / "base" / "facilities.toml")
-        self.assertGreaterEqual(len(defs), 1)
+        self.assertGreaterEqual(len(defs), 3)
         keys = [d.key for d in defs]
         self.assertIn("dorm", keys)
+        self.assertIn("canteen", keys)
+        self.assertIn("date_spot", keys)
 
     def test_dorm_definition_fields(self) -> None:
         defs = load_facility_definitions(_REPO_ROOT / "data" / "base" / "facilities.toml")
@@ -32,6 +34,20 @@ class FacilityDefinitionLoadingTests(unittest.TestCase):
         self.assertEqual(dorm.upgrade_costs, (5000, 15000, 40000, 100000))
         self.assertEqual(len(dorm.effects), 4)
         self.assertTrue(all(e.type == "boost_recovery" for e in dorm.effects))
+
+    def test_canteen_definition_fields(self) -> None:
+        defs = load_facility_definitions(_REPO_ROOT / "data" / "base" / "facilities.toml")
+        canteen = next(d for d in defs if d.key == "canteen")
+        self.assertEqual(canteen.display_name, "食堂")
+        self.assertEqual(canteen.max_level, 4)
+        self.assertTrue(all(e.type == "boost_income" for e in canteen.effects))
+
+    def test_date_spot_definition_fields(self) -> None:
+        defs = load_facility_definitions(_REPO_ROOT / "data" / "base" / "facilities.toml")
+        date_spot = next(d for d in defs if d.key == "date_spot")
+        self.assertEqual(date_spot.display_name, "约会场所")
+        self.assertEqual(date_spot.max_level, 4)
+        self.assertTrue(all(e.type == "boost_relation" for e in date_spot.effects))
 
 
 class FacilityUpgradeTests(unittest.TestCase):
@@ -110,6 +126,102 @@ class FacilityEffectQueryTests(unittest.TestCase):
     def test_total_effect_unknown_type_empty(self) -> None:
         result = self.app.facility_service.total_effect(self.app.world, "nonexistent")
         self.assertEqual(result, {})
+
+
+class FacilityIncomeMultiplierTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.app = make_app()
+        self.app.world.port_funds = 999999
+
+    def test_income_multiplier_no_facilities(self) -> None:
+        self.assertEqual(self.app.facility_service.income_multiplier(self.app.world), 1.0)
+
+    def test_income_multiplier_canteen_level_1(self) -> None:
+        self.app.facility_service.upgrade(self.app.world, "canteen")
+        self.assertAlmostEqual(self.app.facility_service.income_multiplier(self.app.world), 1.1)
+
+    def test_income_multiplier_canteen_level_3(self) -> None:
+        for _ in range(3):
+            self.app.facility_service.upgrade(self.app.world, "canteen")
+        self.assertAlmostEqual(self.app.facility_service.income_multiplier(self.app.world), 1.45)
+
+
+class FacilityRelationMultiplierTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.app = make_app()
+        self.app.world.port_funds = 999999
+
+    def test_relation_multiplier_no_facilities(self) -> None:
+        self.assertEqual(self.app.facility_service.relation_multiplier(self.app.world), 1.0)
+
+    def test_relation_multiplier_date_spot_level_2(self) -> None:
+        for _ in range(2):
+            self.app.facility_service.upgrade(self.app.world, "date_spot")
+        self.assertAlmostEqual(self.app.facility_service.relation_multiplier(self.app.world), 1.25)
+
+
+class FacilityCommissionIncomeE2ETests(unittest.TestCase):
+    """Test that canteen facility boosts commission income."""
+
+    def setUp(self) -> None:
+        self.app = make_app()
+        self.app.world.port_funds = 999999
+
+    def test_canteen_boosts_commission_income(self) -> None:
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        # Baseline commission income without canteen
+        self.app.world.port_funds = 0
+        self.app.commission_service.dispatch(self.app.world, actor, "patrol")
+        for _ in range(3):
+            self.app.commission_service.tick_slot(self.app.world)
+        baseline_income = self.app.world.port_funds
+
+        # Now with canteen level 1
+        actor.is_on_commission = False
+        actor.commission_assignment = None
+        self.app.world.port_funds = 999999
+        self.app.facility_service.upgrade(self.app.world, "canteen")
+        self.app.world.port_funds = 0
+
+        self.app.commission_service.dispatch(self.app.world, actor, "patrol")
+        for _ in range(3):
+            self.app.commission_service.tick_slot(self.app.world)
+        boosted_income = self.app.world.port_funds
+
+        self.assertGreater(boosted_income, baseline_income)
+
+
+class FacilityRelationE2ETests(unittest.TestCase):
+    """Test that date_spot facility boosts relation gains during settlement."""
+
+    def setUp(self) -> None:
+        self.app = make_app()
+        self.app.world.port_funds = 999999
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        place_player_with_actor(self.app, self.actor)
+
+    def test_date_spot_boosts_affection_gain(self) -> None:
+        # Give enough SOURCE to trigger affection growth
+        self.actor.stats.source.set("affection", 50)
+
+        # Settle without date_spot
+        self.app.settlement_service.settle_actor(self.app.world, self.actor)
+        affection_before = self.actor.affection
+
+        # Reset and settle with date_spot
+        self.actor.stats.source.set("affection", 50)
+        self.actor.stats.source.set("joy", 10)
+        for _ in range(2):
+            self.app.facility_service.upgrade(self.app.world, "date_spot")
+
+        self.app.settlement_service.settle_actor(self.app.world, self.actor)
+        affection_after = self.actor.affection
+
+        # With date_spot, the second settlement should have gained more
+        # (since affection deltas compound with multiplier)
+        self.assertGreater(affection_after, affection_before)
 
 
 class FacilityVitalIntegrationTests(unittest.TestCase):

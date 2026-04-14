@@ -20,6 +20,7 @@ class TalentModifier:
 @dataclass(frozen=True, slots=True)
 class GrowthFormula:
     description: str
+    base_scale: float
     base_positive_keys: tuple[str, ...]
     base_negative_keys: tuple[str, ...]
     relationship_stage_multiplier: dict[str, float]
@@ -35,6 +36,7 @@ def load_growth_formula(path: Path) -> GrowthFormula:
     def _load_section(section: dict) -> GrowthFormula:
         return GrowthFormula(
             description=section.get("description", ""),
+            base_scale=float(section.get("base_scale", 1.0)),
             base_positive_keys=tuple(section.get("base_positive_keys", [])),
             base_negative_keys=tuple(section.get("base_negative_keys", [])),
             relationship_stage_multiplier=section.get("relationship_stage_multiplier", {}),
@@ -61,6 +63,7 @@ def load_trust_formula(path: Path) -> GrowthFormula:
     section = raw.get("trust_calc", {})
     return GrowthFormula(
         description=section.get("description", ""),
+        base_scale=float(section.get("base_scale", 1.0)),
         base_positive_keys=tuple(section.get("base_positive_keys", [])),
         base_negative_keys=tuple(section.get("base_negative_keys", [])),
         relationship_stage_multiplier=section.get("relationship_stage_multiplier", {}),
@@ -93,7 +96,7 @@ def compute_favor_delta(
         val = stats.compat.talent.get(mod.era_index)
         if val != 0:
             talent_mult += mod.multiplier * (1 if val > 0 else -1)
-    result = int(net * stage_mult * talent_mult)
+    result = int(net * formula.base_scale * stage_mult * talent_mult)
     return max(formula.clamp_min, min(formula.clamp_max, result))
 
 
@@ -113,5 +116,5 @@ def compute_trust_delta(
         val = stats.compat.talent.get(mod.era_index)
         if val != 0:
             talent_mult += mod.multiplier * (1 if val > 0 else -1)
-    result = int(net * stage_mult * talent_mult)
+    result = int(net * formula.base_scale * stage_mult * talent_mult)
     return max(formula.clamp_min, min(formula.clamp_max, result))

@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 from eral.content.commissions import CommissionDefinition
 from eral.domain.world import CharacterState, WorldState
+from eral.systems.facilities import FacilityService
 from eral.systems.wallet import WalletService
 
 
@@ -25,6 +26,7 @@ class CommissionService:
 
     definitions: tuple[CommissionDefinition, ...]
     wallet: WalletService | None = None
+    facility_service: FacilityService | None = None
 
     def _def_by_key(self, key: str) -> CommissionDefinition | None:
         for d in self.definitions:
@@ -76,8 +78,11 @@ class CommissionService:
         """Finalize a commission: pay rewards and clear assignment."""
         cdef = self._def_by_key(commission_key)
         if cdef is not None and self.wallet is not None and cdef.port_income > 0:
+            income = cdef.port_income
+            if self.facility_service is not None:
+                income = int(income * self.facility_service.income_multiplier(world))
             self.wallet.add_port(
-                world, cdef.port_income, reason="commission", source_key=commission_key,
+                world, income, reason="commission", source_key=commission_key,
             )
         actor.is_on_commission = False
         actor.commission_assignment = None

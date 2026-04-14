@@ -21,6 +21,7 @@ from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
 from eral.systems.companions import CompanionService
 from eral.systems.dates import DateService
+from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.relationships import RelationshipService
 from eral.systems.scene import SceneService
@@ -50,6 +51,7 @@ class CommandService:
     runtime_logger: RuntimeLogger | None = None
     talent_effects: tuple[TalentEffect, ...] = ()
     wallet_service: WalletService | None = None
+    facility_service: FacilityService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -118,8 +120,11 @@ class CommandService:
         # Process personal income from work commands
         funds_delta: dict[str, int] = {}
         if command.personal_income > 0 and self.wallet_service is not None:
+            income = command.personal_income
+            if self.facility_service is not None:
+                income = int(income * self.facility_service.income_multiplier(world))
             earned = self.wallet_service.add_personal(
-                world, command.personal_income, reason="work", source_key=command.key,
+                world, income, reason="work", source_key=command.key,
             )
             if earned > 0:
                 funds_delta["personal"] = earned

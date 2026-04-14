@@ -11,6 +11,7 @@ from eral.content.talent_effects import TalentEffect
 from eral.domain.actions import AppliedChange, CupBoard
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.abl_upgrade import check_and_apply_abl_upgrades
+from eral.systems.facilities import FacilityService
 from eral.systems.favor_calc import GrowthFormula, compute_favor_delta, compute_trust_delta
 from eral.systems.relationships import RelationshipService
 from eral.systems.source_extra import compute_aptitude_offset
@@ -32,6 +33,7 @@ class SettlementService:
     trust_formula: GrowthFormula | None = None
     abl_upgrade_config: AblUpgradeConfig | None = None
     talent_effects: tuple[TalentEffect, ...] | None = None
+    facility_service: FacilityService | None = None
 
     def settle_actor(self, world: WorldState, actor: CharacterState) -> list[AppliedChange]:
         """Execute full settlement pipeline for one actor.
@@ -80,12 +82,16 @@ class SettlementService:
         stage_key = actor.relationship_stage.key if actor.relationship_stage else "stranger"
         if self.favor_formula is not None:
             favor_delta = compute_favor_delta(actor.stats, stage_key, self.favor_formula)
+            if self.facility_service is not None and favor_delta > 0:
+                favor_delta = int(favor_delta * self.facility_service.relation_multiplier(world))
             if favor_delta > 0:
                 before = actor.stats.compat.cflag.get(CFLAG_AFFECTION)
                 after = actor.stats.compat.cflag.add(CFLAG_AFFECTION, favor_delta)
                 changes.append(AppliedChange("cflag", str(CFLAG_AFFECTION), before, after, favor_delta))
         if self.trust_formula is not None:
             trust_delta = compute_trust_delta(actor.stats, stage_key, self.trust_formula)
+            if self.facility_service is not None and trust_delta > 0:
+                trust_delta = int(trust_delta * self.facility_service.relation_multiplier(world))
             if trust_delta > 0:
                 before = actor.stats.compat.cflag.get(CFLAG_TRUST)
                 after = actor.stats.compat.cflag.add(CFLAG_TRUST, trust_delta)

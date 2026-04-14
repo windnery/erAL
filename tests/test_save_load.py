@@ -1,4 +1,4 @@
-﻿"""Save/load tests for the runtime quicksave flow."""
+"""Save/load tests for the runtime quicksave flow."""
 
 from __future__ import annotations
 
@@ -79,13 +79,13 @@ class SaveLoadTests(unittest.TestCase):
 
     def test_cli_menu_includes_save_and_load_when_save_exists(self) -> None:
         menu = _build_menu(self.app, self.app.world)
-        action_types = [item[1] for item in menu]
+        action_types = [item[1] for items in menu.values() for item in items]
         self.assertIn("save", action_types)
         self.assertNotIn("load", action_types)
 
         self.app.save_service.save_world(self.app.world)
         menu = _build_menu(self.app, self.app.world)
-        action_types = [item[1] for item in menu]
+        action_types = [item[1] for items in menu.values() for item in items]
         self.assertIn("save", action_types)
         self.assertIn("load", action_types)
 

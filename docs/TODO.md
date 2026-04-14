@@ -50,7 +50,7 @@
 	- status: done
 	- updated: 2026-04-14
 
-- [ ] 修正恢复指令 key 冲突与命令清单一致性（nap 重名问题）
+- [x] 修正恢复指令 key 冲突与命令清单一致性（nap 重名问题）
 	- type: code
 	- priority: P0
 	- milestone: L3
@@ -248,7 +248,7 @@
 
 #### F4. 港区开发系统（阶段 4）
 
-- [ ] 港区开发系统规范与首批设施配置
+- [x] 港区开发系统规范与首批设施配置
 	- type: docs/data
 	- priority: P0
 	- milestone: L4
@@ -259,7 +259,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 扩展 WorldState.facility_levels + SaveService 持久化
+- [x] 扩展 WorldState.facility_levels + SaveService 持久化
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -270,7 +270,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 创建 FacilityService 协调升级检查 + 扣费 + 效果广播
+- [x] 创建 FacilityService 协调升级检查 + 扣费 + 效果广播
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -281,7 +281,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 港区开发 end-to-end 测试（升级→效果生效）
+- [x] 港区开发 end-to-end 测试（升级→效果生效）
 	- type: test
 	- priority: P0
 	- milestone: L4
@@ -294,13 +294,13 @@
 
 #### F5. 系统集成与打磨（阶段 5）
 
-- [ ] L4 经济循环 14 天可玩性烟测
+- [x] L4 经济循环 14 天可玩性烟测
 	- type: test
 	- priority: P0
 	- milestone: L4
 	- est: 90m
 	- DoD: 自动化测试覆盖 14 天完整循环，包含工作→获得资金、派遣委托→自动收益、升级设施→效果生效、资金余额正确显示等全流程
-	- verify: `python -m unittest tests.test_economy_system_e2e -v`
+	- verify: `python -m unittest tests.test_14day_combined -v`
 	- owner: pair
 	- status: todo
 	- updated: 2026-04-14
@@ -316,7 +316,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] UI 展示与交互起点
+- [x] UI 展示与交互起点（主界面+能力显示已升级）
 	- type: code
 	- priority: P1
 	- milestone: L4
@@ -329,11 +329,11 @@
 
 ### L4 退出条件（阶段切换闸门）
 
-- [ ] 资金系统已稳定实现（WorldState + SaveService 验证）
-- [ ] 工作系统已可玩（指令可用、消耗正确、收益入账）
-- [ ] 委托系统已可玩（派遣、推进、收益结算无异常）
-- [ ] 港区开发系统已可玩（升级、扣费、效果生效）
-- [ ] 经济循环 14 天烟测通过
+- [x] 资金系统已稳定实现（WorldState + SaveService 验证）
+- [x] 工作系统已可玩（指令可用、消耗正确、收益入账）
+- [x] 委托系统已可玩（派遣、推进、收益结算无异常）
+- [x] 港区开发系统已可玩（升级、扣费、效果生效）
+- [x] 经济循环 14 天烟测通过
 - [ ] 数值平衡文档已落实，至少 1 轮调参完成
 
 ### 主线 A：L0 架构与质量基线
@@ -598,18 +598,41 @@
 - [x] 经济分工已确认：工作指令 → 个人资金，委托系统 → 港区资金。
 - [x] ABL 提升系统已完整接入：`abl_upgrade.toml` 全量定义、`content/abl_upgrade.py` 加载器、`systems/abl_upgrade.py` 升级逻辑（含持久 `abl_exp` 累加器）、SettlementService Phase 3.5、指令 `abl_*` 经验产出、存档序列化支持。`ABL_INTIMACY_INDEX=9` 已修正。
 - [x] 委托系统已实现：CommissionService 支持 dispatch/tick_slot/finalize 生命周期，5 种委托配置，委托完成产出港区资金（port_income），委托中角色从 visible_characters() 隐藏，GameLoop.advance_time() 钩入 tick_slot。
+- [x] 港区开发系统已实现：3 设施（官舍/食堂/约会点），FacilityService 支持 upgrade/get_level/total_effect/recovery_multiplier/income_multiplier/relation_multiplier，整合进 VitalService/CommissionService/SettlementService/CommandService。
+- [x] 关系成长公式已调参：favor_calc base_scale=0.08、trust_calc base_scale=0.15，好感/信赖增长速度符合预期。
+- [x] L4 经济循环 14 天合并烟测已通过：tests.test_14day_combined 覆盖 L3 核心玩法 + L4 经济循环全链路。
+- [x] CLI UI 已完成主界面与能力显示升级：PALAM 等级进度条（eraTW 标准阈值）、Act_COM tab 切换（</> 键）、ABL 按 registry 分组（感覚/基本/中毒/技能/性技巧）、服装槽位占位、EXP 轴名映射、TALENT 按 13 类展示、身体情报结构化占位。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：L4 经济循环 F1-F3 完成（资金双账户 + WalletService + 工作指令 + 委托系统 CommissionService + 12 个委托测试）；288 测试全通过
-- 本周规划：L4 经济循环系统（资金→工作→委托→港区开发），分 5 阶段推进
+- 本周完成：港区开发系统（3设施+FacilityService+效果整合）；关系成长公式调参（base_scale）；L4经济循环14天合并烟测；326测试全通过
 - 本周阻塞：无
 - 指标：
-		- 新增指令数：2（office_shift / extra_shift）
-			- 新增系统：WalletService、CommissionService（5 种委托：巡逻/物资运输/护航/侦察/联合演习）
-		- 新增角色数：0
-		- 移除角色数：0
-		- 正式角色总数：3（企业、拉菲、标枪）
-		- 自动化测试通过率：288/288（100%）
-		- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：L4 第 4 阶段（港区开发系统）
+	- 自动化测试通过率：326/326（100%）
+	- 正式角色总数：3（企业、拉菲、标枪）
+	- 指令总数：54 + 2 工作 + 恢复类
+	- UI 已覆盖：主界面(6区) + 能力显示(5tab)
+
+## 下一阶段规划（2026-04-15 更新）
+
+### 优先级排序
+
+| # | 任务 | 里程碑 | 类型 | 依赖 |
+|---|------|--------|------|------|
+| 1 | 港区开发系统 FacilityService | L4-F4 | code | done |
+| 2 | 港区开发 e2e 测试 | L4-F4 | test | done |
+| 3 | L4 经济循环 14 天烟测 | L4-F5 | test | done |
+| 4 | 数值平衡与调参说明 | L4-F5 | docs | 烟测通过 |
+| 5 | 关系成长公式调参说明 | L3 | docs | 无 |
+| 6 | 14 天可玩烟测（基础版） | L3 | test | 调参完成 |
+| 7 | 14 天可玩烟测（全链路版） | L3 | test | 基础版通过 |
+| 8 | 誓约层指令+事件+对话 | L3 | content | 烟测通过 |
+| 9 | 贝尔法斯特角色包 | L4 | content | L3 退出 |
+| 10 | 通用口上兜底（54 指令） | L3 | content | 无 |
+
+### 建议执行顺序
+
+**会话 1-3**：港区开发系统（FacilityService + 设施配置 + e2e） ✅
+**会话 4**：L4 经济循环 14 天烟测 ✅
+**会话 5**：关系公式调参 + L3 14 天烟测
+**会话 6+**：角色包 / 誓约内容 / 口上兜底

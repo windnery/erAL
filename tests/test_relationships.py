@@ -36,7 +36,7 @@ class RelationshipTests(unittest.TestCase):
             actor_key=actor.key,
             command_key="chat",
         )
-        self.assertEqual(actor.affection, 40)
+        self.assertEqual(actor.affection, 3)
         self.assertEqual(actor.stats.palam.get("favor"), 50)
 
     def test_sync_derived_fields_matches_cflag(self) -> None:

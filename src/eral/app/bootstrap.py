@@ -206,6 +206,7 @@ def create_application(root: Path | None = None) -> Application:
     commission_service = CommissionService(
         definitions=commission_defs,
         wallet=wallet_service,
+        facility_service=facility_service,
     )
     relationship_service = RelationshipService(stages=relationship_stages)
     companion_service = CompanionService()
@@ -219,6 +220,7 @@ def create_application(root: Path | None = None) -> Application:
         trust_formula=trust_formula,
         abl_upgrade_config=abl_upgrade_config,
         talent_effects=talent_effects,
+        facility_service=facility_service,
     )
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
@@ -245,6 +247,7 @@ def create_application(root: Path | None = None) -> Application:
         talent_effects=talent_effects,
         game_loop=game_loop,
         wallet_service=wallet_service,
+        facility_service=facility_service,
     )
     navigation_service = NavigationService(
         port_map=port_map,

@@ -76,3 +76,13 @@ class FacilityService:
         """Sum of all boost_recovery multipliers, plus 1.0 base."""
         aggregated = self.total_effect(world, "boost_recovery")
         return 1.0 + float(aggregated.get("multiplier", 0))
+
+    def income_multiplier(self, world: WorldState) -> float:
+        """Sum of all boost_income multipliers, plus 1.0 base."""
+        aggregated = self.total_effect(world, "boost_income")
+        return 1.0 + float(aggregated.get("multiplier", 0))
+
+    def relation_multiplier(self, world: WorldState) -> float:
+        """Sum of all boost_relation multipliers, plus 1.0 base."""
+        aggregated = self.total_effect(world, "boost_relation")
+        return 1.0 + float(aggregated.get("multiplier", 0))

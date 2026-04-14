@@ -28,3 +28,55 @@ min_level = 3
 type = "boost_recovery"
 params = { multiplier = 0.3 }
 min_level = 4
+
+[[facilities]]
+key = "canteen"
+display_name = "食堂"
+max_level = 4
+upgrade_costs = [5000, 15000, 40000, 100000]
+
+[[facilities.effects]]
+type = "boost_income"
+params = { multiplier = 0.1 }
+min_level = 1
+
+[[facilities.effects]]
+type = "boost_income"
+params = { multiplier = 0.15 }
+min_level = 2
+
+[[facilities.effects]]
+type = "boost_income"
+params = { multiplier = 0.2 }
+min_level = 3
+
+[[facilities.effects]]
+type = "boost_income"
+params = { multiplier = 0.3 }
+min_level = 4
+
+[[facilities]]
+key = "date_spot"
+display_name = "约会场所"
+max_level = 4
+upgrade_costs = [5000, 15000, 40000, 100000]
+
+[[facilities.effects]]
+type = "boost_relation"
+params = { multiplier = 0.1 }
+min_level = 1
+
+[[facilities.effects]]
+type = "boost_relation"
+params = { multiplier = 0.15 }
+min_level = 2
+
+[[facilities.effects]]
+type = "boost_relation"
+params = { multiplier = 0.2 }
+min_level = 3
+
+[[facilities.effects]]
+type = "boost_relation"
+params = { multiplier = 0.3 }
+min_level = 4
