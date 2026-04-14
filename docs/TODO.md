@@ -73,7 +73,7 @@
 	- updated: 2026-04-14
 
 
-- [ ] 关系成长公式与阶段门槛出一版可调参数说明
+- [x] 关系成长公式与阶段门槛出一版可调参数说明
 	- type: docs
 	- priority: P1
 	- milestone: L3
@@ -84,7 +84,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] L3 基础闸门：完成“连续 14 天可玩（基础版）”烟测
+- [x] L3 基础闸门：完成“连续 14 天可玩（基础版）”烟测
 	- type: test
 	- priority: P1
 	- milestone: L3
@@ -95,7 +95,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] L3 体验闸门：完成“连续 14 天可玩（全链路版）”烟测
+- [x] L3 体验闸门：完成“连续 14 天可玩（全链路版）”烟测
 	- type: test
 	- priority: P1
 	- milestone: L3
@@ -109,10 +109,10 @@
 ### L3 退出条件（阶段切换闸门）
 
 - [ ] `commands.toml` 无重复 key，且字段通过校验
-- [ ] Vital 主链回归通过（气力门控 / 体力晕倒推进 / sleep-nap-bathe 差异）
-- [ ] 连续 14 天可玩（基础版）通过
-- [ ] 连续 14 天可玩（全链路版）通过
-- [ ] relationship_growth 与 relationship_stages 调参说明已落文档并通过人工核验
+- [x] Vital 主链回归通过（气力门控 / 体力晕倒推进 / sleep-nap-bathe 差异）
+- [x] 连续 14 天可玩（基础版）通过
+- [x] 连续 14 天可玩（全链路版）通过
+- [x] relationship_growth 与 relationship_stages 调参说明已落文档并通过人工核验
 
 ### 主线 F：L4 经济循环完整化（规划中）
 

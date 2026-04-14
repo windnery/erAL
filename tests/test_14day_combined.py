@@ -22,7 +22,7 @@ from pathlib import Path
 from eral.app.bootstrap import create_application
 from eral.domain.world import TimeSlot
 from tests.support.real_actors import actor_by_key, place_player_with_actor
-from tests.support.stages import make_app, reset_progress, seed_friendly
+from tests.support.stages import make_app, reset_progress, seed_friendly, seed_like
 
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -255,49 +255,48 @@ class FourteenDayCombinedSmokeTests(unittest.TestCase):
         _advance_to(self.app, self.world, 10, TimeSlot.EVENING)
         self._at_and_cmd("command_office", "enterprise", "chat")
 
-    # ── Day 11-14: Full integration sprint ────────────────────────────
+    # ── Day 11-14: Full integration sprint (date + faint + work) ───────
 
     def _play_days_11_14(self) -> None:
-        # Day 11
+        # Day 11: Date with Enterprise (requires like stage)
         _advance_to(self.app, self.world, 11, TimeSlot.MORNING)
         self._at_and_cmd("dock", "enterprise", "chat")
-        self._at_and_cmd("dock", "enterprise", "touch_head")
+        seed_like(self.ent)
+        self._at_and_cmd("dock", "enterprise", "invite_follow")
 
         _advance_to(self.app, self.world, 11, TimeSlot.AFTERNOON)
-        # Enterprise follows from invite on day 8 was dismissed,
-        # so use schedule location. Work at command_office.
-        self._go("command_office")
-        self.world.active_location.display_name = "指挥室"
-        self.ent.location_key = "command_office"
-        self._cmd("enterprise", "office_shift")
+        self._go("garden")
+        self._cmd("enterprise", "invite_date")
+        self._cmd("enterprise", "hold_hands")
+        self._cmd("enterprise", "end_date")
+        self._cmd("enterprise", "dismiss_follow")
 
-        _advance_to(self.app, self.world, 11, TimeSlot.EVENING)
-        self._at_and_cmd("garden", "javelin", "listen")
-
-        # Day 12
+        # Day 12: Faint recovery — drains to 0, advances to dawn of day 13
         _advance_to(self.app, self.world, 12, TimeSlot.MORNING)
-        self._at_and_cmd("cafeteria", "laffey", "chat")
-        self._at_and_cmd("cafeteria", "laffey", "touch_head")
+        self.ent.stats.base.set("stamina", 0)
+        self.ent.stats.base.set("spirit", 0)
+        self.assertTrue(
+            self.app.vital_service.is_fainted(self.ent),
+            "Enterprise should be fainted with 0 stamina",
+        )
+        self.app.game_loop.advance_to_dawn(self.world)
+        self.assertGreater(
+            self.ent.stats.base.get("stamina"), 0,
+            "Enterprise should recover stamina after faint sleep",
+        )
 
-        # Dispatch enterprise on commission (with canteen boost)
-        seed_friendly(self.ent)
-        self.app.commission_service.dispatch(self.world, self.ent, "patrol")
-
-        _advance_to(self.app, self.world, 12, TimeSlot.AFTERNOON)
-        self._at_and_cmd("cafeteria", "javelin", "share_snack")
-
-        _advance_to(self.app, self.world, 12, TimeSlot.EVENING)
-        self._at_and_cmd("dock", "laffey", "clink_cups")
-
-        # Day 13
+        # Day 13: Commission + work (faint skipped us to day 13 dawn)
         _advance_to(self.app, self.world, 13, TimeSlot.MORNING)
         self._at_and_cmd("dock", "enterprise", "chat")
+
+        seed_friendly(self.ent)
+        self.app.commission_service.dispatch(self.world, self.ent, "patrol")
 
         _advance_to(self.app, self.world, 13, TimeSlot.AFTERNOON)
         self._go("command_office")
         self.world.active_location.display_name = "指挥室"
-        self.ent.location_key = "command_office"
-        self._cmd("enterprise", "office_shift")
+        self.jav.location_key = "command_office"
+        self._cmd("javelin", "office_shift")
 
         _advance_to(self.app, self.world, 13, TimeSlot.EVENING)
         self._at_and_cmd("dock", "laffey", "chat")
