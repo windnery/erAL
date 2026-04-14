@@ -41,6 +41,7 @@ from eral.systems.relationships import RelationshipService
 from eral.systems.schedule import ScheduleService
 from eral.systems.scene import SceneService
 from eral.systems.save import SaveService
+from eral.systems.wallet import WalletService
 from eral.systems.settlement import SettlementService
 
 
@@ -76,6 +77,7 @@ class Application:
     schedule_service: ScheduleService
     save_service: SaveService
     vital_service: VitalService
+    wallet_service: WalletService
     abl_upgrade_config: AblUpgradeConfig
     runtime_logger: RuntimeLogger
 
@@ -186,6 +188,7 @@ def create_application(root: Path | None = None) -> Application:
         vital_service=None,
         runtime_logger=runtime_logger,
     )
+    wallet_service = WalletService()
     relationship_service = RelationshipService(stages=relationship_stages)
     companion_service = CompanionService()
     date_service = DateService(companion_service=companion_service)
@@ -222,6 +225,7 @@ def create_application(root: Path | None = None) -> Application:
         mark_definitions=mark_definitions,
         talent_effects=talent_effects,
         game_loop=game_loop,
+        wallet_service=wallet_service,
     )
     navigation_service = NavigationService(
         port_map=port_map,
@@ -268,6 +272,7 @@ def create_application(root: Path | None = None) -> Application:
         schedule_service=schedule_service,
         save_service=save_service,
         vital_service=vital_service,
+        wallet_service=wallet_service,
         abl_upgrade_config=abl_upgrade_config,
         runtime_logger=runtime_logger,
     )

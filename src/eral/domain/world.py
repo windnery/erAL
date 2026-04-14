@@ -108,6 +108,8 @@ class WorldState:
     date_partner_key: str | None = None
     is_busy: bool = False
     is_date_traveling: bool = False
+    personal_funds: int = 0
+    port_funds: int = 0
     characters: list[CharacterState] = field(default_factory=list)
 
     def visible_characters(self) -> tuple[CharacterState, ...]:

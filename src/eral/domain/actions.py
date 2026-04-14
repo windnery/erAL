@@ -29,6 +29,7 @@ class ActionResult:
     source_deltas: dict[str, int] = field(default_factory=dict)
     changes: list[AppliedChange] = field(default_factory=list)
     messages: list[str] = field(default_factory=list)
+    funds_delta: dict[str, int] = field(default_factory=dict)
     fainted: bool = False
 
 

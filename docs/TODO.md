@@ -114,6 +114,228 @@
 - [ ] 连续 14 天可玩（全链路版）通过
 - [ ] relationship_growth 与 relationship_stages 调参说明已落文档并通过人工核验
 
+### 主线 F：L4 经济循环完整化（规划中）
+
+> 目标：建立"资源产生→存储→消费→增益"的完整经济循环，统一工作、委托、港区开发三大系统，让玩家具备长期目标和可预期收益。
+
+#### F1. 资金与账本系统（阶段 1）
+
+- [ ] 资金系统设计文档审核与字段对齐
+	- type: docs
+	- priority: P0
+	- milestone: L4
+	- est: 45m
+	- DoD: [资金与账本系统](docs/specs/资金与账本系统.md) 已通过审核，WordState 扩展点已验证，与现有代码无冲突
+	- verify: 文档交叉引用现有代码位置 + 全仓搜索 personal_funds / port_funds 确认无冲突
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 扩展 WorldState + SaveService 支持双账户
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: CharacterState 无需改动；WorldState 新增 `personal_funds` 与 `port_funds`；SaveService._serialize_world 已扩展；LoadService._deserialize_world 已兼容旧存档（默认 0）；ExampleWorldMixin 初始值配置已落实
+	- verify: `python -m unittest tests.test_save_load -v` + 存档序列化验证测试
+	- owner: ai
+	- est: 60m
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 创建 WalletService 统一资金操作接口
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: WalletService 支持 add_personal_funds / add_port_funds / transfer_to_port，所有操作调用 LedgerService 记账，可查询余额；bootstrap 已集成；所有单元测试通过
+	- verify: `python -m unittest tests.test_wallet_service -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 创建 LedgerService 流水记录（可选：第一版仅存余额，流水作为扩展）
+	- type: code
+	- priority: P1
+	- milestone: L4
+	- est: 30m
+	- DoD: LedgerService 支持 record_transaction 写入账本，所有交易包含 day/time_slot/account/delta/reason/source_key
+	- verify: `python -m unittest tests.test_ledger_service -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+#### F2. 工作系统（阶段 2）
+
+- [ ] 工作系统规范与指令集已规划
+	- type: docs
+	- priority: P0
+	- milestone: L4
+	- est: 30m
+	- DoD: [工作系统](docs/specs/工作系统.md) 已细化，建议工作指令列表（office_shift / extra_shift）已定义，downbase 消耗与收益倍率已给出
+	- verify: 文档审核 + 数值合理性抽查
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 在 commands.toml 中加入工作类指令（category = "work"）
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 45m
+	- DoD: office_shift / extra_shift 两条工作指令已加入，downbase、personal_income/port_income 已配置，指令可用性检查已应用
+	- verify: `python -m eral.tools.validate_content --root .` + `python -m unittest tests.test_work_commands -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 工作指令执行后资金记账流程集成
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: CommandService 执行后调用 WalletService 扣除/增加资金；ActionResult 包含资金变化提示文案；end-to-end 测试通过
+	- verify: `python -m unittest tests.test_work_system_e2e -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+#### F3. 委托系统（阶段 3）
+
+- [ ] 委托系统规范与配置已完成
+	- type: docs/data
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: [委托系统](docs/specs/委托系统.md) 已细化；创建 data/base/commissions.toml，首批 3-5 个测试委托已定义（对应各种关系阶段与时长）
+	- verify: `python -m eral.tools.validate_content --root .`
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 扩展 CharacterState.is_on_commission 与 SaveService 持久化
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 45m
+	- DoD: CharacterState 新增 `is_on_commission` 布尔标志；在 ScheduleService 中检查该标志，派遣中的角色跳过日程刷新；SaveService 已扩展以支持序列化
+	- verify: `python -m unittest tests.test_commission_state -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 创建 CommissionService 协调委托派遣 + 时段推进 + 奖励结算
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 90m
+	- DoD: CommissionService 支持 dispatch / tick_slot / finalize，委托中角色不出现在活动场景，时段推进自动扣减 remaining_slots，归零时调用 WalletService 结算奖励，派遣中角色在场景中标记为"在委托"；GameLoopService 已集成 tick_slot 调用
+	- verify: `python -m unittest tests.test_commission_service -v` + 场景可见性测试
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 委托派遣与结算 end-to-end 测试
+	- type: test
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: 自动化测试覆盖派遣→推进→完成→收益记账全流程，且派遣中角色确不出现在当前场景
+	- verify: `python -m unittest tests.test_commission_system_e2e -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+#### F4. 港区开发系统（阶段 4）
+
+- [ ] 港区开发系统规范与首批设施配置
+	- type: docs/data
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: [港区开发系统](docs/specs/港区开发系统.md) 已细化；创建 data/base/facilities.toml，首批 4 个设施已定义（官舎/食堂/约会点/医务室），各设施最大等级、升级费用、效果倍率已给出
+	- verify: `python -m eral.tools.validate_content --root .`
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 扩展 WorldState.facility_levels + SaveService 持久化
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 45m
+	- DoD: WorldState 新增 `facility_levels: dict[str, int]` 字典；SaveService 已扩展以支持序列化；LoadService 已兼容旧存档（默认所有设施 level 0）
+	- verify: `python -m unittest tests.test_facility_state -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 创建 FacilityService 协调升级检查 + 扣费 + 效果广播
+	- type: code
+	- priority: P0
+	- milestone: L4
+	- est: 90m
+	- DoD: FacilityService 支持 upgrade / get_recovery_multiplier / get_income_multiplier / get_relation_bonus；整合进 VitalService（恢复倍率）、CommissionService（工作收益）、SettlementService（关系增益）；bootstrap 已集成
+	- verify: `python -m unittest tests.test_facility_service -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 港区开发 end-to-end 测试（升级→效果生效）
+	- type: test
+	- priority: P0
+	- milestone: L4
+	- est: 60m
+	- DoD: 升级官舎后体力恢复倍率增加、升级食堂后工作收益倍率增加、升级约会点后关系增益增加，所有链路闭合测试通过
+	- verify: `python -m unittest tests.test_facility_system_e2e -v`
+	- owner: ai
+	- status: todo
+	- updated: 2026-04-14
+
+#### F5. 系统集成与打磨（阶段 5）
+
+- [ ] L4 经济循环 14 天可玩性烟测
+	- type: test
+	- priority: P0
+	- milestone: L4
+	- est: 90m
+	- DoD: 自动化测试覆盖 14 天完整循环，包含工作→获得资金、派遣委托→自动收益、升级设施→效果生效、资金余额正确显示等全流程
+	- verify: `python -m unittest tests.test_economy_system_e2e -v`
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] 数值平衡与调参说明
+	- type: docs
+	- priority: P1
+	- milestone: L4
+	- est: 60m
+	- DoD: 补充 data/base 下工作/委托/设施的数值平衡文档，给出调参目标（14 天内可完成第一个设施升级、工作与委托收益比例），确保后续平衡迭代有明确指引
+	- verify: 人工核验数值是否符合游戏节奏预期
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+- [ ] UI 展示与交互起点
+	- type: code
+	- priority: P1
+	- milestone: L4
+	- est: 60m
+	- DoD: CLI 主菜单已显示当前资金余额、港区设施状态；工作/委托派遣流程已有基础交互提示；后续 UI 升级可直接拓展
+	- verify: 手工验证 CLI 输出信息完整度
+	- owner: pair
+	- status: todo
+	- updated: 2026-04-14
+
+### L4 退出条件（阶段切换闸门）
+
+- [ ] 资金系统已稳定实现（WorldState + SaveService 验证）
+- [ ] 工作系统已可玩（指令可用、消耗正确、收益入账）
+- [ ] 委托系统已可玩（派遣、推进、收益结算无异常）
+- [ ] 港区开发系统已可玩（升级、扣费、效果生效）
+- [ ] 经济循环 14 天烟测通过
+- [ ] 数值平衡文档已落实，至少 1 轮调参完成
+
 ### 主线 A：L0 架构与质量基线
 
 - [x] 统一 TODO 与指导书的里程碑、优先级、状态口径
@@ -375,8 +597,9 @@
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：ABL 升级系统完整实现（ABL_INTIMACY_INDEX bug 修正 + abl_upgrade.toml 全量定义 + 指令 abl_* 经验产出 + Phase 3.5 结算接入 + abl_exp 持久累加器 + 存档支持）；255 测试全通过
-- 本周阻塞：工作系统（舰娘行为状态）尚未实现
+- 本周完成：ABL 升级系统完整实现（ABL_INTIMACY_INDEX bug 修正 + abl_upgrade.toml 全量定义 + 指令 abl_* 经验产出 + Phase 3.5 结算接入 + abl_exp 持久累加器 + 存档支持）；255 测试全通过；规范文档全面审计与对齐（体力气力系统字段统一为 stamina_delta/spirit_delta；工作系统与委托系统收益字段统一为 personal_income/port_income）
+- 本周规划：L4 经济循环系统（资金→工作→委托→港区开发），分 5 阶段推进，预计 6-8.5 天完成
+- 本周阻塞：无
 - 指标：
 		- 新增指令数：0（已有指令补充了 abl_* 经验字段）
 		- 新增角色数：0
@@ -384,4 +607,4 @@
 		- 正式角色总数：3（企业、拉菲、标枪）
 		- 自动化测试通过率：255/255（100%）
 		- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：工作系统（舰娘行为状态 + ActivityGate）
+- 下周主线：L4 第 1-2 阶段（资金系统+ 工作系统实现）

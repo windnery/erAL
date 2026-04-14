@@ -582,3 +582,23 @@ time_slots = ["afternoon", "evening", "night"]
 operation = "bathe"
 source = { joy = 30, trust = 20 }
 downbase = {}
+
+[[commands]]
+key = "office_shift"
+display_name = "当值工作"
+category = "work"
+location_tags = ["work"]
+time_slots = ["morning", "afternoon"]
+source = { service = 100, obedience = 20, abl_13 = 2 }
+downbase = { stamina = 40, spirit = 60 }
+personal_income = 30
+
+[[commands]]
+key = "extra_shift"
+display_name = "加班"
+category = "work"
+location_tags = ["work"]
+time_slots = ["afternoon", "evening"]
+source = { service = 150, obedience = 30, abl_13 = 3 }
+downbase = { stamina = 80, spirit = 100 }
+personal_income = 50

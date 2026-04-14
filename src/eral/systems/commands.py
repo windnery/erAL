@@ -27,6 +27,7 @@ from eral.systems.scene import SceneService
 from eral.systems.settlement import SettlementService
 from eral.systems.source_extra import apply_source_extra
 from eral.systems.vital import VitalService
+from eral.systems.wallet import WalletService
 from eral.content.talent_effects import TalentEffect
 
 
@@ -48,6 +49,7 @@ class CommandService:
     mark_definitions: dict[str, MarkDefinition] | None = None
     runtime_logger: RuntimeLogger | None = None
     talent_effects: tuple[TalentEffect, ...] = ()
+    wallet_service: WalletService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -112,6 +114,16 @@ class CommandService:
                 self.game_loop.advance_to_dawn(world)
 
         changes = self.settlement.settle_actor(world, actor)
+
+        # Process personal income from work commands
+        funds_delta: dict[str, int] = {}
+        if command.personal_income > 0 and self.wallet_service is not None:
+            earned = self.wallet_service.add_personal(
+                world, command.personal_income, reason="work", source_key=command.key,
+            )
+            if earned > 0:
+                funds_delta["personal"] = earned
+
         trigger_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
         self._apply_operation(world, actor, command)
         self._apply_marks(actor, command)
@@ -139,6 +151,7 @@ class CommandService:
             source_deltas=dict(command.source),
             changes=changes,
             messages=dialogue_lines or [f"{actor.display_name} handled command {command.display_name}."],
+            funds_delta=funds_delta,
             fainted=fainted,
         )
 

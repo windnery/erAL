@@ -45,6 +45,8 @@ class SaveService:
                 "flag": world.compat.flag.values,
                 "tflag": world.compat.tflag.values,
             },
+            "personal_funds": world.personal_funds,
+            "port_funds": world.port_funds,
             "characters": [self._serialize_actor(actor) for actor in world.characters],
         }
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -76,6 +78,8 @@ class SaveService:
         )
         world.compat.flag.values.update({int(k): int(v) for k, v in payload["compat"]["flag"].items()})
         world.compat.tflag.values.update({int(k): int(v) for k, v in payload["compat"]["tflag"].items()})
+        world.personal_funds = int(payload.get("personal_funds", 0))
+        world.port_funds = int(payload.get("port_funds", 0))
 
         for actor_payload in payload["characters"]:
             stats = ActorNumericState.zeroed(self.stat_axes, self.tw_axes)
