@@ -77,19 +77,19 @@ class CommissionTickTests(unittest.TestCase):
     def test_finalize_pays_port_income(self) -> None:
         initial_port = self.app.world.port_funds
         self.app.commission_service.dispatch(self.app.world, self.actor, "patrol")
-        # patrol: duration_slots=2, port_income=20
+        # patrol: duration_slots=2, port_income=1200
         self.app.commission_service.tick_slot(self.app.world)
         self.app.commission_service.tick_slot(self.app.world)
-        self.assertEqual(self.app.world.port_funds, initial_port + 20)
+        self.assertEqual(self.app.world.port_funds, initial_port + 1200)
 
     def test_finalize_high_income_commission(self) -> None:
         seed_friendly(self.actor)
         initial_port = self.app.world.port_funds
         self.app.commission_service.dispatch(self.app.world, self.actor, "joint_exercise")
-        # joint_exercise: duration_slots=6, port_income=120
+        # joint_exercise: duration_slots=6, port_income=4000
         for _ in range(6):
             self.app.commission_service.tick_slot(self.app.world)
-        self.assertEqual(self.app.world.port_funds, initial_port + 120)
+        self.assertEqual(self.app.world.port_funds, initial_port + 4000)
 
 
 class CommissionVisibilityTests(unittest.TestCase):

@@ -1,13 +1,14 @@
 # 委托定义
 # port_income 为港区资金奖励（委托系统统一产出港区资金）
 # duration_slots 为持续时段数（每推进一个时段扣 1）
+# 收入区间 1200-4000：短委托低门槛→低，长委托高门槛→高
 
 [[commissions]]
 key = "patrol"
 display_name = "港区巡逻"
 duration_slots = 2
 min_stage = "stranger"
-port_income = 20
+port_income = 1200
 abl_42 = 1
 
 [[commissions]]
@@ -15,7 +16,7 @@ key = "supply_run"
 display_name = "物资运送"
 duration_slots = 3
 min_stage = "friendly"
-port_income = 40
+port_income = 1800
 abl_41 = 1
 
 [[commissions]]
@@ -23,7 +24,7 @@ key = "escort_duty"
 display_name = "护航任务"
 duration_slots = 4
 min_stage = "friendly"
-port_income = 60
+port_income = 2500
 abl_42 = 2
 
 [[commissions]]
@@ -31,7 +32,7 @@ key = "recon_mission"
 display_name = "海域侦察"
 duration_slots = 3
 min_stage = "like"
-port_income = 80
+port_income = 3200
 abl_42 = 2
 abl_43 = 1
 
@@ -40,5 +41,5 @@ key = "joint_exercise"
 display_name = "联合演习"
 duration_slots = 6
 min_stage = "like"
-port_income = 120
+port_income = 4000
 abl_42 = 3

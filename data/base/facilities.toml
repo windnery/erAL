@@ -1,8 +1,13 @@
+# 设施数值参考：
+# 升级费用：5000 / 15000 / 40000 / 100000（四级）
+# 第 7-10 天能升第一档设施（港区资金来源：委托）
+# 每 6 时段推进 1 天，7 天 ≈ 42 时段
+
 [[facilities]]
 key = "dorm"
 display_name = "宿舍"
-max_level = 3
-upgrade_costs = [50, 120, 250]
+max_level = 4
+upgrade_costs = [5000, 15000, 40000, 100000]
 
 [[facilities.effects]]
 type = "boost_recovery"
@@ -18,3 +23,8 @@ min_level = 2
 type = "boost_recovery"
 params = { multiplier = 0.2 }
 min_level = 3
+
+[[facilities.effects]]
+type = "boost_recovery"
+params = { multiplier = 0.3 }
+min_level = 4

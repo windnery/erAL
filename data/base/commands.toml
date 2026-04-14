@@ -591,7 +591,7 @@ location_tags = ["work"]
 time_slots = ["morning", "afternoon"]
 source = { service = 100, obedience = 20, abl_13 = 2 }
 downbase = { stamina = 40, spirit = 60 }
-personal_income = 30
+personal_income = 300
 
 [[commands]]
 key = "extra_shift"
@@ -601,4 +601,4 @@ location_tags = ["work"]
 time_slots = ["afternoon", "evening"]
 source = { service = 150, obedience = 30, abl_13 = 3 }
 downbase = { stamina = 80, spirit = 100 }
-personal_income = 50
+personal_income = 500

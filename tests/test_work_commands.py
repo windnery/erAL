@@ -37,7 +37,7 @@ class WorkCommandTests(unittest.TestCase):
             actor_key="enterprise",
             command_key="office_shift",
         )
-        self.assertEqual(self.app.world.personal_funds, initial + 30)
+        self.assertEqual(self.app.world.personal_funds, initial + 300)
 
     def test_office_shift_result_contains_funds_delta(self) -> None:
         result = self.app.command_service.execute(
@@ -45,7 +45,7 @@ class WorkCommandTests(unittest.TestCase):
             actor_key="enterprise",
             command_key="office_shift",
         )
-        self.assertEqual(result.funds_delta.get("personal"), 30)
+        self.assertEqual(result.funds_delta.get("personal"), 300)
 
     def test_office_shift_consumes_stamina_and_spirit(self) -> None:
         initial_stamina = self.actor.stats.base.get("stamina")
@@ -67,7 +67,7 @@ class WorkCommandTests(unittest.TestCase):
             actor_key="enterprise",
             command_key="extra_shift",
         )
-        self.assertEqual(self.app.world.personal_funds, initial + 50)
+        self.assertEqual(self.app.world.personal_funds, initial + 500)
 
     def test_extra_shift_consumes_more_stamina(self) -> None:
         from eral.domain.world import TimeSlot
@@ -110,7 +110,7 @@ class WorkCommandTests(unittest.TestCase):
             actor_key="enterprise",
             command_key="office_shift",
         )
-        self.assertEqual(self.app.world.personal_funds, 60)
+        self.assertEqual(self.app.world.personal_funds, 600)
 
     def test_normal_command_does_not_grant_income(self) -> None:
         initial = self.app.world.personal_funds
