@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from eral.domain.world import TimeSlot, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
+from eral.systems.commissions import CommissionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.vital import VitalService
 
@@ -18,6 +19,7 @@ class GameLoop:
     event_bus: EventBus
     schedule_service: ScheduleService | None = None
     vital_service: VitalService | None = None
+    commission_service: CommissionService | None = None
     runtime_logger: RuntimeLogger | None = None
 
     def advance_time(self, world: WorldState) -> None:
@@ -33,6 +35,8 @@ class GameLoop:
         if self.vital_service is not None:
             for character in world.characters:
                 self.vital_service.natural_recovery(character)
+        if self.commission_service is not None:
+            self.commission_service.tick_slot(world)
         self.event_bus.publish(
             "time.advanced",
             previous_slot=previous_slot.value,

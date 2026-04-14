@@ -67,8 +67,10 @@ class CharacterState:
     is_following: bool = False
     follow_ready: bool = False
     is_on_date: bool = False
+    is_on_commission: bool = False
     fatigue: int = 0
     marks: dict[str, int] = field(default_factory=dict)
+    commission_assignment: object | None = None
 
     def sync_derived_fields(self) -> None:
         """Synchronise derived fields from the authoritative CFLAG block."""
@@ -119,6 +121,7 @@ class WorldState:
             character
             for character in self.characters
             if character.location_key == self.active_location.key
+            and not character.is_on_commission
         )
 
     def encounter_characters(self) -> tuple[CharacterState, ...]:

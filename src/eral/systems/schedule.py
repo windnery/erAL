@@ -17,7 +17,7 @@ class ScheduleService:
     def refresh_world(self, world: WorldState) -> None:
         slot_key = world.current_time_slot.value
         for actor in world.characters:
-            if actor.is_following or actor.is_on_date:
+            if actor.is_following or actor.is_on_date or actor.is_on_commission:
                 continue
             definition = self.roster.get(actor.key)
             if not definition:

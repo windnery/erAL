@@ -120,7 +120,7 @@
 
 #### F1. 资金与账本系统（阶段 1）
 
-- [ ] 资金系统设计文档审核与字段对齐
+- [x] 资金系统设计文档审核与字段对齐
 	- type: docs
 	- priority: P0
 	- milestone: L4
@@ -131,7 +131,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 扩展 WorldState + SaveService 支持双账户
+- [x] 扩展 WorldState + SaveService 支持双账户
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -143,7 +143,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 创建 WalletService 统一资金操作接口
+- [x] 创建 WalletService 统一资金操作接口
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -154,7 +154,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 创建 LedgerService 流水记录（可选：第一版仅存余额，流水作为扩展）
+- [x] 创建 LedgerService 流水记录（第一版仅存余额，流水作为后续扩展）
 	- type: code
 	- priority: P1
 	- milestone: L4
@@ -167,7 +167,7 @@
 
 #### F2. 工作系统（阶段 2）
 
-- [ ] 工作系统规范与指令集已规划
+- [x] 工作系统规范与指令集已规划
 	- type: docs
 	- priority: P0
 	- milestone: L4
@@ -178,7 +178,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 在 commands.toml 中加入工作类指令（category = "work"）
+- [x] 在 commands.toml 中加入工作类指令（category = "work"）
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -189,7 +189,7 @@
 	- status: todo
 	- updated: 2026-04-14
 
-- [ ] 工作指令执行后资金记账流程集成
+- [x] 工作指令执行后资金记账流程集成
 	- type: code
 	- priority: P0
 	- milestone: L4
@@ -593,18 +593,21 @@
 - [x] 体力/气力完整链路已通过：DOWNBASE→疲劳计算、自然恢复/睡眠恢复/小憩/泡澡、气力归零禁用指令、体力归零晕倒推进到次日、MAXBASE 上限强制执行。
 - [x] `fatigue` 字段已加入 CharacterState 并接入存档序列化。
 - [x] 旧 `nap`（午睡）已改为 `relax_together`（一起放松），恢复类指令无 key 冲突。
+- [x] 资金系统已实现：WorldState 双账户（personal_funds/port_funds），WalletService 统一操作接口，SaveService 旧存档兼容，ActionResult.funds_delta 记录资金变动。
+- [x] 工作系统已实现：office_shift/extra_shift 工作指令，通过 personal_income 字段产出个人资金，CommandService 集成 WalletService 记账。
+- [x] 经济分工已确认：工作指令 → 个人资金，委托系统 → 港区资金。
 - [x] ABL 提升系统已完整接入：`abl_upgrade.toml` 全量定义、`content/abl_upgrade.py` 加载器、`systems/abl_upgrade.py` 升级逻辑（含持久 `abl_exp` 累加器）、SettlementService Phase 3.5、指令 `abl_*` 经验产出、存档序列化支持。`ABL_INTIMACY_INDEX=9` 已修正。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：ABL 升级系统完整实现（ABL_INTIMACY_INDEX bug 修正 + abl_upgrade.toml 全量定义 + 指令 abl_* 经验产出 + Phase 3.5 结算接入 + abl_exp 持久累加器 + 存档支持）；255 测试全通过；规范文档全面审计与对齐（体力气力系统字段统一为 stamina_delta/spirit_delta；工作系统与委托系统收益字段统一为 personal_income/port_income）
-- 本周规划：L4 经济循环系统（资金→工作→委托→港区开发），分 5 阶段推进，预计 6-8.5 天完成
+- 本周完成：L4 经济循环 F1-F2 完成（资金双账户 + WalletService + 工作指令 office_shift/extra_shift + 资金记账集成）；276 测试全通过
+- 本周规划：L4 经济循环系统（资金→工作→委托→港区开发），分 5 阶段推进
 - 本周阻塞：无
 - 指标：
-		- 新增指令数：0（已有指令补充了 abl_* 经验字段）
+		- 新增指令数：2（office_shift / extra_shift）
 		- 新增角色数：0
 		- 移除角色数：0
 		- 正式角色总数：3（企业、拉菲、标枪）
-		- 自动化测试通过率：255/255（100%）
+		- 自动化测试通过率：276/276（100%）
 		- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：L4 第 1-2 阶段（资金系统+ 工作系统实现）
+- 下周主线：L4 第 3 阶段（委托系统实现）

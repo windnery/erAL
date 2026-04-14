@@ -93,6 +93,7 @@ def reset_progress(actor) -> None:
     actor.follow_ready = False
     actor.is_same_room = False
     actor.is_on_date = False
+    actor.is_on_commission = False
     actor.fatigue = 0
     actor.marks.clear()
     actor.stats.compat.abl.set(ABL_INTIMACY_INDEX, 0)
