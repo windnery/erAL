@@ -1,8 +1,6 @@
 # ABL upgrade thresholds.
-# Each ABL level has an EXPLV index and a base experience requirement.
-# The requirement is modified by the aptitude TALENT (era_index=278).
-# requirement = base_demand * (default_rate / abl_up_rate[abl_id])
-# EXPLV[index - aptitude_offset] gives the actual threshold.
+# EXPLV[0]=1, EXPLV[1]=4, EXPLV[2]=20, ... EXPLV[12]=10000
+# requirement = MAX(1, EXPLV[current_level + 1 - aptitude_offset] * default_rate / rate)
 
 [defaults]
 default_rate = 1.0
@@ -22,6 +20,7 @@ default_rate = 1.0
 11 = 6000
 12 = 10000
 
+# 感觉系 (0-4)
 [[abl]]
 abl_index = 0
 label = "Ｃ感覚"
@@ -52,6 +51,13 @@ label = "Ｍ感覚"
 base_demand = 1
 rate = 1.0
 
+# 核心能力系 (9-18)
+[[abl]]
+abl_index = 9
+label = "親密"
+base_demand = 1
+rate = 1.0
+
 [[abl]]
 abl_index = 10
 label = "従順"
@@ -66,7 +72,7 @@ rate = 1.0
 
 [[abl]]
 abl_index = 12
-label = "親密"
+label = "技巧"
 base_demand = 1
 rate = 1.0
 
@@ -83,37 +89,142 @@ base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 20
-label = "話術技能"
+abl_index = 15
+label = "受虐属性"
 base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 21
-label = "戦闘能力"
+abl_index = 16
+label = "施虐属性"
 base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 22
+abl_index = 17
+label = "百合属性"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 18
+label = "断袖属性"
+base_demand = 1
+rate = 1.0
+
+# 中毒系 (30-35)
+[[abl]]
+abl_index = 30
+label = "自慰中毒"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 31
+label = "精液中毒"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 32
+label = "百合中毒"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 33
+label = "断袖中毒"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 34
+label = "膣射中毒"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 35
+label = "肛射中毒"
+base_demand = 1
+rate = 1.0
+
+# 技能系 (40-45)
+[[abl]]
+abl_index = 40
 label = "清掃技能"
 base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 23
-label = "料理技能"
+abl_index = 41
+label = "話術技能"
 base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 24
+abl_index = 42
+label = "戦闘能力"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 43
 label = "教養"
 base_demand = 1
 rate = 1.0
 
 [[abl]]
-abl_index = 41
-label = "巧みな指"
+abl_index = 44
+label = "料理技能"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 45
+label = "音楽技能"
+base_demand = 1
+rate = 1.0
+
+# 性技系 (50-55, 60)
+[[abl]]
+abl_index = 50
+label = "指"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 51
+label = "舌"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 52
+label = "胸"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 53
+label = "腰"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 54
+label = "膣"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 55
+label = "肛門"
+base_demand = 1
+rate = 1.0
+
+[[abl]]
+abl_index = 60
+label = "TSLv"
 base_demand = 1
 rate = 1.0

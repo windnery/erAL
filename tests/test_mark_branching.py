@@ -171,7 +171,7 @@ class CommandMarkApplicationTests(unittest.TestCase):
         """Push affection + trust high enough for love stage (850/450 + ABL:12=5)."""
         self.actor.stats.compat.cflag.set(2, 850)  # affection
         self.actor.stats.compat.cflag.set(4, 450)   # trust
-        self.actor.stats.compat.abl.set(12, 5)       # intimacy
+        self.actor.stats.compat.abl.set(9, 5)       # intimacy
         self.actor.affection = 850
         self.actor.trust = 450
         self.actor.sync_derived_fields()

@@ -41,7 +41,7 @@ class MultiCharacterRegressionTests(unittest.TestCase):
         self.enterprise.trust = 220
         self.enterprise.stats.compat.cflag.set(2, 420)
         self.enterprise.stats.compat.cflag.set(4, 220)
-        self.enterprise.stats.compat.abl.set(12, 3)
+        self.enterprise.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(self.enterprise)
 
         world.current_time_slot = TimeSlot.EVENING

@@ -2,52 +2,7 @@
 
 from __future__ import annotations
 
-import tomllib
-from dataclasses import dataclass
-from pathlib import Path
-
-
-@dataclass(frozen=True, slots=True)
-class AblDefinition:
-    abl_index: int
-    label: str
-    base_demand: int
-    rate: float
-
-
-@dataclass(frozen=True, slots=True)
-class AblUpgradeConfig:
-    default_rate: float
-    explv: tuple[int, ...]
-    definitions: tuple[AblDefinition, ...]
-
-
-def load_abl_upgrade_config(path: Path) -> AblUpgradeConfig:
-    with path.open("rb") as handle:
-        raw = tomllib.load(handle)
-
-    defaults = raw.get("defaults", {})
-    default_rate = float(defaults.get("default_rate", 1.0))
-
-    explv_raw = raw.get("explv", {})
-    max_level = max(int(k) for k in explv_raw.keys()) if explv_raw else 0
-    explv = tuple(explv_raw.get(str(i), 10000) for i in range(max_level + 2))
-
-    definitions = tuple(
-        AblDefinition(
-            abl_index=int(item["abl_index"]),
-            label=item["label"],
-            base_demand=int(item.get("base_demand", 1)),
-            rate=float(item.get("rate", default_rate)),
-        )
-        for item in raw.get("abl", [])
-    )
-
-    return AblUpgradeConfig(
-        default_rate=default_rate,
-        explv=explv,
-        definitions=definitions,
-    )
+from eral.content.abl_upgrade import AblUpgradeConfig
 
 
 def compute_demand(
@@ -86,24 +41,37 @@ def check_and_apply_abl_upgrades(
     config: AblUpgradeConfig,
     aptitude_offset: int = 0,
 ) -> list[tuple[int, int, int]]:
-    """Check each ABL for level-ups. Returns list of (abl_index, old_level, new_level)."""
+    """Check each ABL for level-ups. Returns list of (abl_index, old_level, new_level).
+
+    Accumulates abl_* SOURCE into persistent abl_exp, then checks for upgrades.
+    """
     results: list[tuple[int, int, int]] = []
 
     for definition in config.definitions:
+        # Accumulate SOURCE abl experience into persistent store
+        experience_key = f"abl_{definition.abl_index}"
+        source_exp = stats.source.get(experience_key)
+        if source_exp > 0:
+            stats.abl_exp[definition.abl_index] = (
+                stats.abl_exp.get(definition.abl_index, 0) + source_exp
+            )
+
         current_level = stats.compat.abl.get(definition.abl_index)
         if current_level >= len(config.explv) - 1:
             continue
 
-        experience_key = f"abl_{definition.abl_index}"
-        experience = stats.source.get(experience_key)
+        accumulated = stats.abl_exp.get(definition.abl_index, 0)
+        if accumulated == 0:
+            continue
 
         demand = compute_demand(
             definition.abl_index, current_level, aptitude_offset, config,
         )
 
-        if experience >= demand:
+        if accumulated >= demand:
             new_level = current_level + 1
             stats.compat.abl.set(definition.abl_index, new_level)
+            stats.abl_exp[definition.abl_index] = accumulated - demand
             results.append((definition.abl_index, current_level, new_level))
 
     return results

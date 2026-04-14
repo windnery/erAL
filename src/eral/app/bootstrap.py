@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from eral.app.config import AppConfig
+from eral.content.abl_upgrade import AblUpgradeConfig, load_abl_upgrade_config
 from eral.content.character_packs import CharacterPack, load_character_packs
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
 from eral.content.commands import CommandDefinition, load_command_definitions
@@ -75,6 +76,7 @@ class Application:
     schedule_service: ScheduleService
     save_service: SaveService
     vital_service: VitalService
+    abl_upgrade_config: AblUpgradeConfig
     runtime_logger: RuntimeLogger
 
 
@@ -106,6 +108,7 @@ def create_application(root: Path | None = None) -> Application:
     marks_path = root_path / "data" / "base" / "marks.toml"
     maxbase_path = root_path / "data" / "base" / "maxbase.toml"
     imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
+    abl_upgrade_path = root_path / "data" / "base" / "abl_upgrade.toml"
 
     events_path = root_path / "data" / "base" / "events.toml"
     dialogue_path = root_path / "data" / "base" / "dialogue.toml"
@@ -136,6 +139,7 @@ def create_application(root: Path | None = None) -> Application:
     commands = load_command_definitions(commands_path)
     maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
+    abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
     mark_definitions = {m.key: m for m in mark_defs}
     mark_max_levels = {m.key: m.max_level for m in mark_defs}
     talent_effects = load_talent_effects(root_path / "data" / "base" / "talent_effects.toml")
@@ -192,6 +196,8 @@ def create_application(root: Path | None = None) -> Application:
         mark_max_levels=mark_max_levels,
         favor_formula=favor_formula,
         trust_formula=trust_formula,
+        abl_upgrade_config=abl_upgrade_config,
+        talent_effects=talent_effects,
     )
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
@@ -262,5 +268,6 @@ def create_application(root: Path | None = None) -> Application:
         schedule_service=schedule_service,
         save_service=save_service,
         vital_service=vital_service,
+        abl_upgrade_config=abl_upgrade_config,
         runtime_logger=runtime_logger,
     )

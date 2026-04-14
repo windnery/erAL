@@ -486,3 +486,208 @@ era_index = 233
 label = "魔力印记"
 group = "special"
 
+# ABL 经验 (abl_* 键与 abl_upgrade.toml 中的 abl_index 对应)
+[[source]]
+key = "abl_0"
+era_index = 300
+label = "Ｃ感覚経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_1"
+era_index = 301
+label = "Ｖ感覚経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_2"
+era_index = 302
+label = "Ａ感覚経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_3"
+era_index = 303
+label = "Ｂ感覚経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_4"
+era_index = 304
+label = "Ｍ感覚経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_9"
+era_index = 309
+label = "親密経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_10"
+era_index = 310
+label = "従順経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_11"
+era_index = 311
+label = "欲望経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_12"
+era_index = 312
+label = "技巧経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_13"
+era_index = 313
+label = "奉仕精神経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_14"
+era_index = 314
+label = "露出癖経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_15"
+era_index = 315
+label = "受虐属性経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_16"
+era_index = 316
+label = "施虐属性経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_17"
+era_index = 317
+label = "百合属性経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_18"
+era_index = 318
+label = "断袖属性経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_30"
+era_index = 330
+label = "自慰中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_31"
+era_index = 331
+label = "精液中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_32"
+era_index = 332
+label = "百合中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_33"
+era_index = 333
+label = "断袖中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_34"
+era_index = 334
+label = "膣射中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_35"
+era_index = 335
+label = "肛射中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_40"
+era_index = 340
+label = "清掃技能経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_41"
+era_index = 341
+label = "話術技能経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_42"
+era_index = 342
+label = "戦闘能力経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_43"
+era_index = 343
+label = "教養経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_44"
+era_index = 344
+label = "料理技能経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_45"
+era_index = 345
+label = "音楽技能経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_50"
+era_index = 350
+label = "指経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_51"
+era_index = 351
+label = "舌経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_52"
+era_index = 352
+label = "胸経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_53"
+era_index = 353
+label = "腰経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_54"
+era_index = 354
+label = "膣経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_55"
+era_index = 355
+label = "肛門経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_60"
+era_index = 360
+label = "TSLv経験"
+group = "abl_exp"
+

@@ -188,7 +188,7 @@ class EventPipelineTests(unittest.TestCase):
         actor.trust = 220
         actor_cflag.set(actor, CFLAGKey.AFFECTION, 420)
         actor_cflag.set(actor, CFLAGKey.TRUST, 220)
-        actor.stats.compat.abl.set(12, 3)
+        actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(actor)
 
     def _set_love(self, actor) -> None:
@@ -196,7 +196,7 @@ class EventPipelineTests(unittest.TestCase):
         actor.trust = 450
         actor_cflag.set(actor, CFLAGKey.AFFECTION, 850)
         actor_cflag.set(actor, CFLAGKey.TRUST, 450)
-        actor.stats.compat.abl.set(12, 5)
+        actor.stats.compat.abl.set(9, 5)
         self.app.relationship_service.update_actor(actor)
 
     def test_chat_triggers_fixture_dialogue(self) -> None:

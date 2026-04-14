@@ -31,7 +31,7 @@ class DateLineE2ETests(unittest.TestCase):
         actor.stats.compat.cflag.set(4, 220)
         actor.affection = 420
         actor.trust = 220
-        actor.stats.compat.abl.set(12, 3)
+        actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(actor)
         self.assertGreaterEqual(actor.relationship_stage.rank, 2)
 
@@ -137,7 +137,7 @@ class LightIntimacyLineE2ETests(unittest.TestCase):
         """Advance actor relationship to love stage."""
         actor.stats.compat.cflag.set(2, 850)
         actor.stats.compat.cflag.set(4, 450)
-        actor.stats.compat.abl.set(12, 5)
+        actor.stats.compat.abl.set(9, 5)
         actor.affection = 850
         actor.trust = 450
         self.app.relationship_service.update_actor(actor)

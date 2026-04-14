@@ -1,6 +1,7 @@
 """Static content registration layer."""
 
-from .characters import CharacterDefinition, load_character_definitions
+from .abl_upgrade import AblDefinition, AblUpgradeConfig, load_abl_upgrade_config
+from .characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
 from .character_packs import CharacterPack, load_character_packs
 from .commands import CommandDefinition, load_command_definitions
 from .dialogue import DialogueEntry, load_dialogue_entries
@@ -13,6 +14,8 @@ from .stat_axes import AxisFamily, StatAxis, StatAxisCatalog, load_stat_axis_cat
 from .tw_axis_registry import TwAxisEntry, TwAxisRegistry, load_tw_axis_registry
 
 __all__ = [
+    "AblDefinition",
+    "AblUpgradeConfig",
     "AxisFamily",
     "CharacterPack",
     "CharacterDefinition",
@@ -26,6 +29,7 @@ __all__ = [
     "StatAxisCatalog",
     "TwAxisEntry",
     "TwAxisRegistry",
+    "load_abl_upgrade_config",
     "load_character_definitions",
     "load_character_packs",
     "load_command_definitions",

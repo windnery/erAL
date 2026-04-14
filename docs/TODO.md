@@ -330,7 +330,16 @@
 - [x] 生活/工作 B 批 `relax_together / study / cook / eat_meal / invite_meal / nap` 已进入命令系统
 - [x] `library / infirmary / garden` 已开始承载专属事件钩子与口上内容
 - [x] 体力/气力系统已完整实现：VitalService、VitalGate、晕倒推进、疲劳、恢复指令、MAXBASE 上限
-- [ ] 修 ABL_INTIMACY_INDEX bug（12→9）+ 接入 ABL 升级管道到结算流程
+- [x] 修 ABL_INTIMACY_INDEX bug（12→9）+ 接入 ABL 升级管道到结算流程
+		- type: code
+		- priority: P1
+		- milestone: L3
+		- est: 60m
+		- DoD: ABL_INTIMACY_INDEX=9 已修正；abl_upgrade.toml 全量定义完成；指令 source 含 abl_* 经验；SettlementService Phase 3.5 接入 ABL 升级（含持久 abl_exp 累加器）；255 测试全通过
+		- verify: `python -m unittest tests.test_abl_upgrade -v`
+		- owner: ai
+		- status: done
+		- updated: 2026-04-14
 - [ ] 工作系统：舰娘行为状态（activity 字段）+ ActivityGate + help_work 要求舰娘在工作
 - [ ] 将关系成长与体力恢复参数抽出“预设档位”（easy/normal/hard）
 - [ ] 为内容密度报告增加“阶段覆盖率”指标（friendly/like/love/oath）
@@ -362,17 +371,17 @@
 - [x] 体力/气力完整链路已通过：DOWNBASE→疲劳计算、自然恢复/睡眠恢复/小憩/泡澡、气力归零禁用指令、体力归零晕倒推进到次日、MAXBASE 上限强制执行。
 - [x] `fatigue` 字段已加入 CharacterState 并接入存档序列化。
 - [x] 旧 `nap`（午睡）已改为 `relax_together`（一起放松），恢复类指令无 key 冲突。
-- [x] ABL 提升系统已有骨架（`abl_upgrade.py` + `abl_upgrade.toml`）但未接入结算管道，`relationships.py` 中 `ABL_INTIMACY_INDEX=12` 指向技巧而非亲密（bug）。
+- [x] ABL 提升系统已完整接入：`abl_upgrade.toml` 全量定义、`content/abl_upgrade.py` 加载器、`systems/abl_upgrade.py` 升级逻辑（含持久 `abl_exp` 累加器）、SettlementService Phase 3.5、指令 `abl_*` 经验产出、存档序列化支持。`ABL_INTIMACY_INDEX=9` 已修正。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：体力气力系统完整实现（VitalService/VitalGate/恢复/晕倒推进/fatigue序列化）；nap key 冲突修复；relax_together 指令重命名；234 测试全通过
-- 本周阻塞：ABL_INTIMACY_INDEX bug 待修；ABL 升级管道未接入；工作系统（舰娘行为状态）尚未实现
+- 本周完成：ABL 升级系统完整实现（ABL_INTIMACY_INDEX bug 修正 + abl_upgrade.toml 全量定义 + 指令 abl_* 经验产出 + Phase 3.5 结算接入 + abl_exp 持久累加器 + 存档支持）；255 测试全通过
+- 本周阻塞：工作系统（舰娘行为状态）尚未实现
 - 指标：
-	- 新增指令数：4（relax_together 重命名 + nap/sleep/bathe 新增）
-	- 新增角色数：0
-	- 移除角色数：0
-	- 正式角色总数：3（企业、拉菲、标枪）
-	- 自动化测试通过率：234/234（100%）
-	- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：修 ABL_INTIMACY_INDEX bug → 接入 ABL 升级管道 → 工作系统（舰娘行为状态 + ActivityGate）
+		- 新增指令数：0（已有指令补充了 abl_* 经验字段）
+		- 新增角色数：0
+		- 移除角色数：0
+		- 正式角色总数：3（企业、拉菲、标枪）
+		- 自动化测试通过率：255/255（100%）
+		- 手工可玩天数：7 天链路已被自动化烟测覆盖
+- 下周主线：工作系统（舰娘行为状态 + ActivityGate）

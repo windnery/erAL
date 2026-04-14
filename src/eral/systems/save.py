@@ -85,6 +85,7 @@ class SaveService:
             stats.compat.abl.values.update({int(k): int(v) for k, v in actor_payload["stats"]["abl"].items()})
             stats.compat.talent.values.update({int(k): int(v) for k, v in actor_payload["stats"]["talent"].items()})
             stats.compat.cflag.values.update({int(k): int(v) for k, v in actor_payload["stats"]["cflag"].items()})
+            stats.abl_exp.update({int(k): int(v) for k, v in actor_payload["stats"].get("abl_exp", {}).items()})
 
             actor = CharacterState(
                 key=actor_payload["key"],
@@ -128,5 +129,6 @@ class SaveService:
                 "abl": actor.stats.compat.abl.values,
                 "talent": actor.stats.compat.talent.values,
                 "cflag": actor.stats.compat.cflag.values,
+                "abl_exp": actor.stats.abl_exp,
             },
         }

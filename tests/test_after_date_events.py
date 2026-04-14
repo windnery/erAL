@@ -78,13 +78,13 @@ class AfterDateEventTests(unittest.TestCase):
             self.actor.trust = 450
             self.actor.stats.compat.cflag.set(2, 850)
             self.actor.stats.compat.cflag.set(4, 450)
-            self.actor.stats.compat.abl.set(12, 5)
+            self.actor.stats.compat.abl.set(9, 5)
         else:
             self.actor.affection = 420
             self.actor.trust = 220
             self.actor.stats.compat.cflag.set(2, 420)
             self.actor.stats.compat.cflag.set(4, 220)
-            self.actor.stats.compat.abl.set(12, 3)
+            self.actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(self.actor)
         if confessed:
             self.actor.add_mark("confessed", 1)

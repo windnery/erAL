@@ -106,6 +106,7 @@ class ActorNumericState:
     palam: StatBlock
     source: StatBlock
     compat: CharacterEraCompatState
+    abl_exp: dict[int, int] = field(default_factory=dict)
 
     @classmethod
     def zeroed(

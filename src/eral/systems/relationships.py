@@ -8,7 +8,7 @@ from eral.content.relationships import RelationshipStageDefinition
 from eral.domain.relationship import RelationshipStage
 from eral.domain.world import CharacterState, WorldState
 
-ABL_INTIMACY_INDEX = 12
+ABL_INTIMACY_INDEX = 9
 
 
 @dataclass(slots=True)

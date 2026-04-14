@@ -26,7 +26,7 @@ class DateCommandAvailabilityTests(unittest.TestCase):
         self.actor.trust = 220
         self.actor.stats.compat.cflag.set(2, 420)
         self.actor.stats.compat.cflag.set(4, 220)
-        self.actor.stats.compat.abl.set(12, 3)
+        self.actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
 
@@ -153,7 +153,7 @@ class DateCommandExecutionTests(unittest.TestCase):
         self.actor.trust = 220
         self.actor.stats.compat.cflag.set(2, 420)
         self.actor.stats.compat.cflag.set(4, 220)
-        self.actor.stats.compat.abl.set(12, 3)
+        self.actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
         # Start date
@@ -210,7 +210,7 @@ class DateCommandExecutionTests(unittest.TestCase):
         self.actor.trust = 450
         self.actor.stats.compat.cflag.set(2, 850)
         self.actor.stats.compat.cflag.set(4, 450)
-        self.actor.stats.compat.abl.set(12, 5)
+        self.actor.stats.compat.abl.set(9, 5)
         self.app.relationship_service.update_actor(self.actor)
         available = self.app.command_service.available_commands_for_actor(
             self.app.world, self.actor.key,
@@ -232,7 +232,7 @@ class DateCommandExecutionTests(unittest.TestCase):
         self.actor.trust = 450
         self.actor.stats.compat.cflag.set(2, 850)
         self.actor.stats.compat.cflag.set(4, 450)
-        self.actor.stats.compat.abl.set(12, 5)
+        self.actor.stats.compat.abl.set(9, 5)
         self.app.relationship_service.update_actor(self.actor)
         # Move to dock (harbor tag)
         self.app.navigation_service.move_player(self.app.world, "main_corridor")
@@ -306,7 +306,7 @@ class DateEventTriggerTests(unittest.TestCase):
         self.actor.trust = 450
         self.actor.stats.compat.cflag.set(2, 850)
         self.actor.stats.compat.cflag.set(4, 450)
-        self.actor.stats.compat.abl.set(12, 5)
+        self.actor.stats.compat.abl.set(9, 5)
         self.app.relationship_service.update_actor(self.actor)
         self.app.world.current_time_slot = self.app.world.current_time_slot.NIGHT
         # Start date

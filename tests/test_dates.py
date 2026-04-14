@@ -27,7 +27,7 @@ class DateTests(unittest.TestCase):
         actor.trust = 220
         actor_cflag.set(actor, CFLAGKey.AFFECTION, 420)
         actor_cflag.set(actor, CFLAGKey.TRUST, 220)
-        actor.stats.compat.abl.set(12, 3)
+        actor.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(actor)
 
     def test_invite_date_requires_follow_and_like_stage(self) -> None:
