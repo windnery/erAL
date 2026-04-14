@@ -5,7 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from eral.content.talent_effects import TalentEffect
-from eral.domain.world import CharacterState
+from eral.domain.world import CharacterState, WorldState
+from eral.systems.facilities import FacilityService
 from eral.systems.fatigue import calc_tired
 from eral.systems.source_extra import compute_recovery_modifier
 
@@ -17,6 +18,13 @@ class VitalService:
     max_values: dict[str, int]
     recover_rates: dict[str, int]
     talent_effects: tuple[TalentEffect, ...] = ()
+    facility_service: FacilityService | None = None
+
+    def _recovery_mod(self, actor: CharacterState, world: WorldState | None) -> float:
+        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        if world is not None and self.facility_service is not None:
+            recovery_mod *= self.facility_service.recovery_multiplier(world)
+        return recovery_mod
 
     def apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> int:
         """Subtract DOWNBASE from BASE, accumulate fatigue. Returns fatigue increment."""
@@ -32,9 +40,9 @@ class VitalService:
         actor.fatigue += fatigue_delta
         return fatigue_delta
 
-    def natural_recovery(self, actor: CharacterState) -> dict[str, int]:
+    def natural_recovery(self, actor: CharacterState, world: WorldState | None = None) -> dict[str, int]:
         """Per time-slot natural recovery. Also reduces fatigue slightly."""
-        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
 
         for key in ("stamina", "spirit"):
@@ -53,12 +61,12 @@ class VitalService:
 
         return results
 
-    def sleep_recovery(self, actor: CharacterState) -> dict[str, int]:
+    def sleep_recovery(self, actor: CharacterState, world: WorldState | None = None) -> dict[str, int]:
         """Sleep recovery: major percentage of MAXBASE + significant fatigue reduction.
 
         Stamina recovers ~50% of max, spirit ~30% of max over a full night (8h).
         """
-        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
         permils = {"stamina": 500, "spirit": 300}
 
@@ -79,9 +87,9 @@ class VitalService:
 
         return results
 
-    def rest_recovery(self, actor: CharacterState) -> dict[str, int]:
+    def rest_recovery(self, actor: CharacterState, world: WorldState | None = None) -> dict[str, int]:
         """Rest (nap) recovery: moderate percentage of MAXBASE + some fatigue reduction."""
-        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
         permils = {"stamina": 200, "spirit": 150}
 
@@ -102,9 +110,9 @@ class VitalService:
 
         return results
 
-    def bathe_recovery(self, actor: CharacterState) -> dict[str, int]:
+    def bathe_recovery(self, actor: CharacterState, world: WorldState | None = None) -> dict[str, int]:
         """Bath recovery: spirit-focused recovery + moderate fatigue reduction."""
-        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
         permils = {"stamina": 100, "spirit": 250}
 

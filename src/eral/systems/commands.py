@@ -109,7 +109,7 @@ class CommandService:
         fainted = False
         if self.vital_service is not None and self.vital_service.is_fainted(actor):
             fainted = True
-            self.vital_service.sleep_recovery(actor)
+            self.vital_service.sleep_recovery(actor, world)
             if self.game_loop is not None:
                 self.game_loop.advance_to_dawn(world)
 
@@ -315,11 +315,11 @@ class CommandService:
         if command.operation is None:
             return
         if command.operation == "sleep" and self.vital_service is not None:
-            self.vital_service.sleep_recovery(actor)
+            self.vital_service.sleep_recovery(actor, world)
         elif command.operation == "nap" and self.vital_service is not None:
-            self.vital_service.rest_recovery(actor)
+            self.vital_service.rest_recovery(actor, world)
         elif command.operation == "bathe" and self.vital_service is not None:
-            self.vital_service.bathe_recovery(actor)
+            self.vital_service.bathe_recovery(actor, world)
         elif self.companion_service is None:
             return
         elif command.operation == "start_follow":

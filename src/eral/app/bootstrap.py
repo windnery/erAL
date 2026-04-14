@@ -13,6 +13,7 @@ from eral.content.characters import CharacterDefinition, InitialStatOverrides, l
 from eral.content.commands import CommandDefinition, load_command_definitions
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
 from eral.content.events import EventDefinition, load_event_definitions
+from eral.content.facilities import FacilityDefinition, load_facility_definitions
 from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
@@ -37,6 +38,7 @@ from eral.systems.commissions import CommissionService
 from eral.systems.dates import DateService
 from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
+from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.navigation import NavigationService
 from eral.systems.relationships import RelationshipService
@@ -82,6 +84,7 @@ class Application:
     wallet_service: WalletService
     commission_service: CommissionService
     abl_upgrade_config: AblUpgradeConfig
+    facility_service: FacilityService
     runtime_logger: RuntimeLogger
 
 
@@ -115,6 +118,7 @@ def create_application(root: Path | None = None) -> Application:
     imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
     abl_upgrade_path = root_path / "data" / "base" / "abl_upgrade.toml"
     commissions_path = root_path / "data" / "base" / "commissions.toml"
+    facilities_path = root_path / "data" / "base" / "facilities.toml"
 
     events_path = root_path / "data" / "base" / "events.toml"
     dialogue_path = root_path / "data" / "base" / "dialogue.toml"
@@ -147,6 +151,7 @@ def create_application(root: Path | None = None) -> Application:
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
     commission_defs = load_commission_definitions(commissions_path)
+    facility_defs = load_facility_definitions(facilities_path)
     mark_definitions = {m.key: m for m in mark_defs}
     mark_max_levels = {m.key: m.max_level for m in mark_defs}
     talent_effects = load_talent_effects(root_path / "data" / "base" / "talent_effects.toml")
@@ -194,6 +199,10 @@ def create_application(root: Path | None = None) -> Application:
         runtime_logger=runtime_logger,
     )
     wallet_service = WalletService()
+    facility_service = FacilityService(
+        definitions=facility_defs,
+        wallet=wallet_service,
+    )
     commission_service = CommissionService(
         definitions=commission_defs,
         wallet=wallet_service,
@@ -218,6 +227,7 @@ def create_application(root: Path | None = None) -> Application:
         max_values=maxbase.max_values,
         recover_rates=maxbase.recover_rates,
         talent_effects=talent_effects,
+        facility_service=facility_service,
     )
     command_service = CommandService(
         commands={command.key: command for command in commands},
@@ -253,6 +263,7 @@ def create_application(root: Path | None = None) -> Application:
     )
     game_loop.vital_service = vital_service
     game_loop.commission_service = commission_service
+    game_loop.facility_service = facility_service
     return Application(
         root=root_path,
         config=config,
@@ -285,5 +296,6 @@ def create_application(root: Path | None = None) -> Application:
         wallet_service=wallet_service,
         commission_service=commission_service,
         abl_upgrade_config=abl_upgrade_config,
+        facility_service=facility_service,
         runtime_logger=runtime_logger,
     )

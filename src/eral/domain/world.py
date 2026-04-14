@@ -112,6 +112,7 @@ class WorldState:
     is_date_traveling: bool = False
     personal_funds: int = 0
     port_funds: int = 0
+    facility_levels: dict[str, int] = field(default_factory=dict)
     characters: list[CharacterState] = field(default_factory=list)
 
     def visible_characters(self) -> tuple[CharacterState, ...]:

@@ -20,6 +20,7 @@ class GameLoop:
     schedule_service: ScheduleService | None = None
     vital_service: VitalService | None = None
     commission_service: CommissionService | None = None
+    facility_service: object | None = None
     runtime_logger: RuntimeLogger | None = None
 
     def advance_time(self, world: WorldState) -> None:
@@ -34,7 +35,7 @@ class GameLoop:
             self.schedule_service.refresh_world(world)
         if self.vital_service is not None:
             for character in world.characters:
-                self.vital_service.natural_recovery(character)
+                self.vital_service.natural_recovery(character, world)
         if self.commission_service is not None:
             self.commission_service.tick_slot(world)
         self.event_bus.publish(
