@@ -202,7 +202,7 @@
 
 #### F3. 委托系统（阶段 3）
 
-- [ ] 委托系统规范与配置已完成
+- [x] 委托系统规范与配置已完成
 	- type: docs/data
 	- priority: P0
 	- milestone: L4
@@ -210,40 +210,40 @@
 	- DoD: [委托系统](docs/specs/委托系统.md) 已细化；创建 data/base/commissions.toml，首批 3-5 个测试委托已定义（对应各种关系阶段与时长）
 	- verify: `python -m eral.tools.validate_content --root .`
 	- owner: pair
-	- status: todo
+	- status: done
 	- updated: 2026-04-14
 
-- [ ] 扩展 CharacterState.is_on_commission 与 SaveService 持久化
+- [x] 扩展 CharacterState.is_on_commission 与 SaveService 持久化
 	- type: code
 	- priority: P0
 	- milestone: L4
 	- est: 45m
 	- DoD: CharacterState 新增 `is_on_commission` 布尔标志；在 ScheduleService 中检查该标志，派遣中的角色跳过日程刷新；SaveService 已扩展以支持序列化
-	- verify: `python -m unittest tests.test_commission_state -v`
+	- verify: `python -m unittest tests.test_commission_system -v`
 	- owner: ai
-	- status: todo
+	- status: done
 	- updated: 2026-04-14
 
-- [ ] 创建 CommissionService 协调委托派遣 + 时段推进 + 奖励结算
+- [x] 创建 CommissionService 协调委托派遣 + 时段推进 + 奖励结算
 	- type: code
 	- priority: P0
 	- milestone: L4
 	- est: 90m
 	- DoD: CommissionService 支持 dispatch / tick_slot / finalize，委托中角色不出现在活动场景，时段推进自动扣减 remaining_slots，归零时调用 WalletService 结算奖励，派遣中角色在场景中标记为"在委托"；GameLoopService 已集成 tick_slot 调用
-	- verify: `python -m unittest tests.test_commission_service -v` + 场景可见性测试
+	- verify: `python -m unittest tests.test_commission_system -v`
 	- owner: ai
-	- status: todo
+	- status: done
 	- updated: 2026-04-14
 
-- [ ] 委托派遣与结算 end-to-end 测试
+- [x] 委托派遣与结算 end-to-end 测试
 	- type: test
 	- priority: P0
 	- milestone: L4
 	- est: 60m
 	- DoD: 自动化测试覆盖派遣→推进→完成→收益记账全流程，且派遣中角色确不出现在当前场景
-	- verify: `python -m unittest tests.test_commission_system_e2e -v`
+	- verify: `python -m unittest tests.test_commission_system -v`
 	- owner: ai
-	- status: todo
+	- status: done
 	- updated: 2026-04-14
 
 #### F4. 港区开发系统（阶段 4）
@@ -597,17 +597,19 @@
 - [x] 工作系统已实现：office_shift/extra_shift 工作指令，通过 personal_income 字段产出个人资金，CommandService 集成 WalletService 记账。
 - [x] 经济分工已确认：工作指令 → 个人资金，委托系统 → 港区资金。
 - [x] ABL 提升系统已完整接入：`abl_upgrade.toml` 全量定义、`content/abl_upgrade.py` 加载器、`systems/abl_upgrade.py` 升级逻辑（含持久 `abl_exp` 累加器）、SettlementService Phase 3.5、指令 `abl_*` 经验产出、存档序列化支持。`ABL_INTIMACY_INDEX=9` 已修正。
+- [x] 委托系统已实现：CommissionService 支持 dispatch/tick_slot/finalize 生命周期，5 种委托配置，委托完成产出港区资金（port_income），委托中角色从 visible_characters() 隐藏，GameLoop.advance_time() 钩入 tick_slot。
 
 ## 本周复盘区（每周五更新）
 
-- 本周完成：L4 经济循环 F1-F2 完成（资金双账户 + WalletService + 工作指令 office_shift/extra_shift + 资金记账集成）；276 测试全通过
+- 本周完成：L4 经济循环 F1-F3 完成（资金双账户 + WalletService + 工作指令 + 委托系统 CommissionService + 12 个委托测试）；288 测试全通过
 - 本周规划：L4 经济循环系统（资金→工作→委托→港区开发），分 5 阶段推进
 - 本周阻塞：无
 - 指标：
 		- 新增指令数：2（office_shift / extra_shift）
+			- 新增系统：WalletService、CommissionService（5 种委托：巡逻/物资运输/护航/侦察/联合演习）
 		- 新增角色数：0
 		- 移除角色数：0
 		- 正式角色总数：3（企业、拉菲、标枪）
-		- 自动化测试通过率：276/276（100%）
+		- 自动化测试通过率：288/288（100%）
 		- 手工可玩天数：7 天链路已被自动化烟测覆盖
-- 下周主线：L4 第 3 阶段（委托系统实现）
+- 下周主线：L4 第 4 阶段（港区开发系统）
