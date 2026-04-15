@@ -18,6 +18,15 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
+from eral.content.commands import load_command_definitions
+from eral.content.marks import load_mark_definitions
+from eral.content.port_map import load_port_map
+from eral.content.relationships import load_relationship_stages
+from eral.content.stat_axes import AxisFamily, load_stat_axis_catalog
+from eral.content.tw_axis_registry import load_tw_axis_registry
+
+TIME_SLOTS: tuple[str, ...] = ("dawn", "morning", "afternoon", "evening", "night", "late_night")
+
 # ---------------------------------------------------------------------------
 # TOML writer (minimal — covers the structures used in character packs)
 # ---------------------------------------------------------------------------
@@ -154,6 +163,26 @@ def _registry_path(root: Path) -> Path:
     return root / "data" / "generated" / "tw_axis_registry.json"
 
 
+def _stat_axes_path(root: Path) -> Path:
+  return root / "data" / "base" / "stat_axes.toml"
+
+
+def _port_map_path(root: Path) -> Path:
+  return root / "data" / "base" / "port_map.toml"
+
+
+def _commands_path(root: Path) -> Path:
+  return root / "data" / "base" / "commands.toml"
+
+
+def _relationship_stages_path(root: Path) -> Path:
+  return root / "data" / "base" / "relationship_stages.toml"
+
+
+def _marks_path(root: Path) -> Path:
+  return root / "data" / "base" / "marks.toml"
+
+
 def _load_toml(path: Path) -> dict:
     if not path.exists():
         return {}
@@ -169,49 +198,159 @@ def _load_registry(root: Path) -> dict:
         return json.load(f)
 
 
+def _load_stat_axes(root: Path) -> dict[str, list[dict[str, object]]]:
+  path = _stat_axes_path(root)
+  if not path.exists():
+    return {}
+  catalog = load_stat_axis_catalog(path)
+  payload: dict[str, list[dict[str, object]]] = {}
+  for family in (AxisFamily.BASE, AxisFamily.PALAM):
+    payload[family.value] = [
+      {
+        "key": axis.key,
+        "era_index": axis.era_index,
+        "label": axis.label,
+        "group": axis.group,
+      }
+      for axis in catalog.family_axes(family)
+    ]
+  return payload
+
+
 def _load_port_map(root: Path) -> list[dict]:
     """Load location list from port_map.toml."""
-    path = root / "data" / "base" / "port_map.toml"
+    path = _port_map_path(root)
     if not path.exists():
         return []
-    with path.open("rb") as f:
-        raw = tomllib.load(f)
-    locations = raw.get("locations", [])
-    return [{"key": l["key"], "display_name": l.get("display_name", l["key"])} for l in locations]
+    port_map = load_port_map(path)
+    return [
+        {
+            "key": location.key,
+            "display_name": location.display_name,
+            "zone": location.zone,
+            "tags": list(location.tags),
+            "start": location.start,
+            "visibility": location.visibility,
+        }
+        for location in port_map.locations
+    ]
 
 
 def _load_command_keys(root: Path) -> list[str]:
     """Load command keys from commands.toml."""
-    path = root / "data" / "base" / "commands.toml"
+    path = _commands_path(root)
     if not path.exists():
         return []
-    with path.open("rb") as f:
-        raw = tomllib.load(f)
-    return [c["key"] for c in raw.get("commands", [])]
+    return [command.key for command in load_command_definitions(path)]
+
+
+def _load_commands(root: Path) -> list[dict[str, object]]:
+    path = _commands_path(root)
+    if not path.exists():
+        return []
+    return [
+        {
+            "key": command.key,
+            "display_name": command.display_name,
+            "category": command.category,
+            "location_tags": list(command.location_tags),
+            "time_slots": list(command.time_slots),
+            "min_affection": command.min_affection,
+            "min_trust": command.min_trust,
+            "min_obedience": command.min_obedience,
+            "required_stage": command.required_stage,
+            "operation": command.operation,
+            "requires_following": command.requires_following,
+            "requires_date": command.requires_date,
+            "required_marks": command.required_marks,
+            "apply_marks": command.apply_marks,
+            "remove_marks": list(command.remove_marks),
+            "source": command.source,
+            "downbase": command.downbase,
+            "personal_income": command.personal_income,
+            "success_tiers": list(command.success_tiers),
+        }
+        for command in load_command_definitions(path)
+    ]
 
 
 def _load_relationship_stages(root: Path) -> list[str]:
     """Load relationship stage keys."""
-    path = root / "data" / "base" / "relationship_stages.toml"
+    path = _relationship_stages_path(root)
     if not path.exists():
         return []
-    with path.open("rb") as f:
-        raw = tomllib.load(f)
-    return [s["key"] for s in raw.get("stages", [])]
+    return [stage.key for stage in load_relationship_stages(path)]
+
+
+def _load_relationship_stage_defs(root: Path) -> list[dict[str, object]]:
+    path = _relationship_stages_path(root)
+    if not path.exists():
+        return []
+    return [
+        {
+            "key": stage.key,
+            "display_name": stage.display_name,
+            "min_affection": stage.min_affection,
+            "min_trust": stage.min_trust,
+            "min_intimacy": stage.min_intimacy,
+            "no_dislike_mark": stage.no_dislike_mark,
+            "requires_item": stage.requires_item,
+        }
+        for stage in load_relationship_stages(path)
+    ]
 
 
 def _load_location_tags(root: Path) -> list[str]:
     """Collect all unique location tags from port_map."""
-    path = root / "data" / "base" / "port_map.toml"
+    path = _port_map_path(root)
     if not path.exists():
         return []
-    with path.open("rb") as f:
-        raw = tomllib.load(f)
+    port_map = load_port_map(path)
     tags = set()
-    for loc in raw.get("locations", []):
-        for t in loc.get("tags", []):
+    for loc in port_map.locations:
+        for t in loc.tags:
             tags.add(t)
     return sorted(tags)
+
+
+def _load_mark_defs(root: Path) -> list[dict[str, object]]:
+    path = _marks_path(root)
+    if not path.exists():
+        return []
+    return [
+        {
+            "key": mark.key,
+            "display_name": mark.display_name,
+            "group": mark.group,
+            "max_level": mark.max_level,
+        }
+        for mark in load_mark_definitions(path)
+    ]
+
+
+def _load_meta(root: Path) -> dict[str, object]:
+    port_map_path = _port_map_path(root)
+    port_map = load_port_map(port_map_path) if port_map_path.exists() else None
+    start_location = None
+    if port_map is not None:
+        start = port_map.starting_location()
+        start_location = {
+            "key": start.key,
+            "display_name": start.display_name,
+        }
+    return {
+        "locations": _load_port_map(root),
+        "location_tags": _load_location_tags(root),
+        "commands": _load_commands(root),
+        "command_keys": _load_command_keys(root),
+        "stages": _load_relationship_stage_defs(root),
+        "stage_keys": _load_relationship_stages(root),
+        "marks": _load_mark_defs(root),
+        "stat_axes": _load_stat_axes(root),
+        "registry": _load_registry(root),
+        "time_slots": list(TIME_SLOTS),
+        "starting_location": start_location,
+    }
 
 
 def list_characters(root: Path) -> list[dict]:
@@ -347,14 +486,19 @@ class EditorHandler(BaseHTTPRequestHandler):
             key = path.split("/api/characters/")[1].rstrip("/")
             if key == "meta":
                 # Return metadata for editor (locations, commands, stages, registry)
-                registry = _load_registry(self.root)
+                meta = _load_meta(self.root)
                 self._send_json({
-                    "locations": _load_port_map(self.root),
-                    "location_tags": _load_location_tags(self.root),
-                    "commands": _load_command_keys(self.root),
-                    "stages": _load_relationship_stages(self.root),
-                    "registry": registry,
-                    "time_slots": ["dawn", "morning", "afternoon", "evening", "night", "late_night"],
+                    "locations": meta["locations"],
+                    "location_tags": meta["location_tags"],
+                    "commands": meta["commands"],
+                    "command_keys": meta["command_keys"],
+                    "stages": meta["stages"],
+                    "stage_keys": meta["stage_keys"],
+                    "marks": meta["marks"],
+                    "stat_axes": meta["stat_axes"],
+                    "registry": meta["registry"],
+                    "time_slots": meta["time_slots"],
+                    "starting_location": meta["starting_location"],
                 })
             else:
                 data = load_character(self.root, key)
@@ -457,6 +601,8 @@ body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #1
 .entry-card .lines-list { margin-top: 6px; }
 .entry-card .line-item { display: flex; gap: 6px; margin-bottom: 4px; }
 .entry-card .line-item textarea { flex: 1; min-height: 36px; padding: 4px 8px; background: #1a1a2e; border: 1px solid #0f3460; color: #e0e0e0; border-radius: 3px; font-size: 13px; resize: none; }
+.field-help { margin-top: 4px; color: #8fa3c8; font-size: 11px; line-height: 1.4; }
+.sub-section-title { margin: 10px 0 6px; color: #9fb3d9; font-size: 12px; font-weight: 600; }
 .tag-chip { display: inline-block; background: #0f3460; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin: 2px; }
 .empty-state { text-align: center; padding: 60px; color: #555; }
 .save-bar { position: sticky; top: 0; background: #1a1a2e; padding: 10px 0; z-index: 10; border-bottom: 1px solid #0f3460; margin-bottom: 12px; display: flex; gap: 8px; align-items: center; }
@@ -586,184 +732,254 @@ function renderContent() {
   }
 }
 
+function locOpts(sel) {
+  return '<option value="">--</option>' + (meta.locations || []).map(function(l) {
+    return '<option value="' + esc(l.key) + '"' + (String(l.key) === String(sel || '') ? ' selected' : '') + '>' + esc(l.display_name) + ' (' + esc(l.key) + ')</option>';
+  }).join('');
+}
+
+function cmdOpts(sel) {
+  return '<option value="">--</option>' + (meta.commands || []).map(function(c) {
+    var label = (c.display_name || c.key) + ' (' + c.key + ')';
+    if (c.category) label += ' \u00b7 ' + c.category;
+    return '<option value="' + esc(c.key) + '"' + (String(c.key) === String(sel || '') ? ' selected' : '') + '>' + esc(label) + '</option>';
+  }).join('');
+}
+
+function stageOpts(sel) {
+  return '<option value="">--</option>' + (meta.stages || []).map(function(s) {
+    var label = (s.display_name || s.key) + ' (' + s.key + ')';
+    return '<option value="' + esc(s.key) + '"' + (String(s.key) === String(sel || '') ? ' selected' : '') + '>' + esc(label) + '</option>';
+  }).join('');
+}
+
+function boolOpts(val) {
+  var v = val === true ? 'true' : val === false ? 'false' : '';
+  return '<option value="">--</option><option value="true"' + (v === 'true' ? ' selected' : '') + '>是</option><option value="false"' + (v === 'false' ? ' selected' : '') + '>否</option>';
+}
+
+function help(text) { return '<div style="margin-top:2px;color:#8fa3c8;font-size:11px">' + esc(text) + '</div>'; }
+
 // ── Info tab ──────────────────────────────────────────
 function renderInfo() {
-  const c = currentData.character || {};
-  const schedule = c.schedule || {};
-  const timeSlots = meta.time_slots || [];
-  const locations = meta.locations || [];
-  const locOptions = '<option value="">--</option>' + locations.map(l =>
-    '<option value="' + l.key + '"' + '>' + l.display_name + ' (' + l.key + ')</option>'
-  ).join('');
+  var c = currentData.character || {};
+  var schedule = c.schedule || {};
+  var timeSlots = meta.time_slots || [];
+  var startLoc = c.initial_location || '';
 
-  return '<div class="save-bar"><button class="btn btn-primary" onclick="saveInfo()">保存基本信息</button><span class="status" id="save-status"></span></div>' +
-    '<div class="grid-2">' +
-    '<div class="form-group"><label>角色 key</label><input id="f-key" value="' + esc(c.key || '') + '" readonly style="opacity:0.6"></div>' +
-    '<div class="form-group"><label>显示名称</label><input id="f-display_name" value="' + esc(c.display_name || '') + '"></div>' +
-    '</div>' +
-    '<div class="form-group"><label>标签（逗号分隔）</label><input id="f-tags" value="' + esc((c.tags || []).join(', ')) + '"></div>' +
-    '<div class="form-group"><label>初始位置</label><select id="f-initial_location">' + locOptions + '</select></div>' +
-    '<div class="section-title">日程表</div>' +
-    '<div class="grid-6">' +
-    timeSlots.map(ts =>
-      '<div class="form-group"><label>' + ts + '</label>' +
-      '<select id="f-sched-' + ts + '">' + locOptions + '</select></div>'
-    ).join('') +
-    '</div>';
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveInfo()">保存</button><span class="status" id="save-status"></span></div>';
+  h += '<div class="grid-2">';
+  h += '<div class="form-group"><label>角色 key（不可改）</label><input id="f-key" value="' + esc(c.key || '') + '" readonly style="opacity:0.6"></div>';
+  h += '<div class="form-group"><label>显示名称</label><input id="f-display_name" value="' + esc(c.display_name || '') + '"></div>';
+  h += '</div>';
+  h += '<div class="form-group"><label>标签（逗号分隔）</label><input id="f-tags" value="' + esc((c.tags || []).join(', ')) + '">' + help('英文标签，如 enterprise, carrier, eagle_union') + '</div>';
+  h += '<div class="form-group"><label>初始位置</label><select id="f-initial_location">' + locOpts(startLoc) + '</select>' + help('角色首次出现的位置。') + '</div>';
+  h += '<div class="section-title">日程表</div>';
+  h += '<div class="grid-6">';
+  for (var t = 0; t < timeSlots.length; t++) {
+    var ts = timeSlots[t];
+    h += '<div class="form-group"><label>' + esc(ts) + '</label><select id="f-sched-' + esc(ts) + '">' + locOpts(schedule[ts] || startLoc) + '</select></div>';
+  }
+  h += '</div>';
+  return h;
 }
 
 // ── Stats tab ─────────────────────────────────────────
 function renderStats() {
-  const sections = [
-    { key: 'base', title: 'BASE（即时资源）', data: currentData.base || {}, reg: 'base' },
-    { key: 'palam', title: 'PALAM（累积参数）', data: currentData.palam || {}, reg: 'palam' },
-    { key: 'abl', title: 'ABL（能力）', data: currentData.abl || {}, reg: 'abl' },
-    { key: 'talent', title: 'TALENT（素质）', data: currentData.talent || {}, reg: 'talent' },
-    { key: 'cflag', title: 'CFLAG（角色标记）', data: currentData.cflag || {}, reg: 'cflag' },
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveStats()">保存</button><span class="status" id="save-status"></span></div>';
+
+  // BASE & PALAM from stat_axes
+  var namedFamilies = [
+    {key: 'base', title: 'BASE（即时资源）', help: '体力、气力等即时消耗/恢复的资源'},
+    {key: 'palam', title: 'PALAM（累积参数）', help: '通过指令 SOURCE 结算后累积的参数'}
   ];
-
-  // Build label maps from registry
-  const regMap = {};
-  for (const reg of ['base', 'palam', 'abl', 'talent', 'cflag']) {
-    regMap[reg] = {};
-    const entries = (meta.registry || {})[reg] || [];
-    for (const e of entries) {
-      regMap[reg][String(e.era_index)] = e.label || e.key;
-      regMap[reg][e.key] = e.label || e.key;
+  for (var f = 0; f < namedFamilies.length; f++) {
+    var fam = namedFamilies[f];
+    var axes = (meta.stat_axes || {})[fam.key] || [];
+    var current = currentData[fam.key] || {};
+    h += '<div class="section-title">' + fam.title + '</div>';
+    h += help(fam.help);
+    if (axes.length === 0) {
+      h += '<div style="color:#555;padding:8px">无注册表数据</div>';
+      continue;
+    }
+    // Group by group field
+    var groups = {};
+    for (var i = 0; i < axes.length; i++) {
+      var g = axes[i].group || '其他';
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(axes[i]);
+    }
+    var gkeys = Object.keys(groups).sort();
+    for (var gi = 0; gi < gkeys.length; gi++) {
+      h += '<div style="margin:8px 0 4px;color:#9fb3d9;font-size:12px;font-weight:600">' + esc(gkeys[gi]) + '</div>';
+      h += '<div class="stat-grid">';
+      var items = groups[gkeys[gi]];
+      for (var ii = 0; ii < items.length; ii++) {
+        var ax = items[ii];
+        var val = current[ax.key] != null ? current[ax.key] : 0;
+        h += '<div class="stat-item"><label title="' + esc(ax.key) + '">' + esc(ax.label || ax.key) + '</label>';
+        h += '<input type="number" data-section="' + fam.key + '" data-field="' + esc(ax.key) + '" value="' + val + '"></div>';
+      }
+      h += '</div>';
     }
   }
 
-  // Named stats (base, palam) use string keys
-  // Indexed stats (abl, talent, cflag) use era_index
-  let html = '<div class="save-bar"><button class="btn btn-primary" onclick="saveStats()">保存数值</button><span class="status" id="save-status"></span></div>';
-
-  for (const sec of sections) {
-    html += '<div class="section-title">' + sec.title + '</div>';
-    html += '<div class="stat-grid">';
-    const entries = Object.entries(sec.data);
-    if (entries.length === 0) {
-      // Show registry entries with 0 default
-      const regEntries = (meta.registry || {})[sec.reg] || [];
-      if (regEntries.length > 0) {
-        for (const re of regEntries.slice(0, 30)) {
-          const label = re.label || re.key;
-          const val = sec.data[re.key] ?? sec.data[String(re.era_index)] ?? 0;
-          const fieldKey = sec.key === 'abl' || sec.key === 'talent' || sec.key === 'cflag'
-            ? String(re.era_index) : re.key;
-          html += '<div class="stat-item"><label title="' + esc(re.key) + '">' + esc(label) + '</label>' +
-            '<input type="number" data-section="' + sec.key + '" data-field="' + esc(fieldKey) + '" value="' + val + '"></div>';
-        }
-      } else {
-        html += '<div style="color:#555;font-size:13px;padding:8px">暂无数据</div>';
+  // ABL, TALENT, CFLAG from registry
+  var indexedFamilies = [
+    {key: 'abl', title: 'ABL（能力等级）', help: '角色的各种能力等级。大部分初始为 0 即可。'},
+    {key: 'talent', title: 'TALENT（素质）', help: '角色的先天素质。0=无，1=有，-1=相反素质。'},
+    {key: 'cflag', title: 'CFLAG（角色标记）', help: '角色专属标记。大部分由系统运行时自动维护，初值一般设 0。'}
+  ];
+  for (var f = 0; f < indexedFamilies.length; f++) {
+    var fam = indexedFamilies[f];
+    var regs = (meta.registry || {})[fam.key] || [];
+    var current = currentData[fam.key] || {};
+    h += '<div class="section-title">' + fam.title + '</div>';
+    h += help(fam.help);
+    if (regs.length === 0) {
+      h += '<div style="color:#555;padding:8px">无注册表数据</div>';
+      continue;
+    }
+    // Group by section
+    var groups = {};
+    // First add current values not in registry
+    for (var k in current) {
+      var found = false;
+      for (var r = 0; r < regs.length; r++) {
+        if (String(regs[r].era_index) === k || regs[r].key === k) { found = true; break; }
       }
-    } else {
-      for (const [k, v] of entries) {
-        const label = regMap[sec.reg][k] || k;
-        html += '<div class="stat-item"><label title="' + esc(k) + '">' + esc(label) + '</label>' +
-          '<input type="number" data-section="' + sec.key + '" data-field="' + esc(k) + '" value="' + v + '"></div>';
+      if (!found) {
+        var g = '自定义';
+        if (!groups[g]) groups[g] = [];
+        groups[g].push({era_index: parseInt(k) || 0, key: k, label: k, section: g, _val: current[k]});
       }
     }
-    html += '</div>';
+    for (var i = 0; i < regs.length; i++) {
+      var g = regs[i].section || '其他';
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(regs[i]);
+    }
+    var gkeys = Object.keys(groups).sort();
+    for (var gi = 0; gi < gkeys.length; gi++) {
+      h += '<div style="margin:8px 0 4px;color:#9fb3d9;font-size:12px;font-weight:600">' + esc(gkeys[gi]) + '</div>';
+      h += '<div class="stat-grid">';
+      var items = groups[gkeys[gi]];
+      for (var ii = 0; ii < items.length; ii++) {
+        var reg = items[ii];
+        var fieldKey = String(reg.era_index);
+        var val = current[fieldKey] != null ? current[fieldKey] : (reg._val != null ? reg._val : 0);
+        h += '<div class="stat-item"><label title="' + esc(reg.key) + ' [' + reg.era_index + ']">' + esc(reg.label || reg.key) + '</label>';
+        h += '<input type="number" data-section="' + fam.key + '" data-field="' + esc(fieldKey) + '" value="' + val + '"></div>';
+      }
+      h += '</div>';
+    }
   }
 
-  // Marks section
-  const marks = currentData.marks || {};
-  html += '<div class="section-title">MARK（印记）</div>';
-  html += '<div class="form-group"><label>印记列表（每行一个 key）</label>' +
-    '<textarea id="f-marks" rows="4">' + esc(Object.keys(marks).join('\n')) + '</textarea></div>';
+  // Marks
+  var marks = currentData.marks || {};
+  var markLines = [];
+  for (var mk in marks) markLines.push(mk + '=' + marks[mk]);
+  h += '<div class="section-title">MARK（印记）</div>';
+  h += help('角色身上的印记。格式：每行一个 key=level，如 dislike_mark=1');
+  h += '<div class="form-group"><textarea id="f-marks" rows="4">' + esc(markLines.join('\\n')) + '</textarea></div>';
 
-  return html;
+  return h;
 }
 
 // ── Dialogue tab ──────────────────────────────────────
 function renderDialogue() {
-  const entries = (currentData.dialogue || {}).entries || [];
-  let html = '<div class="save-bar"><button class="btn btn-primary" onclick="saveDialogue()">保存口上</button>' +
-    '<button class="btn btn-secondary" onclick="addDialogueEntry()">+ 添加条目</button>' +
-    '<span class="status" id="save-status"></span></div>';
+  var entries = (currentData.dialogue || {}).entries || [];
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveDialogue()">保存</button>';
+  h += '<button class="btn btn-secondary" onclick="addDialogueEntry()">+ 添加口上</button>';
+  h += '<span class="status" id="save-status"></span></div>';
+  h += help('口上是角色在玩家执行指令后说的台词。每条口上对应一个触发条件（指令、阶段、地点等），系统会自动匹配最合适的那条。');
 
-  for (let i = 0; i < entries.length; i++) {
-    const e = entries[i];
-    html += '<div class="entry-card" data-idx="' + i + '">' +
-      '<div class="entry-header">' +
-      '<span class="entry-key">' + esc(e.key || '(未命名)') + '</span>' +
-      '<div><button class="btn btn-danger" onclick="removeDialogueEntry(' + i + ')">删除</button></div>' +
-      '</div>' +
-      '<div class="grid-3">' +
-      '<div class="form-group"><label>条目 key</label><input data-dlg="key" data-idx="' + i + '" value="' + esc(e.key || '') + '"></div>' +
-      '<div class="form-group"><label>actor_key</label><input data-dlg="actor_key" data-idx="' + i + '" value="' + esc(e.actor_key || currentKey) + '"></div>' +
-      '<div class="form-group"><label>优先级</label><input type="number" data-dlg="priority" data-idx="' + i + '" value="' + (e.priority ?? 10) + '"></div>' +
-      '</div>' +
-      renderDialogueConditions(e, i) +
-      '<div class="lines-list">' +
-      '<label style="font-size:12px;color:#8a8a8a">台词（每行一条）</label>';
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    h += '<div class="entry-card" data-idx="' + i + '">';
+    h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    h += '<b style="color:#e94560">' + esc(e.key || '(新口上)') + '</b>';
+    h += '<button class="btn btn-danger" onclick="removeDialogueEntry(' + i + ')">删除</button>';
+    h += '</div>';
 
-    const lines = e.lines || [];
-    for (let j = 0; j < lines.length; j++) {
-      html += '<div class="line-item"><textarea data-dlg-line="' + i + '" data-line-idx="' + j + '">' + esc(lines[j]) + '</textarea></div>';
+    // Key + actor
+    h += '<div class="grid-2">';
+    h += '<div class="form-group"><label>口上 key（唯一标识）</label><input data-dlg="key" data-idx="' + i + '" value="' + esc(e.key || '') + '">' + help('格式建议：角色_指令_地点，如 enterprise_chat_dock') + '</div>';
+    h += '<div class="form-group"><label>角色 key</label><input data-dlg="actor_key" data-idx="' + i + '" value="' + esc(e.actor_key || currentKey) + '">' + help('默认当前角色 key。通用口上可填 _any。') + '</div>';
+    h += '</div>';
+
+    // Trigger conditions
+    h += '<div style="margin-top:8px;color:#9fb3d9;font-size:12px;font-weight:600">触发条件（可选，留空表示不限制）</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>关联指令</label><select data-dlg="action_key" data-idx="' + i + '">' + cmdOpts(e.action_key) + '</select>' + help('玩家执行哪个指令时触发') + '</div>';
+    h += '<div class="form-group"><label>需要关系阶段</label><select data-dlg="required_stage" data-idx="' + i + '">' + stageOpts(e.required_stage) + '</select>' + help('至少达到该阶段才触发') + '</div>';
+    h += '<div class="form-group"><label>需要地点（逗号分隔）</label><input data-dlg="location_keys" data-idx="' + i + '" value="' + esc((e.location_keys || []).join(', ')) + '">' + help('如 dock, command_office') + '</div>';
+    h += '</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>需要时段（逗号分隔）</label><input data-dlg="time_slots" data-idx="' + i + '" value="' + esc((e.time_slots || []).join(', ')) + '">' + help('如 morning, evening') + '</div>';
+    h += '<div class="form-group"><label>需要私密</label><select data-dlg="requires_private" data-idx="' + i + '">' + boolOpts(e.requires_private) + '</select></div>';
+    h += '<div class="form-group"><label>需要约会中</label><select data-dlg="requires_date" data-idx="' + i + '">' + boolOpts(e.requires_date) + '</select></div>';
+    h += '</div>';
+
+    // Lines
+    h += '<div style="margin-top:8px;color:#9fb3d9;font-size:12px;font-weight:600">台词内容</div>';
+    h += help('每条台词显示一行。可以写旁白（描述动作/神态）和对话（用「」包裹）。');
+    var lines = e.lines || [];
+    for (var j = 0; j < lines.length; j++) {
+      h += '<div style="display:flex;gap:6px;margin-bottom:4px"><textarea data-dlg-line="' + i + '" data-line-idx="' + j + '" style="flex:1;min-height:36px;padding:4px 8px;background:#1a1a2e;border:1px solid #0f3460;color:#e0e0e0;border-radius:3px;font-size:13px;resize:vertical">' + esc(lines[j]) + '</textarea>';
+      h += '<button class="btn btn-danger" style="height:36px" onclick="removeLine(' + i + ',' + j + ')">x</button></div>';
     }
-    html += '<button class="btn btn-secondary" style="margin-top:4px" onclick="addLine(' + i + ')">+ 添加台词</button>';
-    html += '</div></div>';
+    h += '<button class="btn btn-secondary" style="margin-top:4px" onclick="addLine(' + i + ')">+ 添加台词</button>';
+    h += '</div>';
   }
 
   if (entries.length === 0) {
-    html += '<div style="color:#555;text-align:center;padding:40px">暂无口上条目，点击"添加条目"开始</div>';
+    h += '<div style="color:#555;text-align:center;padding:40px">暂无口上，点击"+ 添加口上"开始</div>';
   }
-  return html;
-}
-
-function renderDialogueConditions(e, idx) {
-  const stageOpts = (meta.stages || []).map(s =>
-    '<option value="' + s + '">' + s + '</option>'
-  ).join('');
-  return '<div class="grid-3">' +
-    '<div class="form-group"><label>关联指令</label><input data-dlg="action_key" data-idx="' + idx + '" value="' + esc(e.action_key || '') + '" list="cmd-list"></div>' +
-    '<div class="form-group"><label>关系阶段</label><input data-dlg="stage" data-idx="' + idx + '" value="' + esc(e.stage || '') + '" list="stage-list"></div>' +
-    '<div class="form-group"><label>关联地点</label><input data-dlg="location_key" data-idx="' + idx + '" value="' + esc(e.location_key || '') + '" list="loc-list"></div>' +
-    '</div>' +
-    '<datalist id="cmd-list">' + (meta.commands || []).map(c => '<option value="' + c + '">').join('') + '</datalist>' +
-    '<datalist id="stage-list">' + stageOpts + '</datalist>' +
-    '<datalist id="loc-list">' + (meta.locations || []).map(l => '<option value="' + l.key + '">').join('') + '</datalist>';
+  return h;
 }
 
 // ── Events tab ────────────────────────────────────────
 function renderEvents() {
-  const events = (currentData.events || {}).events || [];
-  let html = '<div class="save-bar"><button class="btn btn-primary" onclick="saveEvents()">保存事件</button>' +
-    '<button class="btn btn-secondary" onclick="addEvent()">+ 添加事件</button>' +
-    '<span class="status" id="save-status"></span></div>';
+  var events = (currentData.events || {}).events || [];
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveEvents()">保存</button>';
+  h += '<button class="btn btn-secondary" onclick="addEvent()">+ 添加事件</button>';
+  h += '<span class="status" id="save-status"></span></div>';
+  h += help('事件定义了"什么情况下触发特定口上"。事件不包含台词本身，只定义触发条件。口上通过 key 与事件关联。');
 
-  for (let i = 0; i < events.length; i++) {
-    const ev = events[i];
-    html += '<div class="entry-card" data-idx="' + i + '">' +
-      '<div class="entry-header">' +
-      '<span class="entry-key">' + esc(ev.key || '(未命名)') + '</span>' +
-      '<div><button class="btn btn-danger" onclick="removeEvent(' + i + ')">删除</button></div>' +
-      '</div>' +
-      '<div class="grid-2">' +
-      '<div class="form-group"><label>事件 key</label><input data-evt="key" data-idx="' + i + '" value="' + esc(ev.key || '') + '"></div>' +
-      '<div class="form-group"><label>关联指令 (action_key)</label><input data-evt="action_key" data-idx="' + i + '" value="' + esc(ev.action_key || '') + '" list="cmd-list2"></div>' +
-      '</div>' +
-      '<div class="grid-3">' +
-      '<div class="form-group"><label>角色标签（逗号分隔）</label><input data-evt="actor_tags" data-idx="' + i + '" value="' + esc((ev.actor_tags || []).join(', ')) + '"></div>' +
-      '<div class="form-group"><label>地点（逗号分隔）</label><input data-evt="location_keys" data-idx="' + i + '" value="' + esc((ev.location_keys || []).join(', ')) + '"></div>' +
-      '<div class="form-group"><label>时段（逗号分隔）</label><input data-evt="time_slots" data-idx="' + i + '" value="' + esc((ev.time_slots || []).join(', ')) + '"></div>' +
-      '</div>' +
-      '<div class="grid-3">' +
-      '<div class="form-group"><label>最低好感</label><input type="number" data-evt="min_affection" data-idx="' + i + '" value="' + (ev.min_affection ?? '') + '"></div>' +
-      '<div class="form-group"><label>最低信赖</label><input type="number" data-evt="min_trust" data-idx="' + i + '" value="' + (ev.min_trust ?? '') + '"></div>' +
-      '<div class="form-group"><label>需要私密</label><select data-evt="requires_private" data-idx="' + i + '">' +
-        '<option value="false"' + (!ev.requires_private ? ' selected' : '') + '>否</option>' +
-        '<option value="true"' + (ev.requires_private ? ' selected' : '') + '>是</option></select></div>' +
-      '</div></div>';
+  for (var i = 0; i < events.length; i++) {
+    var ev = events[i];
+    h += '<div class="entry-card" data-idx="' + i + '">';
+    h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    h += '<b style="color:#e94560">' + esc(ev.key || '(新事件)') + '</b>';
+    h += '<button class="btn btn-danger" onclick="removeEvent(' + i + ')">删除</button>';
+    h += '</div>';
+
+    h += '<div class="grid-2">';
+    h += '<div class="form-group"><label>事件 key（唯一标识）</label><input data-evt="key" data-idx="' + i + '" value="' + esc(ev.key || '') + '">' + help('格式建议：角色_指令_地点，如 enterprise_chat_dock') + '</div>';
+    h += '<div class="form-group"><label>触发指令</label><select data-evt="action_key" data-idx="' + i + '">' + cmdOpts(ev.action_key) + '</select>' + help('玩家执行哪个指令时触发此事件') + '</div>';
+    h += '</div>';
+
+    h += '<div style="margin-top:6px;color:#9fb3d9;font-size:12px;font-weight:600">触发条件</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>角色标签（逗号分隔）</label><input data-evt="actor_tags" data-idx="' + i + '" value="' + esc((ev.actor_tags || []).join(', ')) + '">' + help('通常是角色 key，如 enterprise') + '</div>';
+    h += '<div class="form-group"><label>地点（逗号分隔）</label><input data-evt="location_keys" data-idx="' + i + '" value="' + esc((ev.location_keys || []).join(', ')) + '">' + help('如 dock, command_office') + '</div>';
+    h += '<div class="form-group"><label>时段（逗号分隔）</label><input data-evt="time_slots" data-idx="' + i + '" value="' + esc((ev.time_slots || []).join(', ')) + '">' + help('如 morning, afternoon, evening') + '</div>';
+    h += '</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>需要关系阶段</label><select data-evt="required_stage" data-idx="' + i + '">' + stageOpts(ev.required_stage) + '</select></div>';
+    h += '<div class="form-group"><label>需要约会中</label><select data-evt="requires_date" data-idx="' + i + '">' + boolOpts(ev.requires_date) + '</select></div>';
+    h += '<div class="form-group"><label>需要私密</label><select data-evt="requires_private" data-idx="' + i + '">' + boolOpts(ev.requires_private) + '</select></div>';
+    h += '</div>';
+
+    h += '</div>';
   }
 
   if (events.length === 0) {
-    html += '<div style="color:#555;text-align:center;padding:40px">暂无事件，点击"添加事件"开始</div>';
+    h += '<div style="color:#555;text-align:center;padding:40px">暂无事件，点击"+ 添加事件"开始</div>';
   }
-
-  html += '<datalist id="cmd-list2">' + (meta.commands || []).map(c => '<option value="' + c + '">').join('') + '</datalist>';
-  return html;
+  return h;
 }
 
 // ── Save functions ────────────────────────────────────
@@ -797,23 +1013,29 @@ async function saveInfo() {
 }
 
 async function saveStats() {
-  // Collect stats from inputs
-  for (const sec of ['base', 'palam', 'abl', 'talent', 'cflag']) {
-    const inputs = document.querySelectorAll('input[data-section="' + sec + '"]');
+  for (var si = 0; si < ['base','palam','abl','talent','cflag'].length; si++) {
+    var sec = ['base','palam','abl','talent','cflag'][si];
+    var inputs = document.querySelectorAll('input[data-section="' + sec + '"]');
     if (inputs.length === 0) continue;
-    const obj = {};
-    inputs.forEach(inp => {
-      const val = parseInt(inp.value) || 0;
+    var obj = {};
+    inputs.forEach(function(inp) {
+      var val = parseInt(inp.value) || 0;
       if (val !== 0) obj[inp.dataset.field] = val;
     });
     currentData[sec] = obj;
   }
   // Marks
-  const marksText = document.getElementById('f-marks').value;
-  const marksObj = {};
-  marksText.split('\n').map(s => s.trim()).filter(Boolean).forEach(k => { marksObj[k] = true; });
-  currentData.marks = marksObj;
-
+  var marksEl = document.getElementById('f-marks');
+  if (marksEl) {
+    var marksObj = {};
+    marksEl.value.split('\n').map(function(s){return s.trim();}).filter(Boolean).forEach(function(line) {
+      var parts = line.split('=');
+      var mk = parts[0].trim();
+      var mv = parts.length > 1 ? parseInt(parts[1].trim()) || 1 : 1;
+      if (mk) marksObj[mk] = mv;
+    });
+    currentData.marks = marksObj;
+  }
   await saveAll(currentData);
   flash('已保存');
 }
@@ -831,58 +1053,79 @@ async function saveEvents() {
 }
 
 function collectDialogueFromDOM() {
-  const entries = [];
-  const cards = document.querySelectorAll('.entry-card');
-  for (let i = 0; i < cards.length; i++) {
-    const card = cards[i];
-    const idx = card.dataset.idx;
+  var entries = [];
+  var cards = document.querySelectorAll('#content .entry-card');
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var idx = card.dataset.idx;
     if (idx === undefined) continue;
-    const e = {};
-    card.querySelectorAll('input[data-dlg]').forEach(inp => {
-      if (inp.dataset.dlg === 'priority') e[inp.dataset.dlg] = parseInt(inp.value) || 10;
-      else e[inp.dataset.dlg] = inp.value;
+    var e = {};
+    card.querySelectorAll('input[data-dlg]').forEach(function(inp) {
+      if (inp.dataset.dlg === 'time_slots' || inp.dataset.dlg === 'location_keys') {
+        e[inp.dataset.dlg] = inp.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      } else {
+        e[inp.dataset.dlg] = inp.value;
+      }
     });
-    // Lines
-    const lines = [];
-    card.querySelectorAll('textarea[data-dlg-line]').forEach(ta => {
+    card.querySelectorAll('select[data-dlg]').forEach(function(sel) {
+      if (sel.dataset.dlg === 'action_key') {
+        e.action_key = sel.value || '';
+      } else if (sel.dataset.dlg === 'required_stage') {
+        e.required_stage = sel.value || null;
+      } else if (sel.dataset.dlg === 'requires_private' || sel.dataset.dlg === 'requires_date') {
+        e[sel.dataset.dlg] = sel.value === '' ? null : sel.value === 'true';
+      }
+    });
+    var lines = [];
+    card.querySelectorAll('textarea[data-dlg-line]').forEach(function(ta) {
       lines.push(ta.value);
     });
     e.lines = lines;
     entries.push(e);
   }
-  currentData.dialogue = { entries: entries };
+  currentData.dialogue = {entries: entries};
 }
 
 function collectEventsFromDOM() {
-  const events = [];
-  document.querySelectorAll('input[data-evt="key"]').forEach(inp => {
-    const i = inp.dataset.idx;
-    const ev = { key: inp.value };
-    document.querySelectorAll('input[data-evt][data-idx="' + i + '"]').forEach(inp2 => {
+  var events = [];
+  document.querySelectorAll('#content input[data-evt="key"]').forEach(function(inp) {
+    var i = inp.dataset.idx;
+    var ev = {key: inp.value};
+    document.querySelectorAll('#content input[data-evt][data-idx="' + i + '"]').forEach(function(inp2) {
       if (inp2.dataset.evt === 'key') return;
-      if (['actor_tags', 'location_keys', 'time_slots'].includes(inp2.dataset.evt)) {
-        ev[inp2.dataset.evt] = inp2.value.split(',').map(s => s.trim()).filter(Boolean);
-      } else if (inp2.dataset.evt === 'min_affection' || inp2.dataset.evt === 'min_trust') {
-        if (inp2.value) ev[inp2.dataset.evt] = parseInt(inp2.value);
+      if (inp2.dataset.evt === 'actor_tags' || inp2.dataset.evt === 'location_keys' || inp2.dataset.evt === 'time_slots') {
+        ev[inp2.dataset.evt] = inp2.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
       } else {
         ev[inp2.dataset.evt] = inp2.value;
       }
     });
-    const sel = document.querySelector('select[data-evt="requires_private"][data-idx="' + i + '"]');
-    if (sel) ev.requires_private = sel.value === 'true';
+    document.querySelectorAll('#content select[data-evt][data-idx="' + i + '"]').forEach(function(sel) {
+      if (sel.dataset.evt === 'action_key') {
+        ev.action_key = sel.value || '';
+      } else if (sel.dataset.evt === 'required_stage') {
+        ev.required_stage = sel.value || null;
+      } else if (sel.dataset.evt === 'requires_private' || sel.dataset.evt === 'requires_date') {
+        ev[sel.dataset.evt] = sel.value === '' ? null : sel.value === 'true';
+      }
+    });
     events.push(ev);
   });
-  currentData.events = { events: events };
+  currentData.events = {events: events};
 }
 
 // ── Dialogue helpers ─────────────────────────────────
 function addDialogueEntry() {
-  if (!currentData.dialogue) currentData.dialogue = { entries: [] };
+  if (!currentData.dialogue) currentData.dialogue = {entries: []};
   if (!currentData.dialogue.entries) currentData.dialogue.entries = [];
   currentData.dialogue.entries.push({
-    key: currentKey + '_new_' + Date.now(),
+    key: currentKey + '_' + Date.now(),
     actor_key: currentKey,
-    priority: 10,
+    action_key: '',
+    required_stage: null,
+    time_slots: [],
+    location_keys: [],
+    requires_private: null,
+    requires_date: null,
     lines: [''],
   });
   renderContent();
@@ -891,6 +1134,12 @@ function addDialogueEntry() {
 function addLine(idx) {
   collectDialogueFromDOM();
   currentData.dialogue.entries[idx].lines.push('');
+  renderContent();
+}
+
+function removeLine(idx, lineIdx) {
+  collectDialogueFromDOM();
+  currentData.dialogue.entries[idx].lines.splice(lineIdx, 1);
   renderContent();
 }
 
@@ -910,6 +1159,13 @@ function addEvent() {
     actor_tags: [currentKey],
     location_keys: [],
     time_slots: [],
+    required_stage: null,
+    min_affection: null,
+    min_trust: null,
+    min_obedience: null,
+    requires_date: null,
+    requires_private: null,
+    required_marks: {},
   });
   renderContent();
 }
@@ -922,16 +1178,11 @@ function removeEvent(idx) {
 
 // ── Create / Delete ──────────────────────────────────
 function showCreateDialog() {
-  const locSel = document.getElementById('new-location');
-  locSel.innerHTML = (meta.locations || []).map(l =>
-    '<option value="' + l.key + '">' + l.display_name + '</option>'
-  ).join('');
-  const schedDiv = document.getElementById('new-schedule');
-  schedDiv.innerHTML = (meta.time_slots || []).map(ts =>
-    '<div class="form-group"><label>' + ts + '</label><select id="new-sched-' + ts + '">' +
-    (meta.locations || []).map(l => '<option value="' + l.key + '">' + l.display_name + '</option>').join('') +
-    '</select></div>'
-  ).join('');
+  document.getElementById('new-location').innerHTML = locOpts('');
+  var schedDiv = document.getElementById('new-schedule');
+  schedDiv.innerHTML = (meta.time_slots || []).map(function(ts) {
+    return '<div class="form-group"><label>' + esc(ts) + '</label><select id="new-sched-' + esc(ts) + '">' + locOpts('') + '</select></div>';
+  }).join('');
   document.getElementById('new-key').value = '';
   document.getElementById('new-name').value = '';
   document.getElementById('new-tags').value = '';
