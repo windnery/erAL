@@ -21,7 +21,10 @@ class ContentLoadingTests(unittest.TestCase):
         self.assertEqual(pledge_ring.display_name, "誓约之戒")
         self.assertEqual(pledge_ring.category, "general_shop")
         self.assertEqual(pledge_ring.price, 1000)
-        self.assertIn("誓约", pledge_ring.description)
+        self.assertEqual(
+            pledge_ring.description,
+            "用于正式誓约的戒指。成功誓约时消耗，失败不会消耗。",
+        )
 
     def test_load_shopfront_definitions_includes_general_and_skin_shops(self) -> None:
         shopfronts = {
