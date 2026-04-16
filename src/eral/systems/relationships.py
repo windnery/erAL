@@ -40,6 +40,8 @@ class RelationshipService:
         )
 
     def resolve_stage(self, actor: CharacterState) -> RelationshipStage:
+        if actor.has_mark("oath"):
+            return self._stage_by_key("oath")
         intimacy = actor.stats.compat.abl.get(ABL_INTIMACY_INDEX)
         has_dislike_mark = actor.has_mark("dislike_mark")
         return self.resolve_stage_from_stats(
@@ -53,4 +55,14 @@ class RelationshipService:
         for index, stage in enumerate(self.stages):
             if stage.key == stage_key:
                 return index
+        raise KeyError(stage_key)
+
+    def _stage_by_key(self, stage_key: str) -> RelationshipStage:
+        for index, stage in enumerate(self.stages):
+            if stage.key == stage_key:
+                return RelationshipStage(
+                    key=stage.key,
+                    display_name=stage.display_name,
+                    rank=index,
+                )
         raise KeyError(stage_key)

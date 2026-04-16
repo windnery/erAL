@@ -271,6 +271,49 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertEqual(command.required_items, {"pledge_ring": 1})
         self.assertEqual(command.resolution_key, "oath")
 
+    def test_oath_failure_keeps_ring_and_does_not_apply_mark(self) -> None:
+        actor = self._actor()
+        seed_like(actor)
+        self.app.relationship_service.update_actor(actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.inventory["pledge_ring"] = 1
+        self.app.command_service.resolution_service.roll = lambda: 0.99
+
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="oath",
+        )
+
+        self.assertEqual(result.action_key, "oath")
+        self.assertFalse(result.success)
+        self.assertGreater(result.chance, 0.0)
+        self.assertLess(result.chance, 0.99)
+        self.assertEqual(self.app.world.item_count("pledge_ring"), 1)
+        self.assertFalse(actor.has_mark("oath"))
+        self.assertEqual(actor.relationship_stage.key, "like")
+
+    def test_oath_success_consumes_ring_and_resolves_stage_to_oath(self) -> None:
+        actor = self._actor()
+        seed_like(actor)
+        self.app.relationship_service.update_actor(actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.inventory["pledge_ring"] = 1
+        self.app.command_service.resolution_service.roll = lambda: 0.0
+
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="oath",
+        )
+
+        self.assertEqual(result.action_key, "oath")
+        self.assertTrue(result.success)
+        self.assertGreater(result.chance, 0.0)
+        self.assertEqual(self.app.world.item_count("pledge_ring"), 0)
+        self.assertTrue(actor.has_mark("oath"))
+        self.assertEqual(actor.relationship_stage.key, "oath")
+
     def test_serve_tea_command_increases_trust(self) -> None:
         actor = self._actor()
         self.app.world.active_location.key = "command_office"

@@ -43,6 +43,7 @@ from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.navigation import NavigationService
 from eral.systems.relationships import RelationshipService
+from eral.systems.resolution import ResolutionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.scene import SceneService
 from eral.systems.save import SaveService
@@ -229,6 +230,7 @@ def create_application(root: Path | None = None) -> Application:
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
     dialogue_service = DialogueService(entries=dialogue)
+    resolution_service = ResolutionService()
     vital_service = VitalService(
         max_values=maxbase.max_values,
         recover_rates=maxbase.recover_rates,
@@ -253,6 +255,7 @@ def create_application(root: Path | None = None) -> Application:
         game_loop=game_loop,
         wallet_service=wallet_service,
         facility_service=facility_service,
+        resolution_service=resolution_service,
     )
     navigation_service = NavigationService(
         port_map=port_map,

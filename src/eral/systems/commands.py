@@ -26,6 +26,7 @@ from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.relationships import RelationshipService
 from eral.systems.scene import SceneService
+from eral.systems.resolution import ResolutionService
 from eral.systems.settlement import SettlementService
 from eral.systems.source_extra import apply_source_extra
 from eral.systems.vital import VitalService
@@ -54,6 +55,7 @@ class CommandService:
     talent_effects: tuple[TalentEffect, ...] = ()
     wallet_service: WalletService | None = None
     facility_service: FacilityService | None = None
+    resolution_service: ResolutionService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -103,6 +105,17 @@ class CommandService:
             raise ValueError(unavailable_reason)
 
         scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
+        resolution_result = self._resolve_command(world, actor, command)
+        if resolution_result is not None and not resolution_result.success:
+            return ActionResult(
+                action_key=command.key,
+                success=False,
+                chance=resolution_result.chance,
+                actor_key=actor.key,
+                scene=scene,
+                messages=[f"{actor.display_name}未能完成{command.display_name}。"],
+            )
+
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
 
@@ -152,6 +165,8 @@ class CommandService:
         self._log_success(world, actor.key, command.key, all_triggered_events)
         return ActionResult(
             action_key=command.key,
+            success=True,
+            chance=resolution_result.chance if resolution_result is not None else 1.0,
             actor_key=actor.key,
             scene=scene,
             triggered_events=list(all_triggered_events),
@@ -161,6 +176,26 @@ class CommandService:
             funds_delta=funds_delta,
             fainted=fainted,
         )
+
+    def _resolve_command(
+        self,
+        world: WorldState,
+        actor: CharacterState,
+        command: CommandDefinition,
+    ):
+        if command.resolution_key is None:
+            return None
+        if self.resolution_service is None:
+            raise ValueError(f"Missing resolution service for {command.resolution_key}")
+        result = self.resolution_service.resolve(command.resolution_key, world, actor)
+        if not result.success:
+            return result
+        if command.resolution_key == "oath":
+            if not world.consume_item("pledge_ring", 1):
+                raise ValueError("缺少所需道具：誓约之戒 x1。")
+            self._ensure_oath_mark(actor)
+            self.relationship_service.update_actor(actor)
+        return result
 
     def _log_success(
         self,
@@ -338,3 +373,11 @@ class CommandService:
             self.date_service.start_date(world, actor)
         elif command.operation == "end_date" and self.date_service is not None:
             self.date_service.end_date(world, actor)
+
+    def _ensure_oath_mark(self, actor: CharacterState) -> None:
+        if actor.has_mark("oath"):
+            return
+        max_level = 1
+        if self.mark_definitions and "oath" in self.mark_definitions:
+            max_level = self.mark_definitions["oath"].max_level
+        actor.add_mark("oath", 1, max_level)

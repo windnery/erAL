@@ -91,6 +91,26 @@ class SaveLoadTests(unittest.TestCase):
 
         self.assertEqual(restored.inventory, {"medkit": 3, "coin": 12})
 
+    def test_load_refresh_preserves_oath_mark_stage_override(self) -> None:
+        actor = actor_by_key(self.app, "enterprise")
+        reset_progress(actor)
+        place_player_with_actor(self.app, actor)
+        actor.marks["oath"] = 1
+        self.app.relationship_service.update_actor(actor)
+        self.assertEqual(actor.relationship_stage.key, "oath")
+
+        self.app.save_service.save_world(self.app.world)
+
+        actor.marks.pop("oath", None)
+        self.app.relationship_service.update_actor(actor)
+
+        restored = self.app.save_service.load_world()
+        self.app.relationship_service.refresh_world(restored)
+
+        restored_actor = next(actor for actor in restored.characters if actor.key == "enterprise")
+        self.assertTrue(restored_actor.has_mark("oath"))
+        self.assertEqual(restored_actor.relationship_stage.key, "oath")
+
     def test_load_older_save_defaults_inventory_to_empty_dict(self) -> None:
         self.app.save_service.save_world(self.app.world)
         save_path = self.app.save_service.quicksave_path()

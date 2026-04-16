@@ -23,6 +23,8 @@ class ActionResult:
     """Result of executing a command or movement."""
 
     action_key: str
+    success: bool = True
+    chance: float = 1.0
     actor_key: str | None = None
     scene: SceneContext | None = None
     triggered_events: list[str] = field(default_factory=list)
