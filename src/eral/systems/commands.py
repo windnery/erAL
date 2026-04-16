@@ -29,6 +29,7 @@ from eral.systems.scene import SceneService
 from eral.systems.resolution import ResolutionService
 from eral.systems.settlement import SettlementService
 from eral.systems.skins import SkinService
+from eral.systems.time_service import TimeService
 from eral.systems.source_extra import apply_source_extra
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
@@ -58,6 +59,7 @@ class CommandService:
     facility_service: FacilityService | None = None
     resolution_service: ResolutionService | None = None
     skin_service: SkinService | None = None
+    time_service: TimeService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -134,6 +136,9 @@ class CommandService:
             self.vital_service.sleep_recovery(actor, world)
             if self.game_loop is not None:
                 self.game_loop.advance_to_dawn(world)
+
+        if self.time_service is not None and not fainted:
+            self.time_service.advance_minutes(world, command.elapsed_minutes)
 
         changes = self.settlement.settle_actor(world, actor)
 

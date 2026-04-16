@@ -24,6 +24,14 @@ class NavigationTests(unittest.TestCase):
         self.assertEqual(result.action_key, "move")
         self.assertEqual(self.app.world.active_location.key, "main_corridor")
 
+    def test_move_player_consumes_fixed_minutes(self) -> None:
+        self.app.world.current_hour = 8
+        self.app.world.current_minute = 0
+
+        self.app.navigation_service.move_player(self.app.world, "main_corridor")
+
+        self.assertEqual((self.app.world.current_hour, self.app.world.current_minute), (8, 15))
+
     def test_move_player_to_non_neighbor_fails(self) -> None:
         with self.assertRaises(ValueError):
             self.app.navigation_service.move_player(self.app.world, "dock")

@@ -34,6 +34,7 @@ class CommandDefinition:
     resolution_key: str | None = None
     personal_income: int = 0
     category: str = "daily"
+    elapsed_minutes: int = 10
 
 
 def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
@@ -77,6 +78,7 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             downbase={str(key): int(value) for key, value in item.get("downbase", {}).items()},
             personal_income=int(item.get("personal_income", 0)),
             success_tiers=tuple(float(v) for v in item.get("success_tiers", [0.1, 1.0, 2.0])),
+            elapsed_minutes=int(item.get("elapsed_minutes", 10)),
         )
         for item in raw_data.get("commands", [])
     )

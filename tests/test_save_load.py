@@ -235,6 +235,25 @@ class SaveLoadTests(unittest.TestCase):
         self.assertEqual(restored_actor.equipped_skin_key, "enterprise_oath")
         self.assertEqual(restored_actor.removed_slots, ("underwear_bottom",))
 
+    def test_save_and_load_roundtrips_real_clock_fields(self) -> None:
+        self.app.world.current_year = 1
+        self.app.world.current_month = 6
+        self.app.world.current_day = 21
+        self.app.world.current_weekday = "sat"
+        self.app.world.current_hour = 17
+        self.app.world.current_minute = 45
+
+        self.app.save_service.save_world(self.app.world)
+        restored = self.app.save_service.load_world()
+
+        self.assertEqual(restored.current_year, 1)
+        self.assertEqual(restored.current_month, 6)
+        self.assertEqual(restored.current_day, 21)
+        self.assertEqual(restored.current_weekday, "sat")
+        self.assertEqual(restored.current_hour, 17)
+        self.assertEqual(restored.current_minute, 45)
+        self.assertEqual(restored.current_time_slot.value, "evening")
+
 
 if __name__ == "__main__":
     unittest.main()

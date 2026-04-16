@@ -230,6 +230,11 @@ class WorldState:
     current_time_slot: TimeSlot
     player_name: str
     active_location: PortLocation
+    current_year: int = 1
+    current_month: int = 1
+    current_weekday: str = "mon"
+    current_hour: int = 8
+    current_minute: int = 0
     date_partner_key: str | None = None
     is_busy: bool = False
     is_date_traveling: bool = False
@@ -239,6 +244,47 @@ class WorldState:
     inventory: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)
     characters: list[CharacterState] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        """Keep coarse time slot and real clock aligned on bootstrap/load."""
+
+        if (self.current_hour, self.current_minute) == (8, 0):
+            self._sync_clock_from_time_slot()
+        self.sync_time_slot_from_clock()
+
+    def derive_time_slot(self) -> TimeSlot:
+        """Derive legacy coarse slot from the real clock."""
+
+        total_minutes = (self.current_hour * 60) + self.current_minute
+        if 5 * 60 <= total_minutes < 8 * 60:
+            return TimeSlot.DAWN
+        if 8 * 60 <= total_minutes < 12 * 60:
+            return TimeSlot.MORNING
+        if 12 * 60 <= total_minutes < 17 * 60:
+            return TimeSlot.AFTERNOON
+        if 17 * 60 <= total_minutes < 20 * 60:
+            return TimeSlot.EVENING
+        if 20 * 60 <= total_minutes <= (23 * 60 + 59):
+            return TimeSlot.NIGHT
+        return TimeSlot.LATE_NIGHT
+
+    def sync_time_slot_from_clock(self) -> None:
+        """Mirror real clock values to the legacy coarse slot."""
+
+        self.current_time_slot = self.derive_time_slot()
+
+    def _sync_clock_from_time_slot(self) -> None:
+        """Assign a representative clock value from the coarse slot."""
+
+        representative = {
+            TimeSlot.DAWN: (6, 0),
+            TimeSlot.MORNING: (8, 0),
+            TimeSlot.AFTERNOON: (12, 0),
+            TimeSlot.EVENING: (17, 0),
+            TimeSlot.NIGHT: (20, 0),
+            TimeSlot.LATE_NIGHT: (0, 0),
+        }
+        self.current_hour, self.current_minute = representative[self.current_time_slot]
 
     def get_condition(self, key: str) -> int:
         """Read global extensible runtime condition value by key."""

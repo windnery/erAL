@@ -18,6 +18,7 @@ from collections.abc import Callable
 
 from eral.app.bootstrap import Application
 from eral.domain.world import CharacterState, WorldState
+from eral.systems.calendar import weekday_label
 from eral.ui.ansi import (
     BOLD,
     RESET,
@@ -381,6 +382,7 @@ def _build_menu(
     menu["system"].append(("进入日常用品店", "shop", "general_shop"))
     menu["system"].append(("企业皮肤商店", "skin_shop", "enterprise"))
     menu["system"].append(("切换企业皮肤", "skin_wardrobe", "enterprise"))
+    menu["system"].append(("查看日历", "calendar", None))
     menu["system"].append(("等待(推进时段)", "wait", None))
     menu["system"].append(("能力显示", "status", None))
     menu["system"].append(("保存当前进度", "save", None))
@@ -646,6 +648,37 @@ def _appearance_summary(app: Application, actor: CharacterState) -> str:
             value = "(已脱除)"
         slot_parts.append(f"{slot_label}:{value}")
     return f"当前皮肤: {skin.display_name} | " + " ".join(slot_parts)
+
+
+def _render_calendar_preview(app: Application, world: WorldState) -> list[str]:
+    """Return a compact preview of nearby calendar days and work schedules."""
+
+    lines = ["日历预览（前后2天）"]
+    for view in app.calendar_view_service.day_views(world, span_before=2, span_after=2):
+        header = f"{view.month}月{view.day}日 {weekday_label(view.weekday)} {view.season}"
+        if view.festival_labels:
+            header += " | 节日:" + "、".join(view.festival_labels)
+        lines.append(header)
+        if view.schedule_entries:
+            for entry in view.schedule_entries:
+                lines.append(
+                    f"  {entry.time_range} {entry.actor_name} / {entry.location_name} / {entry.work_label}"
+                )
+        else:
+            lines.append("  （无工作安排）")
+    return lines
+
+
+def _show_calendar(app: Application, world: WorldState) -> list[str]:
+    """Render the read-only calendar preview and return its lines."""
+
+    lines = _render_calendar_preview(app, world)
+    clear_screen()
+    print(header_separator("═", terminal_width()))
+    for line in lines:
+        print(colorize(f"  {line}", FG_WHITE if not line.startswith("  ") else FG_GRAY))
+    print(header_separator("═", terminal_width()))
+    return lines
 
 
 # ── Zone ② bis : Scene context (multiple characters) ──────────────
@@ -1319,6 +1352,10 @@ def run_cli(app: Application) -> None:
 
         if action_type == "skin_wardrobe":
             pending_messages = _open_skin_wardrobe(app, world, param)
+            continue
+
+        if action_type == "calendar":
+            pending_messages = _show_calendar(app, world)
             continue
 
         if action_type == "command":

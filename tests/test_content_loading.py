@@ -6,10 +6,12 @@ import unittest
 from pathlib import Path
 
 from eral.content import (
+    load_calendar_definition,
     load_appearance_definitions,
     load_item_definitions,
     load_shopfront_definitions,
     load_skin_definitions,
+    load_work_schedule_definitions,
 )
 
 
@@ -68,6 +70,26 @@ class ContentLoadingTests(unittest.TestCase):
         self.assertEqual(oath.slots["headwear"], "oath_crown")
         self.assertEqual(oath.slots["underwear_bottom"], "oath_inner_bottom")
         self.assertEqual(oath.slots["attachment"], "oath_veil")
+
+    def test_load_calendar_definition_exposes_festival_and_season_rules(self) -> None:
+        definition = load_calendar_definition(self.repo_root / "data" / "base" / "calendar.toml")
+
+        self.assertEqual(definition.month_lengths[6], 30)
+        self.assertEqual(definition.season_for_month(6), "summer")
+        self.assertEqual(definition.festivals[0].key, "summer_festival")
+
+    def test_load_work_schedules_exposes_enterprise_office_shift(self) -> None:
+        schedules = {
+            schedule.key: schedule
+            for schedule in load_work_schedule_definitions(
+                self.repo_root / "data" / "base" / "work_schedules.toml"
+            )
+        }
+
+        entry = schedules["enterprise_office_weekday_morning"]
+        self.assertEqual(entry.actor_key, "enterprise")
+        self.assertEqual(entry.start_time, "09:00")
+        self.assertEqual(entry.date_rules["weekdays"], ("mon", "tue", "wed", "thu", "fri"))
 
 
 if __name__ == "__main__":

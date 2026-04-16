@@ -7,6 +7,7 @@ from pathlib import Path
 
 from eral.app.config import AppConfig
 from eral.content.abl_upgrade import AblUpgradeConfig, load_abl_upgrade_config
+from eral.content.calendar import CalendarDefinition, load_calendar_definition
 from eral.content.commissions import CommissionDefinition, load_commission_definitions
 from eral.content.character_packs import CharacterPack, load_character_packs
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
@@ -28,6 +29,7 @@ from eral.content.skins import (
 )
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
+from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
 from eral.content.maxbase import load_maxbase
 from eral.systems.vital import VitalService
 from eral.content.imprint import load_imprint_thresholds
@@ -41,6 +43,7 @@ from eral.engine.events import EventBus
 from eral.engine.paths import RuntimePaths
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.commands import CommandService
+from eral.systems.calendar import CalendarService, CalendarViewService
 from eral.systems.companions import CompanionService
 from eral.systems.commissions import CommissionService
 from eral.systems.dates import DateService
@@ -58,6 +61,7 @@ from eral.systems.scene import SceneService
 from eral.systems.save import SaveService
 from eral.systems.wallet import WalletService
 from eral.systems.settlement import SettlementService
+from eral.systems.time_service import TimeService
 
 
 @dataclass(slots=True)
@@ -80,6 +84,8 @@ class Application:
     items: tuple[ItemDefinition, ...]
     skin_definitions: tuple[SkinDefinition, ...]
     appearance_definitions: dict[str, AppearanceDefinition]
+    calendar_definition: CalendarDefinition
+    work_schedules: tuple[WorkScheduleDefinition, ...]
     event_bus: EventBus
     world: WorldState
     game_loop: GameLoop
@@ -102,6 +108,9 @@ class Application:
     abl_upgrade_config: AblUpgradeConfig
     facility_service: FacilityService
     runtime_logger: RuntimeLogger
+    time_service: TimeService
+    calendar_service: CalendarService
+    calendar_view_service: CalendarViewService
 
 
 def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverrides") -> None:
@@ -133,6 +142,8 @@ def create_application(root: Path | None = None) -> Application:
     shopfronts_path = root_path / "data" / "base" / "shopfronts.toml"
     skins_path = root_path / "data" / "base" / "skins.toml"
     appearances_path = root_path / "data" / "base" / "appearances.toml"
+    calendar_path = root_path / "data" / "base" / "calendar.toml"
+    work_schedules_path = root_path / "data" / "base" / "work_schedules.toml"
     marks_path = root_path / "data" / "base" / "marks.toml"
     maxbase_path = root_path / "data" / "base" / "maxbase.toml"
     imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
@@ -174,6 +185,8 @@ def create_application(root: Path | None = None) -> Application:
         appearance.key: appearance
         for appearance in load_appearance_definitions(appearances_path)
     }
+    calendar_definition = load_calendar_definition(calendar_path)
+    work_schedules = load_work_schedule_definitions(work_schedules_path)
     maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
@@ -187,6 +200,8 @@ def create_application(root: Path | None = None) -> Application:
     start_location = port_map.starting_location()
     event_bus = EventBus()
     runtime_logger = RuntimeLogger(paths=paths)
+    time_service = TimeService()
+    calendar_service = CalendarService(calendar_definition=calendar_definition)
     skin_service = SkinService(
         skin_definitions={skin.key: skin for skin in skin_definitions},
         appearance_definitions=appearance_definitions,
@@ -195,6 +210,11 @@ def create_application(root: Path | None = None) -> Application:
     world = WorldState(
         current_day=1,
         current_time_slot=TimeSlot.from_name(config.start_time_slot),
+        current_year=1,
+        current_month=1,
+        current_weekday="mon",
+        current_hour=8,
+        current_minute=0,
         player_name=config.player_name,
         active_location=PortLocation(
             key=start_location.key,
@@ -229,6 +249,7 @@ def create_application(root: Path | None = None) -> Application:
         schedule_service=schedule_service,
         vital_service=None,
         runtime_logger=runtime_logger,
+        time_service=time_service,
     )
     wallet_service = WalletService()
     facility_service = FacilityService(
@@ -284,6 +305,7 @@ def create_application(root: Path | None = None) -> Application:
         facility_service=facility_service,
         resolution_service=resolution_service,
         skin_service=skin_service,
+        time_service=time_service,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},
@@ -294,10 +316,17 @@ def create_application(root: Path | None = None) -> Application:
         companion_service=companion_service,
         event_bus=event_bus,
         runtime_logger=runtime_logger,
+        time_service=time_service,
     )
     relationship_service.refresh_world(world)
     companion_service.refresh_world(world)
     date_service.refresh_world(world)
+    calendar_view_service = CalendarViewService(
+        calendar_service=calendar_service,
+        work_schedules=work_schedules,
+        actor_names={character.key: character.display_name for character in roster},
+        location_names={location.key: location.display_name for location in port_map.locations},
+    )
     save_service = SaveService(
         paths=paths,
         stat_axes=stat_axes,
@@ -324,6 +353,8 @@ def create_application(root: Path | None = None) -> Application:
         items=items,
         skin_definitions=skin_definitions,
         appearance_definitions=appearance_definitions,
+        calendar_definition=calendar_definition,
+        work_schedules=work_schedules,
         event_bus=event_bus,
         world=world,
         game_loop=game_loop,
@@ -346,4 +377,7 @@ def create_application(root: Path | None = None) -> Application:
         abl_upgrade_config=abl_upgrade_config,
         facility_service=facility_service,
         runtime_logger=runtime_logger,
+        time_service=time_service,
+        calendar_service=calendar_service,
+        calendar_view_service=calendar_view_service,
     )

@@ -9,6 +9,7 @@ from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.commissions import CommissionService
 from eral.systems.schedule import ScheduleService
+from eral.systems.time_service import TimeService
 from eral.systems.vital import VitalService
 
 
@@ -22,15 +23,20 @@ class GameLoop:
     commission_service: CommissionService | None = None
     facility_service: object | None = None
     runtime_logger: RuntimeLogger | None = None
+    time_service: TimeService | None = None
 
     def advance_time(self, world: WorldState) -> None:
         previous_slot = world.current_time_slot
         next_slot = previous_slot.next()
 
         if next_slot == TimeSlot.DAWN:
-            world.current_day += 1
+            if self.time_service is not None:
+                self.time_service.advance_days(world, 1)
+            else:
+                world.current_day += 1
 
         world.current_time_slot = next_slot
+        world._sync_clock_from_time_slot()
         if self.schedule_service is not None:
             self.schedule_service.refresh_world(world)
         if self.vital_service is not None:

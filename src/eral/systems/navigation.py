@@ -10,6 +10,7 @@ from eral.domain.world import PortLocation, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.companions import CompanionService
+from eral.systems.time_service import TimeService
 
 
 @dataclass(slots=True)
@@ -20,6 +21,7 @@ class NavigationService:
     companion_service: CompanionService | None = None
     event_bus: EventBus | None = None
     runtime_logger: RuntimeLogger | None = None
+    time_service: TimeService | None = None
 
     def can_see_private(self, world: WorldState) -> bool:
         """Whether the player can currently see private locations.
@@ -64,6 +66,8 @@ class NavigationService:
             key=destination.key,
             display_name=destination.display_name,
         )
+        if self.time_service is not None:
+            self.time_service.advance_minutes(world, 15)
         if self.companion_service is not None:
             self.companion_service.move_followers(world, destination.key)
 

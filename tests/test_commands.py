@@ -36,6 +36,18 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertEqual(actor.stats.base.get("mood"), 30)
         self.assertEqual(actor.stats.source.get("affection"), 0)
 
+    def test_chat_command_consumes_fixed_minutes(self) -> None:
+        self.app.world.current_hour = 8
+        self.app.world.current_minute = 0
+
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key="enterprise",
+            command_key="chat",
+        )
+
+        self.assertEqual((self.app.world.current_hour, self.app.world.current_minute), (8, 10))
+
     def test_work_command_updates_obedience_and_trust(self) -> None:
         actor = self._actor()
         self.app.world.active_location.key = "command_office"

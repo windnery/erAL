@@ -34,8 +34,13 @@ class SaveService:
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             "version": 1,
+            "current_year": world.current_year,
+            "current_month": world.current_month,
             "current_day": world.current_day,
-            "current_time_slot": world.current_time_slot.value,
+            "current_weekday": world.current_weekday,
+            "current_hour": world.current_hour,
+            "current_minute": world.current_minute,
+            "current_time_slot": world.derive_time_slot().value,
             "player_name": world.player_name,
             "active_location": {
                 "key": world.active_location.key,
@@ -64,9 +69,16 @@ class SaveService:
 
     def load_world(self) -> WorldState:
         payload = json.loads(self.quicksave_path().read_text(encoding="utf-8"))
+        current_hour = int(payload.get("current_hour", 8))
+        current_minute = int(payload.get("current_minute", 0))
         world = WorldState(
+            current_year=int(payload.get("current_year", 1)),
+            current_month=int(payload.get("current_month", 1)),
             current_day=int(payload["current_day"]),
             current_time_slot=TimeSlot.from_name(payload["current_time_slot"]),
+            current_weekday=str(payload.get("current_weekday", "mon")),
+            current_hour=current_hour,
+            current_minute=current_minute,
             player_name=payload["player_name"],
             active_location=PortLocation(
                 key=payload["active_location"]["key"],

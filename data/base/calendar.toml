@@ -1,0 +1,26 @@
+[calendar]
+weekday_names = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+month_lengths = { 1 = 31, 2 = 28, 3 = 31, 4 = 30, 5 = 31, 6 = 30, 7 = 31, 8 = 31, 9 = 30, 10 = 31, 11 = 30, 12 = 31 }
+
+[[seasons]]
+key = "spring"
+months = [3, 4, 5]
+
+[[seasons]]
+key = "summer"
+months = [6, 7, 8]
+
+[[seasons]]
+key = "autumn"
+months = [9, 10, 11]
+
+[[seasons]]
+key = "winter"
+months = [12, 1, 2]
+
+[[festivals]]
+key = "summer_festival"
+display_name = "夏日祭"
+month = 6
+day = 21
+tags = ["summer", "festival"]
