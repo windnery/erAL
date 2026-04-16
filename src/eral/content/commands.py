@@ -22,6 +22,8 @@ class CommandDefinition:
     operation: str | None
     requires_following: bool | None
     requires_date: bool | None
+    required_conditions: dict[str, int]
+    forbidden_conditions: tuple[str, ...]
     required_marks: dict[str, int]
     apply_marks: dict[str, int]
     remove_marks: tuple[str, ...]
@@ -54,6 +56,10 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),
             requires_date=item.get("requires_date"),
+            required_conditions={
+                str(k): int(v) for k, v in item.get("required_conditions", {}).items()
+            },
+            forbidden_conditions=tuple(str(v) for v in item.get("forbidden_conditions", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
             },

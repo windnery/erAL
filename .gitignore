@@ -4,3 +4,5 @@ runtime/
 .tmp-test-data/
 docs/superpowers/
 .worktrees/
+参考图/
+.pytest_cache/

@@ -95,6 +95,12 @@ class CommandSpecificGate:
             return "需要同行状态才能执行该指令。"
         if command.requires_date is not None and actor.is_on_date != command.requires_date:
             return "需要约会状态才能执行该指令。"
+        for condition_key, min_value in command.required_conditions.items():
+            if actor.get_condition(condition_key) < min_value:
+                return f"缺少所需条件：{condition_key}。"
+        for condition_key in command.forbidden_conditions:
+            if actor.get_condition(condition_key) > 0:
+                return f"当前条件禁止执行：{condition_key}。"
         for mark_key, min_level in command.required_marks.items():
             if not actor.has_mark(mark_key, min_level):
                 return f"缺少所需标记：{mark_key}。"

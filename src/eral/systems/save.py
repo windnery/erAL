@@ -8,7 +8,7 @@ from pathlib import Path
 
 from eral.content.stat_axes import StatAxisCatalog
 from eral.content.tw_axis_registry import TwAxisRegistry
-from eral.domain.stats import ActorNumericState, WorldEraCompatState
+from eral.domain.stats import ActorNumericState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
 from eral.engine.paths import RuntimePaths
 from eral.engine.runtime_logger import RuntimeLogger
@@ -41,10 +41,7 @@ class SaveService:
                 "key": world.active_location.key,
                 "display_name": world.active_location.display_name,
             },
-            "compat": {
-                "flag": world.compat.flag.values,
-                "tflag": world.compat.tflag.values,
-            },
+            "world_conditions": world.conditions,
             "personal_funds": world.personal_funds,
             "port_funds": world.port_funds,
             "facility_levels": dict(world.facility_levels),
@@ -74,11 +71,9 @@ class SaveService:
                 key=payload["active_location"]["key"],
                 display_name=payload["active_location"]["display_name"],
             ),
-            compat=WorldEraCompatState.zeroed(self.tw_axes),
             characters=[],
         )
-        world.compat.flag.values.update({int(k): int(v) for k, v in payload["compat"]["flag"].items()})
-        world.compat.tflag.values.update({int(k): int(v) for k, v in payload["compat"]["tflag"].items()})
+        world.conditions = {str(k): int(v) for k, v in payload.get("world_conditions", {}).items()}
         world.personal_funds = int(payload.get("personal_funds", 0))
         world.port_funds = int(payload.get("port_funds", 0))
         world.facility_levels = {str(k): int(v) for k, v in payload.get("facility_levels", {}).items()}
@@ -102,14 +97,18 @@ class SaveService:
             )
             actor.previous_location_key = actor_payload.get("previous_location_key")
             actor.encounter_location_key = actor_payload.get("encounter_location_key")
-            actor.is_same_room = bool(actor_payload.get("is_same_room", False))
-            actor.is_following = bool(actor_payload.get("is_following", False))
-            actor.follow_ready = bool(actor_payload.get("follow_ready", False))
-            actor.is_on_date = bool(actor_payload.get("is_on_date", False))
+            actor.affection = int(actor_payload.get("affection", stats.compat.cflag.get(2)))
+            actor.trust = int(actor_payload.get("trust", stats.compat.cflag.get(4)))
+            actor.obedience = int(actor_payload.get("obedience", stats.compat.cflag.get(6)))
+            actor.is_same_room = bool(actor_payload.get("is_same_room", stats.compat.cflag.get(319) > 0))
+            actor.is_following = bool(actor_payload.get("is_following", stats.compat.cflag.get(320) > 0))
+            actor.follow_ready = bool(actor_payload.get("follow_ready", stats.compat.cflag.get(329) > 0))
+            actor.is_on_date = bool(actor_payload.get("is_on_date", stats.compat.cflag.get(12) > 0))
             actor.is_on_commission = bool(actor_payload.get("is_on_commission", False))
             actor.fatigue = int(actor_payload.get("fatigue", 0))
             actor.marks = {str(k): int(v) for k, v in actor_payload.get("marks", {}).items()}
-            actor.sync_derived_fields()
+            actor.conditions = {str(k): int(v) for k, v in actor_payload.get("conditions", {}).items()}
+            actor.sync_compat_from_runtime()
             world.characters.append(actor)
 
         return world
@@ -123,6 +122,9 @@ class SaveService:
             "tags": list(actor.tags),
             "previous_location_key": actor.previous_location_key,
             "encounter_location_key": actor.encounter_location_key,
+            "affection": actor.affection,
+            "trust": actor.trust,
+            "obedience": actor.obedience,
             "is_same_room": actor.is_same_room,
             "is_following": actor.is_following,
             "follow_ready": actor.follow_ready,
@@ -130,6 +132,7 @@ class SaveService:
             "is_on_commission": actor.is_on_commission,
             "fatigue": actor.fatigue,
             "marks": actor.marks,
+            "conditions": actor.conditions,
             "stats": {
                 "base": actor.stats.base.values,
                 "palam": actor.stats.palam.values,

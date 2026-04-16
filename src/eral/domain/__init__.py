@@ -21,7 +21,6 @@ from .stats import (
     CharacterEraCompatState,
     IndexedStatBlock,
     StatBlock,
-    WorldEraCompatState,
 )
 from .world import CharacterState, PortLocation, TimeSlot, WorldState
 
@@ -50,6 +49,5 @@ __all__ = [
     "actor_talent",
     "build_default_compat_semantics",
     "TimeSlot",
-    "WorldEraCompatState",
     "WorldState",
 ]

@@ -70,18 +70,11 @@ class TALENTKey:
 class CFLAGKey:
     AFFECTION = "affection"
     TRUST = "trust"
-    ATTITUDE = "attitude"
     OBEDIENCE = "obedience"
     ON_DATE = "on_date"
-    SHRINE_RESIDENT = "shrine_resident"
-    PREVIOUS_KOJO_STATE = "previous_kojo_state"
-    CURRENT_LOCATION = "current_location"
-    INITIAL_LOCATION = "initial_location"
     SAME_ROOM = "same_room"
     FOLLOWING = "following"
     FOLLOW_READY = "follow_ready"
-    TIME_STOP_ACTION = "time_stop_action"
-    HOME_LOCATION = "home_location"
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,7 +125,6 @@ _DEFAULT_SPECS: tuple[CompatSemanticSpec, ...] = (
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.MASTURBATION_ADDICTION, 30, "自慰中毒"),
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.SEMEN_ADDICTION, 31, "精液中毒"),
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.YURI_ADDICTION, 32, "百合中毒"),
-    CompatSemanticSpec(AxisFamily.ABL, ABLKey.MALE_LOVE_ADDICTION, 33, "断袖中毒"),
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.VAGINAL_CUM_ADDICTION, 34, "膣射中毒"),
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.ANAL_CUM_ADDICTION, 35, "肛射中毒"),
     CompatSemanticSpec(AxisFamily.ABL, ABLKey.CLEANING_SKILL, 40, "清掃技能"),
@@ -170,24 +162,16 @@ _DEFAULT_SPECS: tuple[CompatSemanticSpec, ...] = (
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.MASOCHIST, 83, "受虐狂"),
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.JEALOUS, 84, "嫉妬"),
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.FOX, 90, "狐"),
-    CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.FOX_SPIRIT, 91, "妖狐"),
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.CHARM, 92, "魅力"),
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.FASCINATION, 93, "魅惑"),
     CompatSemanticSpec(AxisFamily.TALENT, TALENTKey.MYSTERIOUS_CHARM, 94, "謎之魅力"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.AFFECTION, 2, "好感度"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.TRUST, 4, "信頼度"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.ATTITUDE, 6, "態度"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.OBEDIENCE, 6, "態度"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.ON_DATE, 12, "デート中"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.SHRINE_RESIDENT, 30, "神社在住"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.PREVIOUS_KOJO_STATE, 45, "前回の口上実装状況"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.CURRENT_LOCATION, 300, "現在位置"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.INITIAL_LOCATION, 311, "初期位置"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.SAME_ROOM, 319, "同室"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.FOLLOWING, 320, "同行"),
     CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.FOLLOW_READY, 329, "同行準備"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.TIME_STOP_ACTION, 344, "時間停止行動"),
-    CompatSemanticSpec(AxisFamily.CFLAG, CFLAGKey.HOME_LOCATION, 358, "自宅位置"),
 )
 
 
@@ -222,14 +206,21 @@ class ActorCompatAccessor:
 
     def get(self, actor, key: str) -> int:
         entry = self.entry(key)
+        if self.family == AxisFamily.CFLAG and hasattr(actor, "get_cflag"):
+            return actor.get_cflag(entry.era_index)
         return getattr(actor.stats.compat, self.family.value).get(entry.era_index)
 
     def set(self, actor, key: str, value: int) -> None:
         entry = self.entry(key)
+        if self.family == AxisFamily.CFLAG and hasattr(actor, "set_cflag"):
+            actor.set_cflag(entry.era_index, value)
+            return
         getattr(actor.stats.compat, self.family.value).set(entry.era_index, value)
 
     def add(self, actor, key: str, delta: int) -> int:
         entry = self.entry(key)
+        if self.family == AxisFamily.CFLAG and hasattr(actor, "add_cflag"):
+            return actor.add_cflag(entry.era_index, delta)
         return getattr(actor.stats.compat, self.family.value).add(entry.era_index, delta)
 
 

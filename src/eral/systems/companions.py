@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 from eral.domain.world import CharacterState, WorldState
 
 
@@ -15,9 +14,7 @@ class CompanionService:
     def refresh_world(self, world: WorldState) -> None:
         for actor in world.characters:
             actor.is_same_room = actor.location_key == world.active_location.key
-            actor_cflag.set(actor, CFLAGKey.SAME_ROOM, 1 if actor.is_same_room else 0)
-            actor_cflag.set(actor, CFLAGKey.FOLLOWING, 1 if actor.is_following else 0)
-            actor_cflag.set(actor, CFLAGKey.FOLLOW_READY, 1 if actor.follow_ready else 0)
+            actor.sync_compat_from_runtime()
 
     def start_follow(self, world: WorldState, actor: CharacterState) -> None:
         actor.follow_ready = True

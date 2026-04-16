@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import tomllib
 import webbrowser
@@ -26,6 +27,96 @@ from eral.content.stat_axes import AxisFamily, load_stat_axis_catalog
 from eral.content.tw_axis_registry import load_tw_axis_registry
 
 TIME_SLOTS: tuple[str, ...] = ("dawn", "morning", "afternoon", "evening", "night", "late_night")
+KANA_RE = re.compile(r"[ぁ-んァ-ンｧ-ﾝﾞﾟー]")
+INTERNAL_LABEL_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
+INDEX_KEY_RE = re.compile(r"^(abl|talent|cflag|flag|tflag|base|palam)_\d+$", re.IGNORECASE)
+
+JP_ZH_REPLACEMENTS: tuple[tuple[str, str], ...] = (
+  ("ムード", "情绪"),
+  ("怒り", "怒气"),
+  ("酒気", "酒意"),
+  ("抑鬱", "抑郁"),
+  ("バスト", "胸围"),
+  ("ウェスト", "腰围"),
+  ("ヒップ", "臀围"),
+  ("気力", "气力"),
+  ("身長", "身高"),
+  ("体重", "体重"),
+  ("絶頂", "高潮"),
+  ("余韻", "余韵"),
+  ("経験", "经验"),
+  ("感覚", "感官"),
+  ("親密", "亲密"),
+  ("従順", "顺从"),
+  ("戦闘", "战斗"),
+  ("話術", "话术"),
+  ("清掃", "清扫"),
+  ("音楽", "音乐"),
+  ("教養", "教养"),
+  ("肛門", "肛门"),
+  ("膣", "阴道"),
+  ("歓楽", "欢愉"),
+  ("屈従", "屈从"),
+  ("鬱屈", "郁屈"),
+)
+
+FAMILY_ZH_NAME: dict[str, str] = {
+  "base": "基础",
+  "palam": "参数",
+  "abl": "能力",
+  "talent": "素质",
+  "cflag": "角色标记",
+  "flag": "全局标记",
+  "tflag": "临时标记",
+}
+
+
+def _localize_display_text(value: object, fallback: str = "") -> str:
+  text = str(value or "").strip()
+  if not text:
+    return fallback
+  for source, target in JP_ZH_REPLACEMENTS:
+    text = text.replace(source, target)
+  if KANA_RE.search(text):
+    return fallback or "未命名"
+  return text
+
+
+def _family_fallback_label(family: str, era_index: object, key: object, idx: int) -> str:
+  family_name = FAMILY_ZH_NAME.get(str(family), str(family).upper())
+  if isinstance(era_index, int):
+    return f"{family_name}[{era_index}]"
+  key_text = str(key or "").strip()
+  if key_text:
+    return f"{family_name}[{key_text}]"
+  return f"{family_name}[{idx}]"
+
+
+def _looks_internal_label(text: str) -> bool:
+  t = text.strip()
+  if not t:
+    return True
+  if t.endswith("_OLD"):
+    return True
+  if INDEX_KEY_RE.match(t):
+    return True
+  if INTERNAL_LABEL_RE.match(t) and "_" in t:
+    return True
+  return False
+
+
+def _normalize_section_text(value: object) -> str:
+  section = _localize_display_text(value, "").strip()
+  if not section:
+    return "其他"
+  for sep in (";", "；", "\t"):
+    if sep in section:
+      section = section.split(sep, 1)[0].strip()
+  if len(section) > 24:
+    return "其他"
+  if _looks_internal_label(section):
+    return "其他"
+  return section or "其他"
 
 # ---------------------------------------------------------------------------
 # TOML writer (minimal — covers the structures used in character packs)
@@ -183,6 +274,10 @@ def _marks_path(root: Path) -> Path:
   return root / "data" / "base" / "marks.toml"
 
 
+def _checklist_path(root: Path) -> Path:
+  return root / "docs" / "tw_axis_registry_checklist.md"
+
+
 def _load_toml(path: Path) -> dict:
     if not path.exists():
         return {}
@@ -190,12 +285,83 @@ def _load_toml(path: Path) -> dict:
         return tomllib.load(f)
 
 
+def _load_registry_allowlist(root: Path) -> dict[str, dict[str, set[object]]]:
+  path = _checklist_path(root)
+  if not path.exists():
+    return {}
+
+  text = path.read_text(encoding="utf-8", errors="ignore")
+  pattern = re.compile(
+    r"^\s*-\s*\[[ xX]\]\s*`(?P<key>[A-Za-z0-9_]+)`\s*\|\s*`(?P<idx>-?\d+)`",
+    re.MULTILINE,
+  )
+
+  allowlist: dict[str, dict[str, set[object]]] = {}
+  for match in pattern.finditer(text):
+    key = match.group("key").strip()
+    family = key.split("_", 1)[0].lower()
+    fam_allowed = allowlist.setdefault(family, {"keys": set(), "indices": set()})
+    fam_allowed["keys"].add(key)
+    try:
+      fam_allowed["indices"].add(int(match.group("idx")))
+    except ValueError:
+      continue
+
+  return allowlist
+
+
 def _load_registry(root: Path) -> dict:
-    p = _registry_path(root)
-    if not p.exists():
-        return {}
-    with p.open("r", encoding="utf-8") as f:
-        return json.load(f)
+  p = _registry_path(root)
+  if not p.exists():
+    return {}
+  with p.open("r", encoding="utf-8") as f:
+    raw = json.load(f)
+  if not isinstance(raw, dict):
+    return {}
+
+  allowlist = _load_registry_allowlist(root)
+
+  localized: dict[str, list[dict[str, object]]] = {}
+  for family, entries in raw.items():
+    if not isinstance(entries, list):
+      continue
+
+    family_key = str(family).lower()
+    family_allow = allowlist.get(family_key)
+
+    normalized_entries: list[dict[str, object]] = []
+    for idx, entry in enumerate(entries):
+      if not isinstance(entry, dict):
+        continue
+      item = dict(entry)
+
+      if family_allow is not None:
+        key_text = str(item.get("key", "")).strip()
+        era_index_raw = item.get("era_index")
+        try:
+          era_index = int(era_index_raw)
+        except (TypeError, ValueError):
+          era_index = None
+        if key_text not in family_allow["keys"] and era_index not in family_allow["indices"]:
+          continue
+
+      fallback_label = _family_fallback_label(
+        str(family), item.get("era_index"), item.get("key"), idx
+      )
+      normalized_label = _localize_display_text(item.get("label"), "")
+      if _looks_internal_label(normalized_label):
+        normalized_label = ""
+      if not normalized_label:
+        key_label = _localize_display_text(item.get("key"), "")
+        normalized_label = "" if _looks_internal_label(key_label) else key_label
+      item["label"] = normalized_label or fallback_label
+      item["section"] = _normalize_section_text(item.get("section"))
+      if "notes" in item:
+        item["notes"] = _localize_display_text(item.get("notes"), "")
+      normalized_entries.append(item)
+
+    localized[str(family)] = normalized_entries
+  return localized
 
 
 def _load_stat_axes(root: Path) -> dict[str, list[dict[str, object]]]:
@@ -209,8 +375,8 @@ def _load_stat_axes(root: Path) -> dict[str, list[dict[str, object]]]:
       {
         "key": axis.key,
         "era_index": axis.era_index,
-        "label": axis.label,
-        "group": axis.group,
+        "label": _localize_display_text(axis.label, axis.key),
+        "group": _localize_display_text(axis.group, "其他"),
       }
       for axis in catalog.family_axes(family)
     ]
@@ -1253,7 +1419,18 @@ def main():
     parser.add_argument("--no-browser", action="store_true", help="Don't open browser")
     args = parser.parse_args()
 
-    root = Path(args.root) if args.root else Path(__file__).resolve().parents[2]
+    if args.root:
+        root = Path(args.root)
+    else:
+        # src/eral/tools/editor.py -> parents[3] is project root (erAL)
+        root = Path(__file__).resolve().parents[3]
+        # Fallback for unusual launch layouts: prefer current working directory if it has data files.
+        cwd_root = Path.cwd()
+        if not (_port_map_path(root).exists() and _commands_path(root).exists()) and (
+            _port_map_path(cwd_root).exists() and _commands_path(cwd_root).exists()
+        ):
+            root = cwd_root
+
     EditorHandler.root = root
 
     server = HTTPServer(("127.0.0.1", args.port), EditorHandler)

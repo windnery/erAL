@@ -27,7 +27,7 @@ from eral.content.talent_effects import load_talent_effects
 from eral.systems.imprint import ImprintService
 from eral.systems.favor_calc import load_growth_formula, load_trust_formula
 from eral.domain.map import PortMap
-from eral.domain.stats import ActorNumericState, WorldEraCompatState
+from eral.domain.stats import ActorNumericState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
 from eral.engine.events import EventBus
 from eral.engine.paths import RuntimePaths
@@ -169,7 +169,6 @@ def create_application(root: Path | None = None) -> Application:
             key=start_location.key,
             display_name=start_location.display_name,
         ),
-        compat=WorldEraCompatState.zeroed(tw_axes),
         characters=[],
     )
     schedule_service = ScheduleService(roster={character.key: character for character in roster})
@@ -188,9 +187,10 @@ def create_application(root: Path | None = None) -> Application:
         )
     schedule_service.refresh_world(world)
 
-    # Sync derived fields from initial CFLAG overrides before relationship resolution
+    # Load runtime fields from initial CFLAG overrides, then mirror compat from runtime.
     for actor in world.characters:
-        actor.sync_derived_fields()
+        actor.hydrate_runtime_fields_from_compat()
+        actor.sync_compat_from_runtime()
 
     game_loop = GameLoop(
         event_bus=event_bus,

@@ -1,0 +1,12 @@
+key = "belfast"
+display_name = "贝尔法斯特"
+tags = ["belfast"]
+initial_location = ""
+
+[schedule]
+dawn = ""
+morning = ""
+afternoon = ""
+evening = ""
+night = ""
+late_night = ""

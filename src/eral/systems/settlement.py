@@ -66,16 +66,17 @@ class SettlementService:
                 after = actor.stats.base.add(rule.target_key, delta)
                 changes.append(AppliedChange("base", rule.target_key, before, after, delta))
             elif target_family == AxisFamily.CFLAG and rule.target_index is not None:
-                before = actor.stats.compat.cflag.get(rule.target_index)
-                after = actor.stats.compat.cflag.add(rule.target_index, delta)
+                before = actor.get_cflag(rule.target_index)
+                after = actor.add_cflag(rule.target_index, delta)
                 changes.append(
                     AppliedChange("cflag", str(rule.target_index), before, after, delta)
                 )
-            elif target_family == AxisFamily.TFLAG and rule.target_index is not None:
-                before = world.compat.tflag.get(rule.target_index)
-                after = world.compat.tflag.add(rule.target_index, delta)
+            elif target_family in {AxisFamily.TFLAG, AxisFamily.FLAG} and rule.target_index is not None:
+                condition_key = f"{target_family.value}_{rule.target_index}"
+                before = world.get_condition(condition_key)
+                after = world.add_condition(condition_key, delta)
                 changes.append(
-                    AppliedChange("tflag", str(rule.target_index), before, after, delta)
+                    AppliedChange("condition", condition_key, before, after, delta)
                 )
 
         # Phase 1.5: FAVOR_CALC / TRUST_CALC
@@ -85,16 +86,16 @@ class SettlementService:
             if self.facility_service is not None and favor_delta > 0:
                 favor_delta = int(favor_delta * self.facility_service.relation_multiplier(world))
             if favor_delta > 0:
-                before = actor.stats.compat.cflag.get(CFLAG_AFFECTION)
-                after = actor.stats.compat.cflag.add(CFLAG_AFFECTION, favor_delta)
+                before = actor.get_cflag(CFLAG_AFFECTION)
+                after = actor.add_cflag(CFLAG_AFFECTION, favor_delta)
                 changes.append(AppliedChange("cflag", str(CFLAG_AFFECTION), before, after, favor_delta))
         if self.trust_formula is not None:
             trust_delta = compute_trust_delta(actor.stats, stage_key, self.trust_formula)
             if self.facility_service is not None and trust_delta > 0:
                 trust_delta = int(trust_delta * self.facility_service.relation_multiplier(world))
             if trust_delta > 0:
-                before = actor.stats.compat.cflag.get(CFLAG_TRUST)
-                after = actor.stats.compat.cflag.add(CFLAG_TRUST, trust_delta)
+                before = actor.get_cflag(CFLAG_TRUST)
+                after = actor.add_cflag(CFLAG_TRUST, trust_delta)
                 changes.append(AppliedChange("cflag", str(CFLAG_TRUST), before, after, trust_delta))
 
         # Phase 2: Apply CUP/CDOWN to PALAM

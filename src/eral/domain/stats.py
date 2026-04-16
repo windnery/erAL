@@ -84,21 +84,6 @@ class CharacterEraCompatState:
 
 
 @dataclass(slots=True)
-class WorldEraCompatState:
-    """Global raw compatibility blocks imported from eraTW."""
-
-    flag: IndexedStatBlock
-    tflag: IndexedStatBlock
-
-    @classmethod
-    def zeroed(cls, registry: TwAxisRegistry) -> "WorldEraCompatState":
-        return cls(
-            flag=IndexedStatBlock.zeroed(AxisFamily.FLAG, registry),
-            tflag=IndexedStatBlock.zeroed(AxisFamily.TFLAG, registry),
-        )
-
-
-@dataclass(slots=True)
 class ActorNumericState:
     """Typed numeric state attached to an actor."""
 

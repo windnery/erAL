@@ -5,9 +5,22 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import StrEnum
 
-from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 from eral.domain.relationship import RelationshipStage
-from eral.domain.stats import ActorNumericState, WorldEraCompatState
+from eral.domain.stats import ActorNumericState
+
+
+CFLAG_AFFECTION = 2
+CFLAG_TRUST = 4
+CFLAG_OBEDIENCE = 6
+CFLAG_ON_DATE = 12
+CFLAG_SAME_ROOM = 319
+CFLAG_FOLLOWING = 320
+CFLAG_FOLLOW_READY = 329
+
+CONDITION_ON_DATE = "on_date"
+CONDITION_SAME_ROOM = "same_room"
+CONDITION_FOLLOWING = "following"
+CONDITION_FOLLOW_READY = "follow_ready"
 
 
 class TimeSlot(StrEnum):
@@ -70,14 +83,102 @@ class CharacterState:
     is_on_commission: bool = False
     fatigue: int = 0
     marks: dict[str, int] = field(default_factory=dict)
+    conditions: dict[str, int] = field(default_factory=dict)
     commission_assignment: object | None = None
 
     def sync_derived_fields(self) -> None:
-        """Synchronise derived fields from the authoritative CFLAG block."""
+        """Synchronise derived runtime fields from legacy compat CFLAG values."""
 
-        self.affection = actor_cflag.get(self, CFLAGKey.AFFECTION)
-        self.trust = actor_cflag.get(self, CFLAGKey.TRUST)
-        self.obedience = actor_cflag.get(self, CFLAGKey.OBEDIENCE)
+        self.affection = self.stats.compat.cflag.get(CFLAG_AFFECTION)
+        self.trust = self.stats.compat.cflag.get(CFLAG_TRUST)
+        self.obedience = self.stats.compat.cflag.get(CFLAG_OBEDIENCE)
+
+    def sync_compat_from_runtime(self) -> None:
+        """Mirror explicit runtime state to compat CFLAG for save compatibility."""
+
+        self.stats.compat.cflag.set(CFLAG_AFFECTION, self.affection)
+        self.stats.compat.cflag.set(CFLAG_TRUST, self.trust)
+        self.stats.compat.cflag.set(CFLAG_OBEDIENCE, self.obedience)
+        self.stats.compat.cflag.set(CFLAG_ON_DATE, 1 if self.is_on_date else 0)
+        self.stats.compat.cflag.set(CFLAG_SAME_ROOM, 1 if self.is_same_room else 0)
+        self.stats.compat.cflag.set(CFLAG_FOLLOWING, 1 if self.is_following else 0)
+        self.stats.compat.cflag.set(CFLAG_FOLLOW_READY, 1 if self.follow_ready else 0)
+        self.conditions[CONDITION_ON_DATE] = 1 if self.is_on_date else 0
+        self.conditions[CONDITION_SAME_ROOM] = 1 if self.is_same_room else 0
+        self.conditions[CONDITION_FOLLOWING] = 1 if self.is_following else 0
+        self.conditions[CONDITION_FOLLOW_READY] = 1 if self.follow_ready else 0
+
+    def hydrate_runtime_fields_from_compat(self) -> None:
+        """Load runtime state from compat CFLAG for legacy data compatibility."""
+
+        self.sync_derived_fields()
+        self.is_on_date = self.stats.compat.cflag.get(CFLAG_ON_DATE) > 0
+        self.is_same_room = self.stats.compat.cflag.get(CFLAG_SAME_ROOM) > 0
+        self.is_following = self.stats.compat.cflag.get(CFLAG_FOLLOWING) > 0
+        self.follow_ready = self.stats.compat.cflag.get(CFLAG_FOLLOW_READY) > 0
+        self.sync_compat_from_runtime()
+
+    def get_cflag(self, era_index: int) -> int:
+        """Read cflag via explicit runtime state for active semantics."""
+
+        if era_index == CFLAG_AFFECTION:
+            return self.affection
+        if era_index == CFLAG_TRUST:
+            return self.trust
+        if era_index == CFLAG_OBEDIENCE:
+            return self.obedience
+        if era_index == CFLAG_ON_DATE:
+            return 1 if self.is_on_date else 0
+        if era_index == CFLAG_SAME_ROOM:
+            return 1 if self.is_same_room else 0
+        if era_index == CFLAG_FOLLOWING:
+            return 1 if self.is_following else 0
+        if era_index == CFLAG_FOLLOW_READY:
+            return 1 if self.follow_ready else 0
+        return self.stats.compat.cflag.get(era_index)
+
+    def set_cflag(self, era_index: int, value: int) -> None:
+        """Write cflag via explicit runtime state and mirror to compat."""
+
+        if era_index == CFLAG_AFFECTION:
+            self.affection = value
+        elif era_index == CFLAG_TRUST:
+            self.trust = value
+        elif era_index == CFLAG_OBEDIENCE:
+            self.obedience = value
+        elif era_index == CFLAG_ON_DATE:
+            self.is_on_date = value > 0
+        elif era_index == CFLAG_SAME_ROOM:
+            self.is_same_room = value > 0
+        elif era_index == CFLAG_FOLLOWING:
+            self.is_following = value > 0
+        elif era_index == CFLAG_FOLLOW_READY:
+            self.follow_ready = value > 0
+        self.stats.compat.cflag.set(era_index, value)
+
+    def add_cflag(self, era_index: int, delta: int) -> int:
+        """Increment cflag via explicit runtime state for active semantics."""
+
+        after = self.get_cflag(era_index) + delta
+        self.set_cflag(era_index, after)
+        return after
+
+    def get_condition(self, key: str) -> int:
+        """Read extensible runtime condition value by key."""
+
+        return int(self.conditions.get(key, 0))
+
+    def set_condition(self, key: str, value: int) -> None:
+        """Write extensible runtime condition value by key."""
+
+        self.conditions[key] = int(value)
+
+    def add_condition(self, key: str, delta: int) -> int:
+        """Increment a runtime condition value by key."""
+
+        value = self.get_condition(key) + int(delta)
+        self.set_condition(key, value)
+        return value
 
     def has_mark(self, key: str, min_level: int = 1) -> bool:
         """Check whether a mark is present at or above the given level."""
@@ -106,14 +207,31 @@ class WorldState:
     current_time_slot: TimeSlot
     player_name: str
     active_location: PortLocation
-    compat: WorldEraCompatState
     date_partner_key: str | None = None
     is_busy: bool = False
     is_date_traveling: bool = False
     personal_funds: int = 0
     port_funds: int = 0
+    conditions: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)
     characters: list[CharacterState] = field(default_factory=list)
+
+    def get_condition(self, key: str) -> int:
+        """Read global extensible runtime condition value by key."""
+
+        return int(self.conditions.get(key, 0))
+
+    def set_condition(self, key: str, value: int) -> None:
+        """Write global extensible runtime condition value by key."""
+
+        self.conditions[key] = int(value)
+
+    def add_condition(self, key: str, delta: int) -> int:
+        """Increment a global runtime condition value by key."""
+
+        value = self.get_condition(key) + int(delta)
+        self.set_condition(key, value)
+        return value
 
     def visible_characters(self) -> tuple[CharacterState, ...]:
         """Return characters currently at the player's location."""
