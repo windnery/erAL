@@ -41,11 +41,32 @@ class EventService:
                 continue
             if event.requires_private and not scene.is_private:
                 continue
+            if event.required_skin_key is not None and scene.equipped_skin_key != event.required_skin_key:
+                continue
+            if event.required_skin_tags and not all(
+                tag in scene.equipped_skin_tags for tag in event.required_skin_tags
+            ):
+                continue
+            if event.required_removed_slots and not all(
+                slot in scene.removed_slots for slot in event.required_removed_slots
+            ):
+                continue
+            if event.forbidden_removed_slots and any(
+                slot in scene.removed_slots for slot in event.forbidden_removed_slots
+            ):
+                continue
             for mark_key, min_level in event.required_marks.items():
                 if scene.marks.get(mark_key, 0) < min_level:
                     break
             else:
-                specificity = len(event.required_marks)
+                specificity = (
+                    len(event.required_marks)
+                    + len(event.required_skin_tags)
+                    + len(event.required_removed_slots)
+                    + len(event.forbidden_removed_slots)
+                    + (1 if event.required_skin_key is not None else 0)
+                    + (1 if event.required_stage is not None else 0)
+                )
                 matched.append((event.key, specificity))
                 continue
             # mark check failed — skip this event

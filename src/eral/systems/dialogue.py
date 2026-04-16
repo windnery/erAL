@@ -68,6 +68,20 @@ class DialogueService:
             return False
         if entry.requires_following is not None and scene.is_following != entry.requires_following:
             return False
+        if entry.required_skin_key is not None and scene.equipped_skin_key != entry.required_skin_key:
+            return False
+        if entry.required_skin_tags and not all(
+            tag in scene.equipped_skin_tags for tag in entry.required_skin_tags
+        ):
+            return False
+        if entry.required_removed_slots and not all(
+            slot in scene.removed_slots for slot in entry.required_removed_slots
+        ):
+            return False
+        if entry.forbidden_removed_slots and any(
+            slot in scene.removed_slots for slot in entry.forbidden_removed_slots
+        ):
+            return False
         for mark_key, min_level in entry.required_marks.items():
             if scene.marks.get(mark_key, 0) < min_level:
                 return False

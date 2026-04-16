@@ -278,6 +278,24 @@ actor_key = "enterprise"
 priority = 1
 lines = ["「你是我唯一信任到这种程度的人。」"]
 
+[[entries]]
+key = "oath_success"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "企业接过你递出的戒指时，呼吸明显停了一瞬，随后郑重地将它贴近胸口，像是在确认这一刻并非幻觉。",
+  "「……我接受。这份誓约，我会用余生去兑现。指挥官，从现在开始，我会以誓约之名回应你的信任。」",
+]
+
+[[entries]]
+key = "oath_failure"
+actor_key = "enterprise"
+priority = 10
+lines = [
+  "她望着你手中的戒指沉默了很久，最终还是把你的手轻轻合拢，没有让那份重量落下。",
+  "「这份心意我明白，但现在的我还不想让誓约变得仓促。等我们都准备好了，再试一次吧。」",
+]
+
 # ── 阶段差分 ──
 
 [[entries]]
@@ -300,6 +318,19 @@ actor_key = "enterprise"
 priority = 5
 required_stage = "love"
 lines = ["「……比起报告，我更想先听你说话。」"]
+
+[[entries]]
+key = "chat"
+actor_key = "enterprise"
+priority = 6
+required_skin_key = "enterprise_oath"
+lines = ["「这身誓约礼服……既然是你亲手为我戴上的戒指，我会认真穿给你看。」"]
+
+[[entries]]
+key = "enterprise_chat_oath_skin"
+actor_key = "enterprise"
+priority = 12
+lines = ["企业轻轻提起誓约礼服的裙摆向你示意，眼神里少见地带着不必掩饰的温柔。"]
 
 [[entries]]
 key = "praise"

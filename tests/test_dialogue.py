@@ -9,7 +9,8 @@ from eral.app.bootstrap import create_application
 from eral.content.dialogue import DialogueEntry
 from eral.domain.scene import SceneContext
 from eral.systems.dialogue import DialogueService
-from tests.support.real_actors import place_player_with_actor
+from tests.support.real_actors import actor_by_key, place_player_with_actor
+from tests.support.stages import seed_like
 
 
 def _scene(
@@ -28,6 +29,9 @@ def _scene(
     is_private: bool = False,
     is_same_room: bool = False,
     visible_count: int = 1,
+    equipped_skin_key: str | None = None,
+    equipped_skin_tags: tuple[str, ...] = (),
+    removed_slots: tuple[str, ...] = (),
     marks: dict[str, int] | None = None,
 ) -> SceneContext:
     return SceneContext(
@@ -48,6 +52,9 @@ def _scene(
         is_same_room=is_same_room,
         visible_count=visible_count,
         is_private=is_private,
+        equipped_skin_key=equipped_skin_key,
+        equipped_skin_tags=equipped_skin_tags,
+        removed_slots=removed_slots,
         marks=marks or {},
     )
 
@@ -133,6 +140,33 @@ class DialogueConditionMatchingTests(unittest.TestCase):
         )
         self.assertFalse(self.service._matches(entry, _scene(is_following=False)))
         self.assertTrue(self.service._matches(entry, _scene(is_following=True)))
+
+    def test_required_skin_key_must_match(self) -> None:
+        entry = DialogueEntry(
+            key="chat",
+            actor_key="enterprise",
+            lines=("ok",),
+            required_skin_key="enterprise_oath",
+        )
+        self.assertFalse(self.service._matches(entry, _scene()))
+        self.assertTrue(
+            self.service._matches(entry, _scene(equipped_skin_key="enterprise_oath"))
+        )
+
+    def test_required_removed_slots_must_match(self) -> None:
+        entry = DialogueEntry(
+            key="chat",
+            actor_key="enterprise",
+            lines=("ok",),
+            required_removed_slots=("underwear_bottom",),
+        )
+        self.assertFalse(self.service._matches(entry, _scene(removed_slots=())))
+        self.assertTrue(
+            self.service._matches(
+                entry,
+                _scene(removed_slots=("underwear_bottom",)),
+            )
+        )
 
 
 class DialoguePrioritySelectionTests(unittest.TestCase):
@@ -274,6 +308,50 @@ class DialogueRealDataTests(unittest.TestCase):
         )
         # Should get the generic fallback (priority 0)
         self.assertTrue(any("分享" in line or "气氛" in line for line in result.messages))
+
+    def test_oath_success_uses_enterprise_success_dialogue(self) -> None:
+        seed_like(self.actor)
+        self.app.relationship_service.update_actor(self.actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.personal_funds = 1200
+        self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.0
+
+        result = self.app.command_service.execute(self.app.world, self.actor.key, "oath")
+
+        self.assertTrue(any("回应你的信任" in line for line in result.messages))
+
+    def test_oath_failure_uses_enterprise_failure_dialogue(self) -> None:
+        seed_like(self.actor)
+        self.app.relationship_service.update_actor(self.actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.personal_funds = 1200
+        self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.99
+
+        result = self.app.command_service.execute(self.app.world, self.actor.key, "oath")
+
+        self.assertTrue(any("再试一次吧" in line for line in result.messages))
+
+    def test_chat_with_oath_skin_uses_skin_specific_dialogue(self) -> None:
+        self.actor.unlock_skin("enterprise_oath")
+        self.actor.equip_skin("enterprise_oath")
+
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=self.actor.key,
+            command_key="chat",
+        )
+
+        self.assertTrue(any("礼服" in line or "誓约" in line for line in result.messages))
 
 
 class DialogueMarkBranchingTests(unittest.TestCase):

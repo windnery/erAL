@@ -110,6 +110,17 @@ class SaveService:
             actor.fatigue = int(actor_payload.get("fatigue", 0))
             actor.marks = {str(k): int(v) for k, v in actor_payload.get("marks", {}).items()}
             actor.conditions = {str(k): int(v) for k, v in actor_payload.get("conditions", {}).items()}
+            actor.owned_skins = {
+                str(skin_key) for skin_key in actor_payload.get("owned_skins", [])
+            }
+            actor.equipped_skin_key = actor_payload.get("equipped_skin_key")
+            actor.removed_slots = tuple(
+                str(slot) for slot in actor_payload.get("removed_slots", [])
+            )
+            if not actor.owned_skins:
+                actor.owned_skins = {f"{actor.key}_default"}
+            if actor.equipped_skin_key is None:
+                actor.equipped_skin_key = f"{actor.key}_default"
             actor.sync_compat_from_runtime()
             world.characters.append(actor)
 
@@ -135,6 +146,9 @@ class SaveService:
             "fatigue": actor.fatigue,
             "marks": actor.marks,
             "conditions": actor.conditions,
+            "owned_skins": sorted(actor.owned_skins),
+            "equipped_skin_key": actor.equipped_skin_key,
+            "removed_slots": list(actor.removed_slots),
             "stats": {
                 "base": actor.stats.base.values,
                 "palam": actor.stats.palam.values,

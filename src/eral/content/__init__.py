@@ -9,6 +9,12 @@ from .events import EventDefinition, load_event_definitions
 from .items import ItemDefinition, load_item_definitions
 from .marks import MarkDefinition, load_mark_definitions
 from .shops import ShopfrontDefinition, load_shopfront_definitions
+from .skins import (
+    AppearanceDefinition,
+    SkinDefinition,
+    load_appearance_definitions,
+    load_skin_definitions,
+)
 from .port_map import load_port_map
 from .relationships import RelationshipStageDefinition, load_relationship_stages
 from .settlement import SettlementRule, load_settlement_rules
@@ -26,8 +32,10 @@ __all__ = [
     "EventDefinition",
     "ItemDefinition",
     "MarkDefinition",
+    "AppearanceDefinition",
     "RelationshipStageDefinition",
     "SettlementRule",
+    "SkinDefinition",
     "ShopfrontDefinition",
     "StatAxis",
     "StatAxisCatalog",
@@ -41,8 +49,10 @@ __all__ = [
     "load_event_definitions",
     "load_item_definitions",
     "load_mark_definitions",
+    "load_appearance_definitions",
     "load_port_map",
     "load_shopfront_definitions",
+    "load_skin_definitions",
     "load_relationship_stages",
     "load_settlement_rules",
     "load_stat_axis_catalog",

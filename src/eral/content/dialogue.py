@@ -24,6 +24,10 @@ class DialogueEntry:
     requires_private: bool | None = None
     requires_date: bool | None = None
     requires_following: bool | None = None
+    required_skin_key: str | None = None
+    required_skin_tags: tuple[str, ...] = ()
+    required_removed_slots: tuple[str, ...] = ()
+    forbidden_removed_slots: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
     priority: int = 0
 
@@ -53,6 +57,10 @@ def load_dialogue_entries(path: Path) -> tuple[DialogueEntry, ...]:
             requires_private=item.get("requires_private"),
             requires_date=item.get("requires_date"),
             requires_following=item.get("requires_following"),
+            required_skin_key=item.get("required_skin_key"),
+            required_skin_tags=tuple(item.get("required_skin_tags", [])),
+            required_removed_slots=tuple(item.get("required_removed_slots", [])),
+            forbidden_removed_slots=tuple(item.get("forbidden_removed_slots", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
             },

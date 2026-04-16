@@ -314,6 +314,81 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertTrue(actor.has_mark("oath"))
         self.assertEqual(actor.relationship_stage.key, "oath")
 
+    def test_purchased_ring_can_be_used_for_oath_success(self) -> None:
+        actor = self._actor()
+        seed_like(actor)
+        self.app.relationship_service.update_actor(actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.personal_funds = 1200
+
+        purchase = self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.0
+
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="oath",
+        )
+
+        self.assertTrue(purchase.success)
+        self.assertEqual(self.app.world.personal_funds, 200)
+        self.assertTrue(result.success)
+        self.assertEqual(self.app.world.item_count("pledge_ring"), 0)
+        self.assertTrue(actor.has_mark("oath"))
+        self.assertEqual(actor.relationship_stage.key, "oath")
+
+    def test_failed_oath_after_purchase_keeps_ring(self) -> None:
+        actor = self._actor()
+        seed_like(actor)
+        self.app.relationship_service.update_actor(actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.personal_funds = 1200
+
+        purchase = self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.99
+
+        result = self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="oath",
+        )
+
+        self.assertTrue(purchase.success)
+        self.assertEqual(self.app.world.personal_funds, 200)
+        self.assertFalse(result.success)
+        self.assertEqual(self.app.world.item_count("pledge_ring"), 1)
+        self.assertFalse(actor.has_mark("oath"))
+        self.assertEqual(actor.relationship_stage.key, "like")
+
+    def test_oath_success_unlocks_oath_reward_skin(self) -> None:
+        actor = self._actor()
+        seed_like(actor)
+        self.app.relationship_service.update_actor(actor)
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.app.world.personal_funds = 1200
+        self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.0
+
+        self.app.command_service.execute(
+            self.app.world,
+            actor_key=actor.key,
+            command_key="oath",
+        )
+
+        self.assertIn("enterprise_oath", actor.owned_skins)
+
     def test_serve_tea_command_increases_trust(self) -> None:
         actor = self._actor()
         self.app.world.active_location.key = "command_office"

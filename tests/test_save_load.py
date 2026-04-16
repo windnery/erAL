@@ -204,6 +204,37 @@ class SaveLoadTests(unittest.TestCase):
         self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 310)
         self.assertEqual(restored_laffey.marks["kissed"], 1)
 
+    def test_load_older_save_defaults_skin_state(self) -> None:
+        self.app.save_service.save_world(self.app.world)
+        save_path = self.app.save_service.quicksave_path()
+        payload = json.loads(save_path.read_text(encoding="utf-8"))
+        for actor in payload["characters"]:
+            actor.pop("owned_skins", None)
+            actor.pop("equipped_skin_key", None)
+            actor.pop("removed_slots", None)
+        save_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        restored = self.app.save_service.load_world()
+        restored_actor = next(actor for actor in restored.characters if actor.key == "enterprise")
+
+        self.assertIn("enterprise_default", restored_actor.owned_skins)
+        self.assertEqual(restored_actor.equipped_skin_key, "enterprise_default")
+        self.assertEqual(restored_actor.removed_slots, ())
+
+    def test_save_and_load_roundtrips_skin_state(self) -> None:
+        actor = next(actor for actor in self.app.world.characters if actor.key == "enterprise")
+        actor.owned_skins = {"enterprise_default", "enterprise_oath"}
+        actor.equipped_skin_key = "enterprise_oath"
+        actor.removed_slots = ("underwear_bottom",)
+
+        self.app.save_service.save_world(self.app.world)
+        restored = self.app.save_service.load_world()
+        restored_actor = next(actor for actor in restored.characters if actor.key == "enterprise")
+
+        self.assertEqual(restored_actor.owned_skins, {"enterprise_default", "enterprise_oath"})
+        self.assertEqual(restored_actor.equipped_skin_key, "enterprise_oath")
+        self.assertEqual(restored_actor.removed_slots, ("underwear_bottom",))
+
 
 if __name__ == "__main__":
     unittest.main()

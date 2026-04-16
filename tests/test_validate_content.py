@@ -19,8 +19,8 @@ class ValidateContentReportTests(unittest.TestCase):
         stats = collect_content_stats(self.repo_root)
         by_key = {item.character_key: item for item in stats}
 
-        self.assertEqual(by_key["enterprise"].event_count, 30)
-        self.assertEqual(by_key["enterprise"].dialogue_count, 58)
+        self.assertEqual(by_key["enterprise"].event_count, 31)
+        self.assertEqual(by_key["enterprise"].dialogue_count, 62)
         self.assertEqual(by_key["enterprise"].event_gap, 0)
         self.assertEqual(by_key["enterprise"].dialogue_gap, 0)
 
@@ -30,8 +30,8 @@ class ValidateContentReportTests(unittest.TestCase):
 
         self.assertIn("content density report:", report)
         self.assertIn("enterprise", report)
-        self.assertIn("events=30", report)
-        self.assertIn("dialogue=58", report)
+        self.assertIn("events=31", report)
+        self.assertIn("dialogue=62", report)
 
     def test_main_prints_content_density_report(self) -> None:
         buf = io.StringIO()

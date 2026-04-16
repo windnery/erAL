@@ -28,6 +28,7 @@ from eral.systems.relationships import RelationshipService
 from eral.systems.scene import SceneService
 from eral.systems.resolution import ResolutionService
 from eral.systems.settlement import SettlementService
+from eral.systems.skins import SkinService
 from eral.systems.source_extra import apply_source_extra
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
@@ -56,6 +57,7 @@ class CommandService:
     wallet_service: WalletService | None = None
     facility_service: FacilityService | None = None
     resolution_service: ResolutionService | None = None
+    skin_service: SkinService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -106,14 +108,17 @@ class CommandService:
 
         scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
         resolution_result = self._resolve_command(world, actor, command)
+        resolution_tags = self._resolution_result_tags(command, resolution_result)
         if resolution_result is not None and not resolution_result.success:
+            dialogue_lines = list(self.dialogue_service.lines_for(scene, resolution_tags))
             return ActionResult(
                 action_key=command.key,
                 success=False,
                 chance=resolution_result.chance,
                 actor_key=actor.key,
                 scene=scene,
-                messages=[f"{actor.display_name}未能完成{command.display_name}。"],
+                triggered_events=list(resolution_tags),
+                messages=dialogue_lines or [f"{actor.display_name}未能完成{command.display_name}。"],
             )
 
         for source_key, delta in command.source.items():
@@ -152,7 +157,7 @@ class CommandService:
         triggered_events = self.event_service.triggered_events(trigger_scene)
         if not triggered_events:
             triggered_events = self.event_service.triggered_events(settled_scene)
-        dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, triggered_events))
+        dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, resolution_tags + triggered_events))
         after_date_events, after_date_lines = self._resolve_after_date_followup(
             world,
             actor,
@@ -161,7 +166,7 @@ class CommandService:
         )
         if after_date_lines:
             dialogue_lines.extend(after_date_lines)
-        all_triggered_events = triggered_events + after_date_events
+        all_triggered_events = resolution_tags + triggered_events + after_date_events
         self._log_success(world, actor.key, command.key, all_triggered_events)
         return ActionResult(
             action_key=command.key,
@@ -194,8 +199,18 @@ class CommandService:
             if not world.consume_item("pledge_ring", 1):
                 raise ValueError("缺少所需道具：誓约之戒 x1。")
             self._ensure_oath_mark(actor)
+            if self.skin_service is not None:
+                for skin in self.skin_service.skin_definitions.values():
+                    if skin.actor_key == actor.key and skin.grant_mode == "oath_reward":
+                        actor.unlock_skin(skin.key)
             self.relationship_service.update_actor(actor)
         return result
+
+    @staticmethod
+    def _resolution_result_tags(command: CommandDefinition, resolution_result) -> tuple[str, ...]:
+        if command.resolution_key != "oath" or resolution_result is None:
+            return ()
+        return ("oath_success",) if resolution_result.success else ("oath_failure",)
 
     def _log_success(
         self,

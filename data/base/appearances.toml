@@ -1,0 +1,44 @@
+[[appearances]]
+key = "enterprise_default"
+portrait_key = "enterprise_default_main"
+
+[appearances.slots]
+headwear = "default_cap"
+accessory = "default_ribbon"
+top = "default_uniform_top"
+skirt = "default_uniform_skirt"
+underwear_top = "default_inner_top"
+underwear_bottom = "default_inner_bottom"
+socks = "default_socks"
+shoes = "default_shoes"
+attachment = "default_cape"
+
+[[appearances]]
+key = "enterprise_oath"
+portrait_key = "enterprise_oath_main"
+
+[appearances.slots]
+headwear = "oath_crown"
+accessory = "oath_ring"
+top = "oath_dress_top"
+skirt = "oath_dress_skirt"
+underwear_top = "oath_inner_top"
+underwear_bottom = "oath_inner_bottom"
+socks = "oath_stockings"
+shoes = "oath_heels"
+attachment = "oath_veil"
+
+[[appearances]]
+key = "enterprise_summer"
+portrait_key = "enterprise_summer_main"
+
+[appearances.slots]
+headwear = "summer_hat"
+accessory = "summer_bracelet"
+top = "summer_swim_top"
+skirt = "summer_wrap_skirt"
+underwear_top = "summer_inner_top"
+underwear_bottom = "summer_inner_bottom"
+socks = "summer_anklets"
+shoes = "summer_sandals"
+attachment = "summer_float"

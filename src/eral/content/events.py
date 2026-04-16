@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -22,7 +22,11 @@ class EventDefinition:
     required_stage: str | None
     requires_date: bool | None
     requires_private: bool
-    required_marks: dict[str, int]
+    required_skin_key: str | None = None
+    required_skin_tags: tuple[str, ...] = ()
+    required_removed_slots: tuple[str, ...] = ()
+    forbidden_removed_slots: tuple[str, ...] = ()
+    required_marks: dict[str, int] = field(default_factory=dict)
 
 
 def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
@@ -49,6 +53,10 @@ def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
             required_stage=item.get("required_stage"),
             requires_date=item.get("requires_date"),
             requires_private=bool(item.get("requires_private", False)),
+            required_skin_key=item.get("required_skin_key"),
+            required_skin_tags=tuple(item.get("required_skin_tags", [])),
+            required_removed_slots=tuple(item.get("required_removed_slots", [])),
+            forbidden_removed_slots=tuple(item.get("forbidden_removed_slots", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
             },

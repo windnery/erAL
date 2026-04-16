@@ -14,6 +14,8 @@ classic eraTW layout:
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from eral.app.bootstrap import Application
 from eral.domain.world import CharacterState, WorldState
 from eral.ui.ansi import (
@@ -113,13 +115,15 @@ _ABL_SECTION_ORDER = ("感覚", "基本", "中毒", "技能", "性技")
 # ── Clothing slot placeholders ─────────────────────────────────────
 
 _CLOTHING_SLOTS = (
+    ("头饰", "headwear"),
+    ("饰品", "accessory"),
     ("上衣", "top"),
-    ("下衣", "bottom"),
+    ("裙子", "skirt"),
     ("内衣(上)", "underwear_top"),
     ("内衣(下)", "underwear_bottom"),
     ("袜子", "socks"),
     ("鞋", "shoes"),
-    ("饰品", "accessory"),
+    ("附属", "attachment"),
 )
 
 # ── Talent group by index range ────────────────────────────────────
@@ -374,6 +378,9 @@ def _build_menu(
         menu["move"].append((f"前往 {loc.display_name}", "move", key))
 
     # Time & generic
+    menu["system"].append(("进入日常用品店", "shop", "general_shop"))
+    menu["system"].append(("企业皮肤商店", "skin_shop", "enterprise"))
+    menu["system"].append(("切换企业皮肤", "skin_wardrobe", "enterprise"))
     menu["system"].append(("等待(推进时段)", "wait", None))
     menu["system"].append(("能力显示", "status", None))
     menu["system"].append(("保存当前进度", "save", None))
@@ -474,6 +481,171 @@ def _render_command_menu(
             print("  " + "".join(row_buf))
 
     return flat
+
+
+def _open_shopfront(
+    app: Application,
+    world: WorldState,
+    shopfront_key: str,
+    *,
+    input_fn: Callable[[str], str] = input,
+) -> list[str]:
+    """Run a minimal one-step purchase prompt for a shopfront."""
+
+    shopfront = app.shop_service.shopfront_definitions.get(shopfront_key)
+    if shopfront is None:
+        return [colorize("商店不存在。", FG_RED)]
+
+    goods = app.shop_service.list_items(shopfront_key)
+    if not goods:
+        return [colorize(f"{shopfront.display_name}当前暂无可购买商品。", FG_YELLOW)]
+
+    clear_screen()
+    print(header_separator("═", terminal_width()))
+    print(colorize(f"  {shopfront.display_name}", FG_CYAN, bold=True))
+    print(colorize(f"  当前资金: {world.personal_funds}", FG_YELLOW))
+    print(header_separator("═", terminal_width()))
+    for index, item in enumerate(goods, start=1):
+        print(colorize(f"  [{index}] {item.display_name}  ￥{item.price}", FG_WHITE))
+        print(colorize(f"      {item.description}", FG_DARK_GRAY))
+    print(colorize("  [0] 返回", FG_GRAY))
+
+    raw = input_fn(colorize("  请选择商品 > ", FG_WHITE)).strip()
+    if not raw or raw == "0":
+        return [colorize(f"离开了{shopfront.display_name}。", FG_GRAY)]
+
+    try:
+        choice = int(raw)
+    except ValueError:
+        return [colorize("商店选项无效。", FG_RED)]
+
+    if choice < 1 or choice > len(goods):
+        return [colorize("商店选项无效。", FG_RED)]
+
+    item = goods[choice - 1]
+    result = app.shop_service.purchase(world, shopfront_key, item.key)
+    if not result.success:
+        return [colorize(f"{shopfront.display_name}购买失败：{result.reason}", FG_RED)]
+    return [
+        colorize(
+            f"在{shopfront.display_name}购买了 {item.display_name} x{result.count}。",
+            FG_GREEN,
+        )
+    ]
+
+
+def _open_skin_shop(
+    app: Application,
+    world: WorldState,
+    actor_key: str,
+    *,
+    input_fn: Callable[[str], str] = input,
+) -> list[str]:
+    """Run a minimal one-step purchase prompt for actor-bound skins."""
+
+    actor = next((character for character in world.characters if character.key == actor_key), None)
+    if actor is None:
+        return [colorize("目标角色不存在。", FG_RED)]
+
+    goods = app.skin_service.visible_shop_skins(actor_key)
+    if not goods:
+        return [colorize(f"{actor.display_name}当前没有可购买皮肤。", FG_YELLOW)]
+
+    clear_screen()
+    print(header_separator("═", terminal_width()))
+    print(colorize(f"  {actor.display_name}皮肤商店", FG_CYAN, bold=True))
+    print(colorize(f"  当前资金: {world.personal_funds}", FG_YELLOW))
+    print(header_separator("═", terminal_width()))
+    preview_lines = [colorize("可购买皮肤：", FG_WHITE)]
+    for index, skin in enumerate(goods, start=1):
+        line = f"  [{index}] {skin.display_name}  ￥{skin.price}"
+        print(colorize(line, FG_WHITE))
+        preview_lines.append(line)
+    print(colorize("  [0] 返回", FG_GRAY))
+
+    raw = input_fn(colorize("  请选择皮肤 > ", FG_WHITE)).strip()
+    if not raw or raw == "0":
+        return preview_lines + [colorize(f"离开了{actor.display_name}皮肤商店。", FG_GRAY)]
+
+    try:
+        choice = int(raw)
+    except ValueError:
+        return [colorize("皮肤商店选项无效。", FG_RED)]
+    if choice < 1 or choice > len(goods):
+        return [colorize("皮肤商店选项无效。", FG_RED)]
+
+    skin = goods[choice - 1]
+    success, reason = app.skin_service.purchase_skin(world, actor, skin.key)
+    if not success:
+        return [colorize(f"{actor.display_name}皮肤购买失败：{reason}", FG_RED)]
+    return [colorize(f"为{actor.display_name}购买了 {skin.display_name}。", FG_GREEN)]
+
+
+def _open_skin_wardrobe(
+    app: Application,
+    world: WorldState,
+    actor_key: str,
+    *,
+    input_fn: Callable[[str], str] = input,
+) -> list[str]:
+    """Run a minimal owned-skin equip prompt for one actor."""
+
+    actor = next((character for character in world.characters if character.key == actor_key), None)
+    if actor is None:
+        return [colorize("目标角色不存在。", FG_RED)]
+
+    owned = [
+        app.skin_service.skin_definitions[skin_key]
+        for skin_key in sorted(actor.owned_skins)
+        if skin_key in app.skin_service.skin_definitions
+    ]
+    if not owned:
+        return [colorize(f"{actor.display_name}当前没有可切换皮肤。", FG_YELLOW)]
+
+    clear_screen()
+    print(header_separator("═", terminal_width()))
+    print(colorize(f"  {actor.display_name}衣柜", FG_CYAN, bold=True))
+    print(header_separator("═", terminal_width()))
+    for index, skin in enumerate(owned, start=1):
+        current = "（当前）" if actor.equipped_skin_key == skin.key else ""
+        print(colorize(f"  [{index}] {skin.display_name} {current}", FG_WHITE))
+    print(colorize("  [0] 返回", FG_GRAY))
+
+    raw = input_fn(colorize("  请选择皮肤 > ", FG_WHITE)).strip()
+    if not raw or raw == "0":
+        return [colorize(f"离开了{actor.display_name}衣柜。", FG_GRAY)]
+
+    try:
+        choice = int(raw)
+    except ValueError:
+        return [colorize("衣柜选项无效。", FG_RED)]
+    if choice < 1 or choice > len(owned):
+        return [colorize("衣柜选项无效。", FG_RED)]
+
+    skin = owned[choice - 1]
+    actor.equip_skin(skin.key)
+    actor.clear_removed_slots()
+    return [colorize(f"{actor.display_name}换上了 {skin.display_name}。", FG_GREEN)]
+
+
+def _appearance_summary(app: Application, actor: CharacterState) -> str:
+    """Build a compact summary of the equipped skin and its slot values."""
+
+    skin_key = actor.equipped_skin_key
+    if skin_key is None:
+        return "当前皮肤: 未知"
+    skin = app.skin_service.skin_definitions.get(skin_key)
+    appearance = app.skin_service.appearance_for_actor(actor)
+    if skin is None or appearance is None:
+        return "当前皮肤: 未知"
+
+    slot_parts: list[str] = []
+    for slot_label, slot_key in _CLOTHING_SLOTS:
+        value = appearance.slots.get(slot_key, "----")
+        if slot_key in actor.removed_slots:
+            value = "(已脱除)"
+        slot_parts.append(f"{slot_label}:{value}")
+    return f"当前皮肤: {skin.display_name} | " + " ".join(slot_parts)
 
 
 # ── Zone ② bis : Scene context (multiple characters) ──────────────
@@ -579,11 +751,20 @@ def _render_tab_clothing_ability(actor: CharacterState, app: Application) -> Non
 
     # ── Clothing section ──
     print(colorize("□ 服装 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
+    print(colorize(f"  {_appearance_summary(app, actor)}", FG_GRAY))
+    print()
     col_width = 20
     cols = max(1, tw // col_width)
     row_buf: list[str] = []
-    for slot_name, _slot_key in _CLOTHING_SLOTS:
-        cell = colorize(cjk_ljust(f"  {slot_name}: ----", col_width), FG_DARK_GRAY)
+    appearance = app.skin_service.appearance_for_actor(actor)
+    slot_values = appearance.slots if appearance is not None else {}
+    removed_slots = set(actor.removed_slots)
+    for slot_name, slot_key in _CLOTHING_SLOTS:
+        value = slot_values.get(slot_key, "----")
+        if slot_key in removed_slots:
+            value = "(已脱除)"
+        color = FG_DARK_GRAY if value == "----" else FG_WHITE
+        cell = colorize(cjk_ljust(f"  {slot_name}: {value}", col_width), color)
         row_buf.append(cell)
         if len(row_buf) == cols:
             print("".join(row_buf))
@@ -689,6 +870,7 @@ def _render_tab_personal(actor: CharacterState, app: Application) -> None:
     print(f"  {colorize('好感度:', FG_GRAY)}   {colorize(str(actor.affection), FG_CYAN)}")
     print(f"  {colorize('信赖度:', FG_GRAY)}   {colorize(str(actor.trust), FG_GREEN)}")
     print(f"  {colorize('服从度:', FG_GRAY)}   {colorize(str(actor.obedience), FG_YELLOW)}")
+    print(f"  {colorize(_appearance_summary(app, actor), FG_GRAY)}")
     print()
 
     # Tags
@@ -1125,6 +1307,18 @@ def run_cli(app: Application) -> None:
         if action_type == "move":
             result = app.navigation_service.move_player(world, param)
             pending_messages = _format_action_result_messages(result.messages)
+            continue
+
+        if action_type == "shop":
+            pending_messages = _open_shopfront(app, world, param)
+            continue
+
+        if action_type == "skin_shop":
+            pending_messages = _open_skin_shop(app, world, param)
+            continue
+
+        if action_type == "skin_wardrobe":
+            pending_messages = _open_skin_wardrobe(app, world, param)
             continue
 
         if action_type == "command":

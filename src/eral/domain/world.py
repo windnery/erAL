@@ -84,6 +84,9 @@ class CharacterState:
     fatigue: int = 0
     marks: dict[str, int] = field(default_factory=dict)
     conditions: dict[str, int] = field(default_factory=dict)
+    owned_skins: set[str] = field(default_factory=set)
+    equipped_skin_key: str | None = None
+    removed_slots: tuple[str, ...] = ()
     commission_assignment: object | None = None
 
     def sync_derived_fields(self) -> None:
@@ -197,6 +200,26 @@ class CharacterState:
         new_level = max(0, min(current + delta, max_level))
         self.marks[key] = new_level
         return new_level
+
+    def has_skin(self, skin_key: str) -> bool:
+        """Check whether the actor has unlocked the given skin."""
+
+        return skin_key in self.owned_skins
+
+    def unlock_skin(self, skin_key: str) -> None:
+        """Unlock a skin for the actor."""
+
+        self.owned_skins.add(skin_key)
+
+    def equip_skin(self, skin_key: str) -> None:
+        """Mark one unlocked skin as currently equipped."""
+
+        self.equipped_skin_key = skin_key
+
+    def clear_removed_slots(self) -> None:
+        """Reset temporary clothing removal state."""
+
+        self.removed_slots = ()
 
 
 @dataclass(slots=True)

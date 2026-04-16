@@ -26,4 +26,7 @@ class SceneContext:
     is_same_room: bool
     visible_count: int
     is_private: bool
+    equipped_skin_key: str | None = None
+    equipped_skin_tags: tuple[str, ...] = ()
+    removed_slots: tuple[str, ...] = ()
     marks: dict[str, int] = field(default_factory=dict)

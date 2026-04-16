@@ -11,7 +11,7 @@ from eral.content.events import EventDefinition
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
 from eral.domain.world import TimeSlot
 from tests.support.real_actors import actor_by_key, place_player_with_actor
-from tests.support.stages import reset_progress
+from tests.support.stages import reset_progress, seed_like
 
 
 class EventPipelineTests(unittest.TestCase):
@@ -167,6 +167,21 @@ class EventPipelineTests(unittest.TestCase):
                 requires_private=False,
                 required_marks={"angry": 1},
             ),
+            EventDefinition(
+                key="enterprise_chat_oath_skin_fixture",
+                action_key="chat",
+                actor_tags=("enterprise",),
+                location_keys=("dock",),
+                time_slots=("morning",),
+                min_affection=None,
+                min_trust=None,
+                min_obedience=None,
+                required_stage=None,
+                requires_date=False,
+                requires_private=False,
+                required_marks={},
+                required_skin_key="enterprise_oath",
+            ),
         )
         fixture_dialogue = (
             DialogueEntry(key="enterprise_chat_fixture", actor_key="enterprise", lines=("企业把今日汇总推到你面前。",), priority=10),
@@ -179,6 +194,7 @@ class EventPipelineTests(unittest.TestCase):
             DialogueEntry(key="enterprise_chat_embarrassed_fixture", actor_key="enterprise", lines=("她努力维持镇定，但还是有些不太适合直视你。",), priority=20),
             DialogueEntry(key="laffey_chat_drunk_fixture", actor_key="laffey", lines=("她晃着杯子说今晚最喜欢和你说话。",), priority=20),
             DialogueEntry(key="laffey_apologize_angry_fixture", actor_key="laffey", lines=("她嘴上还带着气，但总算肯听你解释。",), priority=20),
+            DialogueEntry(key="enterprise_chat_oath_skin_fixture", actor_key="enterprise", lines=("誓约礼服的裙摆随着她转身轻轻摆动。",), priority=30),
         )
         self.app.event_service.events = self.app.event_service.events + fixture_events
         self.app.dialogue_service.entries = self.app.dialogue_service.entries + fixture_dialogue
@@ -328,6 +344,55 @@ class EventPipelineTests(unittest.TestCase):
 
         self.assertIn("laffey_chat_drunk_fixture", result.triggered_events)
         self.assertTrue(any("最喜欢" in line for line in result.messages))
+
+    def test_oath_success_emits_oath_success_hook(self) -> None:
+        seed_like(self.enterprise)
+        self.app.relationship_service.update_actor(self.enterprise)
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.personal_funds = 1200
+        purchase = self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.0
+
+        result = self.app.command_service.execute(self.app.world, self.enterprise.key, "oath")
+
+        self.assertTrue(purchase.success)
+        self.assertIn("oath_success", result.triggered_events)
+        self.assertNotIn("oath_failure", result.triggered_events)
+
+    def test_oath_failure_emits_oath_failure_hook(self) -> None:
+        seed_like(self.enterprise)
+        self.app.relationship_service.update_actor(self.enterprise)
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.personal_funds = 1200
+        purchase = self.app.shop_service.purchase(
+            self.app.world,
+            shopfront_key="general_shop",
+            item_key="pledge_ring",
+        )
+        self.app.command_service.resolution_service.roll = lambda: 0.99
+
+        result = self.app.command_service.execute(self.app.world, self.enterprise.key, "oath")
+
+        self.assertTrue(purchase.success)
+        self.assertIn("oath_failure", result.triggered_events)
+        self.assertNotIn("oath_success", result.triggered_events)
+
+    def test_chat_with_oath_skin_triggers_skin_specific_event(self) -> None:
+        self.enterprise.unlock_skin("enterprise_oath")
+        self.enterprise.equip_skin("enterprise_oath")
+        self.app.world.current_time_slot = TimeSlot.MORNING
+        self.app.world.active_location.key = "dock"
+        self.app.world.active_location.display_name = "码头"
+        self.enterprise.location_key = "dock"
+
+        result = self.app.command_service.execute(self.app.world, self.enterprise.key, "chat")
+
+        self.assertIn("enterprise_chat_oath_skin_fixture", result.triggered_events)
+        self.assertTrue(any("礼服" in line for line in result.messages))
 
 
 if __name__ == "__main__":

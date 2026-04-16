@@ -19,6 +19,13 @@ from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
 from eral.content.settlement import SettlementRule, load_settlement_rules
+from eral.content.shops import load_shopfront_definitions
+from eral.content.skins import (
+    AppearanceDefinition,
+    SkinDefinition,
+    load_appearance_definitions,
+    load_skin_definitions,
+)
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.maxbase import load_maxbase
@@ -43,6 +50,8 @@ from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.navigation import NavigationService
 from eral.systems.relationships import RelationshipService
+from eral.systems.shop import ShopService
+from eral.systems.skins import SkinService
 from eral.systems.resolution import ResolutionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.scene import SceneService
@@ -69,6 +78,8 @@ class Application:
     settlement_rules: tuple[SettlementRule, ...]
     commands: tuple[CommandDefinition, ...]
     items: tuple[ItemDefinition, ...]
+    skin_definitions: tuple[SkinDefinition, ...]
+    appearance_definitions: dict[str, AppearanceDefinition]
     event_bus: EventBus
     world: WorldState
     game_loop: GameLoop
@@ -85,6 +96,8 @@ class Application:
     save_service: SaveService
     vital_service: VitalService
     wallet_service: WalletService
+    shop_service: ShopService
+    skin_service: SkinService
     commission_service: CommissionService
     abl_upgrade_config: AblUpgradeConfig
     facility_service: FacilityService
@@ -117,6 +130,9 @@ def create_application(root: Path | None = None) -> Application:
     settlement_rules_path = root_path / "data" / "base" / "settlement_rules.toml"
     commands_path = root_path / "data" / "base" / "commands.toml"
     items_path = root_path / "data" / "base" / "items.toml"
+    shopfronts_path = root_path / "data" / "base" / "shopfronts.toml"
+    skins_path = root_path / "data" / "base" / "skins.toml"
+    appearances_path = root_path / "data" / "base" / "appearances.toml"
     marks_path = root_path / "data" / "base" / "marks.toml"
     maxbase_path = root_path / "data" / "base" / "maxbase.toml"
     imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
@@ -152,6 +168,12 @@ def create_application(root: Path | None = None) -> Application:
     settlement_rules = load_settlement_rules(settlement_rules_path)
     commands = load_command_definitions(commands_path)
     items = load_item_definitions(items_path)
+    shopfronts = load_shopfront_definitions(shopfronts_path)
+    skin_definitions = load_skin_definitions(skins_path)
+    appearance_definitions = {
+        appearance.key: appearance
+        for appearance in load_appearance_definitions(appearances_path)
+    }
     maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
@@ -165,6 +187,10 @@ def create_application(root: Path | None = None) -> Application:
     start_location = port_map.starting_location()
     event_bus = EventBus()
     runtime_logger = RuntimeLogger(paths=paths)
+    skin_service = SkinService(
+        skin_definitions={skin.key: skin for skin in skin_definitions},
+        appearance_definitions=appearance_definitions,
+    )
 
     world = WorldState(
         current_day=1,
@@ -194,6 +220,7 @@ def create_application(root: Path | None = None) -> Application:
 
     # Load runtime fields from initial CFLAG overrides, then mirror compat from runtime.
     for actor in world.characters:
+        skin_service.ensure_default_skin_state(actor)
         actor.hydrate_runtime_fields_from_compat()
         actor.sync_compat_from_runtime()
 
@@ -227,7 +254,7 @@ def create_application(root: Path | None = None) -> Application:
         talent_effects=talent_effects,
         facility_service=facility_service,
     )
-    scene_service = SceneService()
+    scene_service = SceneService(skin_service=skin_service)
     event_service = EventService(events=events, relationship_service=relationship_service)
     dialogue_service = DialogueService(entries=dialogue)
     resolution_service = ResolutionService()
@@ -256,6 +283,11 @@ def create_application(root: Path | None = None) -> Application:
         wallet_service=wallet_service,
         facility_service=facility_service,
         resolution_service=resolution_service,
+        skin_service=skin_service,
+    )
+    shop_service = ShopService(
+        item_definitions={item.key: item for item in items},
+        shopfront_definitions={shop.key: shop for shop in shopfronts},
     )
     navigation_service = NavigationService(
         port_map=port_map,
@@ -290,6 +322,8 @@ def create_application(root: Path | None = None) -> Application:
         settlement_rules=settlement_rules,
         commands=commands,
         items=items,
+        skin_definitions=skin_definitions,
+        appearance_definitions=appearance_definitions,
         event_bus=event_bus,
         world=world,
         game_loop=game_loop,
@@ -306,6 +340,8 @@ def create_application(root: Path | None = None) -> Application:
         save_service=save_service,
         vital_service=vital_service,
         wallet_service=wallet_service,
+        shop_service=shop_service,
+        skin_service=skin_service,
         commission_service=commission_service,
         abl_upgrade_config=abl_upgrade_config,
         facility_service=facility_service,

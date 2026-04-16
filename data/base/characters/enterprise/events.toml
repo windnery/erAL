@@ -190,6 +190,12 @@ actor_tags = ["enterprise"]
 required_marks = { embarrassed = 1 }
 
 [[events]]
+key = "enterprise_chat_oath_skin"
+action_key = "chat"
+actor_tags = ["enterprise"]
+required_skin_key = "enterprise_oath"
+
+[[events]]
 key = "enterprise_praise_drunk"
 action_key = "praise"
 actor_tags = ["enterprise"]
