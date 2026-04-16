@@ -14,12 +14,13 @@
 | 2 | 商店骨架（catalog + shopfront + 购买结算） | L5 | core | 120m | ✅ done |
 | 3 | 誓约内容闭环（成功/失败结果标签 + 对话分支） | L5 | content | 120m | ✅ done |
 | 4 | 皮肤与外观底座（持有/切换/誓约奖励/口上条件） | L5 | architecture | 180m | ✅ done |
-| 5 | 皮肤店内容扩展（更多角色皮肤 + 活动上架规则） | L5 | content | 120m | 🔴 next |
-| 6 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
-| 7 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
-| 8 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
-| 9 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
-| 10 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
+| 5 | 时间与日历底座（24 小时制 / 节日 / 排班 / 日历指令） | L5 | architecture | 240m | ✅ done |
+| 6 | 季节与节日规则接入（皮肤上架 / 内容条件 / 活动标签） | L5 | content | 150m | 🔴 next |
+| 7 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
+| 8 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
+| 9 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
+| 10 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
+| 11 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
 
 **执行顺序**：先用誓约之戒打通“商店购买 -> 背包入账 -> 指令消费 -> 阶段变化”主链，再补商店扩展与誓约内容，最后进入地图与调教。
 
@@ -55,15 +56,15 @@
 | **L2** ✅ | 完成 | 100% | 语义可读层已接入 |
 | **L3** ✅ | 完成 | 100% | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
 | **L4** 🟡 | 部分完成 | 65% | 经济循环 ✅ / 稳定性工程 🔄 / 数值平衡 ⏸ |
-| **L5** 🟡 | 推进中 | 72% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 活动皮肤扩展 ⏭ |
+| **L5** 🟡 | 推进中 | 82% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 时间与日历底座 ✅ / 季节规则接入 ⏭ |
 
 *标注：✅完成 🔄进行中 🟡部分完成 📋筹划中 ⬜待启动*
 
 ---
 
-## 🔴 当前活跃任务（主线 G：L5 皮肤店内容扩展）
+## 🔴 当前活跃任务（主线 G：L5 季节与节日规则接入）
 
-> 皮肤与外观底座已经落地：角色现在拥有 `owned_skins / equipped_skin_key / removed_slots` 运行时状态；CLI 已支持 `skin_shop` 购买和衣柜切换；`oath_reward` 可自动发放皮肤；场景上下文、事件和口上已可按当前皮肤分支。下一阶段转向补更多角色皮肤、活动上架规则，以及后续 NPC/地点入口。
+> 时间与日历底座已经落地：世界现在拥有真实日期与 24 小时时钟；移动与指令可消耗固定分钟数；`calendar.toml` / `work_schedules.toml` 已接入；CLI 已支持日历指令查看相邻几天的节日与舰娘工作安排。下一阶段转向让季节、节日和活动标签真正驱动皮肤上架、口上条件和后续活动内容。
 
 ### 本轮主任务（先做）
 
@@ -113,6 +114,17 @@
 	- status: done
 	- updated: 2026-04-17
 
+- [x] 时间与日历底座（24 小时制 / 节日 / 排班 / 日历指令）
+	- type: architecture
+	- priority: P1
+	- milestone: L5
+	- est: 240m
+	- DoD: 世界拥有真实日期与时钟；移动和指令可推进固定分钟；`calendar.toml` / `work_schedules.toml` 已接入；CLI 可查看相邻几天的节日与舰娘工作安排
+	- verify: `python -m unittest tests.test_time_system tests.test_navigation tests.test_commands tests.test_content_loading tests.test_calendar_command tests.test_save_load -v`
+	- owner: pair
+	- status: done
+	- updated: 2026-04-18
+
 ### L5 当前阶段退出条件检查表（阶段二）
 
 - [x] `required_items` 在运行时生效
@@ -125,6 +137,9 @@
 - [x] 角色皮肤可被购买、切换并进入存档
 - [x] `oath_reward` 皮肤可自动发放
 - [x] 事件与口上可按当前皮肤分支
+- [x] 世界已拥有真实日期与 24 小时时钟
+- [x] 移动与指令可消耗固定分钟数
+- [x] 日历指令可查看相邻几天的节日与舰娘工作安排
 
 ---
 
@@ -177,6 +192,11 @@
 	- est: 120m
 	- DoD: 至少再补 1 到 2 名正式角色的默认/活动或誓约皮肤；`summer` / `oath` 等标签有真实内容消费方
 	- verify: `python -m unittest tests.test_content_loading tests.test_dialogue tests.test_events -v`
+
+- [ ] T4.6 季节与节日规则接入
+	- est: 150m
+	- DoD: `season` / `festival_tags` 可被皮肤上架、事件与口上条件真实消费；至少 1 个节日标签和 1 个季节标签驱动实际内容差分
+	- verify: `python -m unittest tests.test_calendar_command tests.test_dialogue tests.test_events tests.test_cli_shop -v`
 
 - [ ] T5 商店入口语义预留
 	- est: 60m
@@ -249,6 +269,9 @@
 - [x] 皮肤与外观底座已实现：`skins.toml` / `appearances.toml` / `SkinService`
 - [x] CLI 已支持 `skin_shop` 购买与衣柜切换
 - [x] `oath_reward` 与皮肤分支内容已接入
+- [x] 时间与日历底座已实现：真实日期 / 24 小时时钟 / `TimeService`
+- [x] `calendar.toml` / `work_schedules.toml` 已接入
+- [x] CLI 已支持日历指令
 
 **内容量**
 - [x] 54 个以上指令已接入 `commands.toml`
@@ -260,13 +283,13 @@
 
 ## 📈 本周复盘（每周五更新）
 
-- **本周完成**：L5 道具底座（`inventory` / `items.toml` / `required_items`）；`ShopService` + `shopfronts.toml`；CLI 最小商店入口；`oath_success` / `oath_failure` 结果标签与企业差分口上；皮肤与外观底座（内容定义 / 存档 / skin shop / 衣柜 / oath reward / 皮肤分支）；全量回归
+- **本周完成**：L5 道具底座（`inventory` / `items.toml` / `required_items`）；`ShopService` + `shopfronts.toml`；CLI 最小商店入口；`oath_success` / `oath_failure` 结果标签与企业差分口上；皮肤与外观底座（内容定义 / 存档 / skin shop / 衣柜 / oath reward / 皮肤分支）；时间与日历底座（真实日期 / 24 小时时钟 / 固定分钟耗时 / 节日 / 排班 / 日历指令）；全量回归
 - **本周阻塞**：无
 - **指标**：
-	- 自动化测试通过率：369/369（100%）
+	- 自动化测试通过率：379/379（100%）
 	- 正式角色总数：3
 	- 指令总数：54+，含工作与恢复指令
-	- 新增 L5 完成项：背包、誓约底座、最小道具门禁、皮肤与外观底座
+	- 新增 L5 完成项：背包、誓约底座、最小道具门禁、皮肤与外观底座、时间与日历底座
 
 ---
 
@@ -281,6 +304,7 @@
 | 誓约层事件与对话 | P1 | 120m | `oath` 指令与事件管线 |
 | 两类商店共用数据结构（general / skin） | P1 | 60m | 商店骨架 |
 | 皮肤与外观底座（持有/切换/誓约奖励/皮肤条件） | P1 | 180m | skin_shop + SceneContext 扩展 |
+| 时间与日历底座（24 小时 / 节日 / 排班 / calendar） | P1 | 240m | WorldState / CLI / 内容规则底层 |
 | 调教系统骨架（三段式） | P1 | 150m | 命令门禁稳定 + settlement 稳定 |
 | 地图分层骨架（阵营/子区/建筑） | P1 | 120m | navigation 接口兼容层 |
 | 贝尔法斯特角色包 | P2 | 120m | L5 闭环阶段稳定 |
@@ -380,6 +404,6 @@
 
 ## 下一阶段快速参考
 
-**即将开始**：L5 皮肤店内容扩展（多角色皮肤 + 活动上架规则）  
-**后续规划**：稳定性护栏 + 地图 / NPC 商店入口（T5-T8）  
+**即将开始**：L5 季节与节日规则接入（活动标签驱动内容）  
+**后续规划**：皮肤内容扩展 + 稳定性护栏 + 地图 / NPC 商店入口（T4.5-T8）  
 **长期计划**：商店 NPC 化（明石/不知火）+ 地图分层 + 调教系统 + 交互升级
