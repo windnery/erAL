@@ -213,6 +213,7 @@ class WorldState:
     personal_funds: int = 0
     port_funds: int = 0
     conditions: dict[str, int] = field(default_factory=dict)
+    inventory: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)
     characters: list[CharacterState] = field(default_factory=list)
 
@@ -232,6 +233,35 @@ class WorldState:
         value = self.get_condition(key) + int(delta)
         self.set_condition(key, value)
         return value
+
+    def item_count(self, item_key: str) -> int:
+        """Return the current count for an inventory item."""
+
+        return self.inventory.get(item_key, 0)
+
+    def add_item(self, item_key: str, amount: int = 1) -> int:
+        """Increase an inventory item count and return the new value."""
+
+        if amount <= 0:
+            return self.item_count(item_key)
+        new_count = self.item_count(item_key) + amount
+        self.inventory[item_key] = new_count
+        return new_count
+
+    def consume_item(self, item_key: str, amount: int = 1) -> bool:
+        """Decrease an inventory item count when enough stock exists."""
+
+        if amount <= 0:
+            return True
+        current = self.item_count(item_key)
+        if current < amount:
+            return False
+        remaining = current - amount
+        if remaining > 0:
+            self.inventory[item_key] = remaining
+        else:
+            self.inventory.pop(item_key, None)
+        return True
 
     def visible_characters(self) -> tuple[CharacterState, ...]:
         """Return characters currently at the player's location."""

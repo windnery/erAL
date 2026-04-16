@@ -13,6 +13,7 @@ from eral.content.characters import CharacterDefinition, InitialStatOverrides, l
 from eral.content.commands import CommandDefinition, load_command_definitions
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
 from eral.content.events import EventDefinition, load_event_definitions
+from eral.content.items import ItemDefinition, load_item_definitions
 from eral.content.facilities import FacilityDefinition, load_facility_definitions
 from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.content.port_map import load_port_map
@@ -42,6 +43,7 @@ from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.navigation import NavigationService
 from eral.systems.relationships import RelationshipService
+from eral.systems.resolution import ResolutionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.scene import SceneService
 from eral.systems.save import SaveService
@@ -66,6 +68,7 @@ class Application:
     dialogue: tuple[DialogueEntry, ...]
     settlement_rules: tuple[SettlementRule, ...]
     commands: tuple[CommandDefinition, ...]
+    items: tuple[ItemDefinition, ...]
     event_bus: EventBus
     world: WorldState
     game_loop: GameLoop
@@ -113,6 +116,7 @@ def create_application(root: Path | None = None) -> Application:
     relationship_stages_path = root_path / "data" / "base" / "relationship_stages.toml"
     settlement_rules_path = root_path / "data" / "base" / "settlement_rules.toml"
     commands_path = root_path / "data" / "base" / "commands.toml"
+    items_path = root_path / "data" / "base" / "items.toml"
     marks_path = root_path / "data" / "base" / "marks.toml"
     maxbase_path = root_path / "data" / "base" / "maxbase.toml"
     imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
@@ -147,6 +151,7 @@ def create_application(root: Path | None = None) -> Application:
     dialogue = global_dialogue + pack_dialogue
     settlement_rules = load_settlement_rules(settlement_rules_path)
     commands = load_command_definitions(commands_path)
+    items = load_item_definitions(items_path)
     maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
@@ -225,6 +230,7 @@ def create_application(root: Path | None = None) -> Application:
     scene_service = SceneService()
     event_service = EventService(events=events, relationship_service=relationship_service)
     dialogue_service = DialogueService(entries=dialogue)
+    resolution_service = ResolutionService()
     vital_service = VitalService(
         max_values=maxbase.max_values,
         recover_rates=maxbase.recover_rates,
@@ -233,6 +239,7 @@ def create_application(root: Path | None = None) -> Application:
     )
     command_service = CommandService(
         commands={command.key: command for command in commands},
+        item_definitions={item.key: item for item in items},
         settlement=settlement_service,
         port_map=port_map,
         scene_service=scene_service,
@@ -248,6 +255,7 @@ def create_application(root: Path | None = None) -> Application:
         game_loop=game_loop,
         wallet_service=wallet_service,
         facility_service=facility_service,
+        resolution_service=resolution_service,
     )
     navigation_service = NavigationService(
         port_map=port_map,
@@ -281,6 +289,7 @@ def create_application(root: Path | None = None) -> Application:
         dialogue=dialogue,
         settlement_rules=settlement_rules,
         commands=commands,
+        items=items,
         event_bus=event_bus,
         world=world,
         game_loop=game_loop,

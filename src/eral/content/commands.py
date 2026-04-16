@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -22,14 +22,16 @@ class CommandDefinition:
     operation: str | None
     requires_following: bool | None
     requires_date: bool | None
-    required_conditions: dict[str, int]
-    forbidden_conditions: tuple[str, ...]
-    required_marks: dict[str, int]
-    apply_marks: dict[str, int]
-    remove_marks: tuple[str, ...]
-    source: dict[str, int]
-    downbase: dict[str, int]
-    success_tiers: tuple[float, ...]
+    required_conditions: dict[str, int] = field(default_factory=dict)
+    forbidden_conditions: tuple[str, ...] = ()
+    required_marks: dict[str, int] = field(default_factory=dict)
+    apply_marks: dict[str, int] = field(default_factory=dict)
+    remove_marks: tuple[str, ...] = ()
+    source: dict[str, int] = field(default_factory=dict)
+    downbase: dict[str, int] = field(default_factory=dict)
+    success_tiers: tuple[float, ...] = (0.1, 1.0, 2.0)
+    required_items: dict[str, int] = field(default_factory=dict)
+    resolution_key: str | None = None
     personal_income: int = 0
     category: str = "daily"
 
@@ -53,6 +55,10 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             min_trust=int(item["min_trust"]) if "min_trust" in item else None,
             min_obedience=int(item["min_obedience"]) if "min_obedience" in item else None,
             required_stage=item.get("required_stage"),
+            required_items={
+                str(key): int(value) for key, value in item.get("required_items", {}).items()
+            },
+            resolution_key=str(item["resolution_key"]) if "resolution_key" in item else None,
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),
             requires_date=item.get("requires_date"),

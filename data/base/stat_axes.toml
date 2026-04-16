@@ -9,7 +9,7 @@ group = "core"
 [[base]]
 key = "spirit"
 era_index = 1
-label = "气力"
+label = "気力"
 group = "core"
 
 [[base]]
@@ -43,9 +43,21 @@ label = "精力"
 group = "sexual"
 
 [[base]]
+key = "mana"
+era_index = 7
+label = "法力"
+group = "magic"
+
+[[base]]
+key = "tsp"
+era_index = 8
+label = "TSP"
+group = "special"
+
+[[base]]
 key = "mood"
 era_index = 10
-label = "情绪"
+label = "ムード"
 group = "emotion"
 
 [[base]]
@@ -57,7 +69,7 @@ group = "emotion"
 [[base]]
 key = "anger"
 era_index = 12
-label = "怒气"
+label = "怒り"
 group = "emotion"
 
 [[base]]
@@ -75,7 +87,7 @@ group = "scene"
 [[base]]
 key = "drunkenness"
 era_index = 15
-label = "酒意"
+label = "酒気"
 group = "condition"
 
 [[base]]
@@ -87,7 +99,7 @@ group = "condition"
 [[base]]
 key = "height"
 era_index = 20
-label = "身高"
+label = "身長"
 group = "body_shape"
 
 [[base]]
@@ -99,97 +111,97 @@ group = "body_shape"
 [[base]]
 key = "bust"
 era_index = 22
-label = "胸围"
+label = "バスト"
 group = "body_shape"
 
 [[base]]
 key = "waist"
 era_index = 23
-label = "腰围"
+label = "ウェスト"
 group = "body_shape"
 
 [[base]]
 key = "hips"
 era_index = 24
-label = "臀围"
+label = "ヒップ"
 group = "body_shape"
 
 [[base]]
 key = "pleasure_c_afterglow"
 era_index = 30
-label = "C绝顶余韵"
+label = "Ｃ絶頂余韻"
 group = "afterglow"
 
 [[base]]
 key = "pleasure_v_afterglow"
 era_index = 31
-label = "V绝顶余韵"
+label = "Ｖ絶頂余韻"
 group = "afterglow"
 
 [[base]]
 key = "pleasure_a_afterglow"
 era_index = 32
-label = "A绝顶余韵"
+label = "Ａ絶頂余韻"
 group = "afterglow"
 
 [[base]]
 key = "pleasure_b_afterglow"
 era_index = 33
-label = "B绝顶余韵"
+label = "Ｂ絶頂余韻"
 group = "afterglow"
 
 [[base]]
 key = "pleasure_m_afterglow"
 era_index = 34
-label = "M绝顶余韵"
+label = "Ｍ絶頂余韻"
 group = "afterglow"
 
 [[base]]
 key = "orgasm_afterglow"
 era_index = 35
-label = "绝顶余韵"
+label = "絶頂余韻"
 group = "afterglow"
 
 [[palam]]
 key = "pleasure_c"
 era_index = 0
-label = "快C"
+label = "快Ｃ"
 group = "pleasure"
 
 [[palam]]
 key = "pleasure_v"
 era_index = 1
-label = "快V"
+label = "快Ｖ"
 group = "pleasure"
 
 [[palam]]
 key = "pleasure_a"
 era_index = 2
-label = "快A"
+label = "快Ａ"
 group = "pleasure"
 
 [[palam]]
 key = "pleasure_b"
 era_index = 3
-label = "快B"
+label = "快Ｂ"
 group = "pleasure"
 
 [[palam]]
 key = "pleasure_m"
 era_index = 4
-label = "快M"
+label = "快Ｍ"
 group = "pleasure"
 
 [[palam]]
 key = "lubrication"
 era_index = 9
-label = "润滑"
+label = "潤滑"
 group = "body"
 
 [[palam]]
 key = "obedience"
 era_index = 10
-label = "恭顺"
+label = "恭順"
 group = "mind"
 
 [[palam]]
@@ -207,13 +219,13 @@ group = "mind"
 [[palam]]
 key = "mastery"
 era_index = 13
-label = "习得"
+label = "習得"
 group = "growth"
 
 [[palam]]
 key = "shame"
 era_index = 14
-label = "羞耻"
+label = "恥情"
 group = "mind"
 
 [[palam]]
@@ -237,7 +249,7 @@ group = "relationship"
 [[palam]]
 key = "superiority"
 era_index = 21
-label = "优越"
+label = "優越"
 group = "relationship"
 
 [[palam]]
@@ -255,13 +267,13 @@ group = "negative"
 [[palam]]
 key = "depression"
 era_index = 32
-label = "抑郁"
+label = "抑鬱"
 group = "negative"
 
 [[palam]]
 key = "sleeping_scene"
 era_index = 33
-label = "睡奸"
+label = "眠姦"
 group = "negative"
 
 [[palam]]
@@ -273,31 +285,31 @@ group = "negative"
 [[source]]
 key = "pleasure_c"
 era_index = 0
-label = "快C"
+label = "快Ｃ"
 group = "pleasure"
 
 [[source]]
 key = "pleasure_v"
 era_index = 1
-label = "快V"
+label = "快Ｖ"
 group = "pleasure"
 
 [[source]]
 key = "pleasure_a"
 era_index = 2
-label = "快A"
+label = "快Ａ"
 group = "pleasure"
 
 [[source]]
 key = "pleasure_b"
 era_index = 3
-label = "快B"
+label = "快Ｂ"
 group = "pleasure"
 
 [[source]]
 key = "pleasure_m"
 era_index = 4
-label = "快M"
+label = "快Ｍ"
 group = "pleasure"
 
 [[source]]
@@ -309,19 +321,19 @@ group = "body"
 [[source]]
 key = "affection"
 era_index = 10
-label = "情爱"
+label = "情愛"
 group = "emotion"
 
 [[source]]
 key = "sexual_act"
 era_index = 11
-label = "性行动"
+label = "性行動"
 group = "action"
 
 [[source]]
 key = "achievement"
 era_index = 12
-label = "达成"
+label = "達成"
 group = "action"
 
 [[source]]
@@ -345,7 +357,7 @@ group = "emotion"
 [[source]]
 key = "obedience"
 era_index = 16
-label = "恭顺"
+label = "恭順"
 group = "emotion"
 
 [[source]]
@@ -357,13 +369,13 @@ group = "action"
 [[source]]
 key = "submission"
 era_index = 18
-label = "屈服"
+label = "屈従"
 group = "emotion"
 
 [[source]]
 key = "joy"
 era_index = 20
-label = "欢乐"
+label = "歓楽"
 group = "positive"
 
 [[source]]
@@ -375,19 +387,19 @@ group = "positive"
 [[source]]
 key = "passive"
 era_index = 22
-label = "被动"
+label = "受動"
 group = "positive"
 
 [[source]]
 key = "unclean"
 era_index = 30
-label = "不洁"
+label = "不潔"
 group = "negative"
 
 [[source]]
 key = "frustration"
 era_index = 31
-label = "郁屈"
+label = "鬱屈"
 group = "negative"
 
 [[source]]
@@ -405,37 +417,37 @@ group = "negative"
 [[source]]
 key = "give_pleasure_c"
 era_index = 40
-label = "与快C"
+label = "与快Ｃ"
 group = "outgoing_pleasure"
 
 [[source]]
 key = "give_pleasure_v"
 era_index = 41
-label = "与快V"
+label = "与快Ｖ"
 group = "outgoing_pleasure"
 
 [[source]]
 key = "give_pleasure_a"
 era_index = 42
-label = "与快A"
+label = "与快Ａ"
 group = "outgoing_pleasure"
 
 [[source]]
 key = "give_pleasure_b"
 era_index = 43
-label = "与快B"
+label = "与快Ｂ"
 group = "outgoing_pleasure"
 
 [[source]]
 key = "give_pleasure_m"
 era_index = 44
-label = "与快M"
+label = "与快Ｍ"
 group = "outgoing_pleasure"
 
 [[source]]
 key = "temptation"
 era_index = 50
-label = "诱惑"
+label = "誘惑"
 group = "outgoing_action"
 
 [[source]]
@@ -447,204 +459,235 @@ group = "outgoing_action"
 [[source]]
 key = "provocation"
 era_index = 52
-label = "挑衅"
+label = "挑発"
 group = "outgoing_action"
 
 [[source]]
 key = "service"
 era_index = 53
-label = "奉献"
+label = "奉仕"
 group = "outgoing_action"
 
 [[source]]
 key = "coercion"
 era_index = 54
-label = "强迫"
+label = "強要"
 group = "outgoing_action"
 
 [[source]]
 key = "sadism"
 era_index = 55
-label = "施虐"
+label = "加虐"
 group = "outgoing_action"
+
+[[source]]
+key = "magic_mark"
+era_index = 233
+label = "魔力印记"
+group = "special"
 
 # ABL 经验 (abl_* 键与 abl_upgrade.toml 中的 abl_index 对应)
 [[source]]
 key = "abl_0"
 era_index = 300
-label = "C感覚经验"
+label = "Ｃ感覚経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_1"
 era_index = 301
-label = "V感覚经验"
+label = "Ｖ感覚経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_2"
 era_index = 302
-label = "A感覚经验"
+label = "Ａ感覚経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_3"
 era_index = 303
-label = "B感覚经验"
+label = "Ｂ感覚経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_4"
 era_index = 304
-label = "M感覚经验"
+label = "Ｍ感覚経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_9"
 era_index = 309
-label = "亲密经验"
+label = "親密経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_10"
 era_index = 310
-label = "顺从经验"
+label = "従順経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_11"
 era_index = 311
-label = "欲望经验"
+label = "欲望経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_12"
 era_index = 312
-label = "技巧经验"
+label = "技巧経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_13"
 era_index = 313
-label = "奉献精神经验"
+label = "奉仕精神経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_14"
 era_index = 314
-label = "露出癖经验"
+label = "露出癖経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_15"
 era_index = 315
-label = "受虐属性经验"
+label = "受虐属性経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_16"
 era_index = 316
-label = "施虐属性经验"
+label = "施虐属性経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_17"
 era_index = 317
-label = "百合属性经验"
+label = "百合属性経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_18"
+era_index = 318
+label = "断袖属性経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_30"
 era_index = 330
-label = "自慰中毒经验"
+label = "自慰中毒経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_31"
 era_index = 331
-label = "精液中毒经验"
+label = "精液中毒経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_32"
 era_index = 332
-label = "百合中毒经验"
+label = "百合中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_33"
+era_index = 333
+label = "断袖中毒経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_34"
 era_index = 334
-label = "膣射中毒经验"
+label = "膣射中毒経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_35"
 era_index = 335
-label = "肛射中毒经验"
+label = "肛射中毒経験"
+group = "abl_exp"
+
+[[source]]
+key = "abl_40"
+era_index = 340
+label = "清掃技能経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_41"
 era_index = 341
-label = "話術技能经验"
+label = "話術技能経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_42"
 era_index = 342
-label = "戦闘能力经验"
+label = "戦闘能力経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_43"
 era_index = 343
-label = "教養经验"
+label = "教養経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_44"
 era_index = 344
-label = "料理技能经验"
+label = "料理技能経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_45"
 era_index = 345
-label = "音楽技能经验"
+label = "音楽技能経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_50"
 era_index = 350
-label = "指经验"
+label = "指経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_51"
 era_index = 351
-label = "舌经验"
+label = "舌経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_52"
 era_index = 352
-label = "胸经验"
+label = "胸経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_53"
 era_index = 353
-label = "腰经验"
+label = "腰経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_54"
 era_index = 354
-label = "膣经验"
+label = "膣経験"
 group = "abl_exp"
 
 [[source]]
 key = "abl_55"
 era_index = 355
-label = "肛門经验"
+label = "肛門経験"
 group = "abl_exp"
+
+[[source]]
+key = "abl_60"
+era_index = 360
+label = "TSLv経験"
+group = "abl_exp"
+

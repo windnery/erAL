@@ -6,6 +6,7 @@ from .character_packs import CharacterPack, load_character_packs
 from .commands import CommandDefinition, load_command_definitions
 from .dialogue import DialogueEntry, load_dialogue_entries
 from .events import EventDefinition, load_event_definitions
+from .items import ItemDefinition, load_item_definitions
 from .marks import MarkDefinition, load_mark_definitions
 from .port_map import load_port_map
 from .relationships import RelationshipStageDefinition, load_relationship_stages
@@ -22,6 +23,7 @@ __all__ = [
     "CommandDefinition",
     "DialogueEntry",
     "EventDefinition",
+    "ItemDefinition",
     "MarkDefinition",
     "RelationshipStageDefinition",
     "SettlementRule",
@@ -35,6 +37,7 @@ __all__ = [
     "load_command_definitions",
     "load_dialogue_entries",
     "load_event_definitions",
+    "load_item_definitions",
     "load_mark_definitions",
     "load_port_map",
     "load_relationship_stages",

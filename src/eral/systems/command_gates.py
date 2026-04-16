@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from eral.content.commands import CommandDefinition
+from eral.content.items import ItemDefinition
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.relationships import RelationshipService
 from eral.systems.vital import VitalService
@@ -18,6 +19,7 @@ class CommandAvailabilityContext:
     command: CommandDefinition
     location_tags: tuple[str, ...]
     relationship_service: RelationshipService
+    item_definitions: dict[str, ItemDefinition] | None = None
     vital_service: VitalService | None = None
 
 
@@ -101,6 +103,16 @@ class CommandSpecificGate:
         for condition_key in command.forbidden_conditions:
             if actor.get_condition(condition_key) > 0:
                 return f"当前条件禁止执行：{condition_key}。"
+
+        missing_items: list[str] = []
+        for item_key, required_count in command.required_items.items():
+            if world.item_count(item_key) >= required_count:
+                continue
+            item_def = context.item_definitions.get(item_key) if context.item_definitions else None
+            item_name = item_def.display_name if item_def is not None else item_key
+            missing_items.append(f"{item_name} x{required_count}")
+        if missing_items:
+            return f"缺少所需道具：{'、'.join(missing_items)}。"
         for mark_key, min_level in command.required_marks.items():
             if not actor.has_mark(mark_key, min_level):
                 return f"缺少所需标记：{mark_key}。"

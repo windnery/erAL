@@ -44,6 +44,7 @@ class SaveService:
             "world_conditions": world.conditions,
             "personal_funds": world.personal_funds,
             "port_funds": world.port_funds,
+            "inventory": dict(world.inventory),
             "facility_levels": dict(world.facility_levels),
             "characters": [self._serialize_actor(actor) for actor in world.characters],
         }
@@ -76,6 +77,7 @@ class SaveService:
         world.conditions = {str(k): int(v) for k, v in payload.get("world_conditions", {}).items()}
         world.personal_funds = int(payload.get("personal_funds", 0))
         world.port_funds = int(payload.get("port_funds", 0))
+        world.inventory = self._load_inventory(payload.get("inventory", {}))
         world.facility_levels = {str(k): int(v) for k, v in payload.get("facility_levels", {}).items()}
 
         for actor_payload in payload["characters"]:
@@ -143,3 +145,18 @@ class SaveService:
                 "abl_exp": actor.stats.abl_exp,
             },
         }
+
+    @staticmethod
+    def _load_inventory(payload: object) -> dict[str, int]:
+        if not isinstance(payload, dict):
+            return {}
+        inventory: dict[str, int] = {}
+        for key, value in payload.items():
+            try:
+                count = int(value)
+            except (TypeError, ValueError):
+                continue
+            if count <= 0:
+                continue
+            inventory[str(key)] = count
+        return inventory
