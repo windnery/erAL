@@ -10,37 +10,38 @@
 
 | # | 任务 | 里程碑 | 类型 | Est | 状态 |
 |---|------|--------|------|-----|------|
-| 1 | 道具系统最小骨架（Inventory + 存档 + 命令门禁） | L5 | core | 120m | 🔴 next |
-| 2 | 誓约最小闭环（戒指校验 + 消耗 + 事件） | L5 | gameplay | 120m | 🟡 gated |
-| 3 | 商店最小闭环（3~5 商品 + 购买 + 扣费） | L5 | gameplay | 90m | 🟡 gated |
-| 4 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
-| 5 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
-| 6 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
-| 7 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
-| 8 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
+| 1 | 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入） | L5 | gameplay | 180m | 🔴 next |
+| 2 | 商店骨架（catalog + shopfront + 购买结算） | L5 | core | 120m | 🟡 gated |
+| 3 | 誓约内容闭环（成功/失败事件 + 对话分支） | L5 | content | 120m | 🟡 gated |
+| 4 | 皮肤店数据骨架（skin_shop 分类 + 入口预留） | L5 | architecture | 60m | 🟢 ready |
+| 5 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
+| 6 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
+| 7 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
+| 8 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
+| 9 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
 
-**执行顺序**：先做 L5 解耦底座（1/2/3），并行保留 L4 稳定性护栏（4/5/8），再进地图与调教（6/7）
+**执行顺序**：先用誓约之戒打通“商店购买 -> 背包入账 -> 指令消费 -> 阶段变化”主链，再补商店扩展与誓约内容，最后进入地图与调教。
 
 ---
 
-## 🧱 解耦优先规则（新增）
+## 🧱 解耦优先规则
 
 1. 任何跨系统功能必须先落地在 `gate + service + data` 三层，不允许把规则硬写进 UI。
-2. 前提条件统一放在命令门禁（借鉴 erArk 的 premise 思路），事件层只做触发和表现。
-3. 关系阶段配置中的 `requires_item` 必须有运行时强校验，禁止仅显示不生效。
+2. 前提条件统一放在命令门禁与统一判定层，事件层只做触发和表现。
+3. 道具系统已经落地为 `inventory + item catalog + required_items + resolution`，后续商店与礼物都只能复用它，不再新增平行背包。
 4. 新系统开发顺序固定：`最小数据结构 -> 可执行门禁 -> 最小闭环玩法 -> 内容扩展`。
-5. 地图、调教、商店都只能依赖稳定接口，不直接读写彼此内部状态。
+5. 商店入口可以后续做成地点、NPC 或菜单，但底层购买结算必须独立于入口形态。
 
 ---
 
 ## ⚙️ 执行规则
 
-1. 本看板定义"做什么"，`docs/AI_LONG_TERM_VIBE_GUIDE.md` 定义"如何做"。
-2. 优先级与里程碑定义见 AI_GUIDE 第4节，本文件不重复。
-3. 任务卡字段规范见 AI_GUIDE 第5节，本文件不重复。
+1. 本看板定义“做什么”，`docs/AI_LONG_TERM_VIBE_GUIDE.md` 定义“如何做”。
+2. 优先级与里程碑定义见 AI_GUIDE 第 4 节，本文件不重复。
+3. 任务卡字段规范见 AI_GUIDE 第 5 节，本文件不重复。
 4. 每次开发会话只做 `1 个主任务 + 2 个次任务`，禁止并行开太多支线。
 5. 每个任务必须是 25 到 90 分钟可完成的颗粒度。
-6. 任务必须写清可验证结果，不写"继续优化""补一补"这类模糊描述。
+6. 任务必须写清可验证结果，不写“继续优化”“补一补”这类模糊描述。
 
 ---
 
@@ -49,64 +50,66 @@
 | 里程碑 | 状态 | 完成度 | 关键指标 |
 |--------|------|--------|---------|
 | **L0** ✅ | 完成 | 100% | 架构与质量基线已建立 |
-| **L1** ✅ | 完成 | 100% | 7天可玩 + 2条剧线 |
+| **L1** ✅ | 完成 | 100% | 7 天可玩 + 2 条剧线 |
 | **L2** ✅ | 完成 | 100% | 语义可读层已接入 |
-| **L3** ✅ | **完成** | **100%** | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
-| **L4** 🟡 | 部分完成 | **60%** | 经济循环 ✅ / 稳定性工程 🔄 / 数值平衡 ⏸ |
-| **L5** 📋 | 筹划中 | 0% | 誓约+新角色+通用口上 |
+| **L3** ✅ | 完成 | 100% | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
+| **L4** 🟡 | 部分完成 | 65% | 经济循环 ✅ / 稳定性工程 🔄 / 数值平衡 ⏸ |
+| **L5** 🟡 | 启动中 | 25% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ⏭ |
 
 *标注：✅完成 🔄进行中 🟡部分完成 📋筹划中 ⬜待启动*
 
 ---
 
-## 🔴 当前活跃任务（主线 G：L5 解耦底座先行）
+## 🔴 当前活跃任务（主线 G：L5 誓约-商店垂直切片）
 
-> 先解决誓约依赖道具但道具系统未落地的结构缺口，确保后续商店/调教/地图接入时不出现强耦合返工。
+> 道具底座已经落地，下一阶段不再拆成两个独立系统，而是先完成一条可玩的主链：玩家能在最小商店入口购买 `pledge_ring`，再在满足关系条件时执行 `oath`，成功后进入誓约阶段，失败则保留戒指。
 
 ### 本轮主任务（先做）
 
-- [ ] 道具系统最小骨架（Inventory + 存档 + 命令门禁）
-	- type: core
+- [ ] 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入）
+	- type: gameplay
 	- priority: P0
 	- milestone: L5
-	- est: 120m
-	- DoD: WorldState 增加 inventory；SaveService 持久化；CommandGate 支持 required_items；无道具时指令可解释拒绝
-	- verify: `python -m unittest tests.test_commands tests.test_save_service -v`
+	- est: 180m
+	- DoD: 玩家可通过最小商店入口购买 `pledge_ring`；`oath` 成功/失败都能返回明确结果；成功后消耗戒指并进入 `誓约` 阶段
+	- verify: `python -m unittest tests.test_commands tests.test_save_load tests.test_shop_service -v`
 	- owner: pair
 	- status: todo
 	- updated: 2026-04-16
 
 ### 本轮次任务（并行）
 
-- [ ] 誓约最小闭环（戒指校验 + 消耗 + 事件）
-	- type: gameplay
+- [ ] 商店骨架（catalog + shopfront + 购买结算）
+	- type: core
 	- priority: P1
 	- milestone: L5
 	- est: 120m
-	- DoD: 告白/誓约指令检查 `pledge_ring`；成功后消费道具并写入誓约标记，事件与对话可触发
-	- verify: `python -m unittest tests.test_commands tests.test_events tests.test_dialogue_service -v`
+	- DoD: 至少支持 1 个 `general_shop` 店面、按商品价格扣款、按商品分类过滤、按库存结果入账背包
+	- verify: `python -m unittest tests.test_shop_service tests.test_commands -v`
 	- owner: pair
 	- status: todo
 	- updated: 2026-04-16
 
-- [ ] commands.toml 校验器（重复 key + 非法字段）
-	- type: tooling
+- [ ] 誓约内容闭环（成功/失败事件 + 对话分支）
+	- type: content
 	- priority: P1
-	- milestone: L4
-	- est: 60m
-	- DoD: 新增可独立运行的校验入口；发现重复 key 与非法字段时返回非零退出码，并输出问题位置
-	- verify: `python -m eral.tools.validate_content --root .`
+	- milestone: L5
+	- est: 120m
+	- DoD: `oath_success` / `oath_failure` 事件钩子可命中；至少 1 名正式角色有成功与失败差分文本
+	- verify: `python -m unittest tests.test_events tests.test_dialogue_service tests.test_commands -v`
 	- owner: pair
 	- status: todo
 	- updated: 2026-04-16
 
-### L5 解耦阶段退出条件检查表（阶段一）
+### L5 当前阶段退出条件检查表（阶段二）
 
-- [ ] `requires_item` 在运行时生效（不再仅 UI 提示）
-- [ ] 誓约指令对 `pledge_ring` 的校验与消耗可回归验证
-- [ ] Inventory 字段可被旧存档平滑降级读取
-- [ ] 命令拒绝理由可区分：关系不足/地点不符/道具不足
+- [x] `required_items` 在运行时生效
+- [x] `pledge_ring` 可被 `oath` 指令校验与消费
+- [x] `inventory` 可被旧存档平滑降级读取
+- [x] 命令拒绝理由可区分：关系不足/地点不符/道具不足
 - [ ] 商店购买 -> 背包入账 -> 指令消费链路打通
+- [ ] 誓约成功/失败都能触发独立事件或对话分支
+- [ ] 通用商店骨架能复用到 `general_shop` 与 `skin_shop`
 
 ---
 
@@ -118,81 +121,81 @@
 	- est: 40m
 - [ ] 建立回归日志索引（按日期/测试名/失败点）
 	- est: 35m
-- [ ] 指令失败反馈文案一致性巡检（地点/时段/关系/状态）
+- [ ] 指令失败反馈文案一致性巡检（地点/时段/关系/状态/道具）
 	- est: 50m
 
 ---
 
 ## 🗓 接下来三周任务包（详细版）
 
-> 原则：每周固定 1 个主任务 + 2 个次任务。先拆依赖，再做玩法；先保接口，再加内容。
+> 原则：每周固定 1 个主任务 + 2 个次任务。先打通垂直切片，再扩入口和内容；先保底层接口，再加 NPC 语义。
 
-### Week 1（依赖拆雷周）
+### Week 1（垂直切片周）
 
 主任务：
-- [ ] T1 道具系统最小骨架上线
-	- est: 120m
-	- DoD: Inventory + Save + Gate 完整接入，`required_items` 可阻断命令
-	- verify: `python -m unittest tests.test_commands tests.test_save_service -v`
+- [ ] T1 誓约-商店最小闭环
+	- est: 180m
+	- DoD: 至少存在 1 个可访问的日常店入口，可购买 `pledge_ring`，并完成一次成功誓约与一次失败誓约回归
+	- verify: `python -m unittest tests.test_shop_service tests.test_commands tests.test_save_load -v`
 
 次任务：
-- [ ] T2 命令配置校验闸门上线
+- [ ] T2 商店目录与购买结算服务
+	- est: 120m
+	- DoD: `ShopService` 支持按 `shopfront_key` 列货、校验余额、入账 `inventory`、记录失败原因
+	- verify: `python -m unittest tests.test_shop_service -v`
+
+- [ ] T3 誓约成功/失败内容钩子
+	- est: 120m
+	- DoD: `oath_success` / `oath_failure` 可从命令结算后触发，至少 1 名角色有差分文本
+	- verify: `python -m unittest tests.test_events tests.test_dialogue_service tests.test_commands -v`
+
+### Week 2（商店扩展周）
+
+主任务：
+- [ ] T4 两类商店骨架成型
+	- est: 120m
+	- DoD: `general_shop` 与 `skin_shop` 共用同一套 catalog/shopfront 数据结构，暂时只要求日常店可购买、皮肤店可列货
+	- verify: `python -m unittest tests.test_shop_service tests.test_content_loading -v`
+
+次任务：
+- [ ] T5 商店入口语义预留
 	- est: 60m
-	- DoD: validate_content 拦截重复 key/非法字段；输出可定位配置行
+	- DoD: 商店入口可以被地点或角色调用，不把明石/不知火写死进购买逻辑
+	- verify: `python -m unittest tests.test_shop_service tests.test_navigation -v`
+
+- [ ] T6 指令统一判定接口扩展到接吻
+	- est: 90m
+	- DoD: `kiss` 可选择接入统一判定层，失败时给出与门禁不同的反馈
+	- verify: `python -m unittest tests.test_commands tests.test_command_gates -v`
+
+### Week 3（稳定性与后续底座周）
+
+主任务：
+- [ ] T7 commands.toml 校验器
+	- est: 60m
+	- DoD: validate_content 拦截重复 key、非法字段与常见结构错配；输出可定位问题路径
 	- verify: `python -m eral.tools.validate_content --root .`
 
-- [ ] T3 存档兼容回归 3 场景
-	- est: 75m
-	- DoD: 旧档缺字段/旧字段/脏字段三类均可读且有降级策略（含 inventory 缺失）
-	- verify: `python -m unittest tests.test_save_service -v`
-
-### Week 2（誓约与商店闭环周）
-
-主任务：
-- [ ] T4 誓约最小可玩闭环
-	- est: 120m
-	- DoD: 1 条誓约指令 + 2 个事件钩子 + 4 条对话分支；戒指条件与消耗生效
-	- verify: `python -m unittest tests.test_events tests.test_commands tests.test_dialogue_service -v`
-
 次任务：
-- [ ] T5 商店最小闭环（3~5 商品）
-	- est: 90m
-	- DoD: 可购买 `pledge_ring` 与至少 2 类消耗品；购买失败理由可解释
-	- verify: `python -m unittest tests.test_commands tests.test_smoke_playable -v`
-
-- [ ] T6 指令可用性解释器增强（含道具不足）
-	- est: 60m
-	- DoD: gate 拒绝时统一原因码 + 中文提示，新增 item_not_enough
-	- verify: `python -m unittest tests.test_commands -v`
-
-### Week 3（地图与调教骨架周）
-
-主任务：
-- [ ] T7 地图分层骨架（阵营区/子区/建筑）
-	- est: 120m
-	- DoD: 支持阵营区域与子地区建模；保留现有 navigation 接口兼容
-	- verify: `python -m unittest tests.test_navigation tests.test_commands -v`
-
-次任务：
-- [ ] T8 调教系统骨架（判定/执行/结算）
-	- est: 150m
-	- DoD: 至少 3 条调教指令通过统一管线，走 `gate -> source -> settlement`
-	- verify: `python -m unittest tests.test_commands tests.test_settlement -v`
-
-- [ ] T9 内容校验增强（角色包必填与引用完整性）
+- [ ] T8 内容校验增强（角色包必填与引用完整性）
 	- est: 60m
 	- DoD: character/events/dialogue 增加必填项与引用检查，错误信息带角色 key 与文件路径
 	- verify: `python -m eral.tools.validate_content --root .`
 
+- [ ] T9 地图分层骨架前置设计
+	- est: 120m
+	- DoD: 阵营区/子区/建筑三层数据结构与兼容层设计文档完成，确保后续可挂商店地点与 NPC 刷新
+	- verify: design review
+
 ### 暂缓队列（明确后置）
 
-- [ ] T10 数值平衡与调参说明（测试员恢复后）
-	- est: 60m
-	- reason: 需要专门测试员参与体验与边界验证
+- [ ] T10 明石 / 不知火商店入口
+	- est: 120m
+	- reason: 需要先有角色包和最小商店入口，再把她们作为入口语义接上
 
-- [ ] T11 鼠标点击交互（终端点击等效编号）
-	- est: 240m
-	- reason: 非关键路径，优先级低于稳定性与内容工程
+- [ ] T11 皮肤购买后的换装效果
+	- est: 150m
+	- reason: 需先明确皮肤数据格式与表现层，不应在商店骨架阶段提前绑定
 
 - [ ] T12 Web 交互原型预研
 	- est: 120m
@@ -212,47 +215,51 @@
 - [x] 体力/气力系统规格文档已建立，完整链路已通过
 - [x] 关系系统已接入，关系阶段阈值已可配置化
 - [x] 事件/口上系统已通过，事件触发匹配已完整
+- [x] `oath` 指令、统一判定入口与誓约阶段覆盖已落地
 
-**经济系统**
+**经济与道具体系**
 - [x] 资金系统已实现：双账户 + WalletService + 旧存档兼容
-- [x] 工作系统已实现：office_shift / extra_shift 工作指令
+- [x] 工作系统已实现：`office_shift` / `extra_shift` 工作指令
 - [x] 委托系统已实现：派遣/推进/结算全流程
-- [x] 港区开发系统已实现：3设施 + 效果整合整
+- [x] 港区开发系统已实现：3 设施 + 效果整合
+- [x] 玩家背包已实现：`inventory` + item catalog + 存档兼容
+- [x] 命令已支持 `required_items` 与道具不足原因反馈
 
 **内容量**
-- [x] 54个指令已接入 commands.toml
-- [x] 企业、拉菲、标枪三个正式角色（各>=20事件、>=30对话）
+- [x] 54 个以上指令已接入 `commands.toml`
+- [x] 企业、拉菲、标枪三个正式角色（各 >= 20 事件、>= 30 对话）
 - [x] L4 经济循环 14 天合并烟测已通过
-- [x] ABC级别测试覆盖率 100%（326个unittest通过）
+- [x] 自动化测试 336 项通过
 
 ---
 
 ## 📈 本周复盘（每周五更新）
 
-- **本周完成**：港区开发系统（3设施+FacilityService+效果整合）；关系成长公式调参（base_scale）；L4经济循环14天合并烟测
+- **本周完成**：L5 道具底座（`inventory` / `items.toml` / `required_items`）；`oath` 统一判定与成功消费链路；主线合并与全量回归
 - **本周阻塞**：无
 - **指标**：
-	- 自动化测试通过率：326/326（100%）
+	- 自动化测试通过率：336/336（100%）
 	- 正式角色总数：3
-	- 指令总数：54 + 2工作 + 3恢复
-	- UI已覆盖：主界面(6区) + 能力显示(5tab)
+	- 指令总数：54+，含工作与恢复指令
+	- 新增 L5 完成项：背包、誓约底座、最小道具门禁
 
 ---
 
-## 📚 计划中的系统（L5 筹划中）
+## 📚 计划中的系统（L5 持续推进）
 
 > 说明：人物内容补充先降级，待人物编辑器完善后再提级执行。
 
 | 系统 | 优先级 | 估算 | 依赖 |
 |------|--------|------|------|
-| 道具系统最小骨架（Inventory + Gate） | P0 | 120m | 无 |
-| 誓约层指令+事件+对话 | P1 | 120m | 道具系统最小骨架 |
-| 商店最小闭环（含誓约戒指） | P1 | 90m | 道具系统最小骨架 |
-| 调教系统骨架（三段式） | P1 | 150m | 命令门禁稳定 + settlement稳定 |
+| 誓约-商店垂直切片（戒指购买 -> 誓约） | P0 | 180m | 已有 inventory + oath 底座 |
+| 商店骨架（catalog + shopfront + purchase） | P1 | 120m | inventory + wallet |
+| 誓约层事件与对话 | P1 | 120m | `oath` 指令与事件管线 |
+| 两类商店共用数据结构（general / skin） | P1 | 60m | 商店骨架 |
+| 调教系统骨架（三段式） | P1 | 150m | 命令门禁稳定 + settlement 稳定 |
 | 地图分层骨架（阵营/子区/建筑） | P1 | 120m | navigation 接口兼容层 |
-| 贝尔法斯特角色包 | P2 | 120m | L3 exit + 编辑器完善 |
-| 通用口上兜底（54指令） | P2 | 90m | L3 exit + 编辑器完善 |
-| 天气与季节系统 | P1 | 120m | L5基础 |
+| 贝尔法斯特角色包 | P2 | 120m | L5 闭环阶段稳定 |
+| 通用口上兜底（54 指令） | P2 | 90m | 内容编辑器完善 |
+| 天气与季节系统 | P1 | 120m | L5 基础 |
 | ASCII 地图渲染 UI | P2 | 120m | 地图分层骨架 |
 
 ---
@@ -264,7 +271,7 @@
 
 - [x] 统一 TODO 与指导书的里程碑、优先级、状态口径
 - [x] 建立运行日志最小规范并接入关键链路
-- [x] 增加"连续 3 天可玩"烟测
+- [x] 增加“连续 3 天可玩”烟测
 
 </details>
 
@@ -331,10 +338,22 @@
 
 </details>
 
+<details>
+<summary>主线 L5：道具与誓约底座</summary>
+
+- [x] 扩展 WorldState + SaveService 支持 `inventory`
+- [x] 新增 `items.toml` 与最小物品加载器
+- [x] 在命令门禁中接入 `required_items`
+- [x] 新增 `oath` 指令与统一成功率判定入口
+- [x] 成功誓约后以 `oath` mark 覆盖关系阶段
+- [x] 全量回归通过（336 项 unittest）
+
+</details>
+
 ---
 
 ## 下一阶段快速参考
 
-**即将开始**：L5 解耦底座三周包（T1-T9）  
-**后续规划**：测试员恢复后推进数值平衡（T10）  
-**长期计划**：交互升级（T11/T12）+ 天气系统 + 角色包扩容 + 地图渲染增强
+**即将开始**：L5 誓约-商店垂直切片（T1-T3）  
+**后续规划**：两类商店骨架 + 稳定性护栏（T4-T8）  
+**长期计划**：商店 NPC 化（明石/不知火）+ 地图分层 + 调教系统 + 交互升级
