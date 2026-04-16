@@ -10,15 +10,16 @@
 
 | # | 任务 | 里程碑 | 类型 | Est | 状态 |
 |---|------|--------|------|-----|------|
-| 1 | 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入） | L5 | gameplay | 180m | 🔴 next |
-| 2 | 商店骨架（catalog + shopfront + 购买结算） | L5 | core | 120m | 🟡 gated |
-| 3 | 誓约内容闭环（成功/失败事件 + 对话分支） | L5 | content | 120m | 🟡 gated |
-| 4 | 皮肤店数据骨架（skin_shop 分类 + 入口预留） | L5 | architecture | 60m | 🟢 ready |
-| 5 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
-| 6 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
-| 7 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
-| 8 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
-| 9 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
+| 1 | 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入） | L5 | gameplay | 180m | ✅ done |
+| 2 | 商店骨架（catalog + shopfront + 购买结算） | L5 | core | 120m | ✅ done |
+| 3 | 誓约内容闭环（成功/失败结果标签 + 对话分支） | L5 | content | 120m | ✅ done |
+| 4 | 皮肤与外观底座（持有/切换/誓约奖励/口上条件） | L5 | architecture | 180m | ✅ done |
+| 5 | 皮肤店内容扩展（更多角色皮肤 + 活动上架规则） | L5 | content | 120m | 🔴 next |
+| 6 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | 🟢 ready |
+| 7 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | 🟢 ready |
+| 8 | 地图分层规划骨架（阵营区/子区/建筑） | L5 | architecture | 120m | 🟢 ready |
+| 9 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
+| 10 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | 🟢 ready |
 
 **执行顺序**：先用誓约之戒打通“商店购买 -> 背包入账 -> 指令消费 -> 阶段变化”主链，再补商店扩展与誓约内容，最后进入地图与调教。
 
@@ -54,32 +55,32 @@
 | **L2** ✅ | 完成 | 100% | 语义可读层已接入 |
 | **L3** ✅ | 完成 | 100% | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
 | **L4** 🟡 | 部分完成 | 65% | 经济循环 ✅ / 稳定性工程 🔄 / 数值平衡 ⏸ |
-| **L5** 🟡 | 启动中 | 25% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ⏭ |
+| **L5** 🟡 | 推进中 | 72% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 活动皮肤扩展 ⏭ |
 
 *标注：✅完成 🔄进行中 🟡部分完成 📋筹划中 ⬜待启动*
 
 ---
 
-## 🔴 当前活跃任务（主线 G：L5 誓约-商店垂直切片）
+## 🔴 当前活跃任务（主线 G：L5 皮肤店内容扩展）
 
-> 道具底座已经落地，下一阶段不再拆成两个独立系统，而是先完成一条可玩的主链：玩家能在最小商店入口购买 `pledge_ring`，再在满足关系条件时执行 `oath`，成功后进入誓约阶段，失败则保留戒指。
+> 皮肤与外观底座已经落地：角色现在拥有 `owned_skins / equipped_skin_key / removed_slots` 运行时状态；CLI 已支持 `skin_shop` 购买和衣柜切换；`oath_reward` 可自动发放皮肤；场景上下文、事件和口上已可按当前皮肤分支。下一阶段转向补更多角色皮肤、活动上架规则，以及后续 NPC/地点入口。
 
 ### 本轮主任务（先做）
 
-- [ ] 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入）
+- [x] 誓约-商店垂直切片（买戒指 -> 誓约 -> 阶段写入）
 	- type: gameplay
 	- priority: P0
 	- milestone: L5
 	- est: 180m
 	- DoD: 玩家可通过最小商店入口购买 `pledge_ring`；`oath` 成功/失败都能返回明确结果；成功后消耗戒指并进入 `誓约` 阶段
-	- verify: `python -m unittest tests.test_commands tests.test_save_load tests.test_shop_service -v`
+	- verify: `python -m unittest tests.test_cli_shop tests.test_shop_service tests.test_commands tests.test_events tests.test_dialogue tests.test_save_load -v`
 	- owner: pair
-	- status: todo
-	- updated: 2026-04-16
+	- status: done
+	- updated: 2026-04-17
 
 ### 本轮次任务（并行）
 
-- [ ] 商店骨架（catalog + shopfront + 购买结算）
+- [x] 商店骨架（catalog + shopfront + 购买结算）
 	- type: core
 	- priority: P1
 	- milestone: L5
@@ -87,19 +88,30 @@
 	- DoD: 至少支持 1 个 `general_shop` 店面、按商品价格扣款、按商品分类过滤、按库存结果入账背包
 	- verify: `python -m unittest tests.test_shop_service tests.test_commands -v`
 	- owner: pair
-	- status: todo
-	- updated: 2026-04-16
+	- status: done
+	- updated: 2026-04-17
 
-- [ ] 誓约内容闭环（成功/失败事件 + 对话分支）
+- [x] 誓约内容闭环（成功/失败结果标签 + 对话分支）
 	- type: content
 	- priority: P1
 	- milestone: L5
 	- est: 120m
-	- DoD: `oath_success` / `oath_failure` 事件钩子可命中；至少 1 名正式角色有成功与失败差分文本
-	- verify: `python -m unittest tests.test_events tests.test_dialogue_service tests.test_commands -v`
+	- DoD: `oath_success` / `oath_failure` 结果标签可命中；至少 1 名正式角色有成功与失败差分文本
+	- verify: `python -m unittest tests.test_events tests.test_dialogue tests.test_commands -v`
 	- owner: pair
-	- status: todo
-	- updated: 2026-04-16
+	- status: done
+	- updated: 2026-04-17
+
+- [x] 皮肤与外观底座（持有/切换/誓约奖励/口上条件）
+	- type: architecture
+	- priority: P1
+	- milestone: L5
+	- est: 180m
+	- DoD: 角色拥有 `owned_skins / equipped_skin_key / removed_slots`；CLI 可购买与切换皮肤；`oath_reward` 自动发放；事件/口上可按皮肤分支
+	- verify: `python -m unittest tests.test_content_loading tests.test_bootstrap tests.test_cli_shop tests.test_commands tests.test_events tests.test_dialogue tests.test_save_load -v`
+	- owner: pair
+	- status: done
+	- updated: 2026-04-17
 
 ### L5 当前阶段退出条件检查表（阶段二）
 
@@ -107,9 +119,12 @@
 - [x] `pledge_ring` 可被 `oath` 指令校验与消费
 - [x] `inventory` 可被旧存档平滑降级读取
 - [x] 命令拒绝理由可区分：关系不足/地点不符/道具不足
-- [ ] 商店购买 -> 背包入账 -> 指令消费链路打通
-- [ ] 誓约成功/失败都能触发独立事件或对话分支
+- [x] 商店购买 -> 背包入账 -> 指令消费链路打通
+- [x] 誓约成功/失败都能触发独立结果标签或对话分支
 - [ ] 通用商店骨架能复用到 `general_shop` 与 `skin_shop`
+- [x] 角色皮肤可被购买、切换并进入存档
+- [x] `oath_reward` 皮肤可自动发放
+- [x] 事件与口上可按当前皮肤分支
 
 ---
 
@@ -133,21 +148,21 @@
 ### Week 1（垂直切片周）
 
 主任务：
-- [ ] T1 誓约-商店最小闭环
+- [x] T1 誓约-商店最小闭环
 	- est: 180m
 	- DoD: 至少存在 1 个可访问的日常店入口，可购买 `pledge_ring`，并完成一次成功誓约与一次失败誓约回归
-	- verify: `python -m unittest tests.test_shop_service tests.test_commands tests.test_save_load -v`
+	- verify: `python -m unittest tests.test_cli_shop tests.test_shop_service tests.test_commands tests.test_events tests.test_dialogue tests.test_save_load -v`
 
 次任务：
-- [ ] T2 商店目录与购买结算服务
+- [x] T2 商店目录与购买结算服务
 	- est: 120m
 	- DoD: `ShopService` 支持按 `shopfront_key` 列货、校验余额、入账 `inventory`、记录失败原因
 	- verify: `python -m unittest tests.test_shop_service -v`
 
-- [ ] T3 誓约成功/失败内容钩子
+- [x] T3 誓约成功/失败内容钩子
 	- est: 120m
-	- DoD: `oath_success` / `oath_failure` 可从命令结算后触发，至少 1 名角色有差分文本
-	- verify: `python -m unittest tests.test_events tests.test_dialogue_service tests.test_commands -v`
+	- DoD: `oath_success` / `oath_failure` 可从命令结算结果进入内容层，至少 1 名角色有差分文本
+	- verify: `python -m unittest tests.test_events tests.test_dialogue tests.test_commands -v`
 
 ### Week 2（商店扩展周）
 
@@ -158,6 +173,11 @@
 	- verify: `python -m unittest tests.test_shop_service tests.test_content_loading -v`
 
 次任务：
+- [ ] T4.5 皮肤内容扩展（企业之外的角色皮肤 + 活动标签）
+	- est: 120m
+	- DoD: 至少再补 1 到 2 名正式角色的默认/活动或誓约皮肤；`summer` / `oath` 等标签有真实内容消费方
+	- verify: `python -m unittest tests.test_content_loading tests.test_dialogue tests.test_events -v`
+
 - [ ] T5 商店入口语义预留
 	- est: 60m
 	- DoD: 商店入口可以被地点或角色调用，不把明石/不知火写死进购买逻辑
@@ -224,6 +244,11 @@
 - [x] 港区开发系统已实现：3 设施 + 效果整合
 - [x] 玩家背包已实现：`inventory` + item catalog + 存档兼容
 - [x] 命令已支持 `required_items` 与道具不足原因反馈
+- [x] 最小商店入口已实现：CLI 可进入 `general_shop` 并购买 `pledge_ring`
+- [x] `oath_success` / `oath_failure` 结果标签已接入内容选择
+- [x] 皮肤与外观底座已实现：`skins.toml` / `appearances.toml` / `SkinService`
+- [x] CLI 已支持 `skin_shop` 购买与衣柜切换
+- [x] `oath_reward` 与皮肤分支内容已接入
 
 **内容量**
 - [x] 54 个以上指令已接入 `commands.toml`
@@ -235,13 +260,13 @@
 
 ## 📈 本周复盘（每周五更新）
 
-- **本周完成**：L5 道具底座（`inventory` / `items.toml` / `required_items`）；`oath` 统一判定与成功消费链路；主线合并与全量回归
+- **本周完成**：L5 道具底座（`inventory` / `items.toml` / `required_items`）；`ShopService` + `shopfronts.toml`；CLI 最小商店入口；`oath_success` / `oath_failure` 结果标签与企业差分口上；皮肤与外观底座（内容定义 / 存档 / skin shop / 衣柜 / oath reward / 皮肤分支）；全量回归
 - **本周阻塞**：无
 - **指标**：
-	- 自动化测试通过率：336/336（100%）
+	- 自动化测试通过率：369/369（100%）
 	- 正式角色总数：3
 	- 指令总数：54+，含工作与恢复指令
-	- 新增 L5 完成项：背包、誓约底座、最小道具门禁
+	- 新增 L5 完成项：背包、誓约底座、最小道具门禁、皮肤与外观底座
 
 ---
 
@@ -255,6 +280,7 @@
 | 商店骨架（catalog + shopfront + purchase） | P1 | 120m | inventory + wallet |
 | 誓约层事件与对话 | P1 | 120m | `oath` 指令与事件管线 |
 | 两类商店共用数据结构（general / skin） | P1 | 60m | 商店骨架 |
+| 皮肤与外观底座（持有/切换/誓约奖励/皮肤条件） | P1 | 180m | skin_shop + SceneContext 扩展 |
 | 调教系统骨架（三段式） | P1 | 150m | 命令门禁稳定 + settlement 稳定 |
 | 地图分层骨架（阵营/子区/建筑） | P1 | 120m | navigation 接口兼容层 |
 | 贝尔法斯特角色包 | P2 | 120m | L5 闭环阶段稳定 |
@@ -354,6 +380,6 @@
 
 ## 下一阶段快速参考
 
-**即将开始**：L5 誓约-商店垂直切片（T1-T3）  
-**后续规划**：两类商店骨架 + 稳定性护栏（T4-T8）  
+**即将开始**：L5 皮肤店内容扩展（多角色皮肤 + 活动上架规则）  
+**后续规划**：稳定性护栏 + 地图 / NPC 商店入口（T5-T8）  
 **长期计划**：商店 NPC 化（明石/不知火）+ 地图分层 + 调教系统 + 交互升级
