@@ -30,6 +30,7 @@ class SaveLoadTests(unittest.TestCase):
             actor_key=actor.key,
             command_key="chat",
         )
+        self.app.world.inventory["medkit"] = 3
 
         save_path = self.app.save_service.save_world(self.app.world)
 
@@ -37,6 +38,7 @@ class SaveLoadTests(unittest.TestCase):
         payload = json.loads(save_path.read_text(encoding="utf-8"))
         self.assertEqual(payload["current_day"], 1)
         self.assertEqual(payload["active_location"]["key"], "dock")
+        self.assertEqual(payload["inventory"], {"medkit": 3})
 
     def test_load_restores_world_state(self) -> None:
         actor = actor_by_key(self.app, "enterprise")
@@ -76,6 +78,74 @@ class SaveLoadTests(unittest.TestCase):
         self.assertGreaterEqual(restored_actor.affection, 210)
         self.assertGreaterEqual(restored_actor.trust, 110)
         self.assertTrue(restored_actor.is_following)
+
+    def test_load_restores_inventory_counts(self) -> None:
+        self.app.world.inventory["medkit"] = 3
+        self.app.world.inventory["coin"] = 12
+
+        self.app.save_service.save_world(self.app.world)
+
+        self.app.world.inventory.clear()
+
+        restored = self.app.save_service.load_world()
+
+        self.assertEqual(restored.inventory, {"medkit": 3, "coin": 12})
+
+    def test_load_older_save_defaults_inventory_to_empty_dict(self) -> None:
+        self.app.save_service.save_world(self.app.world)
+        save_path = self.app.save_service.quicksave_path()
+        payload = json.loads(save_path.read_text(encoding="utf-8"))
+        payload.pop("inventory", None)
+        save_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        restored = self.app.save_service.load_world()
+
+        self.assertEqual(restored.inventory, {})
+
+    def test_load_ignores_non_dict_inventory_payload(self) -> None:
+        self.app.save_service.save_world(self.app.world)
+        save_path = self.app.save_service.quicksave_path()
+        payload = json.loads(save_path.read_text(encoding="utf-8"))
+        payload["inventory"] = ["medkit", 3]
+        save_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        restored = self.app.save_service.load_world()
+
+        self.assertEqual(restored.inventory, {})
+
+    def test_load_ignores_invalid_inventory_counts(self) -> None:
+        self.app.save_service.save_world(self.app.world)
+        save_path = self.app.save_service.quicksave_path()
+        payload = json.loads(save_path.read_text(encoding="utf-8"))
+        payload["inventory"] = {
+            "medkit": 3,
+            "broken": "not-a-number",
+            "empty": 0,
+            "negative": -2,
+        }
+        save_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        restored = self.app.save_service.load_world()
+
+        self.assertEqual(restored.inventory, {"medkit": 3})
+
+    def test_worldstate_inventory_helpers(self) -> None:
+        world = self.app.world
+
+        self.assertEqual(world.item_count("medkit"), 0)
+        self.assertEqual(world.add_item("medkit"), 1)
+        self.assertEqual(world.add_item("medkit", 2), 3)
+        self.assertEqual(world.item_count("medkit"), 3)
+        self.assertTrue(world.consume_item("medkit"))
+        self.assertEqual(world.item_count("medkit"), 2)
+        self.assertFalse(world.consume_item("medkit", 3))
+        self.assertEqual(world.item_count("medkit"), 2)
+        self.assertTrue(world.consume_item("medkit", 2))
+        self.assertEqual(world.item_count("medkit"), 0)
+        self.assertFalse(world.consume_item("medkit"))
+        self.assertEqual(world.add_item("medkit", 0), 0)
+        self.assertEqual(world.add_item("medkit", -1), 0)
+        self.assertTrue(world.consume_item("medkit", 0))
 
     def test_cli_menu_includes_save_and_load_when_save_exists(self) -> None:
         menu = _build_menu(self.app, self.app.world)
