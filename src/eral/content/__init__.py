@@ -8,6 +8,7 @@ from .dialogue import DialogueEntry, load_dialogue_entries
 from .events import EventDefinition, load_event_definitions
 from .items import ItemDefinition, load_item_definitions
 from .marks import MarkDefinition, load_mark_definitions
+from .shops import ShopfrontDefinition, load_shopfront_definitions
 from .port_map import load_port_map
 from .relationships import RelationshipStageDefinition, load_relationship_stages
 from .settlement import SettlementRule, load_settlement_rules
@@ -27,6 +28,7 @@ __all__ = [
     "MarkDefinition",
     "RelationshipStageDefinition",
     "SettlementRule",
+    "ShopfrontDefinition",
     "StatAxis",
     "StatAxisCatalog",
     "TwAxisEntry",
@@ -40,6 +42,7 @@ __all__ = [
     "load_item_definitions",
     "load_mark_definitions",
     "load_port_map",
+    "load_shopfront_definitions",
     "load_relationship_stages",
     "load_settlement_rules",
     "load_stat_axis_catalog",

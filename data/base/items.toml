@@ -1,3 +1,6 @@
 [[items]]
 key = "pledge_ring"
 display_name = "誓约之戒"
+category = "general_shop"
+description = "用于正式誓约的戒指。成功誓约时消耗，失败不会消耗。"
+price = 1000

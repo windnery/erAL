@@ -13,6 +13,9 @@ class ItemDefinition:
 
     key: str
     display_name: str
+    category: str
+    description: str
+    price: int
 
 
 def load_item_definitions(path: Path) -> tuple[ItemDefinition, ...]:
@@ -25,6 +28,9 @@ def load_item_definitions(path: Path) -> tuple[ItemDefinition, ...]:
         ItemDefinition(
             key=item["key"],
             display_name=item["display_name"],
+            category=item["category"],
+            description=item["description"],
+            price=int(item["price"]),
         )
         for item in raw_data.get("items", [])
     )
