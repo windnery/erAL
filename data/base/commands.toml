@@ -259,6 +259,18 @@ source = { affection = 40, joy = 40, abl_9 = 3 }
 downbase = { spirit = 20 }
 
 [[commands]]
+key = "oath"
+display_name = "誓约"
+category = "date"
+location_tags = ["harbor"]
+time_slots = ["morning", "afternoon"]
+required_stage = "like"
+required_items = { pledge_ring = 1 }
+resolution_key = "oath"
+source = {}
+downbase = {}
+
+[[commands]]
 key = "end_date"
 display_name = "结束约会"
 category = "date"

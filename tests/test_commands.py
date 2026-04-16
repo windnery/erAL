@@ -265,6 +265,12 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertEqual(commands["date_meal"].category, "date")
         self.assertEqual(commands["serve_tea"].category, "daily")
 
+    def test_oath_command_loads_required_items_and_resolution_key(self) -> None:
+        command = self.app.command_service.commands["oath"]
+
+        self.assertEqual(command.required_items, {"pledge_ring": 1})
+        self.assertEqual(command.resolution_key, "oath")
+
     def test_serve_tea_command_increases_trust(self) -> None:
         actor = self._actor()
         self.app.world.active_location.key = "command_office"

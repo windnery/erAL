@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 from eral.content.commands import CommandDefinition
 from eral.content.marks import MarkDefinition
+from eral.content.items import ItemDefinition
 from eral.domain.actions import ActionResult
 from eral.domain.map import PortMap
 from eral.domain.world import CharacterState, WorldState
@@ -37,6 +38,7 @@ class CommandService:
     """Execute static commands against a visible actor."""
 
     commands: dict[str, CommandDefinition]
+    item_definitions: dict[str, ItemDefinition] | None
     settlement: SettlementService
     port_map: PortMap
     scene_service: SceneService
@@ -231,6 +233,7 @@ class CommandService:
             location_tags=location_tags,
             relationship_service=self.relationship_service,
             vital_service=self.vital_service,
+            item_definitions=self.item_definitions,
         )
 
     @staticmethod

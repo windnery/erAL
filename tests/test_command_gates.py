@@ -14,7 +14,7 @@ from eral.systems.command_gates import (
     GlobalModeGate,
 )
 from tests.support.real_actors import actor_by_key, place_player_with_actor
-from tests.support.stages import reset_progress
+from tests.support.stages import reset_progress, seed_like
 
 
 class CommandGateTests(unittest.TestCase):
@@ -33,6 +33,7 @@ class CommandGateTests(unittest.TestCase):
             command=command,
             location_tags=self.location.tags,
             relationship_service=self.app.relationship_service,
+            item_definitions={item.key: item for item in self.app.items},
         )
 
     def test_category_gate_rejects_command_without_category(self) -> None:
@@ -73,6 +74,22 @@ class CommandGateTests(unittest.TestCase):
 
         reason = CommandSpecificGate().failure_reason(self._context(command))
         self.assertIsNotNone(reason)
+
+    def test_specific_gate_reports_missing_required_item(self) -> None:
+        seed_like(self.actor)
+        self.app.relationship_service.update_actor(self.actor)
+        location = self.app.port_map.location_by_key("dock")
+        self.app.world.active_location.key = location.key
+        self.app.world.active_location.display_name = location.display_name
+        self.app.world.current_time_slot = self.app.world.current_time_slot.MORNING
+        self.actor.location_key = location.key
+        self.location = location
+        self.app.world.inventory.pop("pledge_ring", None)
+        command = self.app.command_service.commands["oath"]
+
+        reason = CommandSpecificGate().failure_reason(self._context(command))
+
+        self.assertEqual(reason, "缺少所需道具：誓约之戒 x1。")
 
 
 if __name__ == "__main__":
