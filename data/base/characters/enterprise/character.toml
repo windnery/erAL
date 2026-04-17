@@ -2,6 +2,11 @@ key = "enterprise"
 display_name = "企业"
 tags = ["enterprise", "carrier", "eagle_union", "serious"]
 initial_location = "dock"
+faction_key = "eagle_union"
+residence_area_key = "eagle_living"
+dorm_group_key = "eagle_dorm"
+home_location_key = "dormitory_a"
+default_activity_tags = ["work", "harbor", "serious"]
 
 [schedule]
 dawn = "dormitory_a"

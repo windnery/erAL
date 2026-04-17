@@ -48,6 +48,7 @@ from eral.systems.companions import CompanionService
 from eral.systems.commissions import CommissionService
 from eral.systems.dates import DateService
 from eral.systems.dialogue import DialogueService
+from eral.systems.distribution import DistributionService
 from eral.systems.events import EventService
 from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
@@ -98,6 +99,7 @@ class Application:
     dialogue_service: DialogueService
     command_service: CommandService
     navigation_service: NavigationService
+    distribution_service: DistributionService
     schedule_service: ScheduleService
     save_service: SaveService
     vital_service: VitalService
@@ -318,6 +320,7 @@ def create_application(root: Path | None = None) -> Application:
         runtime_logger=runtime_logger,
         time_service=time_service,
     )
+    distribution_service = DistributionService()
     relationship_service.refresh_world(world)
     companion_service.refresh_world(world)
     date_service.refresh_world(world)
@@ -367,6 +370,7 @@ def create_application(root: Path | None = None) -> Application:
         dialogue_service=dialogue_service,
         command_service=command_service,
         navigation_service=navigation_service,
+        distribution_service=distribution_service,
         schedule_service=schedule_service,
         save_service=save_service,
         vital_service=vital_service,

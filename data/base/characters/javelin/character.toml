@@ -2,6 +2,11 @@ key = "javelin"
 display_name = "标枪"
 tags = ["javelin", "destroyer", "royal_navy", "cheerful"]
 initial_location = "cafeteria"
+faction_key = "royal_navy"
+residence_area_key = "royal_living"
+dorm_group_key = "royal_dorm"
+home_location_key = "garden"
+default_activity_tags = ["training", "social", "cheerful"]
 
 [schedule]
 dawn = "dormitory_a"

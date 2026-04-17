@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
-from eral.domain.map import PortMap, PortConnection, PortMapLocation
+from eral.domain.map import PortMap, PortConnection, PortMapArea, PortMapLocation, PortMapSubArea
 from eral.domain.world import CharacterState, WorldState, PortLocation, TimeSlot
 from eral.systems.navigation import NavigationService
 from eral.systems.companions import CompanionService
@@ -18,12 +18,20 @@ def _make_port_map() -> PortMap:
     return PortMap(
         key="test_port",
         display_name="测试港",
+        areas=(
+            PortMapArea(key="command_core", display_name="指挥中枢区", kind="public"),
+            PortMapArea(key="living_core", display_name="生活区", kind="public"),
+        ),
+        sub_areas=(
+            PortMapSubArea(key="hq_command", area_key="command_core", display_name="指挥链", tags=("work",)),
+            PortMapSubArea(key="living_common", area_key="living_core", display_name="生活链", tags=("social",)),
+        ),
         locations=(
-            PortMapLocation(key="corridor", display_name="走廊", zone="hq", tags=("transit",), visibility="public"),
-            PortMapLocation(key="office", display_name="办公室", zone="hq", tags=("work",), visibility="public"),
-            PortMapLocation(key="dormitory", display_name="宿舍", zone="residential", tags=("residential",), visibility="private"),
-            PortMapLocation(key="bathhouse", display_name="浴场", zone="support", tags=("social",), visibility="private"),
-            PortMapLocation(key="vault", display_name="密室", zone="hq", tags=("secret",), visibility="hidden"),
+            PortMapLocation(key="corridor", display_name="走廊", zone="hq", area_key="command_core", sub_area_key="hq_command", tags=("transit",), visibility="public"),
+            PortMapLocation(key="office", display_name="办公室", zone="hq", area_key="command_core", sub_area_key="hq_command", tags=("work",), visibility="public"),
+            PortMapLocation(key="dormitory", display_name="宿舍", zone="residential", area_key="living_core", sub_area_key="living_common", tags=("residential",), visibility="private"),
+            PortMapLocation(key="bathhouse", display_name="浴场", zone="support", area_key="living_core", sub_area_key="living_common", tags=("social",), visibility="private"),
+            PortMapLocation(key="vault", display_name="密室", zone="hq", area_key="command_core", sub_area_key="hq_command", tags=("secret",), visibility="hidden"),
         ),
         connections=(
             PortConnection(source="corridor", target="office", bidirectional=True),
@@ -67,6 +75,13 @@ class PortMapVisibilityTests(unittest.TestCase):
         self.assertIn("bathhouse", all_neighbors)
         self.assertIn("vault", all_neighbors)
         self.assertIn("office", all_neighbors)
+
+    def test_location_can_expose_optional_layered_parent_metadata_without_affecting_visibility(self) -> None:
+        port_map = _make_port_map()
+        office = port_map.location_by_key("office")
+
+        self.assertEqual(office.area_key, "command_core")
+        self.assertEqual(office.sub_area_key, "hq_command")
 
 
 class NavigationVisibilityTests(unittest.TestCase):

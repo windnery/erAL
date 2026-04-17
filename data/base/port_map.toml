@@ -1,70 +1,202 @@
 [meta]
 key = "starter_port"
-display_name = "碧蓝航线 · 起始港区"
+display_name = "碧蓝航线·起始港区"
+
+[[areas]]
+key = "command_core"
+display_name = "指挥中枢区"
+kind = "public"
+
+[[areas]]
+key = "training_core"
+display_name = "训练演习区"
+kind = "public"
+
+[[areas]]
+key = "commerce_core"
+display_name = "商业休闲区"
+kind = "public"
+
+[[areas]]
+key = "harbor_core"
+display_name = "港口外勤区"
+kind = "public"
+
+[[areas]]
+key = "eagle_living"
+display_name = "白鹰生活区"
+kind = "faction_living"
+faction_key = "eagle_union"
+
+[[areas]]
+key = "royal_living"
+display_name = "皇家生活区"
+kind = "faction_living"
+faction_key = "royal_navy"
+
+[[sub_areas]]
+key = "hq_command"
+area_key = "command_core"
+display_name = "指挥链"
+tags = ["work", "command"]
+
+[[sub_areas]]
+key = "training_fields"
+area_key = "training_core"
+display_name = "训练场群"
+tags = ["training"]
+
+[[sub_areas]]
+key = "commerce_street"
+area_key = "commerce_core"
+display_name = "商业街"
+tags = ["shop", "social"]
+
+[[sub_areas]]
+key = "harbor_ops"
+area_key = "harbor_core"
+display_name = "外勤泊位"
+tags = ["harbor", "dispatch"]
+
+[[sub_areas]]
+key = "eagle_dorm"
+area_key = "eagle_living"
+display_name = "白鹰宿舍群"
+tags = ["residential", "social"]
+
+[[sub_areas]]
+key = "royal_dorm"
+area_key = "royal_living"
+display_name = "皇家宿舍群"
+tags = ["residential", "social"]
 
 [[locations]]
 key = "command_office"
 display_name = "指挥室"
 zone = "hq"
+area_key = "command_core"
+sub_area_key = "hq_command"
 tags = ["core", "work", "public"]
 start = true
+capacity_soft = 4
+capacity_hard = 8
 
 [[locations]]
 key = "main_corridor"
 display_name = "主走廊"
 zone = "hq"
+area_key = "command_core"
+sub_area_key = "hq_command"
 tags = ["core", "transit", "public"]
+capacity_soft = 6
+capacity_hard = 12
 
 [[locations]]
 key = "dormitory_a"
 display_name = "宿舍A"
 zone = "residential"
+area_key = "eagle_living"
+sub_area_key = "eagle_dorm"
 tags = ["residential", "private"]
 visibility = "private"
+capacity_soft = 8
+capacity_hard = 16
 
 [[locations]]
 key = "cafeteria"
 display_name = "食堂"
 zone = "support"
+area_key = "commerce_core"
+sub_area_key = "commerce_street"
 tags = ["social", "food", "public"]
+capacity_soft = 10
+capacity_hard = 20
 
 [[locations]]
 key = "library"
 display_name = "图书室"
 zone = "support"
+area_key = "command_core"
+sub_area_key = "hq_command"
 tags = ["study", "work", "public"]
+capacity_soft = 6
+capacity_hard = 12
 
 [[locations]]
 key = "infirmary"
 display_name = "医务室"
 zone = "support"
+area_key = "command_core"
+sub_area_key = "hq_command"
 tags = ["medical", "care", "private"]
 visibility = "private"
+capacity_soft = 4
+capacity_hard = 8
 
 [[locations]]
 key = "bathhouse"
 display_name = "浴场"
 zone = "support"
+area_key = "eagle_living"
+sub_area_key = "eagle_dorm"
 tags = ["social", "private"]
 visibility = "private"
+capacity_soft = 8
+capacity_hard = 16
 
 [[locations]]
 key = "training_ground"
 display_name = "训练场"
 zone = "military"
+area_key = "training_core"
+sub_area_key = "training_fields"
 tags = ["training", "public"]
+capacity_soft = 10
+capacity_hard = 20
 
 [[locations]]
 key = "dock"
 display_name = "码头"
 zone = "harbor"
+area_key = "harbor_core"
+sub_area_key = "harbor_ops"
 tags = ["harbor", "public"]
+capacity_soft = 12
+capacity_hard = 24
 
 [[locations]]
 key = "garden"
 display_name = "庭院"
 zone = "residential"
+area_key = "royal_living"
+sub_area_key = "royal_dorm"
 tags = ["social", "rest", "public"]
+capacity_soft = 8
+capacity_hard = 16
+
+[[slots]]
+key = "training_ground_equipment"
+location_key = "training_ground"
+display_name = "器械区"
+capacity_soft = 6
+
+[[slots]]
+key = "training_ground_duel"
+location_key = "training_ground"
+display_name = "对抗区"
+capacity_soft = 6
+
+[[slots]]
+key = "dock_loading"
+location_key = "dock"
+display_name = "装卸区"
+capacity_soft = 8
+
+[[slots]]
+key = "dock_overlook"
+location_key = "dock"
+display_name = "观景区"
+capacity_soft = 4
 
 [[connections]]
 from = "command_office"

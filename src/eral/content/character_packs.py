@@ -79,6 +79,11 @@ def _load_character_file(
         display_name=raw_data["display_name"],
         tags=tuple(raw_data.get("tags", [])),
         initial_location=raw_data["initial_location"],
+        faction_key=str(raw_data.get("faction_key", "")),
+        residence_area_key=str(raw_data.get("residence_area_key", "")),
+        dorm_group_key=str(raw_data.get("dorm_group_key", "")),
+        home_location_key=str(raw_data.get("home_location_key", "")),
+        default_activity_tags=tuple(raw_data.get("default_activity_tags", [])),
         schedule={str(key): str(value) for key, value in raw_data.get("schedule", {}).items()},
         initial_stats=initial_stats or _parse_initial_stats(raw_data.get("initial_stats")),
     )

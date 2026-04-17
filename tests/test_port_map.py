@@ -42,6 +42,22 @@ class PortMapTests(unittest.TestCase):
         self.assertIn("infirmary", neighbors)
         self.assertIn("garden", neighbors)
 
+    def test_port_map_loads_area_and_sub_area_metadata(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        port_map = load_port_map(repo_root / "data" / "base" / "port_map.toml")
+
+        self.assertIn("command_core", port_map.area_keys())
+        self.assertIn("eagle_living", port_map.area_keys())
+        self.assertEqual(port_map.sub_area_by_key("hq_command").area_key, "command_core")
+
+    def test_port_map_location_exposes_layered_parent_keys(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        port_map = load_port_map(repo_root / "data" / "base" / "port_map.toml")
+        command_office = port_map.location_by_key("command_office")
+
+        self.assertEqual(command_office.area_key, "command_core")
+        self.assertEqual(command_office.sub_area_key, "hq_command")
+
 
 if __name__ == "__main__":
     unittest.main()
