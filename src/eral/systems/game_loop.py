@@ -8,6 +8,7 @@ from eral.domain.world import TimeSlot, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.commissions import CommissionService
+from eral.systems.distribution import DistributionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.time_service import TimeService
 from eral.systems.vital import VitalService
@@ -22,6 +23,7 @@ class GameLoop:
     vital_service: VitalService | None = None
     commission_service: CommissionService | None = None
     facility_service: object | None = None
+    distribution_service: DistributionService | None = None
     runtime_logger: RuntimeLogger | None = None
     time_service: TimeService | None = None
 
@@ -39,6 +41,8 @@ class GameLoop:
         world._sync_clock_from_time_slot()
         if self.schedule_service is not None:
             self.schedule_service.refresh_world(world)
+        if self.distribution_service is not None:
+            self.distribution_service.refresh_world(world)
         if self.vital_service is not None:
             for character in world.characters:
                 self.vital_service.natural_recovery(character, world)
