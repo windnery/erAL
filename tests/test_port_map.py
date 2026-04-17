@@ -23,7 +23,7 @@ class PortMapTests(unittest.TestCase):
         port_map = load_port_map(repo_root / "data" / "base" / "port_map.toml")
 
         self.assertGreaterEqual(len(port_map.locations), 8)
-        self.assertLessEqual(len(port_map.locations), 12)
+        self.assertLessEqual(len(port_map.locations), 30)
 
         library = port_map.location_by_key("library")
         infirmary = port_map.location_by_key("infirmary")

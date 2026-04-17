@@ -34,6 +34,29 @@ display_name = "皇家生活区"
 kind = "faction_living"
 faction_key = "royal_navy"
 
+[[areas]]
+key = "sakura_living"
+display_name = "重樱生活区"
+kind = "faction_living"
+faction_key = "sakura_empire"
+
+[[areas]]
+key = "ironblood_living"
+display_name = "铁血生活区"
+kind = "faction_living"
+faction_key = "iron_blood"
+
+[[areas]]
+key = "donghuang_living"
+display_name = "东煌生活区"
+kind = "faction_living"
+faction_key = "donghuang"
+
+[[areas]]
+key = "mixed_living"
+display_name = "混合生活区"
+kind = "faction_living"
+
 [[sub_areas]]
 key = "hq_command"
 area_key = "command_core"
@@ -68,6 +91,36 @@ tags = ["residential", "social"]
 key = "royal_dorm"
 area_key = "royal_living"
 display_name = "皇家宿舍群"
+tags = ["residential", "social"]
+
+[[sub_areas]]
+key = "sakura_dorm"
+area_key = "sakura_living"
+display_name = "重樱宿舍群"
+tags = ["residential", "social"]
+
+[[sub_areas]]
+key = "sakura_courtyard"
+area_key = "sakura_living"
+display_name = "重樱庭园区"
+tags = ["rest", "social"]
+
+[[sub_areas]]
+key = "ironblood_dorm"
+area_key = "ironblood_living"
+display_name = "铁血宿舍群"
+tags = ["residential", "social"]
+
+[[sub_areas]]
+key = "donghuang_dorm"
+area_key = "donghuang_living"
+display_name = "东煌宿舍群"
+tags = ["residential", "social"]
+
+[[sub_areas]]
+key = "mixed_dorm"
+area_key = "mixed_living"
+display_name = "联合宿舍群"
 tags = ["residential", "social"]
 
 [[locations]]
@@ -174,6 +227,108 @@ tags = ["social", "rest", "public"]
 capacity_soft = 8
 capacity_hard = 16
 
+# ── 重樱生活区 ──────────────────────────────────────────────────
+
+[[locations]]
+key = "sakura_dorm_hall"
+display_name = "重樱宿舍大厅"
+zone = "residential"
+area_key = "sakura_living"
+sub_area_key = "sakura_dorm"
+tags = ["residential", "social", "private"]
+visibility = "private"
+capacity_soft = 8
+capacity_hard = 16
+
+[[locations]]
+key = "sakura_courtyard"
+display_name = "重樱庭院"
+zone = "residential"
+area_key = "sakura_living"
+sub_area_key = "sakura_courtyard"
+tags = ["social", "rest", "public"]
+capacity_soft = 8
+capacity_hard = 16
+
+[[locations]]
+key = "sakura_tea_room"
+display_name = "重樱茶室"
+zone = "residential"
+area_key = "sakura_living"
+sub_area_key = "sakura_courtyard"
+tags = ["social", "food", "private"]
+visibility = "private"
+capacity_soft = 4
+capacity_hard = 8
+
+# ── 铁血生活区 ──────────────────────────────────────────────────
+
+[[locations]]
+key = "ironblood_dorm_hall"
+display_name = "铁血宿舍大厅"
+zone = "residential"
+area_key = "ironblood_living"
+sub_area_key = "ironblood_dorm"
+tags = ["residential", "social", "private"]
+visibility = "private"
+capacity_soft = 8
+capacity_hard = 16
+
+[[locations]]
+key = "ironblood_workshop_lounge"
+display_name = "铁血整备休息区"
+zone = "residential"
+area_key = "ironblood_living"
+sub_area_key = "ironblood_dorm"
+tags = ["rest", "work", "public"]
+capacity_soft = 6
+capacity_hard = 12
+
+# ── 东煌生活区 ──────────────────────────────────────────────────
+
+[[locations]]
+key = "donghuang_dorm_hall"
+display_name = "东煌宿舍大厅"
+zone = "residential"
+area_key = "donghuang_living"
+sub_area_key = "donghuang_dorm"
+tags = ["residential", "social", "private"]
+visibility = "private"
+capacity_soft = 8
+capacity_hard = 16
+
+[[locations]]
+key = "donghuang_dining"
+display_name = "东煌餐室"
+zone = "residential"
+area_key = "donghuang_living"
+sub_area_key = "donghuang_dorm"
+tags = ["social", "food", "public"]
+capacity_soft = 6
+capacity_hard = 12
+
+# ── 混合生活区 ──────────────────────────────────────────────────
+
+[[locations]]
+key = "mixed_dorm_hall"
+display_name = "联合宿舍大厅"
+zone = "residential"
+area_key = "mixed_living"
+sub_area_key = "mixed_dorm"
+tags = ["residential", "social", "public"]
+capacity_soft = 10
+capacity_hard = 20
+
+[[locations]]
+key = "mixed_lounge"
+display_name = "联合休息区"
+zone = "residential"
+area_key = "mixed_living"
+sub_area_key = "mixed_dorm"
+tags = ["rest", "social", "public"]
+capacity_soft = 8
+capacity_hard = 16
+
 [[slots]]
 key = "training_ground_equipment"
 location_key = "training_ground"
@@ -251,3 +406,65 @@ from = "main_corridor"
 to = "garden"
 bidirectional = true
 cost_minutes = 15
+
+# ── 重樱生活区 ──────────────────────────────────────────────────
+
+[[connections]]
+from = "main_corridor"
+to = "sakura_dorm_hall"
+bidirectional = true
+cost_minutes = 18
+
+[[connections]]
+from = "sakura_dorm_hall"
+to = "sakura_courtyard"
+bidirectional = true
+cost_minutes = 3
+
+[[connections]]
+from = "sakura_courtyard"
+to = "sakura_tea_room"
+bidirectional = true
+cost_minutes = 3
+
+# ── 铁血生活区 ──────────────────────────────────────────────────
+
+[[connections]]
+from = "main_corridor"
+to = "ironblood_dorm_hall"
+bidirectional = true
+cost_minutes = 18
+
+[[connections]]
+from = "ironblood_dorm_hall"
+to = "ironblood_workshop_lounge"
+bidirectional = true
+cost_minutes = 3
+
+# ── 东煌生活区 ──────────────────────────────────────────────────
+
+[[connections]]
+from = "main_corridor"
+to = "donghuang_dorm_hall"
+bidirectional = true
+cost_minutes = 18
+
+[[connections]]
+from = "donghuang_dorm_hall"
+to = "donghuang_dining"
+bidirectional = true
+cost_minutes = 3
+
+# ── 混合生活区 ──────────────────────────────────────────────────
+
+[[connections]]
+from = "main_corridor"
+to = "mixed_dorm_hall"
+bidirectional = true
+cost_minutes = 15
+
+[[connections]]
+from = "mixed_dorm_hall"
+to = "mixed_lounge"
+bidirectional = true
+cost_minutes = 3
