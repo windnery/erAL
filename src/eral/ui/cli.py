@@ -340,6 +340,34 @@ _EX_LABELS = {
 }
 
 
+def _append_destination_menu(
+    menu: dict[str, list[tuple[str, str, str | None]]],
+    destinations: list[object],
+) -> None:
+    """Populate the move menu with reachable destinations grouped by area.
+
+    Structured rendering: label contains area/cost metadata but the
+    action remains ``("move", dest_key)`` so the execution layer is
+    unchanged.  Future UI renderers can parse the MovePlan directly
+    instead of the label string.
+    """
+    from eral.systems.navigation import MovePlan  # avoid circular at module level
+
+    # Group by area
+    by_area: dict[str, list[MovePlan]] = {}
+    for plan in destinations:
+        area_label = plan.destination_area_name or "其他区域"
+        by_area.setdefault(area_label, []).append(plan)
+
+    for area_name, plans in by_area.items():
+        # Area header (selectable but does nothing — acts as visual separator)
+        menu["move"].append((f"── {area_name} ──", "move_header", area_name))
+        for plan in plans:
+            cost_label = f"{plan.total_cost_minutes}分钟"
+            label = f"  {plan.destination_name}（{cost_label}）"
+            menu["move"].append((label, "move", plan.destination_key))
+
+
 def _build_menu(
     app: Application,
     world: WorldState,
@@ -392,11 +420,9 @@ def _build_menu(
             label = f"{cmd.display_name}→{selected_actor.display_name}"
             menu[cat].append((label, "command", f"{selected_actor.key}:{cmd.key}"))
 
-    # Navigation
-    visible_destinations = app.navigation_service.visible_destinations(world)
-    for key in visible_destinations:
-        loc = app.port_map.location_by_key(key)
-        menu["move"].append((f"前往 {loc.display_name}", "move", key))
+    # Navigation — show all reachable destinations grouped by area
+    destinations = app.navigation_service.available_destinations(world)
+    _append_destination_menu(menu, destinations)
 
     page_actors = _paginate_present_characters(
         app,
@@ -505,6 +531,13 @@ def _render_command_menu(
         for cat in _EX_CATEGORIES:
             items = menu.get(cat, [])
             for label, action_type, param in items:
+                if action_type == "move_header":
+                    # Area separator — not selectable
+                    if row_buf:
+                        print("  " + "".join(row_buf))
+                        row_buf = []
+                    print(colorize(f"  {label}", FG_CYAN))
+                    continue
                 cell_text = f"{label}[{current_idx}]"
                 cell = cjk_ljust(cell_text, col_width)
                 cell = colorize(cell, FG_WHITE)
@@ -1562,8 +1595,11 @@ def run_cli(app: Application) -> None:
             pending_messages = msg_lines
             continue
 
+        if action_type == "move_header":
+            continue
+
         if action_type == "move":
-            result = app.navigation_service.move_player(world, param)
+            result = app.navigation_service.execute_move(world, param)
             selected_actor_key = _coerce_selected_actor_key(
                 app,
                 world.active_location.key,

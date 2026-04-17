@@ -13,7 +13,7 @@ from .compat_semantics import (
     actor_talent,
     build_default_compat_semantics,
 )
-from .map import PortConnection, PortMap, PortMapLocation
+from .map import PathResult, PortConnection, PortMap, PortMapLocation
 from .relationship import RelationshipStage
 from .scene import SceneContext
 from .stats import (
@@ -33,6 +33,7 @@ __all__ = [
     "CompatSemanticEntry",
     "CompatSemantics",
     "IndexedStatBlock",
+    "PathResult",
     "PortConnection",
     "ABLKey",
     "CFLAGKey",

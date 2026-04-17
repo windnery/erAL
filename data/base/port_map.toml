@@ -202,43 +202,52 @@ capacity_soft = 4
 from = "command_office"
 to = "main_corridor"
 bidirectional = true
+cost_minutes = 3
 
 [[connections]]
 from = "main_corridor"
 to = "dormitory_a"
 bidirectional = true
+cost_minutes = 10
 
 [[connections]]
 from = "main_corridor"
 to = "cafeteria"
 bidirectional = true
+cost_minutes = 5
 
 [[connections]]
 from = "main_corridor"
 to = "library"
 bidirectional = true
+cost_minutes = 5
 
 [[connections]]
 from = "main_corridor"
 to = "infirmary"
 bidirectional = true
+cost_minutes = 5
 
 [[connections]]
 from = "main_corridor"
 to = "bathhouse"
 bidirectional = true
+cost_minutes = 10
 
 [[connections]]
 from = "main_corridor"
 to = "training_ground"
 bidirectional = true
+cost_minutes = 15
 
 [[connections]]
 from = "main_corridor"
 to = "dock"
 bidirectional = true
+cost_minutes = 20
 
 [[connections]]
 from = "main_corridor"
 to = "garden"
 bidirectional = true
+cost_minutes = 15

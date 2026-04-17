@@ -61,6 +61,7 @@ def load_port_map(path: Path) -> PortMap:
             source=item["from"],
             target=item["to"],
             bidirectional=bool(item.get("bidirectional", True)),
+            cost_minutes=int(item.get("cost_minutes", 15)),
         )
         for item in raw_data.get("connections", [])
     )
