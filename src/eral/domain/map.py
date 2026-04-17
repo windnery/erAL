@@ -12,9 +12,44 @@ class PortMapLocation:
     key: str
     display_name: str
     zone: str
+    area_key: str = ""
+    sub_area_key: str = ""
     tags: tuple[str, ...] = ()
     start: bool = False
     visibility: str = "public"  # "public", "private", "hidden"
+    capacity_soft: int = 0
+    capacity_hard: int = 0
+    overflow_targets: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class PortMapArea:
+    """Top-level area in the layered port map."""
+
+    key: str
+    display_name: str
+    kind: str
+    faction_key: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class PortMapSubArea:
+    """Intermediate cluster inside one top-level area."""
+
+    key: str
+    area_key: str
+    display_name: str
+    tags: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class PortMapSlot:
+    """Optional internal slot grouping for one location."""
+
+    key: str
+    location_key: str
+    display_name: str
+    capacity_soft: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -34,6 +69,18 @@ class PortMap:
     display_name: str
     locations: tuple[PortMapLocation, ...]
     connections: tuple[PortConnection, ...]
+    areas: tuple[PortMapArea, ...] = ()
+    sub_areas: tuple[PortMapSubArea, ...] = ()
+    slots: tuple[PortMapSlot, ...] = ()
+
+    def area_keys(self) -> tuple[str, ...]:
+        return tuple(area.key for area in self.areas)
+
+    def sub_area_by_key(self, key: str) -> PortMapSubArea:
+        for sub_area in self.sub_areas:
+            if sub_area.key == key:
+                return sub_area
+        raise KeyError(key)
 
     def location_by_key(self, key: str) -> PortMapLocation:
         for location in self.locations:

@@ -343,6 +343,9 @@ _EX_LABELS = {
 def _build_menu(
     app: Application,
     world: WorldState,
+    selected_actor_key: str | None = None,
+    roster_page_index: int = 0,
+    page_size: int = 10,
 ) -> dict[str, list[tuple[str, str, str | None]]]:
     """Return categorized actions.
 
@@ -360,23 +363,57 @@ def _build_menu(
         "system": [],
     }
 
-    visible = world.visible_characters()
+    location_key = world.active_location.key
+    selected_actor_key = _coerce_selected_actor_key(app, location_key, selected_actor_key)
+    selected_actor = _selected_present_actor(app, location_key, selected_actor_key)
+    if selected_actor is not None:
+        roster_page_index = _page_index_for_actor(
+            app,
+            location_key,
+            selected_actor.key,
+            page_size=page_size,
+        )
+    else:
+        roster_page_index = _normalize_roster_page_index(
+            app,
+            location_key,
+            roster_page_index,
+            page_size=page_size,
+        )
 
-    # Actor commands — map to game category
-    for actor in visible:
+    # Actor commands — only expose commands for the selected actor.
+    if selected_actor is not None:
         actor_commands = app.command_service.available_commands_for_actor(
-            world, actor.key,
+            world,
+            selected_actor.key,
         )
         for cmd in actor_commands:
             cat = cmd.category if cmd.category in menu else "daily"
-            label = f"{cmd.display_name}→{actor.display_name}"
-            menu[cat].append((label, "command", f"{actor.key}:{cmd.key}"))
+            label = f"{cmd.display_name}→{selected_actor.display_name}"
+            menu[cat].append((label, "command", f"{selected_actor.key}:{cmd.key}"))
 
     # Navigation
     visible_destinations = app.navigation_service.visible_destinations(world)
     for key in visible_destinations:
         loc = app.port_map.location_by_key(key)
         menu["move"].append((f"前往 {loc.display_name}", "move", key))
+
+    page_actors = _paginate_present_characters(
+        app,
+        location_key,
+        page_index=roster_page_index,
+        page_size=page_size,
+    )
+    for actor in page_actors:
+        if actor.key == selected_actor_key:
+            continue
+        menu["system"].append((f"选中 {actor.display_name}", "select_actor", actor.key))
+
+    page_count = _roster_page_count(app, location_key, page_size=page_size)
+    if page_count > 1 and roster_page_index > 0:
+        menu["system"].append(("上一页舰娘", "page_roster", "prev"))
+    if page_count > 1 and roster_page_index + 1 < page_count:
+        menu["system"].append(("下一页舰娘", "page_roster", "next"))
 
     # Time & generic
     menu["system"].append(("进入日常用品店", "shop", "general_shop"))
@@ -650,6 +687,111 @@ def _appearance_summary(app: Application, actor: CharacterState) -> str:
     return f"当前皮肤: {skin.display_name} | " + " ".join(slot_parts)
 
 
+def _present_characters(app: Application, location_key: str) -> tuple[CharacterState, ...]:
+    """Return present characters for one location using distribution rules."""
+
+    return app.distribution_service.present_characters(app.world, location_key)
+
+
+def _auto_select_actor_key(app: Application, location_key: str) -> str | None:
+    """Return the highest-priority actor key for one location."""
+
+    present = _present_characters(app, location_key)
+    return present[0].key if present else None
+
+
+def _paginate_present_characters(
+    app: Application,
+    location_key: str,
+    page_index: int = 0,
+    page_size: int = 10,
+) -> tuple[CharacterState, ...]:
+    """Return one page of present characters for a location."""
+
+    present = _present_characters(app, location_key)
+    start = page_index * page_size
+    end = start + page_size
+    return present[start:end]
+
+
+def _coerce_selected_actor_key(
+    app: Application,
+    location_key: str,
+    selected_actor_key: str | None,
+) -> str | None:
+    """Keep the current selection if it still exists, else auto-select."""
+
+    present = _present_characters(app, location_key)
+    if not present:
+        return None
+    if selected_actor_key and any(actor.key == selected_actor_key for actor in present):
+        return selected_actor_key
+    return present[0].key
+
+
+def _roster_page_count(
+    app: Application,
+    location_key: str,
+    page_size: int = 10,
+) -> int:
+    """Return the total number of pages for one location roster."""
+
+    if page_size <= 0:
+        raise ValueError("page_size must be positive")
+    present_count = len(_present_characters(app, location_key))
+    if present_count == 0:
+        return 0
+    return (present_count - 1) // page_size + 1
+
+
+def _page_index_for_actor(
+    app: Application,
+    location_key: str,
+    actor_key: str,
+    page_size: int = 10,
+) -> int:
+    """Return the page index containing one actor in the present roster."""
+
+    if page_size <= 0:
+        raise ValueError("page_size must be positive")
+    present = _present_characters(app, location_key)
+    for index, actor in enumerate(present):
+        if actor.key == actor_key:
+            return index // page_size
+    return 0
+
+
+def _normalize_roster_page_index(
+    app: Application,
+    location_key: str,
+    page_index: int,
+    page_size: int = 10,
+) -> int:
+    """Clamp a page index into the valid roster range."""
+
+    page_count = _roster_page_count(app, location_key, page_size=page_size)
+    if page_count <= 0:
+        return 0
+    return max(0, min(page_index, page_count - 1))
+
+
+def _selected_present_actor(
+    app: Application,
+    location_key: str,
+    selected_actor_key: str | None,
+) -> CharacterState | None:
+    """Return the currently selected actor when one is present."""
+
+    selected_actor_key = _coerce_selected_actor_key(app, location_key, selected_actor_key)
+    if selected_actor_key is None:
+        return None
+    return next(
+        actor
+        for actor in _present_characters(app, location_key)
+        if actor.key == selected_actor_key
+    )
+
+
 def _render_calendar_preview(app: Application, world: WorldState) -> list[str]:
     """Return a compact preview of nearby calendar days and work schedules."""
 
@@ -683,35 +825,73 @@ def _show_calendar(app: Application, world: WorldState) -> list[str]:
 
 # ── Zone ② bis : Scene context (multiple characters) ──────────────
 
-def _render_scene_context(world: WorldState) -> None:
-    """Render a compact list of all visible characters at current location."""
-    visible = world.visible_characters()
-    if not visible:
+def _render_scene_context(
+    app: Application,
+    world: WorldState,
+    selected_actor_key: str | None,
+    roster_page_index: int = 0,
+    page_size: int = 10,
+) -> None:
+    """Render the current location roster plus the selected target's detail."""
+
+    location_key = world.active_location.key
+    present = _present_characters(app, location_key)
+    if not present:
         print(colorize("  （周围没有人）", FG_DARK_GRAY))
         print()
         return
 
-    if len(visible) == 1:
-        # Single target — render full detail
-        _render_target_status(visible[0])
-        _render_vitals(visible[0])
-        _render_look(visible[0])
+    selected_actor_key = _coerce_selected_actor_key(app, location_key, selected_actor_key)
+    if selected_actor_key is None:
+        print(colorize("  （周围没有人）", FG_DARK_GRAY))
+        print()
         return
 
-    # Multiple characters — compact list, then detail for first
-    for actor in visible:
+    roster_page_index = _page_index_for_actor(
+        app,
+        location_key,
+        selected_actor_key,
+        page_size=page_size,
+    )
+    page_actors = _paginate_present_characters(
+        app,
+        location_key,
+        page_index=roster_page_index,
+        page_size=page_size,
+    )
+    page_count = _roster_page_count(app, location_key, page_size=page_size)
+    selected_actor = next(actor for actor in present if actor.key == selected_actor_key)
+
+    print(
+        colorize(
+            (
+                f"▼[在场舰娘 {len(present)} 人 / "
+                f"第 {roster_page_index + 1} 页 / 共 {page_count} 页 / "
+                f"当前目标: {selected_actor.display_name}]"
+            ),
+            FG_GRAY,
+        ),
+    )
+
+    for actor in page_actors:
         tags: list[str] = []
         if actor.is_following:
-            tags.append("👣同行")
+            tags.append("同行")
         if actor.is_on_date:
-            tags.append("💖约会")
+            tags.append("约会")
         tag_str = " ".join(tags)
         stage_text = (
             actor.relationship_stage.display_name
             if actor.relationship_stage
             else "陌生"
         )
-        name_part = colorize(f"[{actor.display_name}]", FG_WHITE, bold=True)
+        is_selected = actor.key == selected_actor_key
+        marker = ">" if is_selected else " "
+        name_part = colorize(
+            f"{marker}[{actor.display_name}]",
+            FG_CYAN if is_selected else FG_WHITE,
+            bold=is_selected,
+        )
         stats_part = (
             f"{colorize(f'好感:{actor.affection}', FG_CYAN)}  "
             f"{colorize(f'信赖:{actor.trust}', FG_GREEN)}  "
@@ -721,12 +901,15 @@ def _render_scene_context(world: WorldState) -> None:
         print(f"  {cjk_ljust(name_part, 16)} {stats_part}{suffix}")
     print()
 
-    # Show detailed view for the first visible character
-    first = visible[0]
+    if page_count > 1:
+        print(colorize("  可在系统区切换舰娘或翻页。", FG_DARK_GRAY))
+        print()
+
+    # Show detailed view for the selected visible character.
     print(separator("─"))
-    _render_target_status(first)
-    _render_vitals(first)
-    _render_look(first)
+    _render_target_status(selected_actor)
+    _render_vitals(selected_actor)
+    _render_look(selected_actor)
 
 
 # ── Zone ⑦ : Ability display (tabbed status screen) ───────────────
@@ -1110,9 +1293,13 @@ def _render_tab_fallen(
         print()
 
 
-def _ability_display(world: WorldState, app: Application) -> None:
+def _ability_display(
+    world: WorldState,
+    app: Application,
+    initial_actor_key: str | None = None,
+) -> None:
     """Interactive tabbed ability display screen."""
-    visible = list(world.visible_characters())
+    visible = list(_present_characters(app, world.active_location.key))
     if not visible:
         clear_screen()
         print(colorize("  当前位置没有角色。", FG_RED))
@@ -1120,6 +1307,11 @@ def _ability_display(world: WorldState, app: Application) -> None:
         return
 
     current_char_idx = 0
+    if initial_actor_key is not None:
+        for index, actor in enumerate(visible):
+            if actor.key == initial_actor_key:
+                current_char_idx = index
+                break
     current_tab = 0
     tab_count = len(_ABILITY_TABS)
 
@@ -1223,12 +1415,30 @@ def run_cli(app: Application) -> None:
     last_command: str | None = None
     pending_messages: list[str] = []
     active_act_tab = 0
+    selected_actor_key = _auto_select_actor_key(app, world.active_location.key)
+    roster_page_index = 0
+    roster_page_size = 10
     num_act_cats = len(_ACT_CATEGORIES)
 
     print(f"\n{colorize(app.config.game_title, FG_BLUE, bold=True)} — 交互模式")
     print(colorize("(终端宽度建议 ≥ 80 列)", FG_DARK_GRAY))
 
     while True:
+        selected_actor_key = _coerce_selected_actor_key(
+            app,
+            world.active_location.key,
+            selected_actor_key,
+        )
+        if selected_actor_key is None:
+            roster_page_index = 0
+        else:
+            roster_page_index = _page_index_for_actor(
+                app,
+                world.active_location.key,
+                selected_actor_key,
+                page_size=roster_page_size,
+            )
+
         # ── Render ────────────────────────────────────────────────
         clear_screen()
 
@@ -1236,7 +1446,13 @@ def run_cli(app: Application) -> None:
         _render_header(world, app)
 
         # Zone ② ③ ④
-        _render_scene_context(world)
+        _render_scene_context(
+            app,
+            world,
+            selected_actor_key,
+            roster_page_index=roster_page_index,
+            page_size=roster_page_size,
+        )
 
         # Zone ⑤
         if pending_messages:
@@ -1244,7 +1460,13 @@ def run_cli(app: Application) -> None:
 
         # Zone ⑥
         print(separator("─"))
-        menu_dict = _build_menu(app, world)
+        menu_dict = _build_menu(
+            app,
+            world,
+            selected_actor_key=selected_actor_key,
+            roster_page_index=roster_page_index,
+            page_size=roster_page_size,
+        )
         flat_menu = _render_command_menu(menu_dict, active_act_tab)
         print(separator("─"))
 
@@ -1298,7 +1520,7 @@ def run_cli(app: Application) -> None:
             break
 
         if action_type == "status":
-            _ability_display(world, app)
+            _ability_display(world, app, initial_actor_key=selected_actor_key)
             continue
 
         if action_type == "save":
@@ -1314,6 +1536,8 @@ def run_cli(app: Application) -> None:
             app.relationship_service.refresh_world(world)
             app.companion_service.refresh_world(world)
             app.date_service.refresh_world(world)
+            selected_actor_key = _auto_select_actor_key(app, world.active_location.key)
+            roster_page_index = 0
             pending_messages = [
                 colorize("已读取快速存档。", FG_GREEN),
             ]
@@ -1339,6 +1563,11 @@ def run_cli(app: Application) -> None:
 
         if action_type == "move":
             result = app.navigation_service.move_player(world, param)
+            selected_actor_key = _coerce_selected_actor_key(
+                app,
+                world.active_location.key,
+                selected_actor_key,
+            )
             pending_messages = _format_action_result_messages(result.messages)
             continue
 
@@ -1356,6 +1585,59 @@ def run_cli(app: Application) -> None:
 
         if action_type == "calendar":
             pending_messages = _show_calendar(app, world)
+            continue
+
+        if action_type == "select_actor":
+            selected_actor_key = _coerce_selected_actor_key(
+                app,
+                world.active_location.key,
+                param,
+            )
+            if selected_actor_key is None:
+                pending_messages = [colorize("当前位置没有可选舰娘。", FG_RED)]
+            else:
+                roster_page_index = _page_index_for_actor(
+                    app,
+                    world.active_location.key,
+                    selected_actor_key,
+                    page_size=roster_page_size,
+                )
+                actor = _selected_present_actor(
+                    app,
+                    world.active_location.key,
+                    selected_actor_key,
+                )
+                pending_messages = [
+                    colorize(f"当前目标已切换为 {actor.display_name}。", FG_CYAN),
+                ]
+            continue
+
+        if action_type == "page_roster":
+            delta = -1 if param == "prev" else 1
+            roster_page_index = _normalize_roster_page_index(
+                app,
+                world.active_location.key,
+                roster_page_index + delta,
+                page_size=roster_page_size,
+            )
+            page_actors = _paginate_present_characters(
+                app,
+                world.active_location.key,
+                page_index=roster_page_index,
+                page_size=roster_page_size,
+            )
+            selected_actor_key = page_actors[0].key if page_actors else None
+            page_count = _roster_page_count(
+                app,
+                world.active_location.key,
+                page_size=roster_page_size,
+            )
+            pending_messages = [
+                colorize(
+                    f"切换到舰娘列表第 {roster_page_index + 1}/{page_count} 页。",
+                    FG_CYAN,
+                ),
+            ]
             continue
 
         if action_type == "command":
