@@ -1533,6 +1533,7 @@ def run_cli(app: Application) -> None:
         if action_type == "load":
             world = app.save_service.load_world()
             app.world = world
+            app.distribution_service.refresh_world(world)
             app.relationship_service.refresh_world(world)
             app.companion_service.refresh_world(world)
             app.date_service.refresh_world(world)

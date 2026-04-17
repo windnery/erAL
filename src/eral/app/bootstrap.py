@@ -308,6 +308,7 @@ def create_application(root: Path | None = None) -> Application:
         resolution_service=resolution_service,
         skin_service=skin_service,
         time_service=time_service,
+        distribution_service=None,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},
@@ -316,11 +317,22 @@ def create_application(root: Path | None = None) -> Application:
     navigation_service = NavigationService(
         port_map=port_map,
         companion_service=companion_service,
+        distribution_service=None,
         event_bus=event_bus,
         runtime_logger=runtime_logger,
         time_service=time_service,
     )
-    distribution_service = DistributionService()
+    distribution_service = DistributionService(
+        roster={character.key: character for character in roster},
+        port_map=port_map,
+        work_schedules=work_schedules,
+        calendar_service=calendar_service,
+        companion_service=companion_service,
+    )
+    command_service.distribution_service = distribution_service
+    navigation_service.distribution_service = distribution_service
+    game_loop.distribution_service = distribution_service
+    distribution_service.refresh_world(world)
     relationship_service.refresh_world(world)
     companion_service.refresh_world(world)
     date_service.refresh_world(world)

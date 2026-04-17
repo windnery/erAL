@@ -10,6 +10,7 @@ from eral.domain.world import PortLocation, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
 from eral.systems.companions import CompanionService
+from eral.systems.distribution import DistributionService
 from eral.systems.time_service import TimeService
 
 
@@ -19,6 +20,7 @@ class NavigationService:
 
     port_map: PortMap
     companion_service: CompanionService | None = None
+    distribution_service: DistributionService | None = None
     event_bus: EventBus | None = None
     runtime_logger: RuntimeLogger | None = None
     time_service: TimeService | None = None

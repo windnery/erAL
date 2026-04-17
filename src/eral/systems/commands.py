@@ -22,6 +22,7 @@ from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
 from eral.systems.companions import CompanionService
 from eral.systems.dates import DateService
+from eral.systems.distribution import DistributionService
 from eral.systems.facilities import FacilityService
 from eral.systems.game_loop import GameLoop
 from eral.systems.relationships import RelationshipService
@@ -60,6 +61,7 @@ class CommandService:
     resolution_service: ResolutionService | None = None
     skin_service: SkinService | None = None
     time_service: TimeService | None = None
+    distribution_service: DistributionService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
