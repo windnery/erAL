@@ -1,4 +1,4 @@
-"""Lightweight map distribution helpers."""
+"""Map distribution service — v2 with faction routing and capacity awareness."""
 
 from __future__ import annotations
 
@@ -16,18 +16,27 @@ _DINNER_BASE_START = 18 * 60
 _MEAL_DURATION_MINUTES = 30
 _MEAL_OFFSET_RANGE = 20
 
-_TAG_LOCATION_WEIGHTS: dict[str, tuple[str, int]] = {
-    "sleep": ("dormitory_a", 2),
-    "food": ("cafeteria", 2),
-    "garden": ("garden", 2),
-    "social": ("garden", 1),
-    "rest": ("garden", 1),
-    "training": ("training_ground", 2),
-    "harbor": ("dock", 2),
-    "work": ("command_office", 2),
-    "serious": ("command_office", 1),
-    "cheerful": ("garden", 1),
+# Base weight for tag→location matching (before faction bonus)
+_TAG_BASE_WEIGHT = 2
+
+# Time-of-day faction bias: time_slot → weight added to faction-area locations
+_TIME_FACTION_BIAS: dict[str, int] = {
+    "dawn": 4,
+    "morning": 1,
+    "afternoon": 0,
+    "evening": 2,
+    "night": 4,
+    "late_night": 0,  # handled separately — forced home
 }
+
+# Player-bias relationship thresholds
+_PLAYER_BIAS_HIGH = 700
+_PLAYER_BIAS_LOW = 300
+_PLAYER_BIAS_WEIGHT_HIGH = 6
+_PLAYER_BIAS_WEIGHT_LOW = 2
+
+# Capacity overflow penalty
+_CAPACITY_OVERFLOW_PENALTY = 4
 
 
 @dataclass(slots=True)
@@ -61,14 +70,19 @@ class DistributionService:
             if actor.location_key == location_key and not actor.is_on_commission
         )
 
+    # ── Core resolution ────────────────────────────────────────────
+
     def _resolve_location(self, world: WorldState, actor: CharacterState) -> str:
+        # Layer 1: forced states
         if actor.is_following or actor.is_on_date:
             return world.active_location.key
 
+        # Layer 2: work schedule
         work_location = self._active_work_location(world, actor)
         if work_location is not None:
             return work_location
 
+        # Layer 3: meal time
         if self._is_meal_time(world, actor):
             return "cafeteria"
 
@@ -76,30 +90,74 @@ class DistributionService:
         if definition is None:
             return actor.location_key
 
+        # Layer 4: late night → forced home
         if world.current_time_slot.value == "late_night":
             return definition.home_location_key or actor.location_key
 
+        # Layer 5: weighted idle distribution
         weights: dict[str, int] = {}
+
+        # 5a: schedule from character.toml
         scheduled_location = definition.schedule.get(world.current_time_slot.value)
         if scheduled_location:
             self._add_weight(weights, scheduled_location, 4)
 
+        # 5b: faction residence bias
+        faction_bias = _TIME_FACTION_BIAS.get(world.current_time_slot.value, 0)
+        if faction_bias > 0:
+            for loc in self.port_map.locations:
+                if loc.area_key == definition.residence_area_key:
+                    self._add_weight(weights, loc.key, faction_bias)
+
+        # 5c: home location bonus at night
         if world.current_time_slot.value == "night":
             self._add_weight(weights, definition.home_location_key, 3)
 
+        # 5d: tag-based preferences — dynamic tag matching
         for tag in definition.default_activity_tags:
-            location_key, weight = _TAG_LOCATION_WEIGHTS.get(tag, ("", 0))
-            self._add_weight(weights, location_key, weight)
+            for loc in self.port_map.locations:
+                if tag not in loc.tags:
+                    continue
+                weight = _TAG_BASE_WEIGHT
+                # Bonus if location is in character's own faction area
+                if loc.area_key == definition.residence_area_key:
+                    weight += 1
+                self._add_weight(weights, loc.key, weight)
 
+        # 5e: player proximity bias
         relationship_total = actor.affection + actor.trust
         if self._allows_player_bias(world.active_location.key):
-            if relationship_total >= 700:
-                self._add_weight(weights, world.active_location.key, 6)
+            if relationship_total >= _PLAYER_BIAS_HIGH:
+                self._add_weight(weights, world.active_location.key, _PLAYER_BIAS_WEIGHT_HIGH)
+            elif relationship_total >= _PLAYER_BIAS_LOW:
+                self._add_weight(weights, world.active_location.key, _PLAYER_BIAS_WEIGHT_LOW)
+
+        # 5f: capacity overflow — penalise or remove overcrowded locations
+        for loc_key in list(weights.keys()):
+            loc = self.port_map.location_by_key(loc_key)
+            count = self._location_population(world, loc_key)
+            if count >= loc.capacity_hard:
+                # Hard cap exceeded — remove from candidates, try overflow targets
+                weights.pop(loc_key, None)
+                for target in loc.overflow_targets:
+                    self._add_weight(weights, target, 1)
+            elif count >= loc.capacity_soft:
+                # Soft cap exceeded — reduce weight
+                weights[loc_key] = max(1, weights[loc_key] - _CAPACITY_OVERFLOW_PENALTY)
 
         if not weights:
             return definition.home_location_key or actor.location_key
 
         return max(weights.items(), key=lambda item: (item[1], item[0]))[0]
+
+    # ── Helpers ────────────────────────────────────────────────────
+
+    def _location_population(self, world: WorldState, location_key: str) -> int:
+        """Count non-commission characters currently at a location."""
+        return sum(
+            1 for actor in world.characters
+            if actor.location_key == location_key and not actor.is_on_commission
+        )
 
     def _active_work_location(self, world: WorldState, actor: CharacterState) -> str | None:
         current_minutes = world.current_hour * 60 + world.current_minute

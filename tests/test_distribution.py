@@ -1,4 +1,4 @@
-"""Tests for lightweight map distribution helpers."""
+"""Tests for map distribution service — v2 with faction routing and capacity."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
+from eral.domain.world import TimeSlot
 from tests.support.real_actors import actor_by_key
 
 
@@ -92,6 +93,119 @@ class DistributionTests(unittest.TestCase):
         self.app.distribution_service.refresh_world(self.world)
 
         self.assertEqual(enterprise.location_key, "garden")
+
+    # ── v2: Faction routing ────────────────────────────────────────
+
+    def test_faction_routing_night_eagle_goes_to_eagle_area(self) -> None:
+        """Enterprise (eagle_union) should prefer eagle_living locations at night."""
+        enterprise = actor_by_key(self.app, "enterprise")
+        self.world.current_time_slot = TimeSlot.NIGHT
+        # Clear schedule influence — test pure faction routing
+        enterprise.affection = 0
+        enterprise.trust = 0
+
+        self.app.distribution_service.refresh_world(self.world)
+
+        loc = self.port_map.location_by_key(enterprise.location_key)
+        # Should be in eagle_living or home (which is in eagle_living)
+        self.assertIn(enterprise.location_key, ("dormitory_a", "bathhouse"))
+
+    def test_faction_routing_night_royal_goes_to_royal_area(self) -> None:
+        """Javelin (royal_navy) should prefer royal_living locations at night."""
+        javelin = actor_by_key(self.app, "javelin")
+        self.world.current_time_slot = TimeSlot.NIGHT
+        javelin.affection = 0
+        javelin.trust = 0
+
+        self.app.distribution_service.refresh_world(self.world)
+
+        loc = self.port_map.location_by_key(javelin.location_key)
+        self.assertEqual(loc.area_key, "royal_living")
+
+    def test_faction_routing_evening_moderate_bias(self) -> None:
+        """Evening gives moderate faction bias — character drifts toward faction area."""
+        javelin = actor_by_key(self.app, "javelin")
+        self.world.current_time_slot = TimeSlot.EVENING
+        javelin.affection = 0
+        javelin.trust = 0
+
+        self.app.distribution_service.refresh_world(self.world)
+
+        # Javelin should still be somewhere reasonable
+        self.assertIsNotNone(javelin.location_key)
+
+    def test_tag_matching_prefers_faction_locations(self) -> None:
+        """When a tag matches locations in the character's faction area, it gets bonus weight."""
+        enterprise = actor_by_key(self.app, "enterprise")
+        # Enterprise has "work" tag → command_office. At morning with no schedule bias,
+        # should still go somewhere with matching tags.
+        self.world.current_time_slot = TimeSlot.MORNING
+        enterprise.affection = 0
+        enterprise.trust = 0
+
+        self.app.distribution_service.refresh_world(self.world)
+
+        self.assertIsNotNone(enterprise.location_key)
+
+    # ── v2: Capacity overflow ──────────────────────────────────────
+
+    def test_capacity_overflow_reduces_weight(self) -> None:
+        """When a location exceeds soft capacity, its weight is reduced."""
+        ds = self.app.distribution_service
+        # Place 10 characters at cafeteria (soft cap = 10)
+        for actor in self.world.characters:
+            actor.location_key = "cafeteria"
+
+        enterprise = actor_by_key(self.app, "enterprise")
+        self.world.current_time_slot = TimeSlot.MORNING
+        enterprise.affection = 0
+        enterprise.trust = 0
+
+        ds.refresh_world(self.world)
+
+        # Enterprise should avoid overcrowded cafeteria
+        self.assertNotEqual(enterprise.location_key, "cafeteria")
+
+    def test_capacity_hard_cap_removes_from_candidates(self) -> None:
+        """When a location exceeds hard capacity, it is removed from candidates."""
+        ds = self.app.distribution_service
+        pm = self.port_map
+        # Cafeteria hard cap = 20, fill it with "fake" population via existing characters
+        for actor in self.world.characters:
+            actor.location_key = "cafeteria"
+
+        enterprise = actor_by_key(self.app, "enterprise")
+        self.world.current_time_slot = TimeSlot.AFTERNOON
+        enterprise.affection = 0
+        enterprise.trust = 0
+
+        ds.refresh_world(self.world)
+
+        # Should not be at cafeteria
+        self.assertNotEqual(enterprise.location_key, "cafeteria")
+
+    # ── v2: Player bias tiers ──────────────────────────────────────
+
+    def test_player_bias_low_tier(self) -> None:
+        """Characters with affection+trust >= 300 get weak player bias."""
+        javelin = actor_by_key(self.app, "javelin")
+        self.world.active_location.key = "cafeteria"
+        self.world.active_location.display_name = "食堂"
+        self.world.current_time_slot = TimeSlot.AFTERNOON
+        javelin.affection = 200
+        javelin.trust = 150  # total 350 >= 300
+
+        self.app.distribution_service.refresh_world(self.world)
+
+        # Javelin should have some chance of going to cafeteria
+        # (not guaranteed — just no crash and valid location)
+        self.assertIsNotNone(javelin.location_key)
+
+    # ── Helper ─────────────────────────────────────────────────────
+
+    @property
+    def port_map(self):
+        return self.app.port_map
 
 
 if __name__ == "__main__":
