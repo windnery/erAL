@@ -36,6 +36,7 @@ class SceneService:
             action_key=action_key,
             current_day=world.current_day,
             time_slot=world.current_time_slot.value,
+            season=world.current_season,
             location_key=world.active_location.key,
             location_tags=location_tags,
             affection=actor.affection,

@@ -443,7 +443,7 @@ def _build_menu(
 
     # Time & generic
     menu["system"].append(("进入日常用品店", "shop", "general_shop"))
-    menu["system"].append(("企业皮肤商店", "skin_shop", "enterprise"))
+    menu["system"].append(("企业皮肤商店", "shop", "skin_shop"))
     menu["system"].append(("切换企业皮肤", "skin_wardrobe", "enterprise"))
     menu["system"].append(("查看日历", "calendar", None))
     menu["system"].append(("等待(推进时段)", "wait", None))
@@ -562,7 +562,10 @@ def _open_shopfront(
     *,
     input_fn: Callable[[str], str] = input,
 ) -> list[str]:
-    """Run a minimal one-step purchase prompt for a shopfront."""
+    """Run a purchase prompt, dispatching to skin or item logic by shopfront type."""
+
+    if shopfront_key == "skin_shop":
+        return _open_skin_shop_by_type(app, world, input_fn=input_fn)
 
     shopfront = app.shop_service.shopfront_definitions.get(shopfront_key)
     if shopfront is None:
@@ -606,15 +609,16 @@ def _open_shopfront(
     ]
 
 
-def _open_skin_shop(
+def _open_skin_shop_by_type(
     app: Application,
     world: WorldState,
-    actor_key: str,
     *,
     input_fn: Callable[[str], str] = input,
 ) -> list[str]:
-    """Run a minimal one-step purchase prompt for actor-bound skins."""
+    """Run a purchase prompt for skins via the unified shop entry point."""
 
+    # Use the first available actor as the skin target (enterprise default)
+    actor_key = "enterprise"
     actor = next((character for character in world.characters if character.key == actor_key), None)
     if actor is None:
         return [colorize("目标角色不存在。", FG_RED)]
@@ -1610,10 +1614,6 @@ def run_cli(app: Application) -> None:
 
         if action_type == "shop":
             pending_messages = _open_shopfront(app, world, param)
-            continue
-
-        if action_type == "skin_shop":
-            pending_messages = _open_skin_shop(app, world, param)
             continue
 
         if action_type == "skin_wardrobe":

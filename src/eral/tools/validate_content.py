@@ -72,10 +72,53 @@ def render_content_report(stats: tuple[ContentPackStat, ...]) -> str:
     return "\n".join(lines)
 
 
+def validate_commands(root: Path) -> list[str]:
+    """Return validation error messages for commands.toml."""
+
+    errors: list[str] = []
+    commands_path = root / "data" / "base" / "commands.toml"
+    if not commands_path.exists():
+        return [f"commands.toml not found at {commands_path}"]
+
+    import tomllib
+    with commands_path.open("rb") as handle:
+        raw_data = tomllib.load(handle)
+
+    known_fields = {
+        "key", "display_name", "category", "location_tags", "time_slots",
+        "min_affection", "min_trust", "min_obedience", "required_stage",
+        "operation", "requires_following", "requires_date",
+        "required_conditions", "forbidden_conditions",
+        "required_marks", "apply_marks", "remove_marks",
+        "source", "downbase", "success_tiers", "required_items",
+        "resolution_key", "personal_income", "elapsed_minutes",
+    }
+    seen_keys: set[str] = set()
+
+    for item in raw_data.get("commands", []):
+        key = item.get("key", "")
+        if not key:
+            errors.append("commands.toml: entry missing 'key' field")
+            continue
+        if key in seen_keys:
+            errors.append(f"commands.toml: duplicate key '{key}'")
+        seen_keys.add(key)
+
+        if "display_name" not in item:
+            errors.append(f"commands.toml: '{key}' missing 'display_name'")
+
+        unknown = set(item.keys()) - known_fields
+        if unknown:
+            errors.append(f"commands.toml: '{key}' has unknown fields: {', '.join(sorted(unknown))}")
+
+    return errors
+
+
 def validate_content(root: Path) -> list[str]:
     """Return validation error messages for current content packs."""
 
     errors: list[str] = []
+    errors.extend(validate_commands(root))
     commands = {
         command.key for command in load_command_definitions(root / "data" / "base" / "commands.toml")
     }

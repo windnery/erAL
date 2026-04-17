@@ -27,6 +27,8 @@ class EventService:
                 continue
             if event.time_slots and scene.time_slot not in event.time_slots:
                 continue
+            if event.seasons and scene.season not in event.seasons:
+                continue
             if event.min_affection is not None and scene.affection < event.min_affection:
                 continue
             if event.min_trust is not None and scene.trust < event.min_trust:

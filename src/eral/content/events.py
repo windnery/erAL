@@ -27,6 +27,7 @@ class EventDefinition:
     required_removed_slots: tuple[str, ...] = ()
     forbidden_removed_slots: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
+    seasons: tuple[str, ...] = ()
 
 
 def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
@@ -60,6 +61,7 @@ def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
             },
+            seasons=tuple(item.get("seasons", [])),
         )
         for item in raw_data.get("events", [])
     )

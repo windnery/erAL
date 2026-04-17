@@ -11,7 +11,7 @@ from eral.ui.cli import (
     _appearance_summary,
     _build_menu,
     _open_shopfront,
-    _open_skin_shop,
+    _open_skin_shop_by_type,
     _open_skin_wardrobe,
 )
 
@@ -31,9 +31,9 @@ class CliShopTests(unittest.TestCase):
 
     def test_build_menu_includes_skin_shop_entry(self) -> None:
         menu = _build_menu(self.app, self.world)
-        shop_items = [item for item in menu["system"] if item[1] == "skin_shop"]
+        shop_items = [item for item in menu["system"] if item[1] == "shop" and item[2] == "skin_shop"]
 
-        self.assertIn(("企业皮肤商店", "skin_shop", "enterprise"), shop_items)
+        self.assertIn(("企业皮肤商店", "shop", "skin_shop"), shop_items)
 
     def test_build_menu_includes_skin_wardrobe_entry(self) -> None:
         menu = _build_menu(self.app, self.world)
@@ -77,7 +77,7 @@ class CliShopTests(unittest.TestCase):
             shop_visibility="always",
         )
 
-        messages = _open_skin_shop(self.app, self.world, "enterprise", input_fn=lambda _prompt: "0")
+        messages = _open_skin_shop_by_type(self.app, self.world, input_fn=lambda _prompt: "0")
 
         self.assertTrue(any("夏日泳装" in line for line in messages))
 
@@ -88,7 +88,7 @@ class CliShopTests(unittest.TestCase):
         )
         self.world.personal_funds = 2000
 
-        messages = _open_skin_shop(self.app, self.world, "enterprise", input_fn=lambda _prompt: "1")
+        messages = _open_skin_shop_by_type(self.app, self.world, input_fn=lambda _prompt: "1")
         actor = next(actor for actor in self.world.characters if actor.key == "enterprise")
 
         self.assertIn("enterprise_summer", actor.owned_skins)

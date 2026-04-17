@@ -26,6 +26,7 @@ class SceneContext:
     is_same_room: bool
     visible_count: int
     is_private: bool
+    season: str = "unknown"
     equipped_skin_key: str | None = None
     equipped_skin_tags: tuple[str, ...] = ()
     removed_slots: tuple[str, ...] = ()

@@ -209,6 +209,11 @@ def create_application(root: Path | None = None) -> Application:
         appearance_definitions=appearance_definitions,
     )
 
+    season_month_map: dict[int, str] = {}
+    for season in calendar_definition.seasons:
+        for month in season.months:
+            season_month_map[month] = season.key
+
     world = WorldState(
         current_day=1,
         current_time_slot=TimeSlot.from_name(config.start_time_slot),
@@ -223,6 +228,7 @@ def create_application(root: Path | None = None) -> Application:
             display_name=start_location.display_name,
         ),
         characters=[],
+        season_month_map=season_month_map,
     )
     schedule_service = ScheduleService(roster={character.key: character for character in roster})
     for definition in roster:

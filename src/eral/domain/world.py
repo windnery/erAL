@@ -244,6 +244,7 @@ class WorldState:
     inventory: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)
     characters: list[CharacterState] = field(default_factory=list)
+    season_month_map: dict[int, str] = field(default_factory=dict)  # month -> season_key
 
     def __post_init__(self) -> None:
         """Keep coarse time slot and real clock aligned on bootstrap/load."""
@@ -272,6 +273,11 @@ class WorldState:
         """Mirror real clock values to the legacy coarse slot."""
 
         self.current_time_slot = self.derive_time_slot()
+
+    @property
+    def current_season(self) -> str:
+        """Current season derived from current_month via injected season_month_map."""
+        return self.season_month_map.get(self.current_month, "unknown")
 
     def _sync_clock_from_time_slot(self) -> None:
         """Assign a representative clock value from the coarse slot."""

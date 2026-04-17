@@ -7,20 +7,7 @@ from dataclasses import dataclass
 from eral.domain.world import WorldState
 
 _WEEKDAYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
-_MONTH_LENGTHS = {
-    1: 31,
-    2: 28,
-    3: 31,
-    4: 30,
-    5: 31,
-    6: 30,
-    7: 31,
-    8: 31,
-    9: 30,
-    10: 31,
-    11: 30,
-    12: 31,
-}
+_MONTH_LENGTHS = {i: 30 for i in range(1, 13)}
 _REPRESENTATIVE_TIMES = {
     "dawn": (6, 0),
     "morning": (8, 0),
