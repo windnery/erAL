@@ -52,7 +52,7 @@ class TrainingProgressionTests(unittest.TestCase):
 
         self.assertTrue(result.success)
         self.assertGreater(self.actor.stats.palam.get("submission"), 0)
-        self.assertGreater(self.actor.stats.palam.get("pleasure_b"), 0)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_v"), 0)
 
     def test_train_insert_v_tracks_long_term_v_develop_progress(self) -> None:
         self.actor.removed_slots = ("underwear_bottom",)

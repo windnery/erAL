@@ -513,7 +513,7 @@ class PositionSystemTests(unittest.TestCase):
         )
 
         self.assertTrue(result.success)
-        self.assertGreater(self.actor.stats.palam.get("pleasure_b"), 0)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_v"), 0)
 
     def test_behind_insert_works_in_from_behind(self) -> None:
         self.actor.removed_slots = ("underwear_bottom",)
@@ -524,7 +524,7 @@ class PositionSystemTests(unittest.TestCase):
         )
 
         self.assertTrue(result.success)
-        self.assertGreater(self.actor.stats.palam.get("pleasure_b"), 0)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_v"), 0)
 
     def test_position_variant_tracks_v_develop(self) -> None:
         self.actor.removed_slots = ("underwear_bottom",)

@@ -153,3 +153,33 @@ source = "give_pleasure_c"
 target_family = "palam"
 target_key = "pleasure_c"
 scale = 0.5
+
+[[rules]]
+source = "lubrication"
+target_family = "palam"
+target_key = "lubrication"
+scale = 1
+
+[[rules]]
+source = "lactation"
+target_family = "palam"
+target_key = "lactation"
+scale = 1
+
+[[rules]]
+source = "discomfort"
+target_family = "palam"
+target_key = "discomfort"
+scale = 1
+
+[[rules]]
+source = "shame"
+target_family = "palam"
+target_key = "shame"
+scale = 1
+
+[[rules]]
+source = "sadism"
+target_family = "palam"
+target_key = "fear"
+scale = 0.5
