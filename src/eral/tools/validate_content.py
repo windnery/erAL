@@ -8,6 +8,8 @@ from pathlib import Path
 
 from eral.content.character_packs import CharacterPack, load_character_packs
 from eral.content.commands import load_command_definitions
+from eral.content.dialogue import load_dialogue_entries
+from eral.content.events import load_event_definitions
 from eral.content.marks import load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.stat_axes import load_stat_axis_catalog
@@ -124,13 +126,37 @@ def validate_content(root: Path) -> list[str]:
     }
     port_map = load_port_map(root / "data" / "base" / "port_map.toml")
     location_keys = {location.key for location in port_map.locations}
+    area_keys = {area.key for area in port_map.areas}
+    sub_area_keys = {sub_area.key for sub_area in port_map.sub_areas}
+    packs = _load_packs(root)
+    character_keys = {pack.character.key for pack in packs}
 
-    for pack in _load_packs(root):
+    for pack in packs:
         character = pack.character
 
         if character.initial_location not in location_keys:
             errors.append(
                 f"{character.key}: initial_location '{character.initial_location}' does not exist"
+            )
+        if not character.faction_key:
+            errors.append(f"{character.key}: missing faction_key")
+        if not character.residence_area_key:
+            errors.append(f"{character.key}: missing residence_area_key")
+        elif character.residence_area_key not in area_keys:
+            errors.append(
+                f"{character.key}: residence_area_key '{character.residence_area_key}' does not exist"
+            )
+        if not character.dorm_group_key:
+            errors.append(f"{character.key}: missing dorm_group_key")
+        elif character.dorm_group_key not in sub_area_keys:
+            errors.append(
+                f"{character.key}: dorm_group_key '{character.dorm_group_key}' does not exist"
+            )
+        if not character.home_location_key:
+            errors.append(f"{character.key}: missing home_location_key")
+        elif character.home_location_key not in location_keys:
+            errors.append(
+                f"{character.key}: home_location_key '{character.home_location_key}' does not exist"
             )
 
         if len(pack.events) < MIN_EVENTS_PER_PACK:
@@ -167,6 +193,33 @@ def validate_content(root: Path) -> list[str]:
                 )
             if not entry.lines:
                 errors.append(f"{character.key}: dialogue '{entry.key}' has no lines")
+            for location_key in entry.location_keys:
+                if location_key not in location_keys:
+                    errors.append(
+                        f"{character.key}: dialogue '{entry.key}' references unknown location '{location_key}'"
+                    )
+
+    for event in load_event_definitions(root / "data" / "base" / "events.toml"):
+        if event.action_key not in commands:
+            errors.append(
+                f"global: event '{event.key}' references unknown action '{event.action_key}'"
+            )
+        for location_key in event.location_keys:
+            if location_key not in location_keys:
+                errors.append(
+                    f"global: event '{event.key}' references unknown location '{location_key}'"
+                )
+
+    for entry in load_dialogue_entries(root / "data" / "base" / "dialogue.toml"):
+        if entry.actor_key != "_any" and entry.actor_key not in character_keys:
+            errors.append(
+                f"global: dialogue '{entry.key}' references unknown actor '{entry.actor_key}'"
+            )
+        for location_key in entry.location_keys:
+            if location_key not in location_keys:
+                errors.append(
+                    f"global: dialogue '{entry.key}' references unknown location '{location_key}'"
+                )
 
     return errors
 

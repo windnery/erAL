@@ -71,21 +71,31 @@ class SaveService:
         payload = json.loads(self.quicksave_path().read_text(encoding="utf-8"))
         current_hour = int(payload.get("current_hour", 8))
         current_minute = int(payload.get("current_minute", 0))
+        current_time_slot = payload.get("current_time_slot")
+        active_location_payload = payload.get("active_location", {})
+        active_location_key = str(active_location_payload.get("key", "command_office"))
+        active_location_name = str(
+            active_location_payload.get("display_name", active_location_key)
+        )
         world = WorldState(
             current_year=int(payload.get("current_year", 1)),
             current_month=int(payload.get("current_month", 1)),
             current_day=int(payload["current_day"]),
-            current_time_slot=TimeSlot.from_name(payload["current_time_slot"]),
+            current_time_slot=TimeSlot.from_name(
+                str(current_time_slot) if current_time_slot is not None else "morning"
+            ),
             current_weekday=str(payload.get("current_weekday", "mon")),
             current_hour=current_hour,
             current_minute=current_minute,
             player_name=payload["player_name"],
             active_location=PortLocation(
-                key=payload["active_location"]["key"],
-                display_name=payload["active_location"]["display_name"],
+                key=active_location_key,
+                display_name=active_location_name,
             ),
             characters=[],
         )
+        if current_time_slot is None:
+            world.sync_time_slot_from_clock()
         world.conditions = {str(k): int(v) for k, v in payload.get("world_conditions", {}).items()}
         world.personal_funds = int(payload.get("personal_funds", 0))
         world.port_funds = int(payload.get("port_funds", 0))
@@ -94,18 +104,33 @@ class SaveService:
 
         for actor_payload in payload["characters"]:
             stats = ActorNumericState.zeroed(self.stat_axes, self.tw_axes)
-            stats.base.values.update({str(k): int(v) for k, v in actor_payload["stats"]["base"].items()})
-            stats.palam.values.update({str(k): int(v) for k, v in actor_payload["stats"]["palam"].items()})
-            stats.source.values.update({str(k): int(v) for k, v in actor_payload["stats"]["source"].items()})
-            stats.compat.abl.values.update({int(k): int(v) for k, v in actor_payload["stats"]["abl"].items()})
-            stats.compat.talent.values.update({int(k): int(v) for k, v in actor_payload["stats"]["talent"].items()})
-            stats.compat.cflag.values.update({int(k): int(v) for k, v in actor_payload["stats"]["cflag"].items()})
-            stats.abl_exp.update({int(k): int(v) for k, v in actor_payload["stats"].get("abl_exp", {}).items()})
+            actor_stats_payload = actor_payload.get("stats", {})
+            stats.base.values.update(
+                {str(k): int(v) for k, v in actor_stats_payload.get("base", {}).items()}
+            )
+            stats.palam.values.update(
+                {str(k): int(v) for k, v in actor_stats_payload.get("palam", {}).items()}
+            )
+            stats.source.values.update(
+                {str(k): int(v) for k, v in actor_stats_payload.get("source", {}).items()}
+            )
+            stats.compat.abl.values.update(
+                {int(k): int(v) for k, v in actor_stats_payload.get("abl", {}).items()}
+            )
+            stats.compat.talent.values.update(
+                {int(k): int(v) for k, v in actor_stats_payload.get("talent", {}).items()}
+            )
+            stats.compat.cflag.values.update(
+                {int(k): int(v) for k, v in actor_stats_payload.get("cflag", {}).items()}
+            )
+            stats.abl_exp.update(
+                {int(k): int(v) for k, v in actor_stats_payload.get("abl_exp", {}).items()}
+            )
 
             actor = CharacterState(
                 key=actor_payload["key"],
                 display_name=actor_payload["display_name"],
-                location_key=actor_payload["location_key"],
+                location_key=str(actor_payload.get("location_key", active_location_key)),
                 stats=stats,
                 tags=tuple(actor_payload.get("tags", [])),
             )

@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import io
+import shutil
 import unittest
+import uuid
 from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from eral.tools.validate_content import collect_content_stats, main, render_content_report
+from eral.tools.validate_content import collect_content_stats, main, render_content_report, validate_content
 
 
 class ValidateContentReportTests(unittest.TestCase):
@@ -43,6 +45,39 @@ class ValidateContentReportTests(unittest.TestCase):
         self.assertIn("content density report:", output)
         self.assertIn("enterprise", output)
         self.assertIn("laffey", output)
+
+    def test_validate_content_reports_invalid_global_dialogue_and_event_references(self) -> None:
+        temp_root = self.repo_root / "runtime" / f"validate_content_{uuid.uuid4().hex}"
+        shutil.copytree(self.repo_root / "data", temp_root / "data")
+
+        (temp_root / "data" / "base" / "dialogue.toml").write_text(
+            "\n".join(
+                [
+                    "[[entries]]",
+                    'key = "chat"',
+                    'actor_key = "ghost_actor"',
+                    'lines = ["不存在角色"]',
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (temp_root / "data" / "base" / "events.toml").write_text(
+            "\n".join(
+                [
+                    "[[events]]",
+                    'key = "ghost_event"',
+                    'action_key = "missing_action"',
+                    'location_keys = ["missing_location"]',
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        errors = validate_content(temp_root)
+
+        self.assertTrue(any("dialogue 'chat' references unknown actor 'ghost_actor'" in error for error in errors))
+        self.assertTrue(any("event 'ghost_event' references unknown action 'missing_action'" in error for error in errors))
+        self.assertTrue(any("event 'ghost_event' references unknown location 'missing_location'" in error for error in errors))
 
 
 if __name__ == "__main__":

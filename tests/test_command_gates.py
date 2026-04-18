@@ -66,14 +66,14 @@ class CommandGateTests(unittest.TestCase):
         command = self.app.command_service.commands["chat"]
 
         reason = GlobalModeGate().failure_reason(self._context(command))
-        self.assertIsNotNone(reason)
+        self.assertEqual(reason, "当前处于忙碌状态，无法执行该指令。")
 
     def test_specific_gate_reports_follow_requirement(self) -> None:
         self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
         command = self.app.command_service.commands["lap_pillow"]
 
         reason = CommandSpecificGate().failure_reason(self._context(command))
-        self.assertIsNotNone(reason)
+        self.assertEqual(reason, "需要同行状态才能执行该指令。")
 
     def test_specific_gate_reports_missing_required_item(self) -> None:
         seed_like(self.actor)
@@ -90,6 +90,27 @@ class CommandGateTests(unittest.TestCase):
         reason = CommandSpecificGate().failure_reason(self._context(command))
 
         self.assertEqual(reason, "缺少所需道具：誓约之戒 x1。")
+
+    def test_specific_gate_reports_time_slot_reason_with_consistent_copy(self) -> None:
+        seed_like(self.actor)
+        self.app.relationship_service.update_actor(self.actor)
+        self.location = self.app.port_map.location_by_key("bathhouse")
+        self.app.world.active_location.key = self.location.key
+        self.app.world.active_location.display_name = self.location.display_name
+        self.actor.location_key = self.location.key
+        command = self.app.command_service.commands["tease"]
+
+        reason = CommandSpecificGate().failure_reason(self._context(command))
+
+        self.assertEqual(reason, "当前时段不可执行该指令。")
+
+    def test_specific_gate_reports_relationship_reason_with_consistent_copy(self) -> None:
+        command = self.app.command_service.commands["hug"]
+        self.app.world.current_time_slot = self.app.world.current_time_slot.EVENING
+
+        reason = CommandSpecificGate().failure_reason(self._context(command))
+
+        self.assertEqual(reason, "当前关系阶段不足，无法执行该指令。")
 
 
 if __name__ == "__main__":

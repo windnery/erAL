@@ -108,6 +108,36 @@ class CharacterPackTests(unittest.TestCase):
         self.assertTrue(any("事件数量不足" in error for error in errors))
         self.assertTrue(any("对话数量不足" in error for error in errors))
 
+    def test_content_validator_reports_missing_character_residence_fields(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        temp_root = repo_root / "runtime" / f"validate_test_{uuid.uuid4().hex}"
+        shutil.copytree(repo_root / "data", temp_root / "data")
+
+        sparse_dir = temp_root / "data" / "base" / "characters" / "broken_residence"
+        sparse_dir.mkdir(parents=True, exist_ok=True)
+        (sparse_dir / "character.toml").write_text(
+            "\n".join(
+                [
+                    'key = "broken_residence"',
+                    'display_name = "坏归属测试"',
+                    'initial_location = "command_office"',
+                    "",
+                    "[schedule]",
+                    'morning = "command_office"',
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (sparse_dir / "events.toml").write_text("", encoding="utf-8")
+        (sparse_dir / "dialogue.toml").write_text("", encoding="utf-8")
+
+        errors = validate_content(temp_root)
+
+        self.assertTrue(any("missing faction_key" in error for error in errors))
+        self.assertTrue(any("missing residence_area_key" in error for error in errors))
+        self.assertTrue(any("missing dorm_group_key" in error for error in errors))
+        self.assertTrue(any("missing home_location_key" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,45 @@
+{
+  "version": 0,
+  "current_day": 3,
+  "player_name": "指挥官",
+  "active_location": {
+    "key": "dock"
+  },
+  "characters": [
+    {
+      "key": "enterprise",
+      "display_name": "企业",
+      "location_key": "dock",
+      "tags": [
+        "enterprise",
+        "carrier",
+        "eagle_union",
+        "serious"
+      ],
+      "stats": {
+        "base": {
+          "stamina": 1200,
+          "spirit": 900,
+          "reason": 1000
+        },
+        "palam": {
+          "favor": 80
+        },
+        "abl": {},
+        "talent": {},
+        "cflag": {
+          "2": 310,
+          "4": 160,
+          "6": 80,
+          "12": 0,
+          "319": 1,
+          "320": 0,
+          "329": 0
+        }
+      },
+      "marks": {
+        "confessed": 1
+      }
+    }
+  ]
+}
