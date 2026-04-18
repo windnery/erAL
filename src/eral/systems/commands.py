@@ -33,7 +33,7 @@ from eral.systems.skins import SkinService
 from eral.systems.time_service import TimeService
 from eral.domain.training import TrainingResult
 from eral.systems.training import TrainingService
-from eral.systems.source_extra import apply_source_extra
+from eral.systems.source_extra import apply_source_extra, apply_training_mark_effects
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
 from eral.content.talent_effects import TalentEffect
@@ -137,6 +137,9 @@ class CommandService:
 
         apply_source_extra(actor.stats, self.talent_effects)
 
+        if command.requires_training:
+            apply_training_mark_effects(actor)
+
         self._apply_downbase(actor, command.downbase)
 
         fainted = False
@@ -159,6 +162,8 @@ class CommandService:
                 world.training_flags["last_results"] = ",".join(result_tags)
             else:
                 world.training_flags.pop("last_results", None)
+            if training_settlement.counter is not None:
+                self._apply_counter_source(actor, training_settlement.counter)
             world.training_step_index += 1
 
         # Process personal income from work commands
@@ -182,6 +187,8 @@ class CommandService:
         if not triggered_events:
             triggered_events = self.event_service.triggered_events(settled_scene)
         training_tags = tuple(r.value for r in training_settlement.results) if training_settlement else ()
+        if training_settlement and training_settlement.counter is not None:
+            training_tags = training_tags + (training_settlement.counter.value,)
         dialogue_keys = resolution_tags + training_tags + triggered_events
         dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, dialogue_keys))
         after_date_events, after_date_lines = self._resolve_after_date_followup(
@@ -414,6 +421,18 @@ class CommandService:
                 actor.stats.source.add(key, delta)
             else:
                 actor.add_condition(key, delta)
+
+    _COUNTER_SOURCE = {
+        TrainingResult.COUNTER_KISS: {"affection": 30, "joy": 20, "lust": 15},
+        TrainingResult.COUNTER_EMBRACE: {"lust": 25, "submission": 10, "pleasure_m": 15},
+        TrainingResult.COUNTER_SERVICE: {"give_pleasure_c": 30, "submission": 20, "abl_13": 1},
+    }
+
+    @staticmethod
+    def _apply_counter_source(actor: CharacterState, counter: TrainingResult) -> None:
+        source_map = CommandService._COUNTER_SOURCE.get(counter, {})
+        for key, delta in source_map.items():
+            actor.stats.source.add(key, delta)
 
     def _apply_operation(
         self,

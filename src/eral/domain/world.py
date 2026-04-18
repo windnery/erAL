@@ -245,6 +245,7 @@ class WorldState:
     training_position_key: str | None = None
     training_step_index: int = 0
     training_flags: dict[str, int] = field(default_factory=dict)
+    weather_key: str = "clear"
     conditions: dict[str, int] = field(default_factory=dict)
     inventory: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)

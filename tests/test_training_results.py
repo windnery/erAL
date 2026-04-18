@@ -128,6 +128,8 @@ class ExtendedTrainingCommandTests(unittest.TestCase):
         self.assertGreater(self.actor.stats.palam.get("pleasure_b"), 0)
 
     def test_train_c_touch_increases_pleasure_c(self) -> None:
+        self.actor.stats.compat.abl.set(0, 3)
+
         result = self.app.command_service.execute(
             self.world, self.actor.key, "train_c_touch",
         )
@@ -136,6 +138,8 @@ class ExtendedTrainingCommandTests(unittest.TestCase):
         self.assertGreater(self.actor.stats.palam.get("pleasure_c"), 0)
 
     def test_train_hand_increases_give_pleasure_c(self) -> None:
+        self.actor.stats.compat.abl.set(50, 3)
+
         result = self.app.command_service.execute(
             self.world, self.actor.key, "train_hand",
         )
@@ -188,6 +192,7 @@ class TrainingDevelopmentAxesTests(unittest.TestCase):
         )
 
     def test_train_c_touch_tracks_c_develop(self) -> None:
+        self.actor.stats.compat.abl.set(0, 3)
         self.app.command_service.execute(self.world, self.actor.key, "train_c_touch")
 
         self.assertGreater(
@@ -195,6 +200,7 @@ class TrainingDevelopmentAxesTests(unittest.TestCase):
         )
 
     def test_train_hand_tracks_hand_develop(self) -> None:
+        self.actor.stats.compat.abl.set(50, 3)
         self.app.command_service.execute(self.world, self.actor.key, "train_hand")
 
         self.assertGreater(
@@ -237,6 +243,7 @@ class TrainingResultDialogueTests(unittest.TestCase):
         _start_training_session(self.app, self.actor, self.world)
 
     def test_orgasm_result_tag_appears_in_triggered_events(self) -> None:
+        self.actor.stats.compat.abl.set(0, 3)
         self.actor.stats.palam.set("pleasure_c", 5000)
 
         result = self.app.command_service.execute(
@@ -337,6 +344,123 @@ class DevelopmentGateTests(unittest.TestCase):
 
         self.assertTrue(result.success)
         self.assertGreater(self.actor.stats.palam.get("pleasure_c"), 0)
+
+
+class ABLGateTests(unittest.TestCase):
+    def setUp(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        self.app = create_application(repo_root)
+        self.world = self.app.world
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        _start_training_session(self.app, self.actor, self.world)
+
+    def test_train_c_touch_blocked_without_abl_0(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_c_touch")
+        self.assertIn("C感觉不足", str(ctx.exception))
+
+    def test_train_c_touch_unlocked_with_abl_0(self) -> None:
+        self.actor.stats.compat.abl.set(0, 2)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_c_touch")
+
+        self.assertTrue(result.success)
+
+    def test_train_hand_blocked_without_abl_50(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_hand")
+        self.assertIn("指技不足", str(ctx.exception))
+
+    def test_train_hand_unlocked_with_abl_50(self) -> None:
+        self.actor.stats.compat.abl.set(50, 2)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_hand")
+
+        self.assertTrue(result.success)
+
+    def test_train_breast_touch_produces_abl_3_source(self) -> None:
+        self.app.command_service.execute(self.world, self.actor.key, "train_breast_touch")
+
+        abl_exp = self.actor.stats.abl_exp.get(3, 0)
+        self.assertGreater(abl_exp, 0)
+
+    def test_train_touch_produces_abl_9_source(self) -> None:
+        self.app.command_service.execute(self.world, self.actor.key, "train_touch")
+
+        abl_exp = self.actor.stats.abl_exp.get(9, 0)
+        self.assertGreater(abl_exp, 0)
+
+
+class CounterSystemTests(unittest.TestCase):
+    def setUp(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        self.app = create_application(repo_root)
+        self.world = self.app.world
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        _start_training_session(self.app, self.actor, self.world)
+
+    def _setup_counter_state(
+        self,
+        lust: int = 1000,
+        obedience: int = 500,
+        pleasure_total: int = 2000,
+        abl_intimacy: int = 3,
+        abl_service: int = 0,
+        abl_lust_level: int = 2,
+    ) -> None:
+        self.actor.stats.palam.set("lust", lust)
+        self.actor.stats.palam.set("obedience", obedience)
+        self.actor.stats.palam.set("pleasure_c", pleasure_total)
+        self.actor.stats.compat.abl.set(9, abl_intimacy)
+        self.actor.stats.compat.abl.set(11, abl_lust_level)
+        self.actor.stats.compat.abl.set(13, abl_service)
+
+    def test_no_counter_when_obedience_low(self) -> None:
+        self._setup_counter_state(obedience=100)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertIsNone(result.counter)
+
+    def test_no_counter_when_lust_low(self) -> None:
+        self._setup_counter_state(lust=100)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertIsNone(result.counter)
+
+    def test_no_counter_when_pleasure_low(self) -> None:
+        self._setup_counter_state(pleasure_total=500)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertIsNone(result.counter)
+
+    def test_counter_kiss_triggers_with_high_intimacy(self) -> None:
+        self._setup_counter_state(abl_intimacy=3, abl_service=0, abl_lust_level=0)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertEqual(result.counter, TrainingResult.COUNTER_KISS)
+
+    def test_counter_embrace_triggers_with_high_lust_abl(self) -> None:
+        self._setup_counter_state(abl_intimacy=2, abl_lust_level=2, abl_service=0)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertEqual(result.counter, TrainingResult.COUNTER_EMBRACE)
+
+    def test_counter_service_triggers_with_high_service_abl(self) -> None:
+        self._setup_counter_state(obedience=1500, abl_intimacy=2, abl_service=3)
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertEqual(result.counter, TrainingResult.COUNTER_SERVICE)
+
+    def test_counter_tag_appears_in_triggered_events(self) -> None:
+        self._setup_counter_state()
+        result = self.app.command_service.execute(
+            self.world, self.actor.key, "train_touch",
+        )
+        self.assertIn("counter_kiss", result.triggered_events)
+
+    def test_counter_source_applied_to_actor(self) -> None:
+        self._setup_counter_state()
+        result = self.app.command_service.execute(
+            self.world, self.actor.key, "train_touch",
+        )
+        self.assertTrue(result.success)
+        self.assertIsNotNone(result)
 
 
 class PositionSystemTests(unittest.TestCase):

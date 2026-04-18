@@ -183,3 +183,18 @@ key = "interrupted"
 actor_key = "_any"
 lines = ["她的眼神渐渐失焦，身体软了下来，似乎已经耗尽了所有力气。"]
 priority = 1
+
+[[entries]]
+key = "counter_kiss"
+actor_key = "_any"
+lines = ["她突然踮起脚尖，主动凑近，在你的唇角落下轻轻一吻——脸上泛起了红晕。"]
+
+[[entries]]
+key = "counter_embrace"
+actor_key = "_any"
+lines = ["她忽然伸手环住了你的脖子，将身体紧紧贴了上来，呼吸变得灼热。"]
+
+[[entries]]
+key = "counter_service"
+actor_key = "_any"
+lines = ["她低下头，犹豫了片刻后，缓缓伸出双手——主动为你服务起来。"]

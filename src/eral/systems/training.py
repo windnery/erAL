@@ -7,6 +7,9 @@ from dataclasses import dataclass
 from eral.domain.training import (
     TrainingResult,
     TrainingSettlementResult,
+    _COUNTER_LUST_THRESHOLD,
+    _COUNTER_OBEDIENCE_THRESHOLD,
+    _COUNTER_PLEASURE_TOTAL,
     _ORGASM_PALAMLV,
     _PLEASURE_ORGASM_MAP,
     _REJECTION_SPIRIT_THRESHOLD,
@@ -39,11 +42,13 @@ class TrainingService:
     def detect_results(self, actor: CharacterState) -> TrainingSettlementResult:
         """Detect orgasm / rejection / interrupt after settlement.
 
-        Called after SettlementService.settle_actor has flushed SOURCE → PALAM.
+        Called after SettlementService.settle_actor has flushed SOURCE -> PALAM.
         """
         results: list[TrainingResult] = []
         spirit = actor.stats.base.get("spirit")
         orgasm_count = 0
+
+        counter = self._detect_counter(actor)
 
         if self.palam_curve is not None:
             for palam_key, result_type in _PLEASURE_ORGASM_MAP.items():
@@ -79,7 +84,32 @@ class TrainingService:
             orgasm_count=orgasm_count,
             was_rejected=was_rejected,
             was_interrupted=was_interrupted,
+            counter=counter,
         )
 
     def add_development(self, actor: CharacterState, key: str, delta: int) -> int:
         return actor.add_condition(f"train_{key}", delta)
+
+    def _detect_counter(self, actor: CharacterState) -> TrainingResult | None:
+        lust = actor.stats.palam.get("lust")
+        obedience = actor.stats.palam.get("obedience")
+        if obedience < _COUNTER_OBEDIENCE_THRESHOLD or lust < _COUNTER_LUST_THRESHOLD:
+            return None
+
+        pleasure_total = sum(
+            actor.stats.palam.get(k) for k in _PLEASURE_ORGASM_MAP
+        )
+        if pleasure_total < _COUNTER_PLEASURE_TOTAL:
+            return None
+
+        abl_service = actor.stats.compat.abl.get(13)
+        abl_lust = actor.stats.compat.abl.get(11)
+        abl_intimacy = actor.stats.compat.abl.get(9)
+
+        if abl_service >= 3 and obedience >= 1000:
+            return TrainingResult.COUNTER_SERVICE
+        if abl_intimacy >= 3:
+            return TrainingResult.COUNTER_KISS
+        if abl_lust >= 2:
+            return TrainingResult.COUNTER_EMBRACE
+        return None

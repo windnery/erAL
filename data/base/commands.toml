@@ -126,7 +126,7 @@ category = "training"
 location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_training = true
-source = { pleasure_m = 20, temptation = 20, lust = 10 }
+source = { pleasure_m = 20, temptation = 20, lust = 10, abl_9 = 1 }
 downbase = { spirit = 10 }
 
 [[commands]]
@@ -157,7 +157,7 @@ location_tags = ["private"]
 time_slots = ["night", "late_night"]
 requires_training = true
 required_removed_slots = ["underwear_bottom"]
-source = { pleasure_b = 40, lust = 40, sexual_act = 50 }
+source = { pleasure_b = 40, lust = 40, sexual_act = 50, abl_1 = 2, abl_11 = 1 }
 downbase = { stamina = 20, spirit = 30 }
 
 [[commands]]
@@ -169,7 +169,7 @@ time_slots = ["night", "late_night"]
 requires_training = true
 required_removed_slots = ["underwear_bottom"]
 training_position_keys = ["missionary"]
-source = { pleasure_b = 50, lust = 45, sexual_act = 55, submission = 10 }
+source = { pleasure_b = 50, lust = 45, sexual_act = 55, submission = 10, abl_1 = 2, abl_11 = 1 }
 downbase = { stamina = 20, spirit = 25 }
 
 [[commands]]
@@ -181,7 +181,7 @@ time_slots = ["night", "late_night"]
 requires_training = true
 required_removed_slots = ["underwear_bottom"]
 training_position_keys = ["from_behind"]
-source = { pleasure_b = 45, lust = 50, sexual_act = 60, humiliation = 15 }
+source = { pleasure_b = 45, lust = 50, sexual_act = 60, humiliation = 15, abl_1 = 2, abl_11 = 1 }
 downbase = { stamina = 25, spirit = 30 }
 
 [[commands]]
@@ -221,7 +221,7 @@ category = "training"
 location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_training = true
-source = { pleasure_b = 25, temptation = 15, lust = 15 }
+source = { pleasure_b = 25, temptation = 15, lust = 15, abl_3 = 2 }
 downbase = { spirit = 10 }
 
 [[commands]]
@@ -231,7 +231,8 @@ category = "training"
 location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_training = true
-source = { pleasure_c = 30, temptation = 20, lust = 20, fluid = 10 }
+required_conditions = { abl_0 = 2 }
+source = { pleasure_c = 30, temptation = 20, lust = 20, fluid = 10, abl_0 = 2 }
 downbase = { spirit = 15 }
 
 [[commands]]
@@ -241,7 +242,8 @@ category = "training"
 location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_training = true
-source = { give_pleasure_c = 40, lust = 30, sexual_act = 30 }
+required_conditions = { abl_50 = 2 }
+source = { give_pleasure_c = 40, lust = 30, sexual_act = 30, abl_50 = 2 }
 downbase = { stamina = 15, spirit = 20 }
 
 [[commands]]
@@ -252,7 +254,7 @@ location_tags = ["private"]
 time_slots = ["night", "late_night"]
 requires_training = true
 required_conditions = { train_hand_develop = 5 }
-source = { give_pleasure_c = 50, lust = 40, sexual_act = 40, submission = 20 }
+source = { give_pleasure_c = 50, lust = 40, sexual_act = 40, submission = 20, abl_51 = 2, abl_13 = 1 }
 downbase = { stamina = 20, spirit = 25 }
 
 [[commands]]
@@ -264,7 +266,7 @@ time_slots = ["night", "late_night"]
 requires_training = true
 required_removed_slots = ["underwear_bottom"]
 required_conditions = { train_c_develop = 10, train_v_develop = 5 }
-source = { pleasure_a = 50, lust = 30, sexual_act = 40, pain = 30, humiliation = 20 }
+source = { pleasure_a = 50, lust = 30, sexual_act = 40, pain = 30, humiliation = 20, abl_2 = 2, abl_11 = 1 }
 downbase = { stamina = 25, spirit = 35 }
 
 [[commands]]
@@ -275,7 +277,7 @@ location_tags = ["private"]
 time_slots = ["night", "late_night"]
 requires_training = true
 required_conditions = { train_oral_develop = 10 }
-source = { give_pleasure_c = 70, submission = 40, sexual_act = 50, pain = 20 }
+source = { give_pleasure_c = 70, submission = 40, sexual_act = 50, pain = 20, abl_51 = 3, abl_13 = 2 }
 downbase = { stamina = 30, spirit = 40 }
 
 [[commands]]
@@ -286,7 +288,7 @@ location_tags = ["private"]
 time_slots = ["evening", "night", "late_night"]
 requires_training = true
 min_obedience = 200
-source = { give_pleasure_c = 50, passive = 30, sexual_act = 30 }
+source = { give_pleasure_c = 50, passive = 30, sexual_act = 30, abl_50 = 1, abl_13 = 1 }
 downbase = { stamina = 15, spirit = 15 }
 
 [[commands]]
@@ -298,7 +300,7 @@ time_slots = ["night", "late_night"]
 requires_training = true
 min_obedience = 400
 required_conditions = { train_service_develop = 5 }
-source = { give_pleasure_c = 60, passive = 40, sexual_act = 40, submission = 15 }
+source = { give_pleasure_c = 60, passive = 40, sexual_act = 40, submission = 15, abl_51 = 2, abl_13 = 2 }
 downbase = { stamina = 20, spirit = 20 }
 
 [[commands]]
@@ -311,7 +313,7 @@ requires_training = true
 min_obedience = 400
 required_removed_slots = ["top"]
 required_conditions = { train_b_develop = 10 }
-source = { give_pleasure_c = 55, pleasure_b = 20, sexual_act = 35 }
+source = { give_pleasure_c = 55, pleasure_b = 20, sexual_act = 35, abl_52 = 2, abl_13 = 1 }
 downbase = { stamina = 20, spirit = 25 }
 
 [[commands]]

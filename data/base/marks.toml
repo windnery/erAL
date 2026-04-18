@@ -41,6 +41,26 @@ display_name = "被夜袭过"
 group = "intimacy"
 max_level = 1
 
+# ── 调教刻印类 ──
+
+[[marks]]
+key = "mark_pleasure"
+display_name = "快乐刻印"
+group = "training"
+max_level = 3
+
+[[marks]]
+key = "mark_submission"
+display_name = "屈服刻印"
+group = "training"
+max_level = 3
+
+[[marks]]
+key = "mark_pain"
+display_name = "苦痛刻印"
+group = "training"
+max_level = 3
+
 # ── 状态类 ──
 
 [[marks]]

@@ -14,6 +14,9 @@ class TrainingResult(StrEnum):
     ORGASM_M = "orgasm_m"
     REJECTED = "rejected"
     INTERRUPTED = "interrupted"
+    COUNTER_KISS = "counter_kiss"
+    COUNTER_EMBRACE = "counter_embrace"
+    COUNTER_SERVICE = "counter_service"
 
 
 # PALAMLV threshold for orgasm detection
@@ -31,6 +34,11 @@ _PLEASURE_ORGASM_MAP = {
 # Spirit threshold below which rejection may occur
 _REJECTION_SPIRIT_THRESHOLD = 10
 
+# Counter trigger thresholds
+_COUNTER_LUST_THRESHOLD = 800
+_COUNTER_OBEDIENCE_THRESHOLD = 200
+_COUNTER_PLEASURE_TOTAL = 1500
+
 
 @dataclass(slots=True)
 class TrainingSettlementResult:
@@ -38,6 +46,7 @@ class TrainingSettlementResult:
     orgasm_count: int = 0
     was_rejected: bool = False
     was_interrupted: bool = False
+    counter: TrainingResult | None = None
 
 
 @dataclass(slots=True)

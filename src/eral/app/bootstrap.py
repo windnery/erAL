@@ -65,6 +65,9 @@ from eral.systems.wallet import WalletService
 from eral.systems.settlement import SettlementService
 from eral.systems.time_service import TimeService
 from eral.systems.training import TrainingService
+from eral.systems.weather import WeatherService
+from eral.systems.palam_decay import load_palam_decay_rules
+from eral.content.weather import load_weather_definitions
 
 
 @dataclass(slots=True)
@@ -116,6 +119,7 @@ class Application:
     calendar_service: CalendarService
     calendar_view_service: CalendarViewService
     training_service: TrainingService
+    weather_service: WeatherService
 
 
 def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverrides") -> None:
@@ -208,6 +212,8 @@ def create_application(root: Path | None = None) -> Application:
     time_service = TimeService()
     curve_set = load_curves(root_path / "data" / "base" / "palamlv_curves.toml")
     training_service = TrainingService(palam_curve=curve_set.palam_curve)
+    weather_definitions = load_weather_definitions(root_path / "data" / "base" / "weather.toml")
+    weather_service = WeatherService(definitions=weather_definitions)
     calendar_service = CalendarService(calendar_definition=calendar_definition)
     skin_service = SkinService(
         skin_definitions={skin.key: skin for skin in skin_definitions},
@@ -257,12 +263,16 @@ def create_application(root: Path | None = None) -> Application:
         actor.hydrate_runtime_fields_from_compat()
         actor.sync_compat_from_runtime()
 
+    palam_decay_rules = load_palam_decay_rules(root_path / "data" / "base" / "palam_decay.toml")
+
     game_loop = GameLoop(
         event_bus=event_bus,
         schedule_service=schedule_service,
         vital_service=None,
         runtime_logger=runtime_logger,
         time_service=time_service,
+        weather_service=weather_service,
+        palam_decay_rules=palam_decay_rules,
     )
     wallet_service = WalletService()
     facility_service = FacilityService(
@@ -409,4 +419,5 @@ def create_application(root: Path | None = None) -> Application:
         calendar_service=calendar_service,
         calendar_view_service=calendar_view_service,
         training_service=training_service,
+        weather_service=weather_service,
     )

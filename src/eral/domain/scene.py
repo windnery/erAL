@@ -35,3 +35,4 @@ class SceneContext:
     training_position_key: str | None = None
     training_results: tuple[str, ...] = ()
     training_step_index: int = 0
+    weather_key: str = "clear"

@@ -108,6 +108,20 @@ class CommandSpecificGate:
                 return "当前服装条件不足，无法执行该调教指令。"
             if command.training_position_keys and world.training_position_key not in command.training_position_keys:
                 return "当前体位无法执行该调教指令。"
+        _ABL_DISPLAY = {
+            "abl_0": "C感觉",
+            "abl_1": "V感觉",
+            "abl_2": "A感觉",
+            "abl_3": "B感觉",
+            "abl_9": "亲密",
+            "abl_10": "顺从",
+            "abl_11": "欲望",
+            "abl_12": "技巧",
+            "abl_13": "奉仕精神",
+            "abl_50": "指技",
+            "abl_51": "舌技",
+            "abl_52": "胸技",
+        }
         _CONDITION_DISPLAY = {
             "train_v_develop": "V开发度",
             "train_a_develop": "A开发度",
@@ -118,9 +132,14 @@ class CommandSpecificGate:
             "train_service_develop": "奉仕开发度",
         }
         for condition_key, min_value in command.required_conditions.items():
-            if actor.get_condition(condition_key) < min_value:
-                name = _CONDITION_DISPLAY.get(condition_key, condition_key)
-                return f"{name}不足，无法执行该调教指令。"
+            if condition_key.startswith("abl_"):
+                abl_index = int(condition_key[4:])
+                current = actor.stats.compat.abl.get(abl_index)
+            else:
+                current = actor.get_condition(condition_key)
+            if current < min_value:
+                name = _ABL_DISPLAY.get(condition_key, _CONDITION_DISPLAY.get(condition_key, condition_key))
+                return f"{name}不足，无法执行该指令。"
         for condition_key in command.forbidden_conditions:
             if actor.get_condition(condition_key) > 0:
                 return f"当前条件禁止执行：{condition_key}。"

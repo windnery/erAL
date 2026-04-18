@@ -1,0 +1,39 @@
+[[rule]]
+palam_key = "lust"
+base_decay = 50
+
+[[rule]]
+palam_key = "submission"
+base_decay = 30
+
+[[rule]]
+palam_key = "pain"
+base_decay = 80
+
+[[rule]]
+palam_key = "fear"
+base_decay = 40
+
+[[rule]]
+palam_key = "disgust"
+base_decay = 60
+
+[[rule]]
+palam_key = "pleasure_c"
+base_decay = 100
+
+[[rule]]
+palam_key = "pleasure_v"
+base_decay = 100
+
+[[rule]]
+palam_key = "pleasure_a"
+base_decay = 100
+
+[[rule]]
+palam_key = "pleasure_b"
+base_decay = 100
+
+[[rule]]
+palam_key = "pleasure_m"
+base_decay = 100

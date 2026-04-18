@@ -12,6 +12,7 @@ from eral.systems.distribution import DistributionService
 from eral.systems.schedule import ScheduleService
 from eral.systems.time_service import TimeService
 from eral.systems.vital import VitalService
+from eral.systems.palam_decay import PalamDecayRule, apply_palam_decay
 
 
 @dataclass(slots=True)
@@ -26,6 +27,8 @@ class GameLoop:
     distribution_service: DistributionService | None = None
     runtime_logger: RuntimeLogger | None = None
     time_service: TimeService | None = None
+    weather_service: object | None = None
+    palam_decay_rules: tuple[PalamDecayRule, ...] = ()
 
     def advance_time(self, world: WorldState) -> None:
         previous_slot = world.current_time_slot
@@ -39,6 +42,8 @@ class GameLoop:
 
         world.current_time_slot = next_slot
         world._sync_clock_from_time_slot()
+        if self.weather_service is not None and next_slot == TimeSlot.DAWN:
+            self.weather_service.refresh(world)
         if self.schedule_service is not None:
             self.schedule_service.refresh_world(world)
         if self.distribution_service is not None:
@@ -46,6 +51,9 @@ class GameLoop:
         if self.vital_service is not None:
             for character in world.characters:
                 self.vital_service.natural_recovery(character, world)
+        if self.palam_decay_rules:
+            for character in world.characters:
+                apply_palam_decay(character, self.palam_decay_rules)
         if self.commission_service is not None:
             self.commission_service.tick_slot(world)
         self.event_bus.publish(

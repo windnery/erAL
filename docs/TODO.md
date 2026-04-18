@@ -19,12 +19,17 @@
 | 7 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | ✅ done |
 | 8 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | ✅ done |
 | 9 | 地图分层基础（大区/子区/地点/归属/分布入口） | L5 | architecture | 180m | ✅ done |
-| 10 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 in_progress |
+| 10 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | ✅ done |
 | 11 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | ✅ done |
-| 12 | 动态地图分布规则第一版（饭点/夜间回流/阵营偏好/玩家位置修正） | L5 | architecture | 180m | ✅ done |
-| 13 | 阵营生活区扩充到更多阵营（重樱 / 铁血 / 东煌 / 混合） | L5 | architecture | 120m | ✅ done |
-| 14 | 路径引擎（Dijkstra 最短路径 / 按边权耗时 / 分组目的地 UI） | L5 | architecture | 90m | ✅ done |
-| 15 | 动态地图分布规则第二版（阵营分流 / 承载溢出 / 时段细化） | L5 | architecture | 150m | ✅ done |
+| 12 | 动态地图分布规则第一版 | L5 | architecture | 180m | ✅ done |
+| 13 | 阵营生活区扩充 | L5 | architecture | 120m | ✅ done |
+| 14 | 路径引擎（Dijkstra + 边权耗时 + 分组 UI） | L5 | architecture | 90m | ✅ done |
+| 15 | 动态地图分布规则第二版 | L5 | architecture | 150m | ✅ done |
+| 16 | 调教刻印系统 | L6 | gameplay | 90m | ✅ done |
+| 17 | ABL升级消费层 | L6 | gameplay | 60m | ✅ done |
+| 18 | 调教反击与主动系统 | L6 | gameplay | 120m | ✅ done |
+| 19 | 天气系统运行时 | L6 | architecture | 120m | ✅ done |
+| 20 | PALAM自然衰减 | L6 | gameplay | 90m | ✅ done |
 
 **执行顺序**：L5 当前先完成地图系统（路径引擎 ✅ → 阵营扩充 → 分布 v2 → ASCII 地图整理），再回头补季节/节日等内容驱动层，最后进入调教与更重的系统入口。
 
@@ -61,75 +66,53 @@
 | **L3** ✅ | 完成 | 100% | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
 | **L4** 🟡 | 部分完成 | 72% | 经济循环 ✅ / 稳定性工程 🔄 / 存档兼容回归 ✅ / 数值平衡 ⏸ |
 | **L5** ✅ | 完成 | 100% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 时间与日历底座 ✅ / 季节规则接入 ✅ / 地图分层基础 ✅ / 动态地图分布 v1+2 ✅ / 路径引擎 ✅ / 阵营扩充 ✅ / 调教系统完整版 ✅ |
-| **L6** 🟡 | 推进中 | 0% | 调教刻印 ⏸ / 反击主动系统 ⏸ / ABL消费层 ⏸ / 天气系统 ⏸ / PALAM衰减 ⏸ |
+| **L6** ✅ | 完成 | 100% | 调教刻印 ✅ / 反击主动系统 ✅ / ABL消费层 ✅ / 天气系统 ✅ / PALAM衰减 ✅ |
 
 *标注：✅完成 🔄进行中 🟡部分完成 📋筹划中 ⬜待启动*
 
 ---
 
-## 🔴 当前活跃任务（主线 H：L5+ 调教深化 + 系统补全）
+## 🔴 当前活跃任务（主线：L7 系统扩展与内容深化）
 
-> 调教系统主干已合并入 main（20 条命令、结果态、体位差分、奉仕路线、开发度解锁，477 项测试通过）。下一步推进调教深化（刻印 + 反击）和系统补全（ABL 消费 + 天气）。
-> 详细缺口分析见 `docs/specs/系统总览与缺口.md`。
+> L6 全部完成（刻印/ABL消费/反击/天气/PALAM衰减，505 项测试通过）。
+> 下一步：L7 系统扩展 + 内容深化。详细缺口分析见 `docs/specs/系统总览与缺口.md`。
 
-### 调教深化任务（P0）
+### L7 候选任务
 
-- [ ] 调教刻印系统（快乐/屈服/苦痛三种刻印 + 自动施加 + SOURCE 倍率）
-	- type: gameplay
-	- priority: P0
-	- milestone: L6
-	- est: 90m
-	- DoD: 高潮自动施加快乐刻印、submission 阈值施加屈服刻印、pain 阈值施加苦痛刻印；刻印等级通过 talent_effects 影响 SOURCE 倍率
-	- verify: `python -m unittest tests.test_training_results -v`
-	- owner: pair
-	- status: pending
-	- spec: docs/specs/调教刻印系统.md
-
-- [ ] 调教反击与主动系统（角色在调教中主动发起行为）
-	- type: gameplay
-	- priority: P0
-	- milestone: L6
-	- est: 120m
-	- DoD: 角色基于 lust/submission/obedience 可主动亲吻/爱抚/请求/奉仕，产出 counter SOURCE + counter 口上标签
-	- verify: `python -m unittest tests.test_training_results -v`
-	- owner: pair
-	- status: pending
-	- spec: docs/specs/调教反击与主动系统.md
-
-### 系统补全任务（P1）
-
-- [ ] ABL 升级消费层（ABL 等级作为门禁条件 + SOURCE 倍率）
-	- type: gameplay
-	- priority: P1
-	- milestone: L6
-	- est: 60m
-	- DoD: 至少 3 个 ABL 轴（亲密/顺从/服务）在 commands.toml 中被 required_conditions 引用；talent_effects.toml 新增 ABL 对 SOURCE 倍率影响
-	- verify: `python -m unittest discover -s tests -t .`
-	- owner: pair
-	- status: pending
-	- spec: docs/specs/ABL成长系统.md
-
-- [ ] 天气系统运行时实现
+- [ ] 记忆与解锁追踪系统（跨事件记忆层 + 长期解锁条件）
 	- type: architecture
-	- priority: P1
-	- milestone: L6
+	- priority: P0
+	- milestone: L7
 	- est: 120m
-	- DoD: 天气在时段推进时刷新，写入 SceneContext，影响指令门控和恢复倍率
-	- verify: `python -m unittest tests.test_time_system tests.test_commands -v`
-	- owner: pair
-	- status: pending
-	- spec: docs/specs/天气系统.md
+	- DoD: 角色拥有 `memories` 字典；事件可标记"已触发"；口上/门禁可查询记忆
 
-- [ ] PALAM 自然衰减
+- [ ] 关系阶段扩展（誓约后分支 + 道具/历史门槛）
 	- type: gameplay
 	- priority: P1
-	- milestone: L6
-	- est: 90m
-	- DoD: 时段推进时 PALAM 按规则衰减，防止状态只增不减
-	- verify: `python -m unittest tests.test_settlement -v`
-	- owner: pair
-	- status: pending
-	- spec: docs/specs/PALAM衰减系统.md
+	- milestone: L7
+	- est: 150m
+	- DoD: 誓约后至少 2 个后续阶段；阶段升级需要道具+历史事件条件
+
+- [ ] 更多角色专属调教口上（企业/拉菲/标枪各 ≥ 10 条调教分支）
+	- type: content
+	- priority: P1
+	- milestone: L7
+	- est: 180m
+	- DoD: 调教指令 + 结果态 + counter 均有角色专属文本
+
+- [ ] 贝尔法斯特角色包
+	- type: content
+	- priority: P2
+	- milestone: L7
+	- est: 120m
+	- DoD: 角色包 + 事件 + 口上 + 调教文本
+
+- [ ] 商店 NPC 化（明石/不知火商店入口语义）
+	- type: gameplay
+	- priority: P2
+	- milestone: L7
+	- est: 120m
+	- DoD: 商店入口从地点挂载改为角色 NPC 入口
 
 ### 本轮主任务（先做）
 
@@ -400,6 +383,13 @@
 - [x] 企业、拉菲、标枪三个正式角色（各 >= 20 事件、>= 30 对话）
 - [x] L4 经济循环 14 天合并烟测已通过
 - [x] 自动化测试 404 项通过
+- [x] 调教系统完整版（20 条命令 + 结果态 + 体位差分 + 奉仕路线 + 开发度解锁）
+- [x] 调教刻印（快乐/屈服/苦痛）+ 刻印 SOURCE 倍率
+- [x] ABL 升级消费层（ABL 门禁 + SOURCE 产出）
+- [x] 调教反击系统（counter_kiss/embrace/service + SOURCE + 口上）
+- [x] 天气系统（7 种天气 + 权重刷新 + 恢复/移动倍率 + SceneContext）
+- [x] PALAM 自然衰减（10 条规则 + 时段推进自动衰减）
+- [x] 自动化测试 505 项通过
 
 ---
 
