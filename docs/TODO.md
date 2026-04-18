@@ -60,32 +60,76 @@
 | **L2** ✅ | 完成 | 100% | 语义可读层已接入 |
 | **L3** ✅ | 完成 | 100% | 调参 ✅ / 基础测试 ✅ / 全链路测试 ✅ |
 | **L4** 🟡 | 部分完成 | 72% | 经济循环 ✅ / 稳定性工程 🔄 / 存档兼容回归 ✅ / 数值平衡 ⏸ |
-| **L5** 🟡 | 推进中 | 92% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 时间与日历底座 ✅ / 季节规则接入 ✅ / 地图分层基础 ✅ / 动态地图分布 v1 ✅ / 路径引擎 ✅ / 阵营扩充 ✅ / 分布 v2 ✅ / ASCII 地图整理 📋 |
+| **L5** ✅ | 完成 | 100% | 背包 ✅ / 誓约底座 ✅ / 商店闭环 ✅ / 皮肤与外观底座 ✅ / 时间与日历底座 ✅ / 季节规则接入 ✅ / 地图分层基础 ✅ / 动态地图分布 v1+2 ✅ / 路径引擎 ✅ / 阵营扩充 ✅ / 调教系统完整版 ✅ |
+| **L6** 🟡 | 推进中 | 0% | 调教刻印 ⏸ / 反击主动系统 ⏸ / ABL消费层 ⏸ / 天气系统 ⏸ / PALAM衰减 ⏸ |
 
 *标注：✅完成 🔄进行中 🟡部分完成 📋筹划中 ⬜待启动*
 
 ---
 
-## 🔴 当前活跃任务（主线 H：L5 收尾 + L4 稳定性）
+## 🔴 当前活跃任务（主线 H：L5+ 调教深化 + 系统补全）
 
-> 路径引擎 ✅ + 阵营扩充 ✅ + 分布 v2 ✅ + 季节系统 ✅ + 商店统一 ✅ 已落地：`PortConnection` 支持 `cost_minutes` 差异化边权；`PortMap` 内置 Dijkstra 最短路径与可达目的地查询；`NavigationService` 重构为 `plan_move` / `available_destinations` / `execute_move` 三层，返回 UI 无关的 `MovePlan` 结构化数据；CLI 移动菜单已改为按大区分组显示所有可达地点及耗时。L5 核心功能已基本完成。下一步可推进 L4 稳定性工程（存档兼容回归包、内容校验增强）或进入 L5+ 调教系统骨架。
+> 调教系统主干已合并入 main（20 条命令、结果态、体位差分、奉仕路线、开发度解锁，477 项测试通过）。下一步推进调教深化（刻印 + 反击）和系统补全（ABL 消费 + 天气）。
+> 详细缺口分析见 `docs/specs/系统总览与缺口.md`。
 
-### 调教系统当前进度（训练系统 worktree）
+### 调教深化任务（P0）
 
-- [x] 调教会话运行时状态（`WorldState.training_*` + 存档回写）
-- [x] `TrainingService` 最小入口（开始 / 结束）
-- [x] `SceneContext` 已暴露 `is_training / training_position_key`
-- [x] 第一批调教命令字段与门禁：`requires_training / required_removed_slots`
-- [x] 第一批可玩命令：`start_training / train_touch / remove_underwear_bottom / train_insert_v`
-- [x] 最小长期推进挂点：`train_v_develop`
-- [x] 最小调教 fallback 口上：`train_touch`
-- [x] 结果态扩展：高潮 / 拒绝 / 中断
-- [x] 长期开发度扩展到更多轴
-- [x] 事件 / 口上进一步消费调教状态
-- [x] 开发度驱动解锁（A插入/深喉/高级命令门禁）
-- [x] 体位差分（3体位 + 切换命令 + 体位门禁）
-- [x] 奉仕/屈服路线（奉仕手交/口交/乳交 + obedience门禁）
-- [x] 编辑器支持调教口上条件字段
+- [ ] 调教刻印系统（快乐/屈服/苦痛三种刻印 + 自动施加 + SOURCE 倍率）
+	- type: gameplay
+	- priority: P0
+	- milestone: L6
+	- est: 90m
+	- DoD: 高潮自动施加快乐刻印、submission 阈值施加屈服刻印、pain 阈值施加苦痛刻印；刻印等级通过 talent_effects 影响 SOURCE 倍率
+	- verify: `python -m unittest tests.test_training_results -v`
+	- owner: pair
+	- status: pending
+	- spec: docs/specs/调教刻印系统.md
+
+- [ ] 调教反击与主动系统（角色在调教中主动发起行为）
+	- type: gameplay
+	- priority: P0
+	- milestone: L6
+	- est: 120m
+	- DoD: 角色基于 lust/submission/obedience 可主动亲吻/爱抚/请求/奉仕，产出 counter SOURCE + counter 口上标签
+	- verify: `python -m unittest tests.test_training_results -v`
+	- owner: pair
+	- status: pending
+	- spec: docs/specs/调教反击与主动系统.md
+
+### 系统补全任务（P1）
+
+- [ ] ABL 升级消费层（ABL 等级作为门禁条件 + SOURCE 倍率）
+	- type: gameplay
+	- priority: P1
+	- milestone: L6
+	- est: 60m
+	- DoD: 至少 3 个 ABL 轴（亲密/顺从/服务）在 commands.toml 中被 required_conditions 引用；talent_effects.toml 新增 ABL 对 SOURCE 倍率影响
+	- verify: `python -m unittest discover -s tests -t .`
+	- owner: pair
+	- status: pending
+	- spec: docs/specs/ABL成长系统.md
+
+- [ ] 天气系统运行时实现
+	- type: architecture
+	- priority: P1
+	- milestone: L6
+	- est: 120m
+	- DoD: 天气在时段推进时刷新，写入 SceneContext，影响指令门控和恢复倍率
+	- verify: `python -m unittest tests.test_time_system tests.test_commands -v`
+	- owner: pair
+	- status: pending
+	- spec: docs/specs/天气系统.md
+
+- [ ] PALAM 自然衰减
+	- type: gameplay
+	- priority: P1
+	- milestone: L6
+	- est: 90m
+	- DoD: 时段推进时 PALAM 按规则衰减，防止状态只增不减
+	- verify: `python -m unittest tests.test_settlement -v`
+	- owner: pair
+	- status: pending
+	- spec: docs/specs/PALAM衰减系统.md
 
 ### 本轮主任务（先做）
 
