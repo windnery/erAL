@@ -19,7 +19,7 @@
 | 7 | commands.toml 校验器（重复 key + 非法字段） | L4 | tooling | 60m | ✅ done |
 | 8 | 存档兼容回归包（旧档读取 + 字段降级） | L4 | test | 75m | ✅ done |
 | 9 | 地图分层基础（大区/子区/地点/归属/分布入口） | L5 | architecture | 180m | ✅ done |
-| 10 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 gated |
+| 10 | 调教系统骨架（判定/执行/结算三段） | L5 | gameplay | 150m | 🟡 in_progress |
 | 11 | 内容校验增强（角色包必填与引用完整性） | L4 | tooling | 60m | ✅ done |
 | 12 | 动态地图分布规则第一版（饭点/夜间回流/阵营偏好/玩家位置修正） | L5 | architecture | 180m | ✅ done |
 | 13 | 阵营生活区扩充到更多阵营（重樱 / 铁血 / 东煌 / 混合） | L5 | architecture | 120m | ✅ done |
@@ -69,6 +69,23 @@
 ## 🔴 当前活跃任务（主线 H：L5 收尾 + L4 稳定性）
 
 > 路径引擎 ✅ + 阵营扩充 ✅ + 分布 v2 ✅ + 季节系统 ✅ + 商店统一 ✅ 已落地：`PortConnection` 支持 `cost_minutes` 差异化边权；`PortMap` 内置 Dijkstra 最短路径与可达目的地查询；`NavigationService` 重构为 `plan_move` / `available_destinations` / `execute_move` 三层，返回 UI 无关的 `MovePlan` 结构化数据；CLI 移动菜单已改为按大区分组显示所有可达地点及耗时。L5 核心功能已基本完成。下一步可推进 L4 稳定性工程（存档兼容回归包、内容校验增强）或进入 L5+ 调教系统骨架。
+
+### 调教系统当前进度（训练系统 worktree）
+
+- [x] 调教会话运行时状态（`WorldState.training_*` + 存档回写）
+- [x] `TrainingService` 最小入口（开始 / 结束）
+- [x] `SceneContext` 已暴露 `is_training / training_position_key`
+- [x] 第一批调教命令字段与门禁：`requires_training / required_removed_slots`
+- [x] 第一批可玩命令：`start_training / train_touch / remove_underwear_bottom / train_insert_v`
+- [x] 最小长期推进挂点：`train_v_develop`
+- [x] 最小调教 fallback 口上：`train_touch`
+- [x] 结果态扩展：高潮 / 拒绝 / 中断
+- [x] 长期开发度扩展到更多轴
+- [x] 事件 / 口上进一步消费调教状态
+- [x] 开发度驱动解锁（A插入/深喉/高级命令门禁）
+- [x] 体位差分（3体位 + 切换命令 + 体位门禁）
+- [x] 奉仕/屈服路线（奉仕手交/口交/乳交 + obedience门禁）
+- [x] 编辑器支持调教口上条件字段
 
 ### 本轮主任务（先做）
 

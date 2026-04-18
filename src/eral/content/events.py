@@ -26,6 +26,8 @@ class EventDefinition:
     required_skin_tags: tuple[str, ...] = ()
     required_removed_slots: tuple[str, ...] = ()
     forbidden_removed_slots: tuple[str, ...] = ()
+    requires_training: bool | None = None
+    required_training_results: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
     seasons: tuple[str, ...] = ()
 
@@ -58,6 +60,8 @@ def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
             required_skin_tags=tuple(item.get("required_skin_tags", [])),
             required_removed_slots=tuple(item.get("required_removed_slots", [])),
             forbidden_removed_slots=tuple(item.get("forbidden_removed_slots", [])),
+            requires_training=item.get("requires_training"),
+            required_training_results=tuple(item.get("required_training_results", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
             },

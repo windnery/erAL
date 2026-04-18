@@ -90,6 +90,7 @@ def validate_commands(root: Path) -> list[str]:
         "key", "display_name", "category", "location_tags", "time_slots",
         "min_affection", "min_trust", "min_obedience", "required_stage",
         "operation", "requires_following", "requires_date",
+        "requires_training", "required_removed_slots", "training_position_keys",
         "required_conditions", "forbidden_conditions",
         "required_marks", "apply_marks", "remove_marks",
         "source", "downbase", "success_tiers", "required_items",

@@ -22,6 +22,9 @@ class CommandDefinition:
     operation: str | None
     requires_following: bool | None
     requires_date: bool | None
+    requires_training: bool = False
+    required_removed_slots: tuple[str, ...] = ()
+    training_position_keys: tuple[str, ...] = ()
     required_conditions: dict[str, int] = field(default_factory=dict)
     forbidden_conditions: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
@@ -63,6 +66,13 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),
             requires_date=item.get("requires_date"),
+            requires_training=bool(item.get("requires_training", False)),
+            required_removed_slots=tuple(
+                str(value) for value in item.get("required_removed_slots", [])
+            ),
+            training_position_keys=tuple(
+                str(value) for value in item.get("training_position_keys", [])
+            ),
             required_conditions={
                 str(k): int(v) for k, v in item.get("required_conditions", {}).items()
             },

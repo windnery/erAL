@@ -31,6 +31,8 @@ from eral.systems.resolution import ResolutionService
 from eral.systems.settlement import SettlementService
 from eral.systems.skins import SkinService
 from eral.systems.time_service import TimeService
+from eral.domain.training import TrainingResult
+from eral.systems.training import TrainingService
 from eral.systems.source_extra import apply_source_extra
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
@@ -62,6 +64,7 @@ class CommandService:
     skin_service: SkinService | None = None
     time_service: TimeService | None = None
     distribution_service: DistributionService | None = None
+    training_service: TrainingService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -128,6 +131,10 @@ class CommandService:
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
 
+        if command.requires_training and self.training_service is not None:
+            self._apply_training_development(actor, command.key)
+            actor.add_condition("train_total_steps", 1)
+
         apply_source_extra(actor.stats, self.talent_effects)
 
         self._apply_downbase(actor, command.downbase)
@@ -143,6 +150,16 @@ class CommandService:
             self.time_service.advance_minutes(world, command.elapsed_minutes)
 
         changes = self.settlement.settle_actor(world, actor)
+
+        training_settlement = None
+        if command.requires_training and self.training_service is not None:
+            training_settlement = self.training_service.detect_results(actor)
+            result_tags = tuple(r.value for r in training_settlement.results)
+            if result_tags:
+                world.training_flags["last_results"] = ",".join(result_tags)
+            else:
+                world.training_flags.pop("last_results", None)
+            world.training_step_index += 1
 
         # Process personal income from work commands
         funds_delta: dict[str, int] = {}
@@ -164,7 +181,9 @@ class CommandService:
         triggered_events = self.event_service.triggered_events(trigger_scene)
         if not triggered_events:
             triggered_events = self.event_service.triggered_events(settled_scene)
-        dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, resolution_tags + triggered_events))
+        training_tags = tuple(r.value for r in training_settlement.results) if training_settlement else ()
+        dialogue_keys = resolution_tags + training_tags + triggered_events
+        dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, dialogue_keys))
         after_date_events, after_date_lines = self._resolve_after_date_followup(
             world,
             actor,
@@ -173,7 +192,7 @@ class CommandService:
         )
         if after_date_lines:
             dialogue_lines.extend(after_date_lines)
-        all_triggered_events = resolution_tags + triggered_events + after_date_events
+        all_triggered_events = resolution_tags + training_tags + triggered_events + after_date_events
         self._log_success(world, actor.key, command.key, all_triggered_events)
         return ActionResult(
             action_key=command.key,
@@ -371,29 +390,82 @@ class CommandService:
             if mark_key in actor.marks:
                 del actor.marks[mark_key]
 
+    _TRAINING_DEV_MAP = {
+        "train_touch": {"train_touch_count": 1},
+        "train_breast_touch": {"train_b_develop": 1},
+        "train_c_touch": {"train_c_develop": 1},
+        "train_hand": {"train_hand_develop": 1},
+        "train_oral": {"train_oral_develop": 1, "train_service_develop": 1},
+        "train_deep_oral": {"train_oral_develop": 2, "train_service_develop": 2},
+        "train_insert_v": {"train_v_develop": 1, "submission": 30},
+        "train_insert_v_missionary": {"train_v_develop": 1, "submission": 10},
+        "train_insert_v_behind": {"train_v_develop": 1, "submission": 15},
+        "train_insert_a": {"train_a_develop": 1, "submission": 20},
+        "train_service_hand": {"train_service_develop": 1, "train_hand_develop": 1},
+        "train_service_oral": {"train_service_develop": 2, "train_oral_develop": 1},
+        "train_paizu": {"train_b_develop": 1, "train_service_develop": 1},
+    }
+
+    @staticmethod
+    def _apply_training_development(actor: CharacterState, command_key: str) -> None:
+        dev_map = CommandService._TRAINING_DEV_MAP.get(command_key, {})
+        for key, delta in dev_map.items():
+            if key == "submission":
+                actor.stats.source.add(key, delta)
+            else:
+                actor.add_condition(key, delta)
+
     def _apply_operation(
         self,
         world: WorldState,
         actor: CharacterState,
         command: CommandDefinition,
     ) -> None:
-        if command.operation is None:
+        operation = command.operation
+        if operation is None and command.key in {
+            "start_training",
+            "end_training",
+            "remove_underwear_bottom",
+            "remove_top",
+            "change_position_missionary",
+            "change_position_behind",
+            "change_position_standing",
+        }:
+            operation = command.key
+
+        if operation is None:
             return
-        if command.operation == "sleep" and self.vital_service is not None:
+        if operation == "sleep" and self.vital_service is not None:
             self.vital_service.sleep_recovery(actor, world)
-        elif command.operation == "nap" and self.vital_service is not None:
+        elif operation == "nap" and self.vital_service is not None:
             self.vital_service.rest_recovery(actor, world)
-        elif command.operation == "bathe" and self.vital_service is not None:
+        elif operation == "bathe" and self.vital_service is not None:
             self.vital_service.bathe_recovery(actor, world)
+        elif operation == "start_training" and self.training_service is not None:
+            self.training_service.start_session(world, actor.key, position_key="standing")
+        elif operation == "end_training" and self.training_service is not None:
+            self.training_service.end_session(world)
+        elif operation == "remove_underwear_bottom":
+            if "underwear_bottom" not in actor.removed_slots:
+                actor.removed_slots = (*actor.removed_slots, "underwear_bottom")
+        elif operation == "remove_top":
+            if "top" not in actor.removed_slots:
+                actor.removed_slots = (*actor.removed_slots, "top")
+        elif operation == "change_position_missionary":
+            world.training_position_key = "missionary"
+        elif operation == "change_position_behind":
+            world.training_position_key = "from_behind"
+        elif operation == "change_position_standing":
+            world.training_position_key = "standing"
         elif self.companion_service is None:
             return
-        elif command.operation == "start_follow":
+        elif operation == "start_follow":
             self.companion_service.start_follow(world, actor)
-        elif command.operation == "stop_follow":
+        elif operation == "stop_follow":
             self.companion_service.stop_follow(world, actor)
-        elif command.operation == "start_date" and self.date_service is not None:
+        elif operation == "start_date" and self.date_service is not None:
             self.date_service.start_date(world, actor)
-        elif command.operation == "end_date" and self.date_service is not None:
+        elif operation == "end_date" and self.date_service is not None:
             self.date_service.end_date(world, actor)
 
     def _ensure_oath_mark(self, actor: CharacterState) -> None:

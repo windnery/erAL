@@ -97,9 +97,30 @@ class CommandSpecificGate:
             return "需要同行状态才能执行该指令。"
         if command.requires_date is not None and actor.is_on_date != command.requires_date:
             return "需要约会状态才能执行该指令。"
+        if command.requires_training:
+            if not world.training_active:
+                return "当前未处于调教状态。"
+            if world.training_actor_key != actor.key:
+                return "当前调教对象不一致。"
+            if command.required_removed_slots and not all(
+                slot in actor.removed_slots for slot in command.required_removed_slots
+            ):
+                return "当前服装条件不足，无法执行该调教指令。"
+            if command.training_position_keys and world.training_position_key not in command.training_position_keys:
+                return "当前体位无法执行该调教指令。"
+        _CONDITION_DISPLAY = {
+            "train_v_develop": "V开发度",
+            "train_a_develop": "A开发度",
+            "train_c_develop": "C开发度",
+            "train_b_develop": "B开发度",
+            "train_hand_develop": "手技开发度",
+            "train_oral_develop": "口技开发度",
+            "train_service_develop": "奉仕开发度",
+        }
         for condition_key, min_value in command.required_conditions.items():
             if actor.get_condition(condition_key) < min_value:
-                return f"缺少所需条件：{condition_key}。"
+                name = _CONDITION_DISPLAY.get(condition_key, condition_key)
+                return f"{name}不足，无法执行该调教指令。"
         for condition_key in command.forbidden_conditions:
             if actor.get_condition(condition_key) > 0:
                 return f"当前条件禁止执行：{condition_key}。"

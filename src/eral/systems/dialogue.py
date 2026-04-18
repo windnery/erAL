@@ -82,6 +82,12 @@ class DialogueService:
             slot in scene.removed_slots for slot in entry.forbidden_removed_slots
         ):
             return False
+        if entry.requires_training is not None and scene.is_training != entry.requires_training:
+            return False
+        if entry.required_training_results and not all(
+            r in scene.training_results for r in entry.required_training_results
+        ):
+            return False
         for mark_key, min_level in entry.required_marks.items():
             if scene.marks.get(mark_key, 0) < min_level:
                 return False

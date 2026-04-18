@@ -31,3 +31,7 @@ class SceneContext:
     equipped_skin_tags: tuple[str, ...] = ()
     removed_slots: tuple[str, ...] = ()
     marks: dict[str, int] = field(default_factory=dict)
+    is_training: bool = False
+    training_position_key: str | None = None
+    training_results: tuple[str, ...] = ()
+    training_step_index: int = 0
