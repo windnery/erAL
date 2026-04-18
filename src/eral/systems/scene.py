@@ -57,4 +57,8 @@ class SceneService:
             equipped_skin_tags=equipped_skin_tags,
             removed_slots=actor.removed_slots,
             marks=dict(actor.marks),
+            is_training=world.training_active and world.training_actor_key == actor.key,
+            training_position_key=world.training_position_key,
+            training_results=tuple(world.training_flags.get("last_results", "").split(",")) if world.training_flags.get("last_results") else (),
+            training_step_index=world.training_step_index,
         )

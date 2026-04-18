@@ -111,6 +111,220 @@ source = { affection = 30, service = 80, obedience = 40, abl_9 = 2, abl_10 = 2, 
 downbase = { stamina = 30, spirit = 40 }
 
 [[commands]]
+key = "start_training"
+display_name = "开始调教"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+source = {}
+downbase = {}
+
+[[commands]]
+key = "train_touch"
+display_name = "爱抚"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { pleasure_m = 20, temptation = 20, lust = 10 }
+downbase = { spirit = 10 }
+
+[[commands]]
+key = "remove_underwear_bottom"
+display_name = "脱下内衣(下)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { humiliation = 20, lust = 10 }
+downbase = { spirit = 10 }
+
+[[commands]]
+key = "remove_top"
+display_name = "脱去上衣"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { humiliation = 30, exposure = 20, lust = 10 }
+downbase = { spirit = 15 }
+
+[[commands]]
+key = "train_insert_v"
+display_name = "插入(V)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+source = { pleasure_b = 40, lust = 40, sexual_act = 50 }
+downbase = { stamina = 20, spirit = 30 }
+
+[[commands]]
+key = "train_insert_v_missionary"
+display_name = "正常位(V)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+training_position_keys = ["missionary"]
+source = { pleasure_b = 50, lust = 45, sexual_act = 55, submission = 10 }
+downbase = { stamina = 20, spirit = 25 }
+
+[[commands]]
+key = "train_insert_v_behind"
+display_name = "后背位(V)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+training_position_keys = ["from_behind"]
+source = { pleasure_b = 45, lust = 50, sexual_act = 60, humiliation = 15 }
+downbase = { stamina = 25, spirit = 30 }
+
+[[commands]]
+key = "change_position_missionary"
+display_name = "切换为正常位"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = {}
+downbase = { spirit = 5 }
+
+[[commands]]
+key = "change_position_behind"
+display_name = "切换为后背位"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { humiliation = 10 }
+downbase = { spirit = 10 }
+
+[[commands]]
+key = "change_position_standing"
+display_name = "切换为立位"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = {}
+downbase = { spirit = 5 }
+
+[[commands]]
+key = "train_breast_touch"
+display_name = "胸部爱抚"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { pleasure_b = 25, temptation = 15, lust = 15 }
+downbase = { spirit = 10 }
+
+[[commands]]
+key = "train_c_touch"
+display_name = "下体爱抚"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { pleasure_c = 30, temptation = 20, lust = 20, fluid = 10 }
+downbase = { spirit = 15 }
+
+[[commands]]
+key = "train_hand"
+display_name = "手交"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { give_pleasure_c = 40, lust = 30, sexual_act = 30 }
+downbase = { stamina = 15, spirit = 20 }
+
+[[commands]]
+key = "train_oral"
+display_name = "口交"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_conditions = { train_hand_develop = 5 }
+source = { give_pleasure_c = 50, lust = 40, sexual_act = 40, submission = 20 }
+downbase = { stamina = 20, spirit = 25 }
+
+[[commands]]
+key = "train_insert_a"
+display_name = "插入(A)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+required_conditions = { train_c_develop = 10, train_v_develop = 5 }
+source = { pleasure_a = 50, lust = 30, sexual_act = 40, pain = 30, humiliation = 20 }
+downbase = { stamina = 25, spirit = 35 }
+
+[[commands]]
+key = "train_deep_oral"
+display_name = "深喉"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_conditions = { train_oral_develop = 10 }
+source = { give_pleasure_c = 70, submission = 40, sexual_act = 50, pain = 20 }
+downbase = { stamina = 30, spirit = 40 }
+
+[[commands]]
+key = "train_service_hand"
+display_name = "奉仕手交"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+min_obedience = 200
+source = { give_pleasure_c = 50, passive = 30, sexual_act = 30 }
+downbase = { stamina = 15, spirit = 15 }
+
+[[commands]]
+key = "train_service_oral"
+display_name = "奉仕口交"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+min_obedience = 400
+required_conditions = { train_service_develop = 5 }
+source = { give_pleasure_c = 60, passive = 40, sexual_act = 40, submission = 15 }
+downbase = { stamina = 20, spirit = 20 }
+
+[[commands]]
+key = "train_paizu"
+display_name = "乳交"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+min_obedience = 400
+required_removed_slots = ["top"]
+required_conditions = { train_b_develop = 10 }
+source = { give_pleasure_c = 55, pleasure_b = 20, sexual_act = 35 }
+downbase = { stamina = 20, spirit = 25 }
+
+[[commands]]
+key = "end_training"
+display_name = "结束调教"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = {}
+downbase = {}
+
+[[commands]]
 key = "rest"
 display_name = "休息"
 category = "work"

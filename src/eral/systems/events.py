@@ -57,6 +57,12 @@ class EventService:
                 slot in scene.removed_slots for slot in event.forbidden_removed_slots
             ):
                 continue
+            if event.requires_training is not None and scene.is_training != event.requires_training:
+                continue
+            if event.required_training_results and not all(
+                r in scene.training_results for r in event.required_training_results
+            ):
+                continue
             for mark_key, min_level in event.required_marks.items():
                 if scene.marks.get(mark_key, 0) < min_level:
                     break

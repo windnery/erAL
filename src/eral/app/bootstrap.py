@@ -31,6 +31,7 @@ from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
 from eral.content.maxbase import load_maxbase
+from eral.content.palamlv import load_curves
 from eral.systems.vital import VitalService
 from eral.content.imprint import load_imprint_thresholds
 from eral.content.talent_effects import load_talent_effects
@@ -63,6 +64,7 @@ from eral.systems.save import SaveService
 from eral.systems.wallet import WalletService
 from eral.systems.settlement import SettlementService
 from eral.systems.time_service import TimeService
+from eral.systems.training import TrainingService
 
 
 @dataclass(slots=True)
@@ -113,6 +115,7 @@ class Application:
     time_service: TimeService
     calendar_service: CalendarService
     calendar_view_service: CalendarViewService
+    training_service: TrainingService
 
 
 def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverrides") -> None:
@@ -203,6 +206,8 @@ def create_application(root: Path | None = None) -> Application:
     event_bus = EventBus()
     runtime_logger = RuntimeLogger(paths=paths)
     time_service = TimeService()
+    curve_set = load_curves(root_path / "data" / "base" / "palamlv_curves.toml")
+    training_service = TrainingService(palam_curve=curve_set.palam_curve)
     calendar_service = CalendarService(calendar_definition=calendar_definition)
     skin_service = SkinService(
         skin_definitions={skin.key: skin for skin in skin_definitions},
@@ -315,6 +320,7 @@ def create_application(root: Path | None = None) -> Application:
         skin_service=skin_service,
         time_service=time_service,
         distribution_service=None,
+        training_service=training_service,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},
@@ -402,4 +408,5 @@ def create_application(root: Path | None = None) -> Application:
         time_service=time_service,
         calendar_service=calendar_service,
         calendar_view_service=calendar_view_service,
+        training_service=training_service,
     )

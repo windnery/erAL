@@ -24,3 +24,162 @@ actor_key = "_any"
 lines = ["她喝得双颊微红，眼神有些朦胧。"]
 required_marks = { drunk = 1 }
 priority = 1
+
+[[entries]]
+key = "train_touch"
+actor_key = "_any"
+lines = ["她的呼吸明显乱了一拍。"]
+priority = 1
+
+# ── 调教系统 fallback 口上 ──
+
+[[entries]]
+key = "train_breast_touch"
+actor_key = "_any"
+lines = ["她的身体微微颤抖，下意识咬住了嘴唇。"]
+priority = 1
+
+[[entries]]
+key = "train_c_touch"
+actor_key = "_any"
+lines = ["她发出一声压抑的喘息，腰身不自觉地弓起。"]
+priority = 1
+
+[[entries]]
+key = "train_hand"
+actor_key = "_any"
+lines = ["她的指尖微微颤抖，却还是顺从地伸了过来。"]
+priority = 1
+
+[[entries]]
+key = "train_oral"
+actor_key = "_any"
+lines = ["她闭上眼睛，睫毛轻颤，低垂着头顺从了下来。"]
+priority = 1
+
+[[entries]]
+key = "train_insert_v"
+actor_key = "_any"
+lines = ["她的手指紧紧攥住床单，呼吸变得急促而混乱。"]
+priority = 1
+
+[[entries]]
+key = "train_insert_a"
+actor_key = "_any"
+lines = ["她的身体猛地一僵，发出一声压抑的闷哼。"]
+priority = 1
+
+[[entries]]
+key = "train_insert_v_missionary"
+actor_key = "_any"
+lines = ["她被压在身下，双臂环住你的脖颈，眼神迷离。"]
+priority = 1
+
+[[entries]]
+key = "train_insert_v_behind"
+actor_key = "_any"
+lines = ["她发出一声惊呼，下意识想要回头，却被按住了肩膀。"]
+priority = 1
+
+[[entries]]
+key = "change_position_missionary"
+actor_key = "_any"
+lines = ["她被轻轻推倒在床上，顺从地仰躺下来。"]
+priority = 1
+
+[[entries]]
+key = "change_position_behind"
+actor_key = "_any"
+lines = ["她被翻转过去，脸埋进枕头里，耳根泛红。"]
+priority = 1
+
+[[entries]]
+key = "change_position_standing"
+actor_key = "_any"
+lines = ["她被拉了起来，背靠着墙壁站稳。"]
+priority = 1
+
+[[entries]]
+key = "train_deep_oral"
+actor_key = "_any"
+lines = ["她的眼角泛起水光，却还是努力仰起头迎合。"]
+priority = 1
+
+[[entries]]
+key = "train_service_hand"
+actor_key = "_any"
+lines = ["她低下头，手指有些笨拙地伸了过来。"]
+priority = 1
+
+[[entries]]
+key = "train_service_oral"
+actor_key = "_any"
+lines = ["她犹豫了片刻，最终闭上眼睛，俯下了身。"]
+priority = 1
+
+[[entries]]
+key = "train_paizu"
+actor_key = "_any"
+lines = ["她的脸颊绯红，但还是乖乖地用双手拢住了胸口。"]
+priority = 1
+
+[[entries]]
+key = "start_training"
+actor_key = "_any"
+lines = ["房间里安静下来，空气变得暧昧而沉重。"]
+priority = 1
+
+[[entries]]
+key = "end_training"
+actor_key = "_any"
+lines = ["她长长地呼了一口气，像是终于从某种紧绷中解脱。"]
+priority = 1
+
+[[entries]]
+key = "remove_underwear_bottom"
+actor_key = "_any"
+lines = ["她的脸颊泛起红晕，偏过头去不敢看你。"]
+priority = 1
+
+[[entries]]
+key = "remove_top"
+actor_key = "_any"
+lines = ["她的双臂下意识交叉在胸前，犹豫了好一会儿才慢慢放了下来。"]
+priority = 1
+
+# ── 调教结果态 fallback 口上 ──
+
+[[entries]]
+key = "orgasm_c"
+actor_key = "_any"
+lines = ["她的身体猛地绷紧，一声无法压抑的呻吟溢出唇间。"]
+priority = 1
+
+[[entries]]
+key = "orgasm_v"
+actor_key = "_any"
+lines = ["她的腰身剧烈颤抖，双腿不自觉地夹紧，眼中盈满水光。"]
+priority = 1
+
+[[entries]]
+key = "orgasm_b"
+actor_key = "_any"
+lines = ["她的胸口剧烈起伏，双唇微张，发出断续的喘息。"]
+priority = 1
+
+[[entries]]
+key = "orgasm_m"
+actor_key = "_any"
+lines = ["她的瞳孔微微涣散，唇间溢出一声绵长的叹息。"]
+priority = 1
+
+[[entries]]
+key = "rejected"
+actor_key = "_any"
+lines = ["她猛地推开了你的手，别过脸去，声音带着几分颤抖：「……不要再来了。」"]
+
+[[entries]]
+key = "interrupted"
+actor_key = "_any"
+lines = ["她的眼神渐渐失焦，身体软了下来，似乎已经耗尽了所有力气。"]
+priority = 1

@@ -49,6 +49,11 @@ class SaveService:
             "world_conditions": world.conditions,
             "personal_funds": world.personal_funds,
             "port_funds": world.port_funds,
+            "training_active": world.training_active,
+            "training_actor_key": world.training_actor_key,
+            "training_position_key": world.training_position_key,
+            "training_step_index": world.training_step_index,
+            "training_flags": dict(world.training_flags),
             "inventory": dict(world.inventory),
             "facility_levels": dict(world.facility_levels),
             "characters": [self._serialize_actor(actor) for actor in world.characters],
@@ -99,6 +104,24 @@ class SaveService:
         world.conditions = {str(k): int(v) for k, v in payload.get("world_conditions", {}).items()}
         world.personal_funds = int(payload.get("personal_funds", 0))
         world.port_funds = int(payload.get("port_funds", 0))
+        world.training_active = bool(payload.get("training_active", False))
+        training_actor_key = payload.get("training_actor_key")
+        world.training_actor_key = (
+            str(training_actor_key) if training_actor_key is not None else None
+        )
+        training_position_key = payload.get("training_position_key")
+        world.training_position_key = (
+            str(training_position_key) if training_position_key is not None else None
+        )
+        world.training_step_index = int(payload.get("training_step_index", 0))
+        training_flags_payload = payload.get("training_flags", {})
+        world.training_flags = {}
+        if isinstance(training_flags_payload, dict):
+            for key, value in training_flags_payload.items():
+                try:
+                    world.training_flags[str(key)] = int(value)
+                except (TypeError, ValueError):
+                    continue
         world.inventory = self._load_inventory(payload.get("inventory", {}))
         world.facility_levels = {str(k): int(v) for k, v in payload.get("facility_levels", {}).items()}
 
