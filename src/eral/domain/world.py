@@ -84,6 +84,7 @@ class CharacterState:
     fatigue: int = 0
     marks: dict[str, int] = field(default_factory=dict)
     conditions: dict[str, int] = field(default_factory=dict)
+    memories: dict[str, int] = field(default_factory=dict)
     owned_skins: set[str] = field(default_factory=set)
     equipped_skin_key: str | None = None
     removed_slots: tuple[str, ...] = ()
@@ -200,6 +201,13 @@ class CharacterState:
         new_level = max(0, min(current + delta, max_level))
         self.marks[key] = new_level
         return new_level
+
+    def record_memory(self, key: str) -> int:
+        self.memories[key] = self.memories.get(key, 0) + 1
+        return self.memories[key]
+
+    def has_memory(self, key: str, min_count: int = 1) -> bool:
+        return self.memories.get(key, 0) >= min_count
 
     def has_skin(self, skin_key: str) -> bool:
         """Check whether the actor has unlocked the given skin."""

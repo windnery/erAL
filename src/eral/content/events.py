@@ -29,6 +29,7 @@ class EventDefinition:
     requires_training: bool | None = None
     required_training_results: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
+    required_memories: dict[str, int] = field(default_factory=dict)
     seasons: tuple[str, ...] = ()
 
 
@@ -64,6 +65,9 @@ def load_event_definitions(path: Path) -> tuple[EventDefinition, ...]:
             required_training_results=tuple(item.get("required_training_results", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
+            },
+            required_memories={
+                str(k): int(v) for k, v in item.get("required_memories", {}).items()
             },
             seasons=tuple(item.get("seasons", [])),
         )

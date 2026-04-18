@@ -36,3 +36,4 @@ class SceneContext:
     training_results: tuple[str, ...] = ()
     training_step_index: int = 0
     weather_key: str = "clear"
+    memories: dict[str, int] = field(default_factory=dict)

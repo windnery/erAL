@@ -615,5 +615,177 @@ class ServiceRouteTests(unittest.TestCase):
         self.assertIn("top", self.actor.removed_slots)
 
 
+class NewTrainingCommandTests(unittest.TestCase):
+    def setUp(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        self.app = create_application(repo_root)
+        self.world = self.app.world
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        _start_training_session(self.app, self.actor, self.world)
+
+    def test_train_kiss_blocked_without_abl_9(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_kiss")
+        self.assertIn("亲密不足", str(ctx.exception))
+
+    def test_train_kiss_unlocked_with_abl_9(self) -> None:
+        self.actor.stats.compat.abl.set(9, 1)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_kiss")
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_m"), 0)
+
+    def test_train_kiss_tracks_kiss_count(self) -> None:
+        self.actor.stats.compat.abl.set(9, 1)
+        self.app.command_service.execute(self.world, self.actor.key, "train_kiss")
+
+        self.assertGreater(
+            self.app.training_service.development_value(self.actor, "kiss_count"), 0,
+        )
+
+    def test_train_whisper_no_gate(self) -> None:
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_whisper")
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("lust"), 0)
+
+    def test_train_finger_insert_blocked_without_abl_0(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.set_condition("train_c_develop", 5)
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_finger_insert")
+        self.assertIn("C感觉不足", str(ctx.exception))
+
+    def test_train_finger_insert_blocked_without_c_develop(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.stats.compat.abl.set(0, 3)
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_finger_insert")
+        self.assertIn("C开发度不足", str(ctx.exception))
+
+    def test_train_finger_insert_unlocked_with_all(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.stats.compat.abl.set(0, 3)
+        self.actor.set_condition("train_c_develop", 5)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_finger_insert")
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_c"), 0)
+
+    def test_train_nipple_tease_blocked_without_b_develop(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_nipple_tease")
+        self.assertIn("B开发度不足", str(ctx.exception))
+
+    def test_train_nipple_tease_unlocked_with_b_develop(self) -> None:
+        self.actor.set_condition("train_b_develop", 5)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_nipple_tease")
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_b"), 0)
+
+    def test_train_masturbate_order_blocked_without_obedience(self) -> None:
+        self.actor.stats.compat.abl.set(11, 3)
+        self.actor.stats.compat.cflag.set(6, 100)
+        self.actor.sync_derived_fields()
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_masturbate_order")
+        self.assertIn("服从不足", str(ctx.exception))
+
+    def test_train_masturbate_order_blocked_without_abl_11(self) -> None:
+        self.actor.stats.compat.cflag.set(6, 800)
+        self.actor.sync_derived_fields()
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.world, self.actor.key, "train_masturbate_order")
+        self.assertIn("欲望不足", str(ctx.exception))
+
+    def test_train_masturbate_order_unlocked_with_all(self) -> None:
+        self.actor.stats.compat.cflag.set(6, 800)
+        self.actor.sync_derived_fields()
+        self.actor.stats.compat.abl.set(11, 3)
+
+        result = self.app.command_service.execute(self.world, self.actor.key, "train_masturbate_order")
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_c"), 0)
+
+    def test_train_insert_a_missionary_works_in_missionary(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.set_condition("train_c_develop", 10)
+        self.actor.set_condition("train_v_develop", 5)
+        self.app.command_service.execute(self.world, self.actor.key, "change_position_missionary")
+
+        result = self.app.command_service.execute(
+            self.world, self.actor.key, "train_insert_a_missionary",
+        )
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_a"), 0)
+
+    def test_train_insert_a_missionary_blocked_in_standing(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.set_condition("train_c_develop", 10)
+        self.actor.set_condition("train_v_develop", 5)
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(
+                self.world, self.actor.key, "train_insert_a_missionary",
+            )
+        self.assertIn("体位", str(ctx.exception))
+
+    def test_train_insert_a_behind_works_in_from_behind(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.set_condition("train_c_develop", 10)
+        self.actor.set_condition("train_v_develop", 5)
+        self.app.command_service.execute(self.world, self.actor.key, "change_position_behind")
+
+        result = self.app.command_service.execute(
+            self.world, self.actor.key, "train_insert_a_behind",
+        )
+
+        self.assertTrue(result.success)
+        self.assertGreater(self.actor.stats.palam.get("pleasure_a"), 0)
+
+    def test_train_insert_a_behind_blocked_in_standing(self) -> None:
+        self.actor.removed_slots = ("underwear_bottom",)
+        self.actor.set_condition("train_c_develop", 10)
+        self.actor.set_condition("train_v_develop", 5)
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(
+                self.world, self.actor.key, "train_insert_a_behind",
+            )
+        self.assertIn("体位", str(ctx.exception))
+
+    def test_new_commands_record_memory(self) -> None:
+        self.actor.stats.compat.abl.set(9, 1)
+        self.app.command_service.execute(self.world, self.actor.key, "train_kiss")
+
+        self.assertEqual(self.actor.memories.get("cmd:train_kiss"), 1)
+
+    def test_new_commands_have_fallback_dialogue(self) -> None:
+        from eral.content.dialogue import load_dialogue_entries
+
+        entries = load_dialogue_entries(
+            self.app.root / "data" / "base" / "dialogue.toml",
+        )
+        entry_keys = {e.key for e in entries}
+        new_keys = {
+            "train_kiss", "train_whisper", "train_finger_insert",
+            "train_nipple_tease", "train_masturbate_order",
+            "train_insert_a_missionary", "train_insert_a_behind",
+        }
+        for key in new_keys:
+            self.assertIn(key, entry_keys, f"Missing dialogue entry for {key}")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1091,6 +1091,7 @@ function renderDialogue() {
     h += '<div class="form-group"><label>需要调教中</label><select data-dlg="requires_training" data-idx="' + i + '">' + boolOpts(e.requires_training) + '</select></div>';
     h += '<div class="form-group"><label>需要已脱除槽位（逗号分隔）</label><input data-dlg="required_removed_slots" data-idx="' + i + '" value="' + esc((e.required_removed_slots || []).join(', ')) + '">' + help('如 underwear_bottom, top') + '</div>';
     h += '<div class="form-group"><label>需要调教结果（逗号分隔）</label><input data-dlg="required_training_results" data-idx="' + i + '" value="' + esc((e.required_training_results || []).join(', ')) + '">' + help('如 orgasm_c, rejected') + '</div>';
+    h += '<div class="form-group"><label>需要记忆（逗号分隔 key=min）</label><input data-dlg="required_memories" data-idx="' + i + '" value="' + esc(Object.entries(e.required_memories || {}).map(([k,v])=>k+'='+v).join(', ')) + '">' + help('如 cmd:kiss=3, evt:first_date=1') + '</div>';
     h += '</div>';
 
     // Lines
@@ -1234,6 +1235,13 @@ function collectDialogueFromDOM() {
     card.querySelectorAll('input[data-dlg]').forEach(function(inp) {
       if (inp.dataset.dlg === 'time_slots' || inp.dataset.dlg === 'location_keys' || inp.dataset.dlg === 'required_removed_slots' || inp.dataset.dlg === 'required_training_results') {
         e[inp.dataset.dlg] = inp.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      } else if (inp.dataset.dlg === 'required_memories') {
+        var mm = {};
+        inp.value.split(',').map(function(s){return s.trim();}).filter(Boolean).forEach(function(pair) {
+          var parts = pair.split('=');
+          mm[parts[0]] = parseInt(parts[1] || '1');
+        });
+        e.required_memories = mm;
       } else {
         e[inp.dataset.dlg] = inp.value;
       }

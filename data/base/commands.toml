@@ -317,6 +317,88 @@ source = { give_pleasure_c = 55, pleasure_b = 20, sexual_act = 35, abl_52 = 2, a
 downbase = { stamina = 20, spirit = 25 }
 
 [[commands]]
+key = "train_kiss"
+display_name = "接吻"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+required_conditions = { abl_9 = 1 }
+source = { pleasure_m = 25, affection = 20, lust = 10, abl_9 = 1 }
+downbase = { spirit = 5 }
+
+[[commands]]
+key = "train_whisper"
+display_name = "耳语"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+source = { temptation = 30, lust = 20, humiliation = 10 }
+downbase = { spirit = 5 }
+
+[[commands]]
+key = "train_finger_insert"
+display_name = "手指插入"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+required_conditions = { abl_0 = 3, train_c_develop = 5 }
+source = { pleasure_c = 40, pleasure_v = 20, lust = 25, submission = 5, abl_0 = 1 }
+downbase = { spirit = 20 }
+
+[[commands]]
+key = "train_nipple_tease"
+display_name = "乳首责备"
+category = "training"
+location_tags = ["private"]
+time_slots = ["evening", "night", "late_night"]
+requires_training = true
+required_conditions = { train_b_develop = 5 }
+source = { pleasure_b = 35, temptation = 20, lust = 15, abl_3 = 2 }
+downbase = { spirit = 15 }
+
+[[commands]]
+key = "train_masturbate_order"
+display_name = "自慰命令"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+min_obedience = 600
+required_conditions = { abl_11 = 3 }
+source = { pleasure_c = 35, lust = 40, humiliation = 30, passive = 20, abl_11 = 1 }
+downbase = { spirit = 25 }
+
+[[commands]]
+key = "train_insert_a_missionary"
+display_name = "正常位(A)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+training_position_keys = ["missionary"]
+required_conditions = { train_c_develop = 10, train_v_develop = 5 }
+source = { pleasure_a = 50, lust = 30, sexual_act = 40, pain = 25, humiliation = 15, abl_2 = 2, abl_11 = 1 }
+downbase = { stamina = 25, spirit = 30 }
+
+[[commands]]
+key = "train_insert_a_behind"
+display_name = "后背位(A)"
+category = "training"
+location_tags = ["private"]
+time_slots = ["night", "late_night"]
+requires_training = true
+required_removed_slots = ["underwear_bottom"]
+training_position_keys = ["from_behind"]
+required_conditions = { train_c_develop = 10, train_v_develop = 5 }
+source = { pleasure_a = 45, lust = 35, sexual_act = 45, pain = 35, humiliation = 20, abl_2 = 2, abl_11 = 1 }
+downbase = { stamina = 30, spirit = 35 }
+
+[[commands]]
 key = "end_training"
 display_name = "结束调教"
 category = "training"

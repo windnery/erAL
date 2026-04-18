@@ -31,6 +31,7 @@ class DialogueEntry:
     requires_training: bool | None = None
     required_training_results: tuple[str, ...] = ()
     required_marks: dict[str, int] = field(default_factory=dict)
+    required_memories: dict[str, int] = field(default_factory=dict)
     priority: int = 0
 
 
@@ -67,6 +68,9 @@ def load_dialogue_entries(path: Path) -> tuple[DialogueEntry, ...]:
             required_training_results=tuple(item.get("required_training_results", [])),
             required_marks={
                 str(k): int(v) for k, v in item.get("required_marks", {}).items()
+            },
+            required_memories={
+                str(k): int(v) for k, v in item.get("required_memories", {}).items()
             },
             priority=int(item.get("priority", 0)),
         )

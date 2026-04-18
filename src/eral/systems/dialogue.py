@@ -91,4 +91,7 @@ class DialogueService:
         for mark_key, min_level in entry.required_marks.items():
             if scene.marks.get(mark_key, 0) < min_level:
                 return False
+        for memory_key, min_count in entry.required_memories.items():
+            if scene.memories.get(memory_key, 0) < min_count:
+                return False
         return True

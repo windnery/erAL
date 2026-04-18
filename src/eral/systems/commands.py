@@ -142,6 +142,8 @@ class CommandService:
 
         self._apply_downbase(actor, command.downbase)
 
+        actor.record_memory(f"cmd:{command.key}")
+
         fainted = False
         if self.vital_service is not None and self.vital_service.is_fainted(actor):
             fainted = True
@@ -200,6 +202,8 @@ class CommandService:
         if after_date_lines:
             dialogue_lines.extend(after_date_lines)
         all_triggered_events = resolution_tags + training_tags + triggered_events + after_date_events
+        for event_key in all_triggered_events:
+            actor.record_memory(f"evt:{event_key}")
         self._log_success(world, actor.key, command.key, all_triggered_events)
         return ActionResult(
             action_key=command.key,
@@ -411,6 +415,13 @@ class CommandService:
         "train_service_hand": {"train_service_develop": 1, "train_hand_develop": 1},
         "train_service_oral": {"train_service_develop": 2, "train_oral_develop": 1},
         "train_paizu": {"train_b_develop": 1, "train_service_develop": 1},
+        "train_kiss": {"train_kiss_count": 1},
+        "train_whisper": {"train_whisper_count": 1},
+        "train_finger_insert": {"train_c_develop": 2, "train_v_develop": 1},
+        "train_nipple_tease": {"train_b_develop": 2},
+        "train_masturbate_order": {"train_c_develop": 1, "submission": 20},
+        "train_insert_a_missionary": {"train_a_develop": 1, "submission": 15},
+        "train_insert_a_behind": {"train_a_develop": 1, "submission": 20},
     }
 
     @staticmethod

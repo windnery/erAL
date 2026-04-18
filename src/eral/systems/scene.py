@@ -62,4 +62,5 @@ class SceneService:
             training_results=tuple(world.training_flags.get("last_results", "").split(",")) if world.training_flags.get("last_results") else (),
             training_step_index=world.training_step_index,
             weather_key=world.weather_key,
+            memories=dict(actor.memories),
         )
