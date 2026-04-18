@@ -1087,6 +1087,11 @@ function renderDialogue() {
     h += '<div class="form-group"><label>需要私密</label><select data-dlg="requires_private" data-idx="' + i + '">' + boolOpts(e.requires_private) + '</select></div>';
     h += '<div class="form-group"><label>需要约会中</label><select data-dlg="requires_date" data-idx="' + i + '">' + boolOpts(e.requires_date) + '</select></div>';
     h += '</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>需要调教中</label><select data-dlg="requires_training" data-idx="' + i + '">' + boolOpts(e.requires_training) + '</select></div>';
+    h += '<div class="form-group"><label>需要已脱除槽位（逗号分隔）</label><input data-dlg="required_removed_slots" data-idx="' + i + '" value="' + esc((e.required_removed_slots || []).join(', ')) + '">' + help('如 underwear_bottom, top') + '</div>';
+    h += '<div class="form-group"><label>需要调教结果（逗号分隔）</label><input data-dlg="required_training_results" data-idx="' + i + '" value="' + esc((e.required_training_results || []).join(', ')) + '">' + help('如 orgasm_c, rejected') + '</div>';
+    h += '</div>';
 
     // Lines
     h += '<div style="margin-top:8px;color:#9fb3d9;font-size:12px;font-weight:600">台词内容</div>';
@@ -1227,7 +1232,7 @@ function collectDialogueFromDOM() {
     if (idx === undefined) continue;
     var e = {};
     card.querySelectorAll('input[data-dlg]').forEach(function(inp) {
-      if (inp.dataset.dlg === 'time_slots' || inp.dataset.dlg === 'location_keys') {
+      if (inp.dataset.dlg === 'time_slots' || inp.dataset.dlg === 'location_keys' || inp.dataset.dlg === 'required_removed_slots' || inp.dataset.dlg === 'required_training_results') {
         e[inp.dataset.dlg] = inp.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
       } else {
         e[inp.dataset.dlg] = inp.value;
@@ -1238,7 +1243,7 @@ function collectDialogueFromDOM() {
         e.action_key = sel.value || '';
       } else if (sel.dataset.dlg === 'required_stage') {
         e.required_stage = sel.value || null;
-      } else if (sel.dataset.dlg === 'requires_private' || sel.dataset.dlg === 'requires_date') {
+      } else if (sel.dataset.dlg === 'requires_private' || sel.dataset.dlg === 'requires_date' || sel.dataset.dlg === 'requires_training') {
         e[sel.dataset.dlg] = sel.value === '' ? null : sel.value === 'true';
       }
     });
