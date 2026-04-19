@@ -953,8 +953,9 @@ def _render_scene_context(
 
 _ABILITY_TABS = (
     ("服装&能力", "clothing_ability"),
-    ("经验&宝珠", "exp_jewel"),
+    ("经验", "exp_jewel"),
     ("个人情报", "personal"),
+    ("个人好恶", "likes"),
     ("身体情报", "body"),
     ("陷落状态", "fallen"),
 )
@@ -1005,6 +1006,9 @@ def _render_tab_clothing_ability(actor: CharacterState, app: Application) -> Non
     # ── Clothing section ──
     print(colorize("□ 服装 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
     print(colorize(f"  {_appearance_summary(app, actor)}", FG_GRAY))
+    skin_tags = _active_skin_tags(app, actor)
+    if skin_tags:
+        print("  " + colorize("标签: ", FG_DARK_GRAY) + colorize(" ".join(f"#{t}" for t in skin_tags), FG_CYAN))
     print()
     col_width = 20
     cols = max(1, tw // col_width)
@@ -1058,9 +1062,47 @@ def _render_tab_clothing_ability(actor: CharacterState, app: Application) -> Non
             print("  " + "".join(row_buf))
     print()
 
+    # ── Talent section ──
+    talent_entries = app.tw_axes.family_entries(AxisFamily.TALENT)
+    active: dict[str, list[str]] = {}
+    for entry in talent_entries:
+        if actor.stats.compat.talent.get(entry.era_index) > 0:
+            group = _talent_group_name(entry.era_index)
+            active.setdefault(group, []).append(entry.label)
+
+    if active:
+        print(colorize("□ 素质 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
+        col_width = 16
+        cols = max(1, (tw - 4) // col_width)
+        for _lo, _hi, group_name in _TALENT_GROUPS:
+            items = active.get(group_name)
+            if not items:
+                continue
+            print(f"  {colorize(f'[{group_name}]', FG_DARK_GRAY)}")
+            row_buf = []
+            for label in items:
+                row_buf.append(colorize(cjk_ljust(label, col_width), FG_CYAN))
+                if len(row_buf) == cols:
+                    print("    " + "".join(row_buf))
+                    row_buf = []
+            if row_buf:
+                print("    " + "".join(row_buf))
+        print()
+
+
+def _active_skin_tags(app: Application, actor: CharacterState) -> tuple[str, ...]:
+    """Return tags of the currently equipped skin, if any."""
+    equipped_key = actor.equipped_skin_key
+    if not equipped_key:
+        return ()
+    for skin in app.skin_definitions:
+        if skin.key == equipped_key:
+            return tuple(skin.tags)
+    return ()
+
 
 def _render_tab_exp_jewel(actor: CharacterState, app: Application) -> None:
-    """Tab 2: 经验 & 宝珠."""
+    """Tab 2: 经验 & 特殊经验."""
     from eral.content.tw_axis_registry import AxisFamily
 
     tw = terminal_width()
@@ -1079,9 +1121,7 @@ def _render_tab_exp_jewel(actor: CharacterState, app: Application) -> None:
         for idx, exp_val in sorted(actor.stats.abl_exp.items()):
             label = abl_labels.get(idx, f"ABL[{idx}]")
             sec = abl_sections.get(idx, "其他")
-            if sec not in grouped:
-                grouped[sec] = []
-            grouped[sec].append((f"{label}经验", exp_val))
+            grouped.setdefault(sec, []).append((f"{label}经验", exp_val))
 
         col_width = 20
         cols = max(1, tw // col_width)
@@ -1105,15 +1145,70 @@ def _render_tab_exp_jewel(actor: CharacterState, app: Application) -> None:
         print(colorize("  （暂无经验数据）", FG_DARK_GRAY))
     print()
 
-    # ── Jewel section (placeholder) ──
-    print(colorize("□ 宝珠 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
-    print(colorize("  （宝珠系统尚未实装）", FG_DARK_GRAY))
+    # ── Special counters (debug/progress stats) ──
+    print(colorize("□ 特殊经验 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
+
+    date_count = actor.memories.get("evt:start_date", 0) + actor.memories.get("cmd:start_date", 0)
+    training_step = actor.get_condition("train_total_steps")
+    orgasm_count = actor.get_condition("total_orgasm_count")
+    counter_kiss = actor.memories.get("evt:counter_kiss", 0)
+    counter_request = actor.memories.get("evt:counter_request", 0)
+    ejaculate_inside = actor.memories.get("evt:player_ejaculation_inside", 0)
+    ejaculate_outside = actor.memories.get("evt:player_ejaculation_outside", 0)
+    gift_given = sum(v for k, v in actor.memories.items() if k.startswith("gift:"))
+
+    rows = [
+        ("总调教次数", training_step),
+        ("总高潮次数", orgasm_count),
+        ("主动亲吻次数", counter_kiss),
+        ("主动请求次数", counter_request),
+        ("总约会次数", date_count),
+        ("内射次数", ejaculate_inside),
+        ("外射次数", ejaculate_outside),
+        ("收礼次数", gift_given),
+    ]
+
+    col_width = 20
+    cols = max(1, tw // col_width)
+    row_buf: list[str] = []
+    for label, val in rows:
+        color = FG_YELLOW if val > 0 else FG_DARK_GRAY
+        row_buf.append(colorize(cjk_ljust(f"  {label}: {val}", col_width), color))
+        if len(row_buf) == cols:
+            print("".join(row_buf))
+            row_buf = []
+    if row_buf:
+        print("".join(row_buf))
     print()
+
+    # ── Development axes ──
+    dev_keys = [
+        ("身体开发", "train_body"),
+        ("口部开发", "train_mouth"),
+        ("胸部开发", "train_chest"),
+        ("阴蒂开发", "train_clit"),
+        ("膣开发", "train_v"),
+        ("肛开发", "train_a"),
+    ]
+    has_dev = any(actor.get_condition(k) > 0 for _, k in dev_keys)
+    if has_dev:
+        print(colorize("□ 开发度 □", FG_WHITE, bold=True) + colorize("─" * (tw - 12), FG_DARK_GRAY))
+        row_buf = []
+        for label, key in dev_keys:
+            val = actor.get_condition(key)
+            color = FG_YELLOW if val > 0 else FG_DARK_GRAY
+            row_buf.append(colorize(cjk_ljust(f"  {label}: {val}", col_width), color))
+            if len(row_buf) == cols:
+                print("".join(row_buf))
+                row_buf = []
+        if row_buf:
+            print("".join(row_buf))
+        print()
 
 
 def _render_tab_personal(actor: CharacterState, app: Application) -> None:
     """Tab 3: 个人情报."""
-    from eral.content.tw_axis_registry import AxisFamily
+    from eral.ui import personal_info as pi
 
     tw = terminal_width()
     print(colorize("□ 个人情报 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
@@ -1123,10 +1218,37 @@ def _render_tab_personal(actor: CharacterState, app: Application) -> None:
     print(f"  {colorize('好感度:', FG_GRAY)}   {colorize(str(actor.affection), FG_CYAN)}")
     print(f"  {colorize('信赖度:', FG_GRAY)}   {colorize(str(actor.trust), FG_GREEN)}")
     print(f"  {colorize('服从度:', FG_GRAY)}   {colorize(str(actor.obedience), FG_YELLOW)}")
-    print(f"  {colorize(_appearance_summary(app, actor), FG_GRAY)}")
     print()
 
-    # Tags
+    definition = next(
+        (d for d in app.roster if d.key == actor.key), None
+    )
+    if definition is not None:
+        personality = pi.personality_from_tags(definition.tags)
+        hours = pi.activity_hours(definition)
+        freq_areas = pi.frequent_areas(definition, app.port_map)
+        home_disp = pi.home_location_display(definition, app.port_map)
+        faction = definition.faction_key or "—"
+
+        print(f"  {colorize('性格:', FG_GRAY)}       {colorize(personality, FG_WHITE)}")
+        print(f"  {colorize('活动时间带:', FG_GRAY)} {colorize(hours, FG_WHITE)}")
+        print(f"  {colorize('常去区域:', FG_GRAY)}   {colorize(freq_areas, FG_WHITE)}")
+        print(f"  {colorize('自宅位置:', FG_GRAY)}   {colorize(home_disp, FG_WHITE)}")
+        print(f"  {colorize('所属阵营:', FG_GRAY)}   {colorize(faction, FG_WHITE)}")
+
+        entries = pi.work_entries(actor.key, app.work_schedules, app.port_map)
+        if entries:
+            print()
+            print(colorize("  ── 工作情报 ──", FG_GRAY))
+            for entry in entries:
+                print(
+                    f"    {colorize(entry.work_label, FG_CYAN)}  "
+                    f"{entry.days}  {entry.time_range}  "
+                    f"@ {colorize(entry.location_display, FG_WHITE)}"
+                )
+        print()
+
+    # State tags
     tags: list[str] = []
     if actor.is_following:
         tags.append(colorize("同行", FG_CYAN))
@@ -1139,47 +1261,92 @@ def _render_tab_personal(actor: CharacterState, app: Application) -> None:
         print()
 
     # Marks
-    if actor.marks:
+    active_marks = [(k, v) for k, v in actor.marks.items() if v > 0]
+    if active_marks:
         print(colorize("  ── 印记 ──", FG_GRAY))
-        for mark_key, mark_val in actor.marks.items():
-            if mark_val > 0:
-                print(f"    {colorize(mark_key, FG_ORANGE)}: Lv.{mark_val}")
+        for mark_key, mark_val in active_marks:
+            print(f"    {colorize(mark_key, FG_ORANGE)}: Lv.{mark_val}")
         print()
 
-    # TALENT display
+    # Milestones (first-occurrence history)
+    milestones = pi.milestones(actor)
+    if milestones:
+        print(colorize("  ── 里程碑 ──", FG_GRAY))
+        for m in milestones:
+            print(f"    {colorize(m.label, FG_MAGENTA)}: 第 {m.day} 日")
+        print()
+
+    # Inter-character relationships — placeholder for now
+    print(colorize("  ── 人际关系 ──", FG_GRAY))
+    print(colorize("    （角色间亲密度系统尚未实装）", FG_DARK_GRAY))
+    print()
+
+
+def _render_tab_body(actor: CharacterState, app: Application) -> None:
+    """Tab 4: 身体情报 — TW-style two-column body part panel."""
+    from eral.content.tw_axis_registry import AxisFamily
+    from eral.ui import body_info as bi
+
+    tw = terminal_width()
+    print(colorize("□ 身体情报 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
+    print()
+
+    outer = bi.outer_parts(actor)
+    inner = bi.inner_parts(actor)
+
+    # Two-column rendering
+    col_width = max(30, (tw - 4) // 2)
+
+    def format_part(part: bi.BodyPartInfo, width: int) -> list[str]:
+        lines: list[str] = []
+        header = colorize(f"——【{part.label}】——", FG_CYAN)
+        lines.append(cjk_ljust(header, width))
+        if part.tags:
+            tag_line = " ".join(f"【{t}】" for t in part.tags)
+            lines.append(cjk_ljust(colorize(f"  {tag_line}", FG_YELLOW), width))
+        lines.append(cjk_ljust(colorize(f"  {part.description}", FG_WHITE), width))
+        if part.history:
+            lines.append(cjk_ljust(colorize(f"  {part.history}", FG_MAGENTA), width))
+        return lines
+
+    print(colorize("  肉体情报（表）" + " " * (col_width - 14) + "肉体情报（里）", FG_WHITE, bold=True))
+    print(colorize("  " + "─" * (col_width - 2) + "  " + "─" * (col_width - 2), FG_DARK_GRAY))
+
+    for left_part, right_part in zip(outer, inner):
+        left_lines = format_part(left_part, col_width)
+        right_lines = format_part(right_part, col_width)
+        max_len = max(len(left_lines), len(right_lines))
+        for i in range(max_len):
+            left = left_lines[i] if i < len(left_lines) else cjk_ljust("", col_width)
+            right = right_lines[i] if i < len(right_lines) else cjk_ljust("", col_width)
+            print(f"  {left}  {right}")
+        print()
+
+    # Body features from TALENT 身体特征
     talent_entries = app.tw_axes.family_entries(AxisFamily.TALENT)
-    active: dict[str, list[str]] = {}
+    body_features: list[str] = []
     for entry in talent_entries:
         if actor.stats.compat.talent.get(entry.era_index) > 0:
             group = _talent_group_name(entry.era_index)
-            if group not in active:
-                active[group] = []
-            active[group].append(entry.label)
+            if group == "身体特征":
+                body_features.append(entry.label)
+    print(colorize("□ 身体特征 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
+    if body_features:
+        line_col = 14
+        cols = max(1, tw // line_col)
+        row_buf: list[str] = []
+        for label in body_features:
+            row_buf.append(colorize(cjk_ljust(f"  {label}", line_col), FG_CYAN))
+            if len(row_buf) == cols:
+                print("".join(row_buf))
+                row_buf = []
+        if row_buf:
+            print("".join(row_buf))
+    else:
+        print(colorize("  （尚无显著身体特征）", FG_DARK_GRAY))
+    print()
 
-    if active:
-        print(colorize("  ── 素质 ──", FG_GRAY))
-        col_width = 16
-        cols = max(1, (tw - 4) // col_width)
-        for _lo, _hi, group_name in _TALENT_GROUPS:
-            items = active.get(group_name)
-            if not items:
-                continue
-            print(f"    {colorize(f'[{group_name}]', FG_DARK_GRAY)}", end="")
-            row_buf: list[str] = []
-            for i, label in enumerate(items):
-                row_buf.append(colorize(cjk_ljust(label, col_width), FG_CYAN))
-                if len(row_buf) == cols:
-                    if i < cols:
-                        print("  " + "".join(row_buf))
-                    else:
-                        print()
-                        print("    " + "".join(row_buf))
-                    row_buf = []
-            if row_buf:
-                print("  " + "".join(row_buf))
-        print()
-
-    # PALAM grid
+    # PALAM grid (moved from Tab 3)
     palam_axes = [
         ("快C", "pleasure_c"), ("快V", "pleasure_v"),
         ("快A", "pleasure_a"), ("快B", "pleasure_b"),
@@ -1190,73 +1357,102 @@ def _render_tab_personal(actor: CharacterState, app: Application) -> None:
         ("恐怖", "fear"), ("好意", "favor"),
         ("优越", "superiority"), ("反感", "disgust"),
     ]
-    has_palam = any(actor.stats.palam.get(k) > 0 for _, k in palam_axes)
-    if has_palam:
-        print(colorize("  ── PALAM ──", FG_GRAY))
-        col_width = 18
-        cols = max(1, tw // col_width)
-        row_buf: list[str] = []
-        for label, key in palam_axes:
-            val = actor.stats.palam.get(key)
-            cell = _palam_cell(label, val, col_width)
-            row_buf.append(cell)
-            if len(row_buf) == cols:
-                print("  " + "".join(row_buf))
-                row_buf = []
-        if row_buf:
-            print("  " + "".join(row_buf))
-        print()
-
-
-def _render_tab_body(actor: CharacterState, app: Application) -> None:
-    """Tab 4: 身体情报."""
-    tw = terminal_width()
-    print(colorize("□ 身体情报 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
-
-    # ── Body measurements (from BASE body_shape group, placeholder) ──
-    print(colorize("  ── 身体数据 ──", FG_GRAY))
-    body_params = [
-        ("身高", "height"), ("体重", "weight"),
-        ("胸围", "bust"), ("腰围", "waist"), ("臀围", "hips"),
-    ]
+    print(colorize("□ PALAM □", FG_WHITE, bold=True) + colorize("─" * (tw - 11), FG_DARK_GRAY))
     col_width = 18
     cols = max(1, tw // col_width)
-    row_buf: list[str] = []
-    for label, _key in body_params:
-        row_buf.append(colorize(cjk_ljust(f"  {label}: ----", col_width), FG_DARK_GRAY))
-        if len(row_buf) == cols:
-            print("".join(row_buf))
-            row_buf = []
-    if row_buf:
-        print("".join(row_buf))
-    print()
-
-    # ── Sensitivity (from BASE/TALENT sensitivity entries, placeholder) ──
-    print(colorize("  ── 敏感度 ──", FG_GRAY))
-    sensitivity = [
-        ("C敏感度", "pleasure_c"), ("V敏感度", "pleasure_v"),
-        ("A敏感度", "pleasure_a"), ("B敏感度", "pleasure_b"),
-        ("M敏感度", "pleasure_m"),
-    ]
     row_buf = []
-    for label, _key in sensitivity:
-        row_buf.append(colorize(cjk_ljust(f"  {label}: ----", col_width), FG_DARK_GRAY))
+    for label, key in palam_axes:
+        val = actor.stats.palam.get(key)
+        cell = _palam_cell(label, val, col_width)
+        row_buf.append(cell)
         if len(row_buf) == cols:
-            print("".join(row_buf))
+            print("  " + "".join(row_buf))
             row_buf = []
     if row_buf:
-        print("".join(row_buf))
+        print("  " + "".join(row_buf))
     print()
 
-    # ── Body features (from TALENT 身体特徴 section, placeholder) ──
-    print(colorize("  ── 身体特征 ──", FG_GRAY))
-    print(colorize("  （身体特征系统尚未实装）", FG_DARK_GRAY))
+
+def _render_tab_likes(actor: CharacterState, app: Application) -> None:
+    """Tab 6: 个人好恶 — gift and food preferences."""
+    tw = terminal_width()
+    print(colorize("□ 个人好恶 □", FG_WHITE, bold=True) + colorize("─" * (tw - 14), FG_DARK_GRAY))
     print()
+
+    definition = next(
+        (d for d in app.roster if d.key == actor.key), None
+    )
+    if definition is None:
+        print(colorize("  （找不到角色定义）", FG_DARK_GRAY))
+        return
+
+    # ── Gifts ──
+    print(colorize("□ 礼物 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
+    gift_prefs = definition.gift_preferences
+    _render_preference_block(
+        liked=gift_prefs.liked_tags,
+        disliked=gift_prefs.disliked_tags,
+        catalog_pairs=_gift_samples(app, gift_prefs.liked_tags, gift_prefs.disliked_tags),
+    )
+    print()
+
+    # ── Food ──
+    print(colorize("□ 食物 □", FG_WHITE, bold=True) + colorize("─" * (tw - 10), FG_DARK_GRAY))
+    food_prefs = definition.food_preferences
+    _render_preference_block(
+        liked=food_prefs.liked_tags,
+        disliked=food_prefs.disliked_tags,
+        catalog_pairs=(),
+    )
+    print()
+
+
+def _render_preference_block(
+    liked: tuple[str, ...],
+    disliked: tuple[str, ...],
+    catalog_pairs: tuple[tuple[str, str], ...],
+) -> None:
+    """Render liked/disliked tags with optional sample entries."""
+    if liked:
+        print(f"  {colorize('喜欢:', FG_GREEN)} {' '.join(f'#{t}' for t in liked)}")
+    else:
+        print(colorize("  喜欢: （未定义）", FG_DARK_GRAY))
+    if disliked:
+        print(f"  {colorize('讨厌:', FG_RED)} {' '.join(f'#{t}' for t in disliked)}")
+    else:
+        print(colorize("  讨厌: （未定义）", FG_DARK_GRAY))
+
+    if catalog_pairs:
+        print()
+        print(colorize("  — 示例 —", FG_GRAY))
+        for name, pref in catalog_pairs:
+            color = FG_GREEN if pref == "liked" else FG_RED
+            print(f"    {colorize(name, color)}  ({pref})")
+
+
+def _gift_samples(
+    app: Application,
+    liked: tuple[str, ...],
+    disliked: tuple[str, ...],
+) -> tuple[tuple[str, str], ...]:
+    """Pick up to 3 liked and 3 disliked gifts from the catalog for display."""
+    gift_service = getattr(app.command_service, "gift_service", None)
+    if gift_service is None:
+        return ()
+    liked_gifts: list[tuple[str, str]] = []
+    disliked_gifts: list[tuple[str, str]] = []
+    for gift in gift_service.gift_definitions.values():
+        if any(tag in liked for tag in gift.tags) and len(liked_gifts) < 3:
+            liked_gifts.append((gift.display_name, "liked"))
+        elif any(tag in disliked for tag in gift.tags) and len(disliked_gifts) < 3:
+            disliked_gifts.append((gift.display_name, "disliked"))
+    return tuple(liked_gifts + disliked_gifts)
 
 
 def _render_tab_fallen(
     actor: CharacterState,
     stages: tuple,
+    app: Application,
 ) -> None:
     """Tab 5: 陷落状态 — show progress toward each relationship stage."""
     tw = terminal_width()
@@ -1276,7 +1472,9 @@ def _render_tab_fallen(
         trust_ok = actor.trust >= stage_def.min_trust
         intim_ok = intimacy >= stage_def.min_intimacy
         dislike_ok = not (stage_def.no_dislike_mark and has_dislike)
-        item_ok = True  # item system not implemented yet
+        item_ok = True
+        if stage_def.requires_item:
+            item_ok = app.world.item_count(stage_def.requires_item) > 0
         achieved = aff_ok and trust_ok and intim_ok and dislike_ok and item_ok
 
         title_color = FG_GREEN if achieved else FG_YELLOW
@@ -1321,10 +1519,12 @@ def _render_tab_fallen(
 
         # Required item
         if stage_def.requires_item:
+            have = app.world.item_count(stage_def.requires_item)
+            item_color = FG_GREEN if have > 0 else FG_RED
             print(colorize(
                 f"    需要道具: {stage_def.requires_item}  "
-                f"（道具系统未实装）",
-                FG_DARK_GRAY,
+                f"（持有: {have}）",
+                item_color,
             ))
 
         print()
@@ -1368,10 +1568,12 @@ def _ability_display(
             _render_tab_exp_jewel(actor, app)
         elif tab_key == "personal":
             _render_tab_personal(actor, app)
+        elif tab_key == "likes":
+            _render_tab_likes(actor, app)
         elif tab_key == "body":
             _render_tab_body(actor, app)
         elif tab_key == "fallen":
-            _render_tab_fallen(actor, app.relationship_stages)
+            _render_tab_fallen(actor, app.relationship_stages, app)
 
         # ── Footer ──
         print(separator("─"))

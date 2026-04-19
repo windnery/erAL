@@ -6,6 +6,7 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from eral.content.food import FoodPreferences, load_food_preferences
 from eral.content.gifts import GiftPreferences, load_gift_preferences
 
 
@@ -25,6 +26,7 @@ class CharacterDefinition:
     home_location_key: str = ""
     default_activity_tags: tuple[str, ...] = ()
     gift_preferences: GiftPreferences = field(default_factory=GiftPreferences)
+    food_preferences: FoodPreferences = field(default_factory=FoodPreferences)
 
 
 @dataclass(frozen=True, slots=True)
@@ -72,6 +74,7 @@ def load_character_definitions(path: Path) -> tuple[CharacterDefinition, ...]:
             schedule={str(key): str(value) for key, value in item.get("schedule", {}).items()},
             initial_stats=_parse_initial_stats(item.get("initial_stats")),
             gift_preferences=load_gift_preferences(item.get("gift_preferences")),
+            food_preferences=load_food_preferences(item.get("food_preferences")),
         )
         for item in raw_data.get("characters", [])
     )

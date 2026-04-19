@@ -15,3 +15,11 @@ afternoon = "training_ground"
 evening = "command_office"
 night = "garden"
 late_night = "dormitory_a"
+
+[gift_preferences]
+liked_tags = ["practical", "intellectual"]
+disliked_tags = ["plush", "cute"]
+
+[food_preferences]
+liked_tags = ["savory", "meat"]
+disliked_tags = ["sweet", "sour"]

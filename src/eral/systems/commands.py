@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import ClassVar
 
 from eral.content.commands import CommandDefinition
 from eral.content.marks import MarkDefinition
@@ -225,6 +226,7 @@ class CommandService:
         all_triggered_events = resolution_tags + training_tags + triggered_events + after_date_events
         for event_key in all_triggered_events:
             actor.record_memory(f"evt:{event_key}")
+        self._record_milestones(world, actor, command)
         self._log_success(world, actor.key, command.key, all_triggered_events)
         return ActionResult(
             action_key=command.key,
@@ -269,6 +271,33 @@ class CommandService:
         if command.resolution_key != "oath" or resolution_result is None:
             return ()
         return ("oath_success",) if resolution_result.success else ("oath_failure",)
+
+    _MILESTONE_COMMANDS: ClassVar[dict[str, tuple[str, ...]]] = {
+        "milestone:first_kiss": (
+            "kiss", "train_kiss", "date_kiss", "forehead_kiss", "cheek_kiss",
+        ),
+        "milestone:first_date": ("start_date", "invite_date"),
+        "milestone:first_sex": ("train_insert_v", "train_insert_a"),
+        "milestone:first_hug": ("hug", "date_hug"),
+    }
+
+    def _record_milestones(
+        self, world: WorldState, actor: CharacterState, command: CommandDefinition
+    ) -> None:
+        """Record first-occurrence milestones in actor.conditions as day numbers."""
+
+        for milestone_key, command_keys in self._MILESTONE_COMMANDS.items():
+            if command.key not in command_keys:
+                continue
+            day_key = f"{milestone_key}_day"
+            if actor.get_condition(day_key) > 0:
+                continue
+            actor.set_condition(day_key, world.current_day)
+            actor.record_memory(milestone_key)
+
+        if actor.has_mark("oath") and actor.get_condition("milestone:oath_day_day") == 0:
+            actor.set_condition("milestone:oath_day_day", world.current_day)
+            actor.record_memory("milestone:oath_day")
 
     def _log_success(
         self,

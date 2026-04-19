@@ -10,6 +10,7 @@ from eral.content.character_stats import load_split_initial_stats
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, _parse_initial_stats
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
 from eral.content.events import EventDefinition, load_event_definitions
+from eral.content.food import load_food_preferences
 from eral.content.gifts import load_gift_preferences
 from eral.content.stat_axes import StatAxisCatalog
 from eral.content.tw_axis_registry import TwAxisRegistry
@@ -88,4 +89,5 @@ def _load_character_file(
         schedule={str(key): str(value) for key, value in raw_data.get("schedule", {}).items()},
         initial_stats=initial_stats or _parse_initial_stats(raw_data.get("initial_stats")),
         gift_preferences=load_gift_preferences(raw_data.get("gift_preferences")),
+        food_preferences=load_food_preferences(raw_data.get("food_preferences")),
     )
