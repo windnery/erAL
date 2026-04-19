@@ -32,6 +32,8 @@ from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
 from eral.content.maxbase import load_maxbase
 from eral.content.palamlv import load_curves
+from eral.content.persistent import load_persistent_state_definitions, load_slot_definitions
+from eral.domain.persistent import PersistentStateDefinition, SlotDefinition
 from eral.systems.vital import VitalService
 from eral.content.imprint import load_imprint_thresholds
 from eral.content.talent_effects import load_talent_effects
@@ -264,6 +266,9 @@ def create_application(root: Path | None = None) -> Application:
         actor.sync_compat_from_runtime()
 
     palam_decay_rules = load_palam_decay_rules(root_path / "data" / "base" / "palam_decay.toml")
+    persistent_states_path = root_path / "data" / "base" / "persistent_states.toml"
+    slot_definitions = {s.key: s for s in load_slot_definitions(persistent_states_path)}
+    persistent_state_definitions = {p.key: p for p in load_persistent_state_definitions(persistent_states_path)}
 
     game_loop = GameLoop(
         event_bus=event_bus,
@@ -331,6 +336,8 @@ def create_application(root: Path | None = None) -> Application:
         time_service=time_service,
         distribution_service=None,
         training_service=training_service,
+        persistent_state_definitions=persistent_state_definitions,
+        slot_definitions=slot_definitions,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},

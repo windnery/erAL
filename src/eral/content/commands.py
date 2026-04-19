@@ -34,6 +34,8 @@ class CommandDefinition:
     downbase: dict[str, int] = field(default_factory=dict)
     success_tiers: tuple[float, ...] = (0.1, 1.0, 2.0)
     required_items: dict[str, int] = field(default_factory=dict)
+    activates_persistent_state: str | None = None
+    blocked_by_persistent_states: tuple[str, ...] = ()
     resolution_key: str | None = None
     personal_income: int = 0
     category: str = "daily"
@@ -62,6 +64,10 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             required_items={
                 str(key): int(value) for key, value in item.get("required_items", {}).items()
             },
+            activates_persistent_state=item.get("activates_persistent_state"),
+            blocked_by_persistent_states=tuple(
+                str(v) for v in item.get("blocked_by_persistent_states", [])
+            ),
             resolution_key=str(item["resolution_key"]) if "resolution_key" in item else None,
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),

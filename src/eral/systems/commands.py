@@ -16,8 +16,10 @@ from eral.systems.command_gates import (
     CommandCategoryGate,
     CommandSpecificGate,
     GlobalModeGate,
+    PersistentStateGate,
     VitalGate,
 )
+from eral.domain.persistent import PersistentStateDefinition, SlotDefinition, clear_states_by_event, persistent_source
 from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
 from eral.systems.companions import CompanionService
@@ -65,6 +67,8 @@ class CommandService:
     time_service: TimeService | None = None
     distribution_service: DistributionService | None = None
     training_service: TrainingService | None = None
+    persistent_state_definitions: dict[str, PersistentStateDefinition] | None = None
+    slot_definitions: dict[str, SlotDefinition] | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -130,6 +134,11 @@ class CommandService:
 
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
+
+        self._apply_persistent_source(actor)
+
+        if command.activates_persistent_state:
+            self._toggle_persistent_state(actor, command.activates_persistent_state)
 
         if command.requires_training and self.training_service is not None:
             self._apply_training_development(actor, command.key)
@@ -321,6 +330,8 @@ class CommandService:
             relationship_service=self.relationship_service,
             vital_service=self.vital_service,
             item_definitions=self.item_definitions,
+            persistent_state_definitions=self.persistent_state_definitions,
+            slot_definitions=self.slot_definitions,
         )
 
     @staticmethod
@@ -330,6 +341,7 @@ class CommandService:
             GlobalModeGate(),
             VitalGate(),
             CommandSpecificGate(),
+            PersistentStateGate(),
         )
 
     def _is_available_for_actor(
@@ -541,6 +553,7 @@ class CommandService:
             self.training_service.start_session(world, actor.key, position_key="standing")
         elif operation == "end_training" and self.training_service is not None:
             self.training_service.end_session(world)
+            self._clear_persistent_states(actor, "end_training")
         elif operation == "remove_underwear_bottom":
             if "underwear_bottom" not in actor.removed_slots:
                 actor.removed_slots = (*actor.removed_slots, "underwear_bottom")
@@ -563,6 +576,26 @@ class CommandService:
             self.date_service.start_date(world, actor)
         elif operation == "end_date" and self.date_service is not None:
             self.date_service.end_date(world, actor)
+            self._clear_persistent_states(actor, "end_date")
+
+    def _apply_persistent_source(self, actor: CharacterState) -> None:
+        if not self.persistent_state_definitions or not actor.active_persistent_states:
+            return
+        for key, delta in persistent_source(actor.active_persistent_states, self.persistent_state_definitions).items():
+            actor.stats.source.add(key, delta)
+
+    def _toggle_persistent_state(self, actor: CharacterState, ps_key: str) -> None:
+        if ps_key in actor.active_persistent_states:
+            actor.active_persistent_states.discard(ps_key)
+        else:
+            actor.active_persistent_states.add(ps_key)
+
+    def _clear_persistent_states(self, actor: CharacterState, event: str) -> None:
+        if not self.persistent_state_definitions:
+            return
+        actor.active_persistent_states = clear_states_by_event(
+            actor.active_persistent_states, event, self.persistent_state_definitions,
+        )
 
     def _ensure_oath_mark(self, actor: CharacterState) -> None:
         if actor.has_mark("oath"):

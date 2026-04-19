@@ -7,6 +7,7 @@ from typing import Protocol
 
 from eral.content.commands import CommandDefinition
 from eral.content.items import ItemDefinition
+from eral.domain.persistent import PersistentStateDefinition, SlotDefinition, can_activate
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.relationships import RelationshipService
 from eral.systems.vital import VitalService
@@ -21,6 +22,8 @@ class CommandAvailabilityContext:
     relationship_service: RelationshipService
     item_definitions: dict[str, ItemDefinition] | None = None
     vital_service: VitalService | None = None
+    persistent_state_definitions: dict[str, PersistentStateDefinition] | None = None
+    slot_definitions: dict[str, SlotDefinition] | None = None
 
 
 class CommandAvailabilityGate(Protocol):
@@ -159,6 +162,33 @@ class CommandSpecificGate:
         return None
 
 
+@dataclass(frozen=True, slots=True)
+class PersistentStateGate:
+    def failure_reason(self, context: CommandAvailabilityContext) -> str | None:
+        actor = context.actor
+        command = context.command
+        ps_defs = context.persistent_state_definitions
+        slot_defs = context.slot_definitions
+
+        if ps_defs is None or slot_defs is None:
+            return None
+
+        for blocked_ps in command.blocked_by_persistent_states:
+            if blocked_ps in actor.active_persistent_states:
+                ps_def = ps_defs.get(blocked_ps)
+                name = ps_def.display_name if ps_def else blocked_ps
+                return f"当前处于「{name}」状态，无法执行该指令。"
+
+        ps_key = command.activates_persistent_state
+        if ps_key and ps_key not in actor.active_persistent_states:
+            if not can_activate(ps_key, actor.active_persistent_states, ps_defs, slot_defs):
+                ps_def = ps_defs.get(ps_key)
+                name = ps_def.display_name if ps_def else ps_key
+                return f"身体槽位不足，无法进入「{name}」状态。"
+
+        return None
+
+
 __all__ = [
     "CommandAvailabilityContext",
     "CommandAvailabilityGate",
@@ -166,4 +196,5 @@ __all__ = [
     "GlobalModeGate",
     "VitalGate",
     "CommandSpecificGate",
+    "PersistentStateGate",
 ]

@@ -85,6 +85,7 @@ class CharacterState:
     marks: dict[str, int] = field(default_factory=dict)
     conditions: dict[str, int] = field(default_factory=dict)
     memories: dict[str, int] = field(default_factory=dict)
+    active_persistent_states: set[str] = field(default_factory=set)
     owned_skins: set[str] = field(default_factory=set)
     equipped_skin_key: str | None = None
     removed_slots: tuple[str, ...] = ()

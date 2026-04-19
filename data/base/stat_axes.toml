@@ -313,6 +313,18 @@ label = "快Ｍ"
 group = "pleasure"
 
 [[source]]
+key = "lactation"
+era_index = 8
+label = "母乳"
+group = "body"
+
+[[source]]
+key = "lubrication"
+era_index = 9
+label = "润滑"
+group = "body"
+
+[[source]]
 key = "fluid"
 era_index = 9
 label = "液体"

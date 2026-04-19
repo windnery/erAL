@@ -173,6 +173,9 @@ class SaveService:
             actor.owned_skins = {
                 str(skin_key) for skin_key in actor_payload.get("owned_skins", [])
             }
+            actor.active_persistent_states = {
+                str(ps) for ps in actor_payload.get("active_persistent_states", [])
+            }
             actor.equipped_skin_key = actor_payload.get("equipped_skin_key")
             actor.removed_slots = tuple(
                 str(slot) for slot in actor_payload.get("removed_slots", [])
@@ -207,6 +210,7 @@ class SaveService:
             "marks": actor.marks,
             "conditions": actor.conditions,
             "owned_skins": sorted(actor.owned_skins),
+            "active_persistent_states": sorted(actor.active_persistent_states),
             "equipped_skin_key": actor.equipped_skin_key,
             "removed_slots": list(actor.removed_slots),
             "stats": {

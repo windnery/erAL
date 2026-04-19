@@ -202,6 +202,7 @@ spirit = 10
 key = "hug"
 display_name = "拥抱"
 category = "daily"
+activates_persistent_state = "hugging"
 location_tags = [
     "public",
     "social",
@@ -393,6 +394,8 @@ spirit = 15
 key = "train_insert_v"
 display_name = "插入(V)"
 category = "training"
+activates_persistent_state = "inserted_v"
+blocked_by_persistent_states = ["inserted_a"]
 location_tags = [
     "private",
 ]
@@ -887,6 +890,7 @@ spirit = 20
 key = "train_oral"
 display_name = "口交"
 category = "training"
+blocked_by_persistent_states = ["kissing"]
 location_tags = [
     "private",
 ]
@@ -915,6 +919,8 @@ spirit = 25
 key = "train_insert_a"
 display_name = "插入(A)"
 category = "training"
+activates_persistent_state = "inserted_a"
+blocked_by_persistent_states = ["inserted_v"]
 location_tags = [
     "private",
 ]
@@ -948,6 +954,7 @@ spirit = 35
 key = "train_deep_oral"
 display_name = "深喉"
 category = "training"
+blocked_by_persistent_states = ["kissing"]
 location_tags = [
     "private",
 ]
@@ -1002,6 +1009,7 @@ spirit = 15
 key = "train_service_oral"
 display_name = "奉仕口交"
 category = "training"
+blocked_by_persistent_states = ["kissing"]
 location_tags = [
     "private",
 ]
@@ -1395,6 +1403,7 @@ spirit = 5
 key = "train_kiss"
 display_name = "接吻"
 category = "training"
+activates_persistent_state = "kissing"
 location_tags = [
     "private",
 ]
@@ -1570,6 +1579,7 @@ spirit = 20
 key = "use_clit_cap"
 display_name = "阴蒂夹"
 category = "training"
+activates_persistent_state = "clit_clamp"
 location_tags = [
     "private",
 ]
@@ -1614,6 +1624,7 @@ spirit = 20
 key = "use_vibrator"
 display_name = "按摩棒"
 category = "training"
+activates_persistent_state = "vibrator_active"
 location_tags = [
     "private",
 ]
@@ -1694,6 +1705,7 @@ spirit = 25
 key = "use_nipple_cap"
 display_name = "乳头罩"
 category = "training"
+activates_persistent_state = "nipple_clamp"
 location_tags = [
     "private",
 ]
@@ -2337,6 +2349,7 @@ spirit = 15
 key = "use_anal_plug"
 display_name = "肛门塞"
 category = "training"
+activates_persistent_state = "anal_plug_active"
 location_tags = [
     "private",
 ]
@@ -3100,6 +3113,7 @@ spirit = 30
 key = "kiss"
 display_name = "接吻"
 category = "intimacy"
+activates_persistent_state = "kissing"
 location_tags = [
     "public",
     "social",
@@ -3238,6 +3252,7 @@ operation = "end_date"
 key = "hold_hands"
 display_name = "牵手"
 category = "date"
+activates_persistent_state = "holding_hands"
 location_tags = [
     "public",
     "social",
@@ -4027,3 +4042,187 @@ abl_13 = 3
 [commands.downbase]
 stamina = 80
 spirit = 100
+
+# --- Date body contact commands ---
+
+[[commands]]
+key = "pat_head"
+display_name = "摸头"
+category = "date"
+activates_persistent_state = "patting_head"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "morning",
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "friendly"
+
+[commands.source]
+affection = 60
+joy = 40
+abl_9 = 3
+
+[commands.downbase]
+spirit = 5
+
+[[commands]]
+key = "lean_shoulder"
+display_name = "靠肩"
+category = "date"
+activates_persistent_state = "leaning_shoulder"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "like"
+
+[commands.source]
+affection = 80
+joy = 60
+temptation = 20
+abl_9 = 4
+
+[commands.downbase]
+spirit = 5
+
+[[commands]]
+key = "forehead_kiss"
+display_name = "额头吻"
+category = "date"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "like"
+
+[commands.source]
+affection = 120
+joy = 80
+temptation = 30
+abl_9 = 5
+abl_11 = 1
+
+[commands.downbase]
+spirit = 10
+
+[[commands]]
+key = "cheek_kiss"
+display_name = "脸颊吻"
+category = "date"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "like"
+
+[commands.source]
+affection = 100
+joy = 70
+temptation = 40
+abl_9 = 5
+abl_11 = 1
+
+[commands.downbase]
+spirit = 10
+
+[[commands]]
+key = "date_hug"
+display_name = "约会拥抱"
+category = "date"
+activates_persistent_state = "hugging"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "like"
+
+[commands.source]
+affection = 120
+joy = 80
+temptation = 40
+abl_9 = 6
+abl_11 = 2
+
+[commands.downbase]
+stamina = 5
+spirit = 15
+
+[[commands]]
+key = "date_kiss"
+display_name = "约会接吻"
+category = "date"
+activates_persistent_state = "kissing"
+location_tags = [
+    "public",
+    "social",
+    "food",
+    "harbor",
+    "private",
+]
+time_slots = [
+    "afternoon",
+    "evening",
+    "night",
+]
+requires_date = true
+required_stage = "love"
+
+[commands.apply_marks]
+kissed = 1
+
+[commands.source]
+affection = 150
+pleasure_m = 40
+joy = 80
+temptation = 80
+sexual_act = 40
+abl_9 = 8
+abl_11 = 4
+
+[commands.downbase]
+spirit = 15
