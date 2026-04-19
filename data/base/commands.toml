@@ -2827,6 +2827,24 @@ requires_training = true
 [commands.downbase]
 
 [[commands]]
+key = "toggle_ejaculate_inside"
+display_name = "切换射精模式"
+category = "training"
+location_tags = [
+    "private",
+]
+time_slots = [
+    "evening",
+    "night",
+    "late_night",
+]
+requires_training = true
+
+[commands.source]
+
+[commands.downbase]
+
+[[commands]]
 key = "rest"
 display_name = "休息"
 category = "work"

@@ -34,6 +34,7 @@ from eral.content.maxbase import load_maxbase
 from eral.content.palamlv import load_curves
 from eral.content.persistent import load_persistent_state_definitions, load_slot_definitions
 from eral.content.gifts import load_gift_definitions
+from eral.content.ambient_events import load_ambient_events
 from eral.domain.persistent import PersistentStateDefinition, SlotDefinition
 from eral.systems.gifts import GiftService
 from eral.systems.vital import VitalService
@@ -71,6 +72,8 @@ from eral.systems.time_service import TimeService
 from eral.systems.training import TrainingService
 from eral.systems.weather import WeatherService
 from eral.systems.palam_decay import load_palam_decay_rules
+from eral.systems.ejaculation import EjaculationService
+from eral.systems.ambient_events import AmbientEventService
 from eral.content.weather import load_weather_definitions
 
 
@@ -124,6 +127,8 @@ class Application:
     calendar_view_service: CalendarViewService
     training_service: TrainingService
     weather_service: WeatherService
+    ejaculation_service: EjaculationService
+    ambient_event_service: AmbientEventService
 
 
 def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverrides") -> None:
@@ -277,6 +282,9 @@ def create_application(root: Path | None = None) -> Application:
         gift_definitions={g.key: g for g in gift_definitions},
         character_preferences={c.key: c.gift_preferences for c in roster},
     )
+    ejaculation_service = EjaculationService()
+    ambient_events = load_ambient_events(root_path / "data" / "base" / "ambient_events.toml")
+    ambient_event_service = AmbientEventService(definitions=ambient_events, port_map=port_map)
 
     game_loop = GameLoop(
         event_bus=event_bus,
@@ -286,6 +294,7 @@ def create_application(root: Path | None = None) -> Application:
         time_service=time_service,
         weather_service=weather_service,
         palam_decay_rules=palam_decay_rules,
+        ambient_event_service=ambient_event_service,
     )
     wallet_service = WalletService()
     facility_service = FacilityService(
@@ -347,6 +356,7 @@ def create_application(root: Path | None = None) -> Application:
         persistent_state_definitions=persistent_state_definitions,
         slot_definitions=slot_definitions,
         gift_service=gift_service,
+        ejaculation_service=ejaculation_service,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},
@@ -436,4 +446,6 @@ def create_application(root: Path | None = None) -> Application:
         calendar_view_service=calendar_view_service,
         training_service=training_service,
         weather_service=weather_service,
+        ejaculation_service=ejaculation_service,
+        ambient_event_service=ambient_event_service,
     )

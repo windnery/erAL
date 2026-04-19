@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import random
+from dataclasses import dataclass, field
 
 from eral.domain.training import (
     TrainingResult,
@@ -10,6 +11,20 @@ from eral.domain.training import (
     _COUNTER_LUST_THRESHOLD,
     _COUNTER_OBEDIENCE_THRESHOLD,
     _COUNTER_PLEASURE_TOTAL,
+    _COUNTER_LUST_KISS,
+    _COUNTER_LUST_TOUCH,
+    _COUNTER_SUBMISSION_REQUEST,
+    _COUNTER_OBEDIENCE_SERVICE,
+    _COUNTER_SUBMISSION_SERVICE,
+    _COUNTER_RANK_LIKE,
+    _COUNTER_PROB_LUST_LOW,
+    _COUNTER_PROB_LUST_HIGH,
+    _COUNTER_PROB_SUBMISSION,
+    _COUNTER_PROB_OBEDIENCE,
+    _COUNTER_PROB_RANK_LIKE,
+    _COUNTER_PROB_MARK_PLEASURE,
+    _COUNTER_PROB_MARK_SUBMISSION,
+    _COUNTER_PROB_CAP,
     _ORGASM_PALAMLV,
     _PLEASURE_ORGASM_MAP,
     _REJECTION_SPIRIT_THRESHOLD,
@@ -21,6 +36,7 @@ from eral.content.palamlv import PalamCurve, palam_level_for_value
 @dataclass(slots=True)
 class TrainingService:
     palam_curve: PalamCurve | None = None
+    rng: random.Random = field(default_factory=random.Random)
 
     def start_session(self, world: WorldState, actor_key: str, position_key: str) -> None:
         world.training_active = True
@@ -102,6 +118,15 @@ class TrainingService:
         if pleasure_total < _COUNTER_PLEASURE_TOTAL:
             return None
 
+        deterministic = self._deterministic_counter(actor, obedience)
+        if deterministic is not None:
+            return deterministic
+
+        return self._probabilistic_counter(actor, lust, obedience)
+
+    def _deterministic_counter(
+        self, actor: CharacterState, obedience: int
+    ) -> TrainingResult | None:
         abl_service = actor.stats.compat.abl.get(13)
         abl_lust = actor.stats.compat.abl.get(11)
         abl_intimacy = actor.stats.compat.abl.get(9)
@@ -112,4 +137,42 @@ class TrainingService:
             return TrainingResult.COUNTER_KISS
         if abl_lust >= 2:
             return TrainingResult.COUNTER_EMBRACE
+        return None
+
+    def _probabilistic_counter(
+        self, actor: CharacterState, lust: int, obedience: int
+    ) -> TrainingResult | None:
+        submission = actor.stats.palam.get("submission")
+        rank = actor.relationship_stage.rank if actor.relationship_stage else 0
+        has_pleasure_mark = actor.has_mark("pleasure_mark", 2)
+        has_submission_mark = actor.has_mark("submission_mark", 3)
+
+        chance = 0.0
+        if lust >= _COUNTER_LUST_KISS:
+            chance += _COUNTER_PROB_LUST_LOW
+        if lust >= _COUNTER_LUST_TOUCH:
+            chance += _COUNTER_PROB_LUST_HIGH
+        if submission >= 3000:
+            chance += _COUNTER_PROB_SUBMISSION
+        if obedience >= 2000:
+            chance += _COUNTER_PROB_OBEDIENCE
+        if rank >= _COUNTER_RANK_LIKE:
+            chance += _COUNTER_PROB_RANK_LIKE
+        if has_pleasure_mark:
+            chance += _COUNTER_PROB_MARK_PLEASURE
+        if has_submission_mark:
+            chance += _COUNTER_PROB_MARK_SUBMISSION
+
+        chance = min(chance, _COUNTER_PROB_CAP)
+        if chance <= 0.0 or self.rng.random() >= chance:
+            return None
+
+        if obedience >= _COUNTER_OBEDIENCE_SERVICE and submission >= _COUNTER_SUBMISSION_SERVICE:
+            return TrainingResult.COUNTER_SERVICE
+        if has_submission_mark or submission >= _COUNTER_SUBMISSION_REQUEST:
+            return TrainingResult.COUNTER_REQUEST
+        if lust >= _COUNTER_LUST_TOUCH:
+            return TrainingResult.COUNTER_EMBRACE
+        if lust >= _COUNTER_LUST_KISS and rank >= _COUNTER_RANK_LIKE:
+            return TrainingResult.COUNTER_KISS
         return None

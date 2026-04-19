@@ -1,0 +1,75 @@
+# 日常随机事件池 — 在时段推进时以小概率触发
+# 用于给日常循环增加变数。事件仅带 message 与 tags，不改变数值。
+# cooldown_days：同一事件至少隔多少天才可再次触发。
+
+[[events]]
+key = "morning_breeze"
+weight = 10
+time_slots = ["morning"]
+location_tags = ["public", "harbor"]
+cooldown_days = 2
+message = "清晨的海风拂过港区，带来些许盐味。"
+tags = ["ambient_weather"]
+
+[[events]]
+key = "distant_training"
+weight = 8
+time_slots = ["morning", "afternoon"]
+location_tags = ["public"]
+cooldown_days = 3
+message = "远处训练场传来整齐的口号声。"
+tags = ["ambient_training"]
+
+[[events]]
+key = "cafeteria_aroma"
+weight = 12
+time_slots = ["morning", "afternoon", "evening"]
+location_tags = ["food"]
+cooldown_days = 2
+message = "食堂飘来今日的菜香。"
+tags = ["ambient_cafeteria"]
+
+[[events]]
+key = "evening_bell"
+weight = 10
+time_slots = ["evening"]
+location_tags = ["public"]
+cooldown_days = 3
+message = "港区的钟声响起，宣告一天工作的结束。"
+tags = ["ambient_evening"]
+
+[[events]]
+key = "night_patrol"
+weight = 6
+time_slots = ["night"]
+location_tags = ["public", "harbor"]
+cooldown_days = 4
+message = "夜间巡逻的脚步声从走廊另一端经过。"
+tags = ["ambient_patrol"]
+
+[[events]]
+key = "rain_on_roof"
+weight = 14
+time_slots = ["afternoon", "evening", "night"]
+weather_keys = ["rain"]
+cooldown_days = 2
+message = "雨声敲打在屋顶上，节奏平稳。"
+tags = ["ambient_weather", "ambient_rain"]
+
+[[events]]
+key = "harbor_gulls"
+weight = 9
+time_slots = ["dawn", "morning"]
+location_tags = ["harbor"]
+cooldown_days = 3
+message = "海鸥在码头上空盘旋，鸣叫声此起彼伏。"
+tags = ["ambient_harbor"]
+
+[[events]]
+key = "quiet_library"
+weight = 8
+time_slots = ["afternoon", "evening"]
+location_tags = ["leisure", "public"]
+cooldown_days = 4
+message = "图书室里只能听到书页翻动的轻响。"
+tags = ["ambient_library"]

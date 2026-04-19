@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 
 from eral.content.characters import CharacterDefinition
@@ -37,6 +38,12 @@ _PLAYER_BIAS_WEIGHT_LOW = 2
 
 # Capacity overflow penalty
 _CAPACITY_OVERFLOW_PENALTY = 4
+
+# Cross-region visit (来访) — chance per actor per idle slot, and weight applied to
+# destination area's public locations.
+_VISIT_CHANCE_PERCENT = 15
+_VISIT_WEIGHT = 3
+_VISIT_TIME_SLOTS = frozenset({"morning", "afternoon", "evening"})
 
 
 @dataclass(slots=True)
@@ -132,7 +139,19 @@ class DistributionService:
             elif relationship_total >= _PLAYER_BIAS_LOW:
                 self._add_weight(weights, world.active_location.key, _PLAYER_BIAS_WEIGHT_LOW)
 
-        # 5f: capacity overflow — penalise or remove overcrowded locations
+        # 5f: cross-region visit (来访) — occasionally pull actor into another area's
+        # public locations so the player can encounter non-resident characters without
+        # traveling through every region.
+        visit_area = self._visiting_area_for_slot(world, actor, definition)
+        if visit_area:
+            for loc in self.port_map.locations:
+                if loc.area_key != visit_area:
+                    continue
+                if loc.visibility != "public":
+                    continue
+                self._add_weight(weights, loc.key, _VISIT_WEIGHT)
+
+        # 5g: capacity overflow — penalise or remove overcrowded locations
         for loc_key in list(weights.keys()):
             loc = self.port_map.location_by_key(loc_key)
             count = self._location_population(world, loc_key)
@@ -151,6 +170,38 @@ class DistributionService:
         return max(weights.items(), key=lambda item: (item[1], item[0]))[0]
 
     # ── Helpers ────────────────────────────────────────────────────
+
+    def _visiting_area_for_slot(
+        self, world: WorldState, actor: CharacterState, definition: CharacterDefinition
+    ) -> str | None:
+        """Deterministically decide if the actor visits another area this slot."""
+
+        slot = world.current_time_slot.value
+        if slot not in _VISIT_TIME_SLOTS:
+            return None
+        if not definition.residence_area_key:
+            return None
+        other_areas = [
+            area.key
+            for area in self.port_map.areas
+            if area.key != definition.residence_area_key
+        ]
+        if not other_areas:
+            return None
+        trigger_hash = self._stable_hash(
+            f"visit:{actor.key}:{world.current_day}:{slot}"
+        )
+        if trigger_hash % 100 >= _VISIT_CHANCE_PERCENT:
+            return None
+        pick_hash = self._stable_hash(
+            f"visit_target:{actor.key}:{world.current_day}:{slot}"
+        )
+        return other_areas[pick_hash % len(other_areas)]
+
+    @staticmethod
+    def _stable_hash(key: str) -> int:
+        digest = hashlib.md5(key.encode("utf-8")).hexdigest()
+        return int(digest, 16)
 
     def _location_population(self, world: WorldState, location_key: str) -> int:
         """Count non-commission characters currently at a location."""

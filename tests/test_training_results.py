@@ -463,6 +463,68 @@ class CounterSystemTests(unittest.TestCase):
         self.assertIsNotNone(result)
 
 
+class CounterProbabilisticTests(unittest.TestCase):
+    def setUp(self) -> None:
+        import random
+        repo_root = Path(__file__).resolve().parents[1]
+        self.app = create_application(repo_root)
+        self.world = self.app.world
+        self.actor = actor_by_key(self.app, "enterprise")
+        reset_progress(self.actor)
+        _start_training_session(self.app, self.actor, self.world)
+        self.app.training_service.rng = random.Random(0)
+
+    def _clear_abl(self) -> None:
+        # Zero ABL so deterministic path never fires; only probability path remains.
+        self.actor.stats.compat.abl.set(9, 0)
+        self.actor.stats.compat.abl.set(11, 0)
+        self.actor.stats.compat.abl.set(13, 0)
+
+    def _baseline_gates(self) -> None:
+        # Satisfy outer gate thresholds (lust>=800, obedience>=200, pleasure_total>=1500).
+        self.actor.stats.palam.set("pleasure_c", 2000)
+
+    def test_probabilistic_counter_service_when_obedience_and_submission_high(self) -> None:
+        self._clear_abl()
+        self._baseline_gates()
+        self.actor.stats.palam.set("lust", 2000)
+        self.actor.stats.palam.set("obedience", 4000)
+        self.actor.stats.palam.set("submission", 5000)
+        self.actor.marks["submission_mark"] = 3
+        self.actor.marks["pleasure_mark"] = 2
+        self.app.training_service.rng.random = lambda: 0.0  # type: ignore[assignment]
+
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertEqual(result.counter, TrainingResult.COUNTER_SERVICE)
+
+    def test_probabilistic_counter_request_triggered_by_submission_mark(self) -> None:
+        self._clear_abl()
+        self._baseline_gates()
+        self.actor.stats.palam.set("lust", 2000)
+        self.actor.stats.palam.set("obedience", 1000)
+        self.actor.stats.palam.set("submission", 3000)
+        self.actor.marks["submission_mark"] = 3
+        self.app.training_service.rng.random = lambda: 0.0  # type: ignore[assignment]
+
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertEqual(result.counter, TrainingResult.COUNTER_REQUEST)
+
+    def test_probabilistic_counter_skipped_when_random_too_high(self) -> None:
+        self._clear_abl()
+        self._baseline_gates()
+        self.actor.stats.palam.set("lust", 2000)
+        self.actor.stats.palam.set("obedience", 500)
+        self.app.training_service.rng.random = lambda: 0.99  # type: ignore[assignment]
+
+        result = self.app.training_service.detect_results(self.actor)
+        self.assertIsNone(result.counter)
+
+    def test_counter_request_source_applied(self) -> None:
+        source_map = self.app.command_service._COUNTER_SOURCE[TrainingResult.COUNTER_REQUEST]
+        self.assertIn("sexual_act", source_map)
+        self.assertGreater(source_map["sexual_act"], 0)
+
+
 class PositionSystemTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]

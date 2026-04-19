@@ -22,6 +22,7 @@ from eral.systems.command_gates import (
 from eral.systems.gifts import GiftService
 from eral.domain.persistent import PersistentStateDefinition, SlotDefinition, clear_states_by_event, persistent_source
 from eral.systems.dialogue import DialogueService
+from eral.systems.ejaculation import EjaculationService
 from eral.systems.events import EventService
 from eral.systems.companions import CompanionService
 from eral.systems.dates import DateService
@@ -71,6 +72,7 @@ class CommandService:
     persistent_state_definitions: dict[str, PersistentStateDefinition] | None = None
     slot_definitions: dict[str, SlotDefinition] | None = None
     gift_service: GiftService | None = None
+    ejaculation_service: EjaculationService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -170,6 +172,7 @@ class CommandService:
         changes = self.settlement.settle_actor(world, actor)
 
         training_settlement = None
+        ejaculation_tag: str | None = None
         if command.requires_training and self.training_service is not None:
             training_settlement = self.training_service.detect_results(actor)
             result_tags = tuple(r.value for r in training_settlement.results)
@@ -180,6 +183,9 @@ class CommandService:
             if training_settlement.counter is not None:
                 self._apply_counter_source(actor, training_settlement.counter)
             world.training_step_index += 1
+            if self.ejaculation_service is not None:
+                self.ejaculation_service.accumulate(world, actor)
+                ejaculation_tag = self.ejaculation_service.check_and_fire(world, actor)
 
         # Process personal income from work commands
         funds_delta: dict[str, int] = {}
@@ -204,6 +210,8 @@ class CommandService:
         training_tags = tuple(r.value for r in training_settlement.results) if training_settlement else ()
         if training_settlement and training_settlement.counter is not None:
             training_tags = training_tags + (training_settlement.counter.value,)
+        if ejaculation_tag is not None:
+            training_tags = training_tags + (ejaculation_tag,)
         dialogue_keys = resolution_tags + training_tags + triggered_events
         dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, dialogue_keys))
         after_date_events, after_date_lines = self._resolve_after_date_followup(
@@ -519,6 +527,7 @@ class CommandService:
         TrainingResult.COUNTER_KISS: {"affection": 30, "joy": 20, "lust": 15},
         TrainingResult.COUNTER_EMBRACE: {"lust": 25, "submission": 10, "pleasure_m": 15},
         TrainingResult.COUNTER_SERVICE: {"give_pleasure_c": 30, "submission": 20, "abl_13": 1},
+        TrainingResult.COUNTER_REQUEST: {"sexual_act": 25, "submission": 15, "lust": 20},
     }
 
     @staticmethod
@@ -542,6 +551,7 @@ class CommandService:
             "change_position_missionary",
             "change_position_behind",
             "change_position_standing",
+            "toggle_ejaculate_inside",
         }:
             operation = command.key
 
@@ -571,6 +581,9 @@ class CommandService:
             world.training_position_key = "from_behind"
         elif operation == "change_position_standing":
             world.training_position_key = "standing"
+        elif operation == "toggle_ejaculate_inside":
+            if self.ejaculation_service is not None:
+                self.ejaculation_service.toggle_inside(world)
         elif self.companion_service is None:
             return
         elif operation == "start_follow":

@@ -17,6 +17,7 @@ class TrainingResult(StrEnum):
     COUNTER_KISS = "counter_kiss"
     COUNTER_EMBRACE = "counter_embrace"
     COUNTER_SERVICE = "counter_service"
+    COUNTER_REQUEST = "counter_request"
 
 
 # PALAMLV threshold for orgasm detection
@@ -34,10 +35,28 @@ _PLEASURE_ORGASM_MAP = {
 # Spirit threshold below which rejection may occur
 _REJECTION_SPIRIT_THRESHOLD = 10
 
-# Counter trigger thresholds
+# Counter trigger thresholds (ABL-deterministic path — baseline)
 _COUNTER_LUST_THRESHOLD = 800
 _COUNTER_OBEDIENCE_THRESHOLD = 200
 _COUNTER_PLEASURE_TOTAL = 1500
+
+# Counter trigger thresholds (probability path — spec-based)
+_COUNTER_LUST_KISS = 2000
+_COUNTER_LUST_TOUCH = 5000
+_COUNTER_SUBMISSION_REQUEST = 10000
+_COUNTER_OBEDIENCE_SERVICE = 4000
+_COUNTER_SUBMISSION_SERVICE = 5000
+_COUNTER_RANK_LIKE = 2  # 喜欢
+
+# Probability contributions
+_COUNTER_PROB_LUST_LOW = 0.15   # lust >= 2000
+_COUNTER_PROB_LUST_HIGH = 0.15  # lust >= 5000 (additive)
+_COUNTER_PROB_SUBMISSION = 0.10  # submission >= 3000
+_COUNTER_PROB_OBEDIENCE = 0.10  # obedience >= 2000
+_COUNTER_PROB_RANK_LIKE = 0.10
+_COUNTER_PROB_MARK_PLEASURE = 0.10  # pleasure_mark >= 2
+_COUNTER_PROB_MARK_SUBMISSION = 0.20  # submission_mark >= 3
+_COUNTER_PROB_CAP = 0.80
 
 
 @dataclass(slots=True)

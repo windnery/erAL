@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from eral.domain.world import TimeSlot, WorldState
 from eral.engine.events import EventBus
 from eral.engine.runtime_logger import RuntimeLogger
+from eral.systems.ambient_events import AmbientEventService
 from eral.systems.commissions import CommissionService
 from eral.systems.distribution import DistributionService
 from eral.systems.schedule import ScheduleService
@@ -29,6 +30,7 @@ class GameLoop:
     time_service: TimeService | None = None
     weather_service: object | None = None
     palam_decay_rules: tuple[PalamDecayRule, ...] = ()
+    ambient_event_service: AmbientEventService | None = None
 
     def advance_time(self, world: WorldState) -> None:
         previous_slot = world.current_time_slot
@@ -56,12 +58,22 @@ class GameLoop:
                 apply_palam_decay(character, self.palam_decay_rules)
         if self.commission_service is not None:
             self.commission_service.tick_slot(world)
+        ambient_outcome = None
+        if self.ambient_event_service is not None:
+            ambient_outcome = self.ambient_event_service.roll(world)
         self.event_bus.publish(
             "time.advanced",
             previous_slot=previous_slot.value,
             current_slot=world.current_time_slot.value,
             current_day=world.current_day,
         )
+        if ambient_outcome is not None:
+            self.event_bus.publish(
+                "ambient_event.fired",
+                key=ambient_outcome.key,
+                message=ambient_outcome.message,
+                tags=list(ambient_outcome.tags),
+            )
         if self.runtime_logger is not None:
             self.runtime_logger.append(
                 kind="time_advanced",
@@ -71,7 +83,7 @@ class GameLoop:
                 time_slot=world.current_time_slot.value,
                 previous_time_slot=previous_slot.value,
                 location_key=world.active_location.key,
-                triggered_events=[],
+                triggered_events=[ambient_outcome.key] if ambient_outcome else [],
             )
 
     def advance_to_dawn(self, world: WorldState) -> None:

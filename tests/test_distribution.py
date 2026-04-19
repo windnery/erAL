@@ -201,6 +201,41 @@ class DistributionTests(unittest.TestCase):
         # (not guaranteed — just no crash and valid location)
         self.assertIsNotNone(javelin.location_key)
 
+    # ── Cross-region visit (来访) ─────────────────────────────────
+
+    def test_visit_returns_none_during_late_night(self) -> None:
+        service = self.app.distribution_service
+        actor = actor_by_key(self.app, "enterprise")
+        definition = service.roster[actor.key]
+        self.world.current_time_slot = TimeSlot.LATE_NIGHT
+        self.assertIsNone(
+            service._visiting_area_for_slot(self.world, actor, definition)
+        )
+
+    def test_visit_target_is_not_own_residence(self) -> None:
+        service = self.app.distribution_service
+        actor = actor_by_key(self.app, "enterprise")
+        definition = service.roster[actor.key]
+        self.world.current_time_slot = TimeSlot.AFTERNOON
+        hits: set[str] = set()
+        for day in range(1, 200):
+            self.world.current_day = day
+            area = service._visiting_area_for_slot(self.world, actor, definition)
+            if area is not None:
+                hits.add(area)
+        self.assertTrue(hits)
+        self.assertNotIn(definition.residence_area_key, hits)
+
+    def test_visit_is_stable_within_same_slot(self) -> None:
+        service = self.app.distribution_service
+        actor = actor_by_key(self.app, "enterprise")
+        definition = service.roster[actor.key]
+        self.world.current_time_slot = TimeSlot.AFTERNOON
+        self.world.current_day = 7
+        first = service._visiting_area_for_slot(self.world, actor, definition)
+        second = service._visiting_area_for_slot(self.world, actor, definition)
+        self.assertEqual(first, second)
+
     # ── Helper ─────────────────────────────────────────────────────
 
     @property
