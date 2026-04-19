@@ -384,5 +384,70 @@ class SaveCompatTests(unittest.TestCase):
         self.assertEqual(loaded2_actor.active_persistent_states, set())
 
 
+class TrainingUndressAndStateTests(unittest.TestCase):
+    def setUp(self):
+        self.app = create_application(ROOT)
+
+    def _setup_training(self, actor_key="enterprise"):
+        world = self.app.world
+        actor = next(a for a in world.characters if a.key == actor_key)
+        world.active_location = self.app.port_map.location_by_key("dormitory_a")
+        actor.location_key = "dormitory_a"
+        world.training_active = True
+        world.training_actor_key = actor.key
+        world.training_position_key = "standing"
+        world.current_time_slot = TimeSlot.NIGHT
+        return actor
+
+    def test_end_training_clears_removed_slots(self):
+        actor = self._setup_training()
+        actor.removed_slots = ("underwear_bottom", "top")
+
+        self.app.command_service.execute(self.app.world, actor.key, "end_training")
+        self.assertEqual(actor.removed_slots, ())
+
+    def test_position_change_preserves_inserted_v(self):
+        actor = self._setup_training()
+        actor.removed_slots = ("underwear_bottom",)
+
+        self.app.command_service.execute(self.app.world, actor.key, "train_insert_v")
+        self.assertIn("inserted_v", actor.active_persistent_states)
+
+        self.app.command_service.execute(self.app.world, actor.key, "change_position_missionary")
+        self.assertIn("inserted_v", actor.active_persistent_states)
+        self.assertEqual(self.app.world.training_position_key, "missionary")
+
+    def test_position_change_preserves_inserted_a(self):
+        actor = self._setup_training()
+        actor.removed_slots = ("underwear_bottom",)
+        actor.set_condition("train_c_develop", 10)
+        actor.set_condition("train_v_develop", 5)
+
+        self.app.command_service.execute(self.app.world, actor.key, "train_insert_a")
+        self.assertIn("inserted_a", actor.active_persistent_states)
+
+        self.app.command_service.execute(self.app.world, actor.key, "change_position_behind")
+        self.assertIn("inserted_a", actor.active_persistent_states)
+        self.assertEqual(self.app.world.training_position_key, "from_behind")
+
+    def test_undress_does_not_clear_persistent_states(self):
+        actor = self._setup_training()
+        actor.set_condition("abl_9", 1)
+
+        self.app.command_service.execute(self.app.world, actor.key, "train_kiss")
+        self.assertIn("kissing", actor.active_persistent_states)
+
+        self.app.command_service.execute(self.app.world, actor.key, "remove_underwear_bottom")
+        self.assertIn("underwear_bottom", actor.removed_slots)
+        self.assertIn("kissing", actor.active_persistent_states)
+
+    def test_insert_blocked_without_undress(self):
+        actor = self._setup_training()
+
+        with self.assertRaises(ValueError) as ctx:
+            self.app.command_service.execute(self.app.world, actor.key, "train_insert_v")
+        self.assertIn("服装", str(ctx.exception))
+
+
 if __name__ == "__main__":
     unittest.main()

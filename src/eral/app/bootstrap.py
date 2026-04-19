@@ -33,7 +33,9 @@ from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedu
 from eral.content.maxbase import load_maxbase
 from eral.content.palamlv import load_curves
 from eral.content.persistent import load_persistent_state_definitions, load_slot_definitions
+from eral.content.gifts import load_gift_definitions
 from eral.domain.persistent import PersistentStateDefinition, SlotDefinition
+from eral.systems.gifts import GiftService
 from eral.systems.vital import VitalService
 from eral.content.imprint import load_imprint_thresholds
 from eral.content.talent_effects import load_talent_effects
@@ -270,6 +272,12 @@ def create_application(root: Path | None = None) -> Application:
     slot_definitions = {s.key: s for s in load_slot_definitions(persistent_states_path)}
     persistent_state_definitions = {p.key: p for p in load_persistent_state_definitions(persistent_states_path)}
 
+    gift_definitions = load_gift_definitions(root_path / "data" / "base" / "gifts.toml")
+    gift_service = GiftService(
+        gift_definitions={g.key: g for g in gift_definitions},
+        character_preferences={c.key: c.gift_preferences for c in roster},
+    )
+
     game_loop = GameLoop(
         event_bus=event_bus,
         schedule_service=schedule_service,
@@ -338,6 +346,7 @@ def create_application(root: Path | None = None) -> Application:
         training_service=training_service,
         persistent_state_definitions=persistent_state_definitions,
         slot_definitions=slot_definitions,
+        gift_service=gift_service,
     )
     shop_service = ShopService(
         item_definitions={item.key: item for item in items},

@@ -183,6 +183,7 @@ class DateCommandExecutionTests(unittest.TestCase):
         self.assertEqual(result.action_key, "date_meal")
 
     def test_gift_on_date_at_cafeteria(self) -> None:
+        self.app.world.add_item("chocolate_box", 1)
         result = self.app.command_service.execute(
             self.app.world, actor_key=self.actor.key, command_key="gift",
         )

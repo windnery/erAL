@@ -287,6 +287,7 @@ class EventPipelineTests(unittest.TestCase):
         self.app.world.active_location.key = "cafeteria"
         self.app.world.active_location.display_name = "食堂"
         self.enterprise.location_key = "cafeteria"
+        self.app.world.add_item("chocolate_box", 2)
         self.app.command_service.execute(self.app.world, self.enterprise.key, "invite_follow")
         self.app.command_service.execute(self.app.world, self.enterprise.key, "invite_date")
         enterprise_result = self.app.command_service.execute(self.app.world, self.enterprise.key, "gift")

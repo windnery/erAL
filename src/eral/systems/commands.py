@@ -19,6 +19,7 @@ from eral.systems.command_gates import (
     PersistentStateGate,
     VitalGate,
 )
+from eral.systems.gifts import GiftService
 from eral.domain.persistent import PersistentStateDefinition, SlotDefinition, clear_states_by_event, persistent_source
 from eral.systems.dialogue import DialogueService
 from eral.systems.events import EventService
@@ -69,6 +70,7 @@ class CommandService:
     training_service: TrainingService | None = None
     persistent_state_definitions: dict[str, PersistentStateDefinition] | None = None
     slot_definitions: dict[str, SlotDefinition] | None = None
+    gift_service: GiftService | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -134,6 +136,8 @@ class CommandService:
 
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
+
+        gift_consumed = self._apply_gift(world, actor, command)
 
         self._apply_persistent_source(actor)
 
@@ -554,6 +558,7 @@ class CommandService:
         elif operation == "end_training" and self.training_service is not None:
             self.training_service.end_session(world)
             self._clear_persistent_states(actor, "end_training")
+            actor.clear_removed_slots()
         elif operation == "remove_underwear_bottom":
             if "underwear_bottom" not in actor.removed_slots:
                 actor.removed_slots = (*actor.removed_slots, "underwear_bottom")
@@ -577,6 +582,21 @@ class CommandService:
         elif operation == "end_date" and self.date_service is not None:
             self.date_service.end_date(world, actor)
             self._clear_persistent_states(actor, "end_date")
+
+    def _apply_gift(self, world: WorldState, actor: CharacterState, command: CommandDefinition) -> str | None:
+        if command.key != "gift" or self.gift_service is None:
+            return None
+        gift_key = self.gift_service.best_gift_in_inventory(world.inventory)
+        if gift_key is None:
+            raise ValueError("背包中没有可送的礼物。")
+        world.consume_item(gift_key, 1)
+        multiplier = self.gift_service.preference_multiplier(actor.key, gift_key)
+        if multiplier != 1.0:
+            bonus_source = self.gift_service.apply_gift_source(command.source, multiplier - 1.0)
+            for key, delta in bonus_source.items():
+                actor.stats.source.add(key, delta)
+        actor.record_memory(f"gift:{gift_key}")
+        return gift_key
 
     def _apply_persistent_source(self, actor: CharacterState) -> None:
         if not self.persistent_state_definitions or not actor.active_persistent_states:

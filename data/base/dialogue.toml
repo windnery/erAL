@@ -842,3 +842,51 @@ lines = [
     "她被按在身上，后方被侵入的瞬间，瞳孔骤缩，完全说不出话。",
 ]
 priority = 1
+
+[[entries]]
+key = "pat_head"
+actor_key = "_any"
+lines = [
+    "她微微眯起眼睛，像是享受着这份温柔。",
+]
+priority = 1
+
+[[entries]]
+key = "lean_shoulder"
+actor_key = "_any"
+lines = [
+    "她轻轻靠了过来，肩膀传来的温度让人心安。",
+]
+priority = 1
+
+[[entries]]
+key = "forehead_kiss"
+actor_key = "_any"
+lines = [
+    "额头上落下一个轻柔的吻，她愣了一瞬，随即露出羞涩的笑意。",
+]
+priority = 1
+
+[[entries]]
+key = "cheek_kiss"
+actor_key = "_any"
+lines = [
+    "脸颊被轻轻一吻，她下意识捂住了脸，耳尖泛红。",
+]
+priority = 1
+
+[[entries]]
+key = "date_hug"
+actor_key = "_any"
+lines = [
+    "她被拥入怀中，身体先是微微僵硬，随即慢慢放松下来。",
+]
+priority = 1
+
+[[entries]]
+key = "date_kiss"
+actor_key = "_any"
+lines = [
+    "四唇相触的瞬间，她的睫毛轻轻颤动，呼吸变得急促而温热。",
+]
+priority = 1
