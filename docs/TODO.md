@@ -28,7 +28,7 @@
 | # | 任务 | 类型 | P | Est | DoD |
 |---|------|------|---|-----|-----|
 | 34 | 角色状态详情面板（六 tab 完整实装） | ui | P1 | ✅ | 服装/经验/个人情报/个人好恶/身体情报/陷落状态 全部按 TW 对齐；619 tests |
-| 35 | 商店 NPC 化（明石/不知火上班时间常驻 + 购物指令入口） | gameplay | P2 | 90m | 指令注入 + 过滤库存面板 |
+| 35 | 商店 NPC 化（明石/不知火上班时间常驻 + 购物指令入口） | gameplay | P2 | ✅ | 指令注入 + 过滤库存面板 |
 | 28 | 调教口上编辑器优化（批量/模板/预览） | tooling | P2 | 120m | 支持批量导入口上模板，可按指令预览 |
 
 ---
@@ -38,6 +38,7 @@
 | # | 任务 | DoD |
 |---|------|-----|
 | 34 | 状态详情面板 | 6 tabs (服装&能力/经验/个人情报/个人好恶/身体情报/陷落状态) 全按 TW 字段对齐 |
+| 35 | 商店 NPC 化 | 明石/不知火角色包 + 杂货店/时装屋地点 + browse_general_shop/browse_skin_shop 指令 + required_actor_tags gate + shopfront_key 联动 CLI 商店面板 |
 | — | 里程碑记录钩子 | 初吻/初约/初 H/初拥/誓约日自动记录为 condition + memory |
 | — | FoodPreferences 模型 | 新增 food_preferences 字段，角色可配 liked/disliked 标签 |
 | — | 陷落状态道具判定 | pledge_ring 从占位改为 inventory.item_count 真实判定 |
@@ -120,9 +121,9 @@
 
 ## 📈 本周复盘
 
-- **完成**：L9 状态详情面板（6 tabs 按 TW 对齐）+ 里程碑钩子 + FoodPreferences / 619 tests
+- **完成**：L9 状态详情面板（6 tabs 按 TW 对齐）+ 里程碑钩子 + FoodPreferences + 商店 NPC 化 / 628 tests
 - **阻塞**：无
-- **指标**：619/619 tests / 160 指令 / 13 持续状态 / 10 礼物 / 8 ambient 事件 / 3 角色
+- **指标**：628/628 tests / 162 指令 / 13 持续状态 / 10 礼物 / 8 ambient 事件 / 5 角色（+明石/不知火）
 
 ---
 

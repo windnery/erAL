@@ -146,6 +146,8 @@ class CommandSpecificGate:
         for condition_key in command.forbidden_conditions:
             if actor.get_condition(condition_key) > 0:
                 return f"当前条件禁止执行：{condition_key}。"
+        if command.required_actor_tags and not any(tag in actor.tags for tag in command.required_actor_tags):
+            return "该指令只能对特定角色使用。"
 
         missing_items: list[str] = []
         for item_key, required_count in command.required_items.items():

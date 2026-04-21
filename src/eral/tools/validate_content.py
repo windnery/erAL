@@ -94,7 +94,8 @@ def validate_commands(root: Path) -> list[str]:
         "required_conditions", "forbidden_conditions",
         "required_marks", "apply_marks", "remove_marks",
         "source", "downbase", "success_tiers", "required_items",
-        "resolution_key", "personal_income", "elapsed_minutes",
+        "resolution_key", "shopfront_key", "required_actor_tags",
+        "personal_income", "elapsed_minutes",
         "activates_persistent_state", "blocked_by_persistent_states",
     }
     seen_keys: set[str] = set()

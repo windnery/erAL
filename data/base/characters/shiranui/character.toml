@@ -1,0 +1,17 @@
+key = "shiranui"
+display_name = "不知火"
+tags = ["shiranui", "destroyer", "sakura_empire", "shop_npc_skin"]
+initial_location = "skin_boutique"
+faction_key = "sakura_empire"
+residence_area_key = "sakura_living"
+dorm_group_key = "sakura_dorm"
+home_location_key = "sakura_dorm_hall"
+default_activity_tags = ["work", "shop"]
+
+[schedule]
+dawn = "sakura_dorm_hall"
+morning = "skin_boutique"
+afternoon = "skin_boutique"
+evening = "skin_boutique"
+night = "sakura_dorm_hall"
+late_night = "sakura_dorm_hall"

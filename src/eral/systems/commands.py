@@ -41,6 +41,7 @@ from eral.systems.training import TrainingService
 from eral.systems.source_extra import apply_source_extra, apply_training_mark_effects
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
+from eral.systems.shop import ShopService
 from eral.content.talent_effects import TalentEffect
 
 
@@ -74,6 +75,7 @@ class CommandService:
     slot_definitions: dict[str, SlotDefinition] | None = None
     gift_service: GiftService | None = None
     ejaculation_service: EjaculationService | None = None
+    shop_service: "ShopService" | None = None
 
     def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
         if self.vital_service is not None:
@@ -240,6 +242,7 @@ class CommandService:
             messages=dialogue_lines or [f"{actor.display_name} handled command {command.display_name}."],
             funds_delta=funds_delta,
             fainted=fainted,
+            shopfront_key=command.shopfront_key,
         )
 
     def _resolve_command(

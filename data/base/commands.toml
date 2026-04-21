@@ -4244,3 +4244,51 @@ abl_11 = 4
 
 [commands.downbase]
 spirit = 15
+
+[[commands]]
+key = "browse_general_shop"
+display_name = "购买日常用品"
+category = "daily"
+location_tags = [
+    "shop",
+    "public",
+]
+time_slots = [
+    "morning",
+    "afternoon",
+    "evening",
+]
+shopfront_key = "general_shop"
+required_actor_tags = ["shop_npc_general"]
+
+[commands.source]
+joy = 20
+abl_9 = 1
+
+[commands.downbase]
+stamina = 5
+spirit = 5
+
+[[commands]]
+key = "browse_skin_shop"
+display_name = "浏览皮肤商店"
+category = "daily"
+location_tags = [
+    "shop",
+    "public",
+]
+time_slots = [
+    "morning",
+    "afternoon",
+    "evening",
+]
+shopfront_key = "skin_shop"
+required_actor_tags = ["shop_npc_skin"]
+
+[commands.source]
+joy = 20
+abl_9 = 1
+
+[commands.downbase]
+stamina = 5
+spirit = 5

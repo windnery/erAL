@@ -33,6 +33,7 @@ class ActionResult:
     messages: list[str] = field(default_factory=list)
     funds_delta: dict[str, int] = field(default_factory=dict)
     fainted: bool = False
+    shopfront_key: str | None = None
 
 
 @dataclass(slots=True)

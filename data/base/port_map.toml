@@ -156,6 +156,26 @@ capacity_soft = 8
 capacity_hard = 16
 
 [[locations]]
+key = "general_store"
+display_name = "明石的杂货店"
+zone = "support"
+area_key = "commerce_core"
+sub_area_key = "commerce_street"
+tags = ["shop", "public"]
+capacity_soft = 4
+capacity_hard = 8
+
+[[locations]]
+key = "skin_boutique"
+display_name = "不知火的时装屋"
+zone = "support"
+area_key = "commerce_core"
+sub_area_key = "commerce_street"
+tags = ["shop", "public"]
+capacity_soft = 4
+capacity_hard = 8
+
+[[locations]]
 key = "cafeteria"
 display_name = "食堂"
 zone = "support"
@@ -364,6 +384,18 @@ from = "main_corridor"
 to = "dormitory_a"
 bidirectional = true
 cost_minutes = 10
+
+[[connections]]
+from = "main_corridor"
+to = "general_store"
+bidirectional = true
+cost_minutes = 5
+
+[[connections]]
+from = "main_corridor"
+to = "skin_boutique"
+bidirectional = true
+cost_minutes = 5
 
 [[connections]]
 from = "main_corridor"

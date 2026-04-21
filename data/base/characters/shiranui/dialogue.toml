@@ -1,0 +1,39 @@
+[[entries]]
+key = "chat"
+actor_key = "shiranui"
+lines = ["欢迎，请随意挑选。"]
+
+[[entries]]
+key = "chat"
+actor_key = "shiranui"
+lines = ["这里的皮肤都是限定款式。"]
+
+[[entries]]
+key = "chat"
+actor_key = "shiranui"
+lines = ["有什么需要帮忙的吗？"]
+
+[[entries]]
+key = "browse_skin_shop"
+actor_key = "shiranui"
+lines = ["眼光不错。"]
+
+[[entries]]
+key = "browse_skin_shop"
+actor_key = "shiranui"
+lines = ["这款很适合她。"]
+
+[[entries]]
+key = "browse_skin_shop"
+actor_key = "shiranui"
+lines = ["谢谢惠顾。"]
+
+[[entries]]
+key = "default"
+actor_key = "shiranui"
+lines = ["……"]
+
+[[entries]]
+key = "default"
+actor_key = "shiranui"
+lines = ["无聊。"]

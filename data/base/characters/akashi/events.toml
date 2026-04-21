@@ -1,0 +1,27 @@
+[[events]]
+key = "akashi_greeting"
+action_key = "chat"
+actor_tags = ["akashi"]
+location_keys = ["general_store"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "akashi_working"
+action_key = "chat"
+actor_tags = ["akashi"]
+location_keys = ["general_store"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "akashi_closing"
+action_key = "chat"
+actor_tags = ["akashi"]
+location_keys = ["general_store"]
+time_slots = ["evening"]
+
+[[events]]
+key = "akashi_idle"
+action_key = "chat"
+actor_tags = ["akashi"]
+location_keys = ["sakura_dorm_hall"]
+time_slots = ["night", "late_night"]

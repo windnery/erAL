@@ -1,0 +1,17 @@
+key = "akashi"
+display_name = "明石"
+tags = ["akashi", "repair_ship", "sakura_empire", "shop_npc_general"]
+initial_location = "general_store"
+faction_key = "sakura_empire"
+residence_area_key = "sakura_living"
+dorm_group_key = "sakura_dorm"
+home_location_key = "sakura_dorm_hall"
+default_activity_tags = ["work", "shop"]
+
+[schedule]
+dawn = "sakura_dorm_hall"
+morning = "general_store"
+afternoon = "general_store"
+evening = "general_store"
+night = "sakura_dorm_hall"
+late_night = "sakura_dorm_hall"

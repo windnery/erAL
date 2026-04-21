@@ -1,0 +1,27 @@
+[[events]]
+key = "shiranui_greeting"
+action_key = "chat"
+actor_tags = ["shiranui"]
+location_keys = ["skin_boutique"]
+time_slots = ["morning", "afternoon", "evening"]
+
+[[events]]
+key = "shiranui_working"
+action_key = "chat"
+actor_tags = ["shiranui"]
+location_keys = ["skin_boutique"]
+time_slots = ["morning", "afternoon"]
+
+[[events]]
+key = "shiranui_closing"
+action_key = "chat"
+actor_tags = ["shiranui"]
+location_keys = ["skin_boutique"]
+time_slots = ["evening"]
+
+[[events]]
+key = "shiranui_idle"
+action_key = "chat"
+actor_tags = ["shiranui"]
+location_keys = ["sakura_dorm_hall"]
+time_slots = ["night", "late_night"]

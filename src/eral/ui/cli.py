@@ -442,8 +442,11 @@ def _build_menu(
         menu["system"].append(("下一页舰娘", "page_roster", "next"))
 
     # Time & generic
-    menu["system"].append(("进入日常用品店", "shop", "general_shop"))
-    menu["system"].append(("企业皮肤商店", "shop", "skin_shop"))
+    present_actor_keys = {a.key for a in page_actors}
+    if "akashi" in present_actor_keys:
+        menu["system"].append(("进入明石的杂货店", "shop", "general_shop"))
+    if "shiranui" in present_actor_keys:
+        menu["system"].append(("进入不知火的时装屋", "shop", "skin_shop"))
     menu["system"].append(("切换企业皮肤", "skin_wardrobe", "enterprise"))
     menu["system"].append(("查看日历", "calendar", None))
     menu["system"].append(("等待(推进时段)", "wait", None))
@@ -1882,6 +1885,9 @@ def run_cli(app: Application) -> None:
         if action_type == "command":
             actor_key, cmd_key = param.split(":", 1)
             result = app.command_service.execute(world, actor_key, cmd_key)
+            if result.shopfront_key is not None:
+                pending_messages = _open_shopfront(app, world, result.shopfront_key)
+                continue
             pending_messages = _format_action_result_messages(
                 result.messages,
                 result.changes,

@@ -1,0 +1,39 @@
+[[entries]]
+key = "chat"
+actor_key = "akashi"
+lines = ["欢迎光临喵，今天需要点什么？"]
+
+[[entries]]
+key = "chat"
+actor_key = "akashi"
+lines = ["本店的商品都是精挑细选的喵。"]
+
+[[entries]]
+key = "chat"
+actor_key = "akashi"
+lines = ["明石可是很忙的喵，赶紧选吧。"]
+
+[[entries]]
+key = "browse_general_shop"
+actor_key = "akashi"
+lines = ["请慢慢挑选喵~"]
+
+[[entries]]
+key = "browse_general_shop"
+actor_key = "akashi"
+lines = ["这个可是热门商品喵。"]
+
+[[entries]]
+key = "browse_general_shop"
+actor_key = "akashi"
+lines = ["谢谢惠顾喵！"]
+
+[[entries]]
+key = "default"
+actor_key = "akashi"
+lines = ["喵？"]
+
+[[entries]]
+key = "default"
+actor_key = "akashi"
+lines = ["明石在打瞌睡喵……"]

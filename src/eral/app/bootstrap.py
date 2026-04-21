@@ -330,6 +330,10 @@ def create_application(root: Path | None = None) -> Application:
         talent_effects=talent_effects,
         facility_service=facility_service,
     )
+    shop_service = ShopService(
+        item_definitions={item.key: item for item in items},
+        shopfront_definitions={shop.key: shop for shop in shopfronts},
+    )
     command_service = CommandService(
         commands={command.key: command for command in commands},
         item_definitions={item.key: item for item in items},
@@ -357,10 +361,7 @@ def create_application(root: Path | None = None) -> Application:
         slot_definitions=slot_definitions,
         gift_service=gift_service,
         ejaculation_service=ejaculation_service,
-    )
-    shop_service = ShopService(
-        item_definitions={item.key: item for item in items},
-        shopfront_definitions={shop.key: shop for shop in shopfronts},
+        shop_service=shop_service,
     )
     navigation_service = NavigationService(
         port_map=port_map,

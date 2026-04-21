@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>erAL · 港区</title>
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="topbar-tags" id="topbar">
+      <span class="tag-date" id="hDate">—</span>
+      <span class="sep">·</span>
+      <span class="tag-festival" id="hFestival" hidden></span>
+      <span class="tag-time" id="hTime">—</span>
+      <span class="sep">·</span>
+      <span class="tag-weather" id="hWeather">—</span>
+      <span class="sep">·</span>
+      <span class="tag-funds" id="hFunds">—</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn primary" onclick="doWait()">等待</button>
+      <button class="btn" onclick="doSave()">保存</button>
+      <button class="btn" onclick="doLoad()">读取</button>
+    </div>
+  </header>
+
+  <div class="training-banner" id="trainingBanner"></div>
+
+  <section class="top-content">
+    <div class="status-panel">
+      <div class="status-section" id="playerSection">
+        <div class="status-head">
+          <div class="avatar avatar-md" id="playerAvatar">指挥</div>
+          <div>
+            <div class="name" id="playerName">指挥官</div>
+            <div class="status-tags"><span class="tag-pill">男</span></div>
+          </div>
+          <div class="sub" id="playerFortune"></div>
+        </div>
+        <div class="bars" id="playerBars"></div>
+      </div>
+      <hr class="status-divider">
+      <div class="status-section" id="actorSection">
+        <div class="status-head">
+          <div>
+            <div class="name" id="actorName">未选择舰娘</div>
+            <div class="status-tags" id="actorTags"></div>
+          </div>
+          <div class="sub" id="actorStage"></div>
+        </div>
+        <div class="bars" id="actorBars"></div>
+        <div class="meta-grid" id="actorMeta"></div>
+        <div class="palam-head" id="palamHead" hidden>─ Palam ─</div>
+        <div class="palam-grid" id="palamGrid"></div>
+      </div>
+    </div>
+    <div class="log-panel">
+      <div class="log-panel-head">
+        <span>叙事日志</span>
+        <span class="loc" id="hLoc">—</span>
+      </div>
+      <div class="log-panel-body" id="log"></div>
+    </div>
+  </section>
+
+  <section class="actor-grid-panel">
+    <div class="actor-grid-head">
+      <span>在场舰娘</span>
+      <span id="actorCount" style="color:var(--text-muted);">0</span>
+    </div>
+    <div class="actor-grid-body" id="actorList">
+      <div class="empty">加载中…</div>
+    </div>
+  </section>
+
+  <section class="dock">
+    <div class="dock-section">
+      <div class="dock-title"><span class="brand">═ Act_COM ═</span></div>
+      <div class="cmd-tabs" id="cmdTabs"></div>
+      <div class="cmd-grid" id="cmdGrid"><div class="empty">选择一位舰娘以查看可执行指令</div></div>
+    </div>
+    <div class="dock-section">
+      <div class="dock-title"><span class="brand">═ Ex_COM ═</span></div>
+      <div class="cmd-grid" id="exGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="overlay" id="moveOverlay" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">═ 移动 ═</div>
+      <button class="modal-close" onclick="closeOverlay('moveOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <pre class="map-area" id="mapArea"></pre>
+      <div id="destList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="detailOverlay" hidden>
+  <div class="modal" style="width:min(1080px,94vw);">
+    <div class="modal-head">
+      <div class="modal-title" id="detailTitle">═ 能力显示 ═</div>
+      <button class="modal-close" onclick="closeOverlay('detailOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-layout">
+        <div class="portrait-frame" id="portraitFrame"></div>
+        <div>
+          <div class="detail-tabs" id="detailTabs">
+            <button class="detail-tab active" data-tab="personal">个性</button>
+            <button class="detail-tab" data-tab="abilities">着装&能力</button>
+            <button class="detail-tab" data-tab="body">身体</button>
+            <button class="detail-tab" data-tab="likes">喜好</button>
+            <button class="detail-tab" data-tab="fallen">陷落</button>
+            <button class="detail-tab" data-tab="palam">Palam</button>
+          </div>
+          <div class="detail-tab-body" id="detailBody"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="inventoryOverlay" hidden>
+  <div class="modal" style="width:min(720px,90vw);">
+    <div class="modal-head">
+      <div class="modal-title">═ 道具确认 ═</div>
+      <button class="modal-close" onclick="closeOverlay('inventoryOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="inv-grid" id="invGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="calendarOverlay" hidden>
+  <div class="modal" style="width:min(560px,90vw);">
+    <div class="modal-head">
+      <div class="modal-title">═ 日历 ═</div>
+      <button class="modal-close" onclick="closeOverlay('calendarOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cal-head" id="calHead"></div>
+      <div class="detail-section-title">节日</div>
+      <div class="cal-festival-list" id="calFestivals"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="shopOverlay" hidden>
+  <div class="modal" style="width:min(640px,90vw);">
+    <div class="modal-head">
+      <div class="modal-title" id="shopTitle">═ 商店 ═</div>
+      <button class="modal-close" onclick="closeOverlay('shopOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="shop-items" id="shopItems"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="static/app.js"></script>
+</body>
+</html>

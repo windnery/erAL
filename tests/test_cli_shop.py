@@ -23,17 +23,19 @@ class CliShopTests(unittest.TestCase):
         self.world = self.app.world
         self.world.inventory.clear()
 
-    def test_build_menu_includes_general_shop_entry(self) -> None:
+    def test_build_menu_includes_general_shop_entry_when_akashi_present(self) -> None:
+        self.world.active_location.key = "general_store"
         menu = _build_menu(self.app, self.world)
         shop_items = [item for item in menu["system"] if item[1] == "shop"]
 
-        self.assertIn(("进入日常用品店", "shop", "general_shop"), shop_items)
+        self.assertIn(("进入明石的杂货店", "shop", "general_shop"), shop_items)
 
-    def test_build_menu_includes_skin_shop_entry(self) -> None:
+    def test_build_menu_includes_skin_shop_entry_when_shiranui_present(self) -> None:
+        self.world.active_location.key = "skin_boutique"
         menu = _build_menu(self.app, self.world)
         shop_items = [item for item in menu["system"] if item[1] == "shop" and item[2] == "skin_shop"]
 
-        self.assertIn(("企业皮肤商店", "shop", "skin_shop"), shop_items)
+        self.assertIn(("进入不知火的时装屋", "shop", "skin_shop"), shop_items)
 
     def test_build_menu_includes_skin_wardrobe_entry(self) -> None:
         menu = _build_menu(self.app, self.world)

@@ -37,6 +37,8 @@ class CommandDefinition:
     activates_persistent_state: str | None = None
     blocked_by_persistent_states: tuple[str, ...] = ()
     resolution_key: str | None = None
+    shopfront_key: str | None = None
+    required_actor_tags: tuple[str, ...] = ()
     personal_income: int = 0
     category: str = "daily"
     elapsed_minutes: int = 10
@@ -69,6 +71,8 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
                 str(v) for v in item.get("blocked_by_persistent_states", [])
             ),
             resolution_key=str(item["resolution_key"]) if "resolution_key" in item else None,
+            shopfront_key=item.get("shopfront_key"),
+            required_actor_tags=tuple(str(v) for v in item.get("required_actor_tags", [])),
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),
             requires_date=item.get("requires_date"),
