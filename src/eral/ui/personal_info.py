@@ -43,7 +43,11 @@ class Milestone:
 
 
 def personality_from_tags(tags: tuple[str, ...]) -> str:
-    """Pick the descriptive tag (last non-category tag) as personality."""
+    """Pick the descriptive tag (last non-category tag) as personality.
+
+    Personality is derived from TALENT axes + tags; erAL does not carry a
+    separate personality field on the character definition.
+    """
     category_tags = {
         "destroyer", "carrier", "cruiser", "battleship",
         "eagle_union", "royal_navy", "sakura", "iron_blood", "iris",

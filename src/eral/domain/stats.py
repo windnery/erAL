@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from eral.content.stat_axes import AxisFamily, StatAxisCatalog
-from eral.content.tw_axis_registry import TwAxisRegistry
 
 
 @dataclass(slots=True)
@@ -45,10 +44,10 @@ class IndexedStatBlock:
     values: dict[int, int] = field(default_factory=dict)
 
     @classmethod
-    def zeroed(cls, family: AxisFamily, registry: TwAxisRegistry) -> "IndexedStatBlock":
+    def zeroed(cls, family: AxisFamily, catalog: StatAxisCatalog) -> "IndexedStatBlock":
         return cls(
             family=family,
-            values={entry.era_index: 0 for entry in registry.family_entries(family)},
+            values={axis.era_index: 0 for axis in catalog.family_axes(family)},
         )
 
     def get(self, era_index: int) -> int:
@@ -75,11 +74,11 @@ class CharacterEraCompatState:
     cflag: IndexedStatBlock
 
     @classmethod
-    def zeroed(cls, registry: TwAxisRegistry) -> "CharacterEraCompatState":
+    def zeroed(cls, catalog: StatAxisCatalog) -> "CharacterEraCompatState":
         return cls(
-            abl=IndexedStatBlock.zeroed(AxisFamily.ABL, registry),
-            talent=IndexedStatBlock.zeroed(AxisFamily.TALENT, registry),
-            cflag=IndexedStatBlock.zeroed(AxisFamily.CFLAG, registry),
+            abl=IndexedStatBlock.zeroed(AxisFamily.ABL, catalog),
+            talent=IndexedStatBlock.zeroed(AxisFamily.TALENT, catalog),
+            cflag=IndexedStatBlock.zeroed(AxisFamily.CFLAG, catalog),
         )
 
 
@@ -97,13 +96,12 @@ class ActorNumericState:
     def zeroed(
         cls,
         catalog: StatAxisCatalog,
-        registry: TwAxisRegistry,
     ) -> "ActorNumericState":
         return cls(
             base=StatBlock.zeroed(AxisFamily.BASE, catalog),
             palam=StatBlock.zeroed(AxisFamily.PALAM, catalog),
             source=StatBlock.zeroed(AxisFamily.SOURCE, catalog),
-            compat=CharacterEraCompatState.zeroed(registry),
+            compat=CharacterEraCompatState.zeroed(catalog),
         )
 
     def clear_source(self) -> None:

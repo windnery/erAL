@@ -10,7 +10,7 @@ from eral.domain.world import CharacterState
 _PLEASURE_KEYS = ("pleasure_c", "pleasure_v", "pleasure_a", "pleasure_b", "pleasure_m")
 
 _MARK_SOURCE_MULTIPLIERS = {
-    "mark_pleasure": {
+    "pleasure_mark": {
         1: 1.2,
         2: 1.5,
         3: 2.0,
@@ -18,7 +18,7 @@ _MARK_SOURCE_MULTIPLIERS = {
 }
 
 _MARK_PAIN_MULTIPLIERS = {
-    "mark_pain": {
+    "pain_mark": {
         1: ({"fear": 1.2}, {}),
         2: ({"fear": 1.5, "obedience": 1.2}, {}),
         3: ({"fear": 2.0, "obedience": 1.5}, {}),
@@ -95,18 +95,18 @@ def apply_training_mark_effects(actor: CharacterState) -> dict[str, float]:
     """Apply training mark multipliers to SOURCE. Returns applied multipliers."""
     applied: dict[str, float] = {}
 
-    pleasure_level = actor.marks.get("mark_pleasure", 0)
+    pleasure_level = actor.marks.get("pleasure_mark", 0)
     if pleasure_level > 0:
-        mult = _MARK_SOURCE_MULTIPLIERS["mark_pleasure"].get(pleasure_level, 1.0)
+        mult = _MARK_SOURCE_MULTIPLIERS["pleasure_mark"].get(pleasure_level, 1.0)
         for key in _PLEASURE_KEYS:
             current = actor.stats.source.get(key)
             if current > 0:
                 actor.stats.source.set(key, int(current * mult))
                 applied[key] = applied.get(key, 1.0) * mult
 
-    pain_level = actor.marks.get("mark_pain", 0)
+    pain_level = actor.marks.get("pain_mark", 0)
     if pain_level > 0:
-        entry = _MARK_PAIN_MULTIPLIERS["mark_pain"].get(pain_level)
+        entry = _MARK_PAIN_MULTIPLIERS["pain_mark"].get(pain_level)
         if entry:
             for source_key, mult in entry[0].items():
                 current = actor.stats.source.get(source_key)

@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from eral.content.stat_axes import AxisFamily
-from eral.content.tw_axis_registry import TwAxisRegistry
 
 
 class ABLKey:
@@ -175,24 +174,17 @@ _DEFAULT_SPECS: tuple[CompatSemanticSpec, ...] = (
 )
 
 
-def build_default_compat_semantics(registry: TwAxisRegistry | None = None) -> CompatSemantics:
-    entries: list[CompatSemanticEntry] = []
-    for spec in _DEFAULT_SPECS:
-        label = spec.fallback_label
-        notes = None
-        if registry is not None:
-            raw_entry = registry.get_by_index(spec.family, spec.era_index)
-            label = raw_entry.label
-            notes = raw_entry.notes
-        entries.append(
-            CompatSemanticEntry(
-                family=spec.family,
-                key=spec.key,
-                era_index=spec.era_index,
-                label=label,
-                notes=notes,
-            )
+def build_default_compat_semantics() -> CompatSemantics:
+    entries = [
+        CompatSemanticEntry(
+            family=spec.family,
+            key=spec.key,
+            era_index=spec.era_index,
+            label=spec.fallback_label,
+            notes=None,
         )
+        for spec in _DEFAULT_SPECS
+    ]
     return CompatSemantics(tuple(entries))
 
 

@@ -41,18 +41,25 @@ class VitalService:
         return fatigue_delta
 
     def natural_recovery(self, actor: CharacterState, world: WorldState | None = None) -> dict[str, int]:
-        """Per time-slot natural recovery. Also reduces fatigue slightly."""
+        """Per time-slot natural recovery and decay. Also reduces fatigue slightly."""
         recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
 
-        for key in ("stamina", "spirit"):
+        for key, rate in self.recover_rates.items():
+            if rate == 0:
+                continue
             current = actor.stats.base.get(key)
-            maximum = self.max_values.get(key, 2000)
-            rate = self.recover_rates.get(key, 10)
-            recovery = int(rate * recovery_mod)
-            new_val = min(maximum, current + recovery)
+            maximum = self.max_values.get(key, 9999)
+
+            if rate > 0:
+                recovery = int(rate * recovery_mod)
+                new_val = min(maximum, current + recovery)
+            else:
+                decay = int(abs(rate) * recovery_mod)
+                new_val = max(0, current - decay)
+
             actual = new_val - current
-            if actual > 0:
+            if actual != 0:
                 actor.stats.base.set(key, new_val)
                 results[key] = actual
 

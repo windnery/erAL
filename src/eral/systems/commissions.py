@@ -77,12 +77,16 @@ class CommissionService:
     ) -> None:
         """Finalize a commission: pay rewards and clear assignment."""
         cdef = self._def_by_key(commission_key)
-        if cdef is not None and self.wallet is not None and cdef.port_income > 0:
-            income = cdef.port_income
-            if self.facility_service is not None:
-                income = int(income * self.facility_service.income_multiplier(world))
-            self.wallet.add_port(
-                world, income, reason="commission", source_key=commission_key,
-            )
+        if cdef is not None:
+            if self.wallet is not None and cdef.port_income > 0:
+                income = cdef.port_income
+                if self.facility_service is not None:
+                    income = int(income * self.facility_service.income_multiplier(world))
+                self.wallet.add_port(
+                    world, income, reason="commission", source_key=commission_key,
+                )
+            for abl_key, exp in cdef.abl_experience.items():
+                if exp > 0:
+                    actor.stats.source.add(abl_key, exp)
         actor.is_on_commission = False
         actor.commission_assignment = None

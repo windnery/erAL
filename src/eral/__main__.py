@@ -4,7 +4,6 @@ from pathlib import Path
 
 from .app.bootstrap import create_application
 from .app.config import AppConfig
-from .ui.cli import run_cli
 
 
 def main() -> None:
@@ -15,9 +14,10 @@ def main() -> None:
 
         run_web_server(app)
     else:
-        run_cli(app)
+        raise RuntimeError(
+            f"Unsupported ui_mode: {config.ui_mode!r}. Only 'web' is supported."
+        )
 
 
 if __name__ == "__main__":
     main()
-

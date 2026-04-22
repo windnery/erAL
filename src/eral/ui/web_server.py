@@ -115,7 +115,7 @@ def _char_image_path(char_key: str, filename: str, skin_key: str | None = None) 
     return p if p.exists() else None
 
 
-def _actor_snapshot(actor: CharacterState, max_values: dict[str, int]) -> dict[str, Any]:
+def _actor_snapshot(actor: CharacterState, max_values: dict[str, int], *, gender: str = "female") -> dict[str, Any]:
     return {
         "key": actor.key,
         "display_name": actor.display_name,
@@ -140,7 +140,8 @@ def _actor_snapshot(actor: CharacterState, max_values: dict[str, int]) -> dict[s
         "mood": actor.stats.base.get("mood"),
         "drunkenness": actor.stats.base.get("drunkenness"),
         "base": _build_base_entries(actor.stats.base, _NPC_BASE_KEYS, max_values),
-        "is_male": False,
+        "gender": gender,
+        "is_male": gender == "male",
         "palam": dict(actor.stats.palam.values),
         "marks": dict(actor.marks),
         "conditions": dict(actor.conditions),
@@ -268,16 +269,20 @@ class _Handler(BaseHTTPRequestHandler):
 
         if path == "/api/state":
             max_values = app.vital_service.max_values
+            gender_by_key = {d.key: d.gender for d in app.roster}
             visible = [
-                _actor_snapshot(a, max_values) for a in world.visible_characters()
+                _actor_snapshot(a, max_values, gender=gender_by_key.get(a.key, "female"))
+                for a in world.visible_characters()
             ]
             self._send_json({"world": _world_snapshot(app), "visible_actors": visible})
             return
 
         if path == "/api/actors":
             max_values = app.vital_service.max_values
+            gender_by_key = {d.key: d.gender for d in app.roster}
             visible = [
-                _actor_snapshot(a, max_values) for a in world.visible_characters()
+                _actor_snapshot(a, max_values, gender=gender_by_key.get(a.key, "female"))
+                for a in world.visible_characters()
             ]
             self._send_json(visible)
             return
@@ -480,23 +485,38 @@ class _Handler(BaseHTTPRequestHandler):
 
         if path == "/api/player":
             max_values = app.vital_service.max_values
-            # 玩家暂无独立状态，按语义给默认值（stamina/spirit/reason/semen 满，
-            # drunkenness 为 0 — 未醉）
-            base = _build_base_entries(None, _PLAYER_BASE_KEYS, max_values)
-            for entry in base:
-                if entry["key"] == "drunkenness":
-                    entry["value"] = 0
-                else:
-                    entry["value"] = entry["max"]
+            gender = world.player_gender or "male"
+            keys = _PLAYER_BASE_KEYS if gender == "male" else _NPC_BASE_KEYS
+            stats_base = world.player_stats.base if world.player_stats is not None else None
+            base = _build_base_entries(stats_base, keys, max_values)
             self._send_json({
                 "name": world.player_name,
-                "is_male": True,
+                "gender": gender,
+                "is_male": gender == "male",
                 "base": base,
-                # 保留旧字段以兼容
-                "stamina": 2000, "max_stamina": 2000,
-                "spirit": 1500, "max_spirit": 1500,
-                "reason": 1000, "max_reason": 1000,
+                # 保留旧字段以兼容前端
+                "stamina": stats_base.get("stamina") if stats_base is not None else 2000,
+                "max_stamina": max_values.get("stamina", 2000),
+                "spirit": stats_base.get("spirit") if stats_base is not None else 1500,
+                "max_spirit": max_values.get("spirit", 1500),
+                "reason": stats_base.get("reason") if stats_base is not None else 1000,
+                "max_reason": max_values.get("reason", 1000),
             })
+            return
+
+        if path == "/api/game_status":
+            # 用于前端判断是否需要走"新游戏捏人"流程
+            save_path = app.save_service.quicksave_path()
+            has_save = save_path.exists()
+            # 使用 conditions["game_started"] 作为当前世界是否已完成建档的标记
+            started = world.get_condition("game_started") > 0
+            self._send_json({
+                "has_save": has_save,
+                "started": started,
+                "current_player_name": world.player_name,
+                "current_player_gender": world.player_gender,
+            })
+            return
             return
 
         self._send_error("Not found", 404)
@@ -658,6 +678,49 @@ class _Handler(BaseHTTPRequestHandler):
             self._send_json({"saved": True})
             return
 
+        if path == "/api/new_game":
+            # 新游戏建档：接收玩家选项并覆盖当前世界状态
+            name = str(body.get("name") or "").strip() or "指挥官"
+            gender = str(body.get("gender") or "male").strip()
+            if gender not in ("male", "female"):
+                gender = "male"
+            # 属性加成（可选；对应 base axis key → 加成值）
+            stat_bonuses = body.get("stat_bonuses") or {}
+            # 初始 TALENT 选择（era_index 列表；每个 talent 置 1）
+            talent_picks = body.get("talent_picks") or []
+            # 开局资金加成（可选）
+            bonus_funds = int(body.get("bonus_funds") or 0)
+
+            world.player_name = name
+            world.player_gender = gender
+
+            if world.player_stats is not None:
+                for key, delta in stat_bonuses.items():
+                    try:
+                        world.player_stats.base.add(str(key), int(delta))
+                    except Exception:
+                        continue
+                for era_idx in talent_picks:
+                    try:
+                        world.player_stats.compat.talent.set(int(era_idx), 1)
+                    except Exception:
+                        continue
+
+            if bonus_funds > 0:
+                world.personal_funds += bonus_funds
+
+            # 标记建档完成
+            world.set_condition("game_started", 1)
+            # 立即落存档，避免下次启动再次弹出建档
+            app.save_service.save_world(world)
+            self._send_json({
+                "ok": True,
+                "player_name": world.player_name,
+                "player_gender": world.player_gender,
+                "personal_funds": world.personal_funds,
+            })
+            return
+
         if path == "/api/load":
             loaded = app.save_service.load_world()
             if loaded is not None:
@@ -677,8 +740,8 @@ class _Handler(BaseHTTPRequestHandler):
 def _build_status_data(app: Application, actor: CharacterState) -> dict[str, Any]:
     """Build serialisable six-tab status data for the web client."""
     definition = next((d for d in app.roster if d.key == actor.key), None)
-    abl_entries = app.tw_axes.family_entries(AxisFamily.ABL)
-    talent_entries = app.tw_axes.family_entries(AxisFamily.TALENT)
+    abl_entries = app.stat_axes.family_axes(AxisFamily.ABL)
+    talent_entries = app.stat_axes.family_axes(AxisFamily.TALENT)
 
     abilities: list[dict[str, Any]] = []
     experience: list[dict[str, Any]] = []

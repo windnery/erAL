@@ -20,11 +20,16 @@ class CharacterDefinition:
     initial_location: str
     schedule: dict[str, str]
     initial_stats: InitialStatOverrides
+    nickname: str = ""
+    intro: str = ""
     faction_key: str = ""
     residence_area_key: str = ""
     dorm_group_key: str = ""
     home_location_key: str = ""
     default_activity_tags: tuple[str, ...] = ()
+    gender: str = "female"
+    ship_class: str = ""
+    rarity: str = ""
     gift_preferences: GiftPreferences = field(default_factory=GiftPreferences)
     food_preferences: FoodPreferences = field(default_factory=FoodPreferences)
 
@@ -66,11 +71,16 @@ def load_character_definitions(path: Path) -> tuple[CharacterDefinition, ...]:
             display_name=item["display_name"],
             tags=tuple(item.get("tags", [])),
             initial_location=item["initial_location"],
+            nickname=str(item.get("nickname", "")),
+            intro=str(item.get("intro", "")),
             faction_key=str(item.get("faction_key", "")),
             residence_area_key=str(item.get("residence_area_key", "")),
             dorm_group_key=str(item.get("dorm_group_key", "")),
             home_location_key=str(item.get("home_location_key", "")),
             default_activity_tags=tuple(item.get("default_activity_tags", [])),
+            gender=str(item.get("gender", "female")),
+            ship_class=str(item.get("ship_class", "")),
+            rarity=str(item.get("rarity", "")),
             schedule={str(key): str(value) for key, value in item.get("schedule", {}).items()},
             initial_stats=_parse_initial_stats(item.get("initial_stats")),
             gift_preferences=load_gift_preferences(item.get("gift_preferences")),

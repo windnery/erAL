@@ -10,6 +10,7 @@ from eral.content.abl_upgrade import AblUpgradeConfig, load_abl_upgrade_config
 from eral.content.calendar import CalendarDefinition, load_calendar_definition
 from eral.content.commissions import CommissionDefinition, load_commission_definitions
 from eral.content.character_packs import CharacterPack, load_character_packs
+from eral.content.character_relations import CharacterRelationIndex, load_character_relations
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
 from eral.content.commands import CommandDefinition, load_command_definitions
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
@@ -28,7 +29,6 @@ from eral.content.skins import (
     load_skin_definitions,
 )
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
-from eral.content.tw_axis_registry import TwAxisRegistry, load_tw_axis_registry
 from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
 from eral.content.maxbase import load_maxbase
 from eral.content.palamlv import load_curves
@@ -85,7 +85,6 @@ class Application:
     config: AppConfig
     paths: RuntimePaths
     stat_axes: StatAxisCatalog
-    tw_axes: TwAxisRegistry
     port_map: PortMap
     character_packs: tuple[CharacterPack, ...]
     roster: tuple[CharacterDefinition, ...]
@@ -99,6 +98,7 @@ class Application:
     appearance_definitions: dict[str, AppearanceDefinition]
     calendar_definition: CalendarDefinition
     work_schedules: tuple[WorkScheduleDefinition, ...]
+    character_relations: CharacterRelationIndex
     event_bus: EventBus
     world: WorldState
     game_loop: GameLoop
@@ -148,8 +148,7 @@ def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverri
 def create_application(root: Path | None = None) -> Application:
     root_path = (root or Path.cwd()).resolve()
     config_path = root_path / "config.ini"
-    stat_axes_path = root_path / "data" / "base" / "stat_axes.toml"
-    tw_axes_path = root_path / "data" / "generated" / "tw_axis_registry.json"
+    stat_axes_path = root_path / "data" / "base" / "axes"
     port_map_path = root_path / "data" / "base" / "port_map.toml"
     characters_path = root_path / "data" / "base" / "characters.toml"
     character_packs_path = root_path / "data" / "base" / "characters"
@@ -177,13 +176,11 @@ def create_application(root: Path | None = None) -> Application:
 
     config = AppConfig.load(config_path)
     stat_axes = load_stat_axis_catalog(stat_axes_path)
-    tw_axes = load_tw_axis_registry(tw_axes_path)
     port_map = load_port_map(port_map_path)
     mark_defs = load_mark_definitions(marks_path)
     character_packs = load_character_packs(
         character_packs_path,
         stat_axes=stat_axes,
-        tw_axes=tw_axes,
         mark_keys={mark.key for mark in mark_defs},
     )
     roster = tuple(pack.character for pack in character_packs) or load_character_definitions(characters_path)
@@ -205,6 +202,7 @@ def create_application(root: Path | None = None) -> Application:
     }
     calendar_definition = load_calendar_definition(calendar_path)
     work_schedules = load_work_schedule_definitions(work_schedules_path)
+    character_relations = load_character_relations(root_path / "data" / "base" / "character_relations.toml")
     maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
@@ -243,6 +241,7 @@ def create_application(root: Path | None = None) -> Application:
         current_hour=8,
         current_minute=0,
         player_name=config.player_name,
+        player_gender=config.player_gender,
         active_location=PortLocation(
             key=start_location.key,
             display_name=start_location.display_name,
@@ -250,9 +249,17 @@ def create_application(root: Path | None = None) -> Application:
         characters=[],
         season_month_map=season_month_map,
     )
+    # 玩家自身的数值状态（体力/气力/精液/兴奋等），供 Web UI 与指令系统读取。
+    world.player_stats = ActorNumericState.zeroed(stat_axes)
+    # 玩家默认体力/气力满：在没有 maxbase 上限表的情况下给一个合理起始值。
+    world.player_stats.base.set("stamina", 2000)
+    world.player_stats.base.set("spirit", 1500)
+    world.player_stats.base.set("reason", 1000)
+    if config.player_gender == "male":
+        world.player_stats.base.set("semen", 1000)
     schedule_service = ScheduleService(roster={character.key: character for character in roster})
     for definition in roster:
-        stats = ActorNumericState.zeroed(stat_axes, tw_axes)
+        stats = ActorNumericState.zeroed(stat_axes)
         _apply_initial_stats(stats, definition.initial_stats)
         world.characters.append(
             CharacterState(
@@ -394,7 +401,6 @@ def create_application(root: Path | None = None) -> Application:
     save_service = SaveService(
         paths=paths,
         stat_axes=stat_axes,
-        tw_axes=tw_axes,
         runtime_logger=runtime_logger,
     )
     game_loop.vital_service = vital_service
@@ -405,7 +411,6 @@ def create_application(root: Path | None = None) -> Application:
         config=config,
         paths=paths,
         stat_axes=stat_axes,
-        tw_axes=tw_axes,
         port_map=port_map,
         character_packs=character_packs,
         roster=roster,
@@ -419,6 +424,7 @@ def create_application(root: Path | None = None) -> Application:
         appearance_definitions=appearance_definitions,
         calendar_definition=calendar_definition,
         work_schedules=work_schedules,
+        character_relations=character_relations,
         event_bus=event_bus,
         world=world,
         game_loop=game_loop,

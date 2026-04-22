@@ -7,14 +7,12 @@ from pathlib import Path
 
 from eral.content.characters import InitialStatOverrides
 from eral.content.stat_axes import AxisFamily, StatAxisCatalog
-from eral.content.tw_axis_registry import TwAxisRegistry
 
 
 def load_split_initial_stats(
     path: Path,
     *,
     stat_axes: StatAxisCatalog,
-    tw_axes: TwAxisRegistry,
     mark_keys: set[str],
 ) -> InitialStatOverrides | None:
     """Load split stat files from a character pack directory."""
@@ -26,9 +24,9 @@ def load_split_initial_stats(
     return InitialStatOverrides(
         base=_load_named_family(path / "base.toml", family=AxisFamily.BASE, stat_axes=stat_axes),
         palam=_load_named_family(path / "palam.toml", family=AxisFamily.PALAM, stat_axes=stat_axes),
-        abl=_load_indexed_family(path / "abl.toml", family=AxisFamily.ABL, tw_axes=tw_axes),
-        talent=_load_indexed_family(path / "talent.toml", family=AxisFamily.TALENT, tw_axes=tw_axes),
-        cflag=_load_indexed_family(path / "cflag.toml", family=AxisFamily.CFLAG, tw_axes=tw_axes),
+        abl=_load_indexed_family(path / "abl.toml", family=AxisFamily.ABL, stat_axes=stat_axes),
+        talent=_load_indexed_family(path / "talent.toml", family=AxisFamily.TALENT, stat_axes=stat_axes),
+        cflag=_load_indexed_family(path / "cflag.toml", family=AxisFamily.CFLAG, stat_axes=stat_axes),
         marks=_load_marks(path / "marks.toml", mark_keys=mark_keys),
     )
 
@@ -54,14 +52,14 @@ def _load_indexed_family(
     path: Path,
     *,
     family: AxisFamily,
-    tw_axes: TwAxisRegistry,
+    stat_axes: StatAxisCatalog,
 ) -> dict[int, int]:
     raw_values = _load_toml_table(path)
     values: dict[int, int] = {}
     for key, value in raw_values.items():
         era_index = int(key)
         try:
-            tw_axes.get_by_index(family, era_index)
+            stat_axes.get_by_index(family, era_index)
         except KeyError as exc:
             raise ValueError(f"Unknown {family.value} stat key: {key}") from exc
         values[era_index] = int(value)

@@ -686,3 +686,82 @@ button { font-family: inherit; font-size: inherit; cursor: pointer; }
   .palam-grid { grid-template-columns: repeat(2, 1fr); }
   .actor-card { min-width: 180px; }
 }
+
+/* ── New Game Overlay ───────────────────────────── */
+.ng-intro {
+  color: var(--text-muted, #9ab);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.ng-field { margin-bottom: 16px; }
+.ng-field > label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent, #4cd8e8);
+  font-size: 13px;
+  font-weight: bold;
+}
+.ng-field input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border, #2a3a4a);
+  border-radius: 4px;
+  color: var(--text, #cde);
+  font-size: 15px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.ng-field input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent, #4cd8e8);
+}
+.ng-radio-group, .ng-funds {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ng-radio-group label, .ng-funds label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--text, #cde);
+  font-size: 14px;
+}
+.ng-preset-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ng-preset {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border, #2a3a4a);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.ng-preset:hover {
+  border-color: var(--accent, #4cd8e8);
+  background: rgba(76,216,232,0.08);
+}
+.ng-preset input[type="radio"] { margin-top: 3px; }
+.ng-preset-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--accent, #4cd8e8);
+  margin-bottom: 2px;
+}
+.ng-preset-desc {
+  font-size: 12px;
+  color: var(--text-muted, #9ab);
+}
+.ng-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}

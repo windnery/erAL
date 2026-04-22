@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from eral.content.stat_axes import StatAxisCatalog
-from eral.content.tw_axis_registry import TwAxisRegistry
 from eral.domain.stats import ActorNumericState
 from eral.domain.world import CharacterState, PortLocation, TimeSlot, WorldState
 from eral.engine.paths import RuntimePaths
@@ -20,7 +19,6 @@ class SaveService:
 
     paths: RuntimePaths
     stat_axes: StatAxisCatalog
-    tw_axes: TwAxisRegistry
     runtime_logger: RuntimeLogger | None = None
 
     def quicksave_path(self) -> Path:
@@ -126,7 +124,7 @@ class SaveService:
         world.facility_levels = {str(k): int(v) for k, v in payload.get("facility_levels", {}).items()}
 
         for actor_payload in payload["characters"]:
-            stats = ActorNumericState.zeroed(self.stat_axes, self.tw_axes)
+            stats = ActorNumericState.zeroed(self.stat_axes)
             actor_stats_payload = actor_payload.get("stats", {})
             stats.base.values.update(
                 {str(k): int(v) for k, v in actor_stats_payload.get("base", {}).items()}

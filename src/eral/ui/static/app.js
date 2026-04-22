@@ -165,11 +165,52 @@ async function renderPlayer() {
   try {
     state.player = await get('/api/player');
   } catch (e) {
-    state.player = { base: [], name: '指挥官' };
+    state.player = { base: [], name: '指挥官', gender: 'male' };
   }
   document.getElementById('playerName').textContent = state.player.name || '指挥官';
   document.getElementById('playerAvatar').textContent = firstChar(state.player.name || '指');
+  const tag = document.getElementById('playerGenderTag');
+  if (tag) tag.textContent = state.player.gender === 'female' ? '女' : '男';
   renderBars(document.getElementById('playerBars'), state.player.base);
+}
+
+// ── New Game (捏人建档) ───────────────────────────
+const NG_PRESETS = {
+  practical:    { stat_bonuses: { stamina: 300, spirit: 200 }, talent_picks: [137] }, // 大胃王
+  intellectual: { stat_bonuses: { reason: 300, spirit: 200 },  talent_picks: [144] }, // 禁断的知识
+  charismatic:  { stat_bonuses: { spirit: 300, stamina: 100 }, talent_picks: [92] },  // 魅力
+};
+
+async function submitNewGame() {
+  const name = (document.getElementById('ngName').value || '指挥官').trim();
+  const gender = document.querySelector('input[name="ngGender"]:checked')?.value || 'male';
+  const preset = document.querySelector('input[name="ngPreset"]:checked')?.value || 'practical';
+  const bonusFunds = parseInt(document.querySelector('input[name="ngFunds"]:checked')?.value || '500', 10);
+  const cfg = NG_PRESETS[preset] || NG_PRESETS.practical;
+  try {
+    const res = await post('/api/new_game', {
+      name,
+      gender,
+      stat_bonuses: cfg.stat_bonuses,
+      talent_picks: cfg.talent_picks,
+      bonus_funds: bonusFunds,
+    });
+    if (res && res.ok) {
+      document.getElementById('newGameOverlay').hidden = true;
+      log(`▸ 指挥官 ${res.player_name} 到任，港区事务官向你敬礼`, 'sys');
+      await renderPlayer();
+      await refreshAll();
+    }
+  } catch (e) { /* toast 已显示 */ }
+}
+
+async function maybeShowNewGameOverlay() {
+  try {
+    const st = await get('/api/game_status');
+    if (!st.started) {
+      document.getElementById('newGameOverlay').hidden = false;
+    }
+  } catch (e) { /* 接口不可用时静默 */ }
 }
 
 // ── Actor status card ─────────────────────────────
@@ -762,6 +803,7 @@ document.querySelectorAll('.overlay').forEach(ov => {
 // ── Init ──────────────────────────────────────────
 async function init() {
   renderExDock();
+  await maybeShowNewGameOverlay();
   await renderPlayer();
   await refreshAll();
 }

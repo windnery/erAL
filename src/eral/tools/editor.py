@@ -19,12 +19,15 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
+from eral.content.character_relations import load_character_relations
 from eral.content.commands import load_command_definitions
+from eral.content.gifts import load_gift_definitions
 from eral.content.marks import load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.relationships import load_relationship_stages
+from eral.content.skins import load_appearance_definitions, load_skin_definitions
 from eral.content.stat_axes import AxisFamily, load_stat_axis_catalog
-from eral.content.tw_axis_registry import load_tw_axis_registry
+from eral.content.work_schedules import load_work_schedule_definitions
 
 TIME_SLOTS: tuple[str, ...] = ("dawn", "morning", "afternoon", "evening", "night", "late_night")
 KANA_RE = re.compile(r"[ぁ-んァ-ンｧ-ﾝﾞﾟー]")
@@ -32,12 +35,25 @@ INTERNAL_LABEL_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 INDEX_KEY_RE = re.compile(r"^(abl|talent|cflag|flag|tflag|base|palam)_\d+$", re.IGNORECASE)
 
 JP_ZH_REPLACEMENTS: tuple[tuple[str, str], ...] = (
+  # —— 必须最先替换的多字短语（被后续单字短语拆散前处理）——
+  ("キス未経験", "无接吻经验"),
+  ("一線越えない", "难以越过的底线"),
+  ("目立ちたがり", "喜欢引人注目"),
+  ("幼児／幼児退行", "幼儿/幼儿退行"),
+  ("濡れやすさ", "弄湿难易"),
+  ("自慰しやすい", "容易自慰"),
+  ("快感応答", "快感应答"),
+  ("性別嗜好", "性别嗜好"),
+  ("ヒップサイズ", "臀围"),
+  ("酒耐性", "酒耐性"),
+  # —— 核心词组（原有）——
   ("ムード", "情绪"),
-  ("怒り", "怒气"),
-  ("酒気", "酒意"),
+  ("怒り", "愤怒"),
+  ("酒気", "醉意"),
   ("抑鬱", "抑郁"),
   ("バスト", "胸围"),
   ("ウェスト", "腰围"),
+  ("ヒップサイズ", "臀围尺寸"),
   ("ヒップ", "臀围"),
   ("気力", "气力"),
   ("身長", "身高"),
@@ -58,6 +74,189 @@ JP_ZH_REPLACEMENTS: tuple[tuple[str, str], ...] = (
   ("歓楽", "欢愉"),
   ("屈従", "屈从"),
   ("鬱屈", "郁屈"),
+  # —— SOURCE / PALAM 补齐 ——
+  ("与快", "快"),
+  ("潤滑", "润滑"),
+  ("恭順", "恭顺"),
+  ("屈服", "屈服"),
+  ("習得", "习得"),
+  ("恥情", "羞情"),
+  ("好意", "好意"),
+  ("優越", "优越"),
+  ("反感", "反感"),
+  ("不快", "不适"),
+  ("眠姦", "眠奸"),
+  ("情愛", "情爱"),
+  ("性行動", "性行为"),
+  ("達成", "达成"),
+  ("苦痛", "苦痛"),
+  ("恐怖", "恐惧"),
+  ("欲情", "欲情"),
+  ("露出", "露出"),
+  ("征服", "征服"),
+  ("受動", "受动"),
+  ("不潔", "不洁"),
+  ("逸脱", "逸脱"),
+  ("誘惑", "诱惑"),
+  ("挑発", "挑衅"),
+  ("奉仕", "奉献"),
+  ("強要", "强求"),
+  ("加虐", "加虐"),
+  # —— TALENT 常用（对齐 参考图/素质编辑.png 的中文）——
+  ("処女", "处女"),
+  ("非童貞", "非处男"),
+  ("性別", "性别"),
+  ("キス未経験", "无接吻经验"),
+  ("態度", "态度"),
+  ("応答", "回应"),
+  ("傲嬌", "娇俏"),
+  ("年齢", "年龄"),
+  ("自制心", "自制心"),
+  ("無知", "无知"),
+  ("一線越えない", "难以越过的底线"),
+  ("目立ちたがり", "喜欢引人注目"),
+  ("貞操", "贞操"),
+  ("自己愛", "自己爱"),
+  ("羞恥心", "羞耻心"),
+  ("痛覚", "痛觉"),
+  ("濡れやすさ", "弄湿难易"),
+  ("猫舌", "猫舌"),
+  ("漏尿癖", "漏尿癖"),
+  ("自慰しやすい", "容易自慰"),
+  ("汚臭耐性", "污臭耐性"),
+  ("献身的", "献身的"),
+  ("快感応答", "快感应答"),
+  ("倒錯的", "倒错的"),
+  ("性別嗜好", "性别嗜好"),
+  ("施虐狂", "施虐狂"),
+  ("受虐狂", "受虐狂"),
+  ("体型", "体型"),
+  ("Ｃ感度", "C感度"),
+  ("Ｖ感度", "V感度"),
+  ("Ａ感度", "A感度"),
+  ("Ｂ感度", "B感度"),
+  ("Ｍ感度", "M感度"),
+  ("胸围", "胸围"),
+  ("ヒップサイズ", "臀围"),
+  ("ヒップ", "臀围"),
+  ("酒耐性", "酒耐性"),
+  ("風騷", "风骚"),
+  ("動物耳", "兽耳"),
+  ("具現", "其它"),
+  ("幼児／幼児退行", "幼儿/幼儿退行"),
+  ("幼児退行", "幼儿退行"),
+  ("幼児", "幼儿"),
+  ("幼稚", "幼稚"),
+  ("初潮", "初潮"),
+  ("容易中毒", "容易中毒"),
+  ("胆量", "胆量"),
+  ("懒散", "懒散"),
+  ("性情不定", "性情不定"),
+  ("冷漠", "冷漠"),
+  ("感情缺乏", "感情缺乏"),
+  ("性的兴趣", "性的兴趣"),
+  ("抵抗", "抵抗"),
+  ("自尊心", "自尊心"),
+  # —— CFLAG / FLAG / TFLAG 常用 ——
+  ("既成事実", "既成事实"),
+  ("信頼度", "信赖度"),
+  ("基本服装セット", "基本服装组合"),
+  ("服装オプション", "服装选项"),
+  ("弱み握られ", "把柄被握"),
+  ("弱み握り", "把柄握有"),
+  ("デート後イベントフラグ", "约会后事件标志"),
+  ("デート中", "约会中"),
+  ("合意判定", "合意判定"),
+  ("異常経験", "异常经验"),
+  ("オナバレ", "自慰被撞见"),
+  ("夜這い", "夜袭"),
+  ("面識", "面识"),
+  ("固有指令", "固有指令"),
+  ("口上実装状況", "口上实装状况"),
+  ("前回の口上実装状況", "前回口上实装状况"),
+  ("現在位置", "现在位置"),
+  ("同行準備", "同行准备"),
+  ("同行", "同行"),
+  ("同室", "同室"),
+  ("陪睡中", "陪睡中"),
+  ("風呂", "浴室"),
+  ("情事目撃", "情事目击"),
+  ("行動時間", "行动时间"),
+  ("行動", "行动"),
+  ("職場", "职场"),
+  ("徹夜", "通宵"),
+  ("隠密中", "隐密中"),
+  ("招待", "邀请"),
+  ("遭遇位置", "遭遇位置"),
+  ("清い交際", "纯洁交际"),
+  ("体目当て", "只图肉体"),
+  ("膣内射精", "阴内射精"),
+  ("肛門射精", "肛门射精"),
+  ("口内精液", "口内精液"),
+  ("勃起度", "勃起度"),
+  ("初期位置", "初始位置"),
+  ("衰弱", "衰弱"),
+  ("睡眠", "睡眠"),
+  ("味覚嗜好", "味觉嗜好"),
+  ("延迟", "延迟"),
+  ("大掃除", "大扫除"),
+  ("片付け工作量", "整理工作量"),
+  ("片付け場所", "整理地点"),
+  ("職種", "职种"),
+  ("睡衣", "睡衣"),
+  ("忙得抽不出手", "忙得抽不出手"),
+  ("自慰过了", "自慰过了"),
+  ("宴会開催", "宴会开办"),
+  ("宴会規模", "宴会规模"),
+  ("宴会会場", "宴会会场"),
+  ("開始時間", "开始时间"),
+  ("開始日", "开始日"),
+  ("参加人数", "参加人数"),
+  ("悪天候中止", "恶劣天气中止"),
+  ("宴会差し入れ", "宴会慰劳品"),
+  ("每日变更事件", "每日变更事件"),
+  ("陥落人数", "陷落人数"),
+  ("周回数", "周目数"),
+  ("累計好感度上昇量", "累计好感度上升量"),
+  ("住宿人物", "住宿人物"),
+  ("偷情人数", "偷情人数"),
+  ("警告牌使用", "警告牌使用"),
+  ("享用処女", "享用处女"),
+  ("好感度上昇率", "好感度上升率"),
+  ("信頼度上昇率", "信赖度上升率"),
+  ("委托接口", "委托接口"),
+  ("追加恋人枠", "恋人槽位扩充"),
+  ("寻找委托", "寻找委托"),
+  ("時間停止", "时间停止"),
+  ("禁自慰", "禁自慰"),
+  ("抱負", "抱负"),
+  ("约会的对象", "约会对象"),
+  ("道具購入済み", "道具已购入"),
+  ("新聞購読", "报纸订阅"),
+  ("射精部位", "射精部位"),
+  ("破瓜", "破瓜"),
+  ("挿入継続", "插入继续"),
+  ("挿入不可", "插入不可"),
+  ("刻印取得", "刻印获取"),
+  ("刻印従順変化", "刻印顺从变化"),
+  ("特殊COM", "特殊指令"),
+  ("使用中", "使用中"),
+  ("不让推倒", "不让推倒"),
+  ("授乳コマンド", "授乳指令"),
+  ("キス合意取得", "接吻合意获取"),
+  ("信頼度変化なし", "信赖度无变化"),
+  ("理性削り", "理性削减"),
+  ("情緒上昇抑制", "情绪上升抑制"),
+  ("情緒BONUS", "情绪加成"),
+  ("口上特殊補正", "口上特殊修正"),
+  ("好感度BONUS", "好感度加成"),
+  ("好感度减少", "好感度减少"),
+  ("好感度管理", "好感度管理"),
+  ("信赖度管理之２", "信赖度管理二"),
+  ("信赖度管理", "信赖度管理"),
+  ("調教中COMABLE管理", "调教中指令可用管理"),
+  ("調教自動実行管理", "调教自动执行管理"),
+  ("COMABLE管理", "指令可用管理"),
 )
 
 FAMILY_ZH_NAME: dict[str, str] = {
@@ -83,6 +282,7 @@ def _localize_display_text(value: object, fallback: str = "") -> str:
 
 
 def _family_fallback_label(family: str, era_index: object, key: object, idx: int) -> str:
+  """Retained for potential reuse; currently only the axis-label localize path is wired in."""
   family_name = FAMILY_ZH_NAME.get(str(family), str(family).upper())
   if isinstance(era_index, int):
     return f"{family_name}[{era_index}]"
@@ -91,32 +291,8 @@ def _family_fallback_label(family: str, era_index: object, key: object, idx: int
     return f"{family_name}[{key_text}]"
   return f"{family_name}[{idx}]"
 
-
-def _looks_internal_label(text: str) -> bool:
-  t = text.strip()
-  if not t:
-    return True
-  if t.endswith("_OLD"):
-    return True
-  if INDEX_KEY_RE.match(t):
-    return True
-  if INTERNAL_LABEL_RE.match(t) and "_" in t:
-    return True
-  return False
-
-
-def _normalize_section_text(value: object) -> str:
-  section = _localize_display_text(value, "").strip()
-  if not section:
-    return "其他"
-  for sep in (";", "；", "\t"):
-    if sep in section:
-      section = section.split(sep, 1)[0].strip()
-  if len(section) > 24:
-    return "其他"
-  if _looks_internal_label(section):
-    return "其他"
-  return section or "其他"
+# _looks_internal_label / _normalize_section_text 已在重构中移除。
+# 之前用于 registry.json 的 section 字段清洗；axes/*.toml 已是干净 label + group，不需要再清洗。
 
 # ---------------------------------------------------------------------------
 # TOML writer (minimal — covers the structures used in character packs)
@@ -250,12 +426,8 @@ def _characters_dir(root: Path) -> Path:
     return root / "data" / "base" / "characters"
 
 
-def _registry_path(root: Path) -> Path:
-    return root / "data" / "generated" / "tw_axis_registry.json"
-
-
 def _stat_axes_path(root: Path) -> Path:
-  return root / "data" / "base" / "stat_axes.toml"
+  return root / "data" / "base" / "axes"
 
 
 def _port_map_path(root: Path) -> Path:
@@ -275,7 +447,28 @@ def _marks_path(root: Path) -> Path:
 
 
 def _checklist_path(root: Path) -> Path:
+  """Retained for historical reference; no longer read by the editor."""
   return root / "docs" / "tw_axis_registry_checklist.md"
+
+
+def _skins_path(root: Path) -> Path:
+  return root / "data" / "base" / "skins.toml"
+
+
+def _appearances_path(root: Path) -> Path:
+  return root / "data" / "base" / "appearances.toml"
+
+
+def _work_schedules_path(root: Path) -> Path:
+  return root / "data" / "base" / "work_schedules.toml"
+
+
+def _character_relations_path(root: Path) -> Path:
+  return root / "data" / "base" / "character_relations.toml"
+
+
+def _gifts_path(root: Path) -> Path:
+  return root / "data" / "base" / "gifts.toml"
 
 
 def _load_toml(path: Path) -> dict:
@@ -285,83 +478,8 @@ def _load_toml(path: Path) -> dict:
         return tomllib.load(f)
 
 
-def _load_registry_allowlist(root: Path) -> dict[str, dict[str, set[object]]]:
-  path = _checklist_path(root)
-  if not path.exists():
-    return {}
-
-  text = path.read_text(encoding="utf-8", errors="ignore")
-  pattern = re.compile(
-    r"^\s*-\s*\[[ xX]\]\s*`(?P<key>[A-Za-z0-9_]+)`\s*\|\s*`(?P<idx>-?\d+)`",
-    re.MULTILINE,
-  )
-
-  allowlist: dict[str, dict[str, set[object]]] = {}
-  for match in pattern.finditer(text):
-    key = match.group("key").strip()
-    family = key.split("_", 1)[0].lower()
-    fam_allowed = allowlist.setdefault(family, {"keys": set(), "indices": set()})
-    fam_allowed["keys"].add(key)
-    try:
-      fam_allowed["indices"].add(int(match.group("idx")))
-    except ValueError:
-      continue
-
-  return allowlist
-
-
-def _load_registry(root: Path) -> dict:
-  p = _registry_path(root)
-  if not p.exists():
-    return {}
-  with p.open("r", encoding="utf-8") as f:
-    raw = json.load(f)
-  if not isinstance(raw, dict):
-    return {}
-
-  allowlist = _load_registry_allowlist(root)
-
-  localized: dict[str, list[dict[str, object]]] = {}
-  for family, entries in raw.items():
-    if not isinstance(entries, list):
-      continue
-
-    family_key = str(family).lower()
-    family_allow = allowlist.get(family_key)
-
-    normalized_entries: list[dict[str, object]] = []
-    for idx, entry in enumerate(entries):
-      if not isinstance(entry, dict):
-        continue
-      item = dict(entry)
-
-      if family_allow is not None:
-        key_text = str(item.get("key", "")).strip()
-        era_index_raw = item.get("era_index")
-        try:
-          era_index = int(era_index_raw)
-        except (TypeError, ValueError):
-          era_index = None
-        if key_text not in family_allow["keys"] and era_index not in family_allow["indices"]:
-          continue
-
-      fallback_label = _family_fallback_label(
-        str(family), item.get("era_index"), item.get("key"), idx
-      )
-      normalized_label = _localize_display_text(item.get("label"), "")
-      if _looks_internal_label(normalized_label):
-        normalized_label = ""
-      if not normalized_label:
-        key_label = _localize_display_text(item.get("key"), "")
-        normalized_label = "" if _looks_internal_label(key_label) else key_label
-      item["label"] = normalized_label or fallback_label
-      item["section"] = _normalize_section_text(item.get("section"))
-      if "notes" in item:
-        item["notes"] = _localize_display_text(item.get("notes"), "")
-      normalized_entries.append(item)
-
-    localized[str(family)] = normalized_entries
-  return localized
+# _load_registry / _load_registry_allowlist 已在重构中移除。
+# 编辑器所有 axis 定义现在直接读取 data/base/axes/*.toml。
 
 
 def _load_stat_axes(root: Path) -> dict[str, list[dict[str, object]]]:
@@ -370,13 +488,14 @@ def _load_stat_axes(root: Path) -> dict[str, list[dict[str, object]]]:
     return {}
   catalog = load_stat_axis_catalog(path)
   payload: dict[str, list[dict[str, object]]] = {}
-  for family in (AxisFamily.BASE, AxisFamily.PALAM):
+  # 所有家族都从 axes/*.toml 加载；editor 各 tab 根据需要挑选。
+  for family in (AxisFamily.BASE, AxisFamily.PALAM, AxisFamily.SOURCE,
+                 AxisFamily.ABL, AxisFamily.TALENT):
     payload[family.value] = [
       {
         "key": axis.key,
         "era_index": axis.era_index,
         "label": _localize_display_text(axis.label, axis.key),
-        "group": _localize_display_text(axis.group, "其他"),
       }
       for axis in catalog.family_axes(family)
     ]
@@ -494,6 +613,168 @@ def _load_mark_defs(root: Path) -> list[dict[str, object]]:
     ]
 
 
+def _load_areas(root: Path) -> list[dict[str, object]]:
+    path = _port_map_path(root)
+    if not path.exists():
+        return []
+    port_map = load_port_map(path)
+    return [
+        {
+            "key": area.key,
+            "display_name": area.display_name,
+            "kind": area.kind,
+            "faction_key": area.faction_key or "",
+        }
+        for area in port_map.areas
+    ]
+
+
+def _load_all_skins(root: Path) -> list[dict[str, object]]:
+    path = _skins_path(root)
+    if not path.exists():
+        return []
+    return [
+        {
+            "key": skin.key,
+            "actor_key": skin.actor_key,
+            "display_name": skin.display_name,
+            "price": skin.price,
+            "grant_mode": skin.grant_mode,
+            "shop_visibility": skin.shop_visibility,
+            "tags": list(skin.tags),
+            "appearance_key": skin.appearance_key,
+        }
+        for skin in load_skin_definitions(path)
+    ]
+
+
+def _load_all_appearances(root: Path) -> dict[str, dict[str, object]]:
+    path = _appearances_path(root)
+    if not path.exists():
+        return {}
+    return {
+        appearance.key: {
+            "key": appearance.key,
+            "portrait_key": appearance.portrait_key,
+            "slots": dict(appearance.slots),
+        }
+        for appearance in load_appearance_definitions(path)
+    }
+
+
+def _load_all_work_schedules(root: Path) -> list[dict[str, object]]:
+    path = _work_schedules_path(root)
+    if not path.exists():
+        return []
+    result: list[dict[str, object]] = []
+    for sch in load_work_schedule_definitions(path):
+        result.append({
+            "key": sch.key,
+            "actor_key": sch.actor_key,
+            "location_key": sch.location_key,
+            "work_key": sch.work_key,
+            "work_label": sch.work_label,
+            "start_time": sch.start_time,
+            "end_time": sch.end_time,
+            "date_rules": {k: list(v) for k, v in sch.date_rules.items()},
+        })
+    return result
+
+
+def _load_all_relations(root: Path) -> list[dict[str, object]]:
+    path = _character_relations_path(root)
+    if not path.exists():
+        return []
+    index = load_character_relations(path)
+    return [
+        {
+            "from": r.from_key,
+            "to": r.to_key,
+            "affinity": r.affinity,
+            "tags": list(r.tags),
+        }
+        for r in index.relations
+    ]
+
+
+def _load_gift_tags(root: Path) -> list[str]:
+    path = _gifts_path(root)
+    if not path.exists():
+        return []
+    tags: set[str] = set()
+    for gift in load_gift_definitions(path):
+        for t in gift.tags:
+            tags.add(t)
+    return sorted(tags)
+
+
+def _save_work_schedules(root: Path, schedules: list[dict]) -> dict:
+    """Rewrite work_schedules.toml with the full schedule list."""
+    path = _work_schedules_path(root)
+    lines: list[str] = []
+    for sch in schedules:
+        lines.append("[[work_schedules]]")
+        lines.append(f'key = {_toml_escape(str(sch.get("key", "")))}')
+        lines.append(f'actor_key = {_toml_escape(str(sch.get("actor_key", "")))}')
+        lines.append(f'location_key = {_toml_escape(str(sch.get("location_key", "")))}')
+        lines.append(f'work_key = {_toml_escape(str(sch.get("work_key", "")))}')
+        lines.append(f'work_label = {_toml_escape(str(sch.get("work_label", "")))}')
+        lines.append(f'start_time = {_toml_escape(str(sch.get("start_time", "")))}')
+        lines.append(f'end_time = {_toml_escape(str(sch.get("end_time", "")))}')
+        date_rules = sch.get("date_rules") or {}
+        if date_rules:
+            lines.append("")
+            lines.append("[work_schedules.date_rules]")
+            for rk, rv in date_rules.items():
+                if isinstance(rv, list):
+                    items = ", ".join(
+                        _toml_escape(x) if isinstance(x, str) else str(x) for x in rv
+                    )
+                    lines.append(f"{rk} = [{items}]")
+                elif isinstance(rv, (int, float)):
+                    lines.append(f"{rk} = {rv}")
+                else:
+                    lines.append(f"{rk} = {_toml_escape(str(rv))}")
+        lines.append("")
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    return {"status": "ok"}
+
+
+def _save_character_relations(root: Path, relations: list[dict]) -> dict:
+    """Rewrite character_relations.toml with the full relations list."""
+    path = _character_relations_path(root)
+    header_lines: list[str] = []
+    if path.exists():
+        existing = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        for line in existing:
+            stripped = line.lstrip()
+            if stripped.startswith("[[relations]]"):
+                break
+            header_lines.append(line)
+
+    lines: list[str] = list(header_lines)
+    if lines and lines[-1].strip() != "":
+        lines.append("")
+
+    for r in relations:
+        lines.append("[[relations]]")
+        lines.append(f'from = {_toml_escape(str(r.get("from", "")))}')
+        lines.append(f'to = {_toml_escape(str(r.get("to", "")))}')
+        try:
+            affinity = int(r.get("affinity", 0))
+        except (TypeError, ValueError):
+            affinity = 0
+        lines.append(f"affinity = {affinity}")
+        tags = r.get("tags") or []
+        if tags:
+            items = ", ".join(_toml_escape(str(t)) for t in tags)
+            lines.append(f"tags = [{items}]")
+        lines.append("")
+
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    return {"status": "ok"}
+
+
 def _load_meta(root: Path) -> dict[str, object]:
     port_map_path = _port_map_path(root)
     port_map = load_port_map(port_map_path) if port_map_path.exists() else None
@@ -507,15 +788,18 @@ def _load_meta(root: Path) -> dict[str, object]:
     return {
         "locations": _load_port_map(root),
         "location_tags": _load_location_tags(root),
+        "areas": _load_areas(root),
         "commands": _load_commands(root),
         "command_keys": _load_command_keys(root),
         "stages": _load_relationship_stage_defs(root),
         "stage_keys": _load_relationship_stages(root),
         "marks": _load_mark_defs(root),
         "stat_axes": _load_stat_axes(root),
-        "registry": _load_registry(root),
         "time_slots": list(TIME_SLOTS),
         "starting_location": start_location,
+        "skins": _load_all_skins(root),
+        "appearances": _load_all_appearances(root),
+        "gift_tags": _load_gift_tags(root),
     }
 
 
@@ -643,11 +927,26 @@ class EditorHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
+        query = parse_qs(parsed.query)
 
         if path == "/" or path == "/index.html":
             self._serve_html()
         elif path == "/api/characters":
             self._send_json(list_characters(self.root))
+        elif path == "/api/work_schedules":
+            actor = (query.get("actor", [""])[0] or "").strip()
+            all_schedules = _load_all_work_schedules(self.root)
+            if actor:
+                self._send_json([s for s in all_schedules if s["actor_key"] == actor])
+            else:
+                self._send_json(all_schedules)
+        elif path == "/api/relations":
+            actor = (query.get("actor", [""])[0] or "").strip()
+            all_relations = _load_all_relations(self.root)
+            if actor:
+                self._send_json([r for r in all_relations if r["from"] == actor or r["to"] == actor])
+            else:
+                self._send_json(all_relations)
         elif path.startswith("/api/characters/"):
             key = path.split("/api/characters/")[1].rstrip("/")
             if key == "meta":
@@ -656,15 +955,18 @@ class EditorHandler(BaseHTTPRequestHandler):
                 self._send_json({
                     "locations": meta["locations"],
                     "location_tags": meta["location_tags"],
+                    "areas": meta["areas"],
                     "commands": meta["commands"],
                     "command_keys": meta["command_keys"],
                     "stages": meta["stages"],
                     "stage_keys": meta["stage_keys"],
                     "marks": meta["marks"],
                     "stat_axes": meta["stat_axes"],
-                    "registry": meta["registry"],
                     "time_slots": meta["time_slots"],
                     "starting_location": meta["starting_location"],
+                    "skins": meta["skins"],
+                    "appearances": meta["appearances"],
+                    "gift_tags": meta["gift_tags"],
                 })
             else:
                 data = load_character(self.root, key)
@@ -701,7 +1003,17 @@ class EditorHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
 
-        if path.startswith("/api/characters/"):
+        if path == "/api/work_schedules":
+            body = json.loads(self._read_body().decode("utf-8"))
+            schedules = body if isinstance(body, list) else body.get("schedules", [])
+            result = _save_work_schedules(self.root, schedules)
+            self._send_json(result)
+        elif path == "/api/relations":
+            body = json.loads(self._read_body().decode("utf-8"))
+            relations = body if isinstance(body, list) else body.get("relations", [])
+            result = _save_character_relations(self.root, relations)
+            self._send_json(result)
+        elif path.startswith("/api/characters/"):
             key = path.split("/api/characters/")[1].rstrip("/")
             body = json.loads(self._read_body().decode("utf-8"))
             result = save_character(self.root, key, body)
@@ -770,6 +1082,9 @@ body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #1
 .field-help { margin-top: 4px; color: #8fa3c8; font-size: 11px; line-height: 1.4; }
 .sub-section-title { margin: 10px 0 6px; color: #9fb3d9; font-size: 12px; font-weight: 600; }
 .tag-chip { display: inline-block; background: #0f3460; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin: 2px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin: 10px 0; }
+.info-grid > div { background: #16213e; border: 1px solid #0f3460; border-radius: 4px; padding: 8px 10px; font-size: 13px; }
+.info-label { color: #8fa3c8; margin-right: 4px; }
 .empty-state { text-align: center; padding: 60px; color: #555; }
 .save-bar { position: sticky; top: 0; background: #1a1a2e; padding: 10px 0; z-index: 10; border-bottom: 1px solid #0f3460; margin-bottom: 12px; display: flex; gap: 8px; align-items: center; }
 .save-bar .status { font-size: 12px; color: #8a8a8a; margin-left: 8px; }
@@ -790,7 +1105,9 @@ dialog h3 { color: #e94560; margin-bottom: 12px; }
 <div id="main">
   <div id="tabs">
     <button class="tab active" data-tab="info" onclick="switchTab('info')">基本信息</button>
+    <button class="tab" data-tab="personal" onclick="switchTab('personal')">个人情报</button>
     <button class="tab" data-tab="stats" onclick="switchTab('stats')">数值属性</button>
+    <button class="tab" data-tab="relations" onclick="switchTab('relations')">人际关系</button>
     <button class="tab" data-tab="dialogue" onclick="switchTab('dialogue')">口上</button>
     <button class="tab" data-tab="events" onclick="switchTab('events')">事件</button>
   </div>
@@ -877,6 +1194,14 @@ async function selectChar(key) {
 function switchTab(tab) {
   currentTab = tab;
   renderTabs();
+  if (tab === 'personal') {
+    ensurePersonalData();
+    return;
+  }
+  if (tab === 'relations') {
+    ensureRelationsData();
+    return;
+  }
   renderContent();
 }
 
@@ -892,7 +1217,9 @@ function renderContent() {
   const el = document.getElementById('content');
   switch (currentTab) {
     case 'info': el.innerHTML = renderInfo(); break;
+    case 'personal': el.innerHTML = renderPersonal(); break;
     case 'stats': el.innerHTML = renderStats(); break;
+    case 'relations': el.innerHTML = renderRelations(); break;
     case 'dialogue': el.innerHTML = renderDialogue(); break;
     case 'events': el.innerHTML = renderEvents(); break;
   }
@@ -901,6 +1228,13 @@ function renderContent() {
 function locOpts(sel) {
   return '<option value="">--</option>' + (meta.locations || []).map(function(l) {
     return '<option value="' + esc(l.key) + '"' + (String(l.key) === String(sel || '') ? ' selected' : '') + '>' + esc(l.display_name) + ' (' + esc(l.key) + ')</option>';
+  }).join('');
+}
+
+function areaOpts(sel, areas) {
+  var list = areas || (meta.areas || []);
+  return '<option value="">--</option>' + list.map(function(a) {
+    return '<option value="' + esc(a.key) + '"' + (String(a.key) === String(sel || '') ? ' selected' : '') + '>' + esc(a.display_name) + ' (' + esc(a.key) + ')</option>';
   }).join('');
 }
 
@@ -932,122 +1266,471 @@ function renderInfo() {
   var schedule = c.schedule || {};
   var timeSlots = meta.time_slots || [];
   var startLoc = c.initial_location || '';
+  var areas = meta.areas || [];
 
-  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveInfo()">保存</button><span class="status" id="save-status"></span></div>';
-  h += '<div class="grid-2">';
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveInfo()">保存</button>';
+  h += '<button class="btn btn-danger" style="margin-left:auto" onclick="confirmDelete()">删除角色</button>';
+  h += '<span class="status" id="save-status"></span></div>';
+
+  h += '<div class="section-title">身份</div>';
+  h += '<div class="grid-3">';
   h += '<div class="form-group"><label>角色 key（不可改）</label><input id="f-key" value="' + esc(c.key || '') + '" readonly style="opacity:0.6"></div>';
   h += '<div class="form-group"><label>显示名称</label><input id="f-display_name" value="' + esc(c.display_name || '') + '"></div>';
+  h += '<div class="form-group"><label>称呼（玩家对角色的昵称）</label><input id="f-nickname" value="' + esc(c.nickname || '') + '">' + help('如"企业"、"企姐"。留空则用显示名称。') + '</div>';
   h += '</div>';
-  h += '<div class="form-group"><label>标签（逗号分隔）</label><input id="f-tags" value="' + esc((c.tags || []).join(', ')) + '">' + help('英文标签，如 enterprise, carrier, eagle_union') + '</div>';
+  h += '<div class="grid-3">';
+  h += '<div class="form-group"><label>性别</label><select id="f-gender"><option value="female"' + (c.gender === 'female' ? ' selected' : '') + '>女</option><option value="male"' + (c.gender === 'male' ? ' selected' : '') + '>男</option><option value="other"' + (c.gender === 'other' ? ' selected' : '') + '>其他</option></select></div>';
+  h += '<div class="form-group"><label>船级</label><input id="f-ship_class" value="' + esc(c.ship_class || '') + '">' + help('如 航母 / 驱逐 / 重巡') + '</div>';
+  h += '<div class="form-group"><label>稀有度</label><input id="f-rarity" value="' + esc(c.rarity || '') + '">' + help('如 普通/稀有/精锐/超稀有/海上传奇') + '</div>';
+  h += '</div>';
+  h += '<div class="form-group"><label>标签（逗号分隔）</label><input id="f-tags" value="' + esc((c.tags || []).join(', ')) + '">' + help('英文标签，如 enterprise, carrier, eagle_union, serious；同时承担性格标记（era 体系下性格由 TALENT + tags 共同体现，无独立字段）') + '</div>';
+  h += '<div class="form-group"><label>角色介绍</label><textarea id="f-intro" rows="4">' + esc(c.intro || '') + '</textarea>' + help('一段角色背景描述，用于角色面板展示。') + '</div>';
+
+  h += '<div class="section-title">归属</div>';
+  h += '<div class="grid-3">';
+  h += '<div class="form-group"><label>阵营 faction_key</label><input id="f-faction_key" value="' + esc(c.faction_key || '') + '">' + help('如 eagle_union, royal_navy, sakura, iron_blood, iris') + '</div>';
+  h += '<div class="form-group"><label>住居区域 residence_area_key</label><select id="f-residence_area_key">' + areaOpts(c.residence_area_key, areas) + '</select>' + help('宿舍归属的区域。') + '</div>';
+  h += '<div class="form-group"><label>宿舍分组 dorm_group_key</label><input id="f-dorm_group_key" value="' + esc(c.dorm_group_key || '') + '">' + help('同阵营角色共享的宿舍分组标识。') + '</div>';
+  h += '</div>';
+  h += '<div class="grid-2">';
+  h += '<div class="form-group"><label>自宅位置 home_location_key</label><select id="f-home_location_key">' + locOpts(c.home_location_key) + '</select>' + help('角色的起居位置，派生"常去区域"和"活动时间带"。') + '</div>';
+  h += '<div class="form-group"><label>默认活动标签（逗号分隔）</label><input id="f-default_activity_tags" value="' + esc((c.default_activity_tags || []).join(', ')) + '">' + help('如 work, harbor, serious；用于日程/事件匹配。') + '</div>';
+  h += '</div>';
+
+  h += '<div class="section-title">初始位置 & 日程表</div>';
   h += '<div class="form-group"><label>初始位置</label><select id="f-initial_location">' + locOpts(startLoc) + '</select>' + help('角色首次出现的位置。') + '</div>';
-  h += '<div class="section-title">日程表</div>';
   h += '<div class="grid-6">';
   for (var t = 0; t < timeSlots.length; t++) {
     var ts = timeSlots[t];
     h += '<div class="form-group"><label>' + esc(ts) + '</label><select id="f-sched-' + esc(ts) + '">' + locOpts(schedule[ts] || startLoc) + '</select></div>';
   }
   h += '</div>';
+
+  h += '<div class="section-title">礼物偏好</div>';
+  h += help('标签匹配送礼时的好感加成（喜好 ×2.0，厌恶 ×0.3）。参考 gifts.toml 中的 tag。');
+  var gp = c.gift_preferences || {};
+  h += '<div class="grid-2">';
+  h += '<div class="form-group"><label>喜爱标签（逗号分隔）</label><input id="f-gift_liked" value="' + esc((gp.liked_tags || []).join(', ')) + '"></div>';
+  h += '<div class="form-group"><label>厌恶标签（逗号分隔）</label><input id="f-gift_disliked" value="' + esc((gp.disliked_tags || []).join(', ')) + '"></div>';
+  h += '</div>';
+  var giftTags = meta.gift_tags || [];
+  if (giftTags.length) {
+    h += '<div style="color:#8fa3c8;font-size:11px;margin-top:4px">可用礼物标签：' + giftTags.map(esc).join(' / ') + '</div>';
+  }
+
+  h += '<div class="section-title">饮食偏好</div>';
+  h += help('与料理指令相关。tag 可自定义（如 savory/sweet/meat/sour）。');
+  var fp = c.food_preferences || {};
+  h += '<div class="grid-2">';
+  h += '<div class="form-group"><label>喜爱标签（逗号分隔）</label><input id="f-food_liked" value="' + esc((fp.liked_tags || []).join(', ')) + '"></div>';
+  h += '<div class="form-group"><label>厌恶标签（逗号分隔）</label><input id="f-food_disliked" value="' + esc((fp.disliked_tags || []).join(', ')) + '"></div>';
+  h += '</div>';
+
   return h;
 }
 
+// ── Personal info tab ────────────────────────────────
+let personalWorkCache = [];
+
+async function ensurePersonalData() {
+  if (!currentKey) return;
+  const res = await fetch('/api/work_schedules?actor=' + encodeURIComponent(currentKey));
+  personalWorkCache = await res.json();
+  renderContent();
+}
+
+function renderPersonal() {
+  var c = currentData.character || {};
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="savePersonal()">保存工作情报</button>';
+  h += '<button class="btn btn-secondary" onclick="addWorkSchedule()">+ 添加工作情报</button>';
+  h += '<span class="status" id="save-status"></span></div>';
+
+  h += '<div class="section-title">派生信息（来自基本信息/日程表，不可直接编辑）</div>';
+  var personality = personalityFromTags(c.tags || []);
+  var hoursLabel = derivedActivityHours(c);
+  var freqAreas = derivedFrequentAreas(c);
+  var homeLabel = derivedHomeLabel(c);
+  h += '<div class="info-grid">';
+  h += '<div><span class="info-label">性格（由 tags 推导）：</span>' + esc(personality) + '</div>';
+  h += '<div><span class="info-label">活动时间带：</span>' + esc(hoursLabel) + '</div>';
+  h += '<div><span class="info-label">常去区域：</span>' + esc(freqAreas) + '</div>';
+  h += '<div><span class="info-label">自宅位置：</span>' + esc(homeLabel) + '</div>';
+  h += '</div>';
+  h += help('以上信息由"基本信息"tab 中的 tags、日程表、自宅位置派生。性格 = tags 第一个非分类标签（era 体系无独立性格字段，由 TALENT + tags 联合决定）。要修改请回"基本信息"tab。');
+
+  h += '<div class="section-title">角色介绍</div>';
+  h += '<div style="background:#16213e;border:1px solid #0f3460;border-radius:6px;padding:12px;white-space:pre-wrap;min-height:60px;color:#d0d6e2">' + esc(c.intro || '(尚未填写，请在"基本信息"tab 编辑)') + '</div>';
+
+  h += '<div class="section-title">工作情报</div>';
+  h += help('定义角色的定期工作：工种、时段、地点。保存后写入 work_schedules.toml。');
+  var work = personalWorkCache || [];
+  if (work.length === 0) {
+    h += '<div style="color:#666;padding:10px">当前角色没有工作情报。点击"+ 添加工作情报"创建。</div>';
+  }
+  for (var i = 0; i < work.length; i++) {
+    var w = work[i];
+    h += '<div class="entry-card" data-widx="' + i + '">';
+    h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    h += '<b style="color:#e94560">' + esc(w.work_label || w.work_key || '(未命名)') + '</b>';
+    h += '<button class="btn btn-danger" onclick="removeWorkSchedule(' + i + ')">删除</button>';
+    h += '</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>工作条目 key</label><input data-work="key" data-idx="' + i + '" value="' + esc(w.key || '') + '">' + help('如 enterprise_office_morning') + '</div>';
+    h += '<div class="form-group"><label>工种 work_key</label><input data-work="work_key" data-idx="' + i + '" value="' + esc(w.work_key || '') + '">' + help('如 office_duty / patrol / maid') + '</div>';
+    h += '<div class="form-group"><label>工种显示名</label><input data-work="work_label" data-idx="' + i + '" value="' + esc(w.work_label || '') + '">' + help('如 文书值班 / 夜间巡逻') + '</div>';
+    h += '</div>';
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>工作地点</label><select data-work="location_key" data-idx="' + i + '">' + locOpts(w.location_key) + '</select></div>';
+    h += '<div class="form-group"><label>开始时间</label><input data-work="start_time" data-idx="' + i + '" value="' + esc(w.start_time || '09:00') + '" placeholder="HH:MM"></div>';
+    h += '<div class="form-group"><label>结束时间</label><input data-work="end_time" data-idx="' + i + '" value="' + esc(w.end_time || '17:00') + '" placeholder="HH:MM"></div>';
+    h += '</div>';
+    var rules = w.date_rules || {};
+    var weekdays = (rules.weekdays || []).join(', ');
+    var months = (rules.months || []).join(', ');
+    var festivals = (rules.festival_tags || []).join(', ');
+    h += '<div class="grid-3">';
+    h += '<div class="form-group"><label>周内生效日（逗号分隔）</label><input data-work="weekdays" data-idx="' + i + '" value="' + esc(weekdays) + '" placeholder="mon, tue, wed">' + help('mon/tue/wed/thu/fri/sat/sun。留空表示每日。') + '</div>';
+    h += '<div class="form-group"><label>月份（逗号分隔）</label><input data-work="months" data-idx="' + i + '" value="' + esc(months) + '" placeholder="6, 7, 8">' + help('数字 1-12。留空表示全年。') + '</div>';
+    h += '<div class="form-group"><label>节日标签（逗号分隔）</label><input data-work="festival_tags" data-idx="' + i + '" value="' + esc(festivals) + '" placeholder="summer_festival"></div>';
+    h += '</div>';
+    h += '</div>';
+  }
+  return h;
+}
+
+// ── Relations tab ────────────────────────────────────
+let relationsCache = [];
+
+async function ensureRelationsData() {
+  if (!currentKey) return;
+  const res = await fetch('/api/relations?actor=' + encodeURIComponent(currentKey));
+  relationsCache = await res.json();
+  renderContent();
+}
+
+function renderRelations() {
+  var curDisp = (characters.find(function(c) { return c.key === currentKey; }) || {}).display_name || currentKey;
+  var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveRelations()">保存</button>';
+  h += '<button class="btn btn-secondary" onclick="addRelation(\'out\')">+ 本舰娘 → 其他舰娘</button>';
+  h += '<button class="btn btn-secondary" onclick="addRelation(\'in\')">+ 其他舰娘 → 本舰娘</button>';
+  h += '<span class="status" id="save-status"></span></div>';
+  h += help('舰娘之间的有向好感预设（范围 -100~+100），不涉及玩家。A→B 与 B→A 独立，未列出默认 0。标签用于事件条件匹配。');
+
+  var out = relationsCache.filter(function(r) { return r.from === currentKey; });
+  var inn = relationsCache.filter(function(r) { return r.to === currentKey && r.from !== currentKey; });
+
+  h += '<div class="section-title">本舰娘 → 其他舰娘（' + esc(curDisp) + ' 主动对他人的好感）</div>';
+  if (out.length === 0) {
+    h += '<div style="color:#666;padding:10px">暂无关系记录。</div>';
+  }
+  for (var i = 0; i < out.length; i++) {
+    h += renderRelationCard(out[i], true);
+  }
+  h += '<div class="section-title">其他舰娘 → 本舰娘（他人对 ' + esc(curDisp) + ' 的好感）</div>';
+  if (inn.length === 0) {
+    h += '<div style="color:#666;padding:10px">暂无关系记录。</div>';
+  }
+  for (var i = 0; i < inn.length; i++) {
+    h += renderRelationCard(inn[i], false);
+  }
+  return h;
+}
+
+function renderRelationCard(r, isOut) {
+  var otherKey = isOut ? r.to : r.from;
+  var otherDisp = characters.find(function(c) { return c.key === otherKey; });
+  var otherLabel = otherDisp ? otherDisp.display_name : otherKey;
+  var origin = (isOut ? 'out:' : 'in:') + r.from + ':' + r.to;
+  var h = '<div class="entry-card" data-rel="' + esc(origin) + '">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+  h += '<b style="color:#e94560">' + esc(otherLabel) + ' (' + esc(otherKey) + ')</b>';
+  h += '<button class="btn btn-danger" onclick="removeRelation(\'' + esc(origin) + '\')">删除</button>';
+  h += '</div>';
+  h += '<div class="grid-3">';
+  h += '<div class="form-group"><label>from</label><select data-rel-field="from">' + characterOpts(r.from) + '</select></div>';
+  h += '<div class="form-group"><label>to</label><select data-rel-field="to">' + characterOpts(r.to) + '</select></div>';
+  h += '<div class="form-group"><label>好感 affinity (-100~+100)</label><input type="number" data-rel-field="affinity" value="' + (r.affinity || 0) + '"></div>';
+  h += '</div>';
+  h += '<div class="form-group"><label>关系标签（逗号分隔）</label><input data-rel-field="tags" value="' + esc((r.tags || []).join(', ')) + '">' + help('如 姐妹舰, 挚友, 宿敌') + '</div>';
+  h += '</div>';
+  return h;
+}
+
+function characterOpts(sel) {
+  return characters.map(function(c) {
+    return '<option value="' + esc(c.key) + '"' + (c.key === sel ? ' selected' : '') + '>' + esc(c.display_name) + ' (' + esc(c.key) + ')</option>';
+  }).join('');
+}
+
+// ── Personal/Relations data helpers ──────────────────
+function personalityFromTags(tags) {
+  var category = ['destroyer', 'carrier', 'cruiser', 'battleship', 'eagle_union', 'royal_navy', 'sakura', 'iron_blood', 'iris'];
+  for (var i = tags.length - 1; i >= 1; i--) {
+    if (category.indexOf(tags[i]) === -1) return tags[i];
+  }
+  return '普通';
+}
+
+function derivedActivityHours(c) {
+  var slotRange = {
+    dawn: [5, 8], morning: [8, 12], afternoon: [12, 17],
+    evening: [17, 20], night: [20, 24], late_night: [0, 5]
+  };
+  var home = c.home_location_key || '';
+  var schedule = c.schedule || {};
+  var starts = [], ends = [];
+  for (var slot in schedule) {
+    if (schedule[slot] === home) continue;
+    if (!slotRange[slot]) continue;
+    starts.push(slotRange[slot][0]);
+    ends.push(slotRange[slot][1]);
+  }
+  if (starts.length === 0) return '—';
+  var s = Math.min.apply(null, starts);
+  var e = Math.max.apply(null, ends);
+  if (e === 0) e = 24;
+  return s + '时～' + e + '时';
+}
+
+function derivedFrequentAreas(c) {
+  var schedule = c.schedule || {};
+  var seen = {};
+  var labels = [];
+  for (var slot in schedule) {
+    var loc = (meta.locations || []).find(function(l) { return l.key === schedule[slot]; });
+    if (loc && loc.zone && !seen[loc.zone]) {
+      seen[loc.zone] = true;
+      labels.push(loc.zone);
+    }
+  }
+  return labels.length ? labels.join(' / ') : '—';
+}
+
+function derivedHomeLabel(c) {
+  var home = c.home_location_key;
+  if (!home) return '—';
+  var loc = (meta.locations || []).find(function(l) { return l.key === home; });
+  return loc ? loc.display_name + ' (' + home + ')' : home;
+}
+
+// ── Personal/Relations save ─────────────────────────
+function collectWorkFromDOM() {
+  var cards = document.querySelectorAll('#content .entry-card[data-widx]');
+  var schedules = [];
+  cards.forEach(function(card) {
+    var w = {};
+    card.querySelectorAll('input[data-work],select[data-work]').forEach(function(el) {
+      var k = el.dataset.work;
+      if (k === 'weekdays' || k === 'festival_tags') {
+        w._rules = w._rules || {};
+        w._rules[k] = el.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      } else if (k === 'months') {
+        w._rules = w._rules || {};
+        w._rules[k] = el.value.split(',').map(function(s){return parseInt(s.trim(),10);}).filter(function(n){return !isNaN(n);});
+      } else {
+        w[k] = el.value;
+      }
+    });
+    w.actor_key = currentKey;
+    w.date_rules = w._rules || {};
+    delete w._rules;
+    schedules.push(w);
+  });
+  return schedules;
+}
+
+async function savePersonal() {
+  var updated = collectWorkFromDOM();
+  // Merge: drop current actor's entries, then append the updated ones
+  const allRes = await fetch('/api/work_schedules');
+  const all = await allRes.json();
+  const filtered = all.filter(function(s) { return s.actor_key !== currentKey; });
+  const merged = filtered.concat(updated);
+  const res = await fetch('/api/work_schedules', {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(merged),
+  });
+  await res.json();
+  personalWorkCache = updated;
+  flash('已保存');
+  renderContent();
+}
+
+function addWorkSchedule() {
+  personalWorkCache = personalWorkCache || [];
+  personalWorkCache.push({
+    key: currentKey + '_work_' + Date.now(),
+    actor_key: currentKey,
+    location_key: '',
+    work_key: '',
+    work_label: '',
+    start_time: '09:00',
+    end_time: '17:00',
+    date_rules: { weekdays: ['mon','tue','wed','thu','fri'] },
+  });
+  renderContent();
+}
+
+function removeWorkSchedule(idx) {
+  personalWorkCache.splice(idx, 1);
+  renderContent();
+}
+
+function collectRelationsFromDOM() {
+  var cards = document.querySelectorAll('#content .entry-card[data-rel]');
+  var out = [];
+  cards.forEach(function(card) {
+    var r = { from: '', to: '', affinity: 0, tags: [] };
+    card.querySelectorAll('[data-rel-field]').forEach(function(el) {
+      var k = el.dataset.relField;
+      if (k === 'affinity') {
+        r.affinity = parseInt(el.value, 10) || 0;
+      } else if (k === 'tags') {
+        r.tags = el.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      } else {
+        r[k] = el.value;
+      }
+    });
+    if (r.from && r.to) out.push(r);
+  });
+  return out;
+}
+
+async function saveRelations() {
+  var updated = collectRelationsFromDOM();
+  // Merge: drop current actor's entries (from or to == currentKey), then append
+  const allRes = await fetch('/api/relations');
+  const all = await allRes.json();
+  const filtered = all.filter(function(r) { return r.from !== currentKey && r.to !== currentKey; });
+  const merged = filtered.concat(updated);
+  const res = await fetch('/api/relations', {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(merged),
+  });
+  await res.json();
+  relationsCache = updated;
+  flash('已保存');
+  renderContent();
+}
+
+function addRelation(direction) {
+  var other = characters.find(function(c) { return c.key !== currentKey; });
+  if (!other) { alert('需要至少两个角色才能建立关系'); return; }
+  relationsCache.push({
+    from: direction === 'out' ? currentKey : other.key,
+    to: direction === 'out' ? other.key : currentKey,
+    affinity: 0,
+    tags: [],
+  });
+  renderContent();
+}
+
+function removeRelation(origin) {
+  var updated = collectRelationsFromDOM();
+  var parts = origin.split(':');
+  var fromKey = parts[1];
+  var toKey = parts[2];
+  relationsCache = updated.filter(function(r) {
+    return !(r.from === fromKey && r.to === toKey);
+  });
+  renderContent();
+}
+
 // ── Stats tab ─────────────────────────────────────────
+// ABL 按业务含义重新分区。只显示编辑器中真正需要的条目；
+// abl_42(战斗能力) 在 skills 中被剔除 —— 保留在数据里但不对编辑器暴露。
+var ABL_GROUPS = [
+  {title: '感觉（感官敏感度）', keys: [0, 1, 2, 3, 4]},
+  {title: '心性（核心成长）', keys: [9, 10, 11, 12, 13]},
+  {title: '倾向（属性偏好）', keys: [14, 15, 16, 17]},
+  {title: '中毒（依赖状态）', keys: [30, 31, 32, 34, 35]},
+  {title: '性技', keys: [50, 51, 52, 53, 54, 55]},
+  {title: '技能（游戏五大技能）', keys: [43, 41, 44, 45, 40]}
+];
+
+// TALENT 分区（基于 section 字段自动分组；此常量仅用于排序提示）
+
 function renderStats() {
   var h = '<div class="save-bar"><button class="btn btn-primary" onclick="saveStats()">保存</button><span class="status" id="save-status"></span></div>';
 
-  // BASE & PALAM from stat_axes
-  var namedFamilies = [
-    {key: 'base', title: 'BASE（即时资源）', help: '体力、气力等即时消耗/恢复的资源'},
-    {key: 'palam', title: 'PALAM（累积参数）', help: '通过指令 SOURCE 结算后累积的参数'}
-  ];
-  for (var f = 0; f < namedFamilies.length; f++) {
-    var fam = namedFamilies[f];
-    var axes = (meta.stat_axes || {})[fam.key] || [];
-    var current = currentData[fam.key] || {};
-    h += '<div class="section-title">' + fam.title + '</div>';
-    h += help(fam.help);
-    if (axes.length === 0) {
-      h += '<div style="color:#555;padding:8px">无注册表数据</div>';
-      continue;
+  // ── BASE：只暴露体力/气力上限 ──
+  var baseCurrent = currentData.base || {};
+  h += '<div class="section-title">BASE — 体力 / 气力 上限</div>';
+  h += help('这里设置本角色的体力/气力上限。进入游戏时当前值默认等于上限（满）。其他 BASE 轴（射精/母乳/醉意等）由游戏运行时维护，编辑器不暴露。');
+  h += '<div class="stat-grid">';
+  h += '<div class="stat-item"><label>体力上限</label>';
+  h += '<input type="number" data-section="base" data-field="stamina" value="' + (baseCurrent.stamina != null ? baseCurrent.stamina : 2000) + '" min="1"></div>';
+  h += '<div class="stat-item"><label>气力上限</label>';
+  h += '<input type="number" data-section="base" data-field="spirit" value="' + (baseCurrent.spirit != null ? baseCurrent.spirit : 1500) + '" min="1"></div>';
+  h += '</div>';
+
+  // ── PALAM：通常初始为 0，但允许少数特殊角色预置 ──
+  var palamAxes = (meta.stat_axes || {}).palam || [];
+  var palamCurrent = currentData.palam || {};
+  h += '<div class="section-title">PALAM（累积参数，初始值）</div>';
+  h += help('通过指令 SOURCE 结算后累积。绝大多数角色初始全为 0；特殊设定（如开局就对玩家怀有羞情/好意）才填。');
+  h += '<div class="stat-grid">';
+  for (var i = 0; i < palamAxes.length; i++) {
+    var ax = palamAxes[i];
+    var val = palamCurrent[ax.key] != null ? palamCurrent[ax.key] : 0;
+    h += '<div class="stat-item"><label title="' + esc(ax.key) + '">' + esc(ax.label || ax.key) + '</label>';
+    h += '<input type="number" data-section="palam" data-field="' + esc(ax.key) + '" value="' + val + '"></div>';
+  }
+  h += '</div>';
+
+  // ── ABL（能力）：按业务分区展示 ──
+  var ablAxes = (meta.stat_axes || {}).abl || [];
+  var ablByIdx = {};
+  for (var i = 0; i < ablAxes.length; i++) {
+    ablByIdx[ablAxes[i].era_index] = ablAxes[i];
+  }
+  var ablCurrent = currentData.abl || {};
+  h += '<div class="section-title">ABL（能力等级）</div>';
+  h += help('通过指令积累经验后升级。"技能"列是游戏的五大技能：教养/话术/料理/艺术/整备。战斗能力为系统内部使用，不在编辑器暴露。');
+  for (var g = 0; g < ABL_GROUPS.length; g++) {
+    var group = ABL_GROUPS[g];
+    h += '<div style="margin:8px 0 4px;color:#9fb3d9;font-size:12px;font-weight:600">' + esc(group.title) + '</div>';
+    h += '<div class="stat-grid">';
+    for (var k = 0; k < group.keys.length; k++) {
+      var idx = group.keys[k];
+      var reg = ablByIdx[idx];
+      if (!reg) continue;
+      var fieldKey = String(idx);
+      var val = ablCurrent[fieldKey] != null ? ablCurrent[fieldKey] : 0;
+      h += '<div class="stat-item"><label title="abl_' + idx + '">' + esc(reg.label || reg.key) + '</label>';
+      h += '<input type="number" data-section="abl" data-field="' + esc(fieldKey) + '" value="' + val + '"></div>';
     }
-    // Group by group field
-    var groups = {};
-    for (var i = 0; i < axes.length; i++) {
-      var g = axes[i].group || '其他';
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(axes[i]);
-    }
-    var gkeys = Object.keys(groups).sort();
-    for (var gi = 0; gi < gkeys.length; gi++) {
-      h += '<div style="margin:8px 0 4px;color:#9fb3d9;font-size:12px;font-weight:600">' + esc(gkeys[gi]) + '</div>';
-      h += '<div class="stat-grid">';
-      var items = groups[gkeys[gi]];
-      for (var ii = 0; ii < items.length; ii++) {
-        var ax = items[ii];
-        var val = current[ax.key] != null ? current[ax.key] : 0;
-        h += '<div class="stat-item"><label title="' + esc(ax.key) + '">' + esc(ax.label || ax.key) + '</label>';
-        h += '<input type="number" data-section="' + fam.key + '" data-field="' + esc(ax.key) + '" value="' + val + '"></div>';
-      }
-      h += '</div>';
-    }
+    h += '</div>';
   }
 
-  // ABL, TALENT, CFLAG from registry
-  var indexedFamilies = [
-    {key: 'abl', title: 'ABL（能力等级）', help: '角色的各种能力等级。大部分初始为 0 即可。'},
-    {key: 'talent', title: 'TALENT（素质）', help: '角色的先天素质。0=无，1=有，-1=相反素质。'},
-    {key: 'cflag', title: 'CFLAG（角色标记）', help: '角色专属标记。大部分由系统运行时自动维护，初值一般设 0。'}
-  ];
-  for (var f = 0; f < indexedFamilies.length; f++) {
-    var fam = indexedFamilies[f];
-    var regs = (meta.registry || {})[fam.key] || [];
-    var current = currentData[fam.key] || {};
-    h += '<div class="section-title">' + fam.title + '</div>';
-    h += help(fam.help);
-    if (regs.length === 0) {
-      h += '<div style="color:#555;padding:8px">无注册表数据</div>';
-      continue;
-    }
-    // Group by section
-    var groups = {};
-    // First add current values not in registry
-    for (var k in current) {
-      var found = false;
-      for (var r = 0; r < regs.length; r++) {
-        if (String(regs[r].era_index) === k || regs[r].key === k) { found = true; break; }
-      }
-      if (!found) {
-        var g = '自定义';
-        if (!groups[g]) groups[g] = [];
-        groups[g].push({era_index: parseInt(k) || 0, key: k, label: k, section: g, _val: current[k]});
-      }
-    }
-    for (var i = 0; i < regs.length; i++) {
-      var g = regs[i].section || '其他';
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(regs[i]);
-    }
-    var gkeys = Object.keys(groups).sort();
-    for (var gi = 0; gi < gkeys.length; gi++) {
-      h += '<div style="margin:8px 0 4px;color:#9fb3d9;font-size:12px;font-weight:600">' + esc(gkeys[gi]) + '</div>';
-      h += '<div class="stat-grid">';
-      var items = groups[gkeys[gi]];
-      for (var ii = 0; ii < items.length; ii++) {
-        var reg = items[ii];
-        var fieldKey = String(reg.era_index);
-        var val = current[fieldKey] != null ? current[fieldKey] : (reg._val != null ? reg._val : 0);
-        h += '<div class="stat-item"><label title="' + esc(reg.key) + ' [' + reg.era_index + ']">' + esc(reg.label || reg.key) + '</label>';
-        h += '<input type="number" data-section="' + fam.key + '" data-field="' + esc(fieldKey) + '" value="' + val + '"></div>';
-      }
-      h += '</div>';
-    }
+  // ── TALENT（素质）：按 group 分组 ──
+  var talentAxes = (meta.stat_axes || {}).talent || [];
+  var talentCurrent = currentData.talent || {};
+  h += '<div class="section-title">TALENT（素质）</div>';
+  h += help('角色的先天素质。0=无，1=有，-1=相反素质。带区间的（如 体型/胸围/C感度）是等级值。性别默认女不可改。');
+  h += '<div class="stat-grid">';
+  for (var i = 0; i < talentAxes.length; i++) {
+    var ax = talentAxes[i];
+    var fieldKey = String(ax.era_index);
+    var val = talentCurrent[fieldKey] != null ? talentCurrent[fieldKey] : 0;
+    var isGender = ax.era_index === 2;
+    var readonlyAttr = isGender ? ' readonly title="舰娘性别默认为女，不可修改"' : '';
+    var labelExtra = isGender ? '（舰娘：女，锁定）' : '';
+    h += '<div class="stat-item"><label title="' + esc(ax.key) + ' [' + ax.era_index + ']">' + esc(ax.label || ax.key) + labelExtra + '</label>';
+    h += '<input type="number" data-section="talent" data-field="' + esc(fieldKey) + '" value="' + (isGender ? 0 : val) + '"' + readonlyAttr + (isGender ? ' style="opacity:0.5"' : '') + '></div>';
   }
+  h += '</div>';
 
-  // Marks
+  // CFLAG 整组不暴露。游戏运行时自动维护，默认初值 0。
+
+  // ── MARK（印记） ──
   var marks = currentData.marks || {};
   var markLines = [];
   for (var mk in marks) markLines.push(mk + '=' + marks[mk]);
   h += '<div class="section-title">MARK（印记）</div>';
-  h += help('角色身上的印记。格式：每行一个 key=level，如 dislike_mark=1');
+  h += help('角色身上的印记，如 dislike_mark（反感刻印）。格式：每行一个 key=level。');
   h += '<div class="form-group"><textarea id="f-marks" rows="4">' + esc(markLines.join('\\n')) + '</textarea></div>';
 
   return h;
@@ -1172,12 +1855,28 @@ function flash(msg) {
 async function saveInfo() {
   const c = currentData.character;
   c.display_name = document.getElementById('f-display_name').value;
+  c.nickname = document.getElementById('f-nickname').value;
+  c.intro = document.getElementById('f-intro').value;
+  c.gender = document.getElementById('f-gender').value;
+  c.ship_class = document.getElementById('f-ship_class').value;
+  c.rarity = document.getElementById('f-rarity').value;
+  c.faction_key = document.getElementById('f-faction_key').value;
+  c.residence_area_key = document.getElementById('f-residence_area_key').value;
+  c.dorm_group_key = document.getElementById('f-dorm_group_key').value;
+  c.home_location_key = document.getElementById('f-home_location_key').value;
   c.tags = document.getElementById('f-tags').value.split(',').map(s => s.trim()).filter(Boolean);
+  c.default_activity_tags = document.getElementById('f-default_activity_tags').value.split(',').map(s => s.trim()).filter(Boolean);
   c.initial_location = document.getElementById('f-initial_location').value;
   c.schedule = {};
   for (const ts of meta.time_slots) {
     c.schedule[ts] = document.getElementById('f-sched-' + ts).value;
   }
+  var giftLiked = document.getElementById('f-gift_liked').value.split(',').map(s => s.trim()).filter(Boolean);
+  var giftDisliked = document.getElementById('f-gift_disliked').value.split(',').map(s => s.trim()).filter(Boolean);
+  c.gift_preferences = { liked_tags: giftLiked, disliked_tags: giftDisliked };
+  var foodLiked = document.getElementById('f-food_liked').value.split(',').map(s => s.trim()).filter(Boolean);
+  var foodDisliked = document.getElementById('f-food_disliked').value.split(',').map(s => s.trim()).filter(Boolean);
+  c.food_preferences = { liked_tags: foodLiked, disliked_tags: foodDisliked };
   currentData.character = c;
   await saveAll(currentData);
   await loadList();
@@ -1185,8 +1884,10 @@ async function saveInfo() {
 }
 
 async function saveStats() {
-  for (var si = 0; si < ['base','palam','abl','talent','cflag'].length; si++) {
-    var sec = ['base','palam','abl','talent','cflag'][si];
+  // 编辑器只负责 base/palam/abl/talent/marks，CFLAG 整组由运行时维护，不在此覆写
+  var sections = ['base', 'palam', 'abl', 'talent'];
+  for (var si = 0; si < sections.length; si++) {
+    var sec = sections[si];
     var inputs = document.querySelectorAll('input[data-section="' + sec + '"]');
     if (inputs.length === 0) continue;
     var obj = {};
@@ -1194,6 +1895,8 @@ async function saveStats() {
       var val = parseInt(inp.value) || 0;
       if (val !== 0) obj[inp.dataset.field] = val;
     });
+    // 性别永远锁定为 0（女）——不论 UI 传了什么
+    if (sec === 'talent') { delete obj['2']; }
     currentData[sec] = obj;
   }
   // Marks

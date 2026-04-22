@@ -36,7 +36,7 @@
           <div class="avatar avatar-md" id="playerAvatar">指挥</div>
           <div>
             <div class="name" id="playerName">指挥官</div>
-            <div class="status-tags"><span class="tag-pill">男</span></div>
+            <div class="status-tags"><span class="tag-pill" id="playerGenderTag">男</span></div>
           </div>
           <div class="sub" id="playerFortune"></div>
         </div>
@@ -162,6 +162,72 @@
     </div>
     <div class="modal-body">
       <div class="shop-items" id="shopItems"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="newGameOverlay" hidden>
+  <div class="modal" style="width:min(640px,94vw);">
+    <div class="modal-head">
+      <div class="modal-title">═ 新游戏 · 就任建档 ═</div>
+    </div>
+    <div class="modal-body">
+      <div class="ng-intro">
+        你是新到任的港区指挥官。简单交代一下自己的信息，舰娘们在等你。
+      </div>
+
+      <div class="ng-field">
+        <label for="ngName">姓名</label>
+        <input id="ngName" type="text" maxlength="12" placeholder="指挥官" value="指挥官" />
+      </div>
+
+      <div class="ng-field">
+        <label>性别</label>
+        <div class="ng-radio-group" id="ngGender">
+          <label><input type="radio" name="ngGender" value="male" checked /> 男</label>
+          <label><input type="radio" name="ngGender" value="female" /> 女</label>
+        </div>
+      </div>
+
+      <div class="ng-field">
+        <label>出身背景（决定开局属性加成与天赋）</label>
+        <div class="ng-preset-group" id="ngPreset">
+          <label class="ng-preset">
+            <input type="radio" name="ngPreset" value="practical" checked />
+            <div>
+              <div class="ng-preset-title">实干派</div>
+              <div class="ng-preset-desc">体力 +300 · 气力 +200 · 天赋：大胃王</div>
+            </div>
+          </label>
+          <label class="ng-preset">
+            <input type="radio" name="ngPreset" value="intellectual" />
+            <div>
+              <div class="ng-preset-title">学院派</div>
+              <div class="ng-preset-desc">理性 +300 · 气力 +200 · 天赋：禁断知识</div>
+            </div>
+          </label>
+          <label class="ng-preset">
+            <input type="radio" name="ngPreset" value="charismatic" />
+            <div>
+              <div class="ng-preset-title">魅力派</div>
+              <div class="ng-preset-desc">气力 +300 · 体力 +100 · 天赋：魅力</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="ng-field">
+        <label>开局资金加成</label>
+        <div class="ng-funds">
+          <label><input type="radio" name="ngFunds" value="500" checked /> 500（稳健）</label>
+          <label><input type="radio" name="ngFunds" value="1500" /> 1500（宽裕）</label>
+          <label><input type="radio" name="ngFunds" value="0" /> 0（硬核）</label>
+        </div>
+      </div>
+
+      <div class="ng-actions">
+        <button class="btn primary" onclick="submitNewGame()">确认入港</button>
+      </div>
     </div>
   </div>
 </div>

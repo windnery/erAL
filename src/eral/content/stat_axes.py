@@ -29,7 +29,6 @@ class StatAxis:
     key: str
     era_index: int
     label: str
-    group: str
 
 
 @dataclass(slots=True)
@@ -51,31 +50,48 @@ class StatAxisCatalog:
 
 
 def load_stat_axis_catalog(path: Path) -> StatAxisCatalog:
-    """Load stat axis metadata from a TOML file."""
+    """Load stat axis metadata.
 
-    with path.open("rb") as handle:
-        raw_data = tomllib.load(handle)
+    Two supported layouts:
+      - Directory: ``path`` is ``data/base/axes/`` containing
+        ``base.toml``, ``palam.toml``, ``source.toml``, ``abl.toml``,
+        ``talent.toml`` (each with ``[[entries]]`` blocks).
+      - Legacy: ``path`` is a single ``stat_axes.toml`` with
+        ``[[base]]``/``[[palam]]``/``[[source]]`` blocks.
+    """
 
     by_family: dict[AxisFamily, tuple[StatAxis, ...]] = {}
     by_key: dict[tuple[AxisFamily, str], StatAxis] = {}
     by_index: dict[tuple[AxisFamily, int], StatAxis] = {}
 
-    for family in AxisFamily:
-        raw_axes = raw_data.get(family.value, [])
+    def _emit(family: AxisFamily, items: list[dict]) -> None:
         axes = tuple(
             StatAxis(
                 family=family,
                 key=item["key"],
                 era_index=int(item["era_index"]),
                 label=item["label"],
-                group=item["group"],
             )
-            for item in raw_axes
+            for item in items
         )
         by_family[family] = axes
-
         for axis in axes:
             by_key[(family, axis.key)] = axis
             by_index[(family, axis.era_index)] = axis
+
+    if path.is_dir():
+        for family in AxisFamily:
+            file_path = path / f"{family.value}.toml"
+            if not file_path.exists():
+                by_family[family] = ()
+                continue
+            with file_path.open("rb") as handle:
+                raw = tomllib.load(handle)
+            _emit(family, raw.get("entries", []))
+    else:
+        with path.open("rb") as handle:
+            raw_data = tomllib.load(handle)
+        for family in AxisFamily:
+            _emit(family, raw_data.get(family.value, []))
 
     return StatAxisCatalog(by_family=by_family, by_key=by_key, by_index=by_index)

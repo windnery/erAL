@@ -13,7 +13,6 @@ from eral.content.events import EventDefinition, load_event_definitions
 from eral.content.food import load_food_preferences
 from eral.content.gifts import load_gift_preferences
 from eral.content.stat_axes import StatAxisCatalog
-from eral.content.tw_axis_registry import TwAxisRegistry
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,7 +28,6 @@ def load_character_packs(
     path: Path,
     *,
     stat_axes: StatAxisCatalog | None = None,
-    tw_axes: TwAxisRegistry | None = None,
     mark_keys: set[str] | None = None,
 ) -> tuple[CharacterPack, ...]:
     """Load character packs from directory entries."""
@@ -45,11 +43,10 @@ def load_character_packs(
         if not character_file.exists():
             continue
         initial_stats = None
-        if stat_axes is not None and tw_axes is not None and mark_keys is not None:
+        if stat_axes is not None and mark_keys is not None:
             initial_stats = load_split_initial_stats(
                 entry,
                 stat_axes=stat_axes,
-                tw_axes=tw_axes,
                 mark_keys=mark_keys,
             )
         character = _load_character_file(character_file, initial_stats=initial_stats)
@@ -81,11 +78,16 @@ def _load_character_file(
         display_name=raw_data["display_name"],
         tags=tuple(raw_data.get("tags", [])),
         initial_location=raw_data["initial_location"],
+        nickname=str(raw_data.get("nickname", "")),
+        intro=str(raw_data.get("intro", "")),
         faction_key=str(raw_data.get("faction_key", "")),
         residence_area_key=str(raw_data.get("residence_area_key", "")),
         dorm_group_key=str(raw_data.get("dorm_group_key", "")),
         home_location_key=str(raw_data.get("home_location_key", "")),
         default_activity_tags=tuple(raw_data.get("default_activity_tags", [])),
+        gender=str(raw_data.get("gender", "female")),
+        ship_class=str(raw_data.get("ship_class", "")),
+        rarity=str(raw_data.get("rarity", "")),
         schedule={str(key): str(value) for key, value in raw_data.get("schedule", {}).items()},
         initial_stats=initial_stats or _parse_initial_stats(raw_data.get("initial_stats")),
         gift_preferences=load_gift_preferences(raw_data.get("gift_preferences")),

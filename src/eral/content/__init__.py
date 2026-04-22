@@ -20,7 +20,6 @@ from .port_map import load_port_map
 from .relationships import RelationshipStageDefinition, load_relationship_stages
 from .settlement import SettlementRule, load_settlement_rules
 from .stat_axes import AxisFamily, StatAxis, StatAxisCatalog, load_stat_axis_catalog
-from .tw_axis_registry import TwAxisEntry, TwAxisRegistry, load_tw_axis_registry
 from .work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
 
 __all__ = [
@@ -43,8 +42,6 @@ __all__ = [
     "ShopfrontDefinition",
     "StatAxis",
     "StatAxisCatalog",
-    "TwAxisEntry",
-    "TwAxisRegistry",
     "WorkScheduleDefinition",
     "load_abl_upgrade_config",
     "load_calendar_definition",
@@ -62,6 +59,5 @@ __all__ = [
     "load_relationship_stages",
     "load_settlement_rules",
     "load_stat_axis_catalog",
-    "load_tw_axis_registry",
     "load_work_schedule_definitions",
 ]

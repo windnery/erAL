@@ -13,9 +13,9 @@ class AppConfig:
 
     game_title: str = "erAL"
     language: str = "zh_CN"
-    ui_mode: str = "cli"
     start_time_slot: str = "morning"
-    player_name: str = "Commander"
+    player_name: str = "指挥官"
+    player_gender: str = "male"
 
     @classmethod
     def load(cls, path: Path) -> "AppConfig":
@@ -31,8 +31,7 @@ class AppConfig:
         return cls(
             game_title=general.get("game_title", cls.game_title),
             language=general.get("language", cls.language),
-            ui_mode=general.get("ui_mode", cls.ui_mode),
             start_time_slot=general.get("start_time_slot", cls.start_time_slot),
             player_name=player.get("name", cls.player_name),
+            player_gender=player.get("gender", cls.player_gender),
         )
-

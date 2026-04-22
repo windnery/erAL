@@ -13,7 +13,6 @@ from eral.content.events import load_event_definitions
 from eral.content.marks import load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.stat_axes import load_stat_axis_catalog
-from eral.content.tw_axis_registry import load_tw_axis_registry
 
 MIN_EVENTS_PER_PACK = 4
 MIN_DIALOGUE_PER_PACK = 8
@@ -30,15 +29,13 @@ class ContentPackStat:
 
 
 def _load_packs(root: Path) -> tuple[CharacterPack, ...]:
-    stat_axes = load_stat_axis_catalog(root / "data" / "base" / "stat_axes.toml")
-    tw_axes = load_tw_axis_registry(root / "data" / "generated" / "tw_axis_registry.json")
+    stat_axes = load_stat_axis_catalog(root / "data" / "base" / "axes")
     mark_keys = {
         mark.key for mark in load_mark_definitions(root / "data" / "base" / "marks.toml")
     }
     return load_character_packs(
         root / "data" / "base" / "characters",
         stat_axes=stat_axes,
-        tw_axes=tw_axes,
         mark_keys=mark_keys,
     )
 

@@ -244,6 +244,8 @@ class WorldState:
     current_weekday: str = "mon"
     current_hour: int = 8
     current_minute: int = 0
+    player_gender: str = "male"
+    player_stats: ActorNumericState | None = None
     date_partner_key: str | None = None
     is_busy: bool = False
     is_date_traveling: bool = False
