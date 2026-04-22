@@ -9,7 +9,6 @@ from pathlib import Path
 from eral.content.character_packs import load_character_packs
 from eral.content.marks import load_mark_definitions
 from eral.content.stat_axes import load_stat_axis_catalog
-from eral.content.tw_axis_registry import load_tw_axis_registry
 
 
 class CharacterPackStatFileTests(unittest.TestCase):
@@ -17,8 +16,7 @@ class CharacterPackStatFileTests(unittest.TestCase):
         self.repo_root = Path(__file__).resolve().parents[1]
         self.temp_root = self.repo_root / ".tmp-test-data"
         self.temp_root.mkdir(exist_ok=True)
-        self.stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "stat_axes.toml")
-        self.tw_axes = load_tw_axis_registry(self.repo_root / "data" / "generated" / "tw_axis_registry.json")
+        self.stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "axes")
         self.mark_keys = {
             mark.key for mark in load_mark_definitions(self.repo_root / "data" / "base" / "marks.toml")
         }
@@ -56,7 +54,6 @@ class CharacterPackStatFileTests(unittest.TestCase):
         packs = load_character_packs(
             temp_dir,
             stat_axes=self.stat_axes,
-            tw_axes=self.tw_axes,
             mark_keys=self.mark_keys,
         )
 
@@ -93,7 +90,6 @@ class CharacterPackStatFileTests(unittest.TestCase):
             load_character_packs(
                 temp_dir,
                 stat_axes=self.stat_axes,
-                tw_axes=self.tw_axes,
                 mark_keys=self.mark_keys,
             )
 

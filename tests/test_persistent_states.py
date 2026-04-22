@@ -363,7 +363,6 @@ class SaveCompatTests(unittest.TestCase):
         save = SaveService(
             paths=RuntimePaths.from_root(ROOT),
             stat_axes=app.stat_axes,
-            tw_axes=app.tw_axes,
         )
 
         save.save_world(app.world)

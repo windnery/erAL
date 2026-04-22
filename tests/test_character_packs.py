@@ -10,20 +10,17 @@ from pathlib import Path
 from eral.content.character_packs import load_character_packs
 from eral.content.marks import load_mark_definitions
 from eral.content.stat_axes import load_stat_axis_catalog
-from eral.content.tw_axis_registry import load_tw_axis_registry
 from eral.tools.validate_content import validate_content
 
 
 class CharacterPackTests(unittest.TestCase):
     def test_loads_all_real_character_packs(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
-        stat_axes = load_stat_axis_catalog(repo_root / "data" / "base" / "stat_axes.toml")
-        tw_axes = load_tw_axis_registry(repo_root / "data" / "generated" / "tw_axis_registry.json")
+        stat_axes = load_stat_axis_catalog(repo_root / "data" / "base" / "axes")
         mark_keys = {m.key for m in load_mark_definitions(repo_root / "data" / "base" / "marks.toml")}
         packs = load_character_packs(
             repo_root / "data" / "base" / "characters",
             stat_axes=stat_axes,
-            tw_axes=tw_axes,
             mark_keys=mark_keys,
         )
 

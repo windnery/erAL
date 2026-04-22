@@ -11,6 +11,7 @@ from pathlib import Path
 from eral.app.bootstrap import create_application
 from eral.content.relationships import load_relationship_stages
 from eral.domain.compat_semantics import CFLAGKey, actor_cflag
+from eral.domain.relationship import RelationshipStage
 from eral.domain.world import CharacterState
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -19,10 +20,20 @@ _STAGES = load_relationship_stages(_REPO_ROOT / "data" / "base" / "relationship_
 ABL_INTIMACY_INDEX = 9
 
 _STAGE_BY_KEY = {s.key: s for s in _STAGES}
+_STAGE_RANK = {s.key: i for i, s in enumerate(_STAGES)}
 
 
 def _stage(key: str):
     return _STAGE_BY_KEY[key]
+
+
+def _set_stage(actor: CharacterState, key: str) -> None:
+    stage_def = _stage(key)
+    actor.relationship_stage = RelationshipStage(
+        key=stage_def.key,
+        display_name=stage_def.display_name,
+        rank=_STAGE_RANK[key],
+    )
 
 
 def seed_stranger(actor: CharacterState) -> None:
@@ -37,6 +48,7 @@ def seed_friendly(
     actor_cflag.set(actor, CFLAGKey.AFFECTION, s.min_affection + margin)
     actor_cflag.set(actor, CFLAGKey.TRUST, s.min_trust + margin)
     actor.sync_derived_fields()
+    _set_stage(actor, "friendly")
 
 
 def seed_like(
@@ -49,6 +61,7 @@ def seed_like(
     actor_cflag.set(actor, CFLAGKey.TRUST, s.min_trust + margin)
     actor.stats.compat.abl.set(ABL_INTIMACY_INDEX, s.min_intimacy if intimacy is None else intimacy)
     actor.sync_derived_fields()
+    _set_stage(actor, "like")
 
 
 def seed_love(
@@ -63,6 +76,7 @@ def seed_love(
     if "dislike_mark" in actor.marks:
         del actor.marks["dislike_mark"]
     actor.sync_derived_fields()
+    _set_stage(actor, "love")
 
 
 def seed_oath(
@@ -77,6 +91,7 @@ def seed_oath(
     if "dislike_mark" in actor.marks:
         del actor.marks["dislike_mark"]
     actor.sync_derived_fields()
+    _set_stage(actor, "oath")
 
 
 def reset_progress(actor) -> None:

@@ -7,7 +7,6 @@ from pathlib import Path
 
 from eral.app.bootstrap import create_application
 from eral.content.stat_axes import AxisFamily
-from eral.content.tw_axis_registry import load_tw_axis_registry
 from eral.domain.compat_semantics import (
     ABLKey,
     CFLAGKey,
@@ -24,8 +23,7 @@ from tests.support.stages import reset_progress
 class CompatSemanticsTests(unittest.TestCase):
     def setUp(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
-        self.tw_registry = load_tw_axis_registry(repo_root / "data" / "generated" / "tw_axis_registry.json")
-        self.semantics = build_default_compat_semantics(self.tw_registry)
+        self.semantics = build_default_compat_semantics()
         self.app = create_application(repo_root)
 
     def _actor(self):
@@ -37,7 +35,7 @@ class CompatSemanticsTests(unittest.TestCase):
         entry = self.semantics.entry(AxisFamily.CFLAG, CFLAGKey.AFFECTION)
 
         self.assertEqual(entry.era_index, 2)
-        self.assertEqual(entry.label, self.tw_registry.get_by_index(AxisFamily.CFLAG, 2).label)
+        self.assertEqual(entry.label, "好感度")
 
     def test_resolves_registered_abl_and_talent_entries(self) -> None:
         abl_entry = self.semantics.entry(AxisFamily.ABL, ABLKey.TALK_SKILL)
@@ -45,8 +43,8 @@ class CompatSemanticsTests(unittest.TestCase):
 
         self.assertEqual(abl_entry.era_index, 41)
         self.assertEqual(talent_entry.era_index, 92)
-        self.assertEqual(abl_entry.label, self.tw_registry.get_by_index(AxisFamily.ABL, 41).label)
-        self.assertEqual(talent_entry.label, self.tw_registry.get_by_index(AxisFamily.TALENT, 92).label)
+        self.assertEqual(abl_entry.label, "話術技能")
+        self.assertEqual(talent_entry.label, "魅力")
 
     def test_actor_accessors_read_write_by_semantic_key(self) -> None:
         actor = self._actor()

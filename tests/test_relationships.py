@@ -37,7 +37,8 @@ class RelationshipTests(unittest.TestCase):
             command_key="chat",
         )
         self.assertEqual(actor.affection, 3)
-        self.assertEqual(actor.stats.palam.get("favor"), 50)
+        # enterprise has talent 92 (魅力) which boosts affection SOURCE by 1.1x
+        self.assertEqual(actor.stats.palam.get("favor"), 55)
 
     def test_sync_derived_fields_matches_cflag(self) -> None:
         actor = self._actor()

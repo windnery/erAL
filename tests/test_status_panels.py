@@ -122,33 +122,4 @@ class BodyInfoHelpersTests(unittest.TestCase):
         self.assertIn("第 7 日", mouth.history)
 
 
-class StatusPanelRenderSmokeTest(unittest.TestCase):
-    """Ensure each tab renders without exception for a real actor."""
-
-    def setUp(self) -> None:
-        repo_root = Path(__file__).resolve().parents[1]
-        self.app = create_application(repo_root)
-        self.actor = actor_by_key(self.app, "enterprise")
-
-    def test_tabs_render_without_exceptions(self) -> None:
-        import io
-        from contextlib import redirect_stdout
-        from eral.ui import cli
-
-        buf = io.StringIO()
-        with redirect_stdout(buf):
-            cli._render_tab_clothing_ability(self.actor, self.app)
-            cli._render_tab_exp_jewel(self.actor, self.app)
-            cli._render_tab_personal(self.actor, self.app)
-            cli._render_tab_likes(self.actor, self.app)
-            cli._render_tab_body(self.actor, self.app)
-            cli._render_tab_fallen(self.actor, self.app.relationship_stages, self.app)
-
-        output = buf.getvalue()
-        # Sanity: all 6 panels produced output with their section headers
-        self.assertIn("服装", output)
-        self.assertIn("经验", output)
-        self.assertIn("个人情报", output)
-        self.assertIn("个人好恶", output)
-        self.assertIn("身体情报", output)
-        self.assertIn("陷落状态", output)
+# CLI 面板渲染测试已随 cli.py 移除而删除。web 面板有独立的渲染测试。

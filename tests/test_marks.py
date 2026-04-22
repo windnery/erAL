@@ -45,7 +45,7 @@ class CharacterMarkStateTests(unittest.TestCase):
         cls.app = create_application(repo_root)
 
     def _make_actor(self) -> CharacterState:
-        stats = ActorNumericState.zeroed(self.app.stat_axes, self.app.tw_axes)
+        stats = ActorNumericState.zeroed(self.app.stat_axes)
         return CharacterState(
             key="test_actor",
             display_name="测试角色",

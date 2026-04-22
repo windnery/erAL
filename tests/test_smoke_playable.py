@@ -14,10 +14,12 @@ def _actor(world, key: str):
     return next(a for a in world.characters if a.key == key)
 
 
-def _seed_friendly(actor) -> None:
+def _seed_friendly(actor, app=None) -> None:
     actor_cflag.set(actor, CFLAGKey.AFFECTION, 210)
     actor_cflag.set(actor, CFLAGKey.TRUST, 110)
     actor.sync_derived_fields()
+    if app is not None:
+        app.relationship_service.update_actor(actor)
 
 
 def _advance_to(app, world, day: int, slot: TimeSlot) -> None:
@@ -45,7 +47,7 @@ class ThreeDayPlayableSmokeTests(unittest.TestCase):
         self.app.navigation_service.move_player(world, "dock")
         self.app.command_service.execute(world, enterprise.key, "chat")
         self.app.command_service.execute(world, enterprise.key, "touch_head")
-        _seed_friendly(enterprise)
+        _seed_friendly(enterprise, self.app)
         self.app.command_service.execute(world, enterprise.key, "invite_follow")
 
         self.app.game_loop.advance_time(world)

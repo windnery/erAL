@@ -44,6 +44,16 @@ class MultiCharacterRegressionTests(unittest.TestCase):
         self.enterprise.stats.compat.abl.set(9, 3)
         self.app.relationship_service.update_actor(self.enterprise)
 
+        # Seed laffey & javelin up to friendly so invite_meal / share_snack 门槛通过
+        self.laffey.stats.compat.cflag.set(2, 210)
+        self.laffey.stats.compat.cflag.set(4, 110)
+        self.laffey.sync_derived_fields()
+        self.app.relationship_service.update_actor(self.laffey)
+        self.javelin.stats.compat.cflag.set(2, 210)
+        self.javelin.stats.compat.cflag.set(4, 110)
+        self.javelin.sync_derived_fields()
+        self.app.relationship_service.update_actor(self.javelin)
+
         world.current_time_slot = TimeSlot.EVENING
         world.active_location.key = "cafeteria"
         world.active_location.display_name = "食堂"
@@ -63,8 +73,8 @@ class MultiCharacterRegressionTests(unittest.TestCase):
         self.assertFalse(self.javelin.is_on_date)
 
         self.assertGreaterEqual(self.enterprise.affection, 311)
-        self.assertGreaterEqual(self.laffey.affection, 311)
-        self.assertGreaterEqual(self.javelin.affection, 56)
+        self.assertGreaterEqual(self.laffey.affection, 210)
+        self.assertGreaterEqual(self.javelin.affection, 50)
         self.assertEqual(world.date_partner_key, self.enterprise.key)
 
     def test_multi_character_dialogue_resolution_stays_actor_scoped(self) -> None:

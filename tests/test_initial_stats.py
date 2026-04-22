@@ -16,27 +16,25 @@ class InitialStatsTests(unittest.TestCase):
         """Character starting state reflects applied initial overrides from split files."""
         app = create_application(self.repo_root)
         actor = next(actor for actor in app.world.characters if actor.key == "laffey")
-        self.assertEqual(actor.affection, 310)
-        self.assertEqual(actor.trust, 160)
+        self.assertEqual(actor.affection, 0)
+        self.assertEqual(actor.trust, 0)
         self.assertEqual(actor.obedience, 0)
-        self.assertEqual(actor.relationship_stage.key, "friendly")
+        self.assertEqual(actor.relationship_stage.key, "stranger")
 
     def test_initial_cflag_values_in_actor(self) -> None:
         """Character pack with cflag overrides reflects them after bootstrap."""
         app = create_application(self.repo_root)
         laffey = next(actor for actor in app.world.characters if actor.key == "laffey")
-        self.assertEqual(laffey.affection, 310)
-        self.assertEqual(laffey.trust, 160)
+        self.assertEqual(laffey.affection, 0)
+        self.assertEqual(laffey.trust, 0)
 
     def test_initial_stat_overrides_applied_to_actor(self) -> None:
         """When initial_stats has cflag overrides, the actor reflects them after bootstrap."""
         from eral.content.characters import CharacterDefinition, InitialStatOverrides
         from eral.domain.stats import ActorNumericState
         from eral.content.stat_axes import load_stat_axis_catalog
-        from eral.content.tw_axis_registry import load_tw_axis_registry
 
-        stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "stat_axes.toml")
-        tw_axes = load_tw_axis_registry(self.repo_root / "data" / "generated" / "tw_axis_registry.json")
+        stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "axes")
 
         overrides = InitialStatOverrides(
             base={"stamina": 500},
@@ -45,7 +43,7 @@ class InitialStatsTests(unittest.TestCase):
             talent={92: 1},
             cflag={2: 3, 4: 2},
         )
-        stats = ActorNumericState.zeroed(stat_axes, tw_axes)
+        stats = ActorNumericState.zeroed(stat_axes)
 
         self.assertEqual(stats.base.get("stamina"), 0)
         self.assertEqual(stats.compat.cflag.get(2), 0)
@@ -67,13 +65,11 @@ class InitialStatsTests(unittest.TestCase):
         from eral.domain.stats import ActorNumericState
         from eral.domain.world import CharacterState
         from eral.content.stat_axes import load_stat_axis_catalog
-        from eral.content.tw_axis_registry import load_tw_axis_registry
         from eral.app.bootstrap import _apply_initial_stats
 
-        stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "stat_axes.toml")
-        tw_axes = load_tw_axis_registry(self.repo_root / "data" / "generated" / "tw_axis_registry.json")
+        stat_axes = load_stat_axis_catalog(self.repo_root / "data" / "base" / "axes")
 
-        stats = ActorNumericState.zeroed(stat_axes, tw_axes)
+        stats = ActorNumericState.zeroed(stat_axes)
         overrides = InitialStatOverrides(cflag={2: 5, 4: 3, 6: 2})
         _apply_initial_stats(stats, overrides)
 
@@ -134,7 +130,7 @@ class InitialStatsTests(unittest.TestCase):
         self.assertEqual(actor.stats.palam.get("favor"), 1)
         self.assertEqual(actor.stats.compat.abl.get(41), 1)
         self.assertEqual(actor.stats.compat.talent.get(92), 1)
-        self.assertEqual(actor.trust, 35)
+        self.assertEqual(actor.trust, 0)
         self.assertTrue(actor.has_mark("kissed"))
 
     def test_enterprise_and_laffey_initial_stats_apply_after_bootstrap(self) -> None:
@@ -146,13 +142,13 @@ class InitialStatsTests(unittest.TestCase):
         self.assertEqual(enterprise.stats.base.get("spirit"), 900)
         self.assertEqual(enterprise.stats.palam.get("favor"), 3)
         self.assertEqual(enterprise.stats.compat.abl.get(41), 2)
-        self.assertEqual(enterprise.affection, 310)
+        self.assertEqual(enterprise.affection, 0)
         self.assertTrue(enterprise.has_mark("confessed"))
 
         self.assertEqual(laffey.stats.base.get("stamina"), 900)
         self.assertEqual(laffey.stats.palam.get("favor"), 2)
         self.assertEqual(laffey.stats.compat.talent.get(92), 1)
-        self.assertEqual(laffey.affection, 310)
+        self.assertEqual(laffey.affection, 0)
         self.assertTrue(laffey.has_mark("kissed"))
 
 

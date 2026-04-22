@@ -8,7 +8,6 @@ from pathlib import Path
 from eral.content.abl_upgrade import load_abl_upgrade_config
 from eral.domain.stats import ActorNumericState
 from eral.content.stat_axes import load_stat_axis_catalog
-from eral.content.tw_axis_registry import load_tw_axis_registry
 from eral.systems.abl_upgrade import compute_demand, check_and_apply_abl_upgrades
 from tests.support.real_actors import actor_by_key, place_player_with_actor
 from tests.support.stages import make_app, reset_progress
@@ -52,9 +51,8 @@ class CheckAndApplyUpgradesTests(unittest.TestCase):
     """Test level-up application logic."""
 
     def setUp(self) -> None:
-        catalog = load_stat_axis_catalog(_REPO_ROOT / "data" / "base" / "stat_axes.toml")
-        registry = load_tw_axis_registry(_REPO_ROOT / "data" / "generated" / "tw_axis_registry.json")
-        self.stats = ActorNumericState.zeroed(catalog, registry)
+        catalog = load_stat_axis_catalog(_REPO_ROOT / "data" / "base" / "axes")
+        self.stats = ActorNumericState.zeroed(catalog)
 
     def test_no_experience_no_upgrade(self) -> None:
         results = check_and_apply_abl_upgrades(self.stats, _CONFIG)

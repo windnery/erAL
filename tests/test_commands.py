@@ -32,7 +32,8 @@ class CommandPipelineTests(unittest.TestCase):
         self.assertEqual(result.action_key, "chat")
         self.assertEqual(actor.affection, favor_delta({"affection": 50, "joy": 30}, "stranger"))
         self.assertEqual(actor.trust, trust_delta({"affection": 50, "joy": 30}, "stranger"))
-        self.assertEqual(actor.stats.palam.get("favor"), 50)
+        # enterprise has talent 92 (魅力) which boosts affection SOURCE by 1.1x
+        self.assertEqual(actor.stats.palam.get("favor"), 55)
         self.assertEqual(actor.stats.base.get("mood"), 30)
         self.assertEqual(actor.stats.source.get("affection"), 0)
 

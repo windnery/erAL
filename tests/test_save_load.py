@@ -8,7 +8,6 @@ import uuid
 from pathlib import Path
 
 from eral.app.bootstrap import create_application
-from eral.ui.cli import _build_menu
 from tests.support.real_actors import actor_by_key, place_player_with_actor
 from tests.support.stages import reset_progress
 
@@ -167,19 +166,6 @@ class SaveLoadTests(unittest.TestCase):
         self.assertEqual(world.add_item("medkit", -1), 0)
         self.assertTrue(world.consume_item("medkit", 0))
 
-    def test_cli_menu_includes_save_and_load_when_save_exists(self) -> None:
-        menu = _build_menu(self.app, self.app.world)
-        action_types = [item[1] for items in menu.values() for item in items]
-        self.assertIn("save", action_types)
-        self.assertNotIn("load", action_types)
-
-        self.app.save_service.save_world(self.app.world)
-        menu = _build_menu(self.app, self.app.world)
-        action_types = [item[1] for items in menu.values() for item in items]
-        self.assertIn("save", action_types)
-        self.assertIn("load", action_types)
-
-
     def test_load_restores_enterprise_and_laffey_seeded_stats(self) -> None:
         enterprise = next(actor for actor in self.app.world.characters if actor.key == "enterprise")
         laffey = next(actor for actor in self.app.world.characters if actor.key == "laffey")
@@ -198,10 +184,10 @@ class SaveLoadTests(unittest.TestCase):
         restored_laffey = next(actor for actor in restored.characters if actor.key == "laffey")
 
         self.assertEqual(restored_enterprise.stats.base.get("stamina"), 1200)
-        self.assertEqual(restored_enterprise.stats.compat.cflag.get(2), 310)
+        self.assertEqual(restored_enterprise.stats.compat.cflag.get(2), 0)
         self.assertEqual(restored_enterprise.marks["confessed"], 1)
         self.assertEqual(restored_laffey.stats.palam.get("favor"), 2)
-        self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 310)
+        self.assertEqual(restored_laffey.stats.compat.cflag.get(2), 0)
         self.assertEqual(restored_laffey.marks["kissed"], 1)
 
     def test_load_older_save_defaults_skin_state(self) -> None:

@@ -88,8 +88,6 @@ def cflag_obedience_delta(source_obedience: int) -> int:
 
 def _make_zero_stats() -> ActorNumericState:
     from eral.content.stat_axes import load_stat_axis_catalog
-    from eral.content.tw_axis_registry import load_tw_axis_registry
     _ensure_loaded()
-    stat_axes = load_stat_axis_catalog(_REPO_ROOT / "data" / "base" / "stat_axes.toml")
-    tw_axes = load_tw_axis_registry(_REPO_ROOT / "data" / "generated" / "tw_axis_registry.json")
-    return ActorNumericState.zeroed(stat_axes, tw_axes)
+    stat_axes = load_stat_axis_catalog(_REPO_ROOT / "data" / "base" / "axes")
+    return ActorNumericState.zeroed(stat_axes)
