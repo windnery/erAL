@@ -1,0 +1,37 @@
+# CFLAG 轴定义（角色标记/状态，运行时自动维护）
+# 仅列出 erAL 实际使用的索引；其余未注册的索引仍可通过 .get() 访问（返回 0）
+
+[[entries]]
+key = "affection"
+era_index = 2
+label = "好感度"
+
+[[entries]]
+key = "trust"
+era_index = 4
+label = "信赖度"
+
+[[entries]]
+key = "obedience"
+era_index = 6
+label = "服从度"
+
+[[entries]]
+key = "on_date"
+era_index = 12
+label = "约会中"
+
+[[entries]]
+key = "same_room"
+era_index = 319
+label = "同室"
+
+[[entries]]
+key = "following"
+era_index = 320
+label = "同行"
+
+[[entries]]
+key = "follow_ready"
+era_index = 329
+label = "同行准备"

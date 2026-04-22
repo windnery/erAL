@@ -343,6 +343,7 @@ pleasure_m = 20
 temptation = 20
 lust = 10
 abl_9 = 1
+abl_4 = 1
 
 [commands.downbase]
 spirit = 10
@@ -414,6 +415,7 @@ sexual_act = 50
 abl_1 = 2
 abl_11 = 1
 pleasure_v = 40
+abl_54 = 1
 
 [commands.downbase]
 stamina = 20
@@ -445,6 +447,7 @@ submission = 10
 abl_1 = 2
 abl_11 = 1
 pleasure_v = 50
+abl_54 = 1
 
 [commands.downbase]
 stamina = 20
@@ -476,6 +479,7 @@ humiliation = 15
 abl_1 = 2
 abl_11 = 1
 pleasure_v = 45
+abl_54 = 1
 
 [commands.downbase]
 stamina = 25
@@ -508,6 +512,7 @@ affection = 20
 abl_1 = 2
 abl_11 = 1
 pleasure_v = 50
+abl_54 = 1
 
 [commands.downbase]
 stamina = 20
@@ -539,6 +544,7 @@ humiliation = 20
 abl_1 = 2
 abl_11 = 1
 pleasure_v = 45
+abl_54 = 1
 
 [commands.downbase]
 stamina = 25
@@ -571,6 +577,7 @@ passive = 30
 abl_1 = 2
 abl_11 = 2
 abl_53 = 1
+abl_54 = 2
 
 [commands.downbase]
 stamina = 20
@@ -607,6 +614,7 @@ pain = 20
 humiliation = 20
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 25
@@ -643,6 +651,7 @@ pain = 30
 humiliation = 25
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 30
@@ -680,6 +689,7 @@ passive = 25
 abl_2 = 2
 abl_11 = 2
 abl_53 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 25
@@ -715,6 +725,7 @@ pain = 40
 abl_1 = 2
 abl_2 = 2
 abl_11 = 3
+abl_55 = 1
 
 [commands.downbase]
 stamina = 40
@@ -746,6 +757,7 @@ passive = 30
 affection = 20
 abl_1 = 2
 abl_11 = 2
+abl_54 = 2
 
 [commands.downbase]
 stamina = 15
@@ -945,6 +957,7 @@ pain = 30
 humiliation = 20
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 25
@@ -1295,6 +1308,7 @@ affection = 30
 lust = 20
 abl_9 = 2
 abl_51 = 1
+abl_4 = 2
 
 [commands.downbase]
 spirit = 10
@@ -1320,6 +1334,7 @@ train_kiss_develop = 1
 pleasure_m = 15
 affection = 10
 lust = 10
+abl_4 = 1
 
 [commands.downbase]
 spirit = 3
@@ -1372,6 +1387,7 @@ pleasure_v = 20
 lust = 25
 abl_0 = 1
 abl_1 = 1
+abl_54 = 1
 
 [commands.downbase]
 spirit = 15
@@ -1422,6 +1438,7 @@ pleasure_m = 25
 affection = 20
 lust = 10
 abl_9 = 1
+abl_4 = 1
 
 [commands.downbase]
 spirit = 5
@@ -1474,6 +1491,7 @@ pleasure_v = 20
 lust = 25
 submission = 5
 abl_0 = 1
+abl_54 = 1
 
 [commands.downbase]
 spirit = 20
@@ -1527,6 +1545,7 @@ lust = 40
 humiliation = 30
 passive = 20
 abl_11 = 1
+abl_30 = 1
 
 [commands.downbase]
 spirit = 25
@@ -1646,6 +1665,7 @@ pleasure_v = 30
 lust = 35
 abl_0 = 2
 abl_1 = 1
+abl_54 = 1
 
 [commands.downbase]
 spirit = 25
@@ -1672,6 +1692,7 @@ pleasure_a = 40
 lust = 30
 humiliation = 15
 abl_2 = 2
+abl_55 = 1
 
 [commands.downbase]
 spirit = 20
@@ -1697,6 +1718,7 @@ pleasure_a = 45
 lust = 35
 humiliation = 20
 abl_2 = 2
+abl_55 = 1
 
 [commands.downbase]
 spirit = 25
@@ -2188,6 +2210,7 @@ temptation = 60
 pleasure_m = 30
 joy = 30
 abl_9 = 3
+abl_4 = 1
 
 [commands.downbase]
 spirit = 20
@@ -2367,6 +2390,7 @@ train_a_develop = 3
 pleasure_a = 25
 humiliation = 20
 exposure = 15
+abl_55 = 1
 
 [commands.downbase]
 spirit = 10
@@ -2394,6 +2418,7 @@ pain = 30
 humiliation = 50
 discomfort = 40
 abl_2 = 2
+abl_55 = 1
 
 [commands.downbase]
 spirit = 25
@@ -2420,6 +2445,7 @@ pleasure_a = 50
 pain = 50
 humiliation = 40
 abl_2 = 3
+abl_55 = 1
 
 [commands.downbase]
 spirit = 30
@@ -2447,6 +2473,7 @@ pain = 60
 fear = 40
 humiliation = 50
 abl_2 = 4
+abl_55 = 2
 
 [commands.downbase]
 spirit = 35
@@ -2504,6 +2531,7 @@ sexual_act = 50
 passive = 30
 abl_1 = 2
 abl_11 = 2
+abl_54 = 1
 
 [commands.downbase]
 stamina = 20
@@ -2536,6 +2564,7 @@ sexual_act = 55
 passive = 25
 abl_1 = 2
 abl_11 = 2
+abl_54 = 1
 
 [commands.downbase]
 stamina = 25
@@ -2569,6 +2598,7 @@ affection = 30
 passive = 35
 abl_1 = 2
 abl_11 = 2
+abl_54 = 1
 
 [commands.downbase]
 stamina = 20
@@ -2601,6 +2631,7 @@ sexual_act = 60
 passive = 30
 abl_1 = 2
 abl_11 = 2
+abl_54 = 1
 
 [commands.downbase]
 stamina = 25
@@ -2634,6 +2665,7 @@ passive = 50
 abl_1 = 3
 abl_11 = 3
 abl_53 = 2
+abl_54 = 2
 
 [commands.downbase]
 stamina = 25
@@ -2666,6 +2698,7 @@ pain = 25
 passive = 25
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 20
@@ -2698,6 +2731,7 @@ pain = 30
 passive = 20
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 25
@@ -2731,6 +2765,7 @@ passive = 40
 abl_2 = 3
 abl_11 = 2
 abl_53 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 20
@@ -2767,6 +2802,7 @@ pain = 25
 humiliation = 15
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 25
@@ -2803,6 +2839,7 @@ pain = 35
 humiliation = 20
 abl_2 = 2
 abl_11 = 1
+abl_55 = 1
 
 [commands.downbase]
 stamina = 30
@@ -3158,6 +3195,7 @@ sexual_act = 50
 abl_9 = 8
 abl_11 = 4
 abl_12 = 2
+abl_4 = 2
 
 [commands.downbase]
 spirit = 50
@@ -4241,6 +4279,7 @@ temptation = 80
 sexual_act = 40
 abl_9 = 8
 abl_11 = 4
+abl_4 = 2
 
 [commands.downbase]
 spirit = 15

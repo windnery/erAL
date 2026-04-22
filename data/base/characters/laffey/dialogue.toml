@@ -22,8 +22,6 @@ actor_key = "laffey"
 priority = 10
 lines = ["海风吹得她的声音有点轻，却没把那份专注吹散。", "「嗯，拉菲记住了。之后也会继续听。」"]
 
-# ── 日常互动事件文本 ──
-
 [[entries]]
 key = "laffey_praise_sleepy"
 actor_key = "laffey"
@@ -78,8 +76,6 @@ actor_key = "laffey"
 priority = 10
 lines = ["拉菲动作很慢但很仔细地把蔬菜切好。", "「做饭的时候不能打瞌睡……拉菲知道。」"]
 
-# ── 同行事件文本 ──
-
 [[entries]]
 key = "laffey_walk_garden"
 actor_key = "laffey"
@@ -103,8 +99,6 @@ key = "laffey_follow_meal_happy"
 actor_key = "laffey"
 priority = 10
 lines = ["拉菲看到食堂的瞬间眼睛终于亮了。", "「和指挥官一起吃饭……拉菲会全部吃完的。」"]
-
-# ── 约会事件文本 ──
 
 [[entries]]
 key = "laffey_date_stroll_garden"
@@ -136,8 +130,6 @@ actor_key = "laffey"
 priority = 10
 lines = ["拉菲安静地抱着鱼竿，风把她的头发吹得乱七八糟。", "「钓鱼需要耐心……拉菲最不缺的就是耐心和瞌睡。」"]
 
-# ── 轻亲密事件文本 ──
-
 [[entries]]
 key = "laffey_kiss_eyes_closed"
 actor_key = "laffey"
@@ -155,8 +147,6 @@ key = "laffey_sleep_together_cling"
 actor_key = "laffey"
 priority = 10
 lines = ["她缩进被子里，伸手拉住你的衣角。", "「别走……拉菲今天想靠着指挥官睡。」"]
-
-# ── 兜底对话 ──
 
 [[entries]]
 key = "chat"
@@ -296,8 +286,6 @@ actor_key = "laffey"
 priority = 1
 lines = ["「指挥官是拉菲的……特别的人。」"]
 
-# ── 阶段差分 ──
-
 [[entries]]
 key = "chat"
 actor_key = "laffey"
@@ -347,49 +335,32 @@ priority = 5
 required_stage = "love"
 lines = ["「不要放开……一直牵着好不好？」"]
 
-# ── MARK 条件事件对话 ──
-
 [[entries]]
 key = "laffey_chat_embarrassed"
 actor_key = "laffey"
 priority = 10
-lines = [
-  "拉菲缩了缩脖子，把脸埋进领口里，只露出一双微微泛红的耳朵。",
-  "「……别说奇怪的话。拉菲现在脑袋很热，没办法正常思考……」",
-]
+lines = ["拉菲缩了缩脖子，把脸埋进领口里，只露出一双微微泛红的耳朵。", "「……别说奇怪的话。拉菲现在脑袋很热，没办法正常思考……」"]
 
 [[entries]]
 key = "laffey_chat_drunk"
 actor_key = "laffey"
 priority = 10
-lines = [
-  "微醺的拉菲比平时更黏人，说话的尾音软绵绵的，整个人的重量都往你这边靠了过来。",
-  "「指挥官……拉菲最喜欢你了。这个平时不好意思说，但是现在可以说了吧？」",
-]
+lines = ["微醺的拉菲比平时更黏人，说话的尾音软绵绵的，整个人的重量都往你这边靠了过来。", "「指挥官……拉菲最喜欢你了。这个平时不好意思说，但是现在可以说了吧？」"]
 
 [[entries]]
 key = "laffey_apologize_angry"
 actor_key = "laffey"
 priority = 10
-lines = [
-  "你蹲下来认真道歉后，她揪着你衣角的手渐渐松了，嘴上虽然还没完全消气，眼神已经不再躲着你了。",
-  "「……哼。拉菲暂时原谅你了。不过要补偿……至少要摸头三次才行。」",
-]
+lines = ["你蹲下来认真道歉后，她揪着你衣角的手渐渐松了，嘴上虽然还没完全消气，眼神已经不再躲着你了。", "「……哼。拉菲暂时原谅你了。不过要补偿……至少要摸头三次才行。」"]
 
 [[entries]]
 key = "laffey_touch_head_embarrassed"
 actor_key = "laffey"
 priority = 10
-lines = [
-  "你的手掌覆在她头顶时，她整个人都软了下来，像一只被顺了毛的猫，耳朵红得几乎冒烟。",
-  "「呜……现在被摸头的话，拉菲的心脏会……会跳得太快了……」",
-]
+lines = ["你的手掌覆在她头顶时，她整个人都软了下来，像一只被顺了毛的猫，耳朵红得几乎冒烟。", "「呜……现在被摸头的话，拉菲的心脏会……会跳得太快了……」"]
 
 [[entries]]
 key = "laffey_kiss_confessed"
 actor_key = "laffey"
 priority = 10
-lines = [
-  "告白之后的亲吻不再需要犹豫。她主动微微仰起脸，闭上眼等待你的靠近。",
-  "「……嗯。因为是喜欢的人，所以……再多亲几下也没关系的。」",
-]
+lines = ["告白之后的亲吻不再需要犹豫。她主动微微仰起脸，闭上眼等待你的靠近。", "「……嗯。因为是喜欢的人，所以……再多亲几下也没关系的。」"]

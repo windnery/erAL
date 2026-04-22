@@ -26,8 +26,6 @@ actor_tags = ["laffey"]
 location_keys = ["dock", "garden"]
 time_slots = ["evening", "night"]
 
-# ── 日常互动 ──
-
 [[events]]
 key = "laffey_praise_sleepy"
 action_key = "praise"
@@ -94,8 +92,6 @@ actor_tags = ["laffey"]
 location_keys = ["cafeteria"]
 time_slots = ["afternoon", "evening"]
 
-# ── 同行 ──
-
 [[events]]
 key = "laffey_walk_garden"
 action_key = "walk_together"
@@ -124,8 +120,6 @@ action_key = "follow_meal"
 actor_tags = ["laffey"]
 location_keys = ["cafeteria"]
 time_slots = ["morning", "afternoon", "evening"]
-
-# ── 约会 ──
 
 [[events]]
 key = "laffey_date_stroll_garden"
@@ -163,8 +157,6 @@ actor_tags = ["laffey"]
 location_keys = ["dock"]
 time_slots = ["morning", "afternoon"]
 
-# ── 轻亲密 ──
-
 [[events]]
 key = "laffey_kiss_eyes_closed"
 action_key = "kiss"
@@ -189,35 +181,33 @@ location_keys = ["dormitory_a"]
 time_slots = ["night", "late_night"]
 required_stage = "love"
 
-# ── MARK 条件事件 ──
-
 [[events]]
 key = "laffey_chat_embarrassed"
 action_key = "chat"
 actor_tags = ["laffey"]
-required_marks = { embarrassed = 1 }
+required_marks.embarrassed = 1
 
 [[events]]
 key = "laffey_chat_drunk"
 action_key = "chat"
 actor_tags = ["laffey"]
-required_marks = { drunk = 1 }
+required_marks.drunk = 1
 
 [[events]]
 key = "laffey_apologize_angry"
 action_key = "apologize"
 actor_tags = ["laffey"]
-required_marks = { angry = 1 }
+required_marks.angry = 1
 
 [[events]]
 key = "laffey_touch_head_embarrassed"
 action_key = "touch_head"
 actor_tags = ["laffey"]
-required_marks = { embarrassed = 1 }
+required_marks.embarrassed = 1
 
 [[events]]
 key = "laffey_kiss_confessed"
 action_key = "kiss"
 actor_tags = ["laffey"]
 required_stage = "love"
-required_marks = { confessed = 1 }
+required_marks.confessed = 1

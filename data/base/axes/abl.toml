@@ -1,0 +1,157 @@
+# ABL 轴定义（能力等级）
+# 运行时升级曲线见 data/base/abl_upgrade.toml
+
+[[entries]]
+key = "abl_0"
+era_index = 0
+label = "Ｃ感官"
+
+[[entries]]
+key = "abl_1"
+era_index = 1
+label = "Ｖ感官"
+
+[[entries]]
+key = "abl_2"
+era_index = 2
+label = "Ａ感官"
+
+[[entries]]
+key = "abl_3"
+era_index = 3
+label = "Ｂ感官"
+
+[[entries]]
+key = "abl_4"
+era_index = 4
+label = "Ｍ感官"
+
+[[entries]]
+key = "abl_9"
+era_index = 9
+label = "亲密"
+
+[[entries]]
+key = "abl_10"
+era_index = 10
+label = "顺从"
+
+[[entries]]
+key = "abl_11"
+era_index = 11
+label = "欲望"
+
+[[entries]]
+key = "abl_12"
+era_index = 12
+label = "技巧"
+
+[[entries]]
+key = "abl_13"
+era_index = 13
+label = "奉献精神"
+
+[[entries]]
+key = "abl_14"
+era_index = 14
+label = "露出癖"
+
+[[entries]]
+key = "abl_15"
+era_index = 15
+label = "受虐属性"
+
+[[entries]]
+key = "abl_16"
+era_index = 16
+label = "施虐属性"
+
+[[entries]]
+key = "abl_17"
+era_index = 17
+label = "百合属性"
+
+[[entries]]
+key = "abl_30"
+era_index = 30
+label = "自慰中毒"
+
+[[entries]]
+key = "abl_31"
+era_index = 31
+label = "精液中毒"
+
+[[entries]]
+key = "abl_32"
+era_index = 32
+label = "百合中毒"
+
+[[entries]]
+key = "abl_34"
+era_index = 34
+label = "阴道射中毒"
+
+[[entries]]
+key = "abl_35"
+era_index = 35
+label = "肛射中毒"
+
+[[entries]]
+key = "abl_40"
+era_index = 40
+label = "整备技能"
+
+[[entries]]
+key = "abl_41"
+era_index = 41
+label = "话术技能"
+
+[[entries]]
+key = "abl_42"
+era_index = 42
+label = "战斗能力"
+
+[[entries]]
+key = "abl_43"
+era_index = 43
+label = "教养"
+
+[[entries]]
+key = "abl_44"
+era_index = 44
+label = "料理技能"
+
+[[entries]]
+key = "abl_45"
+era_index = 45
+label = "艺术技能"
+
+[[entries]]
+key = "abl_50"
+era_index = 50
+label = "指"
+
+[[entries]]
+key = "abl_51"
+era_index = 51
+label = "舌"
+
+[[entries]]
+key = "abl_52"
+era_index = 52
+label = "胸"
+
+[[entries]]
+key = "abl_53"
+era_index = 53
+label = "腰"
+
+[[entries]]
+key = "abl_54"
+era_index = 54
+label = "阴道"
+
+[[entries]]
+key = "abl_55"
+era_index = 55
+label = "肛门"

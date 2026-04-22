@@ -7,6 +7,9 @@ residence_area_key = "royal_living"
 dorm_group_key = "royal_dorm"
 home_location_key = "garden"
 default_activity_tags = ["training", "social", "cheerful"]
+gender = "female"
+ship_class = "驱逐"
+rarity = "普通"
 
 [schedule]
 dawn = "dormitory_a"

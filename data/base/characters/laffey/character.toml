@@ -7,6 +7,9 @@ residence_area_key = "eagle_living"
 dorm_group_key = "eagle_dorm"
 home_location_key = "dormitory_a"
 default_activity_tags = ["sleep", "food", "garden"]
+gender = "female"
+ship_class = "驱逐"
+rarity = "精锐"
 
 [schedule]
 dawn = "dormitory_a"

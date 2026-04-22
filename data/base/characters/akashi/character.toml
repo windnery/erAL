@@ -7,6 +7,9 @@ residence_area_key = "sakura_living"
 dorm_group_key = "sakura_dorm"
 home_location_key = "sakura_dorm_hall"
 default_activity_tags = ["work", "shop"]
+gender = "female"
+ship_class = "维修"
+rarity = "精锐"
 
 [schedule]
 dawn = "sakura_dorm_hall"

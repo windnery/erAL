@@ -183,3 +183,27 @@ source = "sadism"
 target_family = "palam"
 target_key = "fear"
 scale = 0.5
+
+[[rules]]
+source = "temptation"
+target_family = "base"
+target_key = "reason"
+scale = -0.3
+
+[[rules]]
+source = "lust"
+target_family = "base"
+target_key = "erection"
+scale = 0.5
+
+[[rules]]
+source = "disgust"
+target_family = "base"
+target_key = "anger"
+scale = 0.2
+
+[[rules]]
+source = "fear"
+target_family = "base"
+target_key = "anger"
+scale = 0.1

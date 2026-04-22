@@ -132,25 +132,25 @@ rate = 1
 
 [[abl]]
 abl_index = 40
-label = "清掃技能"
+label = "整备技能"
 base_demand = 1
 rate = 1
 
 [[abl]]
 abl_index = 41
-label = "話術技能"
+label = "话术技能"
 base_demand = 1
 rate = 1
 
 [[abl]]
 abl_index = 42
-label = "戦闘能力"
+label = "战斗能力"
 base_demand = 1
 rate = 1
 
 [[abl]]
 abl_index = 43
-label = "教養"
+label = "教养"
 base_demand = 1
 rate = 1
 
@@ -162,7 +162,7 @@ rate = 1
 
 [[abl]]
 abl_index = 45
-label = "音楽技能"
+label = "艺术技能"
 base_demand = 1
 rate = 1
 

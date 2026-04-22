@@ -1,0 +1,321 @@
+# TALENT 轴定义（先天素质）
+# 参考 参考图/素质编辑.png
+
+# TALENT 轴定义（先天素质）
+# 参考 参考图/素质编辑.png
+
+[[entries]]
+key = "talent_0"
+era_index = 0
+label = "处女"
+
+[[entries]]
+key = "talent_1"
+era_index = 1
+label = "非处男"
+
+[[entries]]
+key = "talent_3"
+era_index = 3
+label = "恋慕"
+
+[[entries]]
+key = "talent_4"
+era_index = 4
+label = "淫乱"
+
+[[entries]]
+key = "talent_5"
+era_index = 5
+label = "服従"
+
+[[entries]]
+key = "talent_2"
+era_index = 2
+label = "性别"
+
+[[entries]]
+key = "talent_7"
+era_index = 7
+label = "恋人"
+
+[[entries]]
+key = "talent_8"
+era_index = 8
+label = "思慕"
+
+[[entries]]
+key = "talent_9"
+era_index = 9
+label = "妊娠願望"
+
+[[entries]]
+key = "talent_6"
+era_index = 6
+label = "无接吻经验"
+
+[[entries]]
+key = "talent_10"
+era_index = 10
+label = "胆量"
+
+[[entries]]
+key = "talent_11"
+era_index = 11
+label = "态度"
+
+[[entries]]
+key = "talent_12"
+era_index = 12
+label = "回应"
+
+[[entries]]
+key = "talent_13"
+era_index = 13
+label = "自尊心"
+
+[[entries]]
+key = "talent_14"
+era_index = 14
+label = "娇俏"
+
+[[entries]]
+key = "talent_17"
+era_index = 17
+label = "年龄"
+
+[[entries]]
+key = "talent_18"
+era_index = 18
+label = "懒散"
+
+[[entries]]
+key = "talent_19"
+era_index = 19
+label = "性情不定"
+
+[[entries]]
+key = "talent_20"
+era_index = 20
+label = "自制心"
+
+[[entries]]
+key = "talent_21"
+era_index = 21
+label = "冷漠"
+
+[[entries]]
+key = "talent_22"
+era_index = 22
+label = "感情缺乏"
+
+[[entries]]
+key = "talent_24"
+era_index = 24
+label = "开朗／阴郁"
+
+[[entries]]
+key = "talent_23"
+era_index = 23
+label = "性的兴趣"
+
+[[entries]]
+key = "talent_25"
+era_index = 25
+label = "难以越过的底线"
+
+[[entries]]
+key = "talent_26"
+era_index = 26
+label = "喜欢引人注目"
+
+[[entries]]
+key = "talent_27"
+era_index = 27
+label = "无知"
+
+[[entries]]
+key = "talent_30"
+era_index = 30
+label = "贞操"
+
+[[entries]]
+key = "talent_31"
+era_index = 31
+label = "自己爱"
+
+[[entries]]
+key = "talent_32"
+era_index = 32
+label = "抵抗"
+
+[[entries]]
+key = "talent_33"
+era_index = 33
+label = "羞耻心"
+
+[[entries]]
+key = "talent_40"
+era_index = 40
+label = "痛觉"
+
+[[entries]]
+key = "talent_41"
+era_index = 41
+label = "弄湿难易"
+
+[[entries]]
+key = "talent_54"
+era_index = 54
+label = "猫舌"
+
+[[entries]]
+key = "talent_57"
+era_index = 57
+label = "漏尿癖"
+
+[[entries]]
+key = "talent_60"
+era_index = 60
+label = "容易自慰"
+
+[[entries]]
+key = "talent_61"
+era_index = 61
+label = "污臭耐性"
+
+[[entries]]
+key = "talent_62"
+era_index = 62
+label = "献身的"
+
+[[entries]]
+key = "talent_70"
+era_index = 70
+label = "快感应答"
+
+[[entries]]
+key = "talent_72"
+era_index = 72
+label = "容易高潮"
+
+[[entries]]
+key = "talent_71"
+era_index = 71
+label = "容易中毒"
+
+[[entries]]
+key = "talent_80"
+era_index = 80
+label = "倒错的"
+
+[[entries]]
+key = "talent_81"
+era_index = 81
+label = "性别嗜好"
+
+[[entries]]
+key = "talent_82"
+era_index = 82
+label = "施虐狂"
+
+[[entries]]
+key = "talent_84"
+era_index = 84
+label = "嫉妬"
+
+[[entries]]
+key = "talent_90"
+era_index = 90
+label = "狐"
+
+[[entries]]
+key = "talent_151"
+era_index = 151
+label = "幼稚"
+
+[[entries]]
+key = "talent_93"
+era_index = 93
+label = "魅惑"
+
+[[entries]]
+key = "talent_94"
+era_index = 94
+label = "謎之魅力"
+
+[[entries]]
+key = "talent_83"
+era_index = 83
+label = "受虐狂"
+
+[[entries]]
+key = "talent_100"
+era_index = 100
+label = "体型"
+
+[[entries]]
+key = "talent_101"
+era_index = 101
+label = "C感度"
+
+[[entries]]
+key = "talent_102"
+era_index = 102
+label = "V感度"
+
+[[entries]]
+key = "talent_103"
+era_index = 103
+label = "A感度"
+
+[[entries]]
+key = "talent_104"
+era_index = 104
+label = "B感度"
+
+[[entries]]
+key = "talent_105"
+era_index = 105
+label = "胸围"
+
+[[entries]]
+key = "talent_106"
+era_index = 106
+label = "M感度"
+
+[[entries]]
+key = "talent_108"
+era_index = 108
+label = "臀围"
+
+[[entries]]
+key = "talent_121"
+era_index = 121
+label = "酒耐性"
+
+[[entries]]
+key = "talent_142"
+era_index = 142
+label = "风骚"
+
+[[entries]]
+key = "talent_143"
+era_index = 143
+label = "兽耳"
+
+[[entries]]
+key = "talent_146"
+era_index = 146
+label = "其它"
+
+[[entries]]
+key = "talent_150"
+era_index = 150
+label = "幼儿/幼儿退行"
+
+[[entries]]
+key = "talent_92"
+era_index = 92
+label = "魅力"
+

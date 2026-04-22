@@ -44,20 +44,32 @@ max_level = 1
 # ── 调教刻印类 ──
 
 [[marks]]
-key = "mark_pleasure"
+key = "pleasure_mark"
 display_name = "快乐刻印"
 group = "training"
 max_level = 3
 
 [[marks]]
-key = "mark_submission"
+key = "submission_mark"
 display_name = "屈服刻印"
 group = "training"
 max_level = 3
 
 [[marks]]
-key = "mark_pain"
+key = "pain_mark"
 display_name = "苦痛刻印"
+group = "training"
+max_level = 3
+
+[[marks]]
+key = "dislike_mark"
+display_name = "反感刻印"
+group = "training"
+max_level = 3
+
+[[marks]]
+key = "anger_mark"
+display_name = "怒刻印"
 group = "training"
 max_level = 3
 

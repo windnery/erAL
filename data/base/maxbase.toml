@@ -1,5 +1,6 @@
 # BASE 上限与恢复速率定义
 # 参照 eraTW 的 MAXBASE 机制
+# recover_rate > 0 表示自然恢复，< 0 表示自然衰减，0 表示无自动变化
 
 [[entries]]
 key = "stamina"
@@ -20,3 +21,100 @@ recover_rate = 5
 key = "reason"
 max_value = 1000
 recover_rate = 5
+
+[[entries]]
+key = "anger"
+max_value = 1000
+recover_rate = -10
+
+[[entries]]
+key = "drunkenness"
+max_value = 1000
+recover_rate = -20
+
+[[entries]]
+key = "erection"
+max_value = 1000
+recover_rate = -30
+
+[[entries]]
+key = "orgasm_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "pleasure_c_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "pleasure_v_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "pleasure_a_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "pleasure_b_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "pleasure_m_afterglow"
+max_value = 1000
+recover_rate = -50
+
+[[entries]]
+key = "workload"
+max_value = 1000
+recover_rate = -5
+
+# 体型与身体属性（固定值，无自动变化）
+[[entries]]
+key = "height"
+max_value = 999
+recover_rate = 0
+
+[[entries]]
+key = "weight"
+max_value = 999
+recover_rate = 0
+
+[[entries]]
+key = "bust"
+max_value = 999
+recover_rate = 0
+
+[[entries]]
+key = "waist"
+max_value = 999
+recover_rate = 0
+
+[[entries]]
+key = "hips"
+max_value = 999
+recover_rate = 0
+
+# 计数器/状态型（由系统事件直接设置，无自动衰减）
+[[entries]]
+key = "bladder"
+max_value = 1000
+recover_rate = 0
+
+[[entries]]
+key = "ejaculation"
+max_value = 10
+recover_rate = 0
+
+[[entries]]
+key = "lactation"
+max_value = 10
+recover_rate = 0
+
+[[entries]]
+key = "semen"
+max_value = 1000
+recover_rate = 0

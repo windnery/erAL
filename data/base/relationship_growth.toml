@@ -12,26 +12,28 @@ base_positive_keys = ["affection", "joy", "service", "trust"]
 base_negative_keys = ["fear", "disgust", "humiliation"]
 relationship_stage_multiplier = { "stranger" = 0.5, "friendly" = 0.8, "like" = 1.0, "love" = 1.3, "oath" = 1.5 }
 talent_modifiers = [
-    { era_index = 60, effect = "resistance", multiplier = -0.1 },
-    { era_index = 61, effect = "devoted", multiplier = 0.1 },
-    { era_index = 64, effect = "emotionless", multiplier = -0.2 },
-    { era_index = 78, effect = "yearning", multiplier = 0.2 },
-    { era_index = 79, effect = "in_love", multiplier = 0.3 },
-    { era_index = 65, effect = "pleasure_response", multiplier = 0.1 },
+    { era_index = 3, effect = "love", multiplier = 0.30 },
+    { era_index = 4, effect = "lewd", multiplier = 0.10 },
+    { era_index = 5, effect = "submission", multiplier = 0.10 },
+    { era_index = 7, effect = "lover", multiplier = 0.20 },
+    { era_index = 8, effect = "fondness", multiplier = 0.15 },
+    { era_index = 62, effect = "devoted", multiplier = 0.15 },
 ]
 clamp_min = 0
 clamp_max = 500
 
 [trust_calc]
-description = "信赖度变化公式：基于信赖相关SOURCE，受服従/亲密修正"
+description = "信赖度变化公式：基于信赖相关SOURCE，受服从/亲密修正"
 base_scale = 0.15
 base_positive_keys = ["trust", "joy", "service"]
 base_negative_keys = ["fear", "disgust"]
 relationship_stage_multiplier = { "stranger" = 0.6, "friendly" = 0.9, "like" = 1.0, "love" = 1.2, "oath" = 1.4 }
 talent_modifiers = [
-    { era_index = 60, effect = "resistance", multiplier = -0.1 },
-    { era_index = 61, effect = "devoted", multiplier = 0.15 },
-    { era_index = 64, effect = "emotionless", multiplier = -0.15 },
+    { era_index = 3, effect = "love", multiplier = 0.20 },
+    { era_index = 5, effect = "submission", multiplier = 0.25 },
+    { era_index = 7, effect = "lover", multiplier = 0.15 },
+    { era_index = 8, effect = "fondness", multiplier = 0.10 },
+    { era_index = 62, effect = "devoted", multiplier = 0.15 },
 ]
 clamp_min = 0
 clamp_max = 300
