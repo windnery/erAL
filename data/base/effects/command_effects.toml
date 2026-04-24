@@ -1,0 +1,1641 @@
+# 指令效果定义（统一格式）
+# command_index: 引用 train.toml 的 index
+#
+# [source]        原始 SOURCE 值（结算管道输入）
+#   target = {index = value, ...}
+#   player = {index = value, ...}
+#
+# [vitals]        体力/气力/精力消耗
+#   target = {体力index = delta, ...}
+#   player = {体力index = delta, ...}
+#
+# [experience]    经验值增加
+#   target = {经验index = delta, ...}
+#   player = {经验index = delta, ...}
+#
+# [conditions]    临时标志设置
+#   tcvar = {index = value, ...}
+#   tflag = {index = value, ...}
+#
+# [stains]        污垢转移（待设计）
+# [resources]     资源消耗（TSP/道具/金钱）
+# [scene]         场景切换/位置移动/时间推进
+# [equipment]     装备穿戴/姿势设定
+
+[[effect]]
+command_index = 0
+source.target = {0 = 40, 10 = 50, 11 = 60, 17 = 20, 3 = 40, 30 = 30, 31 = 20, 32 = 20, 33 = 20, 4 = 20}
+source.player = {44 = 20}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 1
+source.target = {0 = 80, 17 = 10, 31 = 20, 32 = 15, 33 = 15, 9 = 1000}
+source.player = {44 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 2
+source.target = {0 = 110, 17 = 20, 31 = 20, 32 = 20, 33 = 20}
+source.player = {44 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 3
+source.target = {1 = 60, 13 = 10, 17 = 30, 31 = 10, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 4
+source.target = {2 = 50, 31 = 50, 32 = 40, 33 = 30, 9 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 5
+source.target = {13 = 100, 18 = 100, 2 = 100, 31 = 100, 32 = 80, 33 = 60}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 6
+source.target = {10 = 50, 11 = 60, 17 = 10, 3 = 100, 30 = 20, 31 = 20, 33 = 20}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 7
+source.target = {10 = 30, 13 = 10, 17 = 10, 3 = 80, 30 = 10, 31 = 10, 33 = 10}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 8
+source.target = {0 = 43, 12 = 20, 14 = 120, 17 = 300, 18 = 450, 31 = 150, 32 = 150, 33 = 150, 9 = 10}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 9
+source.target = {0 = 80, 1 = 80, 11 = 100, 14 = 200, 15 = 100, 17 = 400, 18 = 500, 2 = 80, 3 = 80, 31 = 400, 32 = 300, 33 = 250, 9 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 10
+source.target = {10 = 30, 17 = 20, 3 = 20, 30 = 30, 31 = 100, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 11
+source.target = {10 = 30, 17 = 20, 3 = 20, 30 = 30, 31 = 100, 33 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 12
+source.target = {10 = 15, 17 = 20, 31 = 100, 32 = 30, 33 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 13
+source.target = {12 = 20, 14 = 120, 17 = 300, 18 = 450, 2 = 43, 31 = 150, 32 = 150, 33 = 150, 9 = 10}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 14
+source.target = {0 = 80, 10 = 150, 15 = 150, 17 = 100, 20 = 100, 22 = 145, 31 = 20, 33 = 370}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 15
+source.target = {10 = 100, 11 = 50, 18 = 10, 30 = 30, 32 = 10, 33 = 10}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 20
+source.target = {10 = 100, 11 = 50, 18 = 10, 32 = 10, 33 = 10}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 21
+source.target = {10 = 10, 15 = 500, 17 = 10, 32 = 10, 9 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 22
+source.target = {17 = 100}
+source.player = {15 = 500, 17 = 200, 9 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 23
+source.target = {20 = 200, 21 = 100, 22 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 24
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 25
+source.target = {1 = 60, 13 = 120, 17 = 20, 18 = 100, 2 = 80, 31 = 10, 32 = 120, 33 = 120}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 26
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 40
+source.target = {0 = 250, 17 = 20, 31 = 30, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 41
+source.target = {0 = 500, 17 = 40, 31 = 60, 32 = 60, 33 = 60}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 42
+source.target = {0 = 200, 17 = 20, 31 = 30, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 43
+source.target = {0 = 200, 17 = 20, 31 = 30, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 44
+source.target = {1 = 250, 13 = 50, 17 = 20, 31 = 40, 32 = 40, 33 = 40}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 45
+source.target = {13 = 250, 17 = 50, 18 = 50, 2 = 250, 31 = 70, 32 = 50, 33 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 46
+source.target = {13 = 200, 17 = 50, 18 = 50, 2 = 150, 31 = 70, 32 = 60, 33 = 80}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 47
+source.target = {17 = 20, 3 = 200, 31 = 30, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 48
+source.target = {13 = 100, 17 = 30, 18 = 100, 3 = 200, 31 = 100, 32 = 100, 33 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 49
+source.target = {17 = 20, 3 = 250, 31 = 30, 32 = 30, 33 = 30}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 50
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 51
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 60
+source.target = {1 = 700, 10 = 150, 13 = 500, 17 = 300, 33 = 300}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 61
+source.target = {1 = 450, 10 = 150, 11 = 100, 13 = 400, 17 = 320, 32 = 200, 33 = 300}
+source.player = {40 = 450}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 62
+source.target = {10 = 100, 13 = 800, 17 = 300, 2 = 400, 31 = 500, 32 = 200, 33 = 500}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 63
+source.target = {10 = 100, 13 = 900, 17 = 80, 2 = 400, 31 = 500, 32 = 200, 33 = 500}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 64
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 700, 32 = 500, 33 = 500}
+source.player = {41 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 65
+source.target = {1 = 500, 10 = 250, 11 = 250, 12 = 250, 13 = 500, 17 = 120, 32 = 600, 33 = 800}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 66
+source.target = {10 = 250, 11 = 250, 12 = 250, 13 = 800, 17 = 120, 2 = 500, 31 = 900, 32 = 700, 33 = 900}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 67
+source.target = {0 = 250, 1 = 350, 10 = 350, 13 = 500, 16 = 300, 32 = 100, 33 = 400}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 68
+source.target = {1 = 350, 10 = 350, 13 = 400, 17 = 200, 3 = 250, 32 = 400, 33 = 800}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 69
+source.target = {0 = 250, 10 = 350, 13 = 800, 16 = 300, 2 = 350, 31 = 900, 32 = 800, 33 = 1200}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 70
+source.target = {10 = 350, 13 = 700, 17 = 200, 2 = 350, 3 = 250, 31 = 900, 32 = 800, 33 = 1200}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 71
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 500, 32 = 500, 33 = 500}
+source.player = {40 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 72
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 73
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 80
+source.target = {10 = 50, 11 = 250, 12 = 50, 18 = 350, 31 = 200, 32 = 100, 33 = 100}
+source.player = {40 = 80}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 81
+source.target = {10 = 100, 11 = 300, 12 = 150, 18 = 700, 31 = 400, 32 = 100, 33 = 400, 4 = 50}
+source.player = {40 = 110}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 82
+source.target = {10 = 150, 11 = 400, 12 = 200, 18 = 1000, 3 = 50, 31 = 600, 32 = 500, 33 = 500}
+source.player = {40 = 110}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 83
+source.target = {0 = 150, 10 = 80, 11 = 250, 12 = 50, 18 = 500, 31 = 300, 32 = 120, 33 = 120}
+source.player = {40 = 150}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 84
+source.target = {0 = 200, 10 = 150, 11 = 450, 12 = 250, 18 = 1200, 3 = 200, 31 = 1000, 32 = 600, 33 = 600}
+source.player = {40 = 200, 43 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 85
+source.target = {11 = 700, 12 = 500, 18 = 500, 21 = 500, 31 = 600, 32 = 400, 33 = 400, 55 = 800}
+source.player = {40 = 250}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 86
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 87
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 88
+source.target = {10 = 100, 11 = 350, 12 = 150, 18 = 800, 31 = 400, 32 = 300, 33 = 650, 4 = 80}
+source.player = {40 = 110}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 89
+source.target = {31 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 90
+source.target = {10 = 100, 11 = 300, 12 = 150, 21 = 700, 30 = 200, 31 = 400, 33 = 200}
+source.player = {42 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 91
+source.target = {10 = 300, 11 = 300, 18 = 300, 21 = 900, 31 = 1200, 32 = 600, 33 = 600}
+source.player = {42 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 92
+source.target = {0 = 400, 10 = 50, 11 = 500, 12 = 50, 21 = 1000, 31 = 500, 32 = 500, 33 = 500}
+source.player = {42 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 93
+source.target = {0 = 400, 11 = 500, 21 = 1200, 31 = 500, 32 = 500, 33 = 500}
+source.player = {42 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 94
+source.target = {0 = 400, 10 = 100, 11 = 400, 21 = 1000, 31 = 500, 32 = 500, 33 = 500}
+source.player = {42 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 95
+source.target = {1 = 100, 10 = 150, 13 = 500, 14 = 500, 17 = 200, 32 = 20, 33 = 100}
+source.player = {40 = 120}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 96
+source.target = {0 = 110, 17 = 20, 31 = 30, 32 = 20, 33 = 20}
+source.player = {43 = 50}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 97
+source.target = {13 = 450, 14 = 400, 32 = 50, 33 = 300}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 100
+source.target = {11 = 300, 12 = 150, 18 = 500, 31 = 400, 32 = 200, 33 = 200, 4 = 50}
+source.player = {40 = 80, 9 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 101
+source.target = {0 = 200, 11 = 200, 12 = 100, 17 = 50, 18 = 400, 31 = 400, 32 = 400, 33 = 400}
+source.player = {40 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 102
+source.target = {10 = 50, 31 = 400, 33 = 100}
+source.player = {40 = 40, 43 = 40}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 103
+source.target = {11 = 150, 17 = 50, 18 = 100, 3 = 200, 30 = 30, 31 = 100, 32 = 100, 33 = 200}
+source.player = {43 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 104
+source.target = {11 = 300, 12 = 200, 21 = 800, 30 = 200, 31 = 400, 33 = 100}
+source.player = {42 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 110
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 700, 32 = 500, 33 = 500}
+source.player = {41 = 300}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 111
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 700, 32 = 500, 33 = 500}
+source.player = {41 = 450}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 112
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 700, 32 = 500, 33 = 500}
+source.player = {40 = 250, 41 = 350}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 113
+source.target = {0 = 400, 11 = 500, 18 = 1000, 31 = 700, 32 = 500, 33 = 500}
+source.player = {41 = 350, 43 = 250}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 120
+source.target = {11 = 300, 12 = 150, 18 = 500, 31 = 400, 32 = 200, 33 = 200, 4 = 50}
+source.player = {40 = 80, 9 = 400}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 121
+source.target = {0 = 200, 11 = 200, 12 = 100, 17 = 50, 18 = 400, 31 = 400, 32 = 400, 33 = 400}
+source.player = {40 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 122
+source.target = {0 = 400, 11 = 500, 12 = 400, 18 = 700, 31 = 500, 32 = 500, 33 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 123
+source.target = {0 = 250, 12 = 200, 15 = 500, 17 = 300, 18 = 300, 31 = 400, 32 = 350, 33 = 350, 9 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 124
+source.target = {0 = 80, 10 = 50, 11 = 250, 12 = 50, 18 = 350, 31 = 200, 32 = 100, 33 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 125
+source.target = {10 = 50, 31 = 400, 33 = 100}
+source.player = {40 = 40, 43 = 40}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 126
+source.target = {11 = 150, 17 = 50, 18 = 100, 3 = 200, 30 = 30, 31 = 100, 32 = 100, 33 = 200}
+source.player = {43 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 127
+source.target = {11 = 300, 12 = 200, 21 = 800, 30 = 200, 31 = 400, 33 = 100}
+source.player = {42 = 200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 128
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 129
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 140
+source.target = {12 = 500, 13 = 200, 18 = 1500, 31 = 700, 32 = 700, 33 = 700}
+source.player = {40 = 110}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 141
+source.target = {1 = 200, 13 = 1500, 17 = 100, 18 = 1200, 32 = 1200, 33 = 1200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 142
+source.target = {13 = 1500, 17 = 100, 18 = 1200, 2 = 200, 32 = 1200, 33 = 1200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 143
+source.target = {1 = 200, 13 = 1800, 17 = 100, 18 = 2000, 2 = 200, 32 = 2000, 33 = 2000}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 144
+source.target = {14 = 200, 17 = 800, 18 = 500, 31 = 700, 32 = 700, 33 = 700}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 145
+source.target = {11 = 300, 12 = 300, 18 = 2500, 31 = 1200, 32 = 1200, 33 = 1200}
+source.player = {42 = 100}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 146
+source.target = {13 = 500, 17 = 300, 18 = 200, 2 = 300, 30 = 500, 31 = 500, 32 = 500, 33 = 500}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 147
+source.target = {13 = 800, 17 = 300, 18 = 400, 2 = 200, 31 = 700, 32 = 700, 33 = 700}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 148
+source.target = {13 = 1500, 17 = 300, 18 = 800, 2 = 500, 31 = 1200, 32 = 1200, 33 = 1200}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 200
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 201
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 202
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 203
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 204
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 205
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 206
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 207
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 208
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 209
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 210
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 211
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 212
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 213
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 214
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 215
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 216
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 217
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 218
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 219
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 220
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 221
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 222
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 223
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 224
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 225
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 230
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 231
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 232
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 233
+source.target = {0 = 40, 10 = 50, 11 = 60, 17 = 20, 3 = 40, 30 = 30, 31 = 20, 32 = 20, 33 = 20, 4 = 20}
+source.player = {44 = 20}
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 234
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 235
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 240
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 241
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 242
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 243
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 244
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 250
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 251
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 252
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 253
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 254
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 255
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 256
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 257
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 258
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 259
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 260
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 261
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 262
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 263
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 264
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 265
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 266
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 267
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 268
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 269
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 270
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 271
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 272
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 273
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 274
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 280
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 281
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 282
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 283
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 284
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 285
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 286
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}
+
+[[effect]]
+command_index = 287
+# vitals.target = {}
+# vitals.player = {}
+# experience.target = {}
+# experience.player = {}
+# conditions.tcvar = {}
+# conditions.tflag = {}

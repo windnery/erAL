@@ -446,11 +446,6 @@ def _marks_path(root: Path) -> Path:
   return root / "data" / "base" / "marks.toml"
 
 
-def _checklist_path(root: Path) -> Path:
-  """Retained for historical reference; no longer read by the editor."""
-  return root / "docs" / "tw_axis_registry_checklist.md"
-
-
 def _skins_path(root: Path) -> Path:
   return root / "data" / "base" / "skins.toml"
 

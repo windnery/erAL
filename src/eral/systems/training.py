@@ -61,7 +61,7 @@ class TrainingService:
         Called after SettlementService.settle_actor has flushed SOURCE -> PALAM.
         """
         results: list[TrainingResult] = []
-        spirit = actor.stats.base.get("spirit")
+        spirit = actor.stats.base.get("1")
         orgasm_count = 0
 
         counter = self._detect_counter(actor)
@@ -84,8 +84,8 @@ class TrainingService:
             was_interrupted = True
             results.append(TrainingResult.INTERRUPTED)
         elif spirit <= _REJECTION_SPIRIT_THRESHOLD:
-            lust = actor.stats.palam.get("lust")
-            submission = actor.stats.palam.get("submission")
+            lust = actor.stats.palam.get("11")
+            submission = actor.stats.palam.get("12")
             obedience = actor.stats.palam.get("obedience")
             if submission + obedience < lust:
                 was_rejected = True
@@ -107,7 +107,7 @@ class TrainingService:
         return actor.add_condition(f"train_{key}", delta)
 
     def _detect_counter(self, actor: CharacterState) -> TrainingResult | None:
-        lust = actor.stats.palam.get("lust")
+        lust = actor.stats.palam.get("11")
         obedience = actor.stats.palam.get("obedience")
         if obedience < _COUNTER_OBEDIENCE_THRESHOLD or lust < _COUNTER_LUST_THRESHOLD:
             return None
@@ -142,7 +142,7 @@ class TrainingService:
     def _probabilistic_counter(
         self, actor: CharacterState, lust: int, obedience: int
     ) -> TrainingResult | None:
-        submission = actor.stats.palam.get("submission")
+        submission = actor.stats.palam.get("12")
         rank = actor.relationship_stage.rank if actor.relationship_stage else 0
         has_pleasure_mark = actor.has_mark("pleasure_mark", 2)
         has_submission_mark = actor.has_mark("submission_mark", 3)

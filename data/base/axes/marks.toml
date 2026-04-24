@@ -1,0 +1,28 @@
+# MARK 烙印定义
+[[marks]]
+index = 0
+display_name = "苦痛刻印"
+max_level = 3
+
+[[marks]]
+index = 1
+display_name = "快乐刻印"
+max_level = 3
+
+[[marks]]
+index = 2
+display_name = "不埒刻印"
+max_level = 3
+
+[[marks]]
+index = 3
+display_name = "反发刻印"
+max_level = 3
+
+[[marks]]
+index = 4
+display_name = "反发取得履历"
+
+[[marks]]
+index = 8
+display_name = "成长"

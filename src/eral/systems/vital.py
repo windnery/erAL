@@ -11,6 +11,26 @@ from eral.systems.fatigue import calc_tired
 from eral.systems.source_extra import compute_recovery_modifier
 
 
+# Mapping from maxbase string keys to base integer string keys.
+_MAXBASE_TO_BASE: dict[str, str] = {
+    "stamina": "0",
+    "spirit": "1",
+    "mood": "10",
+    "reason": "11",
+    "anger": "12",
+    "workload": "13",
+    "drunkenness": "15",
+    "erection": "5",
+    "bladder": "4",
+    "semen": "6",
+    "height": "20",
+    "weight": "21",
+    "bust": "22",
+    "waist": "23",
+    "hips": "24",
+}
+
+
 @dataclass(slots=True)
 class VitalService:
     """Orchestrates all vital-stat mutations: DOWNBASE, recovery, fatigue, and thresholds."""
@@ -20,6 +40,18 @@ class VitalService:
     talent_effects: tuple[TalentEffect, ...] = ()
     facility_service: FacilityService | None = None
 
+    def _max_value_for_actor(self, actor: CharacterState, max_key: str) -> int:
+        base_key = _MAXBASE_TO_BASE.get(max_key, max_key)
+        if base_key in actor.base_caps:
+            return actor.base_caps[base_key]
+        return self.max_values.get(max_key, 9999)
+
+    def _recover_rate_for_actor(self, actor: CharacterState, max_key: str) -> int:
+        base_key = _MAXBASE_TO_BASE.get(max_key, max_key)
+        if base_key in actor.base_recover_rates:
+            return actor.base_recover_rates[base_key]
+        return self.recover_rates.get(max_key, 0)
+
     def _recovery_mod(self, actor: CharacterState, world: WorldState | None) -> float:
         recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
         if world is not None and self.facility_service is not None:
@@ -28,8 +60,8 @@ class VitalService:
 
     def apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> int:
         """Subtract DOWNBASE from BASE, accumulate fatigue. Returns fatigue increment."""
-        stamina_cost = downbase.get("stamina", 0)
-        spirit_cost = downbase.get("spirit", 0)
+        stamina_cost = downbase.get("0", 0)
+        spirit_cost = downbase.get("1", 0)
 
         for key, delta in downbase.items():
             current = actor.stats.base.get(key)
@@ -45,11 +77,19 @@ class VitalService:
         recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
 
-        for key, rate in self.recover_rates.items():
+        all_keys = set(self.recover_rates)
+        all_keys.update(
+            max_key
+            for max_key, base_key in _MAXBASE_TO_BASE.items()
+            if base_key in actor.base_recover_rates
+        )
+        for key in all_keys:
+            rate = self._recover_rate_for_actor(actor, key)
             if rate == 0:
                 continue
-            current = actor.stats.base.get(key)
-            maximum = self.max_values.get(key, 9999)
+            base_key = _MAXBASE_TO_BASE.get(key, key)
+            current = actor.stats.base.get(base_key)
+            maximum = self._max_value_for_actor(actor, key)
 
             if rate > 0:
                 recovery = int(rate * recovery_mod)
@@ -60,7 +100,7 @@ class VitalService:
 
             actual = new_val - current
             if actual != 0:
-                actor.stats.base.set(key, new_val)
+                actor.stats.base.set(base_key, new_val)
                 results[key] = actual
 
         fatigue_reduction = max(1, int(5 * recovery_mod))
@@ -75,19 +115,20 @@ class VitalService:
         """
         recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
-        permils = {"stamina": 500, "spirit": 300}
+        permils = {"0": 500, "1": 300}
 
-        for key in ("stamina", "spirit"):
-            current = actor.stats.base.get(key)
-            maximum = self.max_values.get(key, 2000)
-            permil = permils.get(key, 300)
+        for base_key in ("0", "1"):
+            max_key = next((k for k, v in _MAXBASE_TO_BASE.items() if v == base_key), base_key)
+            current = actor.stats.base.get(base_key)
+            maximum = self._max_value_for_actor(actor, max_key)
+            permil = permils.get(base_key, 300)
             base_recovery = maximum * permil // 1000
             recovery = int(base_recovery * recovery_mod)
             new_val = min(maximum, current + recovery)
             actual = new_val - current
             if actual > 0:
-                actor.stats.base.set(key, new_val)
-                results[key] = actual
+                actor.stats.base.set(base_key, new_val)
+                results[max_key] = actual
 
         fatigue_reduction = int(actor.fatigue * 0.8 * recovery_mod)
         actor.fatigue = max(0, actor.fatigue - max(1, fatigue_reduction))
@@ -98,19 +139,20 @@ class VitalService:
         """Rest (nap) recovery: moderate percentage of MAXBASE + some fatigue reduction."""
         recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
-        permils = {"stamina": 200, "spirit": 150}
+        permils = {"0": 200, "1": 150}
 
-        for key in ("stamina", "spirit"):
-            current = actor.stats.base.get(key)
-            maximum = self.max_values.get(key, 2000)
-            permil = permils.get(key, 200)
+        for base_key in ("0", "1"):
+            max_key = next((k for k, v in _MAXBASE_TO_BASE.items() if v == base_key), base_key)
+            current = actor.stats.base.get(base_key)
+            maximum = self._max_value_for_actor(actor, max_key)
+            permil = permils.get(base_key, 200)
             base_recovery = maximum * permil // 1000
             recovery = int(base_recovery * recovery_mod)
             new_val = min(maximum, current + recovery)
             actual = new_val - current
             if actual > 0:
-                actor.stats.base.set(key, new_val)
-                results[key] = actual
+                actor.stats.base.set(base_key, new_val)
+                results[max_key] = actual
 
         fatigue_reduction = max(5, actor.fatigue // 4)
         actor.fatigue = max(0, actor.fatigue - fatigue_reduction)
@@ -121,19 +163,20 @@ class VitalService:
         """Bath recovery: spirit-focused recovery + moderate fatigue reduction."""
         recovery_mod = self._recovery_mod(actor, world)
         results: dict[str, int] = {}
-        permils = {"stamina": 100, "spirit": 250}
+        permils = {"0": 100, "1": 250}
 
-        for key in ("stamina", "spirit"):
-            current = actor.stats.base.get(key)
-            maximum = self.max_values.get(key, 2000)
-            permil = permils.get(key, 100)
+        for base_key in ("0", "1"):
+            max_key = next((k for k, v in _MAXBASE_TO_BASE.items() if v == base_key), base_key)
+            current = actor.stats.base.get(base_key)
+            maximum = self._max_value_for_actor(actor, max_key)
+            permil = permils.get(base_key, 100)
             base_recovery = maximum * permil // 1000
             recovery = int(base_recovery * recovery_mod)
             new_val = min(maximum, current + recovery)
             actual = new_val - current
             if actual > 0:
-                actor.stats.base.set(key, new_val)
-                results[key] = actual
+                actor.stats.base.set(base_key, new_val)
+                results[max_key] = actual
 
         fatigue_reduction = max(3, actor.fatigue // 5)
         actor.fatigue = max(0, actor.fatigue - fatigue_reduction)
@@ -151,21 +194,21 @@ class VitalService:
         results: dict[str, int] = {}
 
         if stamina > 0:
-            current = actor.stats.base.get("stamina")
-            maximum = self.max_values.get("stamina", 2000)
+            current = actor.stats.base.get("0")
+            maximum = self._max_value_for_actor(actor, "stamina")
             new_val = min(maximum, current + stamina)
             actual = new_val - current
             if actual > 0:
-                actor.stats.base.set("stamina", new_val)
+                actor.stats.base.set("0", new_val)
                 results["stamina"] = actual
 
         if spirit > 0:
-            current = actor.stats.base.get("spirit")
-            maximum = self.max_values.get("spirit", 1500)
+            current = actor.stats.base.get("1")
+            maximum = self._max_value_for_actor(actor, "spirit")
             new_val = min(maximum, current + spirit)
             actual = new_val - current
             if actual > 0:
-                actor.stats.base.set("spirit", new_val)
+                actor.stats.base.set("1", new_val)
                 results["spirit"] = actual
 
         if reduce_fatigue > 0:
@@ -177,16 +220,16 @@ class VitalService:
 
     def is_fainted(self, actor: CharacterState) -> bool:
         """Check if actor has fainted (stamina exhausted)."""
-        return actor.stats.base.get("stamina") <= 0
+        return actor.stats.base.get("0") <= 0
 
     def is_spirit_depleted(self, actor: CharacterState) -> bool:
         """Check if actor's spirit is depleted."""
-        return actor.stats.base.get("spirit") <= 0
+        return actor.stats.base.get("1") <= 0
 
     def is_decay(self, actor: CharacterState) -> bool:
         """Check if actor is in 衰弱 state: both stamina and spirit below 1/5 MAXBASE."""
-        stamina = actor.stats.base.get("stamina")
-        spirit = actor.stats.base.get("spirit")
-        max_stamina = self.max_values.get("stamina", 2000)
-        max_spirit = self.max_values.get("spirit", 1500)
+        stamina = actor.stats.base.get("0")
+        spirit = actor.stats.base.get("1")
+        max_stamina = self._max_value_for_actor(actor, "stamina")
+        max_spirit = self._max_value_for_actor(actor, "spirit")
         return stamina < max_stamina // 5 and spirit < max_spirit // 5

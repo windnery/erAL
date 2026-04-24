@@ -1,209 +1,208 @@
-[[rules]]
-source = "affection"
+# CUP → PALAM / BASE / CFLAG 结算规则
+# cup_index: 引用修正后的 CUP 层索引（与 SOURCE 轴同维度）
+# target_family: palam / base / cflag
+# target_index: 对应轴的整数 index
+
+[[rule]]
+cup_index = 10
 target_family = "palam"
-target_key = "favor"
+target_index = 20
 scale = 1
 
-[[rules]]
-source = "joy"
+[[rule]]
+cup_index = 20
 target_family = "base"
-target_key = "mood"
+target_index = 10
 scale = 1
 
-[[rules]]
-source = "obedience"
+[[rule]]
+cup_index = 16
 target_family = "palam"
-target_key = "obedience"
+target_index = 10
 scale = 1
 
-[[rules]]
-source = "obedience"
+[[rule]]
+cup_index = 16
 target_family = "cflag"
 target_index = 6
 scale = 0.05
 
-[[rules]]
-source = "lust"
+[[rule]]
+cup_index = 15
 target_family = "palam"
-target_key = "lust"
+target_index = 11
 scale = 1
 
-[[rules]]
-source = "submission"
+[[rule]]
+cup_index = 18
 target_family = "palam"
-target_key = "submission"
+target_index = 12
 scale = 1
 
-[[rules]]
-source = "pain"
+[[rule]]
+cup_index = 13
 target_family = "palam"
-target_key = "pain"
+target_index = 15
 scale = 1
 
-[[rules]]
-source = "fear"
+[[rule]]
+cup_index = 14
 target_family = "palam"
-target_key = "fear"
+target_index = 16
 scale = 1
 
-[[rules]]
-source = "disgust"
+[[rule]]
+cup_index = 33
 target_family = "palam"
-target_key = "disgust"
+target_index = 30
 scale = 1
 
-[[rules]]
-source = "unclean"
+[[rule]]
+cup_index = 30
 target_family = "palam"
-target_key = "discomfort"
+target_index = 31
 scale = 1
 
-[[rules]]
-source = "conquest"
+[[rule]]
+cup_index = 21
 target_family = "palam"
-target_key = "superiority"
+target_index = 21
 scale = 1
 
-[[rules]]
-source = "exposure"
+[[rule]]
+cup_index = 17
 target_family = "palam"
-target_key = "shame"
+target_index = 14
 scale = 1
 
-[[rules]]
-source = "temptation"
+[[rule]]
+cup_index = 50
 target_family = "palam"
-target_key = "lust"
+target_index = 11
 scale = 1
 
-[[rules]]
-source = "humiliation"
+[[rule]]
+cup_index = 22
 target_family = "palam"
-target_key = "shame"
+target_index = 10
 scale = 1
 
-[[rules]]
-source = "passive"
+[[rule]]
+cup_index = 12
 target_family = "palam"
-target_key = "obedience"
+target_index = 13
 scale = 1
 
-[[rules]]
-source = "achievement"
+[[rule]]
+cup_index = 11
 target_family = "palam"
-target_key = "mastery"
+target_index = 11
 scale = 1
 
-[[rules]]
-source = "sexual_act"
+[[rule]]
+cup_index = 0
 target_family = "palam"
-target_key = "lust"
+target_index = 0
 scale = 1
 
-[[rules]]
-source = "pleasure_c"
+[[rule]]
+cup_index = 1
 target_family = "palam"
-target_key = "pleasure_c"
+target_index = 1
 scale = 1
 
-[[rules]]
-source = "pleasure_v"
+[[rule]]
+cup_index = 2
 target_family = "palam"
-target_key = "pleasure_v"
+target_index = 2
 scale = 1
 
-[[rules]]
-source = "pleasure_a"
+[[rule]]
+cup_index = 3
 target_family = "palam"
-target_key = "pleasure_a"
+target_index = 3
 scale = 1
 
-[[rules]]
-source = "pleasure_b"
+[[rule]]
+cup_index = 4
 target_family = "palam"
-target_key = "pleasure_b"
+target_index = 4
 scale = 1
 
-[[rules]]
-source = "pleasure_m"
+[[rule]]
+cup_index = 40
 target_family = "palam"
-target_key = "pleasure_m"
-scale = 1
-
-[[rules]]
-source = "fluid"
-target_family = "palam"
-target_key = "lubrication"
-scale = 1
-
-[[rules]]
-source = "deviation"
-target_family = "palam"
-target_key = "disgust"
-scale = 1
-
-[[rules]]
-source = "frustration"
-target_family = "palam"
-target_key = "depression"
-scale = 1
-
-[[rules]]
-source = "give_pleasure_c"
-target_family = "palam"
-target_key = "pleasure_c"
+target_index = 0
 scale = 0.5
 
-[[rules]]
-source = "lubrication"
+[[rule]]
+cup_index = 41
 target_family = "palam"
-target_key = "lubrication"
-scale = 1
-
-[[rules]]
-source = "lactation"
-target_family = "palam"
-target_key = "lactation"
-scale = 1
-
-[[rules]]
-source = "discomfort"
-target_family = "palam"
-target_key = "discomfort"
-scale = 1
-
-[[rules]]
-source = "shame"
-target_family = "palam"
-target_key = "shame"
-scale = 1
-
-[[rules]]
-source = "sadism"
-target_family = "palam"
-target_key = "fear"
+target_index = 1
 scale = 0.5
 
-[[rules]]
-source = "temptation"
+[[rule]]
+cup_index = 42
+target_family = "palam"
+target_index = 2
+scale = 0.5
+
+[[rule]]
+cup_index = 43
+target_family = "palam"
+target_index = 3
+scale = 0.5
+
+[[rule]]
+cup_index = 44
+target_family = "palam"
+target_index = 4
+scale = 0.5
+
+[[rule]]
+cup_index = 9
+target_family = "palam"
+target_index = 9
+scale = 1
+
+[[rule]]
+cup_index = 32
+target_family = "palam"
+target_index = 30
+scale = 1
+
+[[rule]]
+cup_index = 31
+target_family = "palam"
+target_index = 32
+scale = 1
+
+[[rule]]
+cup_index = 55
+target_family = "palam"
+target_index = 16
+scale = 0.5
+
+[[rule]]
+cup_index = 50
 target_family = "base"
-target_key = "reason"
+target_index = 11
 scale = -0.3
 
-[[rules]]
-source = "lust"
+[[rule]]
+cup_index = 15
 target_family = "base"
-target_key = "erection"
+target_index = 5
 scale = 0.5
 
-[[rules]]
-source = "disgust"
+[[rule]]
+cup_index = 33
 target_family = "base"
-target_key = "anger"
+target_index = 12
 scale = 0.2
 
-[[rules]]
-source = "fear"
+[[rule]]
+cup_index = 14
 target_family = "base"
-target_key = "anger"
+target_index = 12
 scale = 0.1

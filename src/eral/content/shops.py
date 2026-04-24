@@ -24,7 +24,7 @@ def load_shopfront_definitions(path: Path) -> tuple[ShopfrontDefinition, ...]:
 
     return tuple(
         ShopfrontDefinition(
-            key=shopfront["key"],
+            key=str(shopfront.get("key", shopfront["index"])),
             display_name=shopfront["display_name"],
             item_categories=tuple(shopfront.get("item_categories", [])),
         )

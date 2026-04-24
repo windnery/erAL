@@ -14,7 +14,7 @@ class WeatherService:
     definitions: dict[str, WeatherDefinition]
 
     def current(self, world: WorldState) -> WeatherDefinition:
-        return self.definitions.get(world.weather_key, self.definitions["clear"])
+        return self.definitions.get(world.weather_key, next(iter(self.definitions.values())))
 
     def refresh(self, world: WorldState) -> str:
         weights = {

@@ -1,321 +1,384 @@
-# TALENT 轴定义（先天素质）
-# 参考 参考图/素质编辑.png
+# TALENT 轴定义（素质）
+# ✅
 
-# TALENT 轴定义（先天素质）
-# 参考 参考图/素质编辑.png
+#性别系列
+[[talent]]
+index = 0
+label = "处女" #0=处女 1=再生处女
 
-[[entries]]
-key = "talent_0"
-era_index = 0
-label = "处女"
+[[talent]]
+index = 1
+label = "非童贞" #0=童贞 1=膣脱处 2=肛脱处
 
-[[entries]]
-key = "talent_1"
-era_index = 1
-label = "非处男"
+[[talent]]
+index = 2
+label = "性别" #0=女 1=男
 
-[[entries]]
-key = "talent_3"
-era_index = 3
-label = "恋慕"
+#陷落素质系列
+[[talent]]
+index = 3
+label = "友好" #关系阶段达到“友好”时自动获得 上位是8
 
-[[entries]]
-key = "talent_4"
-era_index = 4
+[[talent]]
+index = 4
 label = "淫乱"
 
-[[entries]]
-key = "talent_5"
-era_index = 5
-label = "服従"
+[[talent]]
+index = 5
+label = "服从"
 
-[[entries]]
-key = "talent_2"
-era_index = 2
-label = "性别"
+[[talent]]
+index = 6
+label = "无接吻经验" #有接吻经验后会自动消失
 
-[[entries]]
-key = "talent_7"
-era_index = 7
-label = "恋人"
+[[talent]]
+index = 7
+label = "恋人" #彼此相爱的状态 只有舰娘会有这个素质
 
-[[entries]]
-key = "talent_8"
-era_index = 8
-label = "思慕"
+[[talent]]
+index = 8
+label = "喜欢" #关系阶段达到“喜欢”时自动获得 上位是15
 
-[[entries]]
-key = "talent_9"
-era_index = 9
-label = "妊娠願望"
+[[talent]]
+index = 9
+label = "妊娠愿望" #受孕概率增加
 
-[[entries]]
-key = "talent_6"
-era_index = 6
-label = "无接吻经验"
-
-[[entries]]
-key = "talent_10"
-era_index = 10
+# 性格
+[[talent]]
+index = 10
 label = "胆量"
+#0=胆怯，ABL：顺从容易上升。PALAM：反感难以上升
+#1=坚强，指令执行起来更困难
 
-[[entries]]
-key = "talent_11"
-era_index = 11
+[[talent]]
+index = 11
 label = "态度"
+#0=坦率，指令更容易执行。PALAM：恭顺更容易上升
+#1=叛逆，指令更难执行。PALAM：恭顺和欲望难以上升
 
-[[entries]]
-key = "talent_12"
-era_index = 12
+[[talent]]
+index = 12
 label = "回应"
+#0=老实，PALAM：反感更难上升
+#1=傲慢，ABL：顺从和侍奉精神难以上升
 
-[[entries]]
-key = "talent_13"
-era_index = 13
+[[talent]]
+index = 13
 label = "自尊心"
+#0=自尊心低，更容易执行指令。PALAM：屈服更容易上升
+#1=自尊心高，更难执行指令。PALAM：屈服更难上升
 
-[[entries]]
-key = "talent_14"
-era_index = 14
-label = "娇俏"
+[[talent]]
+index = 14
+label = "傲娇" #指令更难执行，但在ABL顺从>4以上时效果反转
 
-[[entries]]
-key = "talent_17"
-era_index = 17
-label = "年龄"
+[[talent]]
+index = 15
+label = "爱" #关系阶段达到“爱”时自动获得 上位是16
 
-[[entries]]
-key = "talent_18"
-era_index = 18
-label = "懒散"
+[[talent]]
+index = 16
+label = "誓约" #关系阶段达到“誓约”时自动获得
 
-[[entries]]
-key = "talent_19"
-era_index = 19
-label = "性情不定"
+[[talent]]
+index = 17
+label = "年龄" #0=儿童 1=青年 2=中年 3=老人
 
-[[entries]]
-key = "talent_20"
-era_index = 20
-label = "自制心"
+[[talent]]
+index = 18
+label = "懒散" #更倾向于待在室内，睡眠时间会更长
 
-[[entries]]
-key = "talent_21"
-era_index = 21
-label = "冷漠"
+[[talent]]
+index = 19
+label = "性情不定" #心情更容易变化
 
-[[entries]]
-key = "talent_22"
-era_index = 22
-label = "感情缺乏"
+# 对性的关心
+[[talent]]
+index = 20
+label = "自制心" #PALAM：屈服和所有快乐系难以上升、更容易造成反发刻印
 
-[[entries]]
-key = "talent_24"
-era_index = 24
-label = "开朗／阴郁"
+[[talent]]
+index = 21
+label = "冷漠" #PALAM：恭顺、欲情、屈服、恐惧、反感难以上升
 
-[[entries]]
-key = "talent_23"
-era_index = 23
+[[talent]]
+index = 22
+label = "感情缺乏" #PALAM全体难以上升
+
+[[talent]]
+index = 23
 label = "性的兴趣"
+#0=保守的，指令难以执行。PALAM：全体难以上升
+#1=好奇的，指令更容易执行。PALAM：全体更容易上升
 
-[[entries]]
-key = "talent_25"
-era_index = 25
-label = "难以越过的底线"
+[[talent]]
+index = 24
+label = "开朗／阴郁"
+#0=阴郁，PALAM：抑郁更容易上升
+#1=开朗，PALAM：抑郁更难以上升
 
-[[entries]]
-key = "talent_26"
-era_index = 26
-label = "喜欢引人注目"
+[[talent]]
+index = 25
+label = "难以越过的底线" #ABL全体难以上升。PALAM：恭顺难以上升。具有TALENT：“喜欢”后效果反转
 
-[[entries]]
-key = "talent_27"
-era_index = 27
-label = "无知"
+[[talent]]
+index = 26
+label = "喜欢引人注目" #指令更容易执行。PALAM：恭顺更容易上升
 
-[[entries]]
-key = "talent_30"
-era_index = 30
+[[talent]]
+index = 27
+label = "无知" #对性方面没有知识
+
+# 乙女心
+[[talent]]
+index = 30
 label = "贞操"
+#0=不在乎贞操，情爱系调教效果更差。PALAM：反感不容易上升
+#1=贞操重视，情爱系调教效果更好。PALAM：反感更容易上升
 
-[[entries]]
-key = "talent_31"
-era_index = 31
+[[talent]]
+index = 31
 label = "自己爱"
+#0=压抑，指令更难执行。PALAM：抑郁、反感容易上升，欲望难以上升。欲望>=3时该talent消失
+#1=解放，ABL：受虐属性容易提高。PALAM：欲情和屈服容易上升
 
-[[entries]]
-key = "talent_32"
-era_index = 32
-label = "抵抗"
+[[talent]]
+index = 32
+label = "抵抗" #指令更难执行。PALAM:抑郁、反感容易上升，恭顺难上升。ABL顺从>=3时消失
 
-[[entries]]
-key = "talent_33"
-era_index = 33
+[[talent]]
+index = 33
 label = "羞耻心"
+#0=不知羞耻，露出系调教效果更差
+#1=害羞，指令更难执行。露出系调教效果更好
 
-[[entries]]
-key = "talent_40"
-era_index = 40
+# 体质
+[[talent]]
+index = 40
 label = "痛觉"
+#0=不怕痛，PALAM：苦痛和反感难以上升
+#1=怕痛，PALAM：苦痛和反感容易上升
 
-[[entries]]
-key = "talent_41"
-era_index = 41
-label = "弄湿难易"
+[[talent]]
+index = 41
+label = "弄湿难易" #0=不容易湿 1=容易湿
 
-[[entries]]
-key = "talent_54"
-era_index = 54
-label = "猫舌"
+# 技术
+[[talent]]
+index = 50
+label = "学习速度" #0=学习满 1=学习快
 
-[[entries]]
-key = "talent_57"
-era_index = 57
-label = "漏尿癖"
+[[talent]]
+index = 51
+label = "灵巧手指" #指系调教效果提高
 
-[[entries]]
-key = "talent_60"
-era_index = 60
-label = "容易自慰"
+[[talent]]
+index = 52
+label = "灵巧舌头" #口交系调教效果提高
 
-[[entries]]
-key = "talent_61"
-era_index = 61
-label = "污臭耐性"
+[[talent]]
+index = 53
+label = "擅长用针" #针系调教效果提高
 
-[[entries]]
-key = "talent_62"
-era_index = 62
-label = "献身的"
+[[talent]]
+index = 54
+label = "猫舌" #对口交系调教施加限制，效果发生变化
 
-[[entries]]
-key = "talent_70"
-era_index = 70
+[[talent]]
+index = 55
+label = "调合知识" #可以购买特殊的工具。指令“媚药”的体力和精力消耗少
+
+[[talent]]
+index = 56
+label = "药物耐性" #春药、利尿剂等药物不能执行使用指令
+
+[[talent]]
+index = 57
+label = "漏尿癖" #可以经常使用放尿指令。绝顶时放尿。
+
+# 洁癖度
+[[talent]]
+index = 60
+label = "容易自慰" #自慰系指令容易实行。ABL:自慰中毒容易上升
+
+[[talent]]
+index = 61
+label = "污臭耐性" #0=洁癖 1=污臭敏感 2=污臭钝感 3=污臭无视
+
+[[talent]]
+index = 62
+label = "献身的" #侍奉系调教更容易执行。ABL:容易提高侍奉精神。PALAM:屈服更容易提升
+
+# 正直度
+[[talent]]
+index = 70
 label = "快感应答"
+#0=否定快感，难以执行指令。PALAM:欲情难以上升
+#1=接受快感，容易执行指令。ABL:容易提高欲望和侍奉精神。PALAM:欲情更容易提升
 
-[[entries]]
-key = "talent_72"
-era_index = 72
-label = "容易高潮"
+[[talent]]
+index = 71
+label = "容易中毒" #中毒系的ABL容易上升
 
-[[entries]]
-key = "talent_71"
-era_index = 71
-label = "容易中毒"
+[[talent]]
+index = 72
+label = "容易高潮" #高潮的积累条更短，更容易高潮
 
-[[entries]]
-key = "talent_80"
-era_index = 80
-label = "倒错的"
+[[talent]]
+index = 73
+label = "自慰狂" #C系指令及自慰系指令的效果UP
 
-[[entries]]
-key = "talent_81"
-era_index = 81
-label = "性别嗜好"
+[[talent]]
+index = 74
+label = "淫壶" #V系指令效果UP
 
-[[entries]]
-key = "talent_82"
-era_index = 82
-label = "施虐狂"
+[[talent]]
+index = 75
+label = "尻穴狂" #A系指令效果UP
 
-[[entries]]
-key = "talent_84"
-era_index = 84
-label = "嫉妬"
+[[talent]]
+index = 76
+label = "淫乳" #B系指令效果UP
 
-[[entries]]
-key = "talent_90"
-era_index = 90
-label = "狐"
+[[talent]]
+index = 77
+label = "接吻魔" #M系指令效果UP
 
-[[entries]]
-key = "talent_151"
-era_index = 151
-label = "幼稚"
+[[talent]]
+index = 78
+label = "子宫口敏感" #子宫口相关调教指令效果UP。子宫口开发经验增加带来的素质
 
-[[entries]]
-key = "talent_93"
-era_index = 93
-label = "魅惑"
+# 性爱系
+[[talent]]
+index = 80
+label = "倒错的" #SM系调教效果更好。受虐属性、中毒系的ABL容易上升
 
-[[entries]]
-key = "talent_94"
-era_index = 94
-label = "謎之魅力"
+[[talent]]
+index = 82
+label = "施虐狂" #作为调教者时更容易执行指令。ABL：侍奉精神难以上升
 
-[[entries]]
-key = "talent_83"
-era_index = 83
-label = "受虐狂"
+[[talent]]
+index = 83
+label = "受虐狂" #指令更容易执行。受虐系的ABL更容易提升
 
-[[entries]]
-key = "talent_100"
-era_index = 100
-label = "体型"
+[[talent]]
+index = 84
+label = "嫉妒" #暂时没有效果 后续有待开发
 
-[[entries]]
-key = "talent_101"
-era_index = 101
-label = "C感度"
+[[talent]]
+index = 85
+label = "迷信" #指令更容易执行。PALAM：屈服容易上升
 
-[[entries]]
-key = "talent_102"
-era_index = 102
-label = "V感度"
+[[talent]]
+index = 86
+label = "小恶魔" #作为调教者时更容易执行指令
 
-[[entries]]
-key = "talent_103"
-era_index = 103
-label = "A感度"
+# 魅力系
+[[talent]]
+index = 90
+label = "魅力" #作为调教者时更容易执行指令。作为调教者时对方的PALAM全体更容易上升。上位是91
 
-[[entries]]
-key = "talent_104"
-era_index = 104
-label = "B感度"
+[[talent]]
+index = 91
+label = "魅惑" #作为调教者时更容易执行指令。作为调教者时对方的PALAM全体更容易上升。上位是92
 
-[[entries]]
-key = "talent_105"
-era_index = 105
-label = "胸围"
+[[talent]]
+index = 92
+label = "迷之魅力" #作为调教者时更容易执行指令。作为调教者时对方的PALAM全体更容易上升
 
-[[entries]]
-key = "talent_106"
-era_index = 106
-label = "M感度"
+# 身体特征
+[[talent]]
+index = 100
+label = "体型" #0=幼儿体型 1=矮小体型 2=正常 3=长身 4=大车
 
-[[entries]]
-key = "talent_108"
-era_index = 108
-label = "臀围"
+[[talent]]
+index = 101
+label = "C感度" #0=钝感 1=正常 2=敏感 3=过敏 4=超敏
 
-[[entries]]
-key = "talent_121"
-era_index = 121
-label = "酒耐性"
+[[talent]]
+index = 102
+label = "V感度" #0=钝感 1=正常 2=敏感 3=过敏 4=超敏
 
-[[entries]]
-key = "talent_142"
-era_index = 142
-label = "风骚"
+[[talent]]
+index = 103
+label = "A感度" #0=钝感 1=正常 2=敏感 3=过敏 4=超敏
 
-[[entries]]
-key = "talent_143"
-era_index = 143
-label = "兽耳"
+[[talent]]
+index = 104
+label = "B感度" #0=钝感 1=正常 2=敏感 3=过敏 4=超敏
 
-[[entries]]
-key = "talent_146"
-era_index = 146
-label = "其它"
+[[talent]]
+index = 105
+label = "胸围" #0=绝壁 1=贫乳 2=普通乳 3=巨乳 4=豪乳 5=爆乳 6=超乳 7=极巨乳
 
-[[entries]]
-key = "talent_150"
-era_index = 150
-label = "幼儿/幼儿退行"
+[[talent]]
+index = 106
+label = "M感度" #0=钝感 1=正常 2=敏感 3=过敏 4=超敏
 
-[[entries]]
-key = "talent_92"
-era_index = 92
-label = "魅力"
+[[talent]]
+index = 108
+label = "臀围" #0=小臀 1=纤臀 2=普通臀 3=巨臀 4=丰臀 5=爆臀
 
+[[talent]]
+index = 120
+label = "浓厚精液" #3天没有任何射精行为就会获得该素质，射精后消失。射精效果会增加
+
+[[talent]]
+index = 121
+label = "酒耐性" #0=不会喝酒 1=不擅长喝酒 2=酒量正常 3=擅长喝酒 4=酒豪 5=海量
+
+# 特殊
+[[talent]]
+index = 130
+label = "回复速度"
+#0=回复慢，体力自然恢复变满
+#1=恢复快，体力自然恢复变快
+
+[[talent]]
+index = 131
+label = "大胃王" #允许吃饭的间隔变短
+
+[[talent]]
+index = 132
+label = "动物耳" #0=犬耳 1=猫耳 2=狐耳
+
+[[talent]]
+index = 133
+label = "禁断的知识" #可以购买特殊工具或执行特殊指令
+
+[[talent]]
+index = 134
+label = "母乳体质" #B绝顶时会喷奶
+
+[[talent]]
+index = 135
+label = "母性" #作为调教者时更喜欢用B系侍奉指令
+
+[[talent]]
+index = 136
+label = "精力超群" #射精的消耗变少，意味着每天的射精量会变多
+
+[[talent]]
+index = 137
+label = "妊娠" #受孕中
+
+[[talent]]
+index = 138
+label = "育儿中" #正在抚养儿童
+
+[[talent]]
+index = 139
+label = "音乐知识" #0=乐器知识 1=歌唱知识 2=舞蹈知识
+
+[[talent]]
+index = 140
+label = "音感" #0=音痴 1=音感 2=绝对音感
+
+# 种族
+[[talent]]
+index = 141
+label = "人类"
+
+[[talent]]
+index = 142
+label = "舰娘" #0=驱逐 1=轻巡 2=重巡 3=超巡 4=战巡 5=战列 6=航战 7=航母 8=轻航 9=重炮 10=维修 11=潜艇 12=潜母 13=运输 14=风帆

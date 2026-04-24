@@ -43,6 +43,16 @@ class BootstrapTests(unittest.TestCase):
         self.assertIn("enterprise_default", enterprise.owned_skins)
         self.assertEqual(enterprise.equipped_skin_key, "enterprise_default")
 
+    def test_bootstrap_keeps_legacy_character_base_as_initial_only(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        app = create_application(repo_root)
+        enterprise = actor_by_key(app, "enterprise")
+
+        self.assertEqual(enterprise.stats.base.get("0"), 1200)
+        self.assertEqual(enterprise.stats.base.get("1"), 900)
+        self.assertEqual(enterprise.base_caps, {})
+        self.assertEqual(enterprise.base_recover_rates, {})
+
 
 if __name__ == "__main__":
     unittest.main()

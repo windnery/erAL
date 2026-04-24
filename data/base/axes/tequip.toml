@@ -1,0 +1,38 @@
+# TEQUIP 轴定义（可穿戴功能性道具状态）
+# 仅记录物理穿戴/插入类道具，PLAY 状态（野外/羞耻等）不走此处
+
+[[tequip]]
+index = 0
+label = "阴蒂道具"
+
+[[tequip]]
+index = 1
+label = "V插入道具"
+
+[[tequip]]
+index = 2
+label = "A插入道具"
+
+[[tequip]]
+index = 3
+label = "乳头道具"
+
+[[tequip]]
+index = 4
+label = "眼罩"
+
+[[tequip]]
+index = 5
+label = "绳/拘束"
+
+[[tequip]]
+index = 6
+label = "口球"
+
+[[tequip]]
+index = 7
+label = "灌肠"
+
+[[tequip]]
+index = 8
+label = "扩张气球"

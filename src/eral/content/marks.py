@@ -33,7 +33,7 @@ def load_mark_definitions(path: Path) -> tuple[MarkDefinition, ...]:
 
     return tuple(
         MarkDefinition(
-            key=item["key"],
+            key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
             group=item.get("group", "general"),
             max_level=int(item.get("max_level", 1)),

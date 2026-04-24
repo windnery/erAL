@@ -68,8 +68,8 @@ def load_stat_axis_catalog(path: Path) -> StatAxisCatalog:
         axes = tuple(
             StatAxis(
                 family=family,
-                key=item["key"],
-                era_index=int(item["era_index"]),
+                key=item.get("key", str(item["index"])),
+                era_index=int(item.get("era_index", item["index"])),
                 label=item["label"],
             )
             for item in items
@@ -87,7 +87,7 @@ def load_stat_axis_catalog(path: Path) -> StatAxisCatalog:
                 continue
             with file_path.open("rb") as handle:
                 raw = tomllib.load(handle)
-            _emit(family, raw.get("entries", []))
+            _emit(family, raw.get(family.value, []))
     else:
         with path.open("rb") as handle:
             raw_data = tomllib.load(handle)

@@ -12,6 +12,7 @@ from eral.content.commissions import CommissionDefinition, load_commission_defin
 from eral.content.character_packs import CharacterPack, load_character_packs
 from eral.content.character_relations import CharacterRelationIndex, load_character_relations
 from eral.content.characters import CharacterDefinition, InitialStatOverrides, load_character_definitions
+from eral.content.command_effects import load_command_effects
 from eral.content.commands import CommandDefinition, load_command_definitions
 from eral.content.dialogue import DialogueEntry, load_dialogue_entries
 from eral.content.events import EventDefinition, load_event_definitions
@@ -21,6 +22,7 @@ from eral.content.marks import MarkDefinition, load_mark_definitions
 from eral.content.port_map import load_port_map
 from eral.content.relationships import RelationshipStageDefinition, load_relationship_stages
 from eral.content.settlement import SettlementRule, load_settlement_rules
+from eral.content.source_modifiers import load_source_modifiers
 from eral.content.shops import load_shopfront_definitions
 from eral.content.skins import (
     AppearanceDefinition,
@@ -30,7 +32,6 @@ from eral.content.skins import (
 )
 from eral.content.stat_axes import StatAxisCatalog, load_stat_axis_catalog
 from eral.content.work_schedules import WorkScheduleDefinition, load_work_schedule_definitions
-from eral.content.maxbase import load_maxbase
 from eral.content.palamlv import load_curves
 from eral.content.persistent import load_persistent_state_definitions, load_slot_definitions
 from eral.content.gifts import load_gift_definitions
@@ -145,6 +146,24 @@ def _apply_initial_stats(stats: ActorNumericState, overrides: "InitialStatOverri
         stats.compat.cflag.set(era_index, value)
 
 
+def _default_vital_caps() -> dict[str, int]:
+    return {
+        "stamina": 2000,
+        "spirit": 1500,
+        "reason": 1000,
+        "semen": 1000,
+    }
+
+
+def _default_vital_recover_rates() -> dict[str, int]:
+    return {
+        "stamina": 10,
+        "spirit": 10,
+        "reason": 0,
+        "semen": 0,
+    }
+
+
 def create_application(root: Path | None = None) -> Application:
     root_path = (root or Path.cwd()).resolve()
     config_path = root_path / "config.ini"
@@ -154,22 +173,21 @@ def create_application(root: Path | None = None) -> Application:
     character_packs_path = root_path / "data" / "base" / "characters"
     relationship_stages_path = root_path / "data" / "base" / "relationship_stages.toml"
     settlement_rules_path = root_path / "data" / "base" / "settlement_rules.toml"
-    commands_path = root_path / "data" / "base" / "commands.toml"
-    items_path = root_path / "data" / "base" / "items.toml"
+    commands_path = root_path / "data" / "base" / "commands" / "train.toml"
+    items_path = root_path / "data" / "base" / "shops" / "items.toml"
     shopfronts_path = root_path / "data" / "base" / "shopfronts.toml"
     skins_path = root_path / "data" / "base" / "skins.toml"
     appearances_path = root_path / "data" / "base" / "appearances.toml"
     calendar_path = root_path / "data" / "base" / "calendar.toml"
     work_schedules_path = root_path / "data" / "base" / "work_schedules.toml"
-    marks_path = root_path / "data" / "base" / "marks.toml"
-    maxbase_path = root_path / "data" / "base" / "maxbase.toml"
-    imprint_thresholds_path = root_path / "data" / "base" / "imprint_thresholds.toml"
-    abl_upgrade_path = root_path / "data" / "base" / "abl_upgrade.toml"
+    marks_path = root_path / "data" / "base" / "axes" / "marks.toml"
+    imprint_thresholds_path = root_path / "data" / "base" / "effects" / "imprint_rules.toml"
+    abl_upgrade_path = root_path / "data" / "base" / "effects" / "abl_upgrade.toml"
     commissions_path = root_path / "data" / "base" / "commissions.toml"
     facilities_path = root_path / "data" / "base" / "facilities.toml"
 
-    events_path = root_path / "data" / "base" / "events.toml"
-    dialogue_path = root_path / "data" / "base" / "dialogue.toml"
+    events_path = root_path / "data" / "base" / "kojo" / "events.toml"
+    dialogue_path = root_path / "data" / "base" / "kojo" / "dialogue.toml"
 
     paths = RuntimePaths.from_root(root_path)
     paths.ensure_runtime_dirs()
@@ -192,7 +210,13 @@ def create_application(root: Path | None = None) -> Application:
     events = global_events + pack_events
     dialogue = global_dialogue + pack_dialogue
     settlement_rules = load_settlement_rules(settlement_rules_path)
+    source_modifiers = load_source_modifiers(
+        root_path / "data" / "base" / "effects" / "source_modifiers.toml"
+    )
     commands = load_command_definitions(commands_path)
+    command_effects = load_command_effects(
+        root_path / "data" / "base" / "effects" / "command_effects.toml"
+    )
     items = load_item_definitions(items_path)
     shopfronts = load_shopfront_definitions(shopfronts_path)
     skin_definitions = load_skin_definitions(skins_path)
@@ -203,14 +227,13 @@ def create_application(root: Path | None = None) -> Application:
     calendar_definition = load_calendar_definition(calendar_path)
     work_schedules = load_work_schedule_definitions(work_schedules_path)
     character_relations = load_character_relations(root_path / "data" / "base" / "character_relations.toml")
-    maxbase = load_maxbase(maxbase_path)
     imprint_thresholds = load_imprint_thresholds(imprint_thresholds_path)
     abl_upgrade_config = load_abl_upgrade_config(abl_upgrade_path)
     commission_defs = load_commission_definitions(commissions_path)
     facility_defs = load_facility_definitions(facilities_path)
     mark_definitions = {m.key: m for m in mark_defs}
     mark_max_levels = {m.key: m.max_level for m in mark_defs}
-    talent_effects = load_talent_effects(root_path / "data" / "base" / "talent_effects.toml")
+    talent_effects = load_talent_effects(root_path / "data" / "base" / "effects" / "talent_effects.toml")
     favor_formula = load_growth_formula(root_path / "data" / "base" / "relationship_growth.toml")
     trust_formula = load_trust_formula(root_path / "data" / "base" / "relationship_growth.toml")
     start_location = port_map.starting_location()
@@ -219,7 +242,7 @@ def create_application(root: Path | None = None) -> Application:
     time_service = TimeService()
     curve_set = load_curves(root_path / "data" / "base" / "palamlv_curves.toml")
     training_service = TrainingService(palam_curve=curve_set.palam_curve)
-    weather_definitions = load_weather_definitions(root_path / "data" / "base" / "weather.toml")
+    weather_definitions = load_weather_definitions(root_path / "data" / "base" / "axes" / "weather.toml")
     weather_service = WeatherService(definitions=weather_definitions)
     calendar_service = CalendarService(calendar_definition=calendar_definition)
     skin_service = SkinService(
@@ -251,12 +274,12 @@ def create_application(root: Path | None = None) -> Application:
     )
     # 玩家自身的数值状态（体力/气力/精液/兴奋等），供 Web UI 与指令系统读取。
     world.player_stats = ActorNumericState.zeroed(stat_axes)
-    # 玩家默认体力/气力满：在没有 maxbase 上限表的情况下给一个合理起始值。
-    world.player_stats.base.set("stamina", 2000)
-    world.player_stats.base.set("spirit", 1500)
-    world.player_stats.base.set("reason", 1000)
+    # 玩家默认体力/气力满：玩家当前仍使用内置默认上限。
+    world.player_stats.base.set("0", 2000)
+    world.player_stats.base.set("1", 1500)
+    world.player_stats.base.set("11", 1000)
     if config.player_gender == "male":
-        world.player_stats.base.set("semen", 1000)
+        world.player_stats.base.set("6", 1000)
     schedule_service = ScheduleService(roster={character.key: character for character in roster})
     for definition in roster:
         stats = ActorNumericState.zeroed(stat_axes)
@@ -266,6 +289,8 @@ def create_application(root: Path | None = None) -> Application:
                 key=definition.key,
                 display_name=definition.display_name,
                 location_key=definition.initial_location,
+                base_caps=dict(definition.initial_stats.base_caps),
+                base_recover_rates=dict(definition.initial_stats.base_recover_rates),
                 tags=definition.tags,
                 stats=stats,
                 marks=dict(definition.initial_stats.marks),
@@ -279,12 +304,12 @@ def create_application(root: Path | None = None) -> Application:
         actor.hydrate_runtime_fields_from_compat()
         actor.sync_compat_from_runtime()
 
-    palam_decay_rules = load_palam_decay_rules(root_path / "data" / "base" / "palam_decay.toml")
+    palam_decay_rules = load_palam_decay_rules(root_path / "data" / "base" / "effects" / "palam_decay.toml")
     persistent_states_path = root_path / "data" / "base" / "persistent_states.toml"
     slot_definitions = {s.key: s for s in load_slot_definitions(persistent_states_path)}
     persistent_state_definitions = {p.key: p for p in load_persistent_state_definitions(persistent_states_path)}
 
-    gift_definitions = load_gift_definitions(root_path / "data" / "base" / "gifts.toml")
+    gift_definitions = load_gift_definitions(root_path / "data" / "base" / "shops" / "gifts.toml")
     gift_service = GiftService(
         gift_definitions={g.key: g for g in gift_definitions},
         character_preferences={c.key: c.gift_preferences for c in roster},
@@ -318,6 +343,7 @@ def create_application(root: Path | None = None) -> Application:
     date_service = DateService(companion_service=companion_service)
     settlement_service = SettlementService(
         rules=settlement_rules,
+        source_modifiers=source_modifiers,
         relationship_service=relationship_service,
         imprint_check=ImprintService(imprint_thresholds),
         mark_max_levels=mark_max_levels,
@@ -332,8 +358,8 @@ def create_application(root: Path | None = None) -> Application:
     dialogue_service = DialogueService(entries=dialogue)
     resolution_service = ResolutionService()
     vital_service = VitalService(
-        max_values=maxbase.max_values,
-        recover_rates=maxbase.recover_rates,
+        max_values=_default_vital_caps(),
+        recover_rates=_default_vital_recover_rates(),
         talent_effects=talent_effects,
         facility_service=facility_service,
     )
@@ -344,6 +370,7 @@ def create_application(root: Path | None = None) -> Application:
     command_service = CommandService(
         commands={command.key: command for command in commands},
         item_definitions={item.key: item for item in items},
+        command_effects=command_effects,
         settlement=settlement_service,
         port_map=port_map,
         scene_service=scene_service,

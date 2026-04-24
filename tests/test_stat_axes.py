@@ -33,8 +33,8 @@ class StatAxisTests(unittest.TestCase):
         self.assertEqual(state.source.get("temptation"), 0)
 
     def test_catalog_preserves_compat_indices(self) -> None:
-        self.assertEqual(self.catalog.get_by_index(AxisFamily.ABL, 42).label, "战斗能力")
-        self.assertEqual(self.catalog.get_by_index(AxisFamily.TALENT, 3).label, "恋慕")
+        self.assertEqual(self.catalog.get_by_index(AxisFamily.ABL, 42).label, "指挥能力")
+        self.assertEqual(self.catalog.get_by_index(AxisFamily.TALENT, 3).label, "友好")
         self.assertEqual(self.catalog.get_by_index(AxisFamily.CFLAG, 2).label, "好感度")
 
 

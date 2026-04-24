@@ -40,6 +40,8 @@ class SaveService:
             "current_minute": world.current_minute,
             "current_time_slot": world.derive_time_slot().value,
             "player_name": world.player_name,
+            "player_gender": world.player_gender,
+            "player_stats": self._serialize_player_stats(world.player_stats),
             "active_location": {
                 "key": world.active_location.key,
                 "display_name": world.active_location.display_name,
@@ -91,6 +93,7 @@ class SaveService:
             current_hour=current_hour,
             current_minute=current_minute,
             player_name=payload["player_name"],
+            player_gender=str(payload.get("player_gender", "male")),
             active_location=PortLocation(
                 key=active_location_key,
                 display_name=active_location_name,
@@ -99,6 +102,7 @@ class SaveService:
         )
         if current_time_slot is None:
             world.sync_time_slot_from_clock()
+        world.player_stats = self._load_player_stats(payload.get("player_stats"), world.player_gender)
         world.conditions = {str(k): int(v) for k, v in payload.get("world_conditions", {}).items()}
         world.personal_funds = int(payload.get("personal_funds", 0))
         world.port_funds = int(payload.get("port_funds", 0))
@@ -153,6 +157,14 @@ class SaveService:
                 display_name=actor_payload["display_name"],
                 location_key=str(actor_payload.get("location_key", active_location_key)),
                 stats=stats,
+                base_caps={
+                    str(k): int(v)
+                    for k, v in actor_payload.get("base_caps", {}).items()
+                },
+                base_recover_rates={
+                    str(k): int(v)
+                    for k, v in actor_payload.get("base_recover_rates", {}).items()
+                },
                 tags=tuple(actor_payload.get("tags", [])),
             )
             actor.previous_location_key = actor_payload.get("previous_location_key")
@@ -193,6 +205,8 @@ class SaveService:
             "key": actor.key,
             "display_name": actor.display_name,
             "location_key": actor.location_key,
+            "base_caps": actor.base_caps,
+            "base_recover_rates": actor.base_recover_rates,
             "tags": list(actor.tags),
             "previous_location_key": actor.previous_location_key,
             "encounter_location_key": actor.encounter_location_key,
@@ -236,3 +250,54 @@ class SaveService:
                 continue
             inventory[str(key)] = count
         return inventory
+
+    def _load_player_stats(self, payload: object, player_gender: str) -> ActorNumericState:
+        stats = ActorNumericState.zeroed(self.stat_axes)
+        self._apply_default_player_stats(stats, player_gender)
+        if not isinstance(payload, dict):
+            return stats
+
+        stats.base.values.update(
+            {str(k): int(v) for k, v in payload.get("base", {}).items()}
+        )
+        stats.palam.values.update(
+            {str(k): int(v) for k, v in payload.get("palam", {}).items()}
+        )
+        stats.source.values.update(
+            {str(k): int(v) for k, v in payload.get("source", {}).items()}
+        )
+        stats.compat.abl.values.update(
+            {int(k): int(v) for k, v in payload.get("abl", {}).items()}
+        )
+        stats.compat.talent.values.update(
+            {int(k): int(v) for k, v in payload.get("talent", {}).items()}
+        )
+        stats.compat.cflag.values.update(
+            {int(k): int(v) for k, v in payload.get("cflag", {}).items()}
+        )
+        stats.abl_exp.update(
+            {int(k): int(v) for k, v in payload.get("abl_exp", {}).items()}
+        )
+        return stats
+
+    @staticmethod
+    def _apply_default_player_stats(stats: ActorNumericState, player_gender: str) -> None:
+        stats.base.set("0", 2000)
+        stats.base.set("1", 1500)
+        stats.base.set("11", 1000)
+        if player_gender == "male":
+            stats.base.set("6", 1000)
+
+    @staticmethod
+    def _serialize_player_stats(stats: ActorNumericState | None) -> dict[str, object] | None:
+        if stats is None:
+            return None
+        return {
+            "base": stats.base.values,
+            "palam": stats.palam.values,
+            "source": stats.source.values,
+            "abl": stats.compat.abl.values,
+            "talent": stats.compat.talent.values,
+            "cflag": stats.compat.cflag.values,
+            "abl_exp": stats.abl_exp,
+        }

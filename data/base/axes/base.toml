@@ -1,116 +1,74 @@
 # BASE 轴定义（即时资源：体力、气力等）
+# ✅
 
-[[entries]]
-key = "stamina"
-era_index = 0
+[[base]]
+index = 0
 label = "体力"
 
-[[entries]]
-key = "spirit"
-era_index = 1
+[[base]]
+index = 1
 label = "气力"
 
-[[entries]]
-key = "ejaculation"
-era_index = 2
+[[base]]
+index = 2
 label = "射精"
 
-[[entries]]
-key = "lactation"
-era_index = 3
+[[base]]
+index = 3
 label = "母乳"
 
-[[entries]]
-key = "bladder"
-era_index = 4
+[[base]]
+index = 4
 label = "尿意"
 
-[[entries]]
-key = "erection"
-era_index = 5
+[[base]]
+index = 5
 label = "勃起"
 
-[[entries]]
-key = "semen"
-era_index = 6
+[[base]]
+index = 6
 label = "精液"
 
-[[entries]]
-key = "mood"
-era_index = 10
+[[base]]
+index = 10
 label = "情绪"
 
-[[entries]]
-key = "reason"
-era_index = 11
+[[base]]
+index = 11
 label = "理性"
 
-[[entries]]
-key = "anger"
-era_index = 12
+[[base]]
+index = 12
 label = "愤怒"
 
-[[entries]]
-key = "workload"
-era_index = 13
+[[base]]
+index = 13
 label = "工作量"
 
-[[entries]]
-key = "drunkenness"
-era_index = 15
+[[base]]
+index = 14
+label = "深度"
+
+[[base]]
+index = 15
 label = "醉意"
 
-[[entries]]
-key = "height"
-era_index = 20
+[[base]]
+index = 20
 label = "身高"
 
-[[entries]]
-key = "weight"
-era_index = 21
+[[base]]
+index = 21
 label = "体重"
 
-[[entries]]
-key = "bust"
-era_index = 22
+[[base]]
+index = 22
 label = "胸围"
 
-[[entries]]
-key = "waist"
-era_index = 23
+[[base]]
+index = 23
 label = "腰围"
 
-[[entries]]
-key = "hips"
-era_index = 24
+[[base]]
+index = 24
 label = "臀围"
-
-[[entries]]
-key = "pleasure_c_afterglow"
-era_index = 30
-label = "C感高潮余韵"
-
-[[entries]]
-key = "pleasure_v_afterglow"
-era_index = 31
-label = "V感高潮余韵"
-
-[[entries]]
-key = "pleasure_a_afterglow"
-era_index = 32
-label = "A感高潮余韵"
-
-[[entries]]
-key = "pleasure_b_afterglow"
-era_index = 33
-label = "B感高潮余韵"
-
-[[entries]]
-key = "pleasure_m_afterglow"
-era_index = 34
-label = "M感高潮余韵"
-
-[[entries]]
-key = "orgasm_afterglow"
-era_index = 35
-label = "高潮余韵"

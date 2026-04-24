@@ -89,6 +89,7 @@ class ActorNumericState:
     base: StatBlock
     palam: StatBlock
     source: StatBlock
+    cup: IndexedStatBlock
     compat: CharacterEraCompatState
     abl_exp: dict[int, int] = field(default_factory=dict)
 
@@ -97,12 +98,20 @@ class ActorNumericState:
         cls,
         catalog: StatAxisCatalog,
     ) -> "ActorNumericState":
+        source_axes = catalog.family_axes(AxisFamily.SOURCE)
         return cls(
             base=StatBlock.zeroed(AxisFamily.BASE, catalog),
             palam=StatBlock.zeroed(AxisFamily.PALAM, catalog),
             source=StatBlock.zeroed(AxisFamily.SOURCE, catalog),
+            cup=IndexedStatBlock(
+                family=AxisFamily.SOURCE,
+                values={axis.era_index: 0 for axis in source_axes},
+            ),
             compat=CharacterEraCompatState.zeroed(catalog),
         )
 
     def clear_source(self) -> None:
         self.source.clear()
+
+    def clear_cup(self) -> None:
+        self.cup.clear()

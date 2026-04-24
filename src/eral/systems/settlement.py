@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 from eral.content.abl_upgrade import AblUpgradeConfig
 from eral.content.settlement import SettlementRule
+from eral.content.source_modifiers import SourceModifier
 from eral.content.stat_axes import AxisFamily
 from eral.content.talent_effects import TalentEffect
 from eral.domain.actions import AppliedChange, CupBoard
@@ -15,6 +16,7 @@ from eral.systems.facilities import FacilityService
 from eral.systems.favor_calc import GrowthFormula, compute_favor_delta, compute_trust_delta
 from eral.systems.relationships import RelationshipService
 from eral.systems.source_extra import compute_aptitude_offset
+from eral.systems.source_modifiers import apply_source_modifiers
 
 
 CFLAG_AFFECTION = 2
@@ -26,6 +28,7 @@ class SettlementService:
     """Apply SOURCE values through the CUP/CDOWN pipeline."""
 
     rules: tuple[SettlementRule, ...]
+    source_modifiers: dict[int, SourceModifier] = field(default_factory=dict)
     relationship_service: RelationshipService | None = None
     imprint_check: object | None = None
     mark_max_levels: dict[str, int] | None = None
@@ -38,7 +41,8 @@ class SettlementService:
     def settle_actor(self, world: WorldState, actor: CharacterState) -> list[AppliedChange]:
         """Execute full settlement pipeline for one actor.
 
-        Phase 1: SOURCE → CUP/CDOWN split + direct CFLAG/BASE
+        Phase 0: SOURCE → CUP (apply modifiers)
+        Phase 1: CUP → CUP/CDOWN split + direct CFLAG/BASE
         Phase 1.5: FAVOR_CALC / TRUST_CALC → CFLAG affection/trust
         Phase 2: PALAM += CUP - CDOWN
         Phase 3: Imprint check
@@ -48,30 +52,34 @@ class SettlementService:
         changes: list[AppliedChange] = []
         board = CupBoard()
 
+        # Phase 0: SOURCE → CUP (apply modifiers; unmapped indices copy as-is)
+        apply_source_modifiers(actor, self.source_modifiers)
+
         for rule in self.rules:
-            source_value = actor.stats.source.get(rule.source)
-            if source_value == 0:
+            cup_value = actor.stats.cup.get(rule.cup_index)
+            if cup_value == 0:
                 continue
 
-            delta = int(source_value * rule.scale)
+            delta = int(cup_value * rule.scale)
             target_family = rule.target_family
+            target_key = str(rule.target_index)
 
-            if target_family == AxisFamily.PALAM and rule.target_key:
+            if target_family == AxisFamily.PALAM:
                 if delta > 0:
-                    board.add_cup(rule.target_key, delta)
+                    board.add_cup(target_key, delta)
                 else:
-                    board.add_cdown(rule.target_key, abs(delta))
-            elif target_family == AxisFamily.BASE and rule.target_key:
-                before = actor.stats.base.get(rule.target_key)
-                after = actor.stats.base.add(rule.target_key, delta)
-                changes.append(AppliedChange("base", rule.target_key, before, after, delta))
-            elif target_family == AxisFamily.CFLAG and rule.target_index is not None:
+                    board.add_cdown(target_key, abs(delta))
+            elif target_family == AxisFamily.BASE:
+                before = actor.stats.base.get(target_key)
+                after = actor.stats.base.add(target_key, delta)
+                changes.append(AppliedChange("base", target_key, before, after, delta))
+            elif target_family == AxisFamily.CFLAG:
                 before = actor.get_cflag(rule.target_index)
                 after = actor.add_cflag(rule.target_index, delta)
                 changes.append(
-                    AppliedChange("cflag", str(rule.target_index), before, after, delta)
+                    AppliedChange("cflag", target_key, before, after, delta)
                 )
-            elif target_family in {AxisFamily.TFLAG, AxisFamily.FLAG} and rule.target_index is not None:
+            elif target_family in {AxisFamily.TFLAG, AxisFamily.FLAG}:
                 condition_key = f"{target_family.value}_{rule.target_index}"
                 before = world.get_condition(condition_key)
                 after = world.add_condition(condition_key, delta)
@@ -129,6 +137,7 @@ class SettlementService:
         if self.relationship_service is not None:
             self.relationship_service.update_actor(actor)
         actor.stats.clear_source()
+        actor.stats.clear_cup()
         board.clear()
         return changes
 

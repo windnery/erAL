@@ -15,6 +15,7 @@ class TalentEffect:
     source_key: str
     formula: str
     expression: str
+    phase: str = "source"  # source | cup | command | abl
 
 
 def load_talent_effects(path: Path) -> tuple[TalentEffect, ...]:
@@ -29,6 +30,7 @@ def load_talent_effects(path: Path) -> tuple[TalentEffect, ...]:
             source_key=item["source_key"],
             formula=item["formula"],
             expression=item["expression"],
+            phase=str(item.get("phase", "source")),
         )
         for item in raw_data.get("effect", [])
     )

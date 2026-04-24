@@ -11,12 +11,11 @@ from eral.content.stat_axes import AxisFamily
 
 @dataclass(frozen=True, slots=True)
 class SettlementRule:
-    """Mapping from SOURCE key to a target stat block."""
+    """Mapping from CUP index to a target stat block."""
 
-    source: str
+    cup_index: int
     target_family: AxisFamily
-    target_key: str | None = None
-    target_index: int | None = None
+    target_index: int
     scale: float = 1.0
 
 
@@ -28,10 +27,9 @@ def load_settlement_rules(path: Path) -> tuple[SettlementRule, ...]:
 
     return tuple(
         SettlementRule(
-            source=item["source"],
+            cup_index=int(item.get("cup_index", item["source_index"])),
             target_family=AxisFamily(item["target_family"]),
-            target_key=item.get("target_key"),
-            target_index=item.get("target_index"),
+            target_index=int(item["target_index"]),
             scale=float(item.get("scale", 1)),
         )
         for item in raw_data.get("rules", [])

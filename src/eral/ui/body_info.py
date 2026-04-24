@@ -72,7 +72,7 @@ def _finger(actor: CharacterState) -> BodyPartInfo:
 
 
 def _chest(actor: CharacterState) -> BodyPartInfo:
-    pleasure_c = actor.stats.palam.get("pleasure_c")
+    pleasure_c = actor.stats.palam.get("0")
     afterglow = actor.stats.base.get("pleasure_c_afterglow")
     tags = (_pleasure_label(pleasure_c),)
     if tags[0] == "未开发" and afterglow == 0:
@@ -87,7 +87,7 @@ def _chest(actor: CharacterState) -> BodyPartInfo:
 
 
 def _clit(actor: CharacterState) -> BodyPartInfo:
-    pleasure_c = actor.stats.palam.get("pleasure_c")
+    pleasure_c = actor.stats.palam.get("0")
     tags = (_pleasure_label(pleasure_c),)
     if pleasure_c < 3000:
         desc = "即便被爱抚也没什么特别的感觉"
@@ -99,7 +99,7 @@ def _clit(actor: CharacterState) -> BodyPartInfo:
 
 
 def _mouth(actor: CharacterState) -> BodyPartInfo:
-    pleasure_m = actor.stats.palam.get("pleasure_m")
+    pleasure_m = actor.stats.palam.get("4")
     abl_oral = actor.stats.compat.abl.get(13)
     tags = (_abl_label(abl_oral), _pleasure_label(pleasure_m))
     has_first_kiss = actor.memories.get("milestone:first_kiss", 0) > 0
@@ -118,7 +118,7 @@ def _mouth(actor: CharacterState) -> BodyPartInfo:
 
 
 def _anal(actor: CharacterState) -> BodyPartInfo:
-    pleasure_a = actor.stats.palam.get("pleasure_a")
+    pleasure_a = actor.stats.palam.get("2")
     tags: tuple[str, ...]
     first_anal = actor.memories.get("milestone:first_sex", 0) > 0 and actor.get_condition("anal_first_day") > 0
     anal_day = actor.get_condition("anal_first_day")
@@ -138,7 +138,7 @@ def _anal(actor: CharacterState) -> BodyPartInfo:
 
 
 def _vagina(actor: CharacterState) -> BodyPartInfo:
-    pleasure_v = actor.stats.palam.get("pleasure_v")
+    pleasure_v = actor.stats.palam.get("1")
     virginity_day = actor.get_condition("virginity_lost_day")
     tags: tuple[str, ...]
     if virginity_day:

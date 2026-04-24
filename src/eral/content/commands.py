@@ -45,16 +45,28 @@ class CommandDefinition:
 
 
 def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
-    """Load command definitions from TOML."""
+    """Load command definitions from TOML.
+
+    Supports both rich [[commands]] blocks and minimal [[train]] blocks.
+    For minimal blocks, only index/label are required; everything else defaults.
+    """
 
     with path.open("rb") as handle:
         raw_data = tomllib.load(handle)
 
+    # Try [[train]] first, then [[commands]]; derive category from block name.
+    if "train" in raw_data:
+        items = raw_data["train"]
+        default_category = "train"
+    else:
+        items = raw_data.get("commands", [])
+        default_category = "daily"
+
     return tuple(
         CommandDefinition(
-            key=item["key"],
-            display_name=item["display_name"],
-            category=str(item.get("category", "daily")),
+            key=str(item.get("key", item["index"])),
+            display_name=item["label"] if "label" in item else item["display_name"],
+            category=str(item.get("category", default_category)),
             location_tags=tuple(item.get("location_tags", [])),
             time_slots=tuple(item.get("time_slots", [])),
             min_affection=(
@@ -100,5 +112,5 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             success_tiers=tuple(float(v) for v in item.get("success_tiers", [0.1, 1.0, 2.0])),
             elapsed_minutes=int(item.get("elapsed_minutes", 10)),
         )
-        for item in raw_data.get("commands", [])
+        for item in items
     )

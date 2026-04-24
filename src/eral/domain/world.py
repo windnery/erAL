@@ -69,6 +69,8 @@ class CharacterState:
     display_name: str
     location_key: str
     stats: ActorNumericState
+    base_caps: dict[str, int] = field(default_factory=dict)
+    base_recover_rates: dict[str, int] = field(default_factory=dict)
     tags: tuple[str, ...] = ()
     affection: int = 0
     trust: int = 0
@@ -256,7 +258,7 @@ class WorldState:
     training_position_key: str | None = None
     training_step_index: int = 0
     training_flags: dict[str, int] = field(default_factory=dict)
-    weather_key: str = "clear"
+    weather_key: str = "1"
     conditions: dict[str, int] = field(default_factory=dict)
     inventory: dict[str, int] = field(default_factory=dict)
     facility_levels: dict[str, int] = field(default_factory=dict)

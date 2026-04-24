@@ -1,0 +1,60 @@
+# 晴天/多云/阴天/雨/大雨/雾/雪/细雪/大雪/雨雪交加/冰雹/彩虹/流星雨
+# ✅
+
+[[weather]]
+index = 1
+display_name = "晴"
+
+[[weather]]
+index = 2
+display_name = "多云"
+
+[[weather]]
+index = 3
+display_name = "阴天"
+
+[[weather]]
+index = 4
+display_name = "雨"
+is_raining = true
+movement_modifier = 0.8
+
+[[weather]]
+index = 5
+display_name = "大雨"
+is_raining = true
+is_storming = true
+movement_modifier = 0.6
+recovery_modifier = 0.8
+
+[[weather]]
+index = 6
+display_name = "雾"
+
+[[weather]]
+index = 7
+display_name = "雪"
+
+[[weather]]
+index = 8
+display_name = "细雪"
+
+[[weather]]
+index = 9
+display_name = "大雪"
+
+[[weather]]
+index = 10
+display_name = "雨雪交加"
+
+[[weather]]
+index = 11
+display_name = "冰雹"
+
+[[weather]]
+index = 12
+display_name = "彩虹"
+
+[[weather]]
+index = 13
+display_name = "流星雨"

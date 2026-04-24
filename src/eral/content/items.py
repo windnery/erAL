@@ -26,10 +26,10 @@ def load_item_definitions(path: Path) -> tuple[ItemDefinition, ...]:
 
     return tuple(
         ItemDefinition(
-            key=item["key"],
+            key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
-            category=item["category"],
-            description=item["description"],
+            category=item.get("category", "general"),
+            description=item.get("description", ""),
             price=int(item["price"]),
         )
         for item in raw_data.get("items", [])

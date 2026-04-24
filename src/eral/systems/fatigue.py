@@ -14,6 +14,12 @@ import math
 from eral.domain.stats import ActorNumericState
 from eral.systems.source_extra import compute_recovery_modifier, TalentEffect
 
+# Mapping from maxbase string keys to base integer string keys.
+_MAXBASE_TO_BASE: dict[str, str] = {
+    "stamina": "0",
+    "spirit": "1",
+}
+
 
 def calc_tired(downbase_stamina: int, downbase_spirit: int) -> int:
     """Compute nonlinear fatigue from DOWNBASE values.
@@ -51,16 +57,16 @@ def apply_natural_recovery(
     recovery_mod = compute_recovery_modifier(stats, talent_effects)
 
     results: dict[str, int] = {}
-    for key in ("stamina", "spirit"):
-        current = stats.base.get(key)
-        maximum = maxbase.get(key, 2000)
+    for max_key, base_key in _MAXBASE_TO_BASE.items():
+        current = stats.base.get(base_key)
+        maximum = maxbase.get(max_key, 2000)
         base_recovery = int((10 * hours) / 20)
         recovery = int(base_recovery * recovery_mod)
         new_val = min(maximum, current + recovery)
         actual = new_val - current
         if actual > 0:
-            stats.base.set(key, new_val)
-            results[key] = actual
+            stats.base.set(base_key, new_val)
+            results[max_key] = actual
 
     return results
 
@@ -79,17 +85,17 @@ def apply_sleep_recovery(
     recovery_mod = compute_recovery_modifier(stats, talent_effects)
 
     results: dict[str, int] = {}
-    for key in ("stamina", "spirit"):
-        current = stats.base.get(key)
-        maximum = maxbase.get(key, 2000)
+    for max_key, base_key in _MAXBASE_TO_BASE.items():
+        current = stats.base.get(base_key)
+        maximum = maxbase.get(max_key, 2000)
         permil = int(500 * hours / 8)
         base_recovery = maximum * permil // 1000
         recovery = int(base_recovery * recovery_mod)
         new_val = min(maximum, current + recovery)
         actual = new_val - current
         if actual > 0:
-            stats.base.set(key, new_val)
-            results[key] = actual
+            stats.base.set(base_key, new_val)
+            results[max_key] = actual
 
     return results
 
@@ -99,8 +105,8 @@ def is_decay_state(stats: ActorNumericState, maxbase: dict[str, int]) -> bool:
 
     衰弱 occurs when both stamina and spirit are below 1/5 of MAXBASE.
     """
-    stamina = stats.base.get("stamina")
-    spirit = stats.base.get("spirit")
+    stamina = stats.base.get("0")
+    spirit = stats.base.get("1")
     max_stamina = maxbase.get("stamina", 2000)
     max_spirit = maxbase.get("spirit", 1500)
     return stamina < max_stamina // 5 and spirit < max_spirit // 5

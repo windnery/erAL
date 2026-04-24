@@ -98,8 +98,8 @@ def reset_progress(actor) -> None:
     actor.stats.base.clear()
     actor.stats.palam.clear()
     actor.stats.source.clear()
-    actor.stats.base.set("stamina", 2000)
-    actor.stats.base.set("spirit", 1500)
+    actor.stats.base.set("0", 2000)
+    actor.stats.base.set("1", 1500)
     actor.affection = 0
     actor.trust = 0
     actor.obedience = 0

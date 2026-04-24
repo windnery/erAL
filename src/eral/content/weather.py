@@ -25,7 +25,7 @@ def load_weather_definitions(path: Path) -> dict[str, WeatherDefinition]:
     result: dict[str, WeatherDefinition] = {}
     for item in raw.get("weather", []):
         defn = WeatherDefinition(
-            key=item["key"],
+            key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
             base_weight=int(item.get("base_weight", 10)),
             movement_modifier=float(item.get("movement_modifier", 1.0)),

@@ -36,6 +36,8 @@ def apply_source_extra(
     applied: dict[str, float] = {}
 
     for effect in effects:
+        if effect.phase != "source":
+            continue
         if effect.source_key == "" or effect.formula in ("recovery_modifier", "aptitude_offset"):
             continue
 

@@ -1,106 +1,78 @@
 # PALAM 轴定义（累积参数：快感、心绪等）
+# ✅
 
-[[entries]]
-key = "pleasure_c"
-era_index = 0
+[[palam]]
+index = 0
 label = "快C"
 
-[[entries]]
-key = "pleasure_v"
-era_index = 1
+[[palam]]
+index = 1
 label = "快V"
 
-[[entries]]
-key = "pleasure_a"
-era_index = 2
+[[palam]]
+index = 2
 label = "快A"
 
-[[entries]]
-key = "pleasure_b"
-era_index = 3
+[[palam]]
+index = 3
 label = "快B"
 
-[[entries]]
-key = "pleasure_m"
-era_index = 4
+[[palam]]
+index = 4
 label = "快M"
 
-[[entries]]
-key = "lactation"
-era_index = 8
-label = "母乳"
-
-[[entries]]
-key = "lubrication"
-era_index = 9
+[[palam]]
+index = 9
 label = "润滑"
 
-[[entries]]
-key = "obedience"
-era_index = 10
+[[palam]]
+index = 10
 label = "恭顺"
 
-[[entries]]
-key = "lust"
-era_index = 11
+[[palam]]
+index = 11
 label = "欲情"
 
-[[entries]]
-key = "submission"
-era_index = 12
+[[palam]]
+index = 12
 label = "屈服"
 
-[[entries]]
-key = "mastery"
-era_index = 13
+[[palam]]
+index = 13
 label = "习得"
 
-[[entries]]
-key = "shame"
-era_index = 14
-label = "羞情"
+[[palam]]
+index = 14
+label = "羞耻"
 
-[[entries]]
-key = "pain"
-era_index = 15
+[[palam]]
+index = 15
 label = "苦痛"
 
-[[entries]]
-key = "fear"
-era_index = 16
+[[palam]]
+index = 16
 label = "恐惧"
 
-[[entries]]
-key = "favor"
-era_index = 20
+[[palam]]
+index = 20
 label = "好意"
 
-[[entries]]
-key = "superiority"
-era_index = 21
+[[palam]]
+index = 21
 label = "优越"
 
-[[entries]]
-key = "disgust"
-era_index = 30
+[[palam]]
+index = 30
 label = "反感"
 
-[[entries]]
-key = "discomfort"
-era_index = 31
-label = "不适"
+[[palam]]
+index = 31
+label = "不快"
 
-[[entries]]
-key = "depression"
-era_index = 32
+[[palam]]
+index = 32
 label = "抑郁"
 
-[[entries]]
-key = "sleeping_scene"
-era_index = 33
-label = "眠奸"
-
-[[entries]]
-key = "denial"
-era_index = 100
+[[palam]]
+index = 100
 label = "否定"

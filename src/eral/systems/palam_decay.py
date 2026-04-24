@@ -12,7 +12,7 @@ from eral.domain.world import CharacterState
 
 @dataclass(frozen=True, slots=True)
 class PalamDecayRule:
-    palam_key: str
+    palam_index: int
     base_decay: int
 
 
@@ -21,7 +21,7 @@ def load_palam_decay_rules(path: Path) -> tuple[PalamDecayRule, ...]:
         raw = tomllib.load(handle)
     return tuple(
         PalamDecayRule(
-            palam_key=item["palam_key"],
+            palam_index=int(item["palam_index"]),
             base_decay=int(item["base_decay"]),
         )
         for item in raw.get("rule", [])
@@ -31,10 +31,11 @@ def load_palam_decay_rules(path: Path) -> tuple[PalamDecayRule, ...]:
 def apply_palam_decay(actor: CharacterState, rules: tuple[PalamDecayRule, ...]) -> dict[str, int]:
     applied: dict[str, int] = {}
     for rule in rules:
-        current = actor.stats.palam.get(rule.palam_key)
+        key = str(rule.palam_index)
+        current = actor.stats.palam.get(key)
         if current <= 0:
             continue
         new_val = max(0, current - rule.base_decay)
-        actor.stats.palam.set(rule.palam_key, new_val)
-        applied[rule.palam_key] = current - new_val
+        actor.stats.palam.set(key, new_val)
+        applied[key] = current - new_val
     return applied

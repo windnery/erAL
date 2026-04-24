@@ -1,9 +1,7 @@
 [[shopfronts]]
-key = "general_shop"
+index = 0
 display_name = "日常用品店"
-item_categories = ["general_shop"]
 
 [[shopfronts]]
-key = "skin_shop"
+index = 1
 display_name = "皮肤商店"
-item_categories = ["skin_shop"]

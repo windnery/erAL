@@ -1,0 +1,373 @@
+# items对应的商品都是index=0的日用商品店售卖的物品
+# 没有description字段的物品就不显示描述
+# 目前适用于β测试版 有待后续填充
+[[items]]
+index = 0
+display_name = "誓约之戒"
+description = "用于正式誓约的戒指"
+price = 30000
+
+[[items]]
+index = 1
+display_name = "跳蛋"
+price = 3000
+
+[[items]]
+index = 2
+display_name = "电动按摩棒"
+price = 9000
+
+[[items]]
+index = 3
+display_name = "阴蒂夹"
+price = 3000
+
+[[items]]
+index = 4
+display_name = "飞机杯"
+price = 12000
+
+[[items]]
+index = 5
+display_name = "震动棒"
+price = 4500
+
+[[items]]
+index = 6
+display_name = "肛用震动棒"
+price = 4500
+
+[[items]]
+index = 7
+display_name = "后庭拉珠"
+price = 4500
+
+[[items]]
+index = 8
+display_name = "打气筒"
+price = 6000
+
+[[items]]
+index = 9
+display_name = "扩张气球"
+price = 6000
+
+[[items]]
+index = 10
+display_name = "灌肠器+肛塞"
+price = 6000
+
+[[items]]
+index = 11
+display_name = "乳头夹"
+price = 3000
+
+[[items]]
+index = 12
+display_name = "榨乳器"
+price = 4500
+
+[[items]]
+index = 13
+display_name = "穿戴式假阴茎"
+price = 20000
+
+[[items]]
+index = 14
+display_name = "鞭"
+price = 15000
+
+[[items]]
+index = 15
+display_name = "针"
+price = 30000
+
+[[items]]
+index = 16
+display_name = "眼罩"
+price = 15000
+
+[[items]]
+index = 17
+display_name = "绳"
+price = 15000
+
+[[items]]
+index = 18
+display_name = "口球"
+price = 15000
+
+[[items]]
+index = 19
+display_name = "摄像机"
+price = 15000
+
+[[items]]
+index = 20
+display_name = "测定仪"
+description = "测量女子力的仪器"
+price = 30000
+
+[[items]]
+index = 21
+display_name = "塑料地垫"
+price = 6000
+
+[[items]]
+index = 22
+display_name = "落地镜"
+description = "羞耻play可以使用"
+price = 15000
+
+[[items]]
+index = 23
+display_name = "项圈"
+description = "野外play可以使用"
+price = 6000
+
+[[items]]
+index = 24
+display_name = "围裙"
+description = "新妻play可以使用"
+price = 15000
+
+[[items]]
+index = 25
+display_name = "电击棒"
+price = 5000
+
+[[items]]
+index = 26
+display_name = "捕缚技能"
+description = "拘束play可以使用"
+price = 30000
+
+[[items]]
+index = 27
+display_name = "调和用品一式"
+price = 40000
+
+[[items]]
+index = 28
+display_name = "吉他"
+price = 30000
+
+[[items]]
+index = 29
+display_name = "绘画套装"
+price = 15000
+
+[[items]]
+index = 30
+display_name = "保温套装"
+description = "饭不容易变冷"
+price = 5000
+
+[[items]]
+index = 31
+display_name = "雨伞"
+price = 1200
+
+# 40~52是可以一次性购买多个的消耗性道具
+[[items]]
+index = 40
+display_name = "润滑液"
+price = 300
+
+[[items]]
+index = 41
+display_name = "媚药"
+price = 3000
+
+[[items]]
+index = 42
+display_name = "利尿剂"
+price = 3000
+
+[[items]]
+index = 43
+display_name = "录像带"
+description = "配合摄像机录像使用，使用后消耗"
+price = 500
+
+[[items]]
+index = 44
+display_name = "胶卷"
+description = "配合摄像机拍摄写真使用，使用后消耗"
+price = 300
+
+[[items]]
+index = 45
+display_name = "避孕套"
+description = "避孕用品，会损失一定的快感，使用后消耗"
+price = 100
+
+[[items]]
+index = 46
+display_name = "低温蜡烛"
+description = "蜡烛游戏使用，不会损伤皮肤，使用后消耗"
+price = 2000
+
+[[items]]
+index = 47
+display_name = "口服避孕药"
+description = "不会损失快感，效果维持一天，使用后消耗"
+price = 2000
+
+[[items]]
+index = 48
+display_name = "啤酒"
+price = 3000
+
+[[items]]
+index = 49
+display_name = "白酒"
+price = 8000
+
+[[items]]
+index = 50
+display_name = "红酒"
+price = 8000
+
+[[items]]
+index = 51
+display_name = "蒸馏酒"
+price = 15000
+
+[[items]]
+index = 52
+display_name = "茶叶"
+price = 3000
+
+# 61~68是能力获得类道具
+[[items]]
+index = 61
+display_name = "调和知识"
+description = "玩家获得TALENT:调和知识"
+price = 80000
+
+[[items]]
+index = 62
+display_name = "禁断的知识"
+description = "玩家获得TALENT:禁断的知识"
+price = 80000
+
+[[items]]
+index = 63
+display_name = "技巧UP"
+description = "玩家的技巧等级上升"
+price = 5000
+
+[[items]]
+index = 64
+display_name = "技巧DOWN"
+description = "玩家的技巧等级下降"
+price = 0
+
+[[items]]
+index = 65
+display_name = "污臭耐性UP"
+description = "玩家的污臭耐性上升"
+price = 5000
+
+[[items]]
+index = 66
+display_name = "污臭耐性DOWN"
+description = "玩家的污臭耐性下降"
+price = 0
+
+[[items]]
+index = 67
+display_name = "施虐狂DOWN"
+price = 0
+
+[[items]]
+index = 68
+display_name = "受虐狂DOWN"
+price = 0
+
+# 71~76是素质变化的药，买后立即生效。70是恢复体力，买了之后进入背包，需要手动触发
+[[items]]
+index = 70
+display_name = "恢复元气的药"
+description = "恢复体力"
+price = 1000
+
+[[items]]
+index = 71
+display_name = "催乳剂"
+description = "玩家获得母乳体质"
+price = 20000
+
+[[items]]
+index = 72
+display_name = "处女膜再生"
+description = "玩家的处女膜再生"
+price = 0
+
+[[items]]
+index = 73
+display_name = "丰胸剂"
+description = "玩家的胸部变大一个阶段。爆乳使用无效"
+price = 0
+
+[[items]]
+index = 74
+display_name = "缩胸剂"
+description = "玩家的胸部变小一个阶段。绝壁使用无效"
+price = 0
+
+[[items]]
+index = 75
+display_name = "动物耳"
+description = "玩家获得TALENT:动物耳"
+price = 0
+
+[[items]]
+index = 76
+display_name = "动物耳失去"
+description = "玩家失去TALENT:动物耳"
+price = 0
+
+# 食材
+[[items]]
+index = 80
+display_name = "平价食材"
+price = 300
+
+[[items]]
+index = 81
+display_name = "优质食材"
+price = 1500
+
+[[items]]
+index = 82
+display_name = "高级食材"
+price = 7500
+
+# 特殊道具
+[[items]]
+index = 90
+display_name = "排卵诱发剂"
+price = 50000
+
+[[items]]
+index = 91
+display_name = "点心盒"
+description = "用于消除反发刻印"
+price = 10000
+
+[[items]]
+index = 92
+display_name = "巧克力"
+price = 1000
+
+[[items]]
+index = 93
+display_name = "高级巧克力"
+price = 3000
+
+[[items]]
+index = 94
+display_name = "本命巧克力"
+price = 1000

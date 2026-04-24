@@ -39,6 +39,8 @@ class InitialStatOverrides:
     """Per-character initial stat overrides applied after zeroing."""
 
     base: dict[str, int] = field(default_factory=dict)
+    base_caps: dict[str, int] = field(default_factory=dict)
+    base_recover_rates: dict[str, int] = field(default_factory=dict)
     palam: dict[str, int] = field(default_factory=dict)
     abl: dict[int, int] = field(default_factory=dict)
     talent: dict[int, int] = field(default_factory=dict)
@@ -51,6 +53,10 @@ def _parse_initial_stats(raw: dict | None) -> InitialStatOverrides:
         return InitialStatOverrides()
     return InitialStatOverrides(
         base=dict(raw.get("base", {})),
+        base_caps={str(k): int(v) for k, v in raw.get("base_caps", {}).items()},
+        base_recover_rates={
+            str(k): int(v) for k, v in raw.get("base_recover_rates", {}).items()
+        },
         palam=dict(raw.get("palam", {})),
         abl={int(k): v for k, v in raw.get("abl", {}).items()},
         talent={int(k): v for k, v in raw.get("talent", {}).items()},

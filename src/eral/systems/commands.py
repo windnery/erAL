@@ -6,12 +6,14 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from eral.content.commands import CommandDefinition
+from eral.content.command_effects import CommandEffect
 from eral.content.marks import MarkDefinition
 from eral.content.items import ItemDefinition
 from eral.domain.actions import ActionResult
 from eral.domain.map import PortMap
 from eral.domain.world import CharacterState, WorldState
 from eral.engine.runtime_logger import RuntimeLogger
+from eral.systems.command_effects import apply_command_effect
 from eral.systems.command_gates import (
     CommandAvailabilityContext,
     CommandCategoryGate,
@@ -51,6 +53,7 @@ class CommandService:
 
     commands: dict[str, CommandDefinition]
     item_definitions: dict[str, ItemDefinition] | None
+    command_effects: dict[int, CommandEffect]
     settlement: SettlementService
     port_map: PortMap
     scene_service: SceneService
@@ -139,6 +142,12 @@ class CommandService:
                 messages=dialogue_lines or [f"{actor.display_name}未能完成{command.display_name}。"],
             )
 
+        command_index = int(command.key)
+        effect = self.command_effects.get(command_index)
+        player = world.player_stats if world.player_stats is not None else None
+        apply_command_effect(actor, effect, player)
+
+        # Fallback: also apply legacy command.source if present
         for source_key, delta in command.source.items():
             actor.stats.source.add(source_key, delta)
 

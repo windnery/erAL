@@ -1,0 +1,585 @@
+# TALENT effects on SOURCE settlement pipeline.
+# Each entry defines a multiplier or addition applied during SOURCE_EXTRA phase.
+# era_index: the TALENT era_index from talent.toml.
+# formula: "multiply" scales existing SOURCE, "add" adds a flat bonus, "recovery_modifier" is for recovery.
+# expression: a Python expression where v = talent_value. Available: max(), min(), int().
+# source_key: which SOURCE axis this modifies. "" means no direct SOURCE modification.
+# talent_value=0 means absent: multiply effects are skipped (1x), add effects add 0.
+
+# --- Sensitivity axes (C/V/A/B/M) — aligned to eraTW 101-106 ---
+
+[[effect]]
+era_index = 101
+label = "C感度"
+category = "sense"
+source_key = "pleasure_c"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 102
+label = "V感度"
+category = "sense"
+source_key = "pleasure_v"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 103
+label = "A感度"
+category = "sense"
+source_key = "pleasure_a"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 104
+label = "B感度"
+category = "sense"
+source_key = "pleasure_b"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+[[effect]]
+era_index = 106
+label = "M感度"
+category = "sense"
+source_key = "pleasure_m"
+formula = "multiply"
+expression = "(2 + v) / 2"
+
+# --- Personality axes — affect emotional / social SOURCE keys ---
+
+[[effect]]
+era_index = 10
+label = "胆量"
+category = "personality"
+source_key = "pain"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 11
+label = "态度"
+category = "personality"
+source_key = "obedience"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 12
+label = "回应"
+category = "personality"
+source_key = "joy"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 13
+label = "自尊心"
+category = "personality"
+source_key = "shame"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 14
+label = "娇俏"
+category = "personality"
+source_key = "affection"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 18
+label = "懒散"
+category = "personality"
+source_key = "mastery"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 20
+label = "自制心"
+category = "personality"
+source_key = "lust"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 21
+label = "冷漠"
+category = "personality"
+source_key = "affection"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 22
+label = "感情缺乏"
+category = "personality"
+source_key = "pleasure_c"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 23
+label = "性的兴趣"
+category = "personality"
+source_key = "lust"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 24
+label = "开朗／阴郁"
+category = "personality"
+source_key = "joy"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 25
+label = "难以越过的底线"
+category = "personality"
+source_key = "disgust"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 26
+label = "喜欢引人注目"
+category = "personality"
+source_key = "shame"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 27
+label = "无知"
+category = "personality"
+source_key = "temptation"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 30
+label = "贞操"
+category = "personality"
+source_key = "lust"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 31
+label = "自己爱"
+category = "personality"
+source_key = "superiority"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 32
+label = "抵抗"
+category = "personality"
+source_key = "denial"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 33
+label = "羞恥心"
+category = "personality"
+source_key = "shame"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+# --- Service / devotion ---
+
+[[effect]]
+era_index = 62
+label = "献身的"
+category = "service"
+source_key = "service"
+formula = "multiply"
+expression = "1.0 + 0.15 * v"
+
+# --- Physical / body axes ---
+
+[[effect]]
+era_index = 40
+label = "痛覚"
+category = "physical"
+source_key = "pain"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 41
+label = "濡れやすさ"
+category = "physical"
+source_key = "lubrication"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 60
+label = "容易自慰"
+category = "physical"
+source_key = "lust"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 61
+label = "污臭耐性"
+category = "physical"
+source_key = "disgust"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+# 快感应答：全局快感加成 + 悟性 offset（ABL升级加速）
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "sense"
+source_key = "pleasure_c"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "sense"
+source_key = "pleasure_v"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "sense"
+source_key = "pleasure_a"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "sense"
+source_key = "pleasure_b"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "sense"
+source_key = "pleasure_m"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 70
+label = "快感应答"
+category = "growth"
+source_key = ""
+formula = "aptitude_offset"
+expression = "v"
+
+[[effect]]
+era_index = 72
+label = "容易高潮"
+category = "physical"
+source_key = "pleasure_v"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 72
+label = "容易高潮"
+category = "physical"
+source_key = "pleasure_a"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 72
+label = "容易高潮"
+category = "physical"
+source_key = "pleasure_b"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 72
+label = "容易高潮"
+category = "physical"
+source_key = "pleasure_m"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 121
+label = "酒耐性"
+category = "physical"
+source_key = "drunkenness"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+# --- Perversion / special ---
+
+[[effect]]
+era_index = 80
+label = "倒错的"
+category = "perversion"
+source_key = "deviation"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 82
+label = "施虐狂"
+category = "perversion"
+source_key = "sadism"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 83
+label = "受虐狂"
+category = "perversion"
+source_key = "pain"
+formula = "multiply"
+expression = "(10 - v) / 10"
+
+[[effect]]
+era_index = 92
+label = "魅力"
+category = "social"
+source_key = "affection"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 93
+label = "魅惑"
+category = "social"
+source_key = "temptation"
+formula = "multiply"
+expression = "(10 + 2 * v) / 10"
+
+[[effect]]
+era_index = 94
+label = "謎之魅力"
+category = "social"
+source_key = "affection"
+formula = "multiply"
+expression = "(10 + 3 * v) / 10"
+
+[[effect]]
+era_index = 142
+label = "风骚"
+category = "social"
+source_key = "lust"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+[[effect]]
+era_index = 150
+label = "幼儿/幼儿退行"
+category = "personality"
+source_key = "joy"
+formula = "multiply"
+expression = "(10 + v) / 10"
+
+# --- Deferred axes (effects wired in code-level systems, not SOURCE_EXTRA) ---
+# 0 处女 / 6 无接吻经验 → first-time bonus in training system
+# 2 性别 / 17 年龄 → gate conditions
+# 5 服従 / 3 恋慕 / 4 淫乱 / 7 恋人 / 8 思慕 → relationship_growth.toml talent_modifiers
+# 9 妊娠願望 / 54 猫舌 / 57 漏尿癖 / 71 容易中毒 / 81 性别嗜好 / 84 嫉妬 / 90 狐
+# 100 体型 / 105 胸围 / 108 臀围 / 143 兽耳 / 146 其它 → deferred until body-type system
+
+[[effect]]
+era_index = 0
+label = "处女"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 1
+label = "非处男"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 2
+label = "性别"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 3
+label = "恋慕"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 4
+label = "淫乱"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 5
+label = "服従"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 6
+label = "无接吻经验"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 7
+label = "恋人"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 8
+label = "思慕"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 9
+label = "妊娠願望"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 17
+label = "年龄"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 54
+label = "猫舌"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 57
+label = "漏尿癖"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 71
+label = "容易中毒"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 81
+label = "性别嗜好"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 84
+label = "嫉妬"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 90
+label = "狐"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 100
+label = "体型"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 105
+label = "胸围"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 108
+label = "臀围"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 143
+label = "兽耳"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 146
+label = "其它"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
+
+[[effect]]
+era_index = 151
+label = "幼稚"
+category = "deferred"
+source_key = ""
+formula = "multiply"
+expression = "1.0"
