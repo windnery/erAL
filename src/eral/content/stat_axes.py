@@ -14,6 +14,8 @@ class AxisFamily(StrEnum):
     BASE = "base"
     PALAM = "palam"
     SOURCE = "source"
+    JUEL = "juel"
+    EXP = "exp"
     ABL = "abl"
     TALENT = "talent"
     FLAG = "flag"

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from eral.content.talent_effects import TalentEffect
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.facilities import FacilityService
 from eral.systems.fatigue import calc_tired
@@ -37,7 +36,6 @@ class VitalService:
 
     max_values: dict[str, int]
     recover_rates: dict[str, int]
-    talent_effects: tuple[TalentEffect, ...] = ()
     facility_service: FacilityService | None = None
 
     def _max_value_for_actor(self, actor: CharacterState, max_key: str) -> int:
@@ -53,7 +51,7 @@ class VitalService:
         return self.recover_rates.get(max_key, 0)
 
     def _recovery_mod(self, actor: CharacterState, world: WorldState | None) -> float:
-        recovery_mod = compute_recovery_modifier(actor.stats, self.talent_effects)
+        recovery_mod = compute_recovery_modifier(actor.stats)
         if world is not None and self.facility_service is not None:
             recovery_mod *= self.facility_service.recovery_multiplier(world)
         return recovery_mod

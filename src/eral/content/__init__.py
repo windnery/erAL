@@ -9,7 +9,6 @@ from .dialogue import DialogueEntry, load_dialogue_entries
 from .events import EventDefinition, load_event_definitions
 from .items import ItemDefinition, load_item_definitions
 from .marks import MarkDefinition, load_mark_definitions
-from .shops import ShopfrontDefinition, load_shopfront_definitions
 from .skins import (
     AppearanceDefinition,
     SkinDefinition,
@@ -39,7 +38,6 @@ __all__ = [
     "RelationshipStageDefinition",
     "SettlementRule",
     "SkinDefinition",
-    "ShopfrontDefinition",
     "StatAxis",
     "StatAxisCatalog",
     "WorkScheduleDefinition",
@@ -54,7 +52,6 @@ __all__ = [
     "load_mark_definitions",
     "load_appearance_definitions",
     "load_port_map",
-    "load_shopfront_definitions",
     "load_skin_definitions",
     "load_relationship_stages",
     "load_settlement_rules",

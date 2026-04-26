@@ -18,7 +18,7 @@
 #   tflag = {index = value, ...}
 #
 # [stains]        污垢转移（待设计）
-# [resources]     资源消耗（TSP/道具/金钱）
+# [resources]     资源消耗（道具/金钱）
 # [scene]         场景切换/位置移动/时间推进
 # [equipment]     装备穿戴/姿势设定
 

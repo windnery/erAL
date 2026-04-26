@@ -1,4 +1,5 @@
 [[stages]]
+index = 0
 key = "stranger"
 display_name = "陌生"
 min_affection = 0
@@ -8,6 +9,7 @@ no_dislike_mark = false
 requires_item = ""
 
 [[stages]]
+index = 1
 key = "friendly"
 display_name = "友好"
 min_affection = 200
@@ -17,6 +19,7 @@ no_dislike_mark = false
 requires_item = ""
 
 [[stages]]
+index = 2
 key = "like"
 display_name = "喜欢"
 min_affection = 400
@@ -26,6 +29,7 @@ no_dislike_mark = false
 requires_item = ""
 
 [[stages]]
+index = 3
 key = "love"
 display_name = "爱"
 min_affection = 800
@@ -35,6 +39,7 @@ no_dislike_mark = true
 requires_item = ""
 
 [[stages]]
+index = 4
 key = "oath"
 display_name = "誓约"
 min_affection = 2000

@@ -1,4 +1,4 @@
-"""Load command effect definitions from TOML."""
+"""Load declarative command effects from TOML."""
 
 from __future__ import annotations
 
@@ -9,15 +9,15 @@ from pathlib import Path
 
 @dataclass(frozen=True, slots=True)
 class SourcePayload:
-    """Raw SOURCE values for settlement pipeline."""
+    """Raw SOURCE values for the settlement pipeline."""
 
     target: dict[int, int] = field(default_factory=dict)
     player: dict[int, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True, slots=True)
-class VitalsCost:
-    """DOWNBASE deltas (stamina / energy / etc.)."""
+class VitalsPayload:
+    """Vitals deltas (stamina/spirit/energy costs) routed through VitalService."""
 
     target: dict[int, int] = field(default_factory=dict)
     player: dict[int, int] = field(default_factory=dict)
@@ -25,38 +25,47 @@ class VitalsCost:
 
 @dataclass(frozen=True, slots=True)
 class ExperienceGain:
-    """EXP deltas."""
+    """Declarative EXP deltas."""
 
     target: dict[int, int] = field(default_factory=dict)
     player: dict[int, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True, slots=True)
-class ConditionSet:
-    """Temporary flags for current command execution."""
+class RuntimeConditionDelta:
+    """Declarative runtime-condition deltas keyed by erAL condition names."""
 
-    tcvar: dict[int, int] = field(default_factory=dict)
-    tflag: dict[int, int] = field(default_factory=dict)
+    target: dict[str, int] = field(default_factory=dict)
+    player: dict[str, int] = field(default_factory=dict)
+    world: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True, slots=True)
 class CommandEffect:
-    """Complete effect bundle for a single command."""
+    """Declarative effect bundle for one train command index."""
 
     command_index: int
     source: SourcePayload = field(default_factory=SourcePayload)
-    vitals: VitalsCost | None = None
+    vitals: VitalsPayload | None = None
     experience: ExperienceGain | None = None
-    conditions: ConditionSet | None = None
-    # Future categories (stains, resources, scene, equipment) added here
+    conditions: RuntimeConditionDelta | None = None
 
 
 def _parse_int_dict(raw: dict) -> dict[int, int]:
     return {int(k): int(v) for k, v in raw.items()}
 
 
+def _parse_str_int_dict(raw: dict) -> dict[str, int]:
+    return {str(k): int(v) for k, v in raw.items()}
+
+
 def load_command_effects(path: Path) -> dict[int, CommandEffect]:
-    """Load command effects keyed by command index."""
+    """Load command effects keyed by command index.
+
+    ``command_effects.toml`` is intentionally limited to declarative payloads.
+    Command metadata belongs in ``train.toml`` and complex operations/gates stay
+    in Python orchestration code.
+    """
 
     if not path.exists():
         return {}
@@ -68,23 +77,20 @@ def load_command_effects(path: Path) -> dict[int, CommandEffect]:
     for item in raw.get("effect", []):
         cmd_index = int(item["command_index"])
 
-        # [source] table
         raw_source = item.get("source", {})
         source = SourcePayload(
             target=_parse_int_dict(raw_source.get("target", {})),
             player=_parse_int_dict(raw_source.get("player", {})),
         )
 
-        # [vitals] table
         raw_vitals = item.get("vitals")
         vitals = None
         if raw_vitals:
-            vitals = VitalsCost(
+            vitals = VitalsPayload(
                 target=_parse_int_dict(raw_vitals.get("target", {})),
                 player=_parse_int_dict(raw_vitals.get("player", {})),
             )
 
-        # [experience] table
         raw_exp = item.get("experience")
         experience = None
         if raw_exp:
@@ -93,22 +99,22 @@ def load_command_effects(path: Path) -> dict[int, CommandEffect]:
                 player=_parse_int_dict(raw_exp.get("player", {})),
             )
 
-        # [conditions] table
         raw_cond = item.get("conditions")
         conditions = None
         if raw_cond:
-            conditions = ConditionSet(
-                tcvar=_parse_int_dict(raw_cond.get("tcvar", {})),
-                tflag=_parse_int_dict(raw_cond.get("tflag", {})),
+            conditions = RuntimeConditionDelta(
+                target=_parse_str_int_dict(raw_cond.get("target", {})),
+                player=_parse_str_int_dict(raw_cond.get("player", {})),
+                world=_parse_str_int_dict(raw_cond.get("world", {})),
             )
 
-        eff = CommandEffect(
+        effect = CommandEffect(
             command_index=cmd_index,
             source=source,
             vitals=vitals,
             experience=experience,
             conditions=conditions,
         )
-        result[eff.command_index] = eff
+        result[effect.command_index] = effect
 
     return result

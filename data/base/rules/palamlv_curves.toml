@@ -1,6 +1,7 @@
 # PALAMLV 阈值曲线
 # 使用 eraTW 重做曲线（更平缓，适合港区题材）
 # 每个等级的 threshold 是累积值，PALAM >= threshold 时达到该等级
+# 所有 PALAM 轴共享同一套阈值
 
 [[curve]]
 name = "remake"
@@ -109,62 +110,3 @@ threshold = 5000000000
 [[levels]]
 key = 25
 threshold = 10000000000
-
-# EXPLV 阈值曲线（经验等级门槛）
-# 用于 ABL 升级系统
-
-[[exp_levels]]
-key = 0
-threshold = 0
-
-[[exp_levels]]
-key = 1
-threshold = 1
-
-[[exp_levels]]
-key = 2
-threshold = 4
-
-[[exp_levels]]
-key = 3
-threshold = 20
-
-[[exp_levels]]
-key = 4
-threshold = 50
-
-[[exp_levels]]
-key = 5
-threshold = 200
-
-[[exp_levels]]
-key = 6
-threshold = 500
-
-[[exp_levels]]
-key = 7
-threshold = 1000
-
-[[exp_levels]]
-key = 8
-threshold = 2000
-
-[[exp_levels]]
-key = 9
-threshold = 3000
-
-[[exp_levels]]
-key = 10
-threshold = 4000
-
-[[exp_levels]]
-key = 11
-threshold = 5000
-
-[[exp_levels]]
-key = 12
-threshold = 6000
-
-[[exp_levels]]
-key = 13
-threshold = 10000

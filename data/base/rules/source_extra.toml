@@ -1,0 +1,455 @@
+# SOURCE_EXTRA：全局 SOURCE 修饰器（在 SOURCE_CBVA 之前执行）
+# 对应 eraTW 的 SOURCE_EXTRA 阶段。
+# 按目标 SOURCE 索引分组，而非按天赋。
+#
+# 每个修饰器作用于一个或多个 SOURCE 索引。
+# 同一修饰器内的多个条件独立判断，结果乘叠。
+#
+# 支持的条件类型：
+#   talent_value   → 倍率 = (base + coeff * talent值) / base
+#   talent_present → 若 talent > 0，应用固定倍率
+#   talent_level   → 根据 talent 具体值查 levels 表取倍率
+
+# ==================== 陥落素質：全局快感加成 ====================
+
+# 恋慕(3)/淫乱(4)/服従(5) → 所有快感类 ×1.2
+[[modifier]]
+target_sources = ["0", "1", "2", "3", "4"]
+description = "恋慕/淫乱/服従 全局快感加成"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_present"
+talent_index = 3
+multiplier = 1.2
+
+[[modifier.condition]]
+kind = "talent_present"
+talent_index = 4
+multiplier = 1.2
+
+[[modifier.condition]]
+kind = "talent_present"
+talent_index = 5
+multiplier = 1.2
+
+# ==================== 性格类修正 ====================
+
+# 胆量(10) → 苦痛(13)
+# 0=胆怯(0.8)  1=坚强(1.2)
+[[modifier]]
+target_sources = ["13"]
+description = "胆量对苦痛的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 10
+levels = {0 = 0.8, 1 = 1.2}
+
+# 态度(11) → 恭顺(16)
+# 0=坦率(1.2)  1=叛逆(0.8)
+[[modifier]]
+target_sources = ["16"]
+description = "态度对恭顺的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 11
+levels = {0 = 1.2, 1 = 0.8}
+
+# 回应(12) → 欢乐(20)
+# 0=老实(1.1)  1=傲慢(0.9)
+[[modifier]]
+target_sources = ["20"]
+description = "回应对欢乐的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 12
+levels = {0 = 1.1, 1 = 0.9}
+
+# 自尊心(13) → 露出(17，流向 PALAM 羞耻)
+# 0=自尊心低(0.8)  1=自尊心高(1.2)
+[[modifier]]
+target_sources = ["17"]
+description = "自尊心对羞耻的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 13
+levels = {0 = 0.8, 1 = 1.2}
+
+# 娇俏(14) → 情爱(10)
+[[modifier]]
+target_sources = ["10"]
+description = "娇俏对情爱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 14
+base = 10
+coeff = 1
+
+# 懒散(18) → 达成(12)
+[[modifier]]
+target_sources = ["12"]
+description = "懒散对达成的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 18
+base = 10
+coeff = -1
+
+# 自制心(20) → 欲情(15)
+[[modifier]]
+target_sources = ["15"]
+description = "自制心对欲情的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 20
+base = 10
+coeff = -1
+
+# 冷漠(21) → 情爱(10)
+[[modifier]]
+target_sources = ["10"]
+description = "冷漠对情爱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 21
+base = 10
+coeff = -1
+
+# 感情缺乏(22) → 快感(0-4)
+[[modifier]]
+target_sources = ["0", "1", "2", "3", "4"]
+description = "感情缺乏对快感的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 22
+base = 10
+coeff = -1
+
+# 性的兴趣(23) → 欲情(15)
+# 0=保守的(0.8)  1=好奇的(1.2)  2=好色的(1.5)
+[[modifier]]
+target_sources = ["15"]
+description = "性的兴趣对欲情的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 23
+levels = {0 = 0.8, 1 = 1.2, 2 = 1.5}
+
+# 开朗/阴郁(24) → 欢乐(20)
+[[modifier]]
+target_sources = ["20"]
+description = "开朗/阴郁对欢乐的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 24
+base = 10
+coeff = 1
+
+# 难以越过的底线(25) → 不洁(30)
+[[modifier]]
+target_sources = ["30"]
+description = "难以越过的底线对不洁的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 25
+base = 10
+coeff = 2
+
+# 喜欢引人注目(26) → 露出(17)
+[[modifier]]
+target_sources = ["17"]
+description = "喜欢引人注目对羞耻的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 26
+base = 10
+coeff = 2
+
+# 无知(27) → 诱惑(50)
+[[modifier]]
+target_sources = ["50"]
+description = "无知对诱惑的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 27
+base = 10
+coeff = -1
+
+# 贞操(30) → 欲情(15)
+# 0=不在乎(1.2)  1=重视(0.8)
+[[modifier]]
+target_sources = ["15"]
+description = "贞操对欲情的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 30
+levels = {0 = 1.2, 1 = 0.8}
+
+# 自己爱(31) → 征服(21)
+# 0=压抑(0.8)  1=解放(1.2)
+[[modifier]]
+target_sources = ["21"]
+description = "自己爱对优越的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 31
+levels = {0 = 0.8, 1 = 1.2}
+
+# 抵抗(32) → 反感(33)
+[[modifier]]
+target_sources = ["33"]
+description = "抵抗对反感的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 32
+base = 10
+coeff = 1
+
+# 羞耻心(33) → 露出(17)
+# 0=不知羞耻(0.7)  1=害羞(1.3)
+[[modifier]]
+target_sources = ["17"]
+description = "羞耻心对羞耻的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 33
+levels = {0 = 0.7, 1 = 1.3}
+
+# ==================== 体质类修正 ====================
+
+# 痛觉(40) → 苦痛(13)
+# 0=不怕痛(0.7)  1=怕痛(1.3)
+[[modifier]]
+target_sources = ["13"]
+description = "痛觉对苦痛的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 40
+levels = {0 = 0.7, 1 = 1.3}
+
+# 弄湿难易(41) → 润滑(9)
+# 0=不容易湿(0.7)  1=容易湿(1.3)
+[[modifier]]
+target_sources = ["9"]
+description = "弄湿难易对润滑的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 41
+levels = {0 = 0.7, 1 = 1.3}
+
+# 容易自慰(60) → 欲情(15)
+[[modifier]]
+target_sources = ["15"]
+description = "容易自慰对欲情的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 60
+base = 10
+coeff = 1
+
+# 污臭耐性(61) → 不洁(30)
+# 0=洁癖(1.3) 1=污臭敏感(1.1) 2=污臭钝感(0.9) 3=污臭无视(0.7)
+[[modifier]]
+target_sources = ["30"]
+description = "污臭耐性对不洁的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 61
+levels = {0 = 1.3, 1 = 1.1, 2 = 0.9, 3 = 0.7}
+
+# ==================== 侍奉/奉献 ====================
+
+# 献身的(62) → 侍奉(53)
+# (100 + 15*v) / 100 = 1.0 + 0.15*v
+[[modifier]]
+target_sources = ["53"]
+description = "献身的对侍奉的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 62
+base = 100
+coeff = 15
+
+# ==================== 快感应答：全局快感加成 ====================
+
+# 快感应答(70) → 快感(0-4)
+# 0=否定快感(0.8)  1=接受快感(1.2)
+[[modifier]]
+target_sources = ["0", "1", "2", "3", "4"]
+description = "快感应答对快感的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_level"
+talent_index = 70
+levels = {0 = 0.8, 1 = 1.2}
+
+# ==================== 容易高潮 ====================
+
+# 容易高潮(72) → V/A/B/M 快感(1-4)
+[[modifier]]
+target_sources = ["1", "2", "3", "4"]
+description = "容易高潮对V/A/B/M快感的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 72
+base = 10
+coeff = 1
+
+# ==================== 变态/社交类修正 ====================
+
+# 倒错的(80) → 逸脱(32)
+[[modifier]]
+target_sources = ["32"]
+description = "倒错的对逸脱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 80
+base = 10
+coeff = 1
+
+# 施虐狂(82) → 加虐(55)
+[[modifier]]
+target_sources = ["55"]
+description = "施虐狂对加虐的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 82
+base = 10
+coeff = 1
+
+# 受虐狂(83) → 苦痛(13)
+[[modifier]]
+target_sources = ["13"]
+description = "受虐狂对苦痛的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 83
+base = 10
+coeff = -1
+
+# 魅力(90) → 情爱(10)
+[[modifier]]
+target_sources = ["10"]
+description = "魅力对情爱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 90
+base = 10
+coeff = 1
+
+# 魅惑(91) → 情爱(10)
+[[modifier]]
+target_sources = ["10"]
+description = "魅惑对情爱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 91
+base = 10
+coeff = 2
+
+# 謎之魅力(92) → 情爱(10)
+[[modifier]]
+target_sources = ["10"]
+description = "謎之魅力对情爱的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 92
+base = 10
+coeff = 3
+
+# 魅惑(91) → 诱惑(50)
+[[modifier]]
+target_sources = ["50"]
+description = "魅惑对诱惑的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 91
+base = 10
+coeff = 2
+
+# 风骚(142) → 欲情(15)
+[[modifier]]
+target_sources = ["15"]
+description = "风骚对欲情的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 142
+base = 10
+coeff = 1
+
+# 幼儿/幼儿退行(150) → 欢乐(20)
+[[modifier]]
+target_sources = ["20"]
+description = "幼儿/幼儿退行对欢乐的影响"
+operation = "multiply"
+
+[[modifier.condition]]
+kind = "talent_value"
+talent_index = 150
+base = 10
+coeff = 1

@@ -1,0 +1,47 @@
+[[cloths]]
+skin_index = 1
+[cloths.slots]
+headwear = "兔耳头饰"
+accessory = ""
+top = "长袖露肩夹克"
+skirt = "超短百褶裙"
+underwear_top = "蓝白条纹抹胸"
+underwear_bottom = "蓝白条纹内裤"
+socks = "白丝过膝袜"
+shoes = "低筒短靴"
+
+[[cloths]]
+skin_index = 2
+[cloths.slots]
+headwear = "兔耳头饰"
+accessory = ""
+top = "和服"
+skirt = "和服"
+underwear_top = "白色内衬"
+underwear_bottom = "白色内裤"
+socks = "白色足袋"
+shoes = "木屐"
+
+[[cloths]]
+skin_index = 3
+[cloths.slots]
+headwear = "兔耳头饰"
+accessory = ""
+top = "战术上衣"
+skirt = "超短百褶裙"
+underwear_top = "白色比基尼"
+underwear_bottom = "白色内裤"
+socks = "白丝过膝袜"
+shoes = "战靴"
+
+[[cloths]]
+skin_index = 4
+[cloths.slots]
+headwear = "兔耳头饰"
+accessory = "蓝色丝带"
+top = "白色婚纱裙"
+skirt = "白色婚纱裙"
+underwear_top = "纯白抹胸"
+underwear_bottom = "纯白内裤"
+socks = "白丝连裤袜"
+shoes = "白色高跟鞋"

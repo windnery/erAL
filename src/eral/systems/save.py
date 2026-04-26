@@ -148,8 +148,11 @@ class SaveService:
             stats.compat.cflag.values.update(
                 {int(k): int(v) for k, v in actor_stats_payload.get("cflag", {}).items()}
             )
-            stats.abl_exp.update(
-                {int(k): int(v) for k, v in actor_stats_payload.get("abl_exp", {}).items()}
+            stats.juel.values.update(
+                {str(k): int(v) for k, v in actor_stats_payload.get("juel", {}).items()}
+            )
+            stats.exp.values.update(
+                {str(k): int(v) for k, v in actor_stats_payload.get("exp", {}).items()}
             )
 
             actor = CharacterState(
@@ -229,10 +232,11 @@ class SaveService:
                 "base": actor.stats.base.values,
                 "palam": actor.stats.palam.values,
                 "source": actor.stats.source.values,
+                "juel": actor.stats.juel.values,
+                "exp": actor.stats.exp.values,
                 "abl": actor.stats.compat.abl.values,
                 "talent": actor.stats.compat.talent.values,
                 "cflag": actor.stats.compat.cflag.values,
-                "abl_exp": actor.stats.abl_exp,
             },
         }
 
@@ -275,8 +279,11 @@ class SaveService:
         stats.compat.cflag.values.update(
             {int(k): int(v) for k, v in payload.get("cflag", {}).items()}
         )
-        stats.abl_exp.update(
-            {int(k): int(v) for k, v in payload.get("abl_exp", {}).items()}
+        stats.juel.values.update(
+            {str(k): int(v) for k, v in payload.get("juel", {}).items()}
+        )
+        stats.exp.values.update(
+            {str(k): int(v) for k, v in payload.get("exp", {}).items()}
         )
         return stats
 
@@ -296,8 +303,9 @@ class SaveService:
             "base": stats.base.values,
             "palam": stats.palam.values,
             "source": stats.source.values,
+            "juel": stats.juel.values,
+            "exp": stats.exp.values,
             "abl": stats.compat.abl.values,
             "talent": stats.compat.talent.values,
             "cflag": stats.compat.cflag.values,
-            "abl_exp": stats.abl_exp,
         }

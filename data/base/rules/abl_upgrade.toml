@@ -1,0 +1,394 @@
+max_level_without_love = 5
+max_level_with_love = 10
+max_level_with_oath = 99
+
+[explv]
+"0" = 1
+"1" = 4
+"2" = 20
+"3" = 50
+"4" = 200
+"5" = 500
+"6" = 1000
+"7" = 2000
+"8" = 3000
+"9" = 4000
+"10" = 5000
+"11" = 6000
+"12" = 10000
+
+# ==================== 感觉 ====================
+[[abl]]
+abl_index = 0
+label = "Ｃ感觉"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "0" = [1, 20, 400, 5000, 15000, 30000, 40000, 50000, 60000, 70000] }
+
+[[abl.routes.discount]]
+exp_key = "0"
+numerator = 10
+denominator_offset = 5
+
+[[abl.routes.discount]]
+exp_key = "5"
+numerator = 1
+level_numerator_offset = 1
+denominator_offset = 1
+
+[[abl]]
+abl_index = 1
+label = "Ｖ感觉"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "1" = [1, 20, 400, 5000, 15000, 30000, 40000, 50000, 60000, 70000] }
+
+[[abl.routes.discount]]
+exp_key = "1"
+numerator = 10
+denominator_offset = 5
+
+[[abl.routes.discount]]
+exp_key = "6"
+numerator = 1
+level_numerator_offset = 1
+denominator_offset = 1
+
+[[abl]]
+abl_index = 2
+label = "Ａ感觉"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "2" = [1, 50, 400, 5000, 15000, 30000, 40000, 50000, 60000, 70000] }
+
+[[abl.routes.discount]]
+exp_key = "2"
+numerator = 10
+denominator_offset = 5
+
+[[abl.routes.discount]]
+exp_key = "7"
+numerator = 1
+level_numerator_offset = 1
+denominator_offset = 1
+
+[[abl]]
+abl_index = 3
+label = "Ｂ感觉"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "3" = [1, 20, 400, 5000, 15000, 30000, 40000, 50000, 60000, 70000] }
+
+[[abl.routes.discount]]
+exp_key = "3"
+numerator = 10
+denominator_offset = 5
+
+[[abl.routes.discount]]
+exp_key = "8"
+numerator = 1
+level_numerator_offset = 1
+denominator_offset = 1
+
+[[abl]]
+abl_index = 4
+label = "Ｍ感觉"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "4" = [1, 20, 400, 5000, 15000, 30000, 40000, 50000, 60000, 70000] }
+
+[[abl.routes.discount]]
+exp_key = "4"
+numerator = 10
+denominator_offset = 5
+
+[[abl.routes.discount]]
+exp_key = "9"
+numerator = 1
+level_numerator_offset = 1
+denominator_offset = 1
+
+# ==================== 精神/属性 ====================
+[[abl]]
+abl_index = 9
+label = "亲密"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "20" = [30, 100, 300, 1500, 5000, 15000, 40000, 70000, 120000, 200000] }
+
+[[abl]]
+abl_index = 10
+label = "顺从"
+upgrade_mode = "juel_exp"
+rate = 1.5
+
+[[abl.routes]]
+juel_costs = { "16" = [30, 200, 1000, 5000, 7500, 10000, 15000, 20000, 25000, 30000] }
+
+[[abl.routes]]
+juel_costs = { "10" = [30, 200, 1000, 5000, 7500, 15000, 25000, 40000, 50000, 80000] }
+
+[[abl.routes]]
+juel_costs = { "12" = [100, 600, 1200] }
+
+[[abl]]
+abl_index = 11
+label = "欲望"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "11" = [1, 20, 1000, 8000, 24000, 30000, 40000, 50000, 75000, 100000] }
+
+[[abl]]
+abl_index = 12
+label = "技巧"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "13" = [1, 20, 200, 3000, 20000, 25000, 34000, 45000, 55000, 70000] }
+
+[[abl]]
+abl_index = 13
+label = "侍奉精神"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 10
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "12" = [100, 1200, 5000, 10000, 30000, 35000, 40000, 45000, 50000, 60000] }
+exp_requirements = { "10" = [5, 10, 20, 20, 30, 40, 100, 150, 200, 300], "14" = [5, 10, 20, 20, 30, 40, 100, 150, 200, 300] }
+
+[[abl.routes]]
+juel_costs = { "10" = [20, 100, 600, 2000, 8000, 8500, 10000, 15000, 20000, 30000] }
+exp_requirements = { "40" = [5, 10, 20, 50, 100, 150, 200, 250, 300, 400] }
+
+[[abl.routes]]
+juel_costs = { "13" = [100] }
+
+[[abl]]
+abl_index = 14
+label = "露出癖"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "14" = [100, 500, 1500, 3000, 6000, 10000, 15000, 24000, 30000, 40000] }
+exp_requirements = { "10" = 1, "23" = 1 }
+
+[[abl]]
+abl_index = 15
+label = "受虐属性"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 11
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "11" = [100, 300, 1000, 6000, 12000, 15000, 20000, 25000, 30000, 40000], "15" = [100, 500, 1500, 3000, 5000, 8000, 12000, 16000, 20000, 30000] }
+
+[[abl.routes]]
+juel_costs = { "12" = [100, 500, 1000], "15" = [100, 500, 1200] }
+
+[[abl]]
+abl_index = 16
+label = "施虐属性"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 11
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "11" = [100, 500, 1500, 3000, 5000, 8000, 12000, 15000, 25000, 30000] }
+
+[[abl]]
+abl_index = 17
+label = "百合属性"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.routes]]
+juel_costs = { "11" = [200, 1000, 3000, 8000, 20000, 25000, 30000, 35000, 40000, 45000], "12" = [0, 0, 1000, 2000, 5000, 6000, 8000, 10000, 15000, 20000] }
+
+# ==================== 中毒 ====================
+[[abl]]
+abl_index = 30
+label = "自慰中毒"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 0
+min_level_offset = 1
+
+[[abl.requirements]]
+abl_index = 14
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "11" = [1000, 2000, 3000, 10000, 15000, 25000, 30000, 50000, 60000, 70000], "0" = [5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000, 500000], "14" = [1000, 3000, 5000, 12000, 20000, 25000, 40000, 50000, 60000, 70000] }
+
+[[abl]]
+abl_index = 31
+label = "精液中毒"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 13
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "11" = [3000, 8000, 15000, 30000, 45000, 60000, 65000, 70000, 75000, 90000], "12" = [10000, 25000, 50000, 100000, 300000, 350000, 400000, 450000, 500000, 600000] }
+
+[[abl]]
+abl_index = 32
+label = "百合中毒"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 17
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "0" = [3000, 8000, 15000, 30000, 55000, 60000, 65000, 70000, 75000, 80000], "11" = [10000, 25000, 50000, 100000, 300000, 350000, 400000, 450000, 500000, 550000], "12" = [10000, 25000, 50000, 100000, 300000, 350000, 400000, 450000, 500000, 550000] }
+
+[[abl]]
+abl_index = 34
+label = "膣射中毒"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 31
+min_level_offset = 1
+
+[[abl.routes]]
+juel_costs = { "11" = [3000, 8000, 15000, 30000, 45000, 60000, 65000, 70000, 75000, 90000], "12" = [10000, 25000, 50000, 100000, 300000, 350000, 400000, 450000, 500000, 600000] }
+
+[[abl]]
+abl_index = 35
+label = "肛射中毒"
+upgrade_mode = "juel_exp"
+rate = 1.0
+
+[[abl.requirements]]
+abl_index = 31
+min_level_offset = -1
+
+[[abl.routes]]
+juel_costs = { "11" = [3000, 8000, 15000, 30000, 45000, 60000, 65000, 70000, 75000, 90000], "12" = [10000, 25000, 50000, 100000, 300000, 350000, 400000, 450000, 500000, 600000] }
+
+# ==================== 技能 (exp_direct) ====================
+[[abl]]
+abl_index = 40
+label = "整备技能"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "70"
+
+[[abl]]
+abl_index = 41
+label = "话术技能"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "71"
+
+[[abl]]
+abl_index = 42
+label = "指挥能力"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "74"
+
+[[abl]]
+abl_index = 43
+label = "教养"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "75"
+
+[[abl]]
+abl_index = 44
+label = "料理技能"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "76"
+
+[[abl]]
+abl_index = 45
+label = "艺术技能"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "78"
+
+[[abl]]
+abl_index = 46
+label = "调合技能"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "83"
+
+# ==================== 性技 (exp_direct) ====================
+[[abl]]
+abl_index = 50
+label = "指"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "24"
+
+[[abl]]
+abl_index = 51
+label = "舌"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "25"
+
+[[abl]]
+abl_index = 52
+label = "胸"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "26"
+
+[[abl]]
+abl_index = 53
+label = "腰"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "20"
+
+[[abl]]
+abl_index = 54
+label = "膣"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "20"
+
+[[abl]]
+abl_index = 55
+label = "肛门"
+upgrade_mode = "exp_direct"
+rate = 1.0
+exp_direct_key = "21"

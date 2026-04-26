@@ -40,18 +40,18 @@ from eral.systems.skins import SkinService
 from eral.systems.time_service import TimeService
 from eral.domain.training import TrainingResult
 from eral.systems.training import TrainingService
-from eral.systems.source_extra import apply_source_extra, apply_training_mark_effects
+
 from eral.systems.vital import VitalService
 from eral.systems.wallet import WalletService
+from eral.systems.navigation import NavigationService
 from eral.systems.shop import ShopService
-from eral.content.talent_effects import TalentEffect
 
 
 @dataclass(slots=True)
 class CommandService:
     """Execute static commands against a visible actor."""
 
-    commands: dict[str, CommandDefinition]
+    commands: dict[int, CommandDefinition]
     item_definitions: dict[str, ItemDefinition] | None
     command_effects: dict[int, CommandEffect]
     settlement: SettlementService
@@ -66,7 +66,6 @@ class CommandService:
     game_loop: GameLoop | None = None
     mark_definitions: dict[str, MarkDefinition] | None = None
     runtime_logger: RuntimeLogger | None = None
-    talent_effects: tuple[TalentEffect, ...] = ()
     wallet_service: WalletService | None = None
     facility_service: FacilityService | None = None
     resolution_service: ResolutionService | None = None
@@ -79,25 +78,8 @@ class CommandService:
     gift_service: GiftService | None = None
     ejaculation_service: EjaculationService | None = None
     shop_service: "ShopService" | None = None
-
-    def _apply_downbase(self, actor: CharacterState, downbase: dict[str, int]) -> None:
-        if self.vital_service is not None:
-            self.vital_service.apply_downbase(actor, downbase)
-        else:
-            for base_key, delta in downbase.items():
-                current = actor.stats.base.get(base_key)
-                new_val = max(0, current - delta)
-                actor.stats.base.set(base_key, new_val)
-
-    def execute(self, world: WorldState, actor_key: str, command_key: str) -> ActionResult:
-        location = self.port_map.location_by_key(world.active_location.key)
-        available: list[CommandDefinition] = []
-
-        for command in self.commands.values():
-            if self._is_available_at_location(world, command, location.tags):
-                available.append(command)
-
-        return tuple(available)
+    navigation_service: NavigationService | None = None
+    stat_axes: "StatAxisCatalog" | None = None
 
     def available_commands_for_actor(
         self,
@@ -117,23 +99,32 @@ class CommandService:
 
         return tuple(available)
 
-    def execute(self, world: WorldState, actor_key: str, command_key: str) -> ActionResult:
-        command = self.commands[command_key]
+    def execute(self, world: WorldState, actor_key: str, command_index: int) -> ActionResult:
+        # 1. Resolve execution context
+        command = self.commands[command_index]
         actor = self._resolve_actor(world, actor_key)
         location = self.port_map.location_by_key(world.active_location.key)
+        command_key = str(command_index)
 
+        # 2. Gate
         unavailable_reason = self._availability_failure_reason(world, actor, command, location.tags)
         if unavailable_reason is not None:
             self._log_failure(world, actor_key, command_key, unavailable_reason)
-            raise ValueError(unavailable_reason)
+            return ActionResult(
+                action_key=command_key,
+                success=False,
+                actor_key=actor.key,
+                messages=[unavailable_reason],
+            )
 
-        scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
+        # 3. Scene & Resolution
+        scene = self.scene_service.build_for_actor(world, actor, command_key, location.tags)
         resolution_result = self._resolve_command(world, actor, command)
         resolution_tags = self._resolution_result_tags(command, resolution_result)
         if resolution_result is not None and not resolution_result.success:
             dialogue_lines = list(self.dialogue_service.lines_for(scene, resolution_tags))
             return ActionResult(
-                action_key=command.key,
+                action_key=command_key,
                 success=False,
                 chance=resolution_result.chance,
                 actor_key=actor.key,
@@ -142,50 +133,70 @@ class CommandService:
                 messages=dialogue_lines or [f"{actor.display_name}未能完成{command.display_name}。"],
             )
 
-        command_index = int(command.key)
-        effect = self.command_effects.get(command_index)
+        # Capture pre-operation scene for state-transition event matching
+        pre_operation_scene = self.scene_service.build_for_actor(world, actor, command_key, location.tags)
+
+        # 4. Operation
+        self._apply_operation(world, actor, command)
+        self._apply_marks(actor, command)
+        self._remove_marks(actor, command)
+
+        # 5. Declarative Effects
+        self._apply_declarative_effects(world, actor, command, command_key)
+
+        # 6. Settlement
+        changes, training_settlement, ejaculation_tag, funds_delta, fainted = self._run_settlement(
+            world, actor, command, command_key,
+        )
+
+        # 7. Feedback
+        return self._build_feedback_result(
+            world, actor, command, location, command_key, scene, pre_operation_scene,
+            resolution_result, resolution_tags, changes, training_settlement,
+            ejaculation_tag, funds_delta, fainted,
+        )
+
+    # ------------------------------------------------------------------
+    # Phase 5: Declarative Effects (SOURCE / vitals / exp / conditions)
+    # ------------------------------------------------------------------
+    def _apply_declarative_effects(
+        self,
+        world: WorldState,
+        actor: CharacterState,
+        command: CommandDefinition,
+        command_key: str,
+    ) -> None:
+        effect = self.command_effects.get(command.index)
         player = world.player_stats if world.player_stats is not None else None
-        apply_command_effect(actor, effect, player)
-
-        # Fallback: also apply legacy command.source if present
-        for source_key, delta in command.source.items():
-            actor.stats.source.add(source_key, delta)
-
-        gift_consumed = self._apply_gift(world, actor, command)
-
+        apply_command_effect(actor, effect, player, self.vital_service)
+        self._apply_gift(world, actor, command)
         self._apply_persistent_source(actor)
-
         if command.activates_persistent_state:
             self._toggle_persistent_state(actor, command.activates_persistent_state)
-
-        if command.requires_training and self.training_service is not None:
-            self._apply_training_development(actor, command.key)
+        is_training = command.category == "train"
+        if is_training and self.training_service is not None:
+            self._apply_training_development(actor, command.index)
             actor.add_condition("train_total_steps", 1)
+        actor.record_memory(f"cmd:{command_key}")
 
-        apply_source_extra(actor.stats, self.talent_effects)
+    # ------------------------------------------------------------------
+    # Phase 6: Settlement
+    # ------------------------------------------------------------------
+    def _run_settlement(
+        self,
+        world: WorldState,
+        actor: CharacterState,
+        command: CommandDefinition,
+        command_key: str,
+    ) -> tuple[dict, object, str | None, dict[str, int], bool]:
+        from eral.domain.training import TrainingResult
 
-        if command.requires_training:
-            apply_training_mark_effects(actor)
-
-        self._apply_downbase(actor, command.downbase)
-
-        actor.record_memory(f"cmd:{command.key}")
-
-        fainted = False
-        if self.vital_service is not None and self.vital_service.is_fainted(actor):
-            fainted = True
-            self.vital_service.sleep_recovery(actor, world)
-            if self.game_loop is not None:
-                self.game_loop.advance_to_dawn(world)
-
-        if self.time_service is not None and not fainted:
-            self.time_service.advance_minutes(world, command.elapsed_minutes)
-
+        is_training = command.category == "train"
         changes = self.settlement.settle_actor(world, actor)
 
         training_settlement = None
         ejaculation_tag: str | None = None
-        if command.requires_training and self.training_service is not None:
+        if is_training and self.training_service is not None:
             training_settlement = self.training_service.detect_results(actor)
             result_tags = tuple(r.value for r in training_settlement.results)
             if result_tags:
@@ -199,24 +210,50 @@ class CommandService:
                 self.ejaculation_service.accumulate(world, actor)
                 ejaculation_tag = self.ejaculation_service.check_and_fire(world, actor)
 
-        # Process personal income from work commands
         funds_delta: dict[str, int] = {}
         if command.personal_income > 0 and self.wallet_service is not None:
             income = command.personal_income
             if self.facility_service is not None:
                 income = int(income * self.facility_service.income_multiplier(world))
             earned = self.wallet_service.add_personal(
-                world, income, reason="work", source_key=command.key,
+                world, income, reason="work", source_key=command_key,
             )
             if earned > 0:
                 funds_delta["personal"] = earned
 
-        trigger_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
-        self._apply_operation(world, actor, command)
-        self._apply_marks(actor, command)
-        self._remove_marks(actor, command)
-        settled_scene = self.scene_service.build_for_actor(world, actor, command.key, location.tags)
-        triggered_events = self.event_service.triggered_events(trigger_scene)
+        fainted = False
+        if self.vital_service is not None and self.vital_service.is_fainted(actor):
+            fainted = True
+            self.vital_service.sleep_recovery(actor, world)
+            if self.game_loop is not None:
+                self.game_loop.advance_to_dawn(world)
+        if self.time_service is not None and not fainted:
+            self.time_service.advance_minutes(world, command.elapsed_minutes)
+
+        return changes, training_settlement, ejaculation_tag, funds_delta, fainted
+
+    # ------------------------------------------------------------------
+    # Phase 7: Feedback (events / dialogue / milestones / logging)
+    # ------------------------------------------------------------------
+    def _build_feedback_result(
+        self,
+        world: WorldState,
+        actor: CharacterState,
+        command: CommandDefinition,
+        location,
+        command_key: str,
+        scene,
+        pre_operation_scene,
+        resolution_result,
+        resolution_tags: tuple[str, ...],
+        changes: dict,
+        training_settlement,
+        ejaculation_tag: str | None,
+        funds_delta: dict[str, int],
+        fainted: bool,
+    ) -> ActionResult:
+        settled_scene = self.scene_service.build_for_actor(world, actor, command_key, location.tags)
+        triggered_events = self.event_service.triggered_events(pre_operation_scene)
         if not triggered_events:
             triggered_events = self.event_service.triggered_events(settled_scene)
         training_tags = tuple(r.value for r in training_settlement.results) if training_settlement else ()
@@ -227,10 +264,7 @@ class CommandService:
         dialogue_keys = resolution_tags + training_tags + triggered_events
         dialogue_lines = list(self.dialogue_service.lines_for(settled_scene, dialogue_keys))
         after_date_events, after_date_lines = self._resolve_after_date_followup(
-            world,
-            actor,
-            command,
-            location.tags,
+            world, actor, command, location.tags,
         )
         if after_date_lines:
             dialogue_lines.extend(after_date_lines)
@@ -238,17 +272,16 @@ class CommandService:
         for event_key in all_triggered_events:
             actor.record_memory(f"evt:{event_key}")
         self._record_milestones(world, actor, command)
-        self._log_success(world, actor.key, command.key, all_triggered_events)
+        self._log_success(world, actor.key, command_key, all_triggered_events)
         return ActionResult(
-            action_key=command.key,
+            action_key=command_key,
             success=True,
             chance=resolution_result.chance if resolution_result is not None else 1.0,
             actor_key=actor.key,
             scene=scene,
             triggered_events=list(all_triggered_events),
-            source_deltas=dict(command.source),
             changes=changes,
-            messages=dialogue_lines or [f"{actor.display_name} handled command {command.display_name}."],
+            messages=dialogue_lines or [f"{actor.display_name}执行了{command.display_name}。"],
             funds_delta=funds_delta,
             fainted=fainted,
             shopfront_key=command.shopfront_key,
@@ -299,7 +332,7 @@ class CommandService:
         """Record first-occurrence milestones in actor.conditions as day numbers."""
 
         for milestone_key, command_keys in self._MILESTONE_COMMANDS.items():
-            if command.key not in command_keys:
+            if str(command.index) not in command_keys:
                 continue
             day_key = f"{milestone_key}_day"
             if actor.get_condition(day_key) > 0:
@@ -385,6 +418,7 @@ class CommandService:
             item_definitions=self.item_definitions,
             persistent_state_definitions=self.persistent_state_definitions,
             slot_definitions=self.slot_definitions,
+            stat_axes=self.stat_axes,
         )
 
     @staticmethod
@@ -556,8 +590,8 @@ class CommandService:
     }
 
     @staticmethod
-    def _apply_training_development(actor: CharacterState, command_key: str) -> None:
-        dev_map = CommandService._TRAINING_DEV_MAP.get(command_key, {})
+    def _apply_training_development(actor: CharacterState, command_index: int) -> None:
+        dev_map = CommandService._TRAINING_DEV_MAP.get(str(command_index), {})
         for key, delta in dev_map.items():
             if key == "submission":
                 actor.stats.source.add(key, delta)
@@ -583,62 +617,98 @@ class CommandService:
         actor: CharacterState,
         command: CommandDefinition,
     ) -> None:
-        operation = command.operation
-        if operation is None and command.key in {
-            "start_training",
-            "end_training",
-            "remove_underwear_bottom",
-            "remove_top",
-            "change_position_missionary",
-            "change_position_behind",
-            "change_position_standing",
-            "toggle_ejaculate_inside",
-        }:
-            operation = command.key
+        """Apply non-numeric side effects (state-machine transitions, mode changes, etc.).
 
+        Operations are grouped by domain:
+        - Recovery: sleep, nap, bathe
+        - Training control: start_training, end_training
+        - Clothing: remove_underwear_bottom, remove_top
+        - Position: change_position_*
+        - Ejaculation: toggle_ejaculate_inside
+        - Companions: start_follow, stop_follow
+        - Dates: start_date, end_date
+        - Movement: move (placeholder — see P1-03/P1-04)
+        """
+        operation = command.operation
         if operation is None:
             return
+
+        # ── Recovery ────────────────────────────────────────────────────
         if operation == "sleep" and self.vital_service is not None:
             self.vital_service.sleep_recovery(actor, world)
-        elif operation == "nap" and self.vital_service is not None:
+            self.settlement.apply_abl_upgrades(actor)
+            return
+        if operation == "nap" and self.vital_service is not None:
             self.vital_service.rest_recovery(actor, world)
-        elif operation == "bathe" and self.vital_service is not None:
+            return
+        if operation == "bathe" and self.vital_service is not None:
             self.vital_service.bathe_recovery(actor, world)
-        elif operation == "start_training" and self.training_service is not None:
+            return
+
+        # ── Training control ────────────────────────────────────────────
+        if operation == "start_training" and self.training_service is not None:
             self.training_service.start_session(world, actor.key, position_key="standing")
-        elif operation == "end_training" and self.training_service is not None:
+            return
+        if operation == "end_training" and self.training_service is not None:
             self.training_service.end_session(world)
             self._clear_persistent_states(actor, "end_training")
             actor.clear_removed_slots()
-        elif operation == "remove_underwear_bottom":
+            return
+
+        # ── Clothing ────────────────────────────────────────────────────
+        if operation == "remove_underwear_bottom":
             if "underwear_bottom" not in actor.removed_slots:
                 actor.removed_slots = (*actor.removed_slots, "underwear_bottom")
-        elif operation == "remove_top":
+            return
+        if operation == "remove_top":
             if "top" not in actor.removed_slots:
                 actor.removed_slots = (*actor.removed_slots, "top")
-        elif operation == "change_position_missionary":
+            return
+
+        # ── Position ────────────────────────────────────────────────────
+        if operation == "change_position_missionary":
             world.training_position_key = "missionary"
-        elif operation == "change_position_behind":
+            return
+        if operation == "change_position_behind":
             world.training_position_key = "from_behind"
-        elif operation == "change_position_standing":
+            return
+        if operation == "change_position_standing":
             world.training_position_key = "standing"
-        elif operation == "toggle_ejaculate_inside":
+            return
+
+        # ── Ejaculation ─────────────────────────────────────────────────
+        if operation == "toggle_ejaculate_inside":
             if self.ejaculation_service is not None:
                 self.ejaculation_service.toggle_inside(world)
-        elif self.companion_service is None:
             return
-        elif operation == "start_follow":
+
+        # ── Companions ──────────────────────────────────────────────────
+        if operation == "start_follow" and self.companion_service is not None:
             self.companion_service.start_follow(world, actor)
-        elif operation == "stop_follow":
+            return
+        if operation == "stop_follow" and self.companion_service is not None:
             self.companion_service.stop_follow(world, actor)
-        elif operation == "start_date" and self.date_service is not None:
+            return
+
+        # ── Dates ───────────────────────────────────────────────────────
+        if operation == "start_date" and self.date_service is not None:
             self.date_service.start_date(world, actor)
-        elif operation == "end_date" and self.date_service is not None:
+            return
+        if operation == "end_date" and self.date_service is not None:
             self.date_service.end_date(world, actor)
             self._clear_persistent_states(actor, "end_date")
+            return
+
+        # ── Movement (placeholder) ──────────────────────────────────────
+        # Move currently bypasses the command chain via NavigationService.
+        # Integration is tracked in P1-03 / P1-04.
+        if operation == "move" and self.navigation_service is not None:
+            # TODO: wire destination from command context once system commands
+            # can carry extra parameters through execute().
+            return
 
     def _apply_gift(self, world: WorldState, actor: CharacterState, command: CommandDefinition) -> str | None:
-        if command.key != "gift" or self.gift_service is None:
+        if command.operation != "gift" or self.gift_service is None:
             return None
         gift_key = self.gift_service.best_gift_in_inventory(world.inventory)
         if gift_key is None:
@@ -646,7 +716,9 @@ class CommandService:
         world.consume_item(gift_key, 1)
         multiplier = self.gift_service.preference_multiplier(actor.key, gift_key)
         if multiplier != 1.0:
-            bonus_source = self.gift_service.apply_gift_source(command.source, multiplier - 1.0)
+            effect = self.command_effects.get(command.index)
+            base_source = {str(k): v for k, v in (effect.source.target.items() if effect else {})}
+            bonus_source = self.gift_service.apply_gift_source(base_source, multiplier - 1.0)
             for key, delta in bonus_source.items():
                 actor.stats.source.add(key, delta)
         actor.record_memory(f"gift:{gift_key}")

@@ -6,13 +6,36 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+SUPPORTED_TARGET_MODES: frozenset[str] = frozenset({"actor", "player", "world"})
+
+SUPPORTED_OPERATIONS: frozenset[str] = frozenset(
+    {
+        "sleep",
+        "nap",
+        "bathe",
+        "start_training",
+        "end_training",
+        "remove_underwear_bottom",
+        "remove_top",
+        "change_position_missionary",
+        "change_position_behind",
+        "change_position_standing",
+        "toggle_ejaculate_inside",
+        "start_follow",
+        "stop_follow",
+        "start_date",
+        "end_date",
+    }
+)
+
 
 @dataclass(frozen=True, slots=True)
 class CommandDefinition:
-    """Static command metadata and SOURCE payload."""
+    """Static command-definition metadata loaded from train.toml."""
 
-    key: str
+    index: int
     display_name: str
+    category: str
     location_tags: tuple[str, ...]
     time_slots: tuple[str, ...]
     min_affection: int | None
@@ -22,7 +45,6 @@ class CommandDefinition:
     operation: str | None
     requires_following: bool | None
     requires_date: bool | None
-    requires_training: bool = False
     required_removed_slots: tuple[str, ...] = ()
     training_position_keys: tuple[str, ...] = ()
     required_conditions: dict[str, int] = field(default_factory=dict)
@@ -30,8 +52,6 @@ class CommandDefinition:
     required_marks: dict[str, int] = field(default_factory=dict)
     apply_marks: dict[str, int] = field(default_factory=dict)
     remove_marks: tuple[str, ...] = ()
-    source: dict[str, int] = field(default_factory=dict)
-    downbase: dict[str, int] = field(default_factory=dict)
     success_tiers: tuple[float, ...] = (0.1, 1.0, 2.0)
     required_items: dict[str, int] = field(default_factory=dict)
     activates_persistent_state: str | None = None
@@ -40,32 +60,32 @@ class CommandDefinition:
     shopfront_key: str | None = None
     required_actor_tags: tuple[str, ...] = ()
     personal_income: int = 0
-    category: str = "daily"
     elapsed_minutes: int = 10
+    target_mode: str = "actor"
 
 
 def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
     """Load command definitions from TOML.
 
-    Supports both rich [[commands]] blocks and minimal [[train]] blocks.
-    For minimal blocks, only index/label are required; everything else defaults.
+    The runtime contract is now explicit: command definitions come only from
+    ``data/base/commands/train.toml`` and use ``[[train]]`` blocks. The train
+    file owns command metadata only; declarative effects belong in
+    ``data/base/effects/command_effects.toml``.
     """
 
     with path.open("rb") as handle:
         raw_data = tomllib.load(handle)
 
-    # Try [[train]] first, then [[commands]]; derive category from block name.
-    if "train" in raw_data:
-        items = raw_data["train"]
-        default_category = "train"
-    else:
-        items = raw_data.get("commands", [])
-        default_category = "daily"
+    if "train" not in raw_data:
+        raise ValueError(f"{path} must define [[train]] entries")
+
+    items = raw_data["train"]
+    default_category = "train"
 
     return tuple(
         CommandDefinition(
-            key=str(item.get("key", item["index"])),
-            display_name=item["label"] if "label" in item else item["display_name"],
+            index=int(item["index"]),
+            display_name=item["label"],
             category=str(item.get("category", default_category)),
             location_tags=tuple(item.get("location_tags", [])),
             time_slots=tuple(item.get("time_slots", [])),
@@ -88,7 +108,6 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
             operation=item.get("operation"),
             requires_following=item.get("requires_following"),
             requires_date=item.get("requires_date"),
-            requires_training=bool(item.get("requires_training", False)),
             required_removed_slots=tuple(
                 str(value) for value in item.get("required_removed_slots", [])
             ),
@@ -106,11 +125,10 @@ def load_command_definitions(path: Path) -> tuple[CommandDefinition, ...]:
                 str(k): int(v) for k, v in item.get("apply_marks", {}).items()
             },
             remove_marks=tuple(item.get("remove_marks", [])),
-            source={str(key): int(value) for key, value in item.get("source", {}).items()},
-            downbase={str(key): int(value) for key, value in item.get("downbase", {}).items()},
             personal_income=int(item.get("personal_income", 0)),
             success_tiers=tuple(float(v) for v in item.get("success_tiers", [0.1, 1.0, 2.0])),
             elapsed_minutes=int(item.get("elapsed_minutes", 10)),
+            target_mode=str(item.get("target_mode", "actor")),
         )
         for item in items
     )

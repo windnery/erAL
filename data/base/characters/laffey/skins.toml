@@ -1,0 +1,24 @@
+# tag：获取方式
+[[skins]]
+index = 1
+display_name = "原始皮肤"
+price = 0
+tag = "default"
+
+[[skins]]
+index = 2
+display_name = "雪兔与苹果糖"
+price = 6880
+tag = "shop"
+
+[[skins]]
+index = 3
+display_name = "拉菲·改"
+price = 0
+tag = "modification"
+
+[[skins]]
+index = 4
+display_name = "白兔与誓约"
+price = 0
+tag = "oath"

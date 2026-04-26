@@ -6,8 +6,14 @@ import argparse
 from dataclasses import dataclass
 from pathlib import Path
 
+import tomllib
+
 from eral.content.character_packs import CharacterPack, load_character_packs
-from eral.content.commands import load_command_definitions
+from eral.content.commands import (
+    SUPPORTED_OPERATIONS,
+    SUPPORTED_TARGET_MODES,
+    load_command_definitions,
+)
 from eral.content.dialogue import load_dialogue_entries
 from eral.content.events import load_event_definitions
 from eral.content.marks import load_mark_definitions
@@ -31,7 +37,7 @@ class ContentPackStat:
 def _load_packs(root: Path) -> tuple[CharacterPack, ...]:
     stat_axes = load_stat_axis_catalog(root / "data" / "base" / "axes")
     mark_keys = {
-        mark.key for mark in load_mark_definitions(root / "data" / "base" / "marks.toml")
+        mark.key for mark in load_mark_definitions(root / "data" / "base" / "axes" / "marks.toml")
     }
     return load_character_packs(
         root / "data" / "base" / "characters",
@@ -72,46 +78,144 @@ def render_content_report(stats: tuple[ContentPackStat, ...]) -> str:
 
 
 def validate_commands(root: Path) -> list[str]:
-    """Return validation error messages for commands.toml."""
+    """Return validation error messages for train.toml command definitions."""
 
     errors: list[str] = []
-    commands_path = root / "data" / "base" / "commands.toml"
+    commands_path = root / "data" / "base" / "commands" / "train.toml"
     if not commands_path.exists():
-        return [f"commands.toml not found at {commands_path}"]
-
-    import tomllib
+        return [f"train.toml not found at {commands_path}"]
     with commands_path.open("rb") as handle:
         raw_data = tomllib.load(handle)
 
     known_fields = {
-        "key", "display_name", "category", "location_tags", "time_slots",
+        "index", "label", "category", "location_tags", "time_slots",
         "min_affection", "min_trust", "min_obedience", "required_stage",
         "operation", "requires_following", "requires_date",
-        "requires_training", "required_removed_slots", "training_position_keys",
+        "required_removed_slots", "training_position_keys",
         "required_conditions", "forbidden_conditions",
         "required_marks", "apply_marks", "remove_marks",
-        "source", "downbase", "success_tiers", "required_items",
+        "success_tiers", "required_items",
         "resolution_key", "shopfront_key", "required_actor_tags",
-        "personal_income", "elapsed_minutes",
+        "personal_income", "elapsed_minutes", "target_mode",
         "activates_persistent_state", "blocked_by_persistent_states",
     }
-    seen_keys: set[str] = set()
+    seen_indices: set[int] = set()
 
-    for item in raw_data.get("commands", []):
-        key = item.get("key", "")
-        if not key:
-            errors.append("commands.toml: entry missing 'key' field")
+    if "train" not in raw_data:
+        return [f"train.toml missing [[train]] entries at {commands_path}"]
+
+    for item in raw_data.get("train", []):
+        if "index" not in item:
+            errors.append("train.toml: entry missing 'index' field")
             continue
-        if key in seen_keys:
-            errors.append(f"commands.toml: duplicate key '{key}'")
-        seen_keys.add(key)
+        index = int(item["index"])
+        if index in seen_indices:
+            errors.append(f"train.toml: duplicate index '{index}'")
+        seen_indices.add(index)
 
-        if "display_name" not in item:
-            errors.append(f"commands.toml: '{key}' missing 'display_name'")
+        if "label" not in item:
+            errors.append(f"train.toml: '{index}' missing 'label'")
 
         unknown = set(item.keys()) - known_fields
         if unknown:
-            errors.append(f"commands.toml: '{key}' has unknown fields: {', '.join(sorted(unknown))}")
+            errors.append(f"train.toml: '{index}' has unknown fields: {', '.join(sorted(unknown))}")
+
+        target_mode = str(item.get("target_mode", "actor"))
+        if target_mode not in SUPPORTED_TARGET_MODES:
+            errors.append(
+                f"train.toml: '{index}' has invalid target_mode '{target_mode}'"
+            )
+        operation = item.get("operation")
+        if operation is not None and str(operation) not in SUPPORTED_OPERATIONS:
+            errors.append(
+                f"train.toml: '{index}' has unsupported operation '{operation}'"
+            )
+
+    return errors
+
+
+def validate_command_effects(root: Path) -> list[str]:
+    """Return validation error messages for command_effects.toml."""
+
+    errors: list[str] = []
+    path = root / "data" / "base" / "effects" / "command_effects.toml"
+    if not path.exists():
+        return []
+
+    commands_path = root / "data" / "base" / "commands" / "train.toml"
+    with commands_path.open("rb") as handle:
+        commands_raw = tomllib.load(handle)
+    known_command_indices = {
+        int(item["index"]) for item in commands_raw.get("train", []) if "index" in item
+    }
+
+    with path.open("rb") as handle:
+        raw_data = tomllib.load(handle)
+
+    known_effect_fields = {
+        "command_index", "source", "vitals", "experience", "conditions",
+    }
+    known_pair_fields = {"target", "player"}
+    seen_indices: set[int] = set()
+
+    for item in raw_data.get("effect", []):
+        if "command_index" not in item:
+            errors.append("command_effects.toml: effect missing 'command_index'")
+            continue
+        index = int(item["command_index"])
+        if index in seen_indices:
+            errors.append(f"command_effects.toml: duplicate command_index '{index}'")
+        seen_indices.add(index)
+        if index not in known_command_indices:
+            errors.append(
+                f"command_effects.toml: unknown command_index '{index}' (not found in train.toml)"
+            )
+
+        unknown = set(item.keys()) - known_effect_fields
+        if unknown:
+            errors.append(
+                f"command_effects.toml: '{index}' has unknown fields: {', '.join(sorted(unknown))}"
+            )
+
+        raw_source = item.get("source", {})
+        if not isinstance(raw_source, dict):
+            errors.append(f"command_effects.toml: '{index}' source must be a table")
+        else:
+            bad_source_keys = set(raw_source.keys()) - known_pair_fields
+            if bad_source_keys:
+                errors.append(
+                    f"command_effects.toml: '{index}' source has unknown fields: {', '.join(sorted(bad_source_keys))}"
+                )
+
+        raw_vitals = item.get("vitals", {})
+        if raw_vitals and not isinstance(raw_vitals, dict):
+            errors.append(f"command_effects.toml: '{index}' vitals must be a table")
+        elif isinstance(raw_vitals, dict):
+            bad_vitals_keys = set(raw_vitals.keys()) - known_pair_fields
+            if bad_vitals_keys:
+                errors.append(
+                    f"command_effects.toml: '{index}' vitals has unknown fields: {', '.join(sorted(bad_vitals_keys))}"
+                )
+
+        raw_exp = item.get("experience", {})
+        if raw_exp and not isinstance(raw_exp, dict):
+            errors.append(f"command_effects.toml: '{index}' experience must be a table")
+        elif isinstance(raw_exp, dict):
+            bad_exp_keys = set(raw_exp.keys()) - known_pair_fields
+            if bad_exp_keys:
+                errors.append(
+                    f"command_effects.toml: '{index}' experience has unknown fields: {', '.join(sorted(bad_exp_keys))}"
+                )
+
+        raw_conditions = item.get("conditions", {})
+        if raw_conditions and not isinstance(raw_conditions, dict):
+            errors.append(f"command_effects.toml: '{index}' conditions must be a table")
+        elif isinstance(raw_conditions, dict):
+            bad_condition_keys = set(raw_conditions.keys()) - {"target", "player", "world"}
+            if bad_condition_keys:
+                errors.append(
+                    f"command_effects.toml: '{index}' conditions has unknown fields: {', '.join(sorted(bad_condition_keys))}"
+                )
 
     return errors
 
@@ -121,8 +225,12 @@ def validate_content(root: Path) -> list[str]:
 
     errors: list[str] = []
     errors.extend(validate_commands(root))
+    errors.extend(validate_command_effects(root))
     commands = {
-        command.key for command in load_command_definitions(root / "data" / "base" / "commands.toml")
+        command.key
+        for command in load_command_definitions(
+            root / "data" / "base" / "commands" / "train.toml"
+        )
     }
     port_map = load_port_map(root / "data" / "base" / "port_map.toml")
     location_keys = {location.key for location in port_map.locations}
@@ -199,7 +307,7 @@ def validate_content(root: Path) -> list[str]:
                         f"{character.key}: dialogue '{entry.key}' references unknown location '{location_key}'"
                     )
 
-    for event in load_event_definitions(root / "data" / "base" / "events.toml"):
+    for event in load_event_definitions(root / "data" / "base" / "kojo" / "events.toml"):
         if event.action_key not in commands:
             errors.append(
                 f"global: event '{event.key}' references unknown action '{event.action_key}'"
@@ -210,7 +318,7 @@ def validate_content(root: Path) -> list[str]:
                     f"global: event '{event.key}' references unknown location '{location_key}'"
                 )
 
-    for entry in load_dialogue_entries(root / "data" / "base" / "dialogue.toml"):
+    for entry in load_dialogue_entries(root / "data" / "base" / "kojo" / "dialogue.toml"):
         if entry.actor_key != "_any" and entry.actor_key not in character_keys:
             errors.append(
                 f"global: dialogue '{entry.key}' references unknown actor '{entry.actor_key}'"

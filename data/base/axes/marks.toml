@@ -1,23 +1,36 @@
 # MARK 烙印定义
+# 触发条件：本回合对应 PALAM/SOURCE 的 CUP 正向累积达到阈值
 [[marks]]
 index = 0
+palam_index = 15
 display_name = "苦痛刻印"
-max_level = 3
+lv1 = 2000
+lv2 = 4000
+lv3 = 8000
 
 [[marks]]
 index = 1
+palam_index = 11
 display_name = "快乐刻印"
-max_level = 3
+lv1 = 3000
+lv2 = 6000
+lv3 = 12000
 
 [[marks]]
 index = 2
+source_indices = [16, 18]
 display_name = "不埒刻印"
-max_level = 3
+lv1 = 4500
+lv2 = 7000
+lv3 = 10000
 
 [[marks]]
 index = 3
+source_indices = [14, 33]
 display_name = "反发刻印"
-max_level = 3
+lv1 = 500
+lv2 = 1000
+lv3 = 2000
 
 [[marks]]
 index = 4

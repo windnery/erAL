@@ -7,6 +7,7 @@ from typing import Protocol
 
 from eral.content.commands import CommandDefinition
 from eral.content.items import ItemDefinition
+from eral.content.stat_axes import AxisFamily, StatAxisCatalog
 from eral.domain.persistent import PersistentStateDefinition, SlotDefinition, can_activate
 from eral.domain.world import CharacterState, WorldState
 from eral.systems.relationships import RelationshipService
@@ -24,6 +25,7 @@ class CommandAvailabilityContext:
     vital_service: VitalService | None = None
     persistent_state_definitions: dict[str, PersistentStateDefinition] | None = None
     slot_definitions: dict[str, SlotDefinition] | None = None
+    stat_axes: StatAxisCatalog | None = None
 
 
 class CommandAvailabilityGate(Protocol):
@@ -43,9 +45,20 @@ class GlobalModeGate:
     def failure_reason(self, context: CommandAvailabilityContext) -> str | None:
         world = context.world
         command = context.command
-        if world.is_busy and command.category in {"daily", "work", "follow", "date", "intimacy"}:
+        actor = context.actor
+        category = command.category
+
+        # Category-based mode locking (replaces TW's GLOBAL_COMABLE)
+        if category == "train" and not world.training_active:
+            return "当前未处于调教状态。"
+        if category == "daily" and world.training_active:
+            return "当前处于调教状态，无法执行日常指令。"
+        if category == "date" and not actor.is_on_date:
+            return "当前未处于约会状态。"
+
+        if world.is_busy and category in {"daily", "work", "follow", "date", "intimacy"}:
             return "当前处于忙碌状态，无法执行该指令。"
-        if world.is_date_traveling and command.category == "date":
+        if world.is_date_traveling and category == "date":
             return "当前处于约会途中，无法执行该约会指令。"
         return None
 
@@ -56,16 +69,12 @@ class VitalGate:
 
     def failure_reason(self, context: CommandAvailabilityContext) -> str | None:
         actor = context.actor
-        command = context.command
         vital = context.vital_service
         if vital is None:
             return None
 
         if vital.is_fainted(actor):
             return "体力耗尽，已晕倒。"
-
-        if vital.is_spirit_depleted(actor) and command.downbase.get("spirit", 0) > 0:
-            return "气力耗尽，无法执行该指令。"
 
         return None
 
@@ -100,7 +109,7 @@ class CommandSpecificGate:
             return "需要同行状态才能执行该指令。"
         if command.requires_date is not None and actor.is_on_date != command.requires_date:
             return "需要约会状态才能执行该指令。"
-        if command.requires_training:
+        if command.category == "train":
             if not world.training_active:
                 return "当前未处于调教状态。"
             if world.training_actor_key != actor.key:
@@ -111,20 +120,6 @@ class CommandSpecificGate:
                 return "当前服装条件不足，无法执行该调教指令。"
             if command.training_position_keys and world.training_position_key not in command.training_position_keys:
                 return "当前体位无法执行该调教指令。"
-        _ABL_DISPLAY = {
-            "abl_0": "C感觉",
-            "abl_1": "V感觉",
-            "abl_2": "A感觉",
-            "abl_3": "B感觉",
-            "abl_9": "亲密",
-            "abl_10": "顺从",
-            "abl_11": "欲望",
-            "abl_12": "技巧",
-            "abl_13": "奉仕精神",
-            "abl_50": "指技",
-            "abl_51": "舌技",
-            "abl_52": "胸技",
-        }
         _CONDITION_DISPLAY = {
             "train_v_develop": "V开发度",
             "train_a_develop": "A开发度",
@@ -134,14 +129,32 @@ class CommandSpecificGate:
             "train_oral_develop": "口技开发度",
             "train_service_develop": "奉仕开发度",
         }
+        axes = context.stat_axes
         for condition_key, min_value in command.required_conditions.items():
             if condition_key.startswith("abl_"):
                 abl_index = int(condition_key[4:])
                 current = actor.stats.compat.abl.get(abl_index)
+                if axes is not None:
+                    try:
+                        name = axes.get_by_index(AxisFamily.ABL, abl_index).label
+                    except KeyError:
+                        name = condition_key
+                else:
+                    name = condition_key
+            elif condition_key.startswith("talent_"):
+                talent_index = int(condition_key[7:])
+                current = actor.stats.compat.talent.get(talent_index)
+                if axes is not None:
+                    try:
+                        name = axes.get_by_index(AxisFamily.TALENT, talent_index).label
+                    except KeyError:
+                        name = condition_key
+                else:
+                    name = condition_key
             else:
                 current = actor.get_condition(condition_key)
+                name = _CONDITION_DISPLAY.get(condition_key, condition_key)
             if current < min_value:
-                name = _ABL_DISPLAY.get(condition_key, _CONDITION_DISPLAY.get(condition_key, condition_key))
                 return f"{name}不足，无法执行该指令。"
         for condition_key in command.forbidden_conditions:
             if actor.get_condition(condition_key) > 0:

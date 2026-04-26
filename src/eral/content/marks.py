@@ -36,7 +36,11 @@ def load_mark_definitions(path: Path) -> tuple[MarkDefinition, ...]:
             key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
             group=item.get("group", "general"),
-            max_level=int(item.get("max_level", 1)),
+            max_level=(
+            3 if "lv3" in item else
+            2 if "lv2" in item else
+            int(item.get("max_level", 1))
+        ),
         )
         for item in raw_data.get("marks", [])
     )

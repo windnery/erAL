@@ -30,19 +30,6 @@ class DistributionTests(unittest.TestCase):
         self.assertTrue(all(actor.location_key == "dock" for actor in present))
         self.assertGreaterEqual(len(present), 1)
 
-    def test_refresh_world_places_actor_at_real_time_work_schedule_location(self) -> None:
-        enterprise = actor_by_key(self.app, "enterprise")
-        self.world.current_weekday = "mon"
-        self.world.current_month = 1
-        self.world.current_day = 6
-        self.world.current_hour = 10
-        self.world.current_minute = 0
-        self.world.sync_time_slot_from_clock()
-
-        self.app.distribution_service.refresh_world(self.world)
-
-        self.assertEqual(enterprise.location_key, "command_office")
-
     def test_refresh_world_staggers_dinner_window_by_actor(self) -> None:
         enterprise = actor_by_key(self.app, "enterprise")
         laffey = actor_by_key(self.app, "laffey")

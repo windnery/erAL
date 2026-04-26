@@ -42,6 +42,8 @@ class InitialStatOverrides:
     base_caps: dict[str, int] = field(default_factory=dict)
     base_recover_rates: dict[str, int] = field(default_factory=dict)
     palam: dict[str, int] = field(default_factory=dict)
+    juel: dict[str, int] = field(default_factory=dict)
+    exp: dict[str, int] = field(default_factory=dict)
     abl: dict[int, int] = field(default_factory=dict)
     talent: dict[int, int] = field(default_factory=dict)
     cflag: dict[int, int] = field(default_factory=dict)
@@ -58,6 +60,8 @@ def _parse_initial_stats(raw: dict | None) -> InitialStatOverrides:
             str(k): int(v) for k, v in raw.get("base_recover_rates", {}).items()
         },
         palam=dict(raw.get("palam", {})),
+        juel={str(k): int(v) for k, v in raw.get("juel", {}).items()},
+        exp={str(k): int(v) for k, v in raw.get("exp", {}).items()},
         abl={int(k): v for k, v in raw.get("abl", {}).items()},
         talent={int(k): v for k, v in raw.get("talent", {}).items()},
         cflag={int(k): v for k, v in raw.get("cflag", {}).items()},

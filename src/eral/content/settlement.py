@@ -20,7 +20,7 @@ class SettlementRule:
 
 
 def load_settlement_rules(path: Path) -> tuple[SettlementRule, ...]:
-    """Load settlement rules from TOML."""
+    """Load CUP routing rules from TOML."""
 
     with path.open("rb") as handle:
         raw_data = tomllib.load(handle)
@@ -34,4 +34,3 @@ def load_settlement_rules(path: Path) -> tuple[SettlementRule, ...]:
         )
         for item in raw_data.get("rules", [])
     )
-

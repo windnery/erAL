@@ -1,0 +1,298 @@
+# SOURCE_CBVA: per-SOURCE processing rules (SOURCE → CUP)
+# Mirrors eraTW's SOURCE_CBVA phase: each SOURCE axis gets independent
+# sensitivity / ABL / PALAM-level / desire processing before global modifiers.
+#
+# Evaluation order within a rule:
+#   1. sensitivity   — (2 + talent_value) / 2
+#   2. abl_scale     — 1 + abl_value * scale
+#   3. palam_level   — lookup by current PALAM level
+#   4. exp_gate      — min EXP required, else zero (placeholder)
+#   5. lubrication   — dry penalty for V/A SOURCE (placeholder)
+#   6. body_type     — size adjustment (placeholder)
+
+# ==================== 快感 SOURCE (快C/V/A/B/M) ====================
+
+[[rule]]
+source_index = 0  # 快C
+cup_index = 0
+
+# 【新写法】talent_level 完全自定义映射，TOML 控制每个值对应的倍率
+[[rule.factor]]
+kind = "talent_level"
+talent_index = 101
+# 0=钝感 1=正常 2=敏感 3=过敏 4=超敏
+# 正常(v=1)应为基准 1.0，钝感(v=0)应低于 1.0，敏感以上应高于 1.0
+levels = {0 = 0.5, 1 = 1.0, 2 = 1.5, 3 = 2.0, 4 = 2.5}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 0
+scale = 0.1
+
+[[rule.factor]]
+kind = "palam_level"
+palam_index = 11
+levels = {0 = 1.0, 1 = 1.2, 2 = 1.5, 3 = 2.0, 4 = 3.0}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+
+[[rule]]
+source_index = 1  # 快V
+cup_index = 1
+
+# [[rule.factor]]
+# kind = "sensitivity"
+# talent_index = 102
+
+[[rule.factor]]
+kind = "talent_level"
+talent_index = 102
+levels = {0 = 0.5, 1 = 1.0, 2 = 1.5, 3 = 2.0, 4 = 2.5}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 1
+scale = 0.1
+
+[[rule.factor]]
+kind = "palam_level"
+palam_index = 11
+levels = {0 = 1.0, 1 = 1.2, 2 = 1.5, 3 = 2.0, 4 = 3.0}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+
+[[rule]]
+source_index = 2  # 快A
+cup_index = 2
+
+# [[rule.factor]]
+# kind = "sensitivity"
+# talent_index = 103
+
+[[rule.factor]]
+kind = "talent_level"
+talent_index = 103
+levels = {0 = 0.5, 1 = 1.0, 2 = 1.5, 3 = 2.0, 4 = 2.5}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 2
+scale = 0.1
+
+[[rule.factor]]
+kind = "palam_level"
+palam_index = 11
+levels = {0 = 1.0, 1 = 1.2, 2 = 1.5, 3 = 2.0, 4 = 3.0}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+
+[[rule]]
+source_index = 3  # 快B
+cup_index = 3
+
+# [[rule.factor]]
+# kind = "sensitivity"
+# talent_index = 104
+
+[[rule.factor]]
+kind = "talent_level"
+talent_index = 104
+levels = {0 = 0.5, 1 = 1.0, 2 = 1.5, 3 = 2.0, 4 = 2.5}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 3
+scale = 0.1
+
+[[rule.factor]]
+kind = "palam_level"
+palam_index = 11
+levels = {0 = 1.0, 1 = 1.2, 2 = 1.5, 3 = 2.0, 4 = 3.0}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+
+[[rule]]
+source_index = 4  # 快M
+cup_index = 4
+
+# [[rule.factor]]
+# kind = "sensitivity"
+# talent_index = 106
+
+[[rule.factor]]
+kind = "talent_level"
+talent_index = 106
+levels = {0 = 0.5, 1 = 1.0, 2 = 1.5, 3 = 2.0, 4 = 2.5}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 4
+scale = 0.1
+
+[[rule.factor]]
+kind = "palam_level"
+palam_index = 11
+levels = {0 = 1.0, 1 = 1.2, 2 = 1.5, 3 = 2.0, 4 = 3.0}
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+
+# ==================== 其他 SOURCE ====================
+
+[[rule]]
+source_index = 9   # 润滑
+cup_index = 9
+
+[[rule.factor]]
+kind = "talent_linear"
+talent_index = 41
+base = 10
+coeff = 2
+# (10 + 2 * v) / 10  — 弄湿难易
+
+[[rule]]
+source_index = 10  # 情爱
+cup_index = 10
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 9
+scale = 0.1
+# 亲密ABL加成
+
+[[rule]]
+source_index = 11  # 性行为
+cup_index = 11
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+# 欲望ABL加成
+
+[[rule]]
+source_index = 12  # 达成
+cup_index = 12
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 12
+scale = 0.1
+# 技巧ABL加成
+
+[[rule]]
+source_index = 13  # 苦痛
+cup_index = 13
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 15
+scale = 0.1
+# 受虐属性ABL加成
+
+[[rule]]
+source_index = 15  # 欲情
+cup_index = 15
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 11
+scale = 0.1
+# 欲望ABL加成
+
+[[rule]]
+source_index = 16  # 恭顺
+cup_index = 16
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 10
+scale = 0.1
+# 顺从ABL加成
+
+[[rule]]
+source_index = 17  # 露出
+cup_index = 17
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 14
+scale = 0.1
+# 露出癖ABL加成
+
+[[rule]]
+source_index = 18  # 屈从
+cup_index = 18
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 10
+scale = 0.1
+# 顺从ABL加成
+
+[[rule]]
+source_index = 20  # 欢乐
+cup_index = 20
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 12
+scale = 0.1
+# 技巧ABL加成
+
+[[rule]]
+source_index = 30  # 不洁
+cup_index = 30
+
+[[rule.factor]]
+kind = "talent_linear"
+talent_index = 61
+base = 10
+coeff = -1
+# (10 - v) / 10  — 污臭耐性
+
+[[rule]]
+source_index = 31  # 郁屈
+cup_index = 31
+
+[[rule.factor]]
+kind = "talent_linear"
+talent_index = 24
+base = 10
+coeff = -1
+# (10 - v) / 10  — 开朗/阴郁（阴郁时加成）
+
+[[rule]]
+source_index = 32  # 逸脱
+cup_index = 32
+
+[[rule.factor]]
+kind = "abl_scale"
+abl_index = 15
+scale = 0.1
+# 受虐属性ABL加成
+
+[[rule]]
+source_index = 33  # 反感
+cup_index = 33
+
+[[rule.factor]]
+kind = "talent_linear"
+talent_index = 12
+base = 10
+coeff = -1
+# (10 - v) / 10  — 回应（老实时降低反感）

@@ -1,4 +1,4 @@
-"""Load imprint threshold definitions from TOML."""
+"""Load imprint threshold definitions from marks.toml."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ class ImprintThreshold:
 
 
 def load_imprint_thresholds(path: Path) -> tuple[ImprintThreshold, ...]:
-    """Load imprint thresholds from TOML."""
+    """Load imprint thresholds from marks.toml (shared with MarkDefinition)."""
     if not path.exists():
         return ()
 
@@ -30,15 +30,27 @@ def load_imprint_thresholds(path: Path) -> tuple[ImprintThreshold, ...]:
         raw = tomllib.load(handle)
 
     result: list[ImprintThreshold] = []
-    for item in raw.get("imprints", []):
+    for item in raw.get("marks", []):
+        # Skip marks without thresholds (e.g. 反发取得履历, 成长)
+        if "lv1" not in item:
+            continue
+
+        palam_key: str | None = None
+        if "palam_index" in item:
+            palam_key = str(item["palam_index"])
+
+        source_keys: tuple[str, ...] = ()
+        if "source_indices" in item:
+            source_keys = tuple(str(i) for i in item["source_indices"])
+
         result.append(ImprintThreshold(
-            key=item["key"],
+            key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
             group=item.get("group", "imprint"),
-            palam_key=item.get("palam_key"),
-            source_keys=tuple(item.get("source_keys", [])),
-            lv1_threshold=int(item.get("lv1_threshold", 0)),
-            lv2_threshold=int(item.get("lv2_threshold", 0)),
-            lv3_threshold=int(item.get("lv3_threshold", 0)),
+            palam_key=palam_key,
+            source_keys=source_keys,
+            lv1_threshold=int(item["lv1"]),
+            lv2_threshold=int(item.get("lv2", 0)),
+            lv3_threshold=int(item.get("lv3", 0)),
         ))
     return tuple(result)

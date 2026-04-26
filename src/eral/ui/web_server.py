@@ -590,12 +590,16 @@ class _Handler(BaseHTTPRequestHandler):
                 self._send_error("Missing actor_key or command_key")
                 return
             try:
-                result = app.command_service.execute(world, actor_key, command_key)
-            except ValueError as exc:
+                command_index = int(command_key)
+            except ValueError:
+                self._send_error("Invalid command_key")
+                return
+            result = app.command_service.execute(world, actor_key, command_index)
+            if not result.success:
                 self._send_json(
                     {
                         "success": False,
-                        "messages": [str(exc)],
+                        "messages": result.messages,
                         "actor_key": actor_key,
                         "action_key": command_key,
                     }
@@ -747,7 +751,7 @@ def _build_status_data(app: Application, actor: CharacterState) -> dict[str, Any
     experience: list[dict[str, Any]] = []
     for entry in abl_entries:
         val = actor.stats.compat.abl.get(entry.era_index)
-        exp_val = actor.stats.abl_exp.get(entry.era_index, 0)
+        exp_val = 0  # abl_exp removed; per-ABL experience no longer accumulated
         if val > 0 or exp_val > 0:
             abilities.append({
                 "era_index": entry.era_index,

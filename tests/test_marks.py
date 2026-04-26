@@ -114,8 +114,9 @@ class MarkCommandIntegrationTests(unittest.TestCase):
         )
         from eral.content.commands import CommandDefinition
         cmd = CommandDefinition(
-            key="test_requires_mark",
+            index=9990,
             display_name="测试",
+            category="train",
             location_tags=("private",),
             time_slots=("night",),
             min_affection=None,
@@ -128,8 +129,6 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             required_marks={"1": 1},
             apply_marks={},
             remove_marks=(),
-            source={},
-            downbase={},
             success_tiers=(0.1, 1.0, 2.0),
         )
         location = self.app.port_map.location_by_key(self.app.world.active_location.key)
@@ -142,8 +141,9 @@ class MarkCommandIntegrationTests(unittest.TestCase):
     def test_command_with_required_marks_available_with_mark(self) -> None:
         from eral.content.commands import CommandDefinition
         cmd = CommandDefinition(
-            key="test_requires_mark",
+            index=9991,
             display_name="测试",
+            category="daily",
             location_tags=(),
             time_slots=(),
             min_affection=None,
@@ -156,8 +156,6 @@ class MarkCommandIntegrationTests(unittest.TestCase):
             required_marks={"1": 1},
             apply_marks={},
             remove_marks=(),
-            source={},
-            downbase={},
             success_tiers=(0.1, 1.0, 2.0),
         )
         self.actor.set_mark("1", 1, max_level=3)

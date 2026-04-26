@@ -1,0 +1,9 @@
+[[work]]
+index = 1
+location = "command_office" #这里应该放地图编号 目前地图系统还未重构 先放在这占位
+label = "文书值班"
+start_time = "09:00"
+end_time = "12:00"
+
+[work.date_rules]
+weekdays = ["mon", "tue", "wed", "thu", "fri"]

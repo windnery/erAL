@@ -26,7 +26,7 @@ def load_relationship_stages(path: Path) -> tuple[RelationshipStageDefinition, .
 
     stages = tuple(
         RelationshipStageDefinition(
-            key=item["key"],
+            key=str(item.get("key", item["index"])),
             display_name=item["display_name"],
             min_affection=int(item["min_affection"]),
             min_trust=int(item["min_trust"]),

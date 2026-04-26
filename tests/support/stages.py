@@ -15,7 +15,7 @@ from eral.domain.relationship import RelationshipStage
 from eral.domain.world import CharacterState
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-_STAGES = load_relationship_stages(_REPO_ROOT / "data" / "base" / "relationship_stages.toml")
+_STAGES = load_relationship_stages(_REPO_ROOT / "data" / "base" / "rules" / "relationship_stages.toml")
 
 ABL_INTIMACY_INDEX = 9
 

@@ -1,18 +1,12 @@
-# CUP → PALAM / BASE / CFLAG 结算规则
+# CUP → PALAM / CFLAG 结算规则
 # cup_index: 引用修正后的 CUP 层索引（与 SOURCE 轴同维度）
-# target_family: palam / base / cflag
+# target_family: palam / cflag
 # target_index: 对应轴的整数 index
 
 [[rule]]
 cup_index = 10
 target_family = "palam"
 target_index = 20
-scale = 1
-
-[[rule]]
-cup_index = 20
-target_family = "base"
-target_index = 10
 scale = 1
 
 [[rule]]
@@ -182,27 +176,3 @@ cup_index = 55
 target_family = "palam"
 target_index = 16
 scale = 0.5
-
-[[rule]]
-cup_index = 50
-target_family = "base"
-target_index = 11
-scale = -0.3
-
-[[rule]]
-cup_index = 15
-target_family = "base"
-target_index = 5
-scale = 0.5
-
-[[rule]]
-cup_index = 33
-target_family = "base"
-target_index = 12
-scale = 0.2
-
-[[rule]]
-cup_index = 14
-target_family = "base"
-target_index = 12
-scale = 0.1

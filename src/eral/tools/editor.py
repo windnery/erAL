@@ -435,7 +435,7 @@ def _port_map_path(root: Path) -> Path:
 
 
 def _commands_path(root: Path) -> Path:
-  return root / "data" / "base" / "commands.toml"
+  return root / "data" / "base" / "commands" / "train.toml"
 
 
 def _relationship_stages_path(root: Path) -> Path:
@@ -516,12 +516,12 @@ def _load_port_map(root: Path) -> list[dict]:
     ]
 
 
-def _load_command_keys(root: Path) -> list[str]:
-    """Load command keys from commands.toml."""
+def _load_command_indices(root: Path) -> list[int]:
+    """Load command indices from train.toml."""
     path = _commands_path(root)
     if not path.exists():
         return []
-    return [command.key for command in load_command_definitions(path)]
+    return [command.index for command in load_command_definitions(path)]
 
 
 def _load_commands(root: Path) -> list[dict[str, object]]:
@@ -530,7 +530,7 @@ def _load_commands(root: Path) -> list[dict[str, object]]:
         return []
     return [
         {
-            "key": command.key,
+            "index": command.index,
             "display_name": command.display_name,
             "category": command.category,
             "location_tags": list(command.location_tags),
@@ -545,8 +545,6 @@ def _load_commands(root: Path) -> list[dict[str, object]]:
             "required_marks": command.required_marks,
             "apply_marks": command.apply_marks,
             "remove_marks": list(command.remove_marks),
-            "source": command.source,
-            "downbase": command.downbase,
             "personal_income": command.personal_income,
             "success_tiers": list(command.success_tiers),
         }
@@ -785,7 +783,7 @@ def _load_meta(root: Path) -> dict[str, object]:
         "location_tags": _load_location_tags(root),
         "areas": _load_areas(root),
         "commands": _load_commands(root),
-        "command_keys": _load_command_keys(root),
+        "command_indices": _load_command_indices(root),
         "stages": _load_relationship_stage_defs(root),
         "stage_keys": _load_relationship_stages(root),
         "marks": _load_mark_defs(root),
@@ -952,7 +950,7 @@ class EditorHandler(BaseHTTPRequestHandler):
                     "location_tags": meta["location_tags"],
                     "areas": meta["areas"],
                     "commands": meta["commands"],
-                    "command_keys": meta["command_keys"],
+                    "command_indices": meta["command_indices"],
                     "stages": meta["stages"],
                     "stage_keys": meta["stage_keys"],
                     "marks": meta["marks"],

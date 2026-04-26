@@ -21,17 +21,15 @@ class PalamCurve:
 
 
 @dataclass(frozen=True, slots=True)
-class ExplvCurve:
-    levels: tuple[PalamLevel, ...]
+class PalamToJuelRule:
+    """Map one PALAM axis to its corresponding JUEL axis with a divisor."""
+
+    palam_index: int
+    juel_index: int
+    divisor: int = 100
 
 
-@dataclass(frozen=True, slots=True)
-class CurveSet:
-    palam_curve: PalamCurve
-    exp_curve: ExplvCurve
-
-
-def load_curves(path: Path) -> CurveSet:
+def load_curves(path: Path) -> PalamCurve:
     with path.open("rb") as handle:
         raw = tomllib.load(handle)
 
@@ -47,17 +45,26 @@ def load_curves(path: Path) -> CurveSet:
         if "description" in item:
             curve_desc = item["description"]
 
-    exp_levels: list[PalamLevel] = []
-    for item in raw.get("exp_levels", []):
-        exp_levels.append(PalamLevel(key=int(item["key"]), threshold=int(item["threshold"])))
+    return PalamCurve(
+        name=curve_name,
+        description=curve_desc,
+        levels=tuple(palam_levels),
+    )
 
-    return CurveSet(
-        palam_curve=PalamCurve(
-            name=curve_name,
-            description=curve_desc,
-            levels=tuple(palam_levels),
-        ),
-        exp_curve=ExplvCurve(levels=tuple(exp_levels)),
+
+def load_palam_to_juel_rules(path: Path) -> tuple[PalamToJuelRule, ...]:
+    """Load PALAM → JUEL conversion rules from TOML."""
+
+    with path.open("rb") as handle:
+        raw = tomllib.load(handle)
+
+    return tuple(
+        PalamToJuelRule(
+            palam_index=int(item["palam_index"]),
+            juel_index=int(item["juel_index"]),
+            divisor=int(item.get("divisor", 100)),
+        )
+        for item in raw.get("rule", [])
     )
 
 
@@ -65,17 +72,6 @@ def palam_level_for_value(curve: PalamCurve, value: int) -> int:
     """Return the PALAMLV level for a given PALAM accumulated value."""
     result = 0
     for level in curve.levels:
-        if value >= level.threshold:
-            result = level.key
-        else:
-            break
-    return result
-
-
-def exp_level_for_value(exp_curve: ExplvCurve, value: int) -> int:
-    """Return the EXPLV level for a given accumulated EXP value."""
-    result = 0
-    for level in exp_curve.levels:
         if value >= level.threshold:
             result = level.key
         else:

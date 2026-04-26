@@ -1,0 +1,426 @@
+# Relationship growth formulas (FAVOR_CALC / TRUST_CALC).
+# Rebuilt to match eraTW semantics: each SOURCE has an independent upper-bound formula,
+# talent/abl modifiers are mostly flat offsets, stage multipliers apply at the end.
+#
+# Upper-bound formula: contribution = (numerator - K / (SOURCE + C)) * scale
+# As SOURCE → ∞, contribution → numerator * scale.
+#
+# The final delta = (sum of all SOURCE contributions + base_offsets) / global_divisor
+#                   * stage_multiplier * post_multipliers
+# Then clamped by mark_floor and boundary conditions.
+
+[favor_calc]
+description = "好感度变化公式：基于各SOURCE独立上限公式，受ABL/TALENT固定修正与关系阶段乘数"
+global_divisor = 10
+
+# --- Base offsets (flat additions from ABL/TALENT) ---
+
+[[favor_calc.base_offset]]
+kind = "abl_sum"
+abl_indices = [10, 9]  # 従順, 親密
+divisor = 2
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 11  # 态度（叛逆）
+value = -2
+condition = "value > 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 13  # 自尊心
+value = -1
+condition = "value > 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 11  # 态度（坦率）
+value = 1
+condition = "value < 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 20  # 自制心
+value = -1
+condition = "value != 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 22  # 感情缺乏
+value = -1
+condition = "value != 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 32  # 抵抗
+value = -1
+condition = "value != 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 62  # 献身的
+value = 1
+condition = "value != 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 24  # 开朗/阴郁
+value = 1
+condition = "value > 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 24  # 开朗/阴郁
+value = 1
+condition = "value < 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 70  # 快感应答
+value = 1
+condition = "value > 0"
+
+[[favor_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 70  # 快感应答
+value = -1
+condition = "value < 0"
+
+# --- SOURCE contributions (upper-bound formulas) ---
+# Positive contributors
+
+[[favor_calc.source]]
+key = "pleasure_sum"
+description = "快感合计（快C+V+A+B）"
+formula = "upper_bound"
+numerator = 100
+denominator_k = 30000
+denominator_offset = 300
+scale = 1.0
+
+[[favor_calc.source]]
+key = "affection"
+description = "情愛"
+formula = "upper_bound"
+numerator = 100
+denominator_k = 100000
+denominator_offset = 1000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "lust"
+description = "欲情"
+formula = "upper_bound"
+numerator = 20
+denominator_k = 20000
+denominator_offset = 1000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "mastery"
+description = "達成感"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 30000
+denominator_offset = 1000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "obedience"
+description = "恭順"
+formula = "upper_bound"
+numerator = 20
+denominator_k = 20000
+denominator_offset = 1000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "submission"
+description = "屈服"
+formula = "upper_bound"
+numerator = 20
+denominator_k = 20000
+denominator_offset = 1000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "exposure"
+description = "露出"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 30000
+denominator_offset = 1000
+scale = 1.0
+abl_modifier = { abl_index = 14, offset = -3, divisor = 3 }  # (ABL:露出癖 - 3) / 3
+
+[[favor_calc.source]]
+key = "pain"
+description = "苦痛"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 20000
+denominator_offset = 400
+scale = 1.0
+abl_modifier = { abl_index = 16, offset = -3, divisor = 3 }  # (ABL:受虐属性 - 3) / 3
+
+[[favor_calc.source]]
+key = "joy"
+description = "歓楽"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 10000
+denominator_offset = 2000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "dominance"
+description = "征服"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 90000
+denominator_offset = 3000
+scale = 1.0
+
+[[favor_calc.source]]
+key = "passivity"
+description = "受動"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 90000
+denominator_offset = 3000
+scale = 1.0
+
+# Negative contributors
+
+[[favor_calc.source]]
+key = "fear"
+description = "恐怖"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 20000
+denominator_offset = 400
+scale = -1.0
+abl_modifier = { abl_index = 10, offset = -3, divisor = 3 }  # (ABL:従順 - 3) / 3
+
+[[favor_calc.source]]
+key = "disgust"
+description = "不潔"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 25000
+denominator_offset = 500
+scale = -1.0
+talent_modifier = { era_index = 61, offset = -2, divisor = 2 }  # (2 - 汚臭耐性) / 2
+
+[[favor_calc.source]]
+key = "depression"
+description = "鬱屈"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 15000
+denominator_offset = 300
+scale = -1.0
+
+[[favor_calc.source]]
+key = "deviation"
+description = "逸脱"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 25000
+denominator_offset = 500
+scale = -1.0
+
+[[favor_calc.source]]
+key = "denial"
+description = "反感"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 10000
+denominator_offset = 200
+scale = -1.0
+
+# --- Relationship stage multipliers ---
+[favor_calc.stage_multiplier]
+stranger = 1.0
+friendly = 1.0
+like = 1.2
+love = 1.5
+oath = 1.5
+
+# --- Post-processing ---
+[favor_calc.boundary]
+# 反発刻印保底（MARK1保底-1，MARK2保底-2，MARK3保底-3）
+mark_floor = { mark_key = "resentment", levels = { 1 = -1, 2 = -2, 3 = -3 } }
+# 冷漠且非恋慕时：>1则/2
+
+# --- Trust calc ---
+[trust_calc]
+description = "信赖度变化公式：基于信赖相关SOURCE，受ABL/TALENT固定修正与关系阶段乘数"
+global_divisor = 10
+
+# Base offsets
+
+[[trust_calc.base_offset]]
+kind = "abl"
+era_index = 9  # 親密
+divisor = 5
+
+[[trust_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 11  # 态度（叛逆）
+value = -1
+condition = "value > 0"
+
+[[trust_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 22  # 感情缺乏
+value = -1
+condition = "value != 0"
+
+[[trust_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 32  # 抵抗
+value = -2
+condition = "value != 0"
+
+[[trust_calc.base_offset]]
+kind = "talent_fixed"
+era_index = 62  # 献身的
+value = 1
+condition = "value != 0"
+
+# Positive contributors
+
+[[trust_calc.source]]
+key = "affection"
+description = "情愛"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 250000
+denominator_offset = 5000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "mastery"
+description = "達成感"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 30000
+denominator_offset = 1000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "obedience"
+description = "恭順"
+formula = "upper_bound"
+numerator = 20
+denominator_k = 20000
+denominator_offset = 1000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "submission"
+description = "屈服"
+formula = "upper_bound"
+numerator = 15
+denominator_k = 15000
+denominator_offset = 1000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "joy"
+description = "歓楽"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 150000
+denominator_offset = 5000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "dominance"
+description = "征服"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 90000
+denominator_offset = 3000
+scale = 1.0
+
+[[trust_calc.source]]
+key = "passivity"
+description = "受動"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 90000
+denominator_offset = 3000
+scale = 1.0
+
+# Negative contributors
+
+[[trust_calc.source]]
+key = "fear"
+description = "恐怖"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 20000
+denominator_offset = 400
+scale = -1.0
+abl_modifier = { abl_index = 10, offset = -3, divisor = 3 }
+
+[[trust_calc.source]]
+key = "pain"
+description = "苦痛"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 20000
+denominator_offset = 400
+scale = -1.0
+abl_modifier = { abl_index = 16, offset = -3, divisor = 3 }
+
+[[trust_calc.source]]
+key = "disgust"
+description = "不潔"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 25000
+denominator_offset = 500
+scale = -1.0
+talent_modifier = { era_index = 61, offset = -2, divisor = 2 }
+
+[[trust_calc.source]]
+key = "depression"
+description = "鬱屈"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 15000
+denominator_offset = 300
+scale = -1.0
+
+[[trust_calc.source]]
+key = "deviation"
+description = "逸脱"
+formula = "upper_bound"
+numerator = 50
+denominator_k = 25000
+denominator_offset = 500
+scale = -1.0
+
+[[trust_calc.source]]
+key = "denial"
+description = "反感"
+formula = "upper_bound"
+numerator = 30
+denominator_k = 10000
+denominator_offset = 500
+scale = -1.0
+
+# --- Relationship stage multipliers ---
+[trust_calc.stage_multiplier]
+stranger = 1.0
+friendly = 1.0
+like = 1.2
+love = 1.5
+oath = 1.5
+
+# --- Post-processing ---
+[trust_calc.boundary]
+mark_floor = { mark_key = "resentment", levels = { 1 = -1, 2 = -2, 3 = -3 } }

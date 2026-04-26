@@ -89,9 +89,10 @@ class ActorNumericState:
     base: StatBlock
     palam: StatBlock
     source: StatBlock
+    juel: StatBlock
+    exp: StatBlock
     cup: IndexedStatBlock
     compat: CharacterEraCompatState
-    abl_exp: dict[int, int] = field(default_factory=dict)
 
     @classmethod
     def zeroed(
@@ -103,6 +104,8 @@ class ActorNumericState:
             base=StatBlock.zeroed(AxisFamily.BASE, catalog),
             palam=StatBlock.zeroed(AxisFamily.PALAM, catalog),
             source=StatBlock.zeroed(AxisFamily.SOURCE, catalog),
+            juel=StatBlock.zeroed(AxisFamily.JUEL, catalog),
+            exp=StatBlock.zeroed(AxisFamily.EXP, catalog),
             cup=IndexedStatBlock(
                 family=AxisFamily.SOURCE,
                 values={axis.era_index: 0 for axis in source_axes},

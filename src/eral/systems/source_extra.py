@@ -1,14 +1,16 @@
-"""SOURCE_EXTRA executor: applies TALENT multipliers and training mark effects to SOURCE before settlement."""
+"""SOURCE_EXTRA 执行器：全局 TALENT 倍率修饰 + 训练印记快感倍率。"""
 
 from __future__ import annotations
 
-from eral.content.talent_effects import TalentEffect
+from eral.content.source_extra import SourceExtraCondition, SourceExtraModifier
 from eral.domain.stats import ActorNumericState
 from eral.domain.world import CharacterState
 
 
-_PLEASURE_KEYS = ("pleasure_c", "pleasure_v", "pleasure_a", "pleasure_b", "pleasure_m")
+# 快感类 SOURCE 索引（0=快C, 1=快V, 2=快A, 3=快B, 4=快M）
+_PLEASURE_KEYS = ("0", "1", "2", "3", "4")
 
+# 快感印记 → SOURCE 倍率
 _MARK_SOURCE_MULTIPLIERS = {
     "pleasure_mark": {
         1: 1.2,
@@ -17,84 +19,98 @@ _MARK_SOURCE_MULTIPLIERS = {
     },
 }
 
+# 苦痛印记 → 各 SOURCE 倍率
+# 格式：印记等级 -> ( {source索引: 倍率, ...}, 预留 )
 _MARK_PAIN_MULTIPLIERS = {
     "pain_mark": {
-        1: ({"fear": 1.2}, {}),
-        2: ({"fear": 1.5, "obedience": 1.2}, {}),
-        3: ({"fear": 2.0, "obedience": 1.5}, {}),
+        1: ({"14": 1.2}, {}),          # 恐惧 ×1.2
+        2: ({"14": 1.5, "16": 1.2}, {}),  # 恐惧×1.5, 恭顺×1.2
+        3: ({"14": 2.0, "16": 1.5}, {}),  # 恐惧×2.0, 恭顺×1.5
     },
 }
 
 
 def apply_source_extra(
     stats: ActorNumericState,
-    effects: tuple[TalentEffect, ...],
+    modifiers: tuple[SourceExtraModifier, ...],
 ) -> dict[str, float]:
-    if not effects:
-        return {}
+    """应用 SOURCE_EXTRA 修饰器到 stats.source，返回实际应用的倍率字典。"""
 
     applied: dict[str, float] = {}
 
-    for effect in effects:
-        if effect.phase != "source":
-            continue
-        if effect.source_key == "" or effect.formula in ("recovery_modifier", "aptitude_offset"):
-            continue
+    for modifier in modifiers:
+        for source_key in modifier.target_sources:
+            current = stats.source.get(source_key)
+            if current == 0:
+                continue
 
-        talent_value = stats.compat.talent.get(effect.era_index)
-        if talent_value == 0:
-            continue
+            total_mult = 1.0
+            for condition in modifier.conditions:
+                mult = _eval_condition(stats, condition)
+                if mult != 1.0:
+                    total_mult *= mult
 
-        current = stats.source.get(effect.source_key)
-        if current == 0:
-            continue
+            if total_mult == 1.0:
+                continue
 
-        if effect.formula == "multiply":
-            multiplier = _eval_expression(effect.expression, talent_value)
-            new_val = int(current * multiplier)
-            if new_val != current:
-                stats.source.set(effect.source_key, new_val)
-                applied[effect.source_key] = applied.get(effect.source_key, 1.0) * multiplier
-
-        elif effect.formula == "add":
-            bonus = int(_eval_expression(effect.expression, talent_value))
-            if bonus != 0:
-                stats.source.add(effect.source_key, bonus)
-                applied[effect.source_key] = applied.get(effect.source_key, 0.0) + bonus
+            if modifier.operation == "multiply":
+                new_val = int(current * total_mult)
+                stats.source.set(source_key, new_val)
+                applied[source_key] = applied.get(source_key, 1.0) * total_mult
+            elif modifier.operation == "add":
+                bonus = int(total_mult)
+                if bonus != 0:
+                    stats.source.add(source_key, bonus)
+                    applied[source_key] = applied.get(source_key, 0.0) + bonus
 
     return applied
 
 
-def compute_recovery_modifier(
-    stats: ActorNumericState,
-    effects: tuple[TalentEffect, ...],
-) -> float:
-    for effect in effects:
-        if effect.category != "recovery":
-            continue
-        talent_value = stats.compat.talent.get(effect.era_index)
-        if talent_value == 0:
-            continue
-        return _eval_expression(effect.expression, talent_value)
+def _eval_condition(stats: ActorNumericState, condition: SourceExtraCondition) -> float:
+    """评估一个 SOURCE_EXTRA 条件。返回倍率（1.0 = 无效果）。"""
+
+    if condition.kind == "talent_value":
+        v = stats.compat.talent.get(condition.talent_index)
+        if condition.base == 0:
+            return 1.0
+        return (condition.base + condition.coeff * v) / condition.base
+
+    if condition.kind == "talent_present":
+        v = stats.compat.talent.get(condition.talent_index)
+        if v > 0:
+            return condition.multiplier
+        return 1.0
+
+    if condition.kind == "talent_level":
+        v = stats.compat.talent.get(condition.talent_index)
+        for lvl, mult in condition.levels:
+            if v == lvl:
+                return mult
+        return 1.0
+
     return 1.0
 
 
-def compute_aptitude_offset(
-    stats: ActorNumericState,
-    effects: tuple[TalentEffect, ...],
-) -> int:
-    for effect in effects:
-        if effect.formula != "aptitude_offset":
-            continue
-        talent_value = stats.compat.talent.get(effect.era_index)
-        if talent_value == 0:
-            continue
-        return talent_value
-    return 0
+def compute_recovery_modifier(stats: ActorNumericState) -> float:
+    """从 TALENT 计算恢复速度修正。
+
+    eraTW: 回復速度 (talent_index 130)。
+    """
+    recovery_speed = stats.compat.talent.get(130)
+    # 0=慢, 1=快。基础恢复乘以 (10 + speed * 5) / 10
+    return (10.0 + recovery_speed * 5.0) / 10.0
+
+
+def compute_aptitude_offset(stats: ActorNumericState) -> int:
+    """从 TALENT 计算 ABL 升级天赋偏移。
+
+    eraTW: 快感应答 (talent_index 70) 加速 ABL 成长。
+    """
+    return stats.compat.talent.get(70)
 
 
 def apply_training_mark_effects(actor: CharacterState) -> dict[str, float]:
-    """Apply training mark multipliers to SOURCE. Returns applied multipliers."""
+    """应用训练印记的 SOURCE 倍率。返回实际应用的倍率字典。"""
     applied: dict[str, float] = {}
 
     pleasure_level = actor.marks.get("pleasure_mark", 0)
@@ -117,11 +133,3 @@ def apply_training_mark_effects(actor: CharacterState) -> dict[str, float]:
                     applied[source_key] = applied.get(source_key, 1.0) * mult
 
     return applied
-
-
-def _eval_expression(expression: str, v: int) -> float:
-    env = {"v": v, "max": max, "min": min, "int": int}
-    try:
-        return float(eval(expression, {"__builtins__": {}}, env))  # noqa: S307
-    except (ZeroDivisionError, ValueError):
-        return 1.0

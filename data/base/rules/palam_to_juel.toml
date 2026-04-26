@@ -1,0 +1,100 @@
+# PALAM → JUEL 转化规则
+# 每次 settlement 后，PALAM 的增量按 divisor 比例转化为对应 JUEL
+# palam_index: PALAM 轴索引（对应 palam.toml）
+# juel_index: JUEL 轴索引（对应 juel.toml，通常与 palam_index 相同）
+# divisor: 除数，JUEL 增量 = PALAM 增量 / divisor（整数除法）
+
+[[rule]]
+palam_index = 0
+juel_index = 0
+divisor = 100
+
+[[rule]]
+palam_index = 1
+juel_index = 1
+divisor = 100
+
+[[rule]]
+palam_index = 2
+juel_index = 2
+divisor = 100
+
+[[rule]]
+palam_index = 3
+juel_index = 3
+divisor = 100
+
+[[rule]]
+palam_index = 4
+juel_index = 4
+divisor = 100
+
+[[rule]]
+palam_index = 9
+juel_index = 9
+divisor = 100
+
+[[rule]]
+palam_index = 10
+juel_index = 10
+divisor = 100
+
+[[rule]]
+palam_index = 11
+juel_index = 11
+divisor = 100
+
+[[rule]]
+palam_index = 12
+juel_index = 12
+divisor = 100
+
+[[rule]]
+palam_index = 13
+juel_index = 13
+divisor = 100
+
+[[rule]]
+palam_index = 14
+juel_index = 14
+divisor = 100
+
+[[rule]]
+palam_index = 15
+juel_index = 15
+divisor = 100
+
+[[rule]]
+palam_index = 16
+juel_index = 16
+divisor = 100
+
+[[rule]]
+palam_index = 20
+juel_index = 20
+divisor = 100
+
+[[rule]]
+palam_index = 21
+juel_index = 21
+divisor = 100
+
+[[rule]]
+palam_index = 30
+juel_index = 30
+divisor = 100
+
+[[rule]]
+palam_index = 31
+juel_index = 31
+divisor = 100
+
+[[rule]]
+palam_index = 32
+juel_index = 32
+divisor = 100
+
+[[rule]]
+palam_index = 100
+juel_index = 100
+divisor = 100

@@ -1,6 +1,6 @@
 [meta]
 key = "starter_port"
-display_name = "碧蓝航线·起始港区"
+display_name = "港区"
 
 [[areas]]
 key = "command_core"

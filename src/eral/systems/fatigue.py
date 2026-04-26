@@ -12,7 +12,7 @@ from __future__ import annotations
 import math
 
 from eral.domain.stats import ActorNumericState
-from eral.systems.source_extra import compute_recovery_modifier, TalentEffect
+from eral.systems.source_extra import compute_recovery_modifier
 
 # Mapping from maxbase string keys to base integer string keys.
 _MAXBASE_TO_BASE: dict[str, str] = {
@@ -44,7 +44,6 @@ def _culc_tired(value: int) -> int:
 def apply_natural_recovery(
     stats: ActorNumericState,
     maxbase: dict[str, int],
-    talent_effects: tuple[TalentEffect, ...],
     hours: float = 1.0,
 ) -> dict[str, int]:
     """Natural recovery for a time slot.
@@ -54,7 +53,7 @@ def apply_natural_recovery(
 
     Returns dict of stat_key -> amount_recovered.
     """
-    recovery_mod = compute_recovery_modifier(stats, talent_effects)
+    recovery_mod = compute_recovery_modifier(stats)
 
     results: dict[str, int] = {}
     for max_key, base_key in _MAXBASE_TO_BASE.items():
@@ -74,7 +73,6 @@ def apply_natural_recovery(
 def apply_sleep_recovery(
     stats: ActorNumericState,
     maxbase: dict[str, int],
-    talent_effects: tuple[TalentEffect, ...],
     hours: float = 8.0,
 ) -> dict[str, int]:
     """Sleep recovery: recovers a percentage of MAXBASE.
@@ -82,7 +80,7 @@ def apply_sleep_recovery(
     eraTW: stamina_recovery = MAXBASE * permil / 1000, modified by recovery_speed.
     Normal sleep: permil ~= 500 (50% of MAXBASE over 8 hours).
     """
-    recovery_mod = compute_recovery_modifier(stats, talent_effects)
+    recovery_mod = compute_recovery_modifier(stats)
 
     results: dict[str, int] = {}
     for max_key, base_key in _MAXBASE_TO_BASE.items():
