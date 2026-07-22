@@ -1,11 +1,16 @@
 import { getState, getCmdOptions, doCmd } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
+import { renderMessage } from './ui/message.js';
+
+export const messages = []; // 用于存储指令执行后的消息
 
 async function refresh() {
     const state = await getState();
-    renderStatusBar(state.location, state.time);
+    renderStatusBar(state.location, state.time, state.player);
     renderCommands(state.commands, { doCmd, getCmdOptions, refresh });
+    renderMessage(messages); // 渲染指令执行后的消息
+    messages.length = 0; // 清空消息数组，避免重复渲染
 }
 
 function new_game() {

@@ -11,6 +11,8 @@ class MapManager:
     def __init__(self):
         self.region: str = 'home'       # 当前区域
         self.node: str = 'living_room'  # 当前节点
+        self.region_name: str = '家'  # 当前区域名称
+        self.node_name: str = '客厅'  # 当前节点名称
 
         # 地图库
         self.maps: dict[str, dict[str, dict[str, Any]]] = load_maps()
@@ -21,9 +23,7 @@ class MapManager:
 
     def get_current_loc(self):
         '''获取当前位置信息'''
-        region = self.regions[self.region]['name']
-        node = self.maps[self.region][self.node]['name']
-        mes = f'{region}--{node}'
+        mes = f'{self.region_name}--{self.node_name}'
 
         return mes
 

@@ -1,3 +1,5 @@
+import { messages } from '../main.js';
+
 export function renderCommands(commands, callbacks) {
     const commandsDiv = document.getElementById('commands');
     commandsDiv.innerHTML = ''; // 清空之前的指令按钮
@@ -11,7 +13,7 @@ export function renderCommands(commands, callbacks) {
                 show_options(cmd.key, options, callbacks);
             } else {
                 // 如果没有选项，直接执行指令
-                await callbacks.doCmd(cmd.key);
+                messages.push(await callbacks.doCmd(cmd.key));
                 await callbacks.refresh(); // 重新加载游戏数据
             }
         };
@@ -29,7 +31,7 @@ function show_options(command, options, callbacks) {
         button.textContent = option.name + (option.time ? ` (${option.time}分钟)` : '');
         button.onclick = async function () {
             // 处理选项点击事件
-            await callbacks.doCmd(command, option.key);
+            messages.push(await callbacks.doCmd(command, option.key));
             optionsDiv.style.display = 'none'; // 隐藏选项区域
             await callbacks.refresh(); // 重新加载游戏数据
         };

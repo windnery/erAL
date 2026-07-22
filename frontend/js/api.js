@@ -3,7 +3,7 @@ async function call(manager_name, func_name, ...args) {
 }
 
 export async function getState() {
-    return await call('manager', 'get_state');
+    return await call('world', 'get_state');
 }
 
 export async function getCmdOptions(cmd) {

@@ -1,14 +1,14 @@
-from game_engine.managers.AllManager import AllManager
+from world import World
 
 
 class Api:
     def __init__(self):
-        manager = AllManager()
+        world = World()
         self.managers = {
-            'manager': manager,
-            'map_manager': manager.map_manager,
-            'command_manager': manager.command_manager,
-            'time_manager': manager.time_manager
+            'world': world,
+            'map_manager': world.map_manager,
+            'command_manager': world.command_manager,
+            'time_manager': world.time_manager
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

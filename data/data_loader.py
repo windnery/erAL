@@ -37,3 +37,9 @@ def load_daily_time():
 	with open('data/time/daily_time.json', 'r', encoding='utf-8') as f:
 		daily_time = json.load(f)
 	return daily_time
+
+def load_player():
+	'''加载玩家数据'''
+	with open('data/characters/_player.json', 'r', encoding='utf-8') as f:
+		player_data = json.load(f)
+	return player_data['player']

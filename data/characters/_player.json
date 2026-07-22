@@ -1,0 +1,7 @@
+{
+    "player": {
+        "name": "指挥官",
+        "max_stamina": 2000,
+        "max_energy": 2000
+    }
+}
