@@ -12,6 +12,7 @@ class Player:
     max_energy: int = player_data.get('max_energy', 2000)     # 最大气力
     stamina: int = max_stamina                                # 体力
     energy: int = max_energy                                  # 气力
+    money: int = 0                                            # 金钱
 
     def get_state(self):
         '''返回玩家状态'''
@@ -20,5 +21,20 @@ class Player:
             'max_stamina': self.max_stamina,
             'max_energy': self.max_energy,
             'stamina': self.stamina,
-            'energy': self.energy
+            'energy': self.energy,
+            'money': self.money
         }
+
+    def set_stamina(self, value: int):
+        '''设置体力'''
+        self.stamina = max(0, min(value, self.max_stamina))
+        return bool(self.stamina)
+
+    def set_energy(self, value: int):
+        '''设置气力'''
+        self.energy = max(0, min(value, self.max_energy))
+        return bool(self.energy)
+
+    def set_money(self, value: int):
+        '''设置金钱'''
+        self.money = max(0, value)
