@@ -9,12 +9,12 @@
 <body>
     <div id="main_menu">
         <h1>erAL</h1>
-        <button onclick="new_game()">初入港区</button>
-        <button onclick="load_game()">继续经营</button>
+        <button id="new_game_btn">初入港区</button>
+        <button id="continue_game_btn">继续经营</button>
     </div>
 
     <div id="game_screen" style="display: none;">
-        <span id="loc_mes"></span>
+        <div id="status_bar"></div>
         <hr>
         <div id="commands"></div>
         <hr>
@@ -22,7 +22,7 @@
 
     </div>
 
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
     
 </body>
 

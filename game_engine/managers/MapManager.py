@@ -25,22 +25,6 @@ class MapManager:
 
         return mes
     
-    def get_current_loc_cmd(self):
-        '''获取当前位置显示的命令'''
-
-        # 通用指令
-        cmd = [
-            {'key': 'leave', 'name': '离开当前区域'},
-            {'key': 'move', 'name': '移动到其他地点'},
-            {'key': 'show_chara_info', 'name': '查看角色信息'},
-            {'key': 'save', 'name': '存档'},
-            {'key': 'load', 'name': '读档'}
-        ]
-
-        # TODO: 根据当前区域和节点添加特定指令
-
-        return cmd
-    
     def get_available_nodes(self):
         '''获取当前区域可前往的节点'''
         nodes: list[dict[str, str]] = []
