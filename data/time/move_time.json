@@ -1,0 +1,9 @@
+{
+    "living_room": {"bedroom": 1, "kitchen": 1},
+    "bedroom": {"living_room": 1, "kitchen": 1},
+    "kitchen": {"living_room": 1, "bedroom": 1},
+
+    "food_window": {"hall": 1, "private_room": 2},
+    "hall": {"food_window": 1, "private_room": 1},
+    "private_room": {"food_window": 2, "hall": 1}
+}

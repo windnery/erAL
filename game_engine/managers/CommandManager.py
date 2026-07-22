@@ -49,8 +49,10 @@ class CommandManager:
 
     def _get_location_commands(self):
         # 获取当前地点特定的指令列表
-        # TODO
-        return []
+        region = self.manager.map_manager.region
+        node = self.manager.map_manager.node
+        actions = self.manager.map_manager.maps[region][node].get('actions', {})
+        return [{'key': k, 'name': v} for k, v in actions.items()]
 
     def _get_npc_commands(self):
         # 获取当前地点NPC特定的指令列表

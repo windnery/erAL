@@ -26,7 +26,7 @@ function show_options(command, options, callbacks) {
 
     for (let option of options) {
         let button = document.createElement('button');
-        button.textContent = option.name;
+        button.textContent = option.name + (option.time ? ` (${option.time}分钟)` : '');
         button.onclick = async function () {
             // 处理选项点击事件
             await callbacks.doCmd(command, option.key);

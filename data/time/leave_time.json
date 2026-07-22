@@ -1,0 +1,5 @@
+{
+    "home": {"office": 5, "canteen": 6},
+    "office": {"home": 5, "canteen": 8},
+    "canteen": {"home": 6, "office": 8}
+}

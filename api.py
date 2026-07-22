@@ -7,7 +7,8 @@ class Api:
         self.managers = {
             'manager': manager,
             'map_manager': manager.map_manager,
-            'command_manager': manager.command_manager
+            'command_manager': manager.command_manager,
+            'time_manager': manager.time_manager
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

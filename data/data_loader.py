@@ -19,3 +19,21 @@ def load_maps():
 			all_maps[region_id] = region_data
 
 	return all_maps
+
+def load_leave_time():
+	'''加载离开时间'''
+	with open('data/time/leave_time.json', 'r', encoding='utf-8') as f:
+		leave_time = json.load(f)
+	return leave_time
+
+def load_move_time():
+	'''加载移动时间'''
+	with open('data/time/move_time.json', 'r', encoding='utf-8') as f:
+		move_time = json.load(f)
+	return move_time
+
+def load_daily_time():
+	'''加载日常指令时间'''
+	with open('data/time/daily_time.json', 'r', encoding='utf-8') as f:
+		daily_time = json.load(f)
+	return daily_time

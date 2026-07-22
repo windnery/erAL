@@ -2,10 +2,7 @@
 	"desk": {
 		"name": "办公桌",
 		"actions": {
-			"work": {
-				"name": "工作",
-				"time": 30
-			}
+			"work": "工作"
 		}
 	}
 }
