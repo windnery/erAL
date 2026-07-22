@@ -1,0 +1,36 @@
+{
+	"food_window": {
+		"name": "取餐窗口",
+		"actions": {
+			"queue_for_food": {
+				"name": "排队取餐",
+				"time": 10
+			}
+		}
+	},
+	"hall": {
+		"name": "大厅",
+		"actions": {
+			"relax": {
+				"name": "休息放松",
+				"time": 20
+			},
+			"have_a_meal": {
+				"name": "吃饭",
+				"time": 30
+			},
+			"book_a_private_room": {
+				"name": "订包厢"
+			}
+		}
+	},
+	"private_room": {
+		"name": "包厢",
+		"actions": {
+			"have_a_meal": {
+				"name": "吃饭",
+				"time": 30
+			}
+		}
+	}
+}

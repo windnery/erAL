@@ -1,0 +1,32 @@
+{
+	"living_room": {
+		"name": "客厅",
+		"actions": {
+			"nap": {
+				"name": "小憩",
+				"time": 30
+			}
+		}
+	},
+	"bedroom": {
+		"name": "卧室",
+		"actions": {
+			"nap": {
+				"name": "小憩",
+				"time": 30
+			},
+			"sleep": {
+				"name": "睡觉"
+			}
+		}
+	},
+	"kitchen": {
+		"name": "厨房",
+		"actions": {
+			"cook": {
+				"name": "做饭",
+				"time": 30
+			}
+		}
+	}
+}

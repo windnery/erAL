@@ -1,0 +1,20 @@
+{
+	"home": {
+		"name": "指挥官的住宅",
+		"description": "指挥官居住的地方",
+		"micro_map": "home.json",
+		"entry_node": "living_room"
+	},
+	"office": {
+		"name": "指挥室",
+		"description": "办公的地方",
+		"micro_map": "office.json",
+		"entry_node": "desk"
+	},
+    "canteen": {
+        "name": "食堂",
+        "description": "吃饭的地方",
+        "micro_map": "canteen.json",
+        "entry_node": "hall"
+    }
+}
