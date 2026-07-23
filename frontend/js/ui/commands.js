@@ -43,8 +43,8 @@ function show_options(command, options, callbacks) {
 }
 
 function show_text_result(result, callbacks) {
-    if (result === null || result === undefined) {
-        // return / 取消 / 无产出：回到游戏画面（否则全屏选择幕已隐藏会留下空白）
+    // null / undefined / 空列表 都视为无产出（如 move 返回 []），需回到游戏画面避免空白
+    if (result === null || result === undefined || (Array.isArray(result) && result.length === 0)) {
         if (callbacks.refresh) callbacks.refresh();
         return;
     }

@@ -1,0 +1,30 @@
+{
+    "id": "laffey",
+    "name": "拉菲",
+    "location": {
+        "region": "home",
+        "node": "bedroom"
+    },
+    "base": {
+        "max_stamina": 1500,
+        "max_energy": 1500,
+        "stamina": 1500,
+        "energy": 1500,
+        "favor": 0,
+        "trust": 0
+    },
+    "talent": {
+        "alignment": "白鹰",
+        "ship_type": "驱逐舰"
+    },
+    "schedule": {
+        "sleep": [23, 9],
+        "work": {
+            "location": {
+                "region": "home",
+                "node": "bedroom"
+            },
+            "time": [[12, 13], [18, 19]]
+        }
+    }
+}

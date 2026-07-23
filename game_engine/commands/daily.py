@@ -10,8 +10,8 @@ def nap(world, option=None):
     world.time_manager.advance_time(daily_time_data['nap'])
     # 回复体力和气力
     player = world.player
-    stamina_recovered = int(player.max_stamina * 0.25) + randint(-80, 100)
-    energy_recovered = int(player.max_energy * 0.25) + randint(-80, 100)
+    stamina_recovered = int(player.get_stamina() * 0.25) + randint(-80, 100)
+    energy_recovered = int(player.get_energy() * 0.25) + randint(-80, 100)
 
     world.change_energy(energy_recovered)
     world.change_stamina(stamina_recovered)

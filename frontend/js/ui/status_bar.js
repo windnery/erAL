@@ -15,12 +15,12 @@ export function renderStatusBar(location, time, player) {
     document.getElementById('player_state').textContent = `[${player.name}]`;
 
     // 体力条
-    const staPct = (player.stamina / player.max_stamina) * 100;
+    const staPct = (player.base.stamina / player.base.max_stamina) * 100;
     document.getElementById('stamina_fill').style.width = staPct + '%';
-    document.getElementById('stamina_text').textContent = `${player.stamina}/${player.max_stamina}`;
+    document.getElementById('stamina_text').textContent = `${player.base.stamina}/${player.base.max_stamina}`;
 
     // 气力条
-    const enePct = (player.energy / player.max_energy) * 100;
+    const enePct = (player.base.energy / player.base.max_energy) * 100;
     document.getElementById('energy_fill').style.width = enePct + '%';
-    document.getElementById('energy_text').textContent = `${player.energy}/${player.max_energy}`;
+    document.getElementById('energy_text').textContent = `${player.base.energy}/${player.base.max_energy}`;
 }

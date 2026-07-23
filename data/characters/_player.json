@@ -1,7 +1,14 @@
 {
-    "player": {
-        "name": "指挥官",
+    "id": "player",
+    "name": "指挥官",
+    "location": {
+        "region": "home",
+        "node": "living_room"
+    },
+    "base": {
         "max_stamina": 2000,
-        "max_energy": 2000
+        "max_energy": 2000,
+        "stamina": 2000,
+        "energy": 2000
     }
 }

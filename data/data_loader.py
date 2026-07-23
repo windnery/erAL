@@ -42,4 +42,21 @@ def load_player():
 	'''加载玩家数据'''
 	with open('data/characters/_player.json', 'r', encoding='utf-8') as f:
 		player_data = json.load(f)
-	return player_data['player']
+	return player_data
+
+def load_shipgirls():
+	'''加载舰娘数据'''
+	shipgirls: dict[str, dict[str, Any]] = {}
+	folder = Path('data/characters')
+
+	for json_file in folder.glob('*.json'):
+		# 跳过_player.json
+		if json_file.name.startswith('_'):
+			continue
+		shipgirl_id = json_file.stem
+
+		with open(json_file, 'r', encoding='utf-8') as f:
+			shipgirl_data = json.load(f)
+			shipgirls[shipgirl_id] = shipgirl_data
+
+	return shipgirls

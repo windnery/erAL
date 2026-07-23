@@ -8,17 +8,19 @@ def leave(manager, option: str):
     if option == 'return':
         # 取消离开
         return
+    player = manager.player
     map_manager = manager.map_manager
+    current_region = player.location['region']
     # 推进时间
-    manager.time_manager.advance_time(leave_time_data[map_manager.region][option])
-    map_manager.region = option
+    manager.time_manager.advance_time(leave_time_data[current_region][option])
+    player.location['region'] = option
     # 离开后默认进入该区域的默认节点
-    map_manager.node = map_manager.regions[option]['entry_node']
-    map_manager.region_name = map_manager.regions[option]['name']
-    map_manager.node_name = map_manager.maps[option][map_manager.node]['name']
+    player.location['node'] = map_manager.regions[option]['entry_node']
 
-    return [f"你离开了{map_manager.region_name}……",
-            f"来到了{map_manager.region_name}的{map_manager.node_name}"]
+    region_name = map_manager.regions[option]['name']
+    node_name = map_manager.maps[option][player.location['node']]['name']
+    return [f"离开了{region_name}……",
+            f"来到了{region_name}的{node_name}"]
 
 @register_cmd('move')
 def move(manager, option: str):
@@ -27,11 +29,9 @@ def move(manager, option: str):
         # 取消移动
         return
     
-    map_manager = manager.map_manager
     # 推进时间
-    manager.time_manager.advance_time(move_time_data[map_manager.node][option])
-    old_node = map_manager.node_name
-    map_manager.node = option
-    map_manager.node_name = map_manager.maps[map_manager.region][map_manager.node]['name']
+    manager.time_manager.advance_time(move_time_data[manager.player.location['node']][option])
+    player = manager.player
+    player.location['node'] = option
 
     return []
