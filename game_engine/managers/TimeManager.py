@@ -1,5 +1,3 @@
-from random import randint, choice
-
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
@@ -14,7 +12,7 @@ class TimeManager:
         self.map_manager = map_manager
 
     def advance_time(self, minutes: int):
-        # 推进时间
+        # 推进时间（纯时间计算，不处理NPC逻辑）
         self.minute += minutes
         while self.minute >= 60:
             self.minute -= 60
@@ -23,53 +21,6 @@ class TimeManager:
             # 处理跨天
             self.hour -= 24
             self.day += 1
-
-        # 每次推进时间后更新舰娘位置
-        mes = []
-        for sg in self.npc_manager.shipgirls.values():
-            # 睡觉
-            if self.hour >= sg.schedule['sleep'][0] or self.hour < sg.schedule['sleep'][1]:
-                # 初始位置就是舰娘的家
-                sleep_region = self.npc_manager.shipgirls_db[sg.id]['location']['region']
-                sleep_node = self.npc_manager.shipgirls_db[sg.id]['location']['node']
-                self.npc_manager.set_loc(sg.id, sleep_region, sleep_node)
-                mes += [f"{sg.name}要回去睡觉了……"]
-                continue
-            # 工作
-            work_time: list[list[int]] = sg.schedule['work']['time']
-            is_work = False
-            for time_range in work_time:
-                if time_range[0] <= self.hour < time_range[1]:
-                    work_region = sg.schedule['work']['location']['region']
-                    work_node = sg.schedule['work']['location']['node']
-                    self.npc_manager.set_loc(sg.id, work_region, work_node)
-                    mes += [f"{sg.name}似乎有事匆匆离开了……"]
-                    is_work = True
-                    break
-            # 自由行动
-            if not is_work:
-                # 每次推进时间舰娘会随机留在原地/去一个当前区域的节点/去一个别的区域
-                # 留在原地:80%，去当前区域的节点:15%，去别的区域:5%
-                p = randint(1, 100)
-                if p <= 15:
-                    # 去当前区域的节点
-                    nodes = self.map_manager.get_available_nodes(sg.location['region'], sg.location['node'])
-                    nodes = nodes[:-1]  # 移除返回选项
-                    target_node = choice(nodes)
-                    self.npc_manager.set_loc(sg.id, sg.location['region'], target_node['key'])
-                    mes += [f"{sg.name}似乎去{target_node['name']}了……"]
-                elif p <= 20:
-                    # 去别的区域
-                    regions = self.map_manager.get_available_regions(sg.location['region'])
-                    regions = regions[:-1]  # 移除返回选项
-                    target_region = choice(regions)
-                    nodes = self.map_manager.get_available_nodes(target_region['key'], sg.location['node'])
-                    target_node = choice(nodes)
-                    self.npc_manager.set_loc(sg.id, target_region['key'], target_node['key'])
-                    mes += [f"{sg.name}似乎去{target_region['name']}了……"]
-
-
-
 
     def get_period(self):
         # 获取当前时间段

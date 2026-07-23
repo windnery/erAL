@@ -27,6 +27,34 @@ class World:
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
         }
 
+    def advance_time_with_events(self, minutes: int):
+        '''推进时间并返回玩家附近舰娘的变动消息
+        返回: list[str] 事件消息列表'''
+        r, n = self.player.location['region'], self.player.location['node']
+
+        # 推进前：谁在这
+        before = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}
+
+        # 推进时间
+        self.time_manager.advance_time(minutes)
+
+        # 更新舰娘位置
+        self.npc_manager.update_positions(self.time_manager.hour, minutes, self.map_manager)
+
+        # 推进后：谁在这
+        after = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}
+
+        # 对比生成消息
+        events = []
+        for sg_id, name in before.items():
+            if sg_id not in after:
+                events.append(f'{name}起身离开了。')
+        for sg_id, name in after.items():
+            if sg_id not in before:
+                events.append(f'{name}走了过来。')
+
+        return events
+
     def change_stamina(self, delta: int):
         '''包装一层改变体力的方法
         返回字符串（耗尽时直接把结算拼进来，不破坏调用处的拼接逻辑）'''
@@ -66,6 +94,8 @@ class World:
             pages.append(f'睡了一觉（{sleep_hours}小时）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}')
 
             self.time_manager.to_next_day()  # 推进到第二天
+            # 更新舰娘到新时间的位置（起床后的调度）
+            self.npc_manager.update_positions(self.time_manager.hour, 0, self.map_manager)
 
         elif exhaustion:
             # 体力耗尽结算，推进到体力和气力恢复到最大值的时间

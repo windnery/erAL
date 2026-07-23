@@ -58,11 +58,12 @@ class CommandManager:
 
     def _get_npc_commands(self):
         # 获取当前地点NPC特定的指令列表
-        commands = [
-            {'key': 'talk', 'name': '会话'},
-            {'key': 'rub_the_head', 'name': '摸头'}
-        ]
-        # TODO: 加入NPC特定的指令
+        # 只有当前位置有NPC时才返回（前端再根据是否选中决定是否显示）
         if not self.world.npc_manager.get_npcs_at(self.world.player.location['region'], self.world.player.location['node']):
             return []
+        commands = [
+            {'key': 'talk', 'name': '会话', 'needs_target': True},
+            {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True}
+        ]
+        # TODO: 加入NPC特定的指令
         return commands

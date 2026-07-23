@@ -1,6 +1,10 @@
 import { getState, getCmdOptions, doCmd } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
+import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
+
+// 当前选中的舰娘 id（前端 UI 态，不进后端）
+let selectedNpcId = null;
 
 // 全屏翻页状态
 const PAGE_SIZE = 5;
@@ -66,12 +70,43 @@ function createPageElement(text) {
     return p;
 }
 
+function selectNpc(npcId) {
+    selectedNpcId = npcId;
+    // 仅重渲头像高亮、面板与指令区（不从后端重新拉取）
+    const npcs = currentNearby;
+    renderPortrait(npcs, selectedNpcId, selectNpc);
+    renderCharaPanel(npcs, selectedNpcId);
+    // 重新过滤并渲染 Act_COM（选中/取消选中会影响NPC交互指令的显示）
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
+    const actCom = selectedNpcId
+        ? currentActCom
+        : currentActCom.filter(cmd => !cmd.needs_target);
+    renderCommands(actCom, 'act', callbacks);
+}
+
+// 最近一次拉取到的附近舰娘，供 selectNpc 复用
+let currentNearby = [];
+// 最近一次拉取到的 Act_COM 原始列表（含 needs_target 指令），供 selectNpc 复用
+let currentActCom = [];
+
 async function refresh() {
     const state = await getState();
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions };
+    currentNearby = state.nearby_npcs || [];
+    currentActCom = state.act_com || [];
+    // 若选中舰娘已不在附近（离开了），重置选中
+    if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
+        selectedNpcId = null;
+    }
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
     renderStatusBar(state.location, state.time, state.player);
-    renderCommands(state.act_com, 'act', callbacks);
+    // 未选中舰娘时过滤掉需要目标的交互指令
+    const actCom = selectedNpcId
+        ? state.act_com
+        : state.act_com.filter(cmd => !cmd.needs_target);
+    renderCommands(actCom, 'act', callbacks);
     renderCommands(state.ex_com, 'ex', callbacks);
+    renderPortrait(currentNearby, selectedNpcId, selectNpc);
+    renderCharaPanel(currentNearby, selectedNpcId);
 
     const main_menu = document.getElementById('game_screen');
     main_menu.style.display = 'block';

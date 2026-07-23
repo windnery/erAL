@@ -35,12 +35,78 @@ body {
 }
 
 #charaPanel {
-    height: 210px;
+    height: 350px;
+}
+
+#charaPanel {
+    min-height: 24px;
+    padding: 4px 0;
 }
 
 #charaPortrait {
-    height: 250px;
+    min-height: 120px;
+    padding: 4px 0;
     border-bottom: 1px solid white;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center; /* 头像居中显示 */
+}
+
+/* 头像块：点击选中的舰娘高亮；头像用原图尺寸 116x116 */
+.npc-avatar {
+    text-align: center;
+    border: 2px solid transparent;
+    padding: 2px;
+}
+
+.npc-avatar.selected {
+    border-color: #ff0;
+}
+
+.npc-avatar-img {
+    width: 116px;
+    height: 116px;
+    display: block;
+    margin: 0 auto;
+}
+
+.npc-avatar-name {
+    color: #fff;
+    margin-top: 2px;
+}
+
+.chara-hint {
+    color: #666;
+}
+
+/* 名字行（含好感/信赖，同行同字号） */
+.chara-name {
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+/* 角色面板里的属性条：体力/气力同一行 */
+.chara-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+
+.chara-bar-label {
+    color: #fff;
+}
+
+.chara-bar-text {
+    color: #fff;
+    margin-right: 12px;
+}
+
+/* 角色面板体力/气力条配色（与状态栏区分，用绿/蓝） */
+.chara-bar-fill-sta {
+    background: #6f6;
 }
 
 #Act_COM {
@@ -105,6 +171,11 @@ body {
 }
 
 #energy_fill {
+    background: #66c;
+}
+
+/* 角色面板气力条复用同色 */
+.chara-bar-fill-ene {
     background: #66c;
 }
 
