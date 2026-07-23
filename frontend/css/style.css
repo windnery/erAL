@@ -1,0 +1,155 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial sans-serif;
+}
+
+#status_bar {
+    margin-top: 5px;
+    padding: 4px 10px;
+    border-top: 3px double #36f;
+    border-bottom: 3px double #36f;
+}
+
+#day {
+    color: #36f;
+}
+
+#period {
+    color: #0ff;
+}
+
+#loc {
+    font-weight: bold;
+}
+
+#money {
+    color: #fc0;
+}
+
+#charaPanel {
+    height: 210px;
+}
+
+#charaPortrait {
+    height: 250px;
+    border-bottom: 1px solid white;
+}
+
+#Act_COM {
+    min-height: 24px;
+    line-height: 1.8;
+}
+
+#Ex_COM {
+    min-height: 24px;
+    line-height: 1.8;
+    border-bottom: 1px solid white;
+}
+
+#Act_COM .com-cmd,
+#Ex_COM .com-cmd {
+    color: #fff;
+    margin-left: 36px;
+    white-space: nowrap;
+}
+
+#Act_COM .com-cmd:hover,
+#Ex_COM .com-cmd:hover {
+    color: #ff0;
+}
+
+#Act_COM .com-sep,
+#Ex_COM .com-sep {
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+#fullscreen_text {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    white-space: pre-line;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+/* 状态条样式 */
+.bar-track {
+    display: inline-block;
+    width: 80px;
+    height: 14px;
+    background-color: #333;
+    vertical-align: middle;
+}
+
+.bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    vertical-align: top;
+}
+
+#stamina_fill {
+    background: #6f6;
+}
+
+#energy_fill {
+    background: #66c;
+}
+
+
+/* 全屏选择幕：与叙事幕平行，仅展示纯文字选项 */
+#fullscreen_options {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+#fullscreen_options .option-prompt {
+    color: #888;
+    margin-bottom: 16px;
+}
+
+#fullscreen_options .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* 选项纯文字：无边框、无背景、无小手，悬停变黄 */
+#fullscreen_options .option-item {
+    color: #fff;
+    cursor: default;
+    font-size: 18px;
+    width: fit-content;
+}
+
+#fullscreen_options .option-item:hover {
+    color: #ff0;
+}
+
+#fullscreen_options .option-hint {
+    color: #666;
+    margin-top: 24px;
+    font-size: 13px;
+}

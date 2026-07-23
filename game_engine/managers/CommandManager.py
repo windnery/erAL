@@ -11,12 +11,16 @@ class CommandManager:
     def __init__(self, world: World):
         self.world = world
 
-    def get_commands(self):
-        # 获取当前可用的指令列表
-        commands = self._get_common_commands()  # 通用指令
-        commands += self._get_location_commands()  # 当前地点特定指令
-        commands += self._get_npc_commands()  # 当前地点NPC特定指令
-        return commands
+    def get_Act_COM(self):
+        '''获取交互指令'''
+        act_com = self._get_location_commands()  # 当前地点特定指令
+        act_com += self._get_npc_commands()  # 当前地点NPC特定指令
+        return act_com
+
+    def get_EX_COM(self):
+        '''获取通用指令(系统指令)'''
+        ex_com = self._get_common_commands()
+        return ex_com
     
     def get_cmd_options(self, command: str):
         # 根据指令名 返回这个指令所需的选项列表
@@ -39,7 +43,7 @@ class CommandManager:
         # 获取通用指令列表
         return [
             {'key': 'leave', 'name': '离开当前区域'},
-            {'key': 'move', 'name': '移动到其他地点'},
+            {'key': 'move', 'name': '移动'},
             {'key': 'show_chara_info', 'name': '查看角色信息'},
             {'key': 'save', 'name': '存档'},
             {'key': 'load', 'name': '读档'}

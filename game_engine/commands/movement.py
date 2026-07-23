@@ -17,8 +17,8 @@ def leave(manager, option: str):
     map_manager.region_name = map_manager.regions[option]['name']
     map_manager.node_name = map_manager.maps[option][map_manager.node]['name']
 
-    mes = f"来到了{map_manager.region_name}的{map_manager.node_name}"
-    return mes
+    return [f"你离开了{map_manager.region_name}……",
+            f"来到了{map_manager.region_name}的{map_manager.node_name}"]
 
 @register_cmd('move')
 def move(manager, option: str):
@@ -30,8 +30,8 @@ def move(manager, option: str):
     map_manager = manager.map_manager
     # 推进时间
     manager.time_manager.advance_time(move_time_data[map_manager.node][option])
+    old_node = map_manager.node_name
     map_manager.node = option
     map_manager.node_name = map_manager.maps[map_manager.region][map_manager.node]['name']
 
-    mes = f"移动到{map_manager.node_name}"
-    return mes
+    return []
