@@ -1,0 +1,19 @@
+{
+    "max_stamina": {"name": "最大体力", "default": 2000},
+    "max_energy": {"name": "最大精力", "default": 2000},
+    "stamina": {"name": "体力", "default": 2000},
+    "energy": {"name": "精力", "default": 2000},
+    "favor": {"name": "好感度", "default": 0},
+    "trust": {"name": "信赖度", "default": 0},
+    "mood": {"name": "心情", "default": 0},
+
+    "intimacy": {"name": "亲密", "default": 0},
+    "obedience": {"name": "顺从", "default": 0},
+    "talk": {"name": "会话", "default": 0},
+    "work": {"name": "工作", "default": 0},
+
+    "intimacy_exp": {"name": "亲密经验", "default": 0},
+    "obedience_exp": {"name": "顺从经验", "default": 0},
+    "talk_exp": {"name": "会话经验", "default": 0},
+    "work_exp": {"name": "工作经验", "default": 0}
+}

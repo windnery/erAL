@@ -1,13 +1,13 @@
 from random import randint
 
 from game_engine.commands._commands import register_cmd
-from data.time.time_data import daily_time_data
+from data.time.time_data import command_time_data
 
 @register_cmd('nap')
 def nap(world, option=None):
     '''小睡'''
     # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(daily_time_data['nap'])
+    npc_events = world.advance_time_with_events(command_time_data['nap'])
     # 回复体力和气力
     player = world.player
     stamina_recovered = int(player.get_stamina() * 0.25) + randint(-80, 100)
@@ -33,7 +33,7 @@ def sleep(world, option=None):
 def work(world, option=None):
     '''工作'''
     # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(daily_time_data['work'])
+    npc_events = world.advance_time_with_events(command_time_data['work'])
     # 做工作
     work_manager = world.work_manager
 

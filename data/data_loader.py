@@ -32,11 +32,17 @@ def load_move_time():
 		move_time = json.load(f)
 	return move_time
 
-def load_daily_time():
+def load_command_time():
 	'''加载日常指令时间'''
-	with open('data/time/daily_time.json', 'r', encoding='utf-8') as f:
-		daily_time = json.load(f)
-	return daily_time
+	with open('data/time/command_time.json', 'r', encoding='utf-8') as f:
+		command_time = json.load(f)
+	return command_time
+
+def load_attr_defs():
+	'''加载属性定义表'''
+	with open('data/attr_defs.json', 'r', encoding='utf-8') as f:
+		attr_defs = json.load(f)
+	return attr_defs
 
 def load_player():
 	'''加载玩家数据'''

@@ -11,7 +11,20 @@
         "stamina": 1500,
         "energy": 1500,
         "favor": 0,
-        "trust": 0
+        "trust": 0,
+        "mood": 0
+    },
+    "abl": {
+        "intimacy": 0,
+        "obedience": 0,
+        "talk": 0,
+        "work": 0
+    },
+    "exp": {
+        "intimacy_exp": 0,
+        "obedience_exp": 0,
+        "talk_exp": 0,
+        "work_exp": 0
     },
     "talent": {
         "alignment": "白鹰",
@@ -26,5 +39,31 @@
             },
             "time": [[12, 13], [18, 19]]
         }
-    }
+    },
+    "lines": [
+        {
+            "action": "talk",
+            "conditions": {"min_favor": 0, "max_favor": 30},
+            "texts": [
+                "{name}揉了揉眼睛，懒洋洋地说：「指挥官……有什么事吗？」",
+                "{name}打了个哈欠：「唔…现在不太想说话……」"
+            ]
+        },
+        {
+            "action": "talk",
+            "conditions": {"min_favor": 30},
+            "texts": [
+                "{name}微微一笑：「指挥官，今天也辛苦了~」",
+                "{name}靠了过来，轻声说：「一起休息会儿吧……」"
+            ]
+        },
+        {
+            "action": "rub_the_head",
+            "conditions": {},
+            "texts": [
+                "{name}迷迷糊糊地蹭了蹭你的手，像只小猫一样。",
+                "{name}眯起眼睛，露出了舒服的表情。"
+            ]
+        }
+    ]
 }

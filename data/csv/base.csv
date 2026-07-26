@@ -1,7 +1,9 @@
-key,name
+;key,name
+
 max_stamina,最大体力
 max_energy,最大气力
 stamina,体力
 energy,气力
 favor,好感
 trust,信赖
+mood,心情

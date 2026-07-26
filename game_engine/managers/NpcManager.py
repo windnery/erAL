@@ -71,3 +71,10 @@ class NpcManager:
                     if target_nodes:
                         target_node = choice(target_nodes)
                         self.set_loc(sg.id, target_region['key'], target_node)
+
+    def get_npc_by_id(self, shipgirl_id: str):
+        '''根据舰娘ID获取舰娘对象
+        shipgirl_id: 舰娘ID
+        return: ShipGirl对象
+        '''
+        return self.shipgirls[shipgirl_id]
