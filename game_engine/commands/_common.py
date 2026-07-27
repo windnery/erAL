@@ -1,7 +1,6 @@
 from config.abl_lv import abl_lv
 from config.mood_enum import Mood
-from game_engine.models.player import Player
-from game_engine.models.shipgirl import ShipGirl
+from game_engine.models.character import Character
 
 
 def mood_process(mood: Mood) -> int:
@@ -19,7 +18,7 @@ def mood_process(mood: Mood) -> int:
     else:
         return 3
 
-def abl_lv_process(chara: ShipGirl|Player, attr_defs: dict[str, dict[str, int]]):
+def abl_lv_process(chara: Character, attr_defs: dict[str, dict[str, int]]):
     '''检查角色的abl是否达到升级条件，若达到则升级'''
     for exp_k, exp_v in chara.exp.items():
         if exp_v >= 1000:

@@ -1,25 +1,16 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import random
 from typing import Any
 
-
 from config.mood_enum import Mood
+from game_engine.models.character import Character
 
 
 @dataclass
-class ShipGirl:
+class ShipGirl(Character):
     '''舰娘类'''
-    id: str                         # 舰娘ID
-    name: str                       # 姓名
-    location: dict[str, str]        # 位置
-
-    base: dict[str, int]            # 基础属性
-    abl: dict[str, int]             # 能力值
-    exp: dict[str, int]             # 经验值
-    talent: dict[str, str]          # 天赋/素质
-
-    schedule: dict[str, Any]        # 作息时间表
-    lines: list[dict[str, Any]]     # 台词
+    schedule: dict[str, Any] = field(default_factory=dict)   # 作息时间表
+    lines: list[dict[str, Any]] = field(default_factory=list)  # 台词
 
     def get_state(self):
         '''返回舰娘状态'''
@@ -33,16 +24,6 @@ class ShipGirl:
             'schedule': self.schedule,
             'mood_label': self.get_mood().value,
         }
-
-    def set_stamina(self, value: int):
-        '''设置体力'''
-        self.base['stamina'] = max(0, min(value, self.base['max_stamina']))
-        return bool(self.base['stamina'])
-
-    def set_energy(self, value: int):
-        '''设置气力'''
-        self.base['energy'] = max(0, min(value, self.base['max_energy']))
-        return bool(self.base['energy'])
 
     def get_line(self, action: str) -> str | None:
         '''获取台词'''
