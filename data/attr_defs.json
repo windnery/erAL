@@ -7,10 +7,10 @@
     "trust": {"name": "信赖度", "default": 0},
     "mood": {"name": "心情", "default": 0},
 
-    "intimacy": {"name": "亲密", "default": 0},
-    "obedience": {"name": "顺从", "default": 0},
-    "talk": {"name": "会话", "default": 0},
-    "work": {"name": "工作", "default": 0},
+    "intimacy_abl": {"name": "亲密", "default": 0},
+    "obedience_abl": {"name": "顺从", "default": 0},
+    "talk_abl": {"name": "会话", "default": 0},
+    "work_abl": {"name": "工作", "default": 0},
 
     "intimacy_exp": {"name": "亲密经验", "default": 0},
     "obedience_exp": {"name": "顺从经验", "default": 0},

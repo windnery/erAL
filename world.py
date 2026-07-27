@@ -1,3 +1,6 @@
+from config.abl_lv import abl_lv
+from data.data_loader import load_attr_defs
+from game_engine.commands._common import abl_lv_process
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
@@ -8,6 +11,7 @@ from game_engine.models.player import Player
 
 class World:
     def __init__(self):
+        self.attr_defs = load_attr_defs()
         self.player = Player()
         self.map_manager = MapManager()
         self.npc_manager = NpcManager()
@@ -119,9 +123,19 @@ class World:
             self.player.set_money(self.player.money - self.work_manager.works)  # 扣除工作量的钱
             pages.append(f'由于未完成的工作，被罚了{self.work_manager.works}金钱')
 
+        # 检查所有角色的exp是否达到升级条件，若达到则升级
+        for npc in self.npc_manager.get_all_npcs():
+            mes = abl_lv_process(npc, self.attr_defs)
+            if mes:
+                pages.append(mes)
+        mes = abl_lv_process(self.player, self.attr_defs)
+        if mes:
+            pages.append(mes)
+        
         # 生成新的一天的工作量
         self.work_manager.set_works()
         self.work_manager.works_done = 0  # 重置已完成工作量
         pages.append(f'又有了新的工作……今天的工作量是{self.work_manager.works}')
 
         return pages
+

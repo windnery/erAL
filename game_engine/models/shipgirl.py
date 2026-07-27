@@ -31,6 +31,7 @@ class ShipGirl:
             'exp': self.exp,
             'talent': self.talent,
             'schedule': self.schedule,
+            'mood_label': self.get_mood().value,
         }
 
     def set_stamina(self, value: int):

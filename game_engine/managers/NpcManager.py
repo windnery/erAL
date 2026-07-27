@@ -20,6 +20,10 @@ class NpcManager:
         return [sg for sg in self.shipgirls.values()
             if sg.location['region'] == region and sg.location['node'] == node]
 
+    def get_all_npcs(self):
+        '''获取所有NPC列表'''
+        return list(self.shipgirls.values())
+
     def update_positions(self, hour: int, minutes: int, map_manager):
         '''根据当前时间和推进时长更新所有舰娘位置
         hour: 当前小时（用于判断睡觉/工作）

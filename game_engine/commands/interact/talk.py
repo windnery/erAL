@@ -39,8 +39,8 @@ def talk(world, option: str):
 
     # 处理好感和信赖
     # abl: 会话
-    ex_favor = randint(1, 2) * world.player.abl['talk']
-    ex_trust = randint(1, 2) * world.player.abl['talk'] // 2
+    ex_favor = randint(1, 2) * world.player.abl['talk_abl']
+    ex_trust = randint(1, 2) * world.player.abl['talk_abl'] // 2
     # mood: 心情
     ex_mood = mood_process(npc.get_mood())
     # TODO: 后续加成在这里添加
@@ -57,6 +57,8 @@ def talk(world, option: str):
     # exp: 会话经验
     npc.exp['talk_exp'] += 1
     world.player.exp['talk_exp'] += 1
+    mes.append(f'{npc.name} 会话经验+1')
+    mes.append(f'{world.player.name} 会话经验+1')
 
     mes += npc_events
 

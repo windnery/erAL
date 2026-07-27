@@ -48,10 +48,10 @@ export function renderCharaPanel(npcs, selectedId) {
 
     const base = npc.base || {};
 
-    // 名字 + 好感/信赖 同一行，括号包裹
+    // 名字 + 好感/信赖/心情 同一行，括号包裹
     const name = document.createElement('div');
     name.className = 'chara-name';
-    name.textContent = `${npc.name} (好感 ${base.favor ?? 0}　信赖 ${base.trust ?? 0})`;
+    name.textContent = `${npc.name} (好感 ${base.favor ?? 0} 信赖 ${base.trust ?? 0} 心情 ${npc.mood_label ?? '一般'})`;
     el.appendChild(name);
 
     // 体力条（绿）/ 气力条（蓝）同一行

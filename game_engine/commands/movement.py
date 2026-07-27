@@ -11,11 +11,13 @@ def leave(manager, option: str):
     player = manager.player
     map_manager = manager.map_manager
     current_region = player.location['region']
-    # 推进时间并获取NPC变动消息
-    npc_events = manager.advance_time_with_events(leave_time_data[current_region][option])
+    minutes = leave_time_data[current_region][option]
+    # 先更新玩家位置到目的区域，再推进时间（事件基于目的地生成）
     player.location['region'] = option
-    # 离开后默认进入该区域的默认节点
     player.location['node'] = map_manager.regions[option]['entry_node']
+
+    # 推进时间并获取NPC变动消息
+    npc_events = manager.advance_time_with_events(minutes)
 
     region_name = map_manager.regions[option]['name']
     node_name = map_manager.maps[option][player.location['node']]['name']
@@ -31,9 +33,12 @@ def move(manager, option: str):
         # 取消移动
         return
     
-    # 推进时间并获取NPC变动消息
-    npc_events = manager.advance_time_with_events(move_time_data[manager.player.location['node']][option])
     player = manager.player
+    minutes = move_time_data[player.location['node']][option]
+    # 先更新玩家位置到目的地，再推进时间（事件基于目的地生成）
     player.location['node'] = option
+
+    # 推进时间并获取NPC变动消息
+    npc_events = manager.advance_time_with_events(minutes)
 
     return npc_events if npc_events else []
