@@ -9,6 +9,8 @@ from game_engine.models.character import Character
 @dataclass
 class ShipGirl(Character):
     '''舰娘类'''
+    favor: int = 0  # 好感度
+    trust: int = 0  # 信赖度
     schedule: dict[str, Any] = field(default_factory=dict)   # 作息时间表
     lines: list[dict[str, Any]] = field(default_factory=list)  # 台词
 
@@ -17,9 +19,13 @@ class ShipGirl(Character):
         return {
             'id': self.id,
             'name': self.name,
+            'favor': self.favor,
+            'trust': self.trust,
             'base': self.base,
             'abl': self.abl,
             'exp': self.exp,
+            'palam': self.palam,
+            'palam_lv': self.palam_lv,
             'talent': self.talent,
             'schedule': self.schedule,
             'mood_label': self.get_mood().value,
@@ -41,13 +47,13 @@ class ShipGirl(Character):
     def _check_conditions(self, conds: dict[str, Any]) -> bool:
         '''检查条件是否满足'''
         for key, value in conds.items():
-            if key == 'min_favor' and self.base.get('favor', 0) < value:
+            if key == 'min_favor' and self.favor < value:
                 return False
-            elif key == 'max_favor' and self.base.get('favor', 0) > value:
+            elif key == 'max_favor' and self.favor > value:
                 return False
-            elif key == 'min_trust' and self.base.get('trust', 0) < value:
+            elif key == 'min_trust' and self.trust < value:
                 return False
-            elif key == 'max_trust' and self.base.get('trust', 0) > value:
+            elif key == 'max_trust' and self.trust > value:
                 return False
             # TODO: 后续条件检查在这里添加
         return True

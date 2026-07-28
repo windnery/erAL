@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from config.palam_lv import palam_lv
+
 
 @dataclass
 class Character:
@@ -10,7 +12,14 @@ class Character:
     base: dict[str, int] = field(default_factory=dict)
     abl: dict[str, int] = field(default_factory=dict)
     exp: dict[str, int] = field(default_factory=dict)
+    palam: dict[str, int] = field(default_factory=dict)
+    palam_lv: dict[str, int] = field(default_factory=dict)
     talent: dict[str, str] = field(default_factory=dict)
+
+    def __post_init__(self):
+        # 初始化palam等级
+        for k in self.palam.keys():
+            self.palam_lv[k] = 0
 
     def set_stamina(self, value: int) -> bool:
         '''设置体力，返回是否还有剩余'''
@@ -29,3 +38,11 @@ class Character:
     def get_energy(self) -> int:
         '''获取气力'''
         return self.base['energy']
+
+    def update_palam_level(self) -> None:
+        '''更新palam等级'''
+        for k, v in self.palam.items():
+            for level, threshold in palam_lv.items():
+                if v < threshold:
+                    self.palam_lv[k] = level - 1
+                    break

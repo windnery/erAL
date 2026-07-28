@@ -18,6 +18,7 @@ class Player(Character):
         self.base = self.player_data['base']
         self.abl = self.player_data['abl']
         self.exp = self.player_data['exp']
+        self.palam = self.player_data['palam']
         self.talent = self.player_data['talent']
 
     def get_state(self):
