@@ -1,19 +1,112 @@
 {
-    "max_stamina": {"name": "最大体力", "default": 2000},
-    "max_energy": {"name": "最大精力", "default": 2000},
-    "stamina": {"name": "体力", "default": 2000},
-    "energy": {"name": "精力", "default": 2000},
+    "base": {
+        "max_stamina": {"name": "最大体力", "default": 2000},
+        "max_energy": {"name": "最大精力", "default": 2000},
+        "stamina": {"name": "体力", "default": 2000},
+        "energy": {"name": "精力", "default": 2000}
+    },
+    
     "favor": {"name": "好感度", "default": 0},
     "trust": {"name": "信赖度", "default": 0},
     "mood": {"name": "心情", "default": 0},
 
-    "intimacy_abl": {"name": "亲密", "default": 0},
-    "obedience_abl": {"name": "顺从", "default": 0},
-    "talk_abl": {"name": "会话", "default": 0},
-    "work_abl": {"name": "工作", "default": 0},
+    "abl": {
+        "c_sen_abl": {"name": "C感度", "default": 0},
+        "v_sen_abl": {"name": "V感度", "default": 0},
+        "a_sen_abl": {"name": "A感度", "default": 0},
+        "b_sen_abl": {"name": "B感度", "default": 0},
+        "m_sen_abl": {"name": "M感度", "default": 0},
+        "intimacy_abl": {"name": "亲密", "default": 0},
+        "obedience_abl": {"name": "顺从", "default": 0},
+        "desire_abl": {"name": "欲望", "default": 0},
+        "skill_abl": {"name": "技巧", "default": 0},
+        "serve_abl": {"name": "侍奉精神", "default": 0},
+        "exposure_abl": {"name": "露出癖", "default": 0},
+        "masochistic_abl": {"name": "受虐属性", "default": 0},
+        "sadism_abl": {"name": "施虐属性", "default": 0},
+        "talk_abl": {"name": "会话", "default": 0},
+        "work_abl": {"name": "工作", "default": 0}
+    },
 
-    "intimacy_exp": {"name": "亲密经验", "default": 0},
-    "obedience_exp": {"name": "顺从经验", "default": 0},
-    "talk_exp": {"name": "会话经验", "default": 0},
-    "work_exp": {"name": "工作经验", "default": 0}
+    "exp": {
+        "intimacy_exp": {"name": "亲密经验", "default": 0},
+        "obedience_exp": {"name": "顺从经验", "default": 0},
+        "talk_exp": {"name": "会话经验", "default": 0},
+        "work_exp": {"name": "工作经验", "default": 0}
+    },
+
+    "palam": {
+        "c_pleasure_palam": {"name": "快C", "default": 0},
+        "v_pleasure_palam": {"name": "快V", "default": 0},
+        "a_pleasure_palam": {"name": "快A", "default": 0},
+        "b_pleasure_palam": {"name": "快B", "default": 0},
+        "m_pleasure_palam": {"name": "快M", "default": 0},
+        "lubrication_palam": {"name": "润滑", "default": 0},
+        "obedience_palam": {"name": "恭顺", "default": 0},
+        "lust_palam": {"name": "情欲", "default": 0},
+        "submission_palam": {"name": "屈服", "default": 0},
+        "learn_palam": {"name": "习得", "default": 0},
+        "shame_palam": {"name": "羞耻", "default": 0},
+        "pain_palam": {"name": "苦痛", "default": 0},
+        "fear_palam": {"name": "恐怖", "default": 0},
+        "kindness_palam": {"name": "好意", "default": 0},
+        "superiority_palam": {"name": "优越", "default": 0},
+        "disgust_palam": {"name": "反感", "default": 0},
+        "unhappiness_palam": {"name": "不快", "default": 0},
+        "depression_palam": {"name": "抑郁", "default": 0}
+    },
+
+    "source": {
+        "c_pleasure_source": {"name": "快C", "default": 0},
+        "v_pleasure_source": {"name": "快V", "default": 0},
+        "a_pleasure_source": {"name": "快A", "default": 0},
+        "b_pleasure_source": {"name": "快B", "default": 0},
+        "m_pleasure_source": {"name": "快M", "default": 0},
+        "lubrication_source": {"name": "润滑", "default": 0},
+        "love_source": {"name": "情爱", "default": 0},
+        "sex_act_source": {"name": "性行为", "default": 0},
+        "achievement_source": {"name": "达成", "default": 0},
+        "pain_source": {"name": "苦痛", "default": 0},
+        "fear_source": {"name": "恐怖", "default": 0},
+        "lust_source": {"name": "情欲", "default": 0},
+        "obedience_source": {"name": "恭顺", "default": 0},
+        "exposure_source": {"name": "露出", "default": 0},
+        "submission_source": {"name": "屈服", "default": 0},
+        "happiness_source": {"name": "欢乐", "default": 0},
+        "conquest_source": {"name": "征服", "default": 0},
+        "passivity_source": {"name": "被动", "default": 0},
+        "unclean_source": {"name": "不洁", "default": 0},
+        "depression_source": {"name": "抑郁", "default": 0},
+        "escape_source": {"name": "逃避", "default": 0},
+        "disgust_source": {"name": "反感", "default": 0}
+    },
+
+    "talent": {
+        "alignment": {
+            "has_child": true,
+            "name": "阵营",
+            "value": {
+                "0": "白鹰", "1": "重樱", "2": "铁血", "3": "鸢尾",
+                "4": "维希教廷", "5": "撒丁帝国", "6": "皇家", "7": "东煌",
+                "8": "北方联合", "9": "郁金王国", "10": "META", "11": "飓风"
+            }
+        },
+        "ship_type": {
+            "has_child": true,
+            "name": "舰船种类",
+            "value": {
+                "0": "驱逐", "1": "轻巡", "2": "重巡", "3": "战列",
+                "4": "航母", "5": "潜艇", "6": "维修", "7": "航战",
+                "8": "轻航", "9": "运输", "10": "重炮", "11": "战巡",
+                "12": "超巡"
+            }
+        }
+    }
+
+    
+
+    
+
+
+
 }

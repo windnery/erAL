@@ -12,10 +12,41 @@
         "energy": 2000
     },
     "abl": {
+        "c_sen_abl": 0,
+        "v_sen_abl": 0,
+        "a_sen_abl": 0,
+        "b_sen_abl": 0,
+        "m_sen_abl": 0,
         "intimacy_abl": 0,
         "obedience_abl": 0,
+        "desire_abl": 0,
+        "skill_abl": 0,
+        "serve_abl": 0,
+        "exposure_abl": 0,
+        "masochistic_abl": 0,
+        "sadism_abl": 0,
         "talk_abl": 0,
         "work_abl": 0
+    },
+    "palam": {
+        "c_pleasure_palam": 0,
+        "v_pleasure_palam": 0,
+        "a_pleasure_palam": 0,
+        "b_pleasure_palam": 0,
+        "m_pleasure_palam": 0,
+        "lubrication_palam": 0,
+        "obedience_palam": 0,
+        "lust_palam": 0,
+        "submission_palam": 0,
+        "learn_palam": 0,
+        "shame_palam": 0,
+        "pain_palam": 0,
+        "fear_palam": 0,
+        "kindness_palam": 0,
+        "superiority_palam": 0,
+        "disgust_palam": 0,
+        "unhappiness_palam": 0,
+        "depression_palam": 0
     },
     "exp": {
         "intimacy_exp": 0,
@@ -23,7 +54,5 @@
         "talk_exp": 0,
         "work_exp": 0
     },
-    "talent": {
-
-    }
+    "talent": {}
 }
