@@ -2,7 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from random import randint
 
+from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.palam_effect import palam2favor
+from game_engine.data_pipeline.src2mood_proc import src2mood_proc
 from game_engine.data_pipeline.src2palam_proc import src2palam_proc
 if TYPE_CHECKING:
     from world import World
@@ -41,8 +43,8 @@ def talk(world: World, option: str):
     world.player.exp['talk_exp'] += 1
     ctx.say(f'会话经验+1 ({world.player.name})', f'会话经验+1 ({npc.name})')
 
-    # 好感对source修正
-    favor_multi = favor2source(npc.favor)
+    # 通用source修正
+    source = common_src_modify(source, npc)
 
     # abl对source修正
     # abl: 亲密
@@ -78,9 +80,13 @@ def talk(world: World, option: str):
             abl_multi = 1.5
     
     for k in source:
-        source[k] = int(source[k] * favor_multi * abl_multi)
+        source[k] = int(source[k] * abl_multi)
 
     ctx.say(f'欢乐({source["happiness_source"]}) 征服({source["conquest_source"]}) 被动({source["passivity_source"]})')
+
+    # source->mood
+    mood_delta = src2mood_proc(source, npc)
+    npc.base['mood'] += mood_delta
 
     # source->palam
     mes_source, mes_target = src2palam_proc(source, world.player, npc)
@@ -91,7 +97,7 @@ def talk(world: World, option: str):
     # 更新palam等级
     world.player.update_palam_level()
     npc.update_palam_level()
-    
+
     # 体力和气力消耗
     energy_cost = 10
     ctx.consume(energy=energy_cost, npc=npc)

@@ -12,11 +12,11 @@ def src2palam_proc(src: dict[str, int], source: Character, target: Character):
         palam_map = src2palam_map[src_k]
         for palam, info in palam_map.items():
             chara = source if info['chara'] == 'source' else target
-            chara.palam[palam] += int(info['value'] * src_v)
             if chara == source:
                 mes_source.append(f'{attr_defs['palam'][palam]["name"]} {chara.palam[palam]} + {int(info['value'] * src_v)} = {chara.palam[palam] + int(info['value'] * src_v)}')
             else:
                 mes_target.append(f'{attr_defs['palam'][palam]["name"]} {chara.palam[palam]} + {int(info['value'] * src_v)} = {chara.palam[palam] + int(info['value'] * src_v)}')
+            chara.palam[palam] += int(info['value'] * src_v)
 
     return mes_source, mes_target
             
