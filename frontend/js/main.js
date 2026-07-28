@@ -75,7 +75,7 @@ function selectNpc(npcId) {
     // 仅重渲头像高亮、面板与指令区（不从后端重新拉取）
     const npcs = currentNearby;
     renderPortrait(npcs, selectedNpcId, selectNpc);
-    renderCharaPanel(npcs, selectedNpcId);
+    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs);
     // 重新过滤并渲染 Act_COM（选中/取消选中会影响NPC交互指令的显示）
     const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
     const actCom = selectedNpcId
@@ -88,11 +88,14 @@ function selectNpc(npcId) {
 let currentNearby = [];
 // 最近一次拉取到的 Act_COM 原始列表（含 needs_target 指令），供 selectNpc 复用
 let currentActCom = [];
+// palam 名称映射
+let currentPalamDefs = {};
 
 async function refresh() {
     const state = await getState();
     currentNearby = state.nearby_npcs || [];
     currentActCom = state.act_com || [];
+    currentPalamDefs = state.palam_defs || {};
     // 若选中舰娘已不在附近（离开了），重置选中
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
@@ -106,7 +109,7 @@ async function refresh() {
     renderCommands(actCom, 'act', callbacks);
     renderCommands(state.ex_com, 'ex', callbacks);
     renderPortrait(currentNearby, selectedNpcId, selectNpc);
-    renderCharaPanel(currentNearby, selectedNpcId);
+    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs);
 
     const main_menu = document.getElementById('game_screen');
     main_menu.style.display = 'block';

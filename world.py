@@ -29,6 +29,7 @@ class World:
             'ex_com': self.command_manager.get_EX_COM(),
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
+            'palam_defs': {k: v['name'] for k, v in self.attr_defs['palam'].items()},
         }
 
     def advance_time_with_events(self, minutes: int):

@@ -33,7 +33,7 @@ export function renderPortrait(npcs, selectedId, onSelect) {
     }
 }
 
-export function renderCharaPanel(npcs, selectedId) {
+export function renderCharaPanel(npcs, selectedId, palamDefs) {
     const el = document.getElementById('charaPanel');
     el.innerHTML = '';
 
@@ -51,7 +51,7 @@ export function renderCharaPanel(npcs, selectedId) {
     // 名字 + 好感/信赖/心情 同一行，括号包裹
     const name = document.createElement('div');
     name.className = 'chara-name';
-    name.textContent = `${npc.name} (好感 ${base.favor ?? 0} 信赖 ${base.trust ?? 0} 心情 ${npc.mood_label ?? '一般'})`;
+    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0} 心情 ${npc.mood_label ?? '一般'})`;
     el.appendChild(name);
 
     // 体力条（绿）/ 气力条（蓝）同一行
@@ -60,6 +60,25 @@ export function renderCharaPanel(npcs, selectedId) {
     appendBar(barRow, '体力', base.stamina, base.max_stamina, 'chara-bar-fill-sta');
     appendBar(barRow, '气力', base.energy, base.max_energy, 'chara-bar-fill-ene');
     el.appendChild(barRow);
+
+    // Palam 面板：每行5个，格式 [名称 数值]
+    if (npc.palam) {
+        const keys = Object.keys(npc.palam);
+        const PER_ROW = 5;
+        for (let i = 0; i < keys.length; i += PER_ROW) {
+            const row = document.createElement('div');
+            row.className = 'palam-row';
+            const rowKeys = keys.slice(i, i + PER_ROW);
+            for (let key of rowKeys) {
+                const item = document.createElement('span');
+                item.className = 'palam-item';
+                const displayName = (palamDefs && palamDefs[key]) || key;
+                item.textContent = `${displayName} ${npc.palam[key]}`;
+                row.appendChild(item);
+            }
+            el.appendChild(row);
+        }
+    }
 }
 
 function appendBar(row, label, value, max, fillClass) {

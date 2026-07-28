@@ -36,11 +36,22 @@ body {
 
 #charaPanel {
     height: 350px;
-}
-
-#charaPanel {
     min-height: 24px;
     padding: 4px 0;
+}
+
+/* Palam：每行5个，格式 [名称 数值] */
+.palam-row {
+    display: flex;
+    gap: 4px;
+    margin: 1px 0;
+}
+
+.palam-item {
+    color: #ccc;
+    font-size: 13px;
+    width: 20%;
+    white-space: nowrap;
 }
 
 #charaPortrait {
