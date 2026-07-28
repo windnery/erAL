@@ -33,7 +33,7 @@ export function renderPortrait(npcs, selectedId, onSelect) {
     }
 }
 
-export function renderCharaPanel(npcs, selectedId, palamDefs) {
+export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap) {
     const el = document.getElementById('charaPanel');
     el.innerHTML = '';
 
@@ -61,7 +61,7 @@ export function renderCharaPanel(npcs, selectedId, palamDefs) {
     appendBar(barRow, '气力', base.energy, base.max_energy, 'chara-bar-fill-ene');
     el.appendChild(barRow);
 
-    // Palam 面板：每行5个，格式 [名称 数值]
+    // Palam 面板：每行5个，格式 [名称LvN ████░░░░ 数值]
     if (npc.palam) {
         const keys = Object.keys(npc.palam);
         const PER_ROW = 5;
@@ -72,8 +72,39 @@ export function renderCharaPanel(npcs, selectedId, palamDefs) {
             for (let key of rowKeys) {
                 const item = document.createElement('span');
                 item.className = 'palam-item';
+
                 const displayName = (palamDefs && palamDefs[key]) || key;
-                item.textContent = `${displayName} ${npc.palam[key]}`;
+                const value = npc.palam[key];
+                const lv = npc.palam_lv ? (npc.palam_lv[key] ?? 0) : 0;
+
+                // 名称 + LV
+                const nameLv = document.createElement('span');
+                nameLv.className = 'palam-name-lv';
+                nameLv.textContent = `${displayName}Lv${lv}`;
+                item.appendChild(nameLv);
+
+                // 进度条
+                const barTrack = document.createElement('span');
+                barTrack.className = 'palam-bar-track';
+                const barFill = document.createElement('span');
+                barFill.className = 'palam-bar-fill';
+
+                const lower = lv === 0 ? 0 : (palamLvMap ? (Number(palamLvMap[lv]) || 0) : 0);
+                const upper = palamLvMap ? (Number(palamLvMap[lv + 1])) : undefined;
+                let pct = 100;
+                if (upper !== undefined && upper > lower) {
+                    pct = Math.max(0, Math.min(100, ((value - lower) / (upper - lower)) * 100));
+                }
+                barFill.style.width = pct + '%';
+                barTrack.appendChild(barFill);
+                item.appendChild(barTrack);
+
+                // 数值
+                const valSpan = document.createElement('span');
+                valSpan.className = 'palam-val';
+                valSpan.textContent = value;
+                item.appendChild(valSpan);
+
                 row.appendChild(item);
             }
             el.appendChild(row);

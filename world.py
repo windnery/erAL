@@ -1,4 +1,5 @@
 from config.abl_lv import abl_lv
+from config.palam_lv import palam_lv
 from data.data_loader import load_attr_defs
 from game_engine.commands._common import abl_lv_process
 from game_engine.managers.CommandManager import CommandManager
@@ -30,6 +31,7 @@ class World:
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
             'palam_defs': {k: v['name'] for k, v in self.attr_defs['palam'].items()},
+            'palam_lv_map': {str(k): v for k, v in palam_lv.items()},
         }
 
     def advance_time_with_events(self, minutes: int):

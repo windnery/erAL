@@ -71,11 +71,16 @@ function createPageElement(text) {
 }
 
 function selectNpc(npcId) {
+    if (npcId === selectedNpcId) {
+        const npc = currentNearby.find(n => n.id === npcId);
+        if (npc) showFullscreenPortrait(npc);
+        return;
+    }
     selectedNpcId = npcId;
     // 仅重渲头像高亮、面板与指令区（不从后端重新拉取）
     const npcs = currentNearby;
     renderPortrait(npcs, selectedNpcId, selectNpc);
-    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs);
+    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap);
     // 重新过滤并渲染 Act_COM（选中/取消选中会影响NPC交互指令的显示）
     const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
     const actCom = selectedNpcId
@@ -84,18 +89,33 @@ function selectNpc(npcId) {
     renderCommands(actCom, 'act', callbacks);
 }
 
+function showFullscreenPortrait(npc) {
+    const el = document.getElementById('fullscreen_portrait');
+    el.innerHTML = `<img src="assets/portraits/${npc.name}.webp" alt="${npc.name}">`;
+    document.getElementById('game_screen').style.display = 'none';
+    el.style.display = 'flex';
+}
+
+function hideFullscreenPortrait() {
+    document.getElementById('fullscreen_portrait').style.display = 'none';
+    document.getElementById('game_screen').style.display = 'block';
+}
+
 // 最近一次拉取到的附近舰娘，供 selectNpc 复用
 let currentNearby = [];
 // 最近一次拉取到的 Act_COM 原始列表（含 needs_target 指令），供 selectNpc 复用
 let currentActCom = [];
 // palam 名称映射
 let currentPalamDefs = {};
+// palam 等级阈值映射
+let currentPalamLvMap = {};
 
 async function refresh() {
     const state = await getState();
     currentNearby = state.nearby_npcs || [];
     currentActCom = state.act_com || [];
     currentPalamDefs = state.palam_defs || {};
+    currentPalamLvMap = state.palam_lv_map || {};
     // 若选中舰娘已不在附近（离开了），重置选中
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
@@ -109,7 +129,7 @@ async function refresh() {
     renderCommands(actCom, 'act', callbacks);
     renderCommands(state.ex_com, 'ex', callbacks);
     renderPortrait(currentNearby, selectedNpcId, selectNpc);
-    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs);
+    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap);
 
     const main_menu = document.getElementById('game_screen');
     main_menu.style.display = 'block';
@@ -141,6 +161,9 @@ document.getElementById('fullscreen_text').addEventListener('click', function() 
         refresh();
     }
 });
+
+// 全屏立绘点击关闭
+document.getElementById('fullscreen_portrait').addEventListener('click', hideFullscreenPortrait);
 
 // 绑定新游戏和继续游戏按钮的点击事件
 document.getElementById('new_game_btn').addEventListener('click', new_game);
