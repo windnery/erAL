@@ -1,15 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from random import randint
 
 from game_engine.data_pipeline.common_src_modify import common_src_modify
-from game_engine.data_pipeline.palam_effect import palam2favor
-from game_engine.data_pipeline.src2mood_proc import src2mood_proc
-from game_engine.data_pipeline.src2palam_proc import src2palam_proc
+from game_engine.data_pipeline.favor.favor_calc import favor_calc
+from game_engine.data_pipeline.source.src2mood_proc import src2mood_proc
+from game_engine.data_pipeline.source.src2palam_proc import src2palam_proc
 if TYPE_CHECKING:
     from world import World
 
-from ...data_pipeline.favor_effect import favor2source
 from .._commands import register_cmd
 from .._context import CommandContext
 from data.time.time_data import command_time_data
@@ -43,9 +41,6 @@ def talk(world: World, option: str):
     world.player.exp['talk_exp'] += 1
     ctx.say(f'会话经验+1 ({world.player.name})', f'会话经验+1 ({npc.name})')
 
-    # 通用source修正
-    source = common_src_modify(source, npc)
-
     # abl对source修正
     # abl: 亲密
     if npc.abl['intimacy_abl'] <= 1:
@@ -78,6 +73,9 @@ def talk(world: World, option: str):
             abl_multi = 1.2
         case _:
             abl_multi = 1.5
+
+    # 通用source修正
+    source = common_src_modify(source, npc)
     
     for k in source:
         source[k] = int(source[k] * abl_multi)
@@ -102,20 +100,12 @@ def talk(world: World, option: str):
     energy_cost = 10
     ctx.consume(energy=energy_cost, npc=npc)
 
-    # 处理好感和信赖
-    ex_favor = randint(1, 2) * world.player.abl['talk_abl']
-    ex_trust = randint(1, 2) * world.player.abl['talk_abl'] // 2
-    # palam对好感的修正
-    ex_favor += palam2favor(npc.palam)
-    # TODO: 心情加成
-    # TODO: 后续加成在这里添加
+    # 处理好感
+    favor_delta = favor_calc(npc, source)
 
-    favor = max(0, randint(1, 2) + ex_favor)
-    trust = max(0, 1 + ex_trust)
-    npc.favor += favor
-    npc.trust += trust
+    npc.favor += favor_delta
 
-    ctx.say(f'好感+{favor} ({npc.name})', f'信赖+{trust} ({npc.name})')
+    ctx.say(f'好感+{favor_delta} ({npc.name})')
 
     ctx.say(f'度过了{command_time_data["talk"]}分钟')
     return ctx.result()
