@@ -56,8 +56,8 @@
         "depression_palam": 0
     },
     "talent": {
-        "alignment": "重樱",
-        "ship_type": "驱逐"
+        "alignment": "1",
+        "ship_type": "0"
     },
     "schedule": {
         "sleep": [

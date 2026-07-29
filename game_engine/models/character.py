@@ -1,7 +1,9 @@
 from dataclasses import dataclass, field
 
 from config.palam_lv import palam_lv
+from data.data_loader import load_attr_defs
 
+attr_defs = load_attr_defs()
 
 @dataclass
 class Character:
@@ -46,3 +48,15 @@ class Character:
                 if v < threshold:
                     self.palam_lv[k] = level - 1
                     break
+
+    def get_talent_list(self) -> list[str]:
+        '''获取天赋列表'''
+        talents = []
+        for k, v in self.talent.items():
+            if attr_defs['talent'][k]['has_value']:
+                # 多分类素质
+                talents.append(attr_defs['talent'][k]['value'][v])
+            else:
+                # 二分类素质
+                talents.append(attr_defs['talent'][k]['name'])
+        return talents

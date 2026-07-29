@@ -26,7 +26,7 @@ class ShipGirl(Character):
             'exp': self.exp,
             'palam': self.palam,
             'palam_lv': self.palam_lv,
-            'talent': self.talent,
+            'talent': self.get_talent_list(),
             'schedule': self.schedule,
             'mood_label': self.get_mood().value,
         }

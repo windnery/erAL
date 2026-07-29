@@ -1,7 +1,6 @@
-import json
 from typing import Any
 
-from data.data_loader import load_maps
+from data.data_loader import load_maps, load_regions
 from data.time.time_data import leave_time_data, move_time_data
 
 
@@ -13,8 +12,7 @@ class MapManager:
         self.maps: dict[str, dict[str, dict[str, Any]]] = load_maps()
 
         # 区域地图
-        with open('data/maps/_regions.json', 'r', encoding='utf-8') as f:
-            self.regions: dict[str, dict[str, str]] = json.load(f)
+        self.regions: dict[str, dict[str, str]] = load_regions()
 
     def get_current_loc(self, character):
         '''获取当前位置信息'''

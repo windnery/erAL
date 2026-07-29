@@ -56,8 +56,8 @@
         "depression_palam": 0
     },
     "talent": {
-        "alignment": "皇家",
-        "ship_type": "驱逐"
+        "alignment": "6",
+        "ship_type": "0"
     },
     "schedule": {
         "sleep": [

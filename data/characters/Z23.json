@@ -56,8 +56,8 @@
         "depression_palam": 0
     },
     "talent": {
-        "alignment": "铁血",
-        "ship_type": "驱逐"
+        "alignment": "2",
+        "ship_type": "0"
     },
     "schedule": {
         "sleep": [
