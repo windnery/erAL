@@ -1,0 +1,103 @@
+{
+    "id": "javelin",
+    "name": "标枪",
+    "location": {
+        "region": "home",
+        "node": "bedroom"
+    },
+    "base": {
+        "max_stamina": 1500,
+        "max_energy": 1500,
+        "stamina": 1500,
+        "energy": 1500,
+        "mood": 0
+    },
+    "abl": {
+        "c_sen_abl": 0,
+        "v_sen_abl": 0,
+        "a_sen_abl": 0,
+        "b_sen_abl": 0,
+        "m_sen_abl": 0,
+        "intimacy_abl": 0,
+        "obedience_abl": 0,
+        "desire_abl": 0,
+        "skill_abl": 0,
+        "servant_abl": 0,
+        "exposure_abl": 0,
+        "masochistic_abl": 0,
+        "sadism_abl": 0,
+        "talk_abl": 0,
+        "work_abl": 0
+    },
+    "exp": {
+        "intimacy_exp": 0,
+        "obedience_exp": 0,
+        "talk_exp": 0,
+        "work_exp": 0
+    },
+    "palam": {
+        "c_pleasure_palam": 0,
+        "v_pleasure_palam": 0,
+        "a_pleasure_palam": 0,
+        "b_pleasure_palam": 0,
+        "m_pleasure_palam": 0,
+        "lubrication_palam": 0,
+        "obedience_palam": 0,
+        "lust_palam": 0,
+        "submission_palam": 0,
+        "learn_palam": 0,
+        "shame_palam": 0,
+        "pain_palam": 0,
+        "fear_palam": 0,
+        "kindness_palam": 0,
+        "superiority_palam": 0,
+        "disgust_palam": 0,
+        "unhappiness_palam": 0,
+        "depression_palam": 0
+    },
+    "talent": {
+        "alignment": "皇家",
+        "ship_type": "驱逐"
+    },
+    "schedule": {
+        "sleep": [
+            23,
+            8
+        ],
+        "work": {
+            
+        }
+    },
+    "lines": [
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 0,
+                "max_favor": 30
+            },
+            "texts": [
+                "{name}蹦蹦跳跳地凑过来，「指挥官指挥官！找标枪有什么事吗？」",
+                "{name}正抱着一堆零食，「啊、指挥官！要不要一起吃？刚从明石那里拿到的新口味！」",
+                "{name}哼着不知名的小曲，「哎哎？！被指挥官听到了吗？有点不好意思呢……」"
+            ]
+        },
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 30
+            },
+            "texts": [
+                "{name}眼睛亮晶晶地拉住你的袖子，「指挥官！今天的事情想听吗？想听对吧！那我开始讲啦～」",
+                "{name}开心地转了个圈，「和指挥官在一起的时候，总觉得时间过得特别快呢！」"
+            ]
+        },
+        {
+            "action": "rub_the_head",
+            "conditions": {},
+            "texts": [
+                "{name}喊着「哇哇」缩了一下脖子，随即笑开：「指挥官指挥官，标枪很有精神哦～！」",
+                "{name}主动把头顶凑过来：「再摸一次也可以哦！」"
+            ]
+        }
+    ]
+}

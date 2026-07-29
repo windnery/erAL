@@ -59,10 +59,10 @@ def load_shipgirls():
 		# 跳过_player.json
 		if json_file.name.startswith('_'):
 			continue
-		shipgirl_id = json_file.stem
 
 		with open(json_file, 'r', encoding='utf-8') as f:
 			shipgirl_data = json.load(f)
+			shipgirl_id = shipgirl_data['id']
 			shipgirls[shipgirl_id] = shipgirl_data
 
 	return shipgirls

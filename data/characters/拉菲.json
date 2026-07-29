@@ -22,7 +22,7 @@
         "obedience_abl": 0,
         "desire_abl": 0,
         "skill_abl": 0,
-        "serve_abl": 0,
+        "servant_abl": 0,
         "exposure_abl": 0,
         "masochistic_abl": 0,
         "sadism_abl": 0,
@@ -56,8 +56,16 @@
         "depression_palam": 0
     },
     "talent": {
-        "alignment": "白鹰",
-        "ship_type": "驱逐舰"
+        "alignment": "0",
+        "ship_type": "0",
+        "virgin": "1",
+        "sex": "0",
+        "relationship": "0",
+        "emotional_deficiency": "1",
+        "not_minding_the_gaze": "1",
+        "female_body": "0",
+        "bra_size": "-1",
+        "hip_size": "-1"
     },
     "schedule": {
         "sleep": [

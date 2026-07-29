@@ -1,0 +1,103 @@
+{
+    "id": "ayanami",
+    "name": "绫波",
+    "location": {
+        "region": "home",
+        "node": "bedroom"
+    },
+    "base": {
+        "max_stamina": 1500,
+        "max_energy": 1500,
+        "stamina": 1500,
+        "energy": 1500,
+        "mood": 0
+    },
+    "abl": {
+        "c_sen_abl": 0,
+        "v_sen_abl": 0,
+        "a_sen_abl": 0,
+        "b_sen_abl": 0,
+        "m_sen_abl": 0,
+        "intimacy_abl": 0,
+        "obedience_abl": 0,
+        "desire_abl": 0,
+        "skill_abl": 0,
+        "servant_abl": 0,
+        "exposure_abl": 0,
+        "masochistic_abl": 0,
+        "sadism_abl": 0,
+        "talk_abl": 0,
+        "work_abl": 0
+    },
+    "exp": {
+        "intimacy_exp": 0,
+        "obedience_exp": 0,
+        "talk_exp": 0,
+        "work_exp": 0
+    },
+    "palam": {
+        "c_pleasure_palam": 0,
+        "v_pleasure_palam": 0,
+        "a_pleasure_palam": 0,
+        "b_pleasure_palam": 0,
+        "m_pleasure_palam": 0,
+        "lubrication_palam": 0,
+        "obedience_palam": 0,
+        "lust_palam": 0,
+        "submission_palam": 0,
+        "learn_palam": 0,
+        "shame_palam": 0,
+        "pain_palam": 0,
+        "fear_palam": 0,
+        "kindness_palam": 0,
+        "superiority_palam": 0,
+        "disgust_palam": 0,
+        "unhappiness_palam": 0,
+        "depression_palam": 0
+    },
+    "talent": {
+        "alignment": "重樱",
+        "ship_type": "驱逐"
+    },
+    "schedule": {
+        "sleep": [
+            23,
+            8
+        ],
+        "work": {
+            
+        }
+    },
+    "lines": [
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 0,
+                "max_favor": 30
+            },
+            "texts": [
+                "{name}安静地站在原地，轻声开口：「指挥官……有什么吩咐吗？」",
+                "{name}盯着你看了好一会儿，才小声说：「对不起……绫波不太擅长聊天。」",
+                "{name}微微低下头：「指挥官愿意和绫波说话，绫波很高兴……真的。」"
+            ]
+        },
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 30
+            },
+            "texts": [
+                "{name}的眼神柔和了下来：「和指挥官在一起的时间，很安心……」",
+                "{name}缓缓地靠近半步：「如果指挥官不嫌弃……绫波想再多陪你一会儿。」"
+            ]
+        },
+        {
+            "action": "rub_the_head",
+            "conditions": {},
+            "texts": [
+                "{name}身体轻轻一颤，随后静静地闭上了眼睛。",
+                "{name}的脸泛起红晕，「指挥官的手……很温暖。」"
+            ]
+        }
+    ]
+}

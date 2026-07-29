@@ -1,0 +1,103 @@
+{
+    "id": "Z23",
+    "name": "Z23",
+    "location": {
+        "region": "home",
+        "node": "bedroom"
+    },
+    "base": {
+        "max_stamina": 1500,
+        "max_energy": 1500,
+        "stamina": 1500,
+        "energy": 1500,
+        "mood": 0
+    },
+    "abl": {
+        "c_sen_abl": 0,
+        "v_sen_abl": 0,
+        "a_sen_abl": 0,
+        "b_sen_abl": 0,
+        "m_sen_abl": 0,
+        "intimacy_abl": 0,
+        "obedience_abl": 0,
+        "desire_abl": 0,
+        "skill_abl": 0,
+        "servant_abl": 0,
+        "exposure_abl": 0,
+        "masochistic_abl": 0,
+        "sadism_abl": 0,
+        "talk_abl": 0,
+        "work_abl": 0
+    },
+    "exp": {
+        "intimacy_exp": 0,
+        "obedience_exp": 0,
+        "talk_exp": 0,
+        "work_exp": 0
+    },
+    "palam": {
+        "c_pleasure_palam": 0,
+        "v_pleasure_palam": 0,
+        "a_pleasure_palam": 0,
+        "b_pleasure_palam": 0,
+        "m_pleasure_palam": 0,
+        "lubrication_palam": 0,
+        "obedience_palam": 0,
+        "lust_palam": 0,
+        "submission_palam": 0,
+        "learn_palam": 0,
+        "shame_palam": 0,
+        "pain_palam": 0,
+        "fear_palam": 0,
+        "kindness_palam": 0,
+        "superiority_palam": 0,
+        "disgust_palam": 0,
+        "unhappiness_palam": 0,
+        "depression_palam": 0
+    },
+    "talent": {
+        "alignment": "铁血",
+        "ship_type": "驱逐"
+    },
+    "schedule": {
+        "sleep": [
+            23,
+            8
+        ],
+        "work": {
+            
+        }
+    },
+    "lines": [
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 0,
+                "max_favor": 30
+            },
+            "texts": [
+                "{name}合上手中的书，认真地看向你，「指挥官，是有任务要下达吗？」",
+                "{name}推了推不存在的眼镜，「闲聊……吗？如果是工作上的事情，我随时可以回答。」",
+                "{name}正在笔记本上写着什么，「稍等，让我把今天的训练记录整理完。」"
+            ]
+        },
+        {
+            "action": "talk",
+            "conditions": {
+                "min_favor": 30
+            },
+            "texts": [
+                "{name}的耳尖微微发红，「和指挥官聊天的时间……其实我也有好好记录下来哦。」",
+                "{name}难得地放下书本，「今天的学习计划就到这里……偶尔休息也是必要的，对吧？」"
+            ]
+        },
+        {
+            "action": "rub_the_head",
+            "conditions": {},
+            "texts": [
+                "{name}僵了一下，耳根微红：「、、这不在今天的计划里……但也不是不可以。」",
+                "{name}一动不动地任由你抚摸，「头发乱了的话，待会儿还要重新梳……」"
+            ]
+        }
+    ]
+}
