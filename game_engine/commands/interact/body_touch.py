@@ -18,7 +18,6 @@ def body_touch(world: World, option: str):
     world: 游戏世界对象
     option: 指令对象'''
     ctx = CommandContext(world)
-    player = world.player
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = {
         'happiness_source': 100,    # 欢乐
@@ -31,9 +30,9 @@ def body_touch(world: World, option: str):
 
     line = npc.get_line('body_touch')
     ctx.say(f'尝试和{npc.name}身体接触……')
-    # if not line:
-    #     return ctx.result()
-    # ctx.say(line.replace('{name}', npc.name))
+    if line:
+        # 有口上
+        ctx.say(line.replace('{name}', npc.name))
 
     # 推进时间
     ctx.advance_time(command_time_data['body_touch'])
