@@ -39,7 +39,8 @@ class NpcManager:
                 continue
 
             # 工作时间：去工作地点
-            work_time: list[list[int]] = sg.schedule['work']['time']
+            work = sg.schedule.get('work') or {}
+            work_time: list[list[int]] = work.get('time', [])
             is_work = False
             for time_range in work_time:
                 if time_range[0] <= hour < time_range[1]:
