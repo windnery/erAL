@@ -22,6 +22,10 @@ export function renderCommands(commands, type, callbacks) {
         span.onclick = async function () {
             // 需要目标的指令（NPC交互），直接传入选中的舰娘id
             if (cmd.needs_target) {
+                if (cmd.frontend) {
+                    callbacks.showCharaInfo(callbacks.getSelectedNpc());
+                    return;
+                }
                 let result = await callbacks.doCmd(cmd.key, callbacks.getSelectedNpc());
                 show_text_result(result, callbacks);
                 return;

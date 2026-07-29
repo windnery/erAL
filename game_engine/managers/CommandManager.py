@@ -44,7 +44,6 @@ class CommandManager:
         return [
             {'key': 'leave', 'name': '离开当前区域'},
             {'key': 'move', 'name': '移动'},
-            {'key': 'show_chara_info', 'name': '查看角色信息'},
             {'key': 'save', 'name': '存档'},
             {'key': 'load', 'name': '读档'}
         ]
@@ -65,6 +64,7 @@ class CommandManager:
             {'key': 'talk', 'name': '会话', 'needs_target': True},
             {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True},
             {'key': 'body_touch', 'name': '身体接触', 'needs_target': True},
+            {'key': 'show_chara_info', 'name': '查看角色信息', 'needs_target': True, 'frontend': True},
             
         ]
         # TODO: 加入NPC特定的指令

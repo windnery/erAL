@@ -334,11 +334,141 @@ button {
     background-color: black;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1000;
 }
 
 #fullscreen_portrait img {
     max-width: 95%;
     max-height: 95%;
     object-fit: contain;
+}
+
+/* 全屏角色信息面板 */
+#fullscreen_charinfo {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    padding: 24px 30px;
+    overflow-y: auto;
+    z-index: 999;
+    font-size: 16px;
+}
+
+.charinfo-tabbar {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid #444;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+}
+
+.charinfo-tab {
+    color: #888;
+    padding: 4px 12px;
+    cursor: default;
+    user-select: none;
+}
+
+.charinfo-tab.active {
+    color: #fff;
+    border-bottom: 2px solid #fc0;
+}
+
+.charinfo-tab.disabled {
+    color: #444;
+}
+
+.charinfo-talent-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin-top: 12px;
+}
+
+.charinfo-talent-item {
+    color: #fff;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.charinfo-hint {
+    color: #888;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.charinfo-close-hint {
+    color: #555;
+    font-size: 16px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.charinfo-info-row {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.charinfo-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.charinfo-bar-label {
+    color: #fff;
+    font-size: 16px;
+}
+
+.charinfo-bar-track {
+    display: inline-block;
+    width: 120px;
+    height: 12px;
+    background-color: #333;
+    vertical-align: middle;
+}
+
+.charinfo-bar-fill {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.charinfo-bar-text {
+    color: #fff;
+    font-size: 16px;
+    margin-right: 16px;
+}
+
+.charinfo-section-divider {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.charinfo-section-title {
+    color: #fff;
+    font-size: 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.charinfo-divider-line {
+    flex: 1;
+    height: 0;
+    border-top: 1px solid #555;
+}
+
+.charinfo-avatar {
+    width: 116px;
+    height: 116px;
+    display: block;
+    margin: 12px 0;
 }

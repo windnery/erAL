@@ -2,6 +2,7 @@ import { getState, getCmdOptions, doCmd } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
+import { showCharacterInfo, hideCharacterInfo } from './ui/chara_info.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
@@ -82,11 +83,16 @@ function selectNpc(npcId) {
     renderPortrait(npcs, selectedNpcId, selectNpc);
     renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap);
     // 重新过滤并渲染 Act_COM（选中/取消选中会影响NPC交互指令的显示）
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
     const actCom = selectedNpcId
         ? currentActCom
         : currentActCom.filter(cmd => !cmd.needs_target);
     renderCommands(actCom, 'act', callbacks);
+}
+
+function showCharaInfo(npcId) {
+    const npc = currentNearby.find(n => n.id === npcId);
+    if (npc) showCharacterInfo(npc);
 }
 
 function showFullscreenPortrait(npc) {
@@ -98,7 +104,11 @@ function showFullscreenPortrait(npc) {
 
 function hideFullscreenPortrait() {
     document.getElementById('fullscreen_portrait').style.display = 'none';
-    document.getElementById('game_screen').style.display = 'block';
+    document.getElementById('fullscreen_portrait').innerHTML = '';
+    const charinfo = document.getElementById('fullscreen_charinfo');
+    if (charinfo.style.display !== 'block') {
+        document.getElementById('game_screen').style.display = 'block';
+    }
 }
 
 // 最近一次拉取到的附近舰娘，供 selectNpc 复用
@@ -120,7 +130,7 @@ async function refresh() {
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
     renderStatusBar(state.location, state.time, state.player);
     // 未选中舰娘时过滤掉需要目标的交互指令
     const actCom = selectedNpcId
@@ -164,6 +174,9 @@ document.getElementById('fullscreen_text').addEventListener('click', function() 
 
 // 全屏立绘点击关闭
 document.getElementById('fullscreen_portrait').addEventListener('click', hideFullscreenPortrait);
+
+// 全屏角色信息点击关闭
+document.getElementById('fullscreen_charinfo').addEventListener('click', hideCharacterInfo);
 
 // 绑定新游戏和继续游戏按钮的点击事件
 document.getElementById('new_game_btn').addEventListener('click', new_game);
