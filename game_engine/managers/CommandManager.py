@@ -63,7 +63,9 @@ class CommandManager:
             return []
         commands = [
             {'key': 'talk', 'name': '会话', 'needs_target': True},
-            {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True}
+            {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True},
+            {'key': 'body_touch', 'name': '身体接触', 'needs_target': True},
+            
         ]
         # TODO: 加入NPC特定的指令
         return commands
