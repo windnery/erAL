@@ -1,5 +1,5 @@
 # abl升级规则
-abl_lv: dict[int, int] = {
+ABL_LV: dict[int, int] = {
     # abl: exp
     1: 10,
     2: 50,

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from config.palam_lv import palam_lv
+from config.palam_lv import PALAM_LV
 from data.data_loader import load_attr_defs
 
 attr_defs = load_attr_defs()
@@ -44,7 +44,7 @@ class Character:
     def update_palam_level(self) -> None:
         '''更新palam等级'''
         for k, v in self.palam.items():
-            for level, threshold in palam_lv.items():
+            for level, threshold in PALAM_LV.items():
                 if v < threshold:
                     self.palam_lv[k] = level - 1
                     break

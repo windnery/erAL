@@ -194,7 +194,7 @@
         },
         "impassable_line": {
             "has_value": false,
-            "name": "不可逾越的底线"
+            "name": "难以逾越的底线"
         },
         "not_minding_the_gaze": {
             "has_value": false,
@@ -273,7 +273,7 @@
             "has_value": false,
             "name": "献身的"
         },
-        "pleasure_respose": {
+        "pleasure_response": {
             "has_value": true,
             "name": "快感应答",
             "value": {

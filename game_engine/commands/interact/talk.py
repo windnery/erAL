@@ -4,9 +4,8 @@ from typing import TYPE_CHECKING
 from game_engine.commands._common import new_source
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.palam.palam2favor import palam2favor
+from game_engine.data_pipeline.mood.mood_calc import src2mood_proc
 from game_engine.data_pipeline.palam.palam2src import palam2src
-from game_engine.data_pipeline.source.src2mood_proc import src2mood_proc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 if TYPE_CHECKING:
     from world import World
@@ -76,9 +75,6 @@ def talk(world: World, option: str):
             abl_multi = 1.2
         case _:
             abl_multi = 1.5
-
-    # palam对source修正
-    source = palam2src(npc.palam_lv, source)
 
     # 通用source修正
     source = common_src_modify(source, npc)

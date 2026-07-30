@@ -1,5 +1,5 @@
 from game_engine.data_pipeline.palam.palam2favor import palam2favor
-from game_engine.data_pipeline.mood_effect import mood2favor
+from game_engine.data_pipeline.mood.mood2favor import mood2favor
 from game_engine.models.shipgirl import ShipGirl
 
 

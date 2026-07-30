@@ -1,4 +1,4 @@
-from config.abl_lv import abl_lv
+from config.abl_lv import ABL_LV
 from config.source_kind import ALL_SOURCE_KEYS
 from game_engine.models.character import Character
 
@@ -9,7 +9,7 @@ def abl_lv_process(chara: Character, attr_defs: dict[str, dict[str, int]]):
         if exp_v >= 1000:
             continue  # 经验值达到上限，不再升级
         abl_k = exp_k.replace('exp', 'abl')
-        if exp_v >= abl_lv[chara.abl[abl_k] + 1]:
+        if exp_v >= ABL_LV[chara.abl[abl_k] + 1]:
             chara.abl[abl_k] += 1
             return f'{chara.name}的{attr_defs[abl_k]["name"]}变成了{chara.abl[abl_k]}！'
     return None

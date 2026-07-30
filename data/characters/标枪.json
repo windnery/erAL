@@ -57,7 +57,17 @@
     },
     "talent": {
         "alignment": "6",
-        "ship_type": "0"
+        "ship_type": "0",
+        "virgin": "1",
+        "sex": "0",
+        "relationship": "0",
+        "attitude": "-1",
+        "bright": "1",
+        "sense_of_shame": "1",
+        "female_body": "0",
+        "bra_size": "-1",
+        "hip_size": "-1"
+
     },
     "schedule": {
         "sleep": [

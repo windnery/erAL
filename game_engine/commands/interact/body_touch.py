@@ -7,8 +7,7 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.palam.palam2src import palam2src
-from game_engine.data_pipeline.source.src2mood_proc import src2mood_proc
+from game_engine.data_pipeline.mood.mood_calc import src2mood_proc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 if TYPE_CHECKING:
     from world import World
@@ -70,9 +69,6 @@ def body_touch(world: World, option: str):
         source['happiness_source'] += 500 + (favor - 500) // 3
     else:
         source['happiness_source'] += 2000 + (favor - 5000) // 5
-
-    # palam对source修正
-    source = palam2src(npc.palam_lv, source)
 
     # 通用source修正
     source = common_src_modify(source, npc)

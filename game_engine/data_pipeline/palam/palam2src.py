@@ -3,7 +3,6 @@ K_ACCEL = 0.15
 
 def palam2src(palam_lv: dict[str, int], source: dict[str, int]):
     '''palam_lv对source的修正'''
-    # 快感系
     if palam_lv['c_pleasure_palam'] > 0:
         source = _pleasure_palam2src('c_pleasure_palam', palam_lv, source)
     if palam_lv['v_pleasure_palam'] > 0:
@@ -254,12 +253,12 @@ def _kindness_palam2src(palam_lv: dict[str, int], source: dict[str, int]):
     source['happiness_source'] += int(30 * modify) if source['happiness_source'] else 0
     source['conquest_source'] += int(10 * modify) if source['conquest_source'] else 0
     source['passivity_source'] += int(10 * modify) if source['passivity_source'] else 0
-    source['escape_source'] += int(10 * modify) if source['escape_source'] else 0
-    source['disgust_source'] += int(20 * modify) if source['disgust_source'] else 0
     # 负向修正
     source['pain_source'] -= min(source['pain_source'], int(20 * modify)) if source['pain_source'] else 0
     source['fear_source'] -= min(source['fear_source'], int(20 * modify)) if source['fear_source'] else 0
     source['unclean_source'] -= min(source['unclean_source'], int(10 * modify)) if source['unclean_source'] else 0
+    source['disgust_source'] -= min(source['disgust_source'], int(20 * modify)) if source['disgust_source'] else 0
+    source['escape_source'] -= min(source['escape_source'], int(10 * modify)) if source['escape_source'] else 0
     source['depression_source'] -= min(source['depression_source'], int(20 * modify)) if source['depression_source'] else 0
 
     return source
