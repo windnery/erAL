@@ -1,4 +1,14 @@
-positive_src = {
+ALL_SOURCE_KEYS = {
+    'c_pleasure_source','v_pleasure_source','a_pleasure_source',
+    'b_pleasure_source','m_pleasure_source','lubrication_source',
+    'love_source','sex_act_source','lust_source','obedience_source',
+    'submission_source','happiness_source','conquest_source',
+    'exposure_source','passivity_source','achievement_source',
+    'pain_source','fear_source','disgust_source','unclean_source',
+    'depression_source','escape_source',
+}
+
+POSITIVE_SRC = {
         'c_pleasure_source', 'v_pleasure_source',
         'a_pleasure_source', 'b_pleasure_source',
         'm_pleasure_source', 'love_source',
@@ -9,7 +19,7 @@ positive_src = {
         'lubrication_source', 'sex_act_source'
     }
 
-negative_src = {
+NEGATIVE_SRC = {
     'pain_source', 'fear_source', 
     'unclean_source', 'depression_source',
     'escape_source', 'disgust_source'

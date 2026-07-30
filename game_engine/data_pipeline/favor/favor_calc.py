@@ -1,3 +1,4 @@
+from game_engine.data_pipeline.palam.palam2favor import palam2favor
 from game_engine.data_pipeline.mood_effect import mood2favor
 from game_engine.models.shipgirl import ShipGirl
 
@@ -53,4 +54,6 @@ def favor_calc(npc: ShipGirl, source: dict[str, int]) -> int:
     favor_delta += int(temp // 10)
     # 心情
     favor_delta += mood2favor(npc.get_mood())
+    # palam等级对好感的修正
+    favor_delta += palam2favor(npc.palam_lv)
     return favor_delta

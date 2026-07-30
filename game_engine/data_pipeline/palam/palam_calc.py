@@ -3,7 +3,7 @@ from data.data_loader import load_attr_defs
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
 
-def src2palam_proc(src: dict[str, int], source: Character, target: Character):
+def palam_calc(src: dict[str, int], source: Character, target: Character):
     '''将source转成palam'''
     mes_source: list[str] = [f'{source.name}']
     mes_target: list[str] = [f'{target.name}']
@@ -436,11 +436,6 @@ def disgust_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, 
     return {
         'disgust_palam': {'chara': 'target', 'value': int(disgust_source)}
     }
-
-
-
-
-
 
 
 

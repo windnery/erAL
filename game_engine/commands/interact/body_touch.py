@@ -2,12 +2,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
+from game_engine.commands._common import new_source
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
+from game_engine.data_pipeline.palam.palam2src import palam2src
 from game_engine.data_pipeline.source.src2mood_proc import src2mood_proc
-from game_engine.data_pipeline.source.src2palam_proc import src2palam_proc
+from game_engine.data_pipeline.palam.palam_calc import palam_calc
 if TYPE_CHECKING:
     from world import World
 
@@ -19,14 +21,14 @@ def body_touch(world: World, option: str):
     option: 指令对象'''
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
-    source: dict[str, int] = {
-        'happiness_source': 100,    # 欢乐
+    source: dict[str, int] = new_source({
+        'happiness_source': 200,    # 欢乐
         'love_source': 100,         # 情爱
-        'exposure_source': 20,      # 露出
-        'disgust_source': 50,       # 反感
+        'exposure_source': 100,     # 露出
+        'disgust_source': 100,      # 反感
         'conquest_source': 100,     # 征服
         'passivity_source': 100,    # 被动
-    }
+    })
 
     line = npc.get_line('body_touch')
     ctx.say(f'尝试和{npc.name}身体接触……')
@@ -69,6 +71,9 @@ def body_touch(world: World, option: str):
     else:
         source['happiness_source'] += 2000 + (favor - 5000) // 5
 
+    # palam对source修正
+    source = palam2src(npc.palam_lv, source)
+
     # 通用source修正
     source = common_src_modify(source, npc)
 
@@ -84,7 +89,7 @@ def body_touch(world: World, option: str):
     npc.base['mood'] += mood_delta
 
     # source->palam
-    mes_source, mes_target = src2palam_proc(source, world.player, npc)
+    mes_source, mes_target = palam_calc(source, world.player, npc)
     for mes in mes_source:
         ctx.say(mes)
     for mes in mes_target:

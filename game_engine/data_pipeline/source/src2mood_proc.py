@@ -1,6 +1,6 @@
 from random import random
 
-from config.source_kind import positive_src, negative_src
+from config.source_kind import POSITIVE_SRC, NEGATIVE_SRC
 from game_engine.models.character import Character
 
 
@@ -10,9 +10,9 @@ def src2mood_proc(source: dict[str, int], npc: Character) -> int:
     loss = 0
 
     for k, v in source.items():
-        if k in positive_src:
+        if k in POSITIVE_SRC:
             bonus += get_p_src2mood(v)
-        elif k in negative_src:
+        elif k in NEGATIVE_SRC:
             loss += get_n_src2mood(v)
 
     return bonus - loss
