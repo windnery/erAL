@@ -24,8 +24,16 @@
         "exposure_abl": {"name": "露出癖", "default": 0},
         "masochistic_abl": {"name": "受虐属性", "default": 0},
         "sadism_abl": {"name": "施虐属性", "default": 0},
+
         "talk_abl": {"name": "会话", "default": 0},
-        "work_abl": {"name": "工作", "default": 0}
+        "work_abl": {"name": "工作", "default": 0},
+
+        "finger_abl": {"name": "指", "default": 0},
+        "tongue_abl": {"name": "舌", "default": 0},
+        "breast_abl": {"name": "胸", "default": 0},
+        "waist_abl": {"name": "腰", "default": 0},
+        "vagina_abl": {"name": "穴", "default": 0},
+        "anal_abl": {"name": "肛门", "default": 0}
     },
 
     "exp": {

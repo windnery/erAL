@@ -1,6 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from game_engine.models.player import Player
+from game_engine.models.shipgirl import ShipGirl
+
 if TYPE_CHECKING:
     from world import World
     from game_engine.models.character import Character
@@ -19,23 +22,24 @@ class CommandContext:
         '''推进时间，自动记录 NPC 变动事件'''
         self._npc_events = self.world.advance_time_with_events(minutes)
 
-    def consume(self, stamina: int = 0, energy: int = 0, npc: Character | None = None):
+    def consume(self, stamina: int = 0, energy: int = 0, chara: Character | None = None):
         '''消耗体力和气力（传正数表示消耗量）
         npc: 若指定，NPC 也同步消耗'''
-        if energy:
-            self._exhaustion_mes += self.world.change_energy(-energy)
-            self.messages.append(f'气力-{energy} ({self.world.player.name})')
-        if stamina:
-            self._exhaustion_mes += self.world.change_stamina(-stamina)
-            self.messages.append(f'体力-{stamina} ({self.world.player.name})')
-
-        if npc:
-            if stamina:
-                npc.set_stamina(npc.get_stamina() - stamina)
-                self.messages.append(f'体力-{stamina} ({npc.name})')
+        # 如果传入玩家
+        if isinstance(chara, Player):
             if energy:
-                npc.set_energy(npc.get_energy() - energy)
-                self.messages.append(f'气力-{energy} ({npc.name})')
+                self._exhaustion_mes += self.world.change_energy(-energy)
+                self.messages.append(f'气力-{energy} ({self.world.player.name})')
+            if stamina:
+                self._exhaustion_mes += self.world.change_stamina(-stamina)
+                self.messages.append(f'体力-{stamina} ({self.world.player.name})')
+        elif isinstance(chara, ShipGirl):
+            if stamina:
+                chara.set_stamina(chara.get_stamina() - stamina)
+                self.messages.append(f'体力-{stamina} ({chara.name})')
+            if energy:
+                chara.set_energy(chara.get_energy() - energy)
+                self.messages.append(f'气力-{energy} ({chara.name})')
 
     def recover(self, stamina: int = 0, energy: int = 0):
         '''恢复体力和气力'''

@@ -64,6 +64,10 @@ class CommandManager:
             {'key': 'talk', 'name': '会话', 'needs_target': True},
             {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True},
             {'key': 'body_touch', 'name': '身体接触', 'needs_target': True},
+            {'key': 'request_a_lap_pillow', 'name': '索求膝枕', 'needs_target': True},
+            {'key': 'rub_the_belly', 'name': '揉肚子', 'needs_target': True},
+            {'key': 'poke_the_cheek', 'name': '戳脸颊', 'needs_target': True},
+            {'key': 'pinching_cheeks', 'name': '揉脸蛋', 'needs_target': True},
             {'key': 'show_chara_info', 'name': '查看角色信息', 'needs_target': True, 'frontend': True},
             
         ]

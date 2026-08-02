@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from config.attr_defs import ATTR_DEFS
 from game_engine.commands._common import new_source
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
@@ -21,7 +22,6 @@ def talk(world: World, option: str):
     world: 游戏世界对象
     option: 指令对象'''
     ctx = CommandContext(world)
-    player = world.player
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({
         'happiness_source': 200,    # 欢乐
@@ -62,7 +62,7 @@ def talk(world: World, option: str):
     source['passivity_source'] += npc.abl['sadism_abl'] * 100
 
     # abl: 话术
-    match player.abl['talk_abl']:
+    match world.player.abl['talk_abl']:
         case 0:
             abl_multi = 0.2
         case 1:
@@ -82,11 +82,15 @@ def talk(world: World, option: str):
     for k in source:
         source[k] = int(source[k] * abl_multi)
 
-    ctx.say(f'欢乐({source["happiness_source"]}) 征服({source["conquest_source"]}) 被动({source["passivity_source"]})')
+    source_list = []
+    for k, v in source.items():
+        if v != 0:
+            source_list.append(f'{ATTR_DEFS['source'][k]['name']}({v})')
+    ctx.say(' '.join(source_list))
 
     # source->mood
-    mood_delta = src2mood_proc(source, npc)
-    npc.base['mood'] += mood_delta
+    # mood_delta = src2mood_proc(source, npc)
+    # npc.base['mood'] += mood_delta
 
     # source->palam
     mes_source, mes_target = palam_calc(source, world.player, npc)
@@ -100,11 +104,11 @@ def talk(world: World, option: str):
 
     # 体力和气力消耗
     energy_cost = 10
-    ctx.consume(energy=energy_cost, npc=npc)
+    ctx.consume(energy=energy_cost, chara=world.player)
+    ctx.consume(energy=energy_cost, chara=npc)
 
     # 处理好感
     favor_delta = favor_calc(npc, source)
-
     npc.favor += favor_delta
 
     ctx.say(f'好感+{favor_delta} ({npc.name})')

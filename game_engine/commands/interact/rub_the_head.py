@@ -25,7 +25,7 @@ def rub_the_head(world, option: str):
     # 体力和气力消耗
     stamina_cost = 5
     energy_cost = 10
-    ctx.consume(stamina=stamina_cost, energy=energy_cost, npc=npc)
+    ctx.consume(stamina=stamina_cost, energy=energy_cost, chara=npc)
 
     # 处理好感和信赖
     # TODO: 增加属性加成
