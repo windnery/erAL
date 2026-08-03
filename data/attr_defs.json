@@ -37,8 +37,6 @@
     },
 
     "exp": {
-        "intimacy_exp": {"name": "亲密经验", "default": 0},
-        "obedience_exp": {"name": "顺从经验", "default": 0},
         "talk_exp": {"name": "会话经验", "default": 0},
         "work_exp": {"name": "工作经验", "default": 0}
     },
