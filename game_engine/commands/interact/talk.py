@@ -8,6 +8,8 @@ from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.mood.mood_calc import src2mood_proc
 from game_engine.data_pipeline.palam.palam2src import palam2src
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
+from ...data_pipeline.trust.trust_calc import trust_calc
+
 if TYPE_CHECKING:
     from world import World
 
@@ -107,11 +109,20 @@ def talk(world: World, option: str):
     ctx.consume(energy=energy_cost, chara=world.player)
     ctx.consume(energy=energy_cost, chara=npc)
 
-    # 处理好感
+    # 处理好感和信赖
     favor_delta = favor_calc(npc, source)
+    trust_delta = trust_calc(npc, source)
     npc.favor += favor_delta
+    npc.trust += trust_delta
 
-    ctx.say(f'好感+{favor_delta} ({npc.name})')
+    if favor_delta > 0:
+        ctx.say(f'好感+{favor_delta} ({npc.name})')
+    elif favor_delta < 0:
+        ctx.say(f'好感{favor_delta} ({npc.name})')
+    if trust_delta > 0:
+        ctx.say(f'信赖+{trust_delta} ({npc.name})')
+    elif trust_delta < 0:
+        ctx.say(f'信赖{trust_delta} ({npc.name})')
 
     ctx.say(f'度过了{command_time_data["talk"]}分钟')
     return ctx.result()

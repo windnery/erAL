@@ -16,54 +16,60 @@ if TYPE_CHECKING:
     from world import World
 
 
-@register_cmd('rub_the_head')
-def rub_the_head(world: World, option: str):
-    '''摸头
+@register_cmd('hug')
+def hug(world: World, option: str):
+    '''拥抱
     world: 游戏世界对象
     option: 指令对象'''
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({
-        'happiness_source': 150,  # 欢乐
-        'love_source': 150,  # 情爱
-        'disgust_source': 80,  # 反感
+        'happiness_source': 120,  # 欢乐
+        'love_source': 160,  # 情爱
+        'exposure_source': 100,  # 暴露
+        'disgust_source': 220,  # 反感
+        'lust_source': 100,  # 欲情
+        'passivity_source': 120,  # 被动
+        'conquest_source': 120  # 征服
     })
 
-    line = npc.get_line('rub_the_head')
-    ctx.say(f'摸了摸{npc.name}的头……')
+    line = npc.get_line('hug')
+    ctx.say(f'抱住了{npc.name}……')
     if line:
         # 有口上
         ctx.say(line.replace('{name}', npc.name))
 
     # abl对source修正
     # abl: 亲密
-    if npc.abl['intimacy_abl'] <= 3:
-        source['happiness_source'] += 150 + npc.abl['intimacy_abl'] * 50
-        source['love_source'] += 180 + npc.abl['intimacy_abl'] * 40
+    if npc.abl['intimacy_abl'] <= 1:
+        source['love_source'] += npc.abl['intimacy_abl'] * 30
+    elif npc.abl['intimacy_abl'] <= 3:
+        source['love_source'] += 200 + npc.abl['intimacy_abl'] * 30
     elif npc.abl['intimacy_abl'] <= 5:
-        source['happiness_source'] += 500 + npc.abl['intimacy_abl'] * 50
-        source['love_source'] += 450 + npc.abl['intimacy_abl'] * 30
+        source['love_source'] += 400 + npc.abl['intimacy_abl'] * 30
     elif npc.abl['intimacy_abl'] <= 8:
-        source['happiness_source'] += 800 + npc.abl['intimacy_abl'] * 50
-        source['love_source'] += 700 + npc.abl['intimacy_abl'] * 50
+        source['love_source'] += 600 + npc.abl['intimacy_abl'] * 40
+        source['exposure_source'] += 200 + npc.abl['desire_abl'] * 15
+        source['lust_source'] += 200 + npc.abl['desire_abl'] * 15
     elif npc.abl['intimacy_abl'] <= 11:
-        source['happiness_source'] += 1000 + npc.abl['intimacy_abl'] * 90
-        source['love_source'] += 900 + npc.abl['intimacy_abl'] * 50
+        source['love_source'] += 800 + npc.abl['intimacy_abl'] * 40
+        source['exposure_source'] += 300 + npc.abl['desire_abl'] * 15
+        source['lust_source'] += 300 + npc.abl['desire_abl'] * 15
     else:
-        source['happiness_source'] += 1800 + npc.abl['intimacy_abl'] * 40
-        source['love_source'] += 2000 + npc.abl['intimacy_abl'] * 20
+        source['love_source'] += 1800 + npc.abl['intimacy_abl'] * 20
+        source['exposure_source'] += 700 + npc.abl['desire_abl'] * 10
+        source['lust_source'] += 700 + npc.abl['desire_abl'] * 10
 
-    source['lust_source'] += 50 + npc.abl['desire_abl'] * 150
-    source['passivity_source'] += 100 + npc.abl['obedience_abl'] * 200
+    source['passivity_source'] += 240 * npc.abl['obedience_abl']
+    source['conquest_source'] += 240 * npc.abl['sadism_abl']
 
-    # 好感度->source
-    favor = npc.favor
-    if favor <= 500:
-        source['happiness_source'] += favor
-    elif favor <= 5000:
-        source['happiness_source'] += 500 + (favor - 500) // 3
+    # 好感度
+    if npc.favor <= 5000:
+        source['obedience_source'] += npc.favor // 5
+    elif npc.favor <= 10000:
+        source['obedience_source'] += 100 + npc.favor // 20
     else:
-        source['happiness_source'] += 2000 + (favor - 5000) // 5
+        source['obedience_source'] += 350 + npc.favor // 100
 
     # TODO: 睡眠中
 
@@ -98,16 +104,14 @@ def rub_the_head(world: World, option: str):
 
     # 处理好感和信赖
     favor_delta = favor_calc(npc, source)
-    trust_delta = trust_calc(npc, source) + 1
-    # 亲密低导致好感度下降
-    favor_delta += low_intimacy2favor(npc)
+    trust_delta = trust_calc(npc, source)
     # 好感度低会导致好感度下降
     favor_delta += low_favor2favor(npc.favor)
     npc.favor += favor_delta
     npc.trust += trust_delta
 
     # 推进时间
-    ctx.advance_time(command_time_data['rub_the_head'])
+    ctx.advance_time(command_time_data['hug'])
 
     if favor_delta > 0:
         ctx.say(f'好感+{favor_delta} ({npc.name})')
@@ -118,5 +122,5 @@ def rub_the_head(world: World, option: str):
     elif trust_delta < 0:
         ctx.say(f'信赖{trust_delta} ({npc.name})')
 
-    ctx.say(f'度过了{command_time_data["rub_the_head"]}分钟')
+    ctx.say(f'度过了{command_time_data["hug"]}分钟')
     return ctx.result()

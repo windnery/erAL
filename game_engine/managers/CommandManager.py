@@ -68,6 +68,8 @@ class CommandManager:
             {'key': 'rub_the_belly', 'name': '揉肚子', 'needs_target': True},
             {'key': 'poke_the_cheek', 'name': '戳脸颊', 'needs_target': True},
             {'key': 'pinching_cheeks', 'name': '揉脸蛋', 'needs_target': True},
+            {'key': 'hug', 'name': '拥抱', 'needs_target': True},
+            {'key': 'rub_the_butt', 'name': '摸屁股', 'needs_target': True},
             {'key': 'show_chara_info', 'name': '查看角色信息', 'needs_target': True, 'frontend': True},
             
         ]

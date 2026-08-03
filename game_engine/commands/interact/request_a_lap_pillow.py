@@ -9,6 +9,7 @@ from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
+from game_engine.data_pipeline.trust.trust_calc import trust_calc
 
 if TYPE_CHECKING:
     from world import World
@@ -92,16 +93,25 @@ def request_a_lap_pillow(world: World, option: str):
     ctx.consume(energy=p_energy_cost, chara=world.player)
     ctx.consume(energy=n_energy_cost, chara=npc)
 
-    # 好感处理
+    # 好感和信赖处理
     favor_delta = favor_calc(npc, source)
+    trust_delta = trust_calc(npc, source)
     # 好感度低会导致好感度下降
     favor_delta += low_favor2favor(npc.favor)
     npc.favor += favor_delta
+    npc.trust += trust_delta
 
     # 推进时间
     ctx.advance_time(command_time_data['request_a_lap_pillow'])
 
-    ctx.say(f'好感+{favor_delta} ({npc.name})')
+    if favor_delta > 0:
+        ctx.say(f'好感+{favor_delta} ({npc.name})')
+    elif favor_delta < 0:
+        ctx.say(f'好感{favor_delta} ({npc.name})')
+    if trust_delta > 0:
+        ctx.say(f'信赖+{trust_delta} ({npc.name})')
+    elif trust_delta < 0:
+        ctx.say(f'信赖{trust_delta} ({npc.name})')
 
     ctx.say(f'度过了{command_time_data["request_a_lap_pillow"]}分钟')
     return ctx.result()

@@ -4,9 +4,11 @@
 
     "talk": 5,
     "body_touch": 5,
-    "rub_the_head": 1,
+    "rub_the_head": 2,
     "request_a_lap_pillow": 15,
     "rub_the_belly": 5,
     "pinching_cheeks": 3,
-    "poke_the_cheek": 1
+    "poke_the_cheek": 1,
+    "rub_the_butt": 3,
+    "hug": 5
 }

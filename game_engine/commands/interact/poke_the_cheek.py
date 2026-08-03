@@ -9,6 +9,7 @@ from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
+from game_engine.data_pipeline.trust.trust_calc import trust_calc
 
 if TYPE_CHECKING:
     from world import World
@@ -92,14 +93,23 @@ def poke_the_cheek(world: World, option: str):
     ctx.consume(p_energy_cost, world.player)
     ctx.consume(n_energy_cost, npc)
 
-    # 好感处理
+    # 好感和信赖处理
     favor_delta = favor_calc(npc, source)
+    trust_delta = trust_calc(npc, source)
     npc.favor += favor_delta
+    npc.trust += trust_delta
 
     # 推进时间
     ctx.advance_time(command_time_data['poke_the_cheek'])
 
-    ctx.say(f'好感+{favor_delta} ({npc.name})')
+    if favor_delta > 0:
+        ctx.say(f'好感+{favor_delta} ({npc.name})')
+    elif favor_delta < 0:
+        ctx.say(f'好感{favor_delta} ({npc.name})')
+    if trust_delta > 0:
+        ctx.say(f'信赖+{trust_delta} ({npc.name})')
+    elif trust_delta < 0:
+        ctx.say(f'信赖{trust_delta} ({npc.name})')
 
     ctx.say(f'度过了{command_time_data["poke_the_cheek"]}分钟')
     return ctx.result()
