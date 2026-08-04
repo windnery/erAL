@@ -20,13 +20,13 @@ class World:
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
 
-    def get_state(self):
+    def get_state(self, selected_npc_id: str | None = None):
         '''一次性返回前端需要的全部状态'''
         r, n = self.player.location['region'], self.player.location['node']
         return {
             'player': self.player.get_state(),
             'location': self.map_manager.get_current_loc(self.player),
-            'act_com': self.command_manager.get_Act_COM(),
+            'act_com': self.command_manager.get_Act_COM(selected_npc_id),
             'ex_com': self.command_manager.get_EX_COM(),
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],

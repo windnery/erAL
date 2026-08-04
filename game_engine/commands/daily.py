@@ -1,11 +1,44 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from random import randint
 
+from config.map_actions import NAP_LOC, SLEEP_LOC, WORK_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 
+if TYPE_CHECKING:
+    from world import World
 
-@register_cmd('nap', '小睡', '日常')
+
+def can_nap(world: World, npc=None):
+    '''判断是否可以小睡'''
+    player = world.player
+    if player.location['region'] not in NAP_LOC:
+        return False
+    if player.location['node'] not in NAP_LOC[player.location['region']]:
+        return False
+    return True
+
+def can_sleep(world: World, npc=None):
+    '''判断是否可以睡觉'''
+    player = world.player
+    if player.location['region'] not in SLEEP_LOC:
+        return False
+    if player.location['node'] not in SLEEP_LOC[player.location['region']]:
+        return False
+    return True
+
+def can_work(world: World, npc=None):
+    '''判断是否可以工作'''
+    player = world.player
+    if player.location['region'] not in WORK_LOC:
+        return False
+    if player.location['node'] not in WORK_LOC[player.location['region']]:
+        return False
+    return True
+
+@register_cmd('nap', '小睡', '日常', can_nap, needs_target=False)
 def nap(world, option=None):
     '''小睡'''
     ctx = CommandContext(world)
@@ -25,7 +58,7 @@ def nap(world, option=None):
     return ctx.result()
 
 
-@register_cmd('sleep', '睡觉', '日常')
+@register_cmd('sleep', '睡觉', '日常', can_sleep, needs_target=False)
 def sleep(world, option=None):
     '''睡觉'''
     # 调用settle_day方法进行日终结算
@@ -33,7 +66,7 @@ def sleep(world, option=None):
     return mes
 
 
-@register_cmd('work', '工作', '日常')
+@register_cmd('work', '工作', '日常', can_work, needs_target=False)
 def work(world, option=None):
     '''工作'''
     ctx = CommandContext(world)
