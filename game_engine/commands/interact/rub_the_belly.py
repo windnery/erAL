@@ -10,12 +10,30 @@ from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
+from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
 
 
-@register_cmd('rub_the_belly')
+def can(world: World, npc: ShipGirl):
+    '''执行判定'''
+    # 气力0
+    if world.player.is_energy_empty():
+        return False
+    # 陷落阶段在喜欢以上 必定可用
+    if npc.get_talent_value('relationship') >= 2:
+        return True
+    # 好感度低
+    if npc.favor < 350:
+        return False
+    # 亲密低
+    if npc.abl['intimacy_abl'] < 5:
+        return False
+
+    return True
+
+@register_cmd('rub_the_belly', '抚摸肚子', '性骚扰', can)
 def rub_the_belly(world: World, option: str):
     '''抚摸肚子
     world: 游戏世界对象

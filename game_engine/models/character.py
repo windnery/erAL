@@ -42,6 +42,10 @@ class Character:
         '''获取气力'''
         return self.base['energy']
 
+    def is_energy_empty(self) -> bool:
+        '''气力是否为0'''
+        return self.get_energy() == 0
+
     def clear_palam(self) -> None:
         '''清空palam'''
         for k in self.palam.keys():

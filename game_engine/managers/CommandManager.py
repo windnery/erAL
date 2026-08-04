@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from game_engine.commands._commands import REGISTER_CMD
+from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT
 
 if TYPE_CHECKING:
     from world import World
@@ -21,11 +21,12 @@ class CommandManager:
         '''获取通用指令(系统指令)'''
         ex_com = self._get_common_commands()
         return ex_com
-    
+
     def get_cmd_options(self, command: str):
         # 根据指令名 返回这个指令所需的选项列表
         if command == 'move':
-            return self.world.map_manager.get_available_nodes(self.world.player.location['region'], self.world.player.location['node'])
+            return self.world.map_manager.get_available_nodes(self.world.player.location['region'],
+                                                              self.world.player.location['node'])
         elif command == 'leave':
             return self.world.map_manager.get_available_regions(self.world.player.location['region'])
         # TODO: 其他指令在这里补充
@@ -37,7 +38,6 @@ class CommandManager:
         func = REGISTER_CMD.get(command)
         mes = func(self.world, option) if func else ''
         return mes  # 返回最新状态
-
 
     def _get_common_commands(self):
         # 获取通用指令列表
@@ -58,20 +58,19 @@ class CommandManager:
     def _get_npc_commands(self):
         # 获取当前地点NPC特定的指令列表
         # 只有当前位置有NPC时才返回（前端再根据是否选中决定是否显示）
-        if not self.world.npc_manager.get_npcs_at(self.world.player.location['region'], self.world.player.location['node']):
+        npcs = self.world.npc_manager.get_npcs_at(self.world.player.location['region'],
+                                                  self.world.player.location['node'])
+        if not npcs:
             return []
-        commands = [
-            {'key': 'talk', 'name': '会话', 'needs_target': True},
-            {'key': 'rub_the_head', 'name': '摸头', 'needs_target': True},
-            {'key': 'body_touch', 'name': '身体接触', 'needs_target': True},
-            {'key': 'request_a_lap_pillow', 'name': '索求膝枕', 'needs_target': True},
-            {'key': 'rub_the_belly', 'name': '揉肚子', 'needs_target': True},
-            {'key': 'poke_the_cheek', 'name': '戳脸颊', 'needs_target': True},
-            {'key': 'pinching_cheeks', 'name': '揉脸蛋', 'needs_target': True},
-            {'key': 'hug', 'name': '拥抱', 'needs_target': True},
-            {'key': 'rub_the_butt', 'name': '摸屁股', 'needs_target': True},
-            {'key': 'show_chara_info', 'name': '查看角色信息', 'needs_target': True, 'frontend': True},
-            
-        ]
+        commands = []
+        for key, func in REGISTER_CMD.items():
+            can = REGISTER_CAN.get(key)
+            for npc in npcs:
+                if can and not can(self.world, npc): continue
+                commands.append({'key': key,
+                                 'name': REGISTER_CMD_NAME[key],
+                                 'needs_target': True,
+                                 'npc_id': npc.id,
+                                 'cat': REGISTER_CAT[key]})
         # TODO: 加入NPC特定的指令
         return commands

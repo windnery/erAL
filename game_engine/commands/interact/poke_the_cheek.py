@@ -10,12 +10,30 @@ from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
+from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
 
+def can(world: World, npc: ShipGirl):
+    '''执行判定'''
+    # 气力0
+    if world.player.is_energy_empty():
+        return False
+    # 陷落阶段在喜欢以上 必定可用
+    if npc.get_talent_value('relationship') >= 2:
+        return True
+    # 好感度低
+    if npc.favor < 120:
+        return False
+    # 亲密低
+    if npc.abl['intimacy_abl'] < 3:
+        return False
 
-@register_cmd('poke_the_cheek')
+    return True
+
+
+@register_cmd('poke_the_cheek', '戳脸颊', '亲昵', can)
 def poke_the_cheek(world: World, option: str):
     '''戳脸颊
     world: 游戏世界对象

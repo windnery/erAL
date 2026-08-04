@@ -5,10 +5,9 @@ from config.attr_defs import ATTR_DEFS
 from game_engine.commands._common import new_source
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.mood.mood_calc import src2mood_proc
-from game_engine.data_pipeline.palam.palam2src import palam2src
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from ...data_pipeline.trust.trust_calc import trust_calc
+from ...models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
@@ -18,7 +17,15 @@ from .._context import CommandContext
 from data.time.time_data import command_time_data
 
 
-@register_cmd('talk')
+def can(world: World, npc: ShipGirl):
+    '''执行判定'''
+    # 气力0
+    if world.player.is_energy_empty():
+        return False
+
+    return True
+
+@register_cmd('talk', '会话', '日常', can)
 def talk(world: World, option: str):
     '''会话
     world: 游戏世界对象

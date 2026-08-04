@@ -8,15 +8,32 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.mood.mood_calc import src2mood_proc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
+from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
 
 
-@register_cmd('rub_the_head')
+def can(world: World, npc: ShipGirl):
+    '''执行判定'''
+    # 气力0
+    if world.player.is_energy_empty():
+        return False
+    # 陷落阶段在喜欢以上 必定可用
+    if npc.get_talent_value('relationship') >= 2:
+        return True
+    # 好感度低
+    if npc.favor < 120:
+        return False
+    # 亲密低
+    if npc.abl['intimacy_abl'] < 3:
+        return False
+
+    return True
+
+@register_cmd('rub_the_head', '摸头', '亲昵', can)
 def rub_the_head(world: World, option: str):
     '''摸头
     world: 游戏世界对象
