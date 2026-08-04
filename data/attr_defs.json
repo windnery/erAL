@@ -25,6 +25,11 @@
         "masochistic_abl": {"name": "受虐属性", "default": 0},
         "sadism_abl": {"name": "施虐属性", "default": 0},
 
+        "masturbation_addiction_abl": {"name": "自慰中毒", "default": 0},
+        "semen_addiction_abl": {"name": "精液中毒", "default": 0},
+        "v_semen_addiction_abl": {"name": "穴射中毒", "default": 0},
+        "a_semen_addiction_abl": {"name": "肛射中毒", "default": 0},
+
         "talk_abl": {"name": "会话", "default": 0},
         "work_abl": {"name": "工作", "default": 0},
 
@@ -37,8 +42,42 @@
     },
 
     "exp": {
+        "c_exp": {"name": "C经验", "default": 0},
+        "v_exp": {"name": "V经验", "default": 0},
+        "a_exp": {"name": "A经验", "default": 0},
+        "b_exp": {"name": "B经验", "default": 0},
+        "m_exp": {"name": "M经验", "default": 0},
+        "c_orgasm_exp": {"name": "C绝顶经验", "default": 0},
+        "v_orgasm_exp": {"name": "V绝顶经验", "default": 0},
+        "a_orgasm_exp": {"name": "A绝顶经验", "default": 0},
+        "b_orgasm_exp": {"name": "B绝顶经验", "default": 0},
+        "m_orgasm_exp": {"name": "M绝顶经验", "default": 0},
+
+        "v_expand_exp": {"name": "V扩张经验", "default": 0},
+        "a_expand_exp": {"name": "A扩张经验", "default": 0},
+
         "talk_exp": {"name": "会话经验", "default": 0},
         "work_exp": {"name": "工作经验", "default": 0}
+    },
+
+    "juel": {
+        "c_pleasure_juel": {"name": "快C之珠", "default": 0},
+        "v_pleasure_juel": {"name": "快V之珠", "default": 0},
+        "a_pleasure_juel": {"name": "快A之珠", "default": 0},
+        "b_pleasure_juel": {"name": "快B之珠", "default": 0},
+        "m_pleasure_juel": {"name": "快M之珠", "default": 0},
+        "obedience_juel": {"name": "恭顺之珠", "default": 0},
+        "lust_juel": {"name": "欲情之珠", "default": 0},
+        "submission_juel": {"name": "屈服之珠", "default": 0},
+        "learn_juel": {"name": "习得之珠", "default": 0},
+        "shame_juel": {"name": "羞耻之珠", "default": 0},
+        "pain_juel": {"name": "苦痛之珠", "default": 0},
+        "fear_juel": {"name": "恐怖之珠", "default": 0},
+        "kindness_juel": {"name": "好意之珠", "default": 0},
+        "disgust_juel": {"name": "反感之珠", "default": 0},
+        "unhappiness_juel": {"name": "不快之珠", "default": 0},
+        "depression_juel": {"name": "抑郁之珠", "default": 0},
+        "negation_juel": {"name": "否定之珠", "default": 0}
     },
 
     "palam": {

@@ -1,7 +1,7 @@
-from config.abl_lv import ABL_LV
 from config.palam_lv import PALAM_LV
 from data.data_loader import load_attr_defs
-from game_engine.commands._common import abl_lv_process
+from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
+from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
@@ -102,14 +102,19 @@ class World:
             self.player.set_money(self.player.money - self.work_manager.works)  # 扣除工作量的钱
             pages.append(f'由于未完成的工作，被罚了{self.work_manager.works}金钱')
 
-        # 检查所有角色的exp是否达到升级条件，若达到则升级
+        # 将palam转化为juel
+        juel_calc(self.player)
         for npc in self.npc_manager.get_all_npcs():
-            mes = abl_lv_process(npc, self.attr_defs)
-            if mes:
-                pages.append(mes)
-        mes = abl_lv_process(self.player, self.attr_defs)
-        if mes:
-            pages.append(mes)
+            juel_calc(npc)
+        # 清空当日palam
+        self.player.clear_palam()
+        for npc in self.npc_manager.get_all_npcs():
+            npc.clear_palam()
+
+        # 检查abl升级
+        pages.extend(abl_lv_process(self.player, self.attr_defs))
+        for npc in self.npc_manager.get_all_npcs():
+            pages.extend(abl_lv_process(npc, self.attr_defs))
         
         # 生成新的一天的工作量
         self.work_manager.set_works()

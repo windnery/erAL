@@ -14,6 +14,7 @@ class Character:
     base: dict[str, int] = field(default_factory=dict)
     abl: dict[str, int] = field(default_factory=dict)
     exp: dict[str, int] = field(default_factory=dict)
+    juel: dict[str, int] = field(default_factory=dict)
     palam: dict[str, int] = field(default_factory=dict)
     palam_lv: dict[str, int] = field(default_factory=dict)
     talent: dict[str, str] = field(default_factory=dict)
@@ -41,6 +42,13 @@ class Character:
         '''获取气力'''
         return self.base['energy']
 
+    def clear_palam(self) -> None:
+        '''清空palam'''
+        for k in self.palam.keys():
+            self.palam[k] = 0
+        # 更新等级
+        self.update_palam_level()
+
     def update_palam_level(self) -> None:
         '''更新palam等级'''
         for k, v in self.palam.items():
@@ -60,3 +68,11 @@ class Character:
                 # 二分类素质
                 talents.append(attr_defs['talent'][k]['name'])
         return talents
+
+    def has_talent(self, talent_id: str) -> bool:
+        '''检查是否拥有某天赋'''
+        return talent_id in self.talent
+
+    def get_talent_value(self, talent_id: str) -> int:
+        '''获取某天赋的等级'''
+        return int(self.talent.get(talent_id, 0))

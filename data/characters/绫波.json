@@ -26,12 +26,58 @@
         "exposure_abl": 0,
         "masochistic_abl": 0,
         "sadism_abl": 0,
+
+        "masturbation_addiction_abl": 0,
+        "semen_addiction_abl": 0,
+        "v_semen_addiction_abl": 0,
+        "a_semen_addiction_abl": 0,
+
         "talk_abl": 0,
-        "work_abl": 0
+        "work_abl": 0,
+
+        "finger_abl": 0,
+        "tongue_abl": 0,
+        "breast_abl": 0,
+        "waist_abl": 0,
+        "vagina_abl": 0,
+        "anal_abl": 0
     },
     "exp": {
+        "c_exp": 0,
+        "v_exp": 0,
+        "a_exp": 0,
+        "b_exp": 0,
+        "m_exp": 0,
+        "c_orgasm_exp": 0,
+        "v_orgasm_exp": 0,
+        "a_orgasm_exp": 0,
+        "b_orgasm_exp": 0,
+        "m_orgasm_exp": 0,
+
+        "v_expand_exp": 0,
+        "a_expand_exp": 0,
+
         "talk_exp": 0,
         "work_exp": 0
+    },
+    "juel": {
+        "c_pleasure_juel": 0,
+        "v_pleasure_juel": 0,
+        "a_pleasure_juel": 0,
+        "b_pleasure_juel": 0,
+        "m_pleasure_juel": 0,
+        "obedience_juel": 0,
+        "lust_juel": 0,
+        "submission_juel": 0,
+        "learn_juel": 0,
+        "shame_juel": 0,
+        "pain_juel": 0,
+        "fear_juel": 0,
+        "kindness_juel": 0,
+        "disgust_juel": 0,
+        "unhappiness_juel": 0,
+        "depression_juel": 0,
+        "negation_juel": 0
     },
     "palam": {
         "c_pleasure_palam": 0,
