@@ -19,7 +19,7 @@ class CommandManager:
 
     def get_EX_COM(self):
         '''获取通用指令(系统指令)'''
-        ex_com = self._get_common_commands()
+        ex_com = self._get_system_commands()
         return ex_com
 
     def get_cmd_options(self, command: str):
@@ -39,14 +39,14 @@ class CommandManager:
         mes = func(self.world, option) if func else ''
         return mes  # 返回最新状态
 
-    def _get_common_commands(self):
-        # 获取通用指令列表
-        return [
-            {'key': 'leave', 'name': '离开当前区域'},
-            {'key': 'move', 'name': '移动'},
-            {'key': 'save', 'name': '存档'},
-            {'key': 'load', 'name': '读档'}
-        ]
+    def _get_system_commands(self):
+        # 系统类指令：从注册表反查 cat='系统' 的指令
+        sys_com = [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': REGISTER_CAT[k]}
+                   for k in REGISTER_CMD if REGISTER_CAT.get(k) == '系统']
+        # save/load 未走注册表，先硬编码补上（保持原功能）
+        sys_com += [{'key': 'save', 'name': '存档', 'cat': '系统'},
+                    {'key': 'load', 'name': '读档', 'cat': '系统'}]
+        return sys_com
 
     def _get_location_commands(self):
         # 获取当前地点特定的指令列表
@@ -64,6 +64,7 @@ class CommandManager:
             return []
         commands = []
         for key, func in REGISTER_CMD.items():
+            if REGISTER_CAT[key] == '系统': continue
             can = REGISTER_CAN.get(key)
             for npc in npcs:
                 if can and not can(self.world, npc): continue

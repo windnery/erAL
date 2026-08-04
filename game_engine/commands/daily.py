@@ -5,7 +5,7 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 
 
-@register_cmd('nap')
+@register_cmd('nap', '小睡', '日常')
 def nap(world, option=None):
     '''小睡'''
     ctx = CommandContext(world)
@@ -25,7 +25,7 @@ def nap(world, option=None):
     return ctx.result()
 
 
-@register_cmd('sleep')
+@register_cmd('sleep', '睡觉', '日常')
 def sleep(world, option=None):
     '''睡觉'''
     # 调用settle_day方法进行日终结算
@@ -33,7 +33,7 @@ def sleep(world, option=None):
     return mes
 
 
-@register_cmd('work')
+@register_cmd('work', '工作', '日常')
 def work(world, option=None):
     '''工作'''
     ctx = CommandContext(world)

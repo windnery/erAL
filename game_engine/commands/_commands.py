@@ -1,7 +1,7 @@
 REGISTER_CMD = {}
-REGISTER_CMD_NAME = {}
+REGISTER_CMD_NAME: dict[str, str] = {}
 REGISTER_CAN = {}
-REGISTER_CAT = {}
+REGISTER_CAT: dict[str, str] = {}
 
 def register_cmd(key: str, name: str, cat: str, can=None):
     '''装饰器：自动把指令注册到字典中'''

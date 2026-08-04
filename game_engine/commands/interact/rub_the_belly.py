@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
@@ -73,7 +73,7 @@ def rub_the_belly(world: World, option: str):
     source_list = []
     for k, v in source.items():
         if v != 0:
-            source_list.append(f'{ATTR_DEFS['source'][k]['name']}({v})')
+            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
     ctx.say(' '.join(source_list))
 
     # TODO: source->mood

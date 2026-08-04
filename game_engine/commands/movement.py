@@ -2,7 +2,7 @@ from game_engine.commands._commands import register_cmd
 from data.time.time_data import leave_time_data, move_time_data
 
 
-@register_cmd('leave')
+@register_cmd('leave', '离开当前区域', '系统')
 def leave(manager, option: str):
     '''离开当前区域'''
     if option == 'return':
@@ -26,7 +26,7 @@ def leave(manager, option: str):
     mes += npc_events
     return mes
 
-@register_cmd('move')
+@register_cmd('move', '移动', '系统')
 def move(manager, option: str):
     '''移动'''
     if option == 'return':

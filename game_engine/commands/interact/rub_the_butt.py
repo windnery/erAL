@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
@@ -90,7 +90,7 @@ def rub_the_butt(world: World, option: str):
     source_list = []
     for k, v in source.items():
         if v != 0:
-            source_list.append(f'{ATTR_DEFS['source'][k]['name']}({v})')
+            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
     ctx.say(' '.join(source_list))
 
     # TODO: source->mood
