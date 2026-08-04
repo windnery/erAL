@@ -18,3 +18,14 @@ def juel_calc(npc: Character):
             npc.juel['negation_juel'] += best
         else:
             npc.juel[juel_id] += best
+
+    if npc.juel['negation_juel'] > 0:
+        for juel_id in npc.juel.keys():
+            if juel_id == 'negation_juel':
+                continue
+            num = min(npc.juel['negation_juel'], npc.juel[juel_id])
+            npc.juel[juel_id] -= num
+            npc.juel['negation_juel'] -= num
+
+            if npc.juel['negation_juel'] == 0:
+                break

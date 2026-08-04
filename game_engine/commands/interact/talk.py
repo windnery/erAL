@@ -75,8 +75,10 @@ def talk(world: World, option: str):
             abl_multi = 1.0
         case 4:
             abl_multi = 1.2
-        case _:
+        case 5:
             abl_multi = 1.5
+        case _:
+            abl_multi = 2.0
 
     # 通用source修正
     source = common_src_modify(source, npc)
