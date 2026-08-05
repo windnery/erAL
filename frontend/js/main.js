@@ -71,7 +71,7 @@ function createPageElement(text) {
     return p;
 }
 
-function selectNpc(npcId) {
+async function selectNpc(npcId) {
     if (npcId === selectedNpcId) {
         const npc = currentNearby.find(n => n.id === npcId);
         if (npc) showFullscreenPortrait(npc);
@@ -82,12 +82,8 @@ function selectNpc(npcId) {
     const npcs = currentNearby;
     renderPortrait(npcs, selectedNpcId, selectNpc);
     renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap);
-    // 重新过滤并渲染 Act_COM（选中/取消选中会影响NPC交互指令的显示）
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
-    const actCom = selectedNpcId
-        ? currentActCom
-        : currentActCom.filter(cmd => !cmd.needs_target);
-    renderCommands(actCom, 'act', callbacks);
+    // 重新请求后端，只获取当前选中 NPC 可执行的指令。
+    await refresh();
 }
 
 function showCharaInfo(npcId) {
@@ -121,7 +117,7 @@ let currentPalamDefs = {};
 let currentPalamLvMap = {};
 
 async function refresh() {
-    const state = await getState();
+    const state = await getState(selectedNpcId);
     currentNearby = state.nearby_npcs || [];
     currentActCom = state.act_com || [];
     currentPalamDefs = state.palam_defs || {};
@@ -132,10 +128,8 @@ async function refresh() {
     }
     const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
     renderStatusBar(state.location, state.time, state.player);
-    // 未选中舰娘时过滤掉需要目标的交互指令
-    const actCom = selectedNpcId
-        ? state.act_com
-        : state.act_com.filter(cmd => !cmd.needs_target);
+    // 后端已按当前选中的舰娘过滤交互指令
+    const actCom = state.act_com || [];
     renderCommands(actCom, 'act', callbacks);
     renderCommands(state.ex_com, 'ex', callbacks);
     renderPortrait(currentNearby, selectedNpcId, selectNpc);

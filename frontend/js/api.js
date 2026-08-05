@@ -2,8 +2,8 @@ async function call(manager_name, func_name, ...args) {
     return await window.pywebview.api.call(manager_name, func_name, ...args);
 }
 
-export async function getState() {
-    return await call('world', 'get_state');
+export async function getState(selectedNpcId = null) {
+    return await call('world', 'get_state', selectedNpcId);
 }
 
 export async function getCmdOptions(cmd) {

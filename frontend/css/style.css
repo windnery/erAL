@@ -207,17 +207,18 @@ button {
     background: #6f6;
 }
 
-#Act_COM {
-    min-height: 24px;
-    line-height: 1.8;
-}
-
+#Act_COM,
 #Ex_COM {
     min-height: 24px;
     line-height: 1.8;
+    padding: 4px 0 8px;
     border-bottom: 1px solid white;
 }
 
+#Ex_COM {
+    margin-top: 8px;
+    border-bottom: none;
+}
 #Act_COM .com-cmd,
 #Ex_COM .com-cmd {
     color: #fff;
@@ -236,6 +237,58 @@ button {
     letter-spacing: 1px;
 }
 
+/* 指令分类标题（【日常】/【亲昵】/【性骚扰】） */
+/* Act_COM category headers and separators */
+#Act_COM .act-command-group {
+    padding-top: 2px;
+}
+
+#Act_COM .act-com-block {
+    padding-top: 2px;
+}
+
+#Act_COM .com-cat {
+    display: block;
+    width: 100%;
+    padding: 2px 8px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: left;
+    cursor: pointer;
+}
+
+#Act_COM .com-cat:hover {
+    color: #ff0;
+}
+
+#Act_COM .com-cat::before {
+    display: inline-block;
+    width: 18px;
+    content: '+';
+    letter-spacing: 0;
+}
+
+#Act_COM .com-cat[aria-expanded="true"]::before {
+    content: '−';
+}
+
+#Act_COM .com-cat-commands {
+    padding-bottom: 2px;
+}
+
+#Act_COM .com-cat-commands[hidden] {
+    display: none;
+}
+
+.command-divider {
+    width: 100%;
+    margin: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+}
 #fullscreen_text {
     display: none;
     position: fixed;
