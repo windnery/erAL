@@ -16,6 +16,35 @@
         </div>
     </div>
 
+    <!-- 缓冲菜单界面（每日开始） -->
+    <div id="menu_screen" style="display: none;">
+        <!-- 状态区：只显示玩家 -->
+        <div id="status_bar">
+            <!-- 时间信息 -->
+            <span id="day"></span>
+            <span id="time"></span>
+            <span id="period"></span>
+
+            <!-- 位置信息 -->
+            <span style="margin: 0px 10px;">当前位置: <span id="loc"></span></span>
+
+            <!-- 资金信息 -->
+            <span id="money"></span>
+            <br>
+            <!-- 玩家状态条 -->
+            <span id="player_state"></span>
+            <span> 体力 </span>
+            <div class="bar-track"><div class="bar-fill" id="stamina_fill"></div></div>
+            <span id="stamina_text"></span>
+            <span> 气力 </span>
+            <div class="bar-track"><div class="bar-fill" id="energy_fill"></div></div>
+            <span id="energy_text"></span>
+        </div>
+
+        <!-- 菜单指令区 -->
+        <div id="MENU_COM"></div>
+    </div>
+
     <div id="game_screen" style="display: none;">
         <!-- 状态区 -->
         <div id="status_bar">

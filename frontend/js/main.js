@@ -131,20 +131,31 @@ async function refresh() {
     }
     const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
     renderStatusBar(state.location, state.time, state.player);
-    // 后端已按当前选中的舰娘过滤交互指令
-    const actCom = state.act_com || [];
-    renderCommands(actCom, 'act', callbacks);
-    renderCommands(state.ex_com, 'ex', callbacks);
-    renderPortrait(currentNearby, selectedNpcId, selectNpc);
-    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
 
+    const menu_screen = document.getElementById('menu_screen');
     const main_menu = document.getElementById('game_screen');
-    main_menu.style.display = 'block';
+
+    if (state.menu_active) {
+        // 缓冲菜单：状态区 + 菜单指令区
+        menu_screen.style.display = 'block';
+        main_menu.style.display = 'none';
+        renderCommands(state.menu_com || [], 'menu', callbacks);
+    } else {
+        // 正常游戏界面
+        menu_screen.style.display = 'none';
+        main_menu.style.display = 'block';
+        // 后端已按当前选中的舰娘过滤交互指令
+        const actCom = state.act_com || [];
+        renderCommands(actCom, 'act', callbacks);
+        renderCommands(state.ex_com, 'ex', callbacks);
+        renderPortrait(currentNearby, selectedNpcId, selectNpc);
+        renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
+    }
 }
 
 function new_game() {
     document.getElementById('main_menu').style.display = 'none';
-    document.getElementById('game_screen').style.display = 'block';
+    // 缓冲菜单由 refresh 根据 menu_active 决定显示
     refresh();
 }
 

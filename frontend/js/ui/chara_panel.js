@@ -54,7 +54,7 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagD
     const flags = Object.entries(npc.cflag || {})
         .filter(([, v]) => v === true)
         .map(([k]) => (cflagDefs && cflagDefs[k]) || k);
-    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0} 心情 ${npc.mood_label ?? '一般'}${flags.length ? ' ' + flags.join(' ') : ''})`;
+    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0} 心情 ${npc.mood_label ?? '一般'}${flags.length ? ' ' + flags.map(f => `[${f}]`).join(' ') : ''})`;
     el.appendChild(name);
 
     // 体力条（绿）/ 气力条（蓝）同一行

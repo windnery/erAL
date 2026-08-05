@@ -82,13 +82,17 @@ function renderActDivider(allCats, cmdPanel, groups, callbacks) {
 export function renderCommands(commands, type, callbacks) {
     const actDiv = document.getElementById('Act_COM');
     const exDiv = document.getElementById('Ex_COM');
+    const menuDiv = document.getElementById('MENU_COM');
 
     if (type === 'act') {
         actDiv.innerHTML = '';
         renderActCommands(actDiv, commands, callbacks);
-    } else {
+    } else if (type === 'ex') {
         exDiv.innerHTML = '';
-        renderExCommands(exDiv, commands, callbacks);
+        renderExCommands(exDiv, commands, callbacks, 'Ex_COM');
+    } else if (type === 'menu') {
+        menuDiv.innerHTML = '';
+        renderExCommands(menuDiv, commands, callbacks, '【主菜单】');
     }
 }
 
@@ -120,8 +124,8 @@ function renderActiveCategory(container, groups, callbacks) {
     }
 }
 
-function renderExCommands(container, commands, callbacks) {
-    container.appendChild(renderSectionDivider('Ex_COM'));
+function renderExCommands(container, commands, callbacks, label = 'Ex_COM') {
+    container.appendChild(renderSectionDivider(label));
 
     const list = document.createElement('div');
     list.className = 'ex-command-list';
@@ -133,7 +137,9 @@ function renderExCommands(container, commands, callbacks) {
 
 function show_options(command, options, callbacks) {
     callbacks.showFullscreenOptions(options, async (option) => {
-        let result = await callbacks.doCmd(command, option.key);
+        // 若选项带 value（结构化数据），传整个 option；否则回退传 option.key
+        let payload = (option && option.value !== undefined) ? option.value : option.key;
+        let result = await callbacks.doCmd(command, payload);
         show_text_result(result, callbacks);
     });
 }
