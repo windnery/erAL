@@ -1,8 +1,5 @@
 def favor2source(favor: int) -> tuple[float, float]:
     """好感度对 SOURCE 的全局乘数"""
-    positive_favor_multi = 1.0
-    negative_favor_multi = 1.0
-
     if favor < 50:
         positive_favor_multi = 0.9
         negative_favor_multi = 1.1
