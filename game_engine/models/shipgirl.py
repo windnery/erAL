@@ -23,6 +23,7 @@ class ShipGirl(Character):
             'trust': self.trust,
             'base': self.base,
             'abl': self.abl,
+            'cflag': self.cflag,
             'exp': self.exp,
             'palam': self.palam,
             'palam_lv': self.palam_lv,

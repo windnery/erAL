@@ -81,7 +81,7 @@ async function selectNpc(npcId) {
     // 仅重渲头像高亮、面板与指令区（不从后端重新拉取）
     const npcs = currentNearby;
     renderPortrait(npcs, selectedNpcId, selectNpc);
-    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap);
+    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     // 重新请求后端，只获取当前选中 NPC 可执行的指令。
     await refresh();
 }
@@ -115,6 +115,8 @@ let currentActCom = [];
 let currentPalamDefs = {};
 // palam 等级阈值映射
 let currentPalamLvMap = {};
+// cflag 名称映射
+let currentCflagDefs = {};
 
 async function refresh() {
     const state = await getState(selectedNpcId);
@@ -122,6 +124,7 @@ async function refresh() {
     currentActCom = state.act_com || [];
     currentPalamDefs = state.palam_defs || {};
     currentPalamLvMap = state.palam_lv_map || {};
+    currentCflagDefs = state.cflag_defs || {};
     // 若选中舰娘已不在附近（离开了），重置选中
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
@@ -133,7 +136,7 @@ async function refresh() {
     renderCommands(actCom, 'act', callbacks);
     renderCommands(state.ex_com, 'ex', callbacks);
     renderPortrait(currentNearby, selectedNpcId, selectNpc);
-    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap);
+    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
 
     const main_menu = document.getElementById('game_screen');
     main_menu.style.display = 'block';

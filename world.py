@@ -30,6 +30,7 @@ class World:
             'ex_com': self.command_manager.get_EX_COM(),
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
+            'cflag_defs': {k: v['name'] for k, v in self.attr_defs.get('cflag', {}).items()},
             'palam_defs': {k: v['name'] for k, v in self.attr_defs['palam'].items()},
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},
         }
@@ -50,9 +51,6 @@ class World:
     def change_energy(self, delta: int):
         '''包装一层改变气力的方法'''
         exhaustion = not self.player.set_energy(self.player.get_energy() + delta)
-        if exhaustion:
-            # TODO: 后续做气力为0的影响
-            pass
         return ''
 
     def settle_day(self, sleep: bool = False, exhaustion: bool = False):

@@ -41,6 +41,11 @@
         "anal_abl": {"name": "肛门", "default": 0}
     },
 
+    "cflag": {
+        "sleeping": {"name": "睡眠中", "default": false},
+        "working": {"name": "工作中", "default": false}
+    },
+
     "exp": {
         "c_exp": {"name": "C经验", "default": 0},
         "v_exp": {"name": "V经验", "default": 0},

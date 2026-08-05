@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, low_favor2favor, low_intimacy2favor
+from game_engine.commands._common import new_source, low_favor2favor, low_intimacy2favor, global_can
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -18,10 +18,13 @@ if TYPE_CHECKING:
 
 def can(world: World, npc: ShipGirl):
     '''执行判定'''
-    # 气力0
-    if world.player.is_energy_empty():
+    # 通用判定
+    if not global_can(world.player, npc):
         return False
-    # 陷落阶段在喜欢以上 必定可用
+    # 工作中且陷落阶段在“爱”以下
+    if npc.is_working() and npc.get_talent_value('relationship') < 3:
+        return False
+    # 陷落阶段在喜欢以上
     if npc.get_talent_value('relationship') >= 2:
         return True
     # 好感度低

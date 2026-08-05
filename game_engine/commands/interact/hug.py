@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, low_favor2favor
+from game_engine.commands._common import new_source, low_favor2favor, global_can
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -17,9 +17,12 @@ if TYPE_CHECKING:
 
 
 def can(world: World, npc: ShipGirl):
-    '''执行判定'''
-    # 气力0
-    if world.player.is_energy_empty():
+    """执行判定"""
+    # 通用判定
+    if not global_can(world.player, npc):
+        return False
+    # 工作中且陷落阶段在“爱”以下
+    if npc.is_working() and npc.get_talent_value('relationship') < 3:
         return False
     # 陷落阶段在喜欢以上 必定可用
     if npc.get_talent_value('relationship') >= 2:
@@ -35,9 +38,9 @@ def can(world: World, npc: ShipGirl):
 
 @register_cmd('hug', '拥抱', '亲昵', can)
 def hug(world: World, option: str):
-    '''拥抱
+    """拥抱
     world: 游戏世界对象
-    option: 指令对象'''
+    option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({
@@ -87,8 +90,6 @@ def hug(world: World, option: str):
         source['obedience_source'] += 100 + npc.favor // 20
     else:
         source['obedience_source'] += 350 + npc.favor // 100
-
-    # TODO: 睡眠中
 
     # 通用source修正
     source = common_src_modify(source, npc)

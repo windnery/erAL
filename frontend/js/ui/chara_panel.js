@@ -33,7 +33,7 @@ export function renderPortrait(npcs, selectedId, onSelect) {
     }
 }
 
-export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap) {
+export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagDefs) {
     const el = document.getElementById('charaPanel');
     el.innerHTML = '';
 
@@ -48,10 +48,13 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap) {
 
     const base = npc.base || {};
 
-    // 名字 + 好感/信赖/心情 同一行，括号包裹
+    // 名字 + 好感/信赖/心情 同一行，括号包裹；末尾追加 cflag 状态标记
     const name = document.createElement('div');
     name.className = 'chara-name';
-    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0} 心情 ${npc.mood_label ?? '一般'})`;
+    const flags = Object.entries(npc.cflag || {})
+        .filter(([, v]) => v === true)
+        .map(([k]) => (cflagDefs && cflagDefs[k]) || k);
+    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0} 心情 ${npc.mood_label ?? '一般'}${flags.length ? ' ' + flags.join(' ') : ''})`;
     el.appendChild(name);
 
     // 体力条（绿）/ 气力条（蓝）同一行

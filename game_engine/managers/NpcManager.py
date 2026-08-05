@@ -3,8 +3,10 @@ from random import randint, choice
 from data.data_loader import load_shipgirls
 from game_engine.models.shipgirl import ShipGirl
 
+
 class NpcManager:
     '''NPC管理器类'''
+
     def __init__(self):
         # 所有舰娘的初始化数据
         self.shipgirls_db = load_shipgirls()
@@ -18,7 +20,7 @@ class NpcManager:
     def get_npcs_at(self, region: str, node: str):
         '''获取指定位置的NPC列表'''
         return [sg for sg in self.shipgirls.values()
-            if sg.location['region'] == region and sg.location['node'] == node]
+                if sg.location['region'] == region and sg.location['node'] == node]
 
     def get_all_npcs(self):
         '''获取所有NPC列表'''
@@ -36,20 +38,23 @@ class NpcManager:
                 sleep_region = self.shipgirls_db[sg.id]['location']['region']
                 sleep_node = self.shipgirls_db[sg.id]['location']['node']
                 self.set_loc(sg.id, sleep_region, sleep_node)
+                sg.cflag['sleeping'] = True
                 continue
+            else: sg.cflag['sleeping'] = False
 
             # 工作时间：去工作地点
             work = sg.schedule.get('work') or {}
             work_time: list[list[int]] = work.get('time', [])
-            is_work = False
             for time_range in work_time:
                 if time_range[0] <= hour < time_range[1]:
                     work_region = sg.schedule['work']['location']['region']
                     work_node = sg.schedule['work']['location']['node']
                     self.set_loc(sg.id, work_region, work_node)
-                    is_work = True
+                    sg.cflag['working'] = True
                     break
-            if is_work:
+                else: sg.cflag['working'] = False
+
+            if sg.is_working():
                 continue
 
             # 自由行动：根据推进时长影响移动概率

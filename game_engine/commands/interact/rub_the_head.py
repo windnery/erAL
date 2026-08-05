@@ -17,13 +17,17 @@ if TYPE_CHECKING:
 
 
 def can(world: World, npc: ShipGirl):
-    '''执行判定'''
+    """执行判定"""
     # 气力0
     if world.player.is_energy_empty():
         return False
+    # TODO: 睡眠中允许 但是后续加额外的惊醒判定
     # 陷落阶段在喜欢以上 必定可用
     if npc.get_talent_value('relationship') >= 2:
         return True
+    # 工作中
+    if world.player.is_working():
+        return False
     # 好感度低
     if npc.favor < 120:
         return False
@@ -35,9 +39,9 @@ def can(world: World, npc: ShipGirl):
 
 @register_cmd('rub_the_head', '摸头', '亲昵', can)
 def rub_the_head(world: World, option: str):
-    '''摸头
+    """摸头
     world: 游戏世界对象
-    option: 指令对象'''
+    option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({

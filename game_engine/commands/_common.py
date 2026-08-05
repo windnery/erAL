@@ -1,16 +1,16 @@
-from config.abl_lv import ABL_LV
 from config.source_kind import ALL_SOURCE_KEYS
-from game_engine.models.character import Character
+from game_engine.models.player import Player
+from game_engine.models.shipgirl import ShipGirl
 
 
 def new_source(base: dict[str, int]):
-    '''根据base生成新的source'''
+    """根据base生成新的source"""
     s = {k: 0 for k in ALL_SOURCE_KEYS}
     if base: s.update(base)
     return s
 
 def low_intimacy2favor(intimacy_abl: int) -> int:
-    '''亲密低会导致好感度下降'''
+    """亲密低会导致好感度下降"""
     if intimacy_abl == 0:
         return -3
     elif intimacy_abl == 1:
@@ -21,7 +21,7 @@ def low_intimacy2favor(intimacy_abl: int) -> int:
         return 0
 
 def low_favor2favor(favor: int) -> int:
-    '''好感度低会导致好感度下降'''
+    """好感度低会导致好感度下降"""
     if favor <= 50:
         return -3
     elif favor <= 100:
@@ -30,3 +30,14 @@ def low_favor2favor(favor: int) -> int:
         return -1
     else:
         return 0
+
+def global_can(player: Player, npc: ShipGirl):
+    """指令不可用的通用判定 优先级最高"""
+    # 气力0
+    if player.is_energy_empty():
+        return False
+    # 睡眠中
+    if npc.is_sleeping():
+        return False
+
+    return True
