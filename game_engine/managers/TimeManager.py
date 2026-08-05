@@ -49,9 +49,9 @@ class TimeManager:
     def get_sleep_time(self):
         # 获取正常睡觉的时间
         current = self.hour * 60 + self.minute
-        target = 7 * 60  # 第二天早上7点
+        target = self.player.wake_time['hour'] * 60 + self.player.wake_time['minute']  # 醒来的时间
         if current > target:
-            # 如果当前时间已经超过7点，则推进到第二天的7点
+            # 如果当前时间已经超过设定的醒来时间，则推进到第二天
             minutes_to_advance = (24 * 60 - current) + target
         else:
             minutes_to_advance = target - current
@@ -66,8 +66,8 @@ class TimeManager:
         return max(stamina_recovery_time, energy_recovery_time)
 
     def advance_time_with_events(self, minutes: int):
-        '''推进时间并返回玩家附近舰娘的变动消息
-        返回: list[str] 事件消息列表'''
+        """推进时间并返回玩家附近舰娘的变动消息
+        返回: list[str] 事件消息列表"""
         r, n = self.player.location['region'], self.player.location['node']
 
         # 推进前：谁在这

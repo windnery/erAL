@@ -5,36 +5,41 @@ from game_engine.models.shipgirl import ShipGirl
 
 
 class NpcManager:
-    '''NPC管理器类'''
+    """NPC管理器类"""
 
     def __init__(self):
         # 所有舰娘的初始化数据
         self.shipgirls_db = load_shipgirls()
         # 初始化所有舰娘对象
         self.shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in self.shipgirls_db.items()}
-
+        # 秘书舰
+        self.secretary_ship: ShipGirl|None = None
+        
     def set_loc(self, shipgirl_id: str, region: str, node: str):
-        '''设置舰娘位置'''
+        """设置舰娘位置"""
         self.shipgirls[shipgirl_id].location = {'region': region, 'node': node}
 
     def get_npcs_at(self, region: str, node: str):
-        '''获取指定位置的NPC列表'''
+        """获取指定位置的NPC列表"""
         return [sg for sg in self.shipgirls.values()
                 if sg.location['region'] == region and sg.location['node'] == node]
 
     def get_all_npcs(self):
-        '''获取所有NPC列表'''
+        """获取所有NPC列表"""
         return list(self.shipgirls.values())
 
     def update_positions(self, hour: int, minutes: int, map_manager):
-        '''根据当前时间和推进时长更新所有舰娘位置
+        """根据当前时间和推进时长更新所有舰娘位置
         hour: 当前小时（用于判断睡觉/工作）
         minutes: 本次推进的分钟数（影响自由行动时的移动概率）
         map_manager: 地图管理器（用于查询可前往的节点/区域）
-        '''
+        """
         for sg in self.shipgirls.values():
             # 睡觉时间：回家
-            if hour >= sg.schedule['sleep'][0] or hour < sg.schedule['sleep'][1]:
+            if ((hour >= sg.schedule['sleep']['hour'] and minutes >= sg.schedule['sleep']['minute']) or
+                (hour < sg.schedule['wake_up']['hour']) or
+                (hour == sg.schedule['sleep']['hour'] and minutes < sg.schedule['sleep']['minute'])
+            ):
                 sleep_region = self.shipgirls_db[sg.id]['location']['region']
                 sleep_node = self.shipgirls_db[sg.id]['location']['node']
                 self.set_loc(sg.id, sleep_region, sleep_node)
@@ -43,6 +48,7 @@ class NpcManager:
             else: sg.cflag['sleeping'] = False
 
             # 工作时间：去工作地点
+            # TODO: 改成新时间系统
             work = sg.schedule.get('work') or {}
             work_time: list[list[int]] = work.get('time', [])
             for time_range in work_time:
@@ -83,8 +89,8 @@ class NpcManager:
                         self.set_loc(sg.id, target_region['key'], target_node)
 
     def get_npc_by_id(self, shipgirl_id: str):
-        '''根据舰娘ID获取舰娘对象
+        """根据舰娘ID获取舰娘对象
         shipgirl_id: 舰娘ID
         return: ShipGirl对象
-        '''
+        """
         return self.shipgirls[shipgirl_id]

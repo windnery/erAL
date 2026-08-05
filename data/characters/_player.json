@@ -5,6 +5,10 @@
         "region": "home",
         "node": "living_room"
     },
+    "wake_time": {
+        "hour": 7,
+        "minute": 0
+    },
     "base": {
         "max_stamina": 2000,
         "max_energy": 2000,

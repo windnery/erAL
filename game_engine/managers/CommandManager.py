@@ -22,6 +22,11 @@ class CommandManager:
         ex_com = self._get_system_commands()
         return ex_com
 
+    def get_MENU_COM(self):
+        '''获取缓冲菜单指令'''
+        return [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': '菜单'}
+                for k in REGISTER_CMD if REGISTER_CAT.get(k) == '菜单']
+
     def get_cmd_options(self, command: str):
         # 根据指令名 返回这个指令所需的选项列表
         if command == 'move':
@@ -29,6 +34,16 @@ class CommandManager:
                                                               self.world.player.location['node'])
         elif command == 'leave':
             return self.world.map_manager.get_available_regions(self.world.player.location['region'])
+        elif command == 'set_wake_up_time':
+            # 预设起床时间档位
+            return [{'key': '6', 'name': '6:00', 'value': {'hour': 6, 'minute': 0}},
+                    {'key': '7', 'name': '7:00', 'value': {'hour': 7, 'minute': 0}},
+                    {'key': '8', 'name': '8:00', 'value': {'hour': 8, 'minute': 0}},
+                    {'key': '9', 'name': '9:00', 'value': {'hour': 9, 'minute': 0}}]
+        elif command == 'set_secretary_ship':
+            # 全部舰娘（不限附近）
+            return [{'key': sg.id, 'name': sg.name, 'value': {'shipgirl_id': sg.id}}
+                    for sg in self.world.npc_manager.get_all_npcs()]
         # TODO: 其他指令在这里补充
         else:
             return []
@@ -73,7 +88,7 @@ class CommandManager:
         """Return commands that depend on the current location, not an NPC."""
         commands = []
         for key in REGISTER_CMD:
-            if REGISTER_CAT.get(key) == '系统':
+            if REGISTER_CAT.get(key) in ('系统', '菜单'):
                 continue
             if REGISTER_NEEDS_TARGET.get(key, True):
                 continue

@@ -19,6 +19,8 @@ class World:
         self.work_manager = WorkManager()
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
+        # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
+        self.menu_active = True
 
     def get_state(self, selected_npc_id: str | None = None):
         '''一次性返回前端需要的全部状态'''
@@ -28,6 +30,8 @@ class World:
             'location': self.map_manager.get_current_loc(self.player),
             'act_com': self.command_manager.get_Act_COM(selected_npc_id),
             'ex_com': self.command_manager.get_EX_COM(),
+            'menu_com': self.command_manager.get_MENU_COM(),
+            'menu_active': self.menu_active,
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
             'cflag_defs': {k: v['name'] for k, v in self.attr_defs.get('cflag', {}).items()},
@@ -64,15 +68,14 @@ class World:
         # 体力和气力恢复
         if sleep:
             sleep_minutes = self.time_manager.get_sleep_time()
-            sleep_hours = sleep_minutes // 60
 
             # 体力和气力恢复，按8小时为满值恢复
             current_stamina = self.player.get_stamina()
             current_energy = self.player.get_energy()
-            self.change_stamina(self.player.base['max_stamina'] * sleep_hours // 8)
-            self.change_energy(self.player.base['max_energy'] * sleep_hours // 8)
+            self.change_stamina(self.player.base['max_stamina'] * sleep_minutes // 480)
+            self.change_energy(self.player.base['max_energy'] * sleep_minutes // 480)
             pages.append(f'{self.player.name}准备睡觉……')
-            pages.append(f'睡了一觉（{sleep_hours}小时）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}')
+            pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}')
 
             self.time_manager.to_next_day()  # 推进到第二天
             # 更新舰娘到新时间的位置（起床后的调度）
@@ -118,6 +121,9 @@ class World:
         self.work_manager.set_works()
         self.work_manager.works_done = 0  # 重置已完成工作量
         pages.append(f'又有了新的工作……今天的工作量是{self.work_manager.works}')
+
+        # 新的一天开始：回到缓冲菜单
+        self.menu_active = True
 
         return pages
 
