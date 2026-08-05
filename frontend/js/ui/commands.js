@@ -1,13 +1,11 @@
-// 分类展示顺序（act 面板按此顺序分组；空分类不显示标题）
 const CAT_ORDER = ['日常', '亲昵', '性骚扰'];
-const expandedCategories = new Set();
+let selectedCategory = CAT_ORDER[0];
 
 function makeCmdSpan(cmd, callbacks) {
     let span = document.createElement('span');
     span.className = 'com-cmd';
     span.textContent = cmd.name;
     span.onclick = async function () {
-        // 需要目标的指令（NPC交互），直接传入选中的舰娘id
         if (cmd.needs_target) {
             if (cmd.frontend) {
                 callbacks.showCharaInfo(callbacks.getSelectedNpc());
@@ -17,17 +15,68 @@ function makeCmdSpan(cmd, callbacks) {
             show_text_result(result, callbacks);
             return;
         }
-        // 先判断该指令需要选什么
         let options = await callbacks.getCmdOptions(cmd.key);
         if (options.length > 0) {
             show_options(cmd.key, options, callbacks);
         } else {
-            // 如果没有选项，直接执行指令
             let result = await callbacks.doCmd(cmd.key);
             show_text_result(result, callbacks);
         }
     };
     return span;
+}
+
+function renderSectionDivider(label) {
+    const divider = document.createElement('div');
+    divider.className = 'section-divider';
+    const span = document.createElement('span');
+    span.className = 'section-label';
+    span.textContent = label;
+    const line = document.createElement('span');
+    line.className = 'section-line';
+    divider.appendChild(span);
+    divider.appendChild(line);
+    return divider;
+}
+
+function renderActDivider(allCats, cmdPanel, groups, callbacks) {
+    const divider = document.createElement('div');
+    divider.className = 'section-divider';
+
+    const prefix = document.createElement('span');
+    prefix.className = 'section-label';
+    prefix.textContent = 'Act_COM';
+    divider.appendChild(prefix);
+
+    for (let cat of allCats) {
+        const sep = document.createElement('span');
+        sep.className = 'section-label';
+        sep.textContent = '===';
+        divider.appendChild(sep);
+
+        const catSpan = document.createElement('span');
+        catSpan.className = 'act-cat-link';
+        catSpan.textContent = '[' + cat + ']';
+        catSpan.dataset.cat = cat;
+        if (cat === selectedCategory) {
+            catSpan.classList.add('selected');
+        }
+        catSpan.onclick = function () {
+            selectedCategory = cat;
+            divider.querySelectorAll('.act-cat-link').forEach(el => {
+                el.classList.toggle('selected', el.dataset.cat === selectedCategory);
+            });
+            cmdPanel.innerHTML = '';
+            renderActiveCategory(cmdPanel, groups, callbacks);
+        };
+        divider.appendChild(catSpan);
+    }
+
+    const line = document.createElement('span');
+    line.className = 'section-line';
+    divider.appendChild(line);
+
+    return divider;
 }
 
 export function renderCommands(commands, type, callbacks) {
@@ -50,58 +99,30 @@ function renderActCommands(container, commands, callbacks) {
         (groups[cat] = groups[cat] || []).push(cmd);
     }
 
-    const categories = [
+    const allCats = [
         ...CAT_ORDER,
         ...Object.keys(groups).filter(cat => !CAT_ORDER.includes(cat)),
     ];
 
-    const actBlock = document.createElement('div');
-    actBlock.className = 'act-com-block';
+    const cmdPanel = document.createElement('div');
+    cmdPanel.className = 'act-commands';
 
-    for (let cat of categories) {
-        if (!groups[cat]) continue;
+    container.appendChild(renderActDivider(allCats, cmdPanel, groups, callbacks));
+    container.appendChild(cmdPanel);
 
-        const section = document.createElement('section');
-        section.id = `Act_COM-${cat}`;
-        section.className = 'act-command-group';
-        section.dataset.category = cat;
+    renderActiveCategory(cmdPanel, groups, callbacks);
+}
 
-        const title = document.createElement('button');
-        title.type = 'button';
-        title.className = 'com-cat';
-        title.textContent = `【${cat}】`;
-        title.setAttribute('aria-controls', `${section.id}-commands`);
-
-        const commandList = document.createElement('div');
-        commandList.id = `${section.id}-commands`;
-        commandList.className = 'com-cat-commands';
-
-        for (let cmd of groups[cat]) {
-            commandList.appendChild(makeCmdSpan(cmd, callbacks));
-        }
-
-        const expanded = expandedCategories.has(cat);
-        commandList.hidden = !expanded;
-        title.setAttribute('aria-expanded', String(expanded));
-        title.onclick = function () {
-            const nextExpanded = !expandedCategories.has(cat);
-            if (nextExpanded) {
-                expandedCategories.add(cat);
-            } else {
-                expandedCategories.delete(cat);
-            }
-            commandList.hidden = !nextExpanded;
-            title.setAttribute('aria-expanded', String(nextExpanded));
-        };
-
-        section.appendChild(title);
-        section.appendChild(commandList);
-        actBlock.appendChild(section);
+function renderActiveCategory(container, groups, callbacks) {
+    const cmds = groups[selectedCategory] || [];
+    for (let cmd of cmds) {
+        container.appendChild(makeCmdSpan(cmd, callbacks));
     }
-    container.appendChild(actBlock);
 }
 
 function renderExCommands(container, commands, callbacks) {
+    container.appendChild(renderSectionDivider('Ex_COM'));
+
     const list = document.createElement('div');
     list.className = 'ex-command-list';
     for (let cmd of commands) {
@@ -110,14 +131,7 @@ function renderExCommands(container, commands, callbacks) {
     container.appendChild(list);
 }
 
-function appendCommandDivider(container) {
-    const divider = document.createElement('div');
-    divider.className = 'command-divider';
-    divider.setAttribute('aria-hidden', 'true');
-    container.appendChild(divider);
-}
 function show_options(command, options, callbacks) {
-    // 改用全屏选择幕，不再使用弹出面板 #cmd_options
     callbacks.showFullscreenOptions(options, async (option) => {
         let result = await callbacks.doCmd(command, option.key);
         show_text_result(result, callbacks);
@@ -125,16 +139,13 @@ function show_options(command, options, callbacks) {
 }
 
 function show_text_result(result, callbacks) {
-    // null / undefined / 空列表 都视为无产出（如 move 返回 []），需回到游戏画面避免空白
     if (result === null || result === undefined || (Array.isArray(result) && result.length === 0)) {
         if (callbacks.refresh) callbacks.refresh();
         return;
     }
     if (typeof result === 'string') {
-        // 单条消息，包成列表翻页
         callbacks.showFullscreenText([result]);
     } else if (Array.isArray(result)) {
-        // 多条消息，逐条翻页
         callbacks.showFullscreenText(result);
     }
 }

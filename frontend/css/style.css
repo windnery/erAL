@@ -144,7 +144,6 @@ button {
 #charaPortrait {
     min-height: 120px;
     padding: 4px 0;
-    border-bottom: 1px solid white;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -211,14 +210,48 @@ button {
 #Ex_COM {
     min-height: 24px;
     line-height: 1.8;
-    padding: 4px 0 8px;
-    border-bottom: 1px solid white;
+    padding: 4px 0;
 }
 
 #Ex_COM {
     margin-top: 8px;
-    border-bottom: none;
 }
+
+/* 分界线标签：左侧文字 + 右侧横线 */
+.section-divider {
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.section-label {
+    color: #fff;
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.section-line {
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    margin-left: 8px;
+}
+
+/* Act 分类链接（在分界线标签中） */
+.act-cat-link {
+    color: #fff;
+    cursor: default;
+    letter-spacing: 1px;
+}
+
+.act-cat-link:hover {
+    color: #ff0;
+}
+
+.act-cat-link.selected {
+    color: #ff0;
+}
+
+/* 指令文本 */
 #Act_COM .com-cmd,
 #Ex_COM .com-cmd {
     color: #fff;
@@ -229,65 +262,6 @@ button {
 #Act_COM .com-cmd:hover,
 #Ex_COM .com-cmd:hover {
     color: #ff0;
-}
-
-#Act_COM .com-sep,
-#Ex_COM .com-sep {
-    color: #fff;
-    letter-spacing: 1px;
-}
-
-/* 指令分类标题（【日常】/【亲昵】/【性骚扰】） */
-/* Act_COM category headers and separators */
-#Act_COM .act-command-group {
-    padding-top: 2px;
-}
-
-#Act_COM .act-com-block {
-    padding-top: 2px;
-}
-
-#Act_COM .com-cat {
-    display: block;
-    width: 100%;
-    padding: 2px 8px;
-    border: 0;
-    background: transparent;
-    color: #fff;
-    font: inherit;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-align: left;
-    cursor: pointer;
-}
-
-#Act_COM .com-cat:hover {
-    color: #ff0;
-}
-
-#Act_COM .com-cat::before {
-    display: inline-block;
-    width: 18px;
-    content: '+';
-    letter-spacing: 0;
-}
-
-#Act_COM .com-cat[aria-expanded="true"]::before {
-    content: '−';
-}
-
-#Act_COM .com-cat-commands {
-    padding-bottom: 2px;
-}
-
-#Act_COM .com-cat-commands[hidden] {
-    display: none;
-}
-
-.command-divider {
-    width: 100%;
-    margin: 4px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
 }
 #fullscreen_text {
     display: none;
