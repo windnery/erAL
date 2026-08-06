@@ -59,6 +59,10 @@ class Character:
         """是否正在跟随"""
         return self.cflag.get('following', False)
 
+    def is_dating(self) -> bool:
+        """是否正在约会"""
+        return self.cflag.get('dating', False)
+
     def clear_palam(self) -> None:
         """清空palam"""
         for k in self.palam.keys():

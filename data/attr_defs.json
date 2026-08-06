@@ -45,7 +45,8 @@
         "sleeping": {"name": "睡眠中", "default": false},
         "working": {"name": "工作中", "default": false},
         "secretary_ship": {"name": "秘书舰", "default": false},
-        "following": {"name": "同行中", "default": false}
+        "following": {"name": "同行中", "default": false},
+        "dating": {"name": "约会中", "default": false}
     },
 
     "exp": {
@@ -64,7 +65,8 @@
         "a_expand_exp": {"name": "A扩张经验", "default": 0},
 
         "talk_exp": {"name": "会话经验", "default": 0},
-        "work_exp": {"name": "工作经验", "default": 0}
+        "work_exp": {"name": "工作经验", "default": 0},
+        "date_exp": {"name": "约会经验", "default": 0}
     },
 
     "juel": {

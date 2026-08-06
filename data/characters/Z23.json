@@ -58,7 +58,9 @@
         "a_expand_exp": 0,
 
         "talk_exp": 0,
-        "work_exp": 0
+        "work_exp": 0,
+        "date_exp": 0
+
     },
     "juel": {
         "c_pleasure_juel": 0,
