@@ -536,11 +536,6 @@ button {
     background: black;
 }
 
-#menu_screen #status_bar {
-    /* 复用主界面状态栏样式 */
-    margin-top: 0;
-}
-
 #MENU_COM {
     margin-top: 20px;
 }
