@@ -15,7 +15,7 @@ class SaveManager:
 
     def __init__(self, world: 'World', sav_dir: Path | None = None):
         self.world = world
-        self.sav_dir = sav_dir or Path('sav')
+        self.sav_dir = Path(sav_dir) if sav_dir else Path('sav')
 
     def serialize_world(self) -> dict:
         world = self.world
