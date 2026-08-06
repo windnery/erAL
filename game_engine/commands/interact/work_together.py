@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from config.map_actions import WORK_LOC
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
+from game_engine.commands._common import favor_trust_proc, new_source
 from game_engine.commands._context import CommandContext
 from game_engine.models.shipgirl import ShipGirl
 
@@ -95,19 +96,7 @@ def work_together(world, option=None):
     ctx.say(f'工作经验+1 ({world.player.name})', f'工作经验+1 ({npc.name})')
 
     # 处理好感和信赖
-    favor_delta = randint(1, 3)
-    trust_delta = randint(1, 2)
-    npc.favor += favor_delta
-    npc.trust += trust_delta
-
-    if favor_delta > 0:
-        ctx.say(f'好感+{favor_delta} ({npc.name})')
-    elif favor_delta < 0:
-        ctx.say(f'好感{favor_delta} ({npc.name})')
-    if trust_delta > 0:
-        ctx.say(f'信赖+{trust_delta} ({npc.name})')
-    elif trust_delta < 0:
-        ctx.say(f'信赖{trust_delta} ({npc.name})')
+    favor_trust_proc(new_source({}), npc, ctx, ex_favor=randint(1, 3), ex_trust=randint(1, 2))
 
     ctx.say(f'度过了{command_time_data["work_together"]}分钟')
 

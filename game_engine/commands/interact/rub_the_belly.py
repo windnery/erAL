@@ -2,7 +2,7 @@
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, global_can
+from game_engine.commands._common import new_source, global_can, favor_trust_proc
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -53,11 +53,14 @@ def rub_the_belly(world: World, option: str):
         'passivity_source': 120,  # 被动
     })
 
-    line = npc.get_line('request_a_lap_pillow')
-    ctx.say(f'向{npc.name}请求膝枕……')
+    line = npc.get_line('rub_the_belly')
+    ctx.say(f'揉了揉{npc.name}的肚子……')
     if line:
         # 有口上
         ctx.say(line.replace('{name}', npc.name))
+
+    # 推进时间
+    ctx.advance_time(command_time_data['body_touch'])
 
     # TODO: 怀孕补正
     # TODO: 衣服补正
@@ -97,25 +100,7 @@ def rub_the_belly(world: World, option: str):
     ctx.consume(n_stamina_cost, n_energy_cost, npc)
 
     # 好感和信赖处理
-    favor_delta = favor_calc(npc, source)
-    trust_delta = trust_calc(npc, source)
-    # 亲密低会导致好感度下降
-    if npc.abl['intimacy_abl'] <= 5:
-        favor_delta -= 3
-    npc.favor += favor_delta
-    npc.trust += trust_delta
-
-    # 推进时间
-    ctx.advance_time(command_time_data['body_touch'])
-
-    if favor_delta > 0:
-        ctx.say(f'好感+{favor_delta} ({npc.name})')
-    elif favor_delta < 0:
-        ctx.say(f'好感{favor_delta} ({npc.name})')
-    if trust_delta > 0:
-        ctx.say(f'信赖+{trust_delta} ({npc.name})')
-    elif trust_delta < 0:
-        ctx.say(f'信赖{trust_delta} ({npc.name})')
+    favor_trust_proc(source, npc, ctx, True)
 
     ctx.say(f'度过了{command_time_data["body_touch"]}分钟')
     return ctx.result()

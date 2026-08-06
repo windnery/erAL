@@ -2,7 +2,7 @@
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source
+from game_engine.commands._common import new_source, favor_trust_proc
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -57,6 +57,9 @@ def poke_the_cheek(world: World, option: str):
     if line:
         # 有口上
         ctx.say(line.replace('{name}', npc.name))
+
+    # 推进时间
+    ctx.advance_time(command_time_data['poke_the_cheek'])
 
     # ABL: 亲密
     if npc.abl['intimacy_abl'] <= 3:
@@ -116,22 +119,7 @@ def poke_the_cheek(world: World, option: str):
     ctx.consume(n_energy_cost, npc)
 
     # 好感和信赖处理
-    favor_delta = favor_calc(npc, source)
-    trust_delta = trust_calc(npc, source)
-    npc.favor += favor_delta
-    npc.trust += trust_delta
-
-    # 推进时间
-    ctx.advance_time(command_time_data['poke_the_cheek'])
-
-    if favor_delta > 0:
-        ctx.say(f'好感+{favor_delta} ({npc.name})')
-    elif favor_delta < 0:
-        ctx.say(f'好感{favor_delta} ({npc.name})')
-    if trust_delta > 0:
-        ctx.say(f'信赖+{trust_delta} ({npc.name})')
-    elif trust_delta < 0:
-        ctx.say(f'信赖{trust_delta} ({npc.name})')
+    favor_trust_proc(source, npc, ctx, True)
 
     ctx.say(f'度过了{command_time_data["poke_the_cheek"]}分钟')
     return ctx.result()

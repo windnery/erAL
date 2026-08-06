@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, low_favor2favor, low_intimacy2favor, global_can
+from game_engine.commands._common import new_source, low_favor2favor, low_intimacy2favor, global_can, favor_trust_proc
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -54,6 +54,9 @@ def body_touch(world: World, option: str):
     if line:
         # 有口上
         ctx.say(line.replace('{name}', npc.name))
+
+    # 推进时间
+    ctx.advance_time(command_time_data['body_touch'])
 
     # abl对source修正
     # abl: 亲密
@@ -116,26 +119,7 @@ def body_touch(world: World, option: str):
     ctx.consume(energy=energy_cost, chara=npc)
 
     # 处理好感和信赖
-    favor_delta = favor_calc(npc, source)
-    trust_delta = trust_calc(npc, source)
-    # 亲密低导致好感度下降
-    favor_delta += low_intimacy2favor(npc)
-    # 好感度低会导致好感度下降
-    favor_delta += low_favor2favor(npc.favor)
-    npc.favor += favor_delta
-    npc.trust += trust_delta
-
-    # 推进时间
-    ctx.advance_time(command_time_data['body_touch'])
-
-    if favor_delta > 0:
-        ctx.say(f'好感+{favor_delta} ({npc.name})')
-    elif favor_delta < 0:
-        ctx.say(f'好感{favor_delta} ({npc.name})')
-    if trust_delta > 0:
-        ctx.say(f'信赖+{trust_delta} ({npc.name})')
-    elif trust_delta < 0:
-        ctx.say(f'信赖{trust_delta} ({npc.name})')
+    favor_trust_proc(source, npc, ctx, True)
 
     ctx.say(f'度过了{command_time_data["body_touch"]}分钟')
     return ctx.result()
