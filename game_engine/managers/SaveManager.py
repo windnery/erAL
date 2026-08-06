@@ -70,3 +70,51 @@ class SaveManager:
                 ),
             },
         }
+
+    def deserialize_world(self, data: dict) -> str | None:
+        """把存档数据还原到 world。成功返回 None，失败返回错误信息"""
+        try:
+            d = data['data']
+            tm = d['time']
+            self.world.time_manager.day = tm['day']
+            self.world.time_manager.hour = tm['hour']
+            self.world.time_manager.minute = tm['minute']
+
+            p = d['player']
+            self.world.player.location = p['location']
+            self.world.player.base = p['base']
+            self.world.player.money = p['money']
+            self.world.player.wake_time = p['wake_time']
+            self.world.player.abl = p['abl']
+            self.world.player.exp = p['exp']
+            self.world.player.juel = p['juel']
+            self.world.player.palam = p['palam']
+            self.world.player.talent = p['talent']
+
+            from game_engine.models.shipgirl import ShipGirl
+            for sg_id, st in d['shipgirls'].items():
+                sg = ShipGirl(**self.world.npc_manager.shipgirls_db[sg_id])
+                sg.location = st['location']
+                sg.base = st['base']
+                sg.favor = st['favor']
+                sg.trust = st['trust']
+                sg.abl = st['abl']
+                sg.exp = st['exp']
+                sg.juel = st['juel']
+                sg.palam = st['palam']
+                sg.cflag = st['cflag']
+                sg.update_palam_level()
+                self.world.npc_manager.shipgirls[sg_id] = sg
+
+            self.world.work_manager.works = d['work']['works']
+            self.world.work_manager.works_done = d['work']['works_done']
+            self.world.menu_active = d['menu_active']
+
+            sec_id = d['secretary_ship_id']
+            self.world.npc_manager.secretary_ship = (
+                self.world.npc_manager.shipgirls[sec_id] if sec_id else None
+            )
+            self.world.player.update_palam_level()
+            return None
+        except (KeyError, TypeError, ValueError) as e:
+            return f'存档数据损坏：{e}'
