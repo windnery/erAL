@@ -1,4 +1,4 @@
-import { getState, getCmdOptions, doCmd } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
@@ -159,8 +159,26 @@ function new_game() {
     refresh();
 }
 
-function load_game() {
-    // TODO: 读档功能
+async function load_game() {
+    const slots = await getSaveList();
+    const options = slots.map(s => ({
+        key: s.slot,
+        name: s.has_save
+            ? `槽位${s.slot}：第${s.day}天 ${String(s.hour).padStart(2, '0')}:${String(s.minute).padStart(2, '0')} ${s.player_name}`
+            : `槽位${s.slot}：空`,
+    }));
+    showFullscreenOptions(options, async (opt) => {
+        const err = await doLoad(opt.key);
+        if (err) {
+            document.getElementById('fullscreen_options').style.display = 'none';
+            showFullscreenText([err]);
+            return;
+        }
+        document.getElementById('fullscreen_options').style.display = 'none';
+        document.getElementById('main_menu').style.display = 'none';
+        selectedNpcId = null;
+        refresh();
+    });
 }
 
 // WebView初始化完成后刷新一下界面

@@ -13,3 +13,15 @@ export async function getCmdOptions(cmd) {
 export async function doCmd(cmd, option = null) {
     return await call('command_manager', 'do_cmd', cmd, option);
 }
+
+export async function getSaveList() {
+    return await call('save_manager', 'get_save_list');
+}
+
+export async function doSave(slot) {
+    return await call('save_manager', 'save_game', slot);
+}
+
+export async function doLoad(slot) {
+    return await call('save_manager', 'load_game', slot);
+}
