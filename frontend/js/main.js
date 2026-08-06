@@ -153,8 +153,13 @@ async function refresh() {
     }
 }
 
+function showStatusBar() {
+    document.getElementById('status_bar').style.display = 'block';
+}
+
 function new_game() {
     document.getElementById('main_menu').style.display = 'none';
+    showStatusBar();
     // 缓冲菜单由 refresh 根据 menu_active 决定显示
     refresh();
 }
@@ -176,6 +181,7 @@ async function load_game() {
         }
         document.getElementById('fullscreen_options').style.display = 'none';
         document.getElementById('main_menu').style.display = 'none';
+        showStatusBar();
         selectedNpcId = null;
         refresh();
     });
