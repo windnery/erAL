@@ -8,7 +8,8 @@ class Api:
             'world': world,
             'map_manager': world.map_manager,
             'command_manager': world.command_manager,
-            'time_manager': world.time_manager
+            'time_manager': world.time_manager,
+            'save_manager': world.save_manager,
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

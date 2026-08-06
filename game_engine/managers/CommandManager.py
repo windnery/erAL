@@ -44,6 +44,17 @@ class CommandManager:
             # 全部舰娘（不限附近）
             return [{'key': sg.id, 'name': sg.name, 'value': {'shipgirl_id': sg.id}}
                     for sg in self.world.npc_manager.get_all_npcs()]
+        elif command in ('save', 'load'):
+            slots = self.world.save_manager.get_save_list()
+            return [
+                {
+                    'key': str(s['slot']),
+                    'name': (f'槽位{s["slot"]}：第{s["day"]}天 '
+                             f'{s["hour"]}:{str(s["minute"]).zfill(2)} {s["player_name"]}')
+                    if s['has_save'] else f'槽位{s["slot"]}：空',
+                }
+                for s in slots
+            ]
         # TODO: 其他指令在这里补充
         else:
             return []
@@ -79,9 +90,6 @@ class CommandManager:
         # 系统类指令：从注册表反查 cat='系统' 的指令
         sys_com = [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': REGISTER_CAT[k]}
                    for k in REGISTER_CMD if REGISTER_CAT.get(k) == '系统']
-        # save/load 未走注册表，先硬编码补上（保持原功能）
-        sys_com += [{'key': 'save', 'name': '存档', 'cat': '系统'},
-                    {'key': 'load', 'name': '读档', 'cat': '系统'}]
         return sys_com
 
     def _get_location_commands(self):

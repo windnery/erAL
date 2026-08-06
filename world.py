@@ -5,6 +5,7 @@ from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
+from game_engine.managers.SaveManager import SaveManager
 from game_engine.managers.TimeManager import TimeManager
 from game_engine.managers.WorkManager import WorkManager
 from game_engine.models.player import Player
@@ -21,6 +22,7 @@ class World:
         self.command_manager = CommandManager(self)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
+        self.save_manager = SaveManager(self)
 
     def get_state(self, selected_npc_id: str | None = None):
         '''一次性返回前端需要的全部状态'''
