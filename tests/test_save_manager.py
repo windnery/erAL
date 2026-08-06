@@ -100,5 +100,51 @@ class TestDeserializeWorld(unittest.TestCase):
         self.assertIsNotNone(err)
 
 
+import json
+import tempfile
+from pathlib import Path
+
+
+class TestSlots(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.world = World()
+        self.sm = SaveManager(self.world, sav_dir=Path(self.tmp.name))
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_save_then_load_roundtrip(self):
+        self.world.player.money = 4321
+        self.world.time_manager.day = 7
+        meta = self.sm.save_game(1)
+        self.assertEqual(meta['day'], 7)
+        self.assertTrue((Path(self.tmp.name) / 'slot_1.json').exists())
+
+        new_world = World()
+        err = SaveManager(new_world, sav_dir=Path(self.tmp.name)).load_game(1)
+        self.assertIsNone(err)
+        self.assertEqual(new_world.player.money, 4321)
+        self.assertEqual(new_world.time_manager.day, 7)
+
+    def test_get_save_list_marks_empty_slots(self):
+        self.sm.save_game(2)
+        slots = self.sm.get_save_list()
+        self.assertEqual(len(slots), 3)
+        self.assertFalse(slots[0]['has_save'])
+        self.assertTrue(slots[1]['has_save'])
+        self.assertEqual(slots[1]['slot'], 2)
+        self.assertFalse(slots[2]['has_save'])
+
+    def test_load_missing_slot_returns_error(self):
+        err = self.sm.load_game(3)
+        self.assertEqual(err, '该槽位没有存档')
+
+    def test_load_corrupt_file_returns_error(self):
+        (Path(self.tmp.name) / 'slot_1.json').write_text('{broken', encoding='utf-8')
+        err = self.sm.load_game(1)
+        self.assertIsNotNone(err)
+
+
 if __name__ == '__main__':
     unittest.main()

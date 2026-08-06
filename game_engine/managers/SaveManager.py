@@ -118,3 +118,50 @@ class SaveManager:
             return None
         except (KeyError, TypeError, ValueError) as e:
             return f'存档数据损坏：{e}'
+
+    def _slot_path(self, slot: int) -> Path:
+        return self.sav_dir / f'slot_{slot}.json'
+
+    def save_game(self, slot: int) -> dict:
+        """保存到槽位，返回 meta（供前端提示）"""
+        path = self._slot_path(slot)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = self.serialize_world()
+        data['meta']['saved_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return data['meta']
+
+    def load_game(self, slot: int) -> str | None:
+        """从槽位读档并还原 world。成功返回 None，失败返回错误信息"""
+        path = self._slot_path(slot)
+        if not path.exists():
+            return '该槽位没有存档'
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            return f'存档读取失败：{e}'
+        return self.deserialize_world(data)
+
+    def get_save_list(self) -> list[dict]:
+        """返回 3 个槽位信息：{slot, has_save, day, hour, minute, player_name}"""
+        result = []
+        for slot in range(1, SLOT_COUNT + 1):
+            entry = {'slot': slot, 'has_save': False}
+            path = self._slot_path(slot)
+            if path.exists():
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        meta = json.load(f).get('meta', {})
+                    entry.update({
+                        'has_save': True,
+                        'day': meta.get('day'),
+                        'hour': meta.get('hour'),
+                        'minute': meta.get('minute'),
+                        'player_name': meta.get('player_name', ''),
+                    })
+                except (json.JSONDecodeError, OSError):
+                    entry['has_save'] = False
+            result.append(entry)
+        return result
