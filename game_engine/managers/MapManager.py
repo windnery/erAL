@@ -5,7 +5,7 @@ from data.time.time_data import leave_time_data, move_time_data
 
 
 class MapManager:
-    '''地图管理器'''
+    """地图管理器"""
 
     def __init__(self):
         # 地图库
@@ -15,7 +15,7 @@ class MapManager:
         self.regions: dict[str, dict[str, str]] = load_regions()
 
     def get_current_loc(self, character):
-        '''获取当前位置信息'''
+        """获取当前位置信息"""
         region_name = self.regions[character.location['region']]['name']
         node_name = self.maps[character.location['region']][character.location['node']]['name']
         mes = f'{region_name} · {node_name}'
@@ -23,7 +23,7 @@ class MapManager:
         return mes
 
     def get_available_nodes(self, region: str, node: str):
-        '''获取当前区域可前往的节点'''
+        """获取当前区域可前往的节点"""
         nodes: list[dict[str, str]] = []
         for node_id in self.maps[region].keys():
             if node_id != node:  # 移除当前节点
@@ -33,7 +33,7 @@ class MapManager:
         return nodes
 
     def get_available_regions(self, region: str):
-        '''获取可前往的区域'''
+        """获取可前往的区域"""
         regions: list[dict[str, str]] = []
         for r_id in self.regions.keys():
             if r_id != region:  # 移除当前区域

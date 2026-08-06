@@ -79,7 +79,7 @@ class World:
 
             self.time_manager.to_next_day()  # 推进到第二天
             # 更新舰娘到新时间的位置（起床后的调度）
-            self.npc_manager.update_positions(self.time_manager.hour, 0, self.map_manager)
+            self.npc_manager.update_positions(self.time_manager.hour, 0, self.map_manager, self.player)
 
         elif exhaustion:
             # 体力耗尽结算，推进到体力和气力恢复到最大值的时间

@@ -1,0 +1,1 @@
+SECRETARY_FOLLOWING_END_TIME = {'hour': 18, 'minute': 0}

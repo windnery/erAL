@@ -77,7 +77,7 @@ class TimeManager:
         self.advance_time(minutes)
 
         # 更新舰娘位置
-        self.npc_manager.update_positions(self.hour, minutes, self.map_manager)
+        self.npc_manager.update_positions(self.hour, minutes, self.map_manager, self.player)
 
         # 推进后：谁在这
         after = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}

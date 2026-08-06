@@ -1,5 +1,5 @@
 from config.juel import get_juel_demand
-from config.abl_lv import EXP2ABL, ABL_LV, ABL_MAX_LV
+from config.abl_lv import EXP2ABL, ABL_LV, JUEL2ABL_MAX_LV, EXP2ABL_MAX_LV
 from game_engine.models.character import Character
 
 
@@ -17,7 +17,7 @@ def juel2abl(chara: Character, attr_defs):
     juel_demand = get_juel_demand(chara)
     for abl_k, juel in juel_demand.items():
         can_up = True
-        if chara.abl[abl_k] == ABL_MAX_LV:
+        if chara.abl[abl_k] == JUEL2ABL_MAX_LV:
             # abl达到上限
             continue
         # TODO: 最高等级判定
@@ -40,7 +40,7 @@ def exp2abl(chara: Character, attr_defs):
 
     for exp_k in EXP2ABL:
         abl_k = exp_k.replace('exp', 'abl')
-        if chara.exp[exp_k] == ABL_MAX_LV:
+        if chara.exp[exp_k] == EXP2ABL_MAX_LV:
             # abl达到上限
             continue
         while chara.exp[exp_k] > ABL_LV[chara.abl[abl_k] + 1]:

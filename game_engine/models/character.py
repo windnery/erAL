@@ -55,6 +55,10 @@ class Character:
         """是否正在工作"""
         return self.cflag.get('working', False)
 
+    def is_following(self) -> bool:
+        """是否正在跟随"""
+        return self.cflag.get('following', False)
+
     def clear_palam(self) -> None:
         """清空palam"""
         for k in self.palam.keys():

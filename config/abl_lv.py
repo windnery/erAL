@@ -1,5 +1,6 @@
 # abl等级上限
-ABL_MAX_LV: int = 13
+JUEL2ABL_MAX_LV: int = 13
+EXP2ABL_MAX_LV: int = 6
 
 # abl升级规则
 ABL_LV: dict[int, int] = {
