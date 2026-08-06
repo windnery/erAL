@@ -9,8 +9,8 @@ from game_engine.models.character import Character
 @dataclass
 class ShipGirl(Character):
     '''舰娘类'''
-    favor: int = 0  # 好感度
-    trust: int = 0  # 信赖度
+    favor: int = 800  # 好感度
+    trust: int = 149  # 信赖度
     schedule: dict[str, Any] = field(default_factory=dict)   # 作息时间表
     lines: list[dict[str, Any]] = field(default_factory=list)  # 台词
 

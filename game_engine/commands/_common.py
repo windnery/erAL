@@ -58,8 +58,10 @@ def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext,
     if is_intimate:
         favor_delta += low_intimacy2favor(npc.abl['intimacy_abl'])
         favor_delta += low_favor2favor(npc.favor)
-    npc.favor += favor_delta + ex_favor
-    npc.trust += trust_delta + ex_trust
+    favor_delta += ex_favor
+    trust_delta += ex_trust
+    npc.favor += favor_delta
+    npc.trust += trust_delta
 
     if favor_delta > 0:
         ctx.say(f'好感+{favor_delta} ({npc.name})')

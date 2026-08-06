@@ -121,7 +121,7 @@ def rub_the_head(world: World, option: str):
     ctx.consume(energy=n_energy_cost, chara=npc)
 
     # 处理好感和信赖
-    favor_trust_proc(source, npc, ctx, True)
+    favor_trust_proc(source, npc, ctx, True, ex_trust=1)
 
     ctx.say(f'度过了{command_time_data["rub_the_head"]}分钟')
     return ctx.result()

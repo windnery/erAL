@@ -2,6 +2,7 @@ from config.palam_lv import PALAM_LV
 from data.data_loader import load_attr_defs
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc
+from game_engine.data_pipeline.talent.talent_check import talent_check
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
@@ -118,7 +119,11 @@ class World:
         pages.extend(abl_lv_process(self.player, self.attr_defs))
         for npc in self.npc_manager.get_all_npcs():
             pages.extend(abl_lv_process(npc, self.attr_defs))
-        
+
+        # 检查talent
+        for npc in self.npc_manager.get_all_npcs():
+            pages.extend(talent_check(self, npc))
+
         # 生成新的一天的工作量
         self.work_manager.set_works()
         self.work_manager.works_done = 0  # 重置已完成工作量

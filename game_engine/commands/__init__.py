@@ -1,2 +1,2 @@
-from . import movement, daily, menu, system
+from . import movement, daily, menu, system, show_chara_info
 from .interact import *

@@ -24,6 +24,8 @@ def can(world: World, npc: ShipGirl):
         return False
     if world.work_manager.works <= 0:
         return False
+    if world.player.is_energy_empty():
+        return False
     return True
 
 

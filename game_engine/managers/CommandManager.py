@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, REGISTER_NEEDS_TARGET
+from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, REGISTER_NEEDS_TARGET, REGISTER_FRONTEND
 
 if TYPE_CHECKING:
     from world import World
@@ -139,5 +139,6 @@ class CommandManager:
                 'needs_target': True,
                 'npc_id': npc.id,
                 'cat': REGISTER_CAT[key],
+                'frontend': REGISTER_FRONTEND.get(key, False),
             })
         return commands

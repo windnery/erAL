@@ -90,6 +90,10 @@ class Character:
                 talents.append(attr_defs['talent'][k]['name'])
         return talents
 
+    def set_talent(self, talent_id: str, value: str):
+        """设置天赋"""
+        self.talent[talent_id] = value
+
     def has_talent(self, talent_id: str) -> bool:
         """检查是否拥有某天赋"""
         return talent_id in self.talent

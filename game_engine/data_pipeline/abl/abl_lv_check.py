@@ -13,24 +13,15 @@ def abl_lv_process(chara: Character, attr_defs):
 # 检查juel是否达到升级需求
 def juel2abl(chara: Character, attr_defs):
     mes: list[str] = []
-
-    juel_demand = get_juel_demand(chara)
-    for abl_k, juel in juel_demand.items():
-        can_up = True
-        if chara.abl[abl_k] == JUEL2ABL_MAX_LV:
-            # abl达到上限
-            continue
-        # TODO: 最高等级判定
-        while can_up:
-            for k in juel.keys():
-                if chara.juel[k] < juel[k]:
-                    can_up = False
-                    break
-            if can_up:
-                chara.abl[abl_k] += 1
-                mes.append(f"{chara.name}的{attr_defs['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！")
-                for k in juel.keys():
-                    chara.juel[k] -= juel[k]
+    for abl_k in get_juel_demand(chara):
+        while chara.abl[abl_k] < JUEL2ABL_MAX_LV:
+            demand = get_juel_demand(chara)[abl_k]   # 每级重算，真正生效
+            if not all(chara.juel[k] >= v for k, v in demand.items()):
+                break
+            chara.abl[abl_k] += 1
+            for k, v in demand.items():
+                chara.juel[k] -= v
+            mes.append(f"{chara.name}的{attr_defs['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！")
     return mes
 
 

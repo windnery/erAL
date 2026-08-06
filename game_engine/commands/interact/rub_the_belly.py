@@ -100,7 +100,10 @@ def rub_the_belly(world: World, option: str):
     ctx.consume(n_stamina_cost, n_energy_cost, npc)
 
     # 好感和信赖处理
-    favor_trust_proc(source, npc, ctx, True)
+    if npc.abl['intimacy_abl'] <= 5:
+        favor_trust_proc(source, npc, ctx, True, -3)
+    else:
+        favor_trust_proc(source, npc, ctx, True)
 
     ctx.say(f'度过了{command_time_data["body_touch"]}分钟')
     return ctx.result()

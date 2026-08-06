@@ -39,6 +39,8 @@ def can_work(world: World, npc=None):
         return False
     if world.work_manager.works <= 0:
         return False
+    if world.player.is_energy_empty():
+        return False
     return True
 
 @register_cmd('nap', '小睡', '日常', can_nap, needs_target=False)
