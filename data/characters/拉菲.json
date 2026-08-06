@@ -167,6 +167,62 @@
                 "{name}迷迷糊糊地蹭了蹭你的手，像只小猫一样。",
                 "{name}眯起眼睛，露出了舒服的表情。"
             ]
+        },
+        {
+            "action": "work_together",
+            "conditions": {},
+            "texts": [
+                "{name}揉了揉眼睛，慢吞吞地跟着你的节奏工作起来。"
+            ]
+        },
+        {
+            "action": "body_touch",
+            "conditions": {},
+            "texts": [
+                "{name}眯着眼睛任你触碰，像只晒着太阳的猫。"
+            ]
+        },
+        {
+            "action": "hug",
+            "conditions": {},
+            "texts": [
+                "{name}被你抱住，打了个小小的哈欠：「唔…好暖和……」"
+            ]
+        },
+        {
+            "action": "poke_the_cheek",
+            "conditions": {},
+            "texts": [
+                "你戳了戳{name}的脸颊，她迷迷糊糊地歪了歪头。"
+            ]
+        },
+        {
+            "action": "pinching_cheeks",
+            "conditions": {},
+            "texts": [
+                "你捏了捏{name}的脸蛋，她含糊地嘟囔了一声。"
+            ]
+        },
+        {
+            "action": "request_a_lap_pillow",
+            "conditions": {},
+            "texts": [
+                "{name}把脑袋枕在你腿上，没过几秒就睡着了。"
+            ]
+        },
+        {
+            "action": "rub_the_belly",
+            "conditions": {},
+            "texts": [
+                "{name}摸了摸肚子，歪着头看着你。"
+            ]
+        },
+        {
+            "action": "rub_the_butt",
+            "conditions": {},
+            "texts": [
+                "{name}被碰到屁股，红着脸跳开了。"
+            ]
         }
     ]
 }

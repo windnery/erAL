@@ -156,6 +156,62 @@
                 "{name}喊着「哇哇」缩了一下脖子，随即笑开：「指挥官指挥官，标枪很有精神哦～！」",
                 "{name}主动把头顶凑过来：「再摸一次也可以哦！」"
             ]
+        },
+        {
+            "action": "work_together",
+            "conditions": {},
+            "texts": [
+                "{name}元气满满地和你一起干活，效率比平时高了不少。"
+            ]
+        },
+        {
+            "action": "body_touch",
+            "conditions": {},
+            "texts": [
+                "{name}咯咯笑着躲了躲，又凑回来说：「好痒啊指挥官～！」"
+            ]
+        },
+        {
+            "action": "hug",
+            "conditions": {},
+            "texts": [
+                "{name}扑进你怀里蹭了蹭：「嘿嘿，指挥官身上有好吃零食的味道！」"
+            ]
+        },
+        {
+            "action": "poke_the_cheek",
+            "conditions": {},
+            "texts": [
+                "你戳了戳{name}的脸颊，她鼓起腮帮子假装生气。"
+            ]
+        },
+        {
+            "action": "pinching_cheeks",
+            "conditions": {},
+            "texts": [
+                "你捏了捏{name}的脸蛋，她含糊不清地抗议：「唔唔…指挥官赖皮！」"
+            ]
+        },
+        {
+            "action": "request_a_lap_pillow",
+            "conditions": {},
+            "texts": [
+                "{name}枕在你腿上翻了个身，眼巴巴地看你有没有带零食。"
+            ]
+        },
+        {
+            "action": "rub_the_belly",
+            "conditions": {},
+            "texts": [
+                "{name}拍了拍肚子：「这里的午饭很美味哦，指挥官要来点吗？」"
+            ]
+        },
+        {
+            "action": "rub_the_butt",
+            "conditions": {},
+            "texts": [
+                "你轻拍了一下{name}的屁股，她跳起来惊呼：「指挥官——！」"
+            ]
         }
     ]
 }
