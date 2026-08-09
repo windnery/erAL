@@ -1,8 +1,8 @@
 {
-	"desk": {
-		"name": "办公桌",
-		"actions": {
-			"work": "工作"
-		}
-	}
+  "desk": {
+    "name": "办公桌",
+    "actions": {
+      "work": "工作"
+    }
+  }
 }

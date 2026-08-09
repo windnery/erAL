@@ -1,21 +1,21 @@
 {
-	"living_room": {
-		"name": "客厅",
-		"actions": {
-			"nap": "小憩"
-		}
-	},
-	"bedroom": {
-		"name": "卧室",
-		"actions": {
-			"nap": "小憩",
-			"sleep": "睡觉"
-		}
-	},
-	"kitchen": {
-		"name": "厨房",
-		"actions": {
-			"cook": "做饭"
-		}
-	}
+  "living_room": {
+    "name": "客厅",
+    "actions": {
+      "nap": "小憩"
+    }
+  },
+  "bedroom": {
+    "name": "卧室",
+    "actions": {
+      "nap": "小憩",
+      "sleep": "睡觉"
+    }
+  },
+  "kitchen": {
+    "name": "厨房",
+    "actions": {
+      "cook": "做饭"
+    }
+  }
 }

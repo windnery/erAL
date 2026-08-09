@@ -124,9 +124,7 @@
             "hour": 8,
             "minute": 0
         },
-        "work": {
-            
-        }
+        "works": []
     },
     "lines": [
         {

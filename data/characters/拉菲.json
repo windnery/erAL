@@ -1,230 +1,227 @@
 {
-    "id": "laffey",
-    "name": "拉菲",
-    "location": {
-        "region": "home",
-        "node": "bedroom"
+  "id": "laffey",
+  "name": "拉菲",
+  "location": {
+    "region": "home",
+    "node": "bedroom"
+  },
+  "base": {
+    "max_stamina": 1500,
+    "max_energy": 1500,
+    "stamina": 1500,
+    "energy": 1500,
+    "mood": 0
+  },
+  "abl": {
+    "c_sen_abl": 0,
+    "v_sen_abl": 0,
+    "a_sen_abl": 0,
+    "b_sen_abl": 0,
+    "m_sen_abl": 0,
+    "intimacy_abl": 0,
+    "obedience_abl": 0,
+    "desire_abl": 0,
+    "skill_abl": 0,
+    "servant_abl": 0,
+    "exposure_abl": 0,
+    "masochistic_abl": 0,
+    "sadism_abl": 0,
+    "masturbation_addiction_abl": 0,
+    "semen_addiction_abl": 0,
+    "v_semen_addiction_abl": 0,
+    "a_semen_addiction_abl": 0,
+    "talk_abl": 0,
+    "work_abl": 0,
+    "finger_abl": 0,
+    "tongue_abl": 0,
+    "breast_abl": 0,
+    "waist_abl": 0,
+    "vagina_abl": 0,
+    "anal_abl": 0
+  },
+  "exp": {
+    "c_exp": 0,
+    "v_exp": 0,
+    "a_exp": 0,
+    "b_exp": 0,
+    "m_exp": 0,
+    "c_orgasm_exp": 0,
+    "v_orgasm_exp": 0,
+    "a_orgasm_exp": 0,
+    "b_orgasm_exp": 0,
+    "m_orgasm_exp": 0,
+    "v_expand_exp": 0,
+    "a_expand_exp": 0,
+    "talk_exp": 0,
+    "work_exp": 0,
+    "love_exp": 0
+  },
+  "juel": {
+    "c_pleasure_juel": 0,
+    "v_pleasure_juel": 0,
+    "a_pleasure_juel": 0,
+    "b_pleasure_juel": 0,
+    "m_pleasure_juel": 0,
+    "obedience_juel": 0,
+    "lust_juel": 0,
+    "submission_juel": 0,
+    "learn_juel": 0,
+    "shame_juel": 0,
+    "pain_juel": 0,
+    "fear_juel": 0,
+    "kindness_juel": 0,
+    "disgust_juel": 0,
+    "unhappiness_juel": 0,
+    "depression_juel": 0,
+    "negation_juel": 0
+  },
+  "palam": {
+    "c_pleasure_palam": 0,
+    "v_pleasure_palam": 0,
+    "a_pleasure_palam": 0,
+    "b_pleasure_palam": 0,
+    "m_pleasure_palam": 0,
+    "lubrication_palam": 0,
+    "obedience_palam": 0,
+    "lust_palam": 0,
+    "submission_palam": 0,
+    "learn_palam": 0,
+    "shame_palam": 0,
+    "pain_palam": 0,
+    "fear_palam": 0,
+    "kindness_palam": 0,
+    "superiority_palam": 0,
+    "disgust_palam": 0,
+    "unhappiness_palam": 0,
+    "depression_palam": 0
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "0",
+    "virgin": "1",
+    "sex": "0",
+    "relationship": "0",
+    "tsundere": "1",
+    "emotional_deficiency": "1",
+    "not_minding_the_gaze": "1",
+    "female_body": "0",
+    "bra_size": "-1",
+    "hip_size": "-1"
+  },
+  "schedule": {
+    "sleep": {
+      "hour": 23,
+      "minute": 0
     },
-    "base": {
-        "max_stamina": 1500,
-        "max_energy": 1500,
-        "stamina": 1500,
-        "energy": 1500,
-        "mood": 0
+    "wake_up": {
+      "hour": 9,
+      "minute": 0
     },
-    "abl": {
-        "c_sen_abl": 0,
-        "v_sen_abl": 0,
-        "a_sen_abl": 0,
-        "b_sen_abl": 0,
-        "m_sen_abl": 0,
-        "intimacy_abl": 0,
-        "obedience_abl": 0,
-        "desire_abl": 0,
-        "skill_abl": 0,
-        "servant_abl": 0,
-        "exposure_abl": 0,
-        "masochistic_abl": 0,
-        "sadism_abl": 0,
-
-        "masturbation_addiction_abl": 0,
-        "semen_addiction_abl": 0,
-        "v_semen_addiction_abl": 0,
-        "a_semen_addiction_abl": 0,
-
-        "talk_abl": 0,
-        "work_abl": 0,
-
-        "finger_abl": 0,
-        "tongue_abl": 0,
-        "breast_abl": 0,
-        "waist_abl": 0,
-        "vagina_abl": 0,
-        "anal_abl": 0
-    },
-    "exp": {
-        "c_exp": 0,
-        "v_exp": 0,
-        "a_exp": 0,
-        "b_exp": 0,
-        "m_exp": 0,
-        "c_orgasm_exp": 0,
-        "v_orgasm_exp": 0,
-        "a_orgasm_exp": 0,
-        "b_orgasm_exp": 0,
-        "m_orgasm_exp": 0,
-
-        "v_expand_exp": 0,
-        "a_expand_exp": 0,
-
-        "talk_exp": 0,
-        "work_exp": 0,
-        "love_exp": 0
-
-    },
-    "juel": {
-        "c_pleasure_juel": 0,
-        "v_pleasure_juel": 0,
-        "a_pleasure_juel": 0,
-        "b_pleasure_juel": 0,
-        "m_pleasure_juel": 0,
-        "obedience_juel": 0,
-        "lust_juel": 0,
-        "submission_juel": 0,
-        "learn_juel": 0,
-        "shame_juel": 0,
-        "pain_juel": 0,
-        "fear_juel": 0,
-        "kindness_juel": 0,
-        "disgust_juel": 0,
-        "unhappiness_juel": 0,
-        "depression_juel": 0,
-        "negation_juel": 0
-    },
-    "palam": {
-        "c_pleasure_palam": 0,
-        "v_pleasure_palam": 0,
-        "a_pleasure_palam": 0,
-        "b_pleasure_palam": 0,
-        "m_pleasure_palam": 0,
-        "lubrication_palam": 0,
-        "obedience_palam": 0,
-        "lust_palam": 0,
-        "submission_palam": 0,
-        "learn_palam": 0,
-        "shame_palam": 0,
-        "pain_palam": 0,
-        "fear_palam": 0,
-        "kindness_palam": 0,
-        "superiority_palam": 0,
-        "disgust_palam": 0,
-        "unhappiness_palam": 0,
-        "depression_palam": 0
-    },
-    "talent": {
-        "alignment": "0",
-        "ship_type": "0",
-        "virgin": "1",
-        "sex": "0",
-        "relationship": "0",
-        "tsundere": "1",
-        "emotional_deficiency": "1",
-        "not_minding_the_gaze": "1",
-        "female_body": "0",
-        "bra_size": "-1",
-        "hip_size": "-1"
-    },
-    "schedule": {
-        "sleep": {
-            "hour": 23,
-            "minute": 0
+    "works": [
+      {
+        "desc": "{name}准备回家睡觉了……",
+        "location": {
+          "region": "home",
+          "node": "bedroom"
         },
-        "wake_up": {
-            "hour": 9,
-            "minute": 0
-        },
-        "work": {
-            "location": {
-                "region": "home",
-                "node": "bedroom"
-            },
-            "time": [
-                [
-                    12,
-                    13
-                ],
-                [
-                    18,
-                    19
-                ]
-            ]
+        "time": {
+          "start": [
+            12,
+            30
+          ],
+          "end": [
+            14,
+            0
+          ]
         }
-    },
-    "lines": [
-        {
-            "action": "talk",
-            "conditions": {
-                "min_favor": 0,
-                "max_favor": 30
-            },
-            "texts": [
-                "{name}揉了揉眼睛，懒洋洋地说：「指挥官……有什么事吗？」",
-                "{name}打了个哈欠：「唔…现在不太想说话……」"
-            ]
-        },
-        {
-            "action": "talk",
-            "conditions": {
-                "min_favor": 30
-            },
-            "texts": [
-                "{name}微微一笑：「指挥官，今天也辛苦了~」",
-                "{name}靠了过来，轻声说：「一起休息会儿吧……」"
-            ]
-        },
-        {
-            "action": "rub_the_head",
-            "conditions": {},
-            "texts": [
-                "{name}迷迷糊糊地蹭了蹭你的手，像只小猫一样。",
-                "{name}眯起眼睛，露出了舒服的表情。"
-            ]
-        },
-        {
-            "action": "work_together",
-            "conditions": {},
-            "texts": [
-                "{name}揉了揉眼睛，慢吞吞地跟着你的节奏工作起来。"
-            ]
-        },
-        {
-            "action": "body_touch",
-            "conditions": {},
-            "texts": [
-                "{name}眯着眼睛任你触碰，像只晒着太阳的猫。"
-            ]
-        },
-        {
-            "action": "hug",
-            "conditions": {},
-            "texts": [
-                "{name}被你抱住，打了个小小的哈欠：「唔…好暖和……」"
-            ]
-        },
-        {
-            "action": "poke_the_cheek",
-            "conditions": {},
-            "texts": [
-                "你戳了戳{name}的脸颊，她迷迷糊糊地歪了歪头。"
-            ]
-        },
-        {
-            "action": "pinching_cheeks",
-            "conditions": {},
-            "texts": [
-                "你捏了捏{name}的脸蛋，她含糊地嘟囔了一声。"
-            ]
-        },
-        {
-            "action": "request_a_lap_pillow",
-            "conditions": {},
-            "texts": [
-                "{name}把脑袋枕在你腿上，没过几秒就睡着了。"
-            ]
-        },
-        {
-            "action": "rub_the_belly",
-            "conditions": {},
-            "texts": [
-                "{name}摸了摸肚子，歪着头看着你。"
-            ]
-        },
-        {
-            "action": "rub_the_butt",
-            "conditions": {},
-            "texts": [
-                "{name}被碰到屁股，红着脸跳开了。"
-            ]
-        }
+      }
     ]
+  },
+  "lines": [
+    {
+      "action": "talk",
+      "conditions": {
+        "min_favor": 0,
+        "max_favor": 30
+      },
+      "texts": [
+        "{name}揉了揉眼睛，懒洋洋地说：「指挥官……有什么事吗？」",
+        "{name}打了个哈欠：「唔…现在不太想说话……」"
+      ]
+    },
+    {
+      "action": "talk",
+      "conditions": {
+        "min_favor": 30
+      },
+      "texts": [
+        "{name}微微一笑：「指挥官，今天也辛苦了~」",
+        "{name}靠了过来，轻声说：「一起休息会儿吧……」"
+      ]
+    },
+    {
+      "action": "rub_the_head",
+      "conditions": {},
+      "texts": [
+        "{name}迷迷糊糊地蹭了蹭你的手，像只小猫一样。",
+        "{name}眯起眼睛，露出了舒服的表情。"
+      ]
+    },
+    {
+      "action": "work_together",
+      "conditions": {},
+      "texts": [
+        "{name}揉了揉眼睛，慢吞吞地跟着你的节奏工作起来。"
+      ]
+    },
+    {
+      "action": "body_touch",
+      "conditions": {},
+      "texts": [
+        "{name}眯着眼睛任你触碰，像只晒着太阳的猫。"
+      ]
+    },
+    {
+      "action": "hug",
+      "conditions": {},
+      "texts": [
+        "{name}被你抱住，打了个小小的哈欠：「唔…好暖和……」"
+      ]
+    },
+    {
+      "action": "poke_the_cheek",
+      "conditions": {},
+      "texts": [
+        "你戳了戳{name}的脸颊，她迷迷糊糊地歪了歪头。"
+      ]
+    },
+    {
+      "action": "pinching_cheeks",
+      "conditions": {},
+      "texts": [
+        "你捏了捏{name}的脸蛋，她含糊地嘟囔了一声。"
+      ]
+    },
+    {
+      "action": "request_a_lap_pillow",
+      "conditions": {},
+      "texts": [
+        "{name}把脑袋枕在你腿上，没过几秒就睡着了。"
+      ]
+    },
+    {
+      "action": "rub_the_belly",
+      "conditions": {},
+      "texts": [
+        "{name}摸了摸肚子，歪着头看着你。"
+      ]
+    },
+    {
+      "action": "rub_the_butt",
+      "conditions": {},
+      "texts": [
+        "{name}被碰到屁股，红着脸跳开了。"
+      ]
+    }
+  ]
 }

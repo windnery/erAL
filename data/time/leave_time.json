@@ -1,5 +1,22 @@
 {
-    "home": {"office": 5, "canteen": 6},
-    "office": {"home": 5, "canteen": 8},
-    "canteen": {"home": 6, "office": 8}
+  "home": {
+    "office": 5,
+    "canteen": 6,
+    "shop_street": 10
+  },
+  "office": {
+    "home": 5,
+    "canteen": 8,
+    "shop_street": 12
+  },
+  "canteen": {
+    "home": 6,
+    "office": 8,
+    "shop_street": 11
+  },
+  "shop_street": {
+    "home": 10,
+    "office": 12,
+    "canteen": 11
+  }
 }

@@ -5,5 +5,8 @@
 
     "food_window": {"hall": 1, "private_room": 2},
     "hall": {"food_window": 1, "private_room": 1},
-    "private_room": {"food_window": 2, "hall": 1}
+    "private_room": {"food_window": 2, "hall": 1},
+
+    "street": {"shop": 3},
+    "shop": {"street": 3}
 }

@@ -1,17 +1,22 @@
 {
-	"home": {
-		"name": "家",
-		"micro_map": "home.json",
-		"entry_node": "living_room"
-	},
-	"office": {
-		"name": "指挥室",
-		"micro_map": "office.json",
-		"entry_node": "desk"
-	},
-    "canteen": {
-        "name": "食堂",
-        "micro_map": "canteen.json",
-        "entry_node": "hall"
-    }
+  "home": {
+    "name": "家",
+    "micro_map": "home.json",
+    "entry_node": "living_room"
+  },
+  "office": {
+    "name": "指挥室",
+    "micro_map": "office.json",
+    "entry_node": "desk"
+  },
+  "canteen": {
+    "name": "食堂",
+    "micro_map": "canteen.json",
+    "entry_node": "hall"
+  },
+  "shop_street": {
+    "name": "商店街",
+    "micro_map": "shop_street.json",
+    "entry_node": "street"
+  }
 }
