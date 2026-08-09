@@ -13,25 +13,37 @@ from conftest import place_next_to_player
 # ============================================================
 
 class TestUpdatePositions:
-    """update_positions(hour, minutes, map_manager, player)"""
+    """update_positions(elapsed_minutes, map_manager, player)
+    当前时间从 world.time_manager 读取（方案 B）
+    """
 
-    def _call(self, world, hour, minutes=0):
+    def _set_time(self, world, hour, minute=0):
+        """设置 time_manager 的当前时间"""
+        world.time_manager.hour = hour
+        world.time_manager.minute = minute
+
+    def _call(self, world, hour, minute=0, elapsed=0):
+        """设置时间后调用 update_positions
+        hour/minute: 当前时间（写入 time_manager）
+        elapsed: 本次推进的分钟数（自由行动概率用）
+        """
+        self._set_time(world, hour, minute)
         world.npc_manager.update_positions(
-            hour, minutes, world.map_manager, world.player)
+            elapsed, world.map_manager, world.player)
 
     def test_sleeping_returns_home(self, world):
         """睡觉时间舰娘回初始位置并 sleeping=True"""
         z23 = world.npc_manager.shipgirls['Z23']
         # 先移到别处
         world.npc_manager.set_loc('Z23', 'canteen', 'canteen_1')
-        self._call(world, hour=23, minutes=30)
+        self._call(world, hour=23, minute=30)
         assert z23.cflag['sleeping'] is True
         assert z23.location == world.npc_manager.shipgirls_db['Z23']['location']
 
     def test_awake_not_sleeping(self, world):
         """白天不睡觉"""
         z23 = world.npc_manager.shipgirls['Z23']
-        self._call(world, hour=12, minutes=0)
+        self._call(world, hour=12, minute=0)
         assert z23.cflag.get('sleeping') is False
 
     def test_secretary_follows_player(self, world):
@@ -40,7 +52,7 @@ class TestUpdatePositions:
         world.npc_manager.set_secretary_ship_proc('Z23', world.player)
         # 玩家移动
         world.player.location = {'region': 'home', 'node': 'bedroom'}
-        self._call(world, hour=10, minutes=0)
+        self._call(world, hour=10, minute=0)
         # 秘书舰 18:00 前跟随 → 应到玩家位置
         assert z23.location == world.player.location
 
@@ -49,7 +61,7 @@ class TestUpdatePositions:
         z23 = world.npc_manager.shipgirls['Z23']
         world.npc_manager.set_secretary_ship_proc('Z23', world.player)
         world.player.location = {'region': 'home', 'node': 'bedroom'}
-        self._call(world, hour=19, minutes=0)
+        self._call(world, hour=19, minute=0)
         assert z23.cflag.get('secretary_ship_following') is False
 
     def test_dating_timeout_calls_end_date(self, world):
@@ -57,27 +69,136 @@ class TestUpdatePositions:
         z23 = world.npc_manager.shipgirls['Z23']
         z23.cflag['dating'] = True
         z23.cflag['dating_following'] = True
-        self._call(world, hour=21, minutes=30)
+        self._call(world, hour=21, minute=30)
         assert z23.cflag.get('dating') is False
 
     def test_dating_before_21_still_dating(self, world):
         """21:00 前约会不结束"""
         z23 = world.npc_manager.shipgirls['Z23']
         z23.cflag['dating'] = True
-        self._call(world, hour=20, minutes=0)
+        self._call(world, hour=20, minute=0)
         assert z23.cflag.get('dating') is True
 
     def test_working_goes_to_workplace(self, world):
-        """工作时间舰娘去工作地点"""
+        """工作时间舰娘去工作地点（新 works 结构）"""
         z23 = world.npc_manager.shipgirls['Z23']
-        # Z23 默认 schedule.work 为空，构造一个
-        z23.schedule['work'] = {
-            'location': {'region': 'office', 'node': 'office_1'},
-            'time': [[9, 17]]
-        }
-        self._call(world, hour=10, minutes=0)
+        # Z23 默认 works 为空，构造一个
+        z23.schedule['works'] = [{
+            'desc': '测试工作',
+            'location': {'region': 'office', 'node': 'desk'},
+            'time': {'start': [9, 0], 'end': [17, 0]}
+        }]
+        self._call(world, hour=10, minute=0)
         assert z23.cflag.get('working') is True
         assert z23.location['region'] == 'office'
+        assert z23.location['node'] == 'desk'
+
+    def test_works_empty_clears_working(self, world):
+        """回归 Bug C：works 为空时 working 被重置 False"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = []
+        z23.cflag['working'] = True  # 模拟残留
+        self._call(world, hour=10, minute=0)
+        assert z23.cflag.get('working') is False
+
+    def test_works_outside_all_periods_clears_working(self, world):
+        """多个 works 时段都不在当前时间 → working False"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = [
+            {'desc': '早班', 'location': {'region': 'office', 'node': 'desk'},
+             'time': {'start': [9, 0], 'end': [12, 0]}},
+            {'desc': '晚班', 'location': {'region': 'canteen', 'node': 'hall'},
+             'time': {'start': [18, 0], 'end': [21, 0]}}
+        ]
+        z23.cflag['working'] = True  # 模拟残留
+        self._call(world, hour=14, minute=0)
+        assert z23.cflag.get('working') is False
+
+    def test_works_second_period_hit(self, world):
+        """多个 works 时段命中第二个"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = [
+            {'desc': '早班', 'location': {'region': 'office', 'node': 'desk'},
+             'time': {'start': [9, 0], 'end': [12, 0]}},
+            {'desc': '晚班', 'location': {'region': 'canteen', 'node': 'hall'},
+             'time': {'start': [18, 0], 'end': [21, 0]}}
+        ]
+        self._call(world, hour=19, minute=0)
+        assert z23.cflag.get('working') is True
+        assert z23.location['region'] == 'canteen'
+
+    def test_work_end_hour_boundary(self, world):
+        """半开区间：17:00 整点下班"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = [{
+            'desc': '测试工作',
+            'location': {'region': 'office', 'node': 'desk'},
+            'time': {'start': [9, 0], 'end': [17, 0]}
+        }]
+        self._call(world, hour=17, minute=0)
+        assert z23.cflag.get('working') is False
+
+    def test_work_same_hour_period(self, world):
+        """回归 Bug A：同小时时段 9:00-9:30，9:30 应下班"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = [{
+            'desc': '短班',
+            'location': {'region': 'office', 'node': 'desk'},
+            'time': {'start': [9, 0], 'end': [9, 30]}
+        }]
+        # 9:15 上班中
+        self._call(world, hour=9, minute=15)
+        assert z23.cflag.get('working') is True
+        # 9:30 整点下班
+        self._call(world, hour=9, minute=30)
+        assert z23.cflag.get('working') is False
+
+    def test_work_overnight_requires_night_sleep_schedule(self, world):
+        """跨天夜班：当前睡觉判断不支持白天睡作息
+
+        现状：睡觉判断隐含假设晚上睡（sleep < wake）。
+        若舰娘排 22:00-2:00 夜班但作息是晚上睡（23:00-7:00），
+        23:00 后睡觉判断优先 → 回家睡觉。
+        这是设计约束：夜班数据要配白天睡作息，但白天睡作息当前不被
+        睡觉判断支持 → 夜班暂不可用，测试记录现状。
+        """
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.schedule['works'] = [{
+            'desc': '夜班',
+            'location': {'region': 'shop_street', 'node': 'shop'},
+            'time': {'start': [22, 0], 'end': [2, 0]}
+        }]
+        # 22:30 未到睡觉时间 → 正常上班
+        self._call(world, hour=22, minute=30)
+        assert z23.cflag.get('working') is True
+        # 23:30 已到睡觉时间 → 睡觉优先，回家（夜班被睡觉打断）
+        self._call(world, hour=23, minute=30)
+        assert z23.cflag.get('sleeping') is True
+        assert z23.cflag.get('working') is False
+
+    def test_in_work_overnight_math(self):
+        """_in_work 跨天时段数学正确（不依赖舰娘作息）"""
+        from game_engine.managers.NpcManager import _in_work
+        assert _in_work(23, 30, [22, 0], [2, 0]) is True
+        assert _in_work(1, 0, [22, 0], [2, 0]) is True
+        assert _in_work(2, 0, [22, 0], [2, 0]) is False
+        assert _in_work(21, 59, [22, 0], [2, 0]) is False
+
+    def test_current_minute_from_time_manager(self, world):
+        """回归 minutes 语义：当前分钟读 time_manager，推进量不影响工作判断
+
+        场景：玩家 7:50 执行 30 分钟指令 → 当前 8:20
+        明石 8:30 上班，8:20 不应 working（旧代码 minutes=30 会误判上班）
+        """
+        akashi = world.npc_manager.shipgirls['akashi']
+        # 明石默认 works: 8:30-19:30
+        self._set_time(world, 8, 20)
+        world.npc_manager.update_positions(30, world.map_manager, world.player)
+        assert akashi.cflag.get('working') is False, '8:20 未到 8:30 不应上班'
+        # 同一时刻传入不同 elapsed 不应改变结果
+        self._set_time(world, 8, 20)
+        world.npc_manager.update_positions(0, world.map_manager, world.player)
+        assert akashi.cflag.get('working') is False
 
 
 # ============================================================

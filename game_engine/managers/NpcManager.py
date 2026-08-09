@@ -1,6 +1,6 @@
 from __future__ import annotations
 from random import randint, choice
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from config.time import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
 from data.data_loader import load_shipgirls
@@ -11,6 +11,20 @@ from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
+
+
+def _in_work(hour: int, minute: int, start: list[int], end: list[int]) -> bool:
+    """判断当前时间 (hour, minute) 是否在 [start, end) 工作时段内
+    start/end: [时, 分] 列表，如 [8, 30]
+    支持：常规时段（8:30-19:30）、同小时时段（9:00-9:30）、跨天时段（22:00-2:00）
+    """
+    cur = hour * 60 + minute
+    s = start[0] * 60 + start[1]
+    e = end[0] * 60 + end[1]
+    if s <= e:  # 常规或同小时时段：左闭右开 [s, e)
+        return s <= cur < e
+    else:  # 跨天时段（如 22:00-2:00）：越过午夜
+        return cur >= s or cur < e
 
 
 class NpcManager:
@@ -50,12 +64,17 @@ class NpcManager:
         self.secretary_ship.cflag['secretary_ship'] = True
         self.secretary_ship.cflag['secretary_ship_following'] = True
 
-    def update_positions(self, hour: int, minutes: int, map_manager: MapManager, player: Player):
+    def update_positions(self, elapsed_minutes: int, map_manager: MapManager, player: Player):
         """根据当前时间和推进时长更新所有舰娘位置
-        hour: 当前小时（用于判断睡觉/工作）
-        minutes: 本次推进的分钟数（影响自由行动时的移动概率）
+        elapsed_minutes: 本次推进的分钟数（仅用于自由行动时的移动概率）
         map_manager: 地图管理器（用于查询可前往的节点/区域）
+        player: 玩家对象（秘书舰/约会舰娘跟随需要）
+
+        当前时间（hour/minute）直接读 self.world.time_manager，不靠参数传入
         """
+        hour = self.world.time_manager.hour
+        minute = self.world.time_manager.minute
+
         # 更新秘书舰情况
         if self.secretary_ship:
             self.secretary_ship.cflag['secretary_ship_following'] = True
@@ -63,42 +82,44 @@ class NpcManager:
 
         for sg in self.shipgirls.values():
             # 睡觉时间：回家
-            if ((hour >= sg.schedule['sleep']['hour'] and minutes >= sg.schedule['sleep']['minute']) or
+            if ((hour >= sg.schedule['sleep']['hour'] and minute >= sg.schedule['sleep']['minute']) or
                     (hour < sg.schedule['wake_up']['hour']) or
-                    (hour == sg.schedule['sleep']['hour'] and minutes < sg.schedule['sleep']['minute'])
+                    (hour == sg.schedule['sleep']['hour'] and minute < sg.schedule['sleep']['minute'])
             ):
                 sleep_region = self.shipgirls_db[sg.id]['location']['region']
                 sleep_node = self.shipgirls_db[sg.id]['location']['node']
                 self.set_loc(sg.id, sleep_region, sleep_node)
                 sg.cflag['sleeping'] = True
+                sg.cflag['working'] = False  # 睡觉时不在工作，避免残留
                 continue
             else:
                 sg.cflag['sleeping'] = False
 
             # 工作时间：去工作地点
-            # TODO: 改成新时间系统
-            work = sg.schedule.get('work') or {}
-            work_time: list[list[int]] = work.get('time', [])
-            for time_range in work_time:
-                if time_range[0] <= hour < time_range[1]:
-                    work_region = sg.schedule['work']['location']['region']
-                    work_node = sg.schedule['work']['location']['node']
+            works: list[dict[str, Any]] = sg.schedule.get('works') or []
+            working = False
+            for work in works:
+                work_region: str = work['location']['region']
+                work_node: str = work['location']['node']
+                work_start_time: list[int] = work['time']['start']
+                work_end_time: list[int] = work['time']['end']
+                if _in_work(hour, minute, work_start_time, work_end_time):
+                    # 工作时间
                     self.set_loc(sg.id, work_region, work_node)
-                    sg.cflag['working'] = True
+                    working = True
                     break
-                else:
-                    sg.cflag['working'] = False
+            sg.cflag['working'] = working
 
             if sg == self.secretary_ship:
                 if hour > SECRETARY_FOLLOWING_END_TIME['hour'] or (
-                        hour == SECRETARY_FOLLOWING_END_TIME['hour'] and minutes >= SECRETARY_FOLLOWING_END_TIME[
+                        hour == SECRETARY_FOLLOWING_END_TIME['hour'] and minute >= SECRETARY_FOLLOWING_END_TIME[
                     'minute']):
                     # 取消秘书舰同行状态
                     self.secretary_ship.cflag['secretary_ship_following'] = False
 
             if sg.is_dating():
                 if hour > DATING_END_TIME['hour'] or (
-                        hour == DATING_END_TIME['hour'] and minutes >= DATING_END_TIME['minute']):
+                        hour == DATING_END_TIME['hour'] and minute >= DATING_END_TIME['minute']):
                     # 取消约会状态
                     end_date(self.world, sg.id, True)
 
@@ -113,7 +134,7 @@ class NpcManager:
             # 自由行动：根据推进时长影响移动概率
             # 基础概率：移动节点15%，离开区域5%，留在原地80%
             # 每推进1分钟，移动节点概率+1%（离开区域概率不变）
-            move_chance = min(15 + minutes, 95)  # 上限95%，保证离开区域至少有5%空间
+            move_chance = min(15 + elapsed_minutes, 95)  # 上限95%，保证离开区域至少有5%空间
             leave_chance = 5
             p = randint(1, 100)
             if p <= move_chance:
