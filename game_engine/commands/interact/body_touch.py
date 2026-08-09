@@ -7,6 +7,7 @@ from game_engine.commands._common import new_source, low_favor2favor, low_intima
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
@@ -120,6 +121,10 @@ def body_touch(world: World, option: str):
 
     # 处理好感和信赖
     favor_trust_proc(source, npc, ctx, True)
+
+    # 经验
+    if npc.is_dating():
+        ctx.say(*exp_calc(['love_exp'], world.player, npc, True))
 
     ctx.say(f'度过了{command_time_data["body_touch"]}分钟')
     return ctx.result()

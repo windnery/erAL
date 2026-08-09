@@ -6,6 +6,7 @@ from config.map_actions import NAP_LOC, SLEEP_LOC, WORK_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.models.character import Character
 
 if TYPE_CHECKING:
@@ -108,9 +109,8 @@ def work(world, option=None):
     ctx.consume(stamina_cost, energy_cost, world.player)
     ctx.say(f"{world.player.name}完成了{works}工作量，还剩{work_manager.works}工作量")
 
-    # 工作经验
-    world.player.exp['work_exp'] += 1
-    ctx.say(f'工作经验+1 ({world.player.name})')
+    # 经验
+    ctx.say(exp_calc(['work_exp'], world.player))
 
     ctx.say(f'度过了{command_time_data["work"]}分钟')
 

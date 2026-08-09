@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
 
 from config.palam_lv import PALAM_LV
-from data.data_loader import load_attr_defs
+from config.attr_defs import ATTR_DEFS
 
-attr_defs = load_attr_defs()
 
 @dataclass
 class Character:
@@ -82,12 +81,12 @@ class Character:
         """获取天赋列表"""
         talents = []
         for k, v in self.talent.items():
-            if attr_defs['talent'][k]['has_value']:
+            if ATTR_DEFS['talent'][k]['has_value']:
                 # 多分类素质
-                talents.append(attr_defs['talent'][k]['value'][v])
+                talents.append(ATTR_DEFS['talent'][k]['value'][v])
             else:
                 # 二分类素质
-                talents.append(attr_defs['talent'][k]['name'])
+                talents.append(ATTR_DEFS['talent'][k]['name'])
         return talents
 
     def set_talent(self, talent_id: str, value: str):

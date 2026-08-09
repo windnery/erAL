@@ -2,7 +2,7 @@ from random import randint, choice
 
 from config.secretary_ship import SECRETARY_FOLLOWING_END_TIME
 from data.data_loader import load_shipgirls
-from game_engine.managers import MapManager
+from game_engine.managers.MapManager import MapManager
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
 

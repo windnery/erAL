@@ -66,7 +66,7 @@
 
         "talk_exp": {"name": "会话经验", "default": 0},
         "work_exp": {"name": "工作经验", "default": 0},
-        "date_exp": {"name": "约会经验", "default": 0}
+        "love_exp": {"name": "爱情经验", "default": 0}
     },
 
     "juel": {

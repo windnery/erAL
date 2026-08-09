@@ -6,6 +6,7 @@ from game_engine.commands._common import new_source, global_can, favor_trust_pro
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
+from ...data_pipeline.exp_calc import exp_calc
 from ...data_pipeline.trust.trust_calc import trust_calc
 from ...models.shipgirl import ShipGirl
 
@@ -18,24 +19,25 @@ from data.time.time_data import command_time_data
 
 
 def can(world: World, npc: ShipGirl):
-    '''执行判定'''
+    """执行判定"""
     # 通用判定
     if not global_can(world.player, npc):
         return False
 
     return True
 
+
 @register_cmd('talk', '会话', '日常', can)
 def talk(world: World, option: str):
-    '''会话
+    """会话
     world: 游戏世界对象
-    option: 指令对象'''
+    option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({
-        'happiness_source': 200,    # 欢乐
-        'conquest_source': 100,     # 征服
-        'passivity_source': 100,    # 被动
+        'happiness_source': 200,  # 欢乐
+        'conquest_source': 100,  # 征服
+        'passivity_source': 100,  # 被动
     })
 
     line = npc.get_line('talk')
@@ -46,11 +48,6 @@ def talk(world: World, option: str):
 
     # 推进时间
     ctx.advance_time(command_time_data['talk'])
-
-    # 获得经验处理
-    npc.exp['talk_exp'] += 1
-    world.player.exp['talk_exp'] += 1
-    ctx.say(f'会话经验+1 ({world.player.name})', f'会话经验+1 ({npc.name})')
 
     # abl对source修正
     # abl: 亲密
@@ -71,27 +68,12 @@ def talk(world: World, option: str):
     source['passivity_source'] += npc.abl['sadism_abl'] * 100
 
     # abl: 话术
-    match world.player.abl['talk_abl']:
-        case 0:
-            abl_multi = 0.2
-        case 1:
-            abl_multi = 0.4
-        case 2:
-            abl_multi = 0.7
-        case 3:
-            abl_multi = 1.0
-        case 4:
-            abl_multi = 1.2
-        case 5:
-            abl_multi = 1.5
-        case _:
-            abl_multi = 2.0
+    abl_multi_dict = {0: 0.2, 1: 0.4, 2: 0.7, 3: 1.0, 4: 1.2, 5: 1.5}
+    for k in source:
+        source[k] = int(source[k] * abl_multi_dict.get(world.player.abl['talk_abl'], 2.0))
 
     # 通用source修正
     source = common_src_modify(source, npc)
-    
-    for k in source:
-        source[k] = int(source[k] * abl_multi)
 
     source_list = []
     for k, v in source.items():
@@ -120,6 +102,11 @@ def talk(world: World, option: str):
 
     # 处理好感和信赖
     favor_trust_proc(source, npc, ctx)
+
+    # 获得经验处理
+    if npc.is_dating():
+        ctx.say(*exp_calc(['talk_exp', 'love_exp'], world.player, npc, True))
+    else: ctx.say(*exp_calc(['talk_exp'], world.player, npc, True))
 
     ctx.say(f'度过了{command_time_data["talk"]}分钟')
     return ctx.result()

@@ -6,6 +6,7 @@ from game_engine.commands._common import new_source, global_can, favor_trust_pro
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
 
 
 def can(world: World, npc: ShipGirl):
-    '''执行判定'''
+    """执行判定"""
     # 通用判定
     if not global_can(world.player, npc):
         return False
@@ -38,9 +39,9 @@ def can(world: World, npc: ShipGirl):
 
 @register_cmd('rub_the_belly', '抚摸肚子', '性骚扰', can)
 def rub_the_belly(world: World, option: str):
-    '''抚摸肚子
+    """抚摸肚子
     world: 游戏世界对象
-    option: 指令对象'''
+    option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({
@@ -104,6 +105,10 @@ def rub_the_belly(world: World, option: str):
         favor_trust_proc(source, npc, ctx, True, -3)
     else:
         favor_trust_proc(source, npc, ctx, True)
+
+    # 经验
+    if npc.is_dating():
+        ctx.say(*exp_calc(['love_exp'], world.player, npc, True))
 
     ctx.say(f'度过了{command_time_data["body_touch"]}分钟')
     return ctx.result()

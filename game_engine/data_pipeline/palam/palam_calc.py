@@ -1,5 +1,5 @@
 from config.mood_enum import Mood
-from data.data_loader import load_attr_defs
+from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
 
@@ -7,7 +7,6 @@ def palam_calc(src: dict[str, int], source: Character, target: Character):
     '''将source转成palam'''
     mes_source: list[str] = [f'{source.name}']
     mes_target: list[str] = [f'{target.name}']
-    attr_defs = load_attr_defs()
 
     palam_dict_list: list[dict[str, dict[str, str|int]]] = []
     palam_dict_list.append(love_source(src, target))  # type: ignore
@@ -40,7 +39,7 @@ def palam_calc(src: dict[str, int], source: Character, target: Character):
         if value == 0:
             continue
         chara = source if chara_kind == 'source' else target
-        mes = f'{attr_defs["palam"][palam]["name"]} {chara.palam[palam]} + {value} = {chara.palam[palam] + value}'
+        mes = f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {value} = {chara.palam[palam] + value}'
         (mes_source if chara_kind == 'source' else mes_target).append(mes)
         chara.palam[palam] += value
 

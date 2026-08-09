@@ -7,6 +7,7 @@ from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import favor_trust_proc, new_source
 from game_engine.commands._context import CommandContext
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -92,13 +93,13 @@ def work_together(world, option=None):
     ctx.consume(n_stamina_cost, n_energy_cost, npc)
     ctx.say(f"在{npc.name}的协作下完成了{works}工作量，还剩{work_manager.works}工作量")
 
-    # 工作经验
-    world.player.exp['work_exp'] += 1
-    npc.exp['work_exp'] += 1
-    ctx.say(f'工作经验+1 ({world.player.name})', f'工作经验+1 ({npc.name})')
-
     # 处理好感和信赖
     favor_trust_proc(new_source({}), npc, ctx, ex_favor=randint(1, 3), ex_trust=randint(1, 2))
+
+    # 经验
+    if npc.is_dating():
+        ctx.say(*exp_calc(['work_exp', 'love_exp'], world.player, npc, True))
+    else: ctx.say(*exp_calc(['work_exp'], world.player, npc, True))
 
     ctx.say(f'度过了{command_time_data["work_together"]}分钟')
 

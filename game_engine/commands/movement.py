@@ -3,12 +3,12 @@ from data.time.time_data import leave_time_data, move_time_data
 
 
 def can(manager, npc):
-    '''执行判定'''
+    """执行判定"""
     return True
 
 @register_cmd('leave', '离开当前区域', '系统', can)
 def leave(manager, option: str):
-    '''离开当前区域'''
+    """离开当前区域"""
     if option == 'return':
         # 取消离开
         return
@@ -32,7 +32,7 @@ def leave(manager, option: str):
 
 @register_cmd('move', '移动', '系统', can)
 def move(manager, option: str):
-    '''移动'''
+    """移动"""
     if option == 'return':
         # 取消移动
         return

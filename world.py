@@ -1,5 +1,5 @@
 from config.palam_lv import PALAM_LV
-from data.data_loader import load_attr_defs
+from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.data_pipeline.talent.talent_check import talent_check
@@ -14,7 +14,6 @@ from game_engine.models.player import Player
 
 class World:
     def __init__(self):
-        self.attr_defs = load_attr_defs()
         self.player = Player()
         self.map_manager = MapManager()
         self.npc_manager = NpcManager()
@@ -37,8 +36,8 @@ class World:
             'menu_active': self.menu_active,
             'time': self.time_manager.get_state(),
             'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
-            'cflag_defs': {k: v['name'] for k, v in self.attr_defs.get('cflag', {}).items()},
-            'palam_defs': {k: v['name'] for k, v in self.attr_defs['palam'].items()},
+            'cflag_defs': {k: v['name'] for k, v in ATTR_DEFS.get('cflag', {}).items()},
+            'palam_defs': {k: v['name'] for k, v in ATTR_DEFS.get('palam', {}).items()},
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},
         }
 
@@ -116,9 +115,9 @@ class World:
             npc.clear_palam()
 
         # 检查abl升级
-        pages.extend(abl_lv_process(self.player, self.attr_defs))
+        pages.extend(abl_lv_process(self.player, ATTR_DEFS))
         for npc in self.npc_manager.get_all_npcs():
-            pages.extend(abl_lv_process(npc, self.attr_defs))
+            pages.extend(abl_lv_process(npc, ATTR_DEFS))
 
         # 检查talent
         for npc in self.npc_manager.get_all_npcs():
