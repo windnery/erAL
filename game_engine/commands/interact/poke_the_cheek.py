@@ -26,7 +26,7 @@ def can(world: World, npc: ShipGirl):
     if npc.get_talent_value('relationship') >= 2:
         return True
     # 工作中
-    if world.player.is_working():
+    if npc.is_working():
         return False
     # 好感度低
     if npc.favor < 120:
