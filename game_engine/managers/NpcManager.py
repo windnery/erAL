@@ -1,22 +1,29 @@
+from __future__ import annotations
 from random import randint, choice
+from typing import TYPE_CHECKING
 
-from config.secretary_ship import SECRETARY_FOLLOWING_END_TIME
+from config.time import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
 from data.data_loader import load_shipgirls
+from game_engine.commands.interact.end_date import end_date
 from game_engine.managers.MapManager import MapManager
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+
+if TYPE_CHECKING:
+    from world import World
 
 
 class NpcManager:
     """NPC管理器类"""
 
-    def __init__(self):
+    def __init__(self, world: World):
         # 所有舰娘的初始化数据
         self.shipgirls_db = load_shipgirls()
         # 初始化所有舰娘对象
         self.shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in self.shipgirls_db.items()}
         # 秘书舰
         self.secretary_ship: ShipGirl | None = None
+        self.world = world
 
     def set_loc(self, shipgirl_id: str, region: str, node: str):
         """设置舰娘位置"""
@@ -36,12 +43,12 @@ class NpcManager:
         if self.secretary_ship:
             """当前有秘书舰的情况"""
             # 移除当前秘书舰
-            self.secretary_ship.cflag['following'] = False
             self.secretary_ship.cflag['secretary_ship'] = False
+            self.secretary_ship.cflag['secretary_ship_following'] = False
 
         self.secretary_ship = self.shipgirls[sg_id]
-        self.secretary_ship.cflag['following'] = True
         self.secretary_ship.cflag['secretary_ship'] = True
+        self.secretary_ship.cflag['secretary_ship_following'] = True
 
     def update_positions(self, hour: int, minutes: int, map_manager: MapManager, player: Player):
         """根据当前时间和推进时长更新所有舰娘位置
@@ -51,7 +58,7 @@ class NpcManager:
         """
         # 更新秘书舰情况
         if self.secretary_ship:
-            self.secretary_ship.cflag['following'] = True
+            self.secretary_ship.cflag['secretary_ship_following'] = True
             self.secretary_ship.cflag['secretary_ship'] = True
 
         for sg in self.shipgirls.values():
@@ -87,7 +94,13 @@ class NpcManager:
                         hour == SECRETARY_FOLLOWING_END_TIME['hour'] and minutes >= SECRETARY_FOLLOWING_END_TIME[
                     'minute']):
                     # 取消秘书舰同行状态
-                    self.secretary_ship.cflag['following'] = False
+                    self.secretary_ship.cflag['secretary_ship_following'] = False
+
+            if sg.is_dating():
+                if hour > DATING_END_TIME['hour'] or (
+                        hour == DATING_END_TIME['hour'] and minutes >= DATING_END_TIME['minute']):
+                    # 取消约会状态
+                    end_date(self.world, sg.id, True)
 
             if sg.is_working():
                 continue

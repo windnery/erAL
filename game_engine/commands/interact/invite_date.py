@@ -208,6 +208,9 @@ def invite_date(world: World, option: str):
                 "happiness_source": 200,
             }
         )
+        # 进入约会状态
+        npc.cflag["dating"] = True
+        npc.cflag["dating_following"] = True
 
     # 通用source修正
     source = common_src_modify(source, npc)

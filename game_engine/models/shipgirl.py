@@ -73,3 +73,25 @@ class ShipGirl(Character):
             return Mood.DELIGHTED
         else:
             return Mood.BLISS
+
+    def is_sleeping(self) -> bool:
+        """是否正在睡觉"""
+        return self.cflag.get('sleeping', False)
+
+    def is_working(self) -> bool:
+        """是否正在工作"""
+        return self.cflag.get('working', False)
+
+    def is_following(self) -> bool:
+        """是否正在跟随"""
+        is_following = (
+            self.cflag.get('following', False) or
+            self.cflag.get('secretary_ship_following', False) or
+            self.cflag.get('dating_following', False)
+        )
+        return is_following
+
+
+    def is_dating(self) -> bool:
+        """是否正在约会"""
+        return self.cflag.get('dating', False)

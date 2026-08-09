@@ -16,7 +16,7 @@ class World:
     def __init__(self):
         self.player = Player()
         self.map_manager = MapManager()
-        self.npc_manager = NpcManager()
+        self.npc_manager = NpcManager(self)
         self.work_manager = WorkManager()
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
@@ -25,7 +25,7 @@ class World:
         self.save_manager = SaveManager(self)
 
     def get_state(self, selected_npc_id: str | None = None):
-        '''一次性返回前端需要的全部状态'''
+        """一次性返回前端需要的全部状态"""
         r, n = self.player.location['region'], self.player.location['node']
         return {
             'player': self.player.get_state(),
@@ -42,12 +42,12 @@ class World:
         }
 
     def advance_time_with_events(self, minutes: int):
-        '''推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）'''
+        """推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）"""
         return self.time_manager.advance_time_with_events(minutes)
 
     def change_stamina(self, delta: int):
-        '''包装一层改变体力的方法
-        返回字符串（耗尽时直接把结算拼进来，不破坏调用处的拼接逻辑）'''
+        """包装一层改变体力的方法
+        返回字符串（耗尽时直接把结算拼进来，不破坏调用处的拼接逻辑）"""
         exhaustion = not self.player.set_stamina(self.player.get_stamina() + delta)
         if exhaustion:
             pages = self.settle_day(exhaustion=True)
@@ -55,15 +55,15 @@ class World:
         return ''
     
     def change_energy(self, delta: int):
-        '''包装一层改变气力的方法'''
-        exhaustion = not self.player.set_energy(self.player.get_energy() + delta)
+        """包装一层改变气力的方法"""
+        self.player.set_energy(self.player.get_energy() + delta)
         return ''
 
     def settle_day(self, sleep: bool = False, exhaustion: bool = False):
-        '''日终结算 
+        """日终结算 
         sleep: 是否是睡觉结算
         exhaustion: 是否是体力耗尽结算
-        返回: 翻页文本列表'''
+        返回: 翻页文本列表"""
 
         pages = []
 

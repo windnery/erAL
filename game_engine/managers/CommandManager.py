@@ -1,7 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, REGISTER_NEEDS_TARGET, REGISTER_FRONTEND
+from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
+    REGISTER_NEEDS_TARGET, REGISTER_FRONTEND
 
 if TYPE_CHECKING:
     from world import World
@@ -86,6 +87,7 @@ class CommandManager:
                 return ''
 
         return func(self.world, option)
+
     def _get_system_commands(self):
         # 系统类指令：从注册表反查 cat='系统' 的指令
         sys_com = [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': REGISTER_CAT[k]}
@@ -111,6 +113,7 @@ class CommandManager:
                 'cat': REGISTER_CAT[key],
             })
         return commands
+
     def _get_npc_commands(self, selected_npc_id: str | None = None):
         # Only generate NPC commands for the selected NPC.
         if selected_npc_id is None:

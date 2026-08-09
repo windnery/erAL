@@ -44,9 +44,11 @@
     "cflag": {
         "sleeping": {"name": "睡眠中", "default": false},
         "working": {"name": "工作中", "default": false},
-        "secretary_ship": {"name": "秘书舰", "default": false},
         "following": {"name": "同行中", "default": false},
-        "dating": {"name": "约会中", "default": false}
+        "secretary_ship": {"name": "秘书舰", "default": false},
+        "secretary_ship_following": {"name": "秘书舰同行中", "default": false},
+        "dating": {"name": "约会中", "default": false},
+        "dating_following": {"name": "约会同行中", "default": false}
     },
 
     "exp": {

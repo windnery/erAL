@@ -9,9 +9,9 @@ def exp_calc(abl_list: list[str], player: Player, npc: ShipGirl|None = None, npc
     mes: list[str] = []
     for abl in abl_list:
         player.exp[abl] += 1
-        mes.append(f'{ATTR_DEFS['exp'][abl]['name']}+1 ({player.name})')
+        mes.append(f"{ATTR_DEFS['exp'][abl]['name']}+1 ({player.name})")
         if npc and npc_gain:
             npc.exp[abl] += 1
-            mes.append(f'{ATTR_DEFS['exp'][abl]['name']}+1 ({npc.name})')
+            mes.append(f"{ATTR_DEFS['exp'][abl]['name']}+1 ({npc.name})")
 
     return mes
