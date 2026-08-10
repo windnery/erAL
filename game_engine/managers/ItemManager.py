@@ -32,10 +32,20 @@ class ItemManager:
         self.items[item_id] = self.items.get(item_id, 0) + num
 
     def use_items(self, item_id: str, num: int=1):
-        """使用道具"""
-        if self.items.get(item_id, 0) >= num:
+        """使用道具：返回 (是否成功, 消息)
+        is_usable=False 的道具不可使用；is_consumable=True 使用时消耗
+        """
+        if item_id not in self.items_db:
+            return False, '道具不存在'
+        info = self.items_db[item_id]
+        if not info.get('is_usable', False):
+            return False, '该道具无法使用'
+        if self.items.get(item_id, 0) < num:
+            return False, '道具数量不足'
+        if info.get('is_consumable', False):
             self.items[item_id] = self.items.get(item_id, 0) - num
         # TODO: 道具的效果后续补充
+        return True, ''
 
     def buy_items(self, item_id: str, num: int=1):
         """购买道具"""

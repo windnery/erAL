@@ -51,6 +51,12 @@ def move(world: World, option: str):
     return npc_events if npc_events else []
 
 
+@register_cmd('items', '道具', '系统', needs_target=False, frontend=True)
+def items(world: World, option: str):
+    """道具"""
+    return []
+
+
 @register_cmd('save', '存档', '系统', needs_target=False)
 def save(world: World, option=None):
     """存档：option 为槽位 key（'1'/'2'/'3'）"""

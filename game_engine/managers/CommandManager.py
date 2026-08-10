@@ -90,7 +90,8 @@ class CommandManager:
 
     def _get_system_commands(self):
         # 系统类指令：从注册表反查 cat='系统' 的指令
-        sys_com = [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': REGISTER_CAT[k]}
+        sys_com = [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': REGISTER_CAT[k],
+                    'frontend': REGISTER_FRONTEND.get(k, False)}
                    for k in REGISTER_CMD if REGISTER_CAT.get(k) == '系统']
         return sys_com
 
