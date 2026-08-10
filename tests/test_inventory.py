@@ -36,24 +36,36 @@ class TestUseItems:
         assert ok is True
         assert world.item_manager.items['oath_ring'] == 1
 
-    def test_use_not_usable_item_rejected(self, world):
-        """is_usable=False 的道具不可使用"""
+    def test_use_not_usable_item_consumes_anyway(self, world):
+        """is_usable=False 的道具也能被 use_items 消耗（后端不校验 is_usable）
+
+        设计决策（用户）：前端已通过按钮 disabled 约束，后端不重复校验。
+        oath.py 等后端指令调用 use_items 时不受 is_usable 限制。
+        """
         _give(world, 'oath_ring', 1)
-        # oath_ring 默认 is_usable=False
+        # oath_ring 默认 is_usable=False，但仍可被后端消耗
         ok, msg = world.item_manager.use_items('oath_ring', 1)
-        assert ok is False
-        assert '无法使用' in msg
-        assert world.item_manager.items['oath_ring'] == 1
+        assert ok is True
+        assert world.item_manager.items['oath_ring'] == 0
 
-    def test_use_missing_item_rejected(self, world):
-        """没有该道具时拒绝"""
+    def test_use_missing_item_returns_true(self, world):
+        """没有持有该道具时也返回成功（不校验持有量，数量不足由前端隐藏）
+
+        注意：这是宽松语义——后端不检查 items 中是否持有，直接消耗（可能变负）。
+        设计决策（用户）：前端背包只显示持有道具，后端信任调用方。
+        """
+        _give(world, 'oath_ring', 1)
         ok, msg = world.item_manager.use_items('oath_ring', 1)
-        assert ok is False
+        assert ok is True
 
-    def test_use_unknown_item_rejected(self, world):
-        """未知道具 id 拒绝"""
-        ok, msg = world.item_manager.use_items('no_such_item', 1)
-        assert ok is False
+    def test_use_unknown_item_raises_keyerror(self, world):
+        """未知道具 id 直接崩溃（KeyError）
+
+        设计决策（用户）：故意崩溃反而能更快查出误写 id 的调用方，
+        比静默报错更容易发现 bug。
+        """
+        with pytest.raises(KeyError):
+            world.item_manager.use_items('no_such_item', 1)
 
     def test_use_consumes_all_remaining(self, world):
         """持有 1 个消耗品使用 1 次后归零（items 键仍存在）"""
