@@ -10,7 +10,8 @@ class Api:
             'command_manager': world.command_manager,
             'time_manager': world.time_manager,
             'save_manager': world.save_manager,
-            'skin_manager': world.skin_manager
+            'skin_manager': world.skin_manager,
+            'item_manager': world.item_manager,
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

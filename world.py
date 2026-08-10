@@ -4,6 +4,7 @@ from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.data_pipeline.talent.talent_check import talent_check
 from game_engine.managers.CommandManager import CommandManager
+from game_engine.managers.ItemManager import ItemManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.SaveManager import SaveManager
@@ -22,6 +23,7 @@ class World:
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
         self.skin_manager = SkinManager(self.npc_manager)
+        self.item_manager = ItemManager(self.player)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
         self.save_manager = SaveManager(self)

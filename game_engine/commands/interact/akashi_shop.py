@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from world import World
 
 
-def can(world: 'World', npc: ShipGirl):
+def can(world: World, npc: ShipGirl):
     """执行判定：明石正在工作"""
     if npc.id == 'akashi' and npc.is_working():
         return True
@@ -15,7 +15,7 @@ def can(world: 'World', npc: ShipGirl):
 
 
 @register_cmd('akashi_shop', '明石商店', '日常', can, frontend=True)
-def akashi_shop(world: 'World', option: str):
+def akashi_shop(world: World, option: str):
     """明石商店（纯前端指令，后端不执行逻辑）
 
     点击指令后前端直接打开皮肤商店界面（skin_shop.js），

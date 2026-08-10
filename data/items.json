@@ -1,0 +1,9 @@
+{
+  "oath_ring": {
+    "name": "誓约之戒",
+    "is_consumable": true,
+    "is_usable": false,
+    "desc": "象征着永恒的钻戒，寄托与心爱之人携手共度余生的誓言。可用来和舰娘誓约，誓约失败不会消耗。",
+    "price": 1000
+  }
+}

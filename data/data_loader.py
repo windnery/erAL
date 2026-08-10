@@ -88,3 +88,10 @@ def load_skins():
 
 	return skins
 
+def load_items():
+	"""加载道具数据"""
+	with open(DATA_DIR / 'items.json', 'r', encoding='utf-8') as f:
+		items = json.load(f)
+	return items
+
+
