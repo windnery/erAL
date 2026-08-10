@@ -89,9 +89,10 @@ class SkinManager:
                 })
         return result
 
-    def buy_skin(self, skin_id: str, player) -> tuple[bool, str]:
+    def buy_skin(self, skin_id: str) -> tuple[bool, str]:
         """购买皮肤。返回 (是否成功, 消息)
 
+        player 从 self.npc_manager.world.player 取（api 透传只需 skin_id）
         - 皮肤不在 locked_skins -> (False, 消息)
         - 资金不足 -> (False, 消息)
         - 成功：扣钱 + gain_skin -> (True, 消息)
@@ -111,6 +112,7 @@ class SkinManager:
                 price = skins[skin_id].get('price', 0)
                 break
 
+        player = self.npc_manager.world.player
         money = player.money
         if money < price:
             return False, f'资金不足：需要 {price}，当前 {money}'
@@ -120,6 +122,61 @@ class SkinManager:
         return True, f'购买成功！'
 
     # ---------- 皮肤获得 ----------
+
+    def get_owned_skins(self, ship_id: str) -> list[dict[str, Any]]:
+        """返回舰娘已拥有的全部皮肤（含默认/改造/誓约/已购买）
+
+        每项: {skin_id, chara_id, chara_name, skin_name, avatar, portrait, is_wearing}
+        is_wearing: 是否当前穿戴
+        """
+        result: list[dict[str, Any]] = []
+        chara_name = None
+        for name, sid in self._chara_name_to_id.items():
+            if sid == ship_id:
+                chara_name = name
+                break
+        if chara_name is None:
+            return []
+        wearing = self.ships_wear_skin.get(ship_id)
+        for skin_id, info in self.skin_db.get(chara_name, {}).items():
+            if skin_id not in self.unlocked_skins:
+                continue
+            raw_avatar = info.get('avatar', '')
+            raw_portrait = info.get('portrait', '')
+            PREFIX = 'frontend/'
+            result.append({
+                'skin_id': skin_id,
+                'chara_id': ship_id,
+                'chara_name': chara_name,
+                'skin_name': info.get('name', skin_id),
+                'avatar': raw_avatar[len(PREFIX):] if raw_avatar.startswith(PREFIX) else raw_avatar,
+                'portrait': raw_portrait[len(PREFIX):] if raw_portrait.startswith(PREFIX) else raw_portrait,
+                'is_wearing': (skin_id == wearing),
+            })
+        return result
+
+    def equip_skin(self, ship_id: str, skin_id: str) -> tuple[bool, str]:
+        """更换舰娘穿戴皮肤。返回 (是否成功, 消息)
+
+        - 舰娘不存在 -> (False, 消息)
+        - 皮肤不存在或未拥有 -> (False, 消息)
+        - 成功：写 ships_wear_skin -> (True, 消息)
+        """
+        if ship_id not in self.ships_wear_skin:
+            return False, f'舰娘不存在（{ship_id}）'
+        chara_name = None
+        for name, sid in self._chara_name_to_id.items():
+            if sid == ship_id:
+                chara_name = name
+                break
+        if chara_name is None:
+            return False, f'舰娘不存在（{ship_id}）'
+        if skin_id not in self.skin_db.get(chara_name, {}):
+            return False, f'该舰娘没有此皮肤（{skin_id}）'
+        if skin_id not in self.unlocked_skins:
+            return False, f'尚未拥有该皮肤（{skin_id}）'
+        self.ships_wear_skin[ship_id] = skin_id
+        return True, f'已更换为「{self.skin_db[chara_name][skin_id].get("name", skin_id)}」'
 
     def gain_skin(self, skin: str):
         if skin in self.locked_skins:

@@ -52,7 +52,7 @@ class TestGetShopSkins:
         """买光所有在售皮肤后商店为空"""
         player.set_money(999999)
         for skin in skin_manager.get_shop_skins():
-            skin_manager.buy_skin(skin['skin_id'], player)
+            skin_manager.buy_skin(skin['skin_id'])
         assert skin_manager.get_shop_skins() == []
 
 
@@ -62,7 +62,7 @@ class TestBuySkin:
     def test_buy_success_deducts_money(self, skin_manager, player):
         """购买成功：扣钱 + 皮肤进已拥有 + 商店移除"""
         player.set_money(2000)
-        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
+        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         assert ok is True
         assert player.money == 1000
         assert 'snow_rabbit_and_candy_apple' in skin_manager.unlocked_skins
@@ -71,7 +71,7 @@ class TestBuySkin:
     def test_buy_fail_insufficient_money(self, skin_manager, player):
         """资金不足：购买失败、不扣钱、皮肤不变"""
         player.set_money(500)
-        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
+        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         assert ok is False
         assert '资金不足' in msg
         assert player.money == 500
@@ -80,27 +80,27 @@ class TestBuySkin:
     def test_buy_fail_already_owned(self, skin_manager, player):
         """重复购买：已拥有则拒绝"""
         player.set_money(9999)
-        skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
-        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
+        skin_manager.buy_skin('snow_rabbit_and_candy_apple')
+        ok, msg = skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         assert ok is False
         assert '不可购买' in msg
 
     def test_buy_fail_default_skin(self, skin_manager, player):
         """默认皮肤不可购买（不在商店）"""
         player.set_money(9999)
-        ok, msg = skin_manager.buy_skin('laffey_default', player)
+        ok, msg = skin_manager.buy_skin('laffey_default')
         assert ok is False
 
     def test_buy_unknown_skin(self, skin_manager, player):
         """未知皮肤 id：拒绝"""
         player.set_money(9999)
-        ok, msg = skin_manager.buy_skin('not_exist_skin', player)
+        ok, msg = skin_manager.buy_skin('not_exist_skin')
         assert ok is False
 
     def test_money_never_negative(self, skin_manager, player):
         """set_money 钳制：扣款后不会为负"""
         player.set_money(1000)
-        skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
+        skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         assert player.money == 0
 
 
@@ -143,7 +143,7 @@ class TestWearSkinPaths:
     def test_wear_skin_paths_after_buy_and_wear(self, skin_manager, player):
         """购买并穿戴后，返回该皮肤的真实图片路径"""
         player.set_money(9999)
-        skin_manager.buy_skin('snow_rabbit_and_candy_apple', player)
+        skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         # 模拟更换皮肤：把 ships_wear_skin 指向新皮肤
         skin_manager.ships_wear_skin['laffey'] = 'snow_rabbit_and_candy_apple'
         paths = skin_manager.get_ship_skin_paths('laffey')
@@ -173,9 +173,72 @@ class TestWearSkinPaths:
         world.npc_manager.set_loc(laffey.id, world.player.location['region'], world.player.location['node'])
         # 购买并穿戴雪兔皮肤
         world.player.set_money(9999)
-        world.skin_manager.buy_skin('snow_rabbit_and_candy_apple', world.player)
+        world.skin_manager.buy_skin('snow_rabbit_and_candy_apple')
         world.skin_manager.ships_wear_skin['laffey'] = 'snow_rabbit_and_candy_apple'
         state = world.get_state()
         npc = next(s for s in state['nearby_npcs'] if s['id'] == 'laffey')
         assert 'snow_rabbit_and_candy_apple' in npc['avatar']
         assert 'snow_rabbit_and_candy_apple' in npc['portrait']
+
+
+# ---------- 已拥有皮肤 + 换装 ----------
+
+class TestOwnedSkins:
+    def test_owned_skins_contains_default(self, skin_manager):
+        """默认皮肤在已拥有列表中，且标记为穿戴中"""
+        owned = skin_manager.get_owned_skins('laffey')
+        assert len(owned) >= 1
+        default = next(s for s in owned if s['skin_id'] == 'laffey_default')
+        assert default['is_wearing'] is True
+        assert default['chara_name'] == '拉菲'
+
+    def test_owned_skins_after_buy(self, skin_manager, player):
+        """购买后皮肤进入已拥有列表，未穿戴"""
+        player.set_money(9999)
+        skin_manager.buy_skin('snow_rabbit_and_candy_apple')
+        owned = skin_manager.get_owned_skins('laffey')
+        ids = [s['skin_id'] for s in owned]
+        assert 'snow_rabbit_and_candy_apple' in ids
+        bought = next(s for s in owned if s['skin_id'] == 'snow_rabbit_and_candy_apple')
+        assert bought['is_wearing'] is False
+
+    def test_owned_skins_unknown_ship(self, skin_manager):
+        """未知舰娘返回空列表"""
+        assert skin_manager.get_owned_skins('not_exist') == []
+
+    def test_owned_skins_path_no_prefix(self, skin_manager):
+        """返回的图片路径不带 frontend/ 前缀"""
+        owned = skin_manager.get_owned_skins('laffey')
+        for s in owned:
+            assert not s['avatar'].startswith('frontend/')
+            assert not s['portrait'].startswith('frontend/')
+
+
+class TestEquipSkin:
+    def test_equip_success(self, skin_manager, player):
+        """换装成功：ships_wear_skin 更新 + is_wearing 翻转"""
+        player.set_money(9999)
+        skin_manager.buy_skin('snow_rabbit_and_candy_apple')
+        ok, msg = skin_manager.equip_skin('laffey', 'snow_rabbit_and_candy_apple')
+        assert ok is True
+        assert '雪兔' in msg
+        assert skin_manager.ships_wear_skin['laffey'] == 'snow_rabbit_and_candy_apple'
+        owned = skin_manager.get_owned_skins('laffey')
+        assert next(s for s in owned if s['skin_id'] == 'snow_rabbit_and_candy_apple')['is_wearing'] is True
+        assert next(s for s in owned if s['skin_id'] == 'laffey_default')['is_wearing'] is False
+
+    def test_equip_not_owned(self, skin_manager):
+        """未拥有的皮肤不能换装"""
+        ok, msg = skin_manager.equip_skin('laffey', 'snow_rabbit_and_candy_apple')
+        assert ok is False
+        assert '未拥有' in msg
+
+    def test_equip_unknown_skin(self, skin_manager):
+        """该舰娘没有的皮肤 id 不能换装"""
+        ok, msg = skin_manager.equip_skin('laffey', 'not_exist_skin')
+        assert ok is False
+
+    def test_equip_unknown_ship(self, skin_manager):
+        """未知舰娘不能换装"""
+        ok, msg = skin_manager.equip_skin('not_exist', 'laffey_default')
+        assert ok is False
