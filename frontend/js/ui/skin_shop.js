@@ -3,8 +3,10 @@
 // 交互：
 //   - 点击卡片 -> 选中（高亮），下方出现「购买」按钮
 //   - 选中状态下再次点击同一卡片 -> 弹全屏立绘，点击任意处关闭回商店
-//   - 点「购买」 -> 调 buy_skin，成功则移除该卡片并刷新
+//   - 点「购买」 -> 调 buy_skin，成功则留在商店刷新（已购皮肤移除 + 状态栏金钱同步）
 //   - 点「取消」 -> 关闭商店，refresh 游戏界面
+
+import { getState } from '../api.js';
 
 const SHOP_PAGE_SIZE = 10; // 每页展示皮肤数（随游戏进程可增加）
 
@@ -169,8 +171,9 @@ function renderBottomBar(el) {
             const result = await window.pywebview.api.call('skin_manager', 'buy_skin', selected.skin_id);
             // result: [ok, msg]
             if (result && result[0]) {
-                // 成功：关闭商店并刷新游戏界面（金钱条同步）
-                closeSkinShop();
+                // 成功：留在商店刷新（已购皮肤移除）+ 同步状态栏金钱
+                await refreshMoneyDisplay();
+                loadShopSkins();
             } else {
                 // 失败：提示原因，留在商店
                 alert((result && result[1]) || '购买失败');
@@ -227,4 +230,17 @@ function closeSkinShop() {
     el.innerHTML = '';
     selectedSkinId = null;
     if (shopOnClose) shopOnClose();
+}
+
+// 购买成功后同步状态栏金钱显示（拉最新 player.money 只更新 money 元素）
+async function refreshMoneyDisplay() {
+    try {
+        const state = await getState(null);
+        const moneyEl = document.getElementById('money');
+        if (moneyEl && state && state.player) {
+            moneyEl.textContent = `资金: ${state.player.money}`;
+        }
+    } catch (e) {
+        console.error('刷新金钱失败:', e);
+    }
 }

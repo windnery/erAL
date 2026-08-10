@@ -2,7 +2,7 @@ import { getState, getCmdOptions, doCmd, getSaveList, doLoad } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
-import { showCharacterInfo, hideCharacterInfo } from './ui/chara_info.js';
+import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
@@ -89,7 +89,30 @@ async function selectNpc(npcId) {
 
 function showCharaInfo(npcId) {
     const npc = currentNearby.find(n => n.id === npcId);
-    if (npc) showCharacterInfo(npc);
+    if (npc) showCharacterInfo(npc, refreshCharacterInfo);
+}
+
+// 换装等操作后：重新拉取后端数据更新 currentNearby，并重开角色信息面板
+async function refreshCharacterInfo(npcId) {
+    const state = await getState(selectedNpcId);
+    currentNearby = state.nearby_npcs || [];
+    currentActCom = state.act_com || [];
+    currentPalamDefs = state.palam_defs || {};
+    currentPalamLvMap = state.palam_lv_map || {};
+    currentCflagDefs = state.cflag_defs || {};
+    // 同步刷新游戏界面（头像选择栏/详情面板），换装后的图片立即生效
+    renderPortrait(currentNearby, selectedNpcId, selectNpc);
+    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
+    const npc = currentNearby.find(n => n.id === npcId);
+    if (npc) {
+        showCharacterInfo(npc, refreshCharacterInfo);
+    } else {
+        // 舰娘已不在附近：关面板回游戏
+        const el = document.getElementById('fullscreen_charinfo');
+        el.style.display = 'none';
+        el.innerHTML = '';
+        document.getElementById('game_screen').style.display = 'block';
+    }
 }
 
 function showFullscreenPortrait(npc) {
@@ -210,9 +233,7 @@ document.getElementById('fullscreen_text').addEventListener('click', function() 
 // 全屏立绘点击关闭
 document.getElementById('fullscreen_portrait').addEventListener('click', hideFullscreenPortrait);
 
-// 全屏角色信息点击关闭
-document.getElementById('fullscreen_charinfo').addEventListener('click', hideCharacterInfo);
-
+// 全屏角色信息：不再点击空白关闭，改为底部「返回」按钮（chara_info.js renderCharinfoBottomBar）
 // 皮肤立绘点击关闭（回到商店）
 document.getElementById('skin_shop_portrait').addEventListener('click', function () {
     this.style.display = 'none';

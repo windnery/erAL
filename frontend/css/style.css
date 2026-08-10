@@ -527,6 +527,51 @@ button {
     margin: 12px 0;
 }
 
+/* 角色信息-皮肤页：已拥有皮肤网格（复用商店卡片布局） */
+.charinfo-skin-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 636px;
+    gap: 14px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* 角色信息-底部操作栏：分界线 + 操作项 */
+.charinfo-bottom {
+    margin-top: 40px;
+    padding-top: 12px;
+    border-top: 1px solid #555;
+}
+
+.charinfo-bottom-actions {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 8px 0 4px;
+}
+
+.charinfo-bottom-action {
+    color: #fff;
+    font-size: 16px;
+    cursor: default;
+    user-select: none;
+}
+
+.charinfo-bottom-action:hover {
+    color: #ff0;
+}
+
+.charinfo-bottom-action.disabled {
+    color: #666;
+    cursor: default;
+}
+
+.charinfo-bottom-action.disabled:hover {
+    color: #666;
+}
+
 /* ===== 皮肤商店（明石商店） ===== */
 #skin_shop_screen {
     display: none;

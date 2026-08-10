@@ -1,17 +1,26 @@
-﻿const TABS = [
+﻿// 全屏角色信息面板：分类 tab + 内容渲染
+// 数据来源：showCharacterInfo(npc) 传入的 nearby_npcs 单项（含 id/name/avatar/portrait/favor/trust/talent...）
+// 皮肤页数据：通过 api.call('skin_manager', 'get_owned_skins', npc.id) 异步拉取
+
+const TABS = [
     { key: 'ability', name: '能力&经验', enabled: true },
-    { key: 'costume', name: '服装&皮肤', enabled: false },
+    { key: 'costume', name: '服装&皮肤', enabled: true },
     { key: 'body', name: '身体情报', enabled: false },
     { key: 'personal', name: '个人情报', enabled: false },
     { key: 'fallen', name: '堕落状态', enabled: false },
 ];
 
 let activeTab = 'ability';
+let ownedSkins = [];       // 当前舰娘已拥有皮肤列表
+let selectedSkinId = null; // 皮肤页当前选中（换装目标）
+let onChanged = null;      // 换装等变更后的刷新回调（由 main.js 注入）
 
-export function showCharacterInfo(npc) {
+export function showCharacterInfo(npc, changedCb) {
+    onChanged = changedCb || null;
     const el = document.getElementById('fullscreen_charinfo');
     el.innerHTML = '';
 
+    // ---- 顶部 tab 栏 ----
     const tabBar = document.createElement('div');
     tabBar.className = 'charinfo-tabbar';
     for (const tab of TABS) {
@@ -21,17 +30,21 @@ export function showCharacterInfo(npc) {
         if (tab.enabled) {
             t.onclick = () => {
                 activeTab = tab.key;
-                showCharacterInfo(npc);
+                selectedSkinId = null;
+                showCharacterInfo(npc, onChanged);
             };
         }
         tabBar.appendChild(t);
     }
     el.appendChild(tabBar);
 
+    // ---- 内容区 ----
     const content = document.createElement('div');
     content.className = 'charinfo-content';
     if (activeTab === 'ability') {
         renderAbilityTab(content, npc);
+    } else if (activeTab === 'costume') {
+        renderCostumeTab(content, npc);
     } else {
         const hint = document.createElement('div');
         hint.className = 'charinfo-hint';
@@ -40,14 +53,14 @@ export function showCharacterInfo(npc) {
     }
     el.appendChild(content);
 
-    const closeHint = document.createElement('div');
-    closeHint.className = 'charinfo-close-hint';
-    closeHint.textContent = '点击空白处关闭';
-    el.appendChild(closeHint);
+    // ---- 底部操作栏（分界线 + 返回 / 更换）----
+    renderCharinfoBottomBar(el, npc);
 
     document.getElementById('game_screen').style.display = 'none';
     el.style.display = 'block';
 }
+
+// ---------- 能力&经验页 ----------
 
 function renderAbilityTab(content, npc) {
     const base = npc.base || {};
@@ -76,14 +89,12 @@ function renderAbilityTab(content, npc) {
 
     const avatar = document.createElement('img');
     avatar.className = 'charinfo-avatar';
-    // 优先用后端下发的当前穿戴皮肤头像路径；无则按约定拼接默认皮肤
     avatar.src = npc.avatar || `assets/avatars/${npc.name}/${npc.id}_default.webp`;
     avatar.alt = npc.name;
     avatar.onclick = function (e) {
         e.stopPropagation();
         const portraitEl = document.getElementById('fullscreen_portrait');
-        // 优先用后端下发的当前穿戴皮肤立绘路径；无则按约定拼接默认皮肤
-    portraitEl.innerHTML = `<img src="${npc.portrait || `assets/portraits/${npc.name}/${npc.id}_default.webp`}" alt="${npc.name}">`;
+        portraitEl.innerHTML = `<img src="${npc.portrait || `assets/portraits/${npc.name}/${npc.id}_default.webp`}" alt="${npc.name}">`;
         portraitEl.style.display = 'flex';
     };
     content.appendChild(avatar);
@@ -119,6 +130,168 @@ function renderAbilityTab(content, npc) {
     content.appendChild(list);
 }
 
+// ---------- 服装&皮肤页 ----------
+
+async function renderCostumeTab(content, npc) {
+    content.textContent = '';
+    const hint = document.createElement('div');
+    hint.className = 'charinfo-hint';
+    hint.textContent = '加载中……';
+    content.appendChild(hint);
+
+    let skins = [];
+    try {
+        skins = await window.pywebview.api.call('skin_manager', 'get_owned_skins', npc.id) || [];
+    } catch (e) {
+        content.textContent = '';
+        hint.textContent = '皮肤数据加载失败';
+        content.appendChild(hint);
+        return;
+    }
+    ownedSkins = skins;
+    content.textContent = '';
+
+    if (skins.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'charinfo-hint';
+        empty.textContent = '暂无已拥有的皮肤';
+        content.appendChild(empty);
+        return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'charinfo-skin-grid';
+    for (const skin of skins) {
+        grid.appendChild(makeOwnedSkinCard(skin, npc));
+    }
+    content.appendChild(grid);
+}
+
+// 已拥有皮肤卡片：头像 + 名字 + 穿戴中标注；选中黄框只包围头像
+function makeOwnedSkinCard(skin, npc) {
+    const card = document.createElement('div');
+    card.className = 'skin-card' + (skin.skin_id === selectedSkinId ? ' selected' : '');
+
+    const avatarWrap = document.createElement('div');
+    avatarWrap.className = 'skin-card-avatar';
+
+    const img = document.createElement('img');
+    img.className = 'skin-card-img';
+    img.src = skin.avatar || '';
+    img.alt = `${skin.chara_name}-${skin.skin_name}`;
+    img.onerror = function () {
+        img.remove();
+        const ph = document.createElement('div');
+        ph.className = 'skin-card-placeholder';
+        ph.textContent = skin.skin_name;
+        avatarWrap.prepend(ph);
+    };
+    avatarWrap.appendChild(img);
+    card.appendChild(avatarWrap);
+
+    const label = document.createElement('div');
+    label.className = 'skin-card-label';
+    label.textContent = skin.skin_name;
+    if (skin.is_wearing) {
+        label.textContent += '（穿戴中）';
+        label.style.color = '#fc0';
+    }
+    card.appendChild(label);
+
+    card.onclick = function () {
+        if (selectedSkinId === skin.skin_id) {
+            // 已选中 -> 弹全屏立绘
+            showOwnedSkinPortrait(skin);
+        } else {
+            // 未选中 -> 选中该皮肤
+            selectedSkinId = skin.skin_id;
+            document.querySelectorAll('#fullscreen_charinfo .skin-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            renderCharinfoBottomBar(document.getElementById('fullscreen_charinfo'), npc);
+        }
+    };
+    return card;
+}
+
+// 已拥有皮肤全屏立绘（点击任意处关闭回皮肤页）
+function showOwnedSkinPortrait(skin) {
+    const portrait = document.getElementById('skin_shop_portrait');
+    portrait.innerHTML = '';
+
+    const img = document.createElement('img');
+    img.src = skin.portrait || '';
+    img.alt = `${skin.chara_name}-${skin.skin_name}`;
+    img.onerror = function () {
+        img.remove();
+        const ph = document.createElement('div');
+        ph.className = 'skin-portrait-placeholder';
+        ph.textContent = `${skin.chara_name}-${skin.skin_name}（暂无立绘）`;
+        portrait.appendChild(ph);
+    };
+    portrait.appendChild(img);
+
+    portrait.style.display = 'flex';
+}
+
+// ---------- 底部操作栏 ----------
+
+// 所有分类页底部统一：分界线 + 操作项（指令样式）
+// 皮肤页：更换（选中后可用）+ 返回；其他页：返回
+function renderCharinfoBottomBar(el, npc) {
+    const oldBar = el.querySelector('.charinfo-bottom');
+    if (oldBar) oldBar.remove();
+
+    const bar = document.createElement('div');
+    bar.className = 'charinfo-bottom';
+
+    const divider = document.createElement('div');
+    divider.className = 'charinfo-bottom-divider';
+    bar.appendChild(divider);
+
+    const actions = document.createElement('div');
+    actions.className = 'charinfo-bottom-actions';
+
+    if (activeTab === 'costume') {
+        const selected = ownedSkins.find(s => s.skin_id === selectedSkinId);
+        const changeBtn = document.createElement('span');
+        changeBtn.className = 'charinfo-bottom-action' + (selected ? '' : ' disabled');
+        changeBtn.textContent = '更换';
+        if (selected) {
+            changeBtn.onclick = async function () {
+                const result = await window.pywebview.api.call('skin_manager', 'equip_skin', npc.id, selected.skin_id);
+                if (result && result[0]) {
+                    // 换装成功：通过 onChanged 回调通知 main.js 重新拉数据
+                    // （更新 currentNearby 中的 avatar/portrait，重开面板显示「穿戴中」）
+                    if (onChanged) {
+                        onChanged(npc.id);
+                    } else {
+                        // 兜底：无回调时直接留在皮肤页刷新
+                        activeTab = 'costume';
+                        selectedSkinId = null;
+                        showCharacterInfo(npc);
+                    }
+                } else {
+                    alert((result && result[1]) || '更换失败');
+                }
+            };
+        }
+        actions.appendChild(changeBtn);
+    }
+
+    const backBtn = document.createElement('span');
+    backBtn.className = 'charinfo-bottom-action';
+    backBtn.textContent = '返回';
+    backBtn.onclick = function () {
+        hideCharacterInfo();
+    };
+    actions.appendChild(backBtn);
+
+    bar.appendChild(actions);
+    el.appendChild(bar);
+}
+
+// ---------- 通用 ----------
+
 function appendBar(row, label, value, max, color) {
     const lab = document.createElement('span');
     lab.className = 'charinfo-bar-label';
@@ -145,5 +318,7 @@ export function hideCharacterInfo() {
     const el = document.getElementById('fullscreen_charinfo');
     el.style.display = 'none';
     el.innerHTML = '';
+    ownedSkins = [];
+    selectedSkinId = null;
     document.getElementById('game_screen').style.display = 'block';
 }
