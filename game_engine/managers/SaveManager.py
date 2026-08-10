@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from world import World
 
-SAVE_VERSION = 1
+SAVE_VERSION = 2
 SLOT_COUNT = 3
 
 
@@ -68,13 +68,33 @@ class SaveManager:
                     world.npc_manager.secretary_ship.id
                     if world.npc_manager.secretary_ship else None
                 ),
+                # v2 新增：皮肤系统
+                'skins': {
+                    'unlocked_skins': sorted(world.skin_manager.unlocked_skins),
+                    'locked_skins': sorted(world.skin_manager.locked_skins),
+                    'ships_wear_skin': dict(world.skin_manager.ships_wear_skin),
+                },
+                # v2 新增：道具系统
+                'items': dict(world.item_manager.items),
             },
         }
 
     def deserialize_world(self, data: dict) -> str | None:
         """把存档数据还原到 world。成功返回 None，失败返回错误信息"""
         try:
+            version = data.get('version', 1)
             d = data['data']
+            # v1 -> v2 迁移：老档没有 skins/items 键，补默认空值
+            if version < 2:
+                d.setdefault('skins', {
+                    'unlocked_skins': [],
+                    'locked_skins': [],
+                    'ships_wear_skin': {},
+                })
+                d.setdefault('items', {})
+            elif version > SAVE_VERSION:
+                return f'存档版本过新（{version} > {SAVE_VERSION}），请更新游戏'
+
             tm = d['time']
             self.world.time_manager.day = tm['day']
             self.world.time_manager.hour = tm['hour']
@@ -115,6 +135,17 @@ class SaveManager:
                 self.world.npc_manager.shipgirls[sec_id] if sec_id else None
             )
             self.world.player.update_palam_level()
+
+            # v2：皮肤系统还原
+            skins = d['skins']
+            skin_mgr = self.world.skin_manager
+            skin_mgr.unlocked_skins = set(skins.get('unlocked_skins', []))
+            skin_mgr.locked_skins = set(skins.get('locked_skins', []))
+            skin_mgr.ships_wear_skin = dict(skins.get('ships_wear_skin', {}))
+
+            # v2：道具系统还原
+            self.world.item_manager.items = dict(d.get('items', {}))
+
             return None
         except (KeyError, TypeError, ValueError) as e:
             return f'存档数据损坏：{e}'

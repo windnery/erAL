@@ -333,6 +333,82 @@ class TestSaveLoad:
         assert all(not e['has_save'] for e in lst)
 
 
+class TestSaveLoadV2:
+    """v2 存档：皮肤系统 + 道具系统 roundtrip + 版本迁移"""
+
+    def test_save_then_load_skins_and_items(self, world, tmp_path):
+        """存档→读档：皮肤购买/穿戴 + 背包道具一致"""
+        # 制造皮肤/道具状态
+        world.skin_manager.gain_skin('snow_rabbit_and_candy_apple')
+        world.skin_manager.locked_skins.discard('snow_rabbit_and_candy_apple')
+        world.skin_manager.equip_skin('laffey', 'snow_rabbit_and_candy_apple')
+        world.item_manager.gain_items('oath_ring', 2)
+
+        world.save_manager.sav_dir = tmp_path
+        world.save_manager.save_game(1)
+
+        from world import World
+        world2 = World()
+        world2.save_manager.sav_dir = tmp_path
+        err = world2.save_manager.load_game(1)
+        assert err is None, f'读档失败: {err}'
+
+        # 皮肤：已购买 + 穿戴
+        assert 'snow_rabbit_and_candy_apple' in world2.skin_manager.unlocked_skins
+        assert 'snow_rabbit_and_candy_apple' not in world2.skin_manager.locked_skins
+        assert world2.skin_manager.ships_wear_skin['laffey'] == 'snow_rabbit_and_candy_apple'
+        # 道具
+        assert world2.item_manager.items.get('oath_ring') == 2
+
+    def test_v1_save_migrates_to_v2(self, world, tmp_path):
+        """v1 旧档（无 skins/items 键）读档不崩，补默认空值"""
+        # 构造 v1 存档（手动去掉 skins/items）
+        world.save_manager.sav_dir = tmp_path
+        data = world.save_manager.serialize_world()
+        data['version'] = 1
+        del data['data']['skins']
+        del data['data']['items']
+        import json
+        path = tmp_path / 'slot_1.json'
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False)
+
+        from world import World
+        world2 = World()
+        world2.save_manager.sav_dir = tmp_path
+        err = world2.save_manager.load_game(1)
+        assert err is None, f'v1 迁移失败: {err}'
+        # 默认空皮肤/道具
+        assert world2.skin_manager.unlocked_skins == set()
+        assert world2.skin_manager.locked_skins == set()
+        assert world2.skin_manager.ships_wear_skin == {}
+        assert world2.item_manager.items == {}
+
+    def test_future_version_rejected(self, world, tmp_path):
+        """版本过新的存档拒绝加载"""
+        world.save_manager.sav_dir = tmp_path
+        data = world.save_manager.serialize_world()
+        data['version'] = 99
+        import json
+        path = tmp_path / 'slot_1.json'
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False)
+
+        from world import World
+        world2 = World()
+        world2.save_manager.sav_dir = tmp_path
+        err = world2.save_manager.load_game(1)
+        assert err is not None
+        assert '版本过新' in err
+
+    def test_save_version_is_2(self, world):
+        """新存档版本号=2"""
+        data = world.save_manager.serialize_world()
+        assert data['version'] == 2
+        assert 'skins' in data['data']
+        assert 'items' in data['data']
+
+
 # ============================================================
 # 世界状态完整性
 # ============================================================
