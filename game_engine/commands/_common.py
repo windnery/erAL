@@ -231,5 +231,9 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     # TODO: 情绪/理性
     # TODO: 刻印
     # TODO: cflag
+    # 约会中
+    if npc.is_dating():
+        attitude += 40
+        mes = add_attitude_mes(mes, '约会中(40)')
 
     return mes, attitude

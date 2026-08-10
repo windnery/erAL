@@ -18,30 +18,30 @@ from .._context import CommandContext
 
 def can(world: World, npc: ShipGirl):
     """执行判定"""
-    # 通用判定
+    # 通用判定(气力0 睡眠)
     if not global_can(world.player, npc):
         return False
     # 工作中
     if npc.is_working():
         return False
-    # 约会中
-    if npc.is_dating():
+    # 已经是恋人了
+    if npc.has_talent('lover'):
         return False
-    # 关系未达到友好
-    if npc.get_talent_value("relationship") < 1:
+    # 关系未达到喜欢
+    if npc.get_talent_value("relationship") < 2:
         return False
-    # 亲密度不足5
-    if npc.abl["intimacy_abl"] < 5:
+    # 亲密度不足7
+    if npc.abl["intimacy_abl"] < 7:
         return False
-    # 好感度低于400
-    return not npc.favor < 400
+    # 好感度低于800
+    return not npc.favor < 800
 
 
 def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     """执行成功判定
     返回 (是否成功, 明细字符串)，明细用于向玩家展示各影响因子的加减分"""
-    success_score = 280
-    mes, score = get_attitude(world.player, npc, 30)
+    success_score = 350
+    mes, score = get_attitude(world.player, npc, 100)
 
     # 会话
     temp = {0: -10, 1: 0, 2: 10, 3: 20, 4: 30, 5: 40}.get(
@@ -49,10 +49,7 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     )
     score += temp
     mes = add_attitude_mes(mes, f"会话({temp})")
-    # 恋人
-    if npc.has_talent("lover"):
-        score += 60
-        mes = add_attitude_mes(mes, f"恋人(60)")
+
 
     if score >= success_score:
         mes += f"={score}≥{success_score} 成功！"
@@ -63,16 +60,16 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     return ok, mes
 
 
-@register_cmd("invite_date", "约会", "日常", can)
-def invite_date(world: World, option: str):
-    """约会
+@register_cmd("confess", "告白", "日常", can)
+def confess(world: World, option: str):
+    """告白
     world: 游戏世界对象
     option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
 
-    line = npc.get_line("invite_date")
-    ctx.say(f"尝试邀请{npc.name}去约会……")
+    line = npc.get_line("confess")
+    ctx.say(f"鼓起勇气对{npc.name}告白了！")
     if line:
         # 有口上
         ctx.say(line.replace("{name}", npc.name))
@@ -80,24 +77,24 @@ def invite_date(world: World, option: str):
     ok, detail = able(world, npc)
     ctx.say(detail)
     if not ok:
-        ctx.say(f"{npc.name}拒绝了你的邀请")
+        ctx.say(f"尽管很诚心地告白了，但还是被{npc.name}拒绝了……")
         source: dict[str, int] = new_source(
-            {"escape_source": 200, "disgust_source": 400}
+            {"escape_source": 400, "disgust_source": 800}
         )
     else:
-        ctx.say(f"{npc.name}接受了你的邀请！")
+        ctx.say(f"{npc.name}接受了你的告白！")
+        ctx.say(f"现在开始{world.player.name}和{npc.name}成为[恋人]了！")
         source: dict[str, int] = new_source(
             {
-                "love_source": 200,
-                "achievement_source": 100,
-                "lust_source": 100,
-                "obedience_source": 100,
-                "happiness_source": 200,
+                "love_source": 800,
+                "achievement_source": 400,
+                "lust_source": 200,
+                "obedience_source": 400,
+                "happiness_source": 800,
             }
         )
-        # 进入约会状态
-        npc.cflag["dating"] = True
-        npc.cflag["dating_following"] = True
+        # talent: 恋人
+        npc.set_talent("lover", 1)
 
     # 通用source修正
     source = common_src_modify(source, npc)
