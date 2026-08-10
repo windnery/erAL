@@ -1,0 +1,8 @@
+{
+  "Z23_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/Z23/Z23_default.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_default.webp"
+  }
+}

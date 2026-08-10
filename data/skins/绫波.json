@@ -1,0 +1,8 @@
+{
+  "default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_default.png",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_default.png"
+  }
+}

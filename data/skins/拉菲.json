@@ -10,12 +10,12 @@
     "avatar": "frontend/assets/avatars/拉菲/laffey_retrofit.webp",
     "portrait": "frontend/assets/portraits/拉菲/laffey_retrofit.webp"
   },
-  "snow_rabbit_and_apple_candy": {
+  "snow_rabbit_and_candy_apple": {
     "is_sale": true,
     "price": 1000,
     "name": "雪兔与苹果糖",
-    "avatar": "frontend/assets/avatars/拉菲/snow_rabbit_and_apple_candy.webp",
-    "portrait": "frontend/assets/portraits/拉菲/snow_rabbit_and_apple_candy.webp"
+    "avatar": "frontend/assets/avatars/拉菲/snow_rabbit_and_candy_apple.webp",
+    "portrait": "frontend/assets/portraits/拉菲/snow_rabbit_and_candy_apple.webp"
   },
   "laffey_oath": {
     "name": "拉菲·誓约",

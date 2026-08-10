@@ -13,7 +13,7 @@ def leave(world: World, option: str):
     """离开当前区域"""
     if option == 'return':
         # 取消离开
-        return
+        return None
     player = world.player
     map_manager = world.map_manager
     current_region = player.location['region']

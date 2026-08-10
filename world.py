@@ -7,6 +7,7 @@ from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.SaveManager import SaveManager
+from game_engine.managers.SkinManager import SkinManager
 from game_engine.managers.TimeManager import TimeManager
 from game_engine.managers.WorkManager import WorkManager
 from game_engine.models.player import Player
@@ -20,6 +21,7 @@ class World:
         self.work_manager = WorkManager()
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
+        self.skin_manager = SkinManager(self.npc_manager)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
         self.save_manager = SaveManager(self)
@@ -27,6 +29,13 @@ class World:
     def get_state(self, selected_npc_id: str | None = None):
         """一次性返回前端需要的全部状态"""
         r, n = self.player.location['region'], self.player.location['node']
+        nearby = []
+        for sg in self.npc_manager.get_npcs_at(r, n):
+            st = sg.get_state()
+            # 当前穿戴皮肤的图片路径（下轮更换皮肤后即时生效）
+            st['avatar'] = self.skin_manager.get_ship_skin_paths(sg.id)['avatar']
+            st['portrait'] = self.skin_manager.get_ship_skin_paths(sg.id)['portrait']
+            nearby.append(st)
         return {
             'player': self.player.get_state(),
             'location': self.map_manager.get_current_loc(self.player),
@@ -35,7 +44,7 @@ class World:
             'menu_com': self.command_manager.get_MENU_COM(),
             'menu_active': self.menu_active,
             'time': self.time_manager.get_state(),
-            'nearby_npcs': [sg.get_state() for sg in self.npc_manager.get_npcs_at(r, n)],
+            'nearby_npcs': nearby,
             'cflag_defs': {k: v['name'] for k, v in ATTR_DEFS.get('cflag', {}).items()},
             'palam_defs': {k: v['name'] for k, v in ATTR_DEFS.get('palam', {}).items()},
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},

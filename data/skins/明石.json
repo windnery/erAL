@@ -1,0 +1,8 @@
+{
+  "default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/明石/akashi_default.png",
+    "portrait": "frontend/assets/portraits/明石/akashi_default.png"
+  }
+}
