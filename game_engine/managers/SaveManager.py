@@ -32,6 +32,7 @@ class SaveManager:
                 'juel': sg.juel,
                 'palam': sg.palam,
                 'cflag': sg.cflag,
+                'talent': sg.talent,
             }
         return {
             'version': SAVE_VERSION,
@@ -123,6 +124,7 @@ class SaveManager:
                 sg.juel = st['juel']
                 sg.palam = st['palam']
                 sg.cflag = st['cflag']
+                sg.talent = st['talent']
                 sg.update_palam_level()
                 self.world.npc_manager.shipgirls[sg_id] = sg
 

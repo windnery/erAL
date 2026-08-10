@@ -408,6 +408,24 @@ class TestSaveLoadV2:
         assert 'skins' in data['data']
         assert 'items' in data['data']
 
+    def test_save_then_load_shipgirl_talent(self, world, tmp_path):
+        """舰娘 talent（含 relationship 陷落阶段）读档后保留"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        z23.set_talent('relationship', '3')  # 爱
+        z23.set_talent('lover', '1')
+
+        world.save_manager.sav_dir = tmp_path
+        world.save_manager.save_game(1)
+
+        from world import World
+        world2 = World()
+        world2.save_manager.sav_dir = tmp_path
+        err = world2.save_manager.load_game(1)
+        assert err is None, f'读档失败: {err}'
+        z23b = world2.npc_manager.shipgirls['Z23']
+        assert z23b.talent.get('relationship') == '3'
+        assert z23b.has_talent('lover')
+
 
 # ============================================================
 # 世界状态完整性
