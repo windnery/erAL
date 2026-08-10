@@ -8,14 +8,14 @@ from game_engine.models.character import Character
 
 @dataclass
 class ShipGirl(Character):
-    '''舰娘类'''
+    """舰娘类"""
     favor: int = 800  # 好感度
     trust: int = 149  # 信赖度
     schedule: dict[str, Any] = field(default_factory=dict)   # 作息时间表
     lines: list[dict[str, Any]] = field(default_factory=list)  # 台词
 
     def get_state(self):
-        '''返回舰娘状态'''
+        """返回舰娘状态"""
         return {
             'id': self.id,
             'name': self.name,
@@ -33,7 +33,7 @@ class ShipGirl(Character):
         }
 
     def get_line(self, action: str) -> str | None:
-        '''获取台词'''
+        """获取台词"""
         candidates = [l for l in self.lines if l['action'] == action
                       and self._check_conditions(l.get('conditions', {}))]
         if not candidates:
@@ -46,7 +46,7 @@ class ShipGirl(Character):
         return random.choice(texts)
 
     def _check_conditions(self, conds: dict[str, Any]) -> bool:
-        '''检查条件是否满足'''
+        """检查条件是否满足"""
         for key, value in conds.items():
             if key == 'min_favor' and self.favor < value:
                 return False
@@ -60,7 +60,7 @@ class ShipGirl(Character):
         return True
 
     def get_mood(self) -> Mood:
-        '''获取心情值'''
+        """获取心情值"""
         if -10 <= self.base.get('mood', 0) < -5:
             return Mood.ANGRY
         elif -5 <= self.base.get('mood', 0) < 0:

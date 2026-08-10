@@ -84,3 +84,12 @@ class Character:
     def get_talent_value(self, talent_id: str) -> int:
         """获取某天赋的等级"""
         return int(self.talent.get(talent_id, 0))
+
+    def get_talent_name(self, talent_id: str):
+        """获取某天赋的名字"""
+        if ATTR_DEFS['talent'][talent_id]['has_value']:
+            # 多分类素质
+            return ATTR_DEFS['talent'][talent_id]['value'][self.talent.get(talent_id, '0')]
+        else:
+            # 二分类素质
+            return ATTR_DEFS['talent'][talent_id]['name']
