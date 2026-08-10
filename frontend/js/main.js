@@ -4,6 +4,8 @@ import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
 import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
+import { openDailyShop } from './ui/daily_shop.js';
+import { openInventory } from './ui/inventory.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
@@ -155,7 +157,7 @@ async function refresh() {
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop, openDailyShop, openInventory };
     renderStatusBar(state.location, state.time, state.player);
 
     const menu_screen = document.getElementById('menu_screen');

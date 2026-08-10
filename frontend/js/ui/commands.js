@@ -6,15 +6,27 @@ function makeCmdSpan(cmd, callbacks) {
     span.className = 'com-cmd';
     span.textContent = cmd.name;
     span.onclick = async function () {
-        if (cmd.needs_target) {
-            if (cmd.frontend) {
-                if (cmd.key === 'akashi_shop') {
-                    callbacks.openSkinShop(callbacks.refresh);
-                    return;
-                }
+        // 纯前端指令优先（不分 needs_target）
+        if (cmd.frontend) {
+            if (cmd.key === 'akashi_shop') {
+                callbacks.openSkinShop(callbacks.refresh);
+                return;
+            }
+            if (cmd.key === 'shiranui_shop') {
+                callbacks.openDailyShop(callbacks.refresh);
+                return;
+            }
+            if (cmd.key === 'items') {
+                callbacks.openInventory(callbacks.refresh);
+                return;
+            }
+            if (cmd.needs_target) {
                 callbacks.showCharaInfo(callbacks.getSelectedNpc());
                 return;
             }
+            return;
+        }
+        if (cmd.needs_target) {
             let result = await callbacks.doCmd(cmd.key, callbacks.getSelectedNpc());
             show_text_result(result, callbacks);
             return;

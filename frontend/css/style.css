@@ -743,6 +743,283 @@ button {
     margin-top: 12px;
 }
 
+/* ===== 道具商店（不知火商店） ===== */
+#daily_shop_screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    color: #fff;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    z-index: 900;
+    padding: 24px 20px 140px;   /* 底部留出操作栏空间 */
+    box-sizing: border-box;
+    /* 顶部接续状态栏的双横线（与 #status_bar 同款） */
+    border-top: 3px double #36f;
+}
+
+/* 道具列表：纯文字竖排，指令风格 */
+.daily-shop-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.daily-shop-item {
+    color: #fff;
+    cursor: default;
+    user-select: none;
+    font-size: 16px;
+    line-height: 1.8;
+    transition: color 0.15s ease;
+}
+
+.daily-shop-item:hover {
+    color: #ff0;
+}
+
+/* 选中 -> 黄色 */
+.daily-shop-item.selected {
+    color: #ff0;
+}
+
+/* 购买数量>0 -> 常驻黄色（即使未选中） */
+.daily-shop-item.has-count {
+    color: #ff0;
+}
+
+.daily-shop-empty {
+    color: #888;
+    margin-top: 40px;
+    font-size: 16px;
+}
+
+/* 描述块：固定位置，选中显示 desc */
+.daily-shop-desc {
+    margin-top: 20px;
+    min-height: 48px;
+    width: 80%;
+    max-width: 560px;
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* 底部操作区：固定窗口最下方 */
+.daily-shop-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0 10px;
+    background: #111;
+    box-sizing: border-box;
+    z-index: 901;
+}
+
+/* 数量设置行 */
+.daily-shop-countrow {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* 购买/返回行 */
+.daily-shop-actionrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+}
+
+/* 分界线 */
+.daily-shop-divider {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+/* 指令样式按钮 */
+.daily-shop-action {
+    color: #fff;
+    cursor: default;
+    user-select: none;
+    transition: color 0.15s ease;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.daily-shop-action:hover {
+    color: #ff0;
+}
+
+.daily-shop-action.disabled {
+    color: #555;
+}
+
+.daily-shop-action.disabled:hover {
+    color: #555;   /* 禁用：悬浮不变黄 */
+}
+
+/* 总花费提示 */
+.daily-shop-total {
+    color: #fc0;
+    font-size: 14px;
+}
+
+/* 轻提示条：界面内短暂显示消息（替代 alert） */
+.shop-toast {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(40, 40, 40, 0.95);
+    color: #ff0;
+    border: 1px solid #666;
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 4px;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===== 道具背包（系统指令「道具」） ===== */
+#inventory_screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    color: #fff;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    z-index: 900;
+    padding: 24px 20px 120px;   /* 底部留出操作栏空间 */
+    box-sizing: border-box;
+    /* 顶部接续状态栏的双横线（与 #status_bar 同款） */
+    border-top: 3px double #36f;
+}
+
+/* 道具列表：纯文字竖排，指令风格 */
+.inv-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.inv-item {
+    color: #fff;
+    cursor: default;
+    user-select: none;
+    font-size: 16px;
+    line-height: 1.8;
+    transition: color 0.15s ease;
+}
+
+.inv-item:hover {
+    color: #ff0;
+}
+
+/* 选中 -> 黄色 */
+.inv-item.selected {
+    color: #ff0;
+}
+
+.inv-empty {
+    color: #888;
+    margin-top: 40px;
+    font-size: 16px;
+}
+
+/* 描述块：固定位置，选中显示 desc */
+.inv-desc {
+    margin-top: 20px;
+    min-height: 48px;
+    width: 80%;
+    max-width: 560px;
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* 底部操作区：固定窗口最下方 */
+.inv-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0 10px;
+    background: #111;
+    box-sizing: border-box;
+    z-index: 901;
+}
+
+/* 分界线 */
+.inv-divider {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+/* 使用/返回行 */
+.inv-actionrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+}
+
+/* 指令样式按钮 */
+.inv-action {
+    color: #fff;
+    cursor: default;
+    user-select: none;
+    transition: color 0.15s ease;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.inv-action:hover {
+    color: #ff0;
+}
+
+.inv-action.disabled {
+    color: #555;
+}
+
+.inv-action.disabled:hover {
+    color: #555;   /* 禁用：悬浮不变黄 */
+}
+
 /* ===== 缓冲菜单界面（每日开始） ===== */
 #menu_screen {
     width: 100%;

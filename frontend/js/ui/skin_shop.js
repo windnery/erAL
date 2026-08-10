@@ -7,6 +7,7 @@
 //   - 点「取消」 -> 关闭商店，refresh 游戏界面
 
 import { getState } from '../api.js';
+import { showToast } from './daily_shop.js';
 
 const SHOP_PAGE_SIZE = 10; // 每页展示皮肤数（随游戏进程可增加）
 
@@ -175,8 +176,8 @@ function renderBottomBar(el) {
                 await refreshMoneyDisplay();
                 loadShopSkins();
             } else {
-                // 失败：提示原因，留在商店
-                alert((result && result[1]) || '购买失败');
+                // 失败：轻提示原因，留在商店
+                showToast((result && result[1]) || '购买失败');
                 renderBottomBar(document.getElementById('skin_shop_screen'));
             }
         };

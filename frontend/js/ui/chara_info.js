@@ -2,6 +2,8 @@
 // 数据来源：showCharacterInfo(npc) 传入的 nearby_npcs 单项（含 id/name/avatar/portrait/favor/trust/talent...）
 // 皮肤页数据：通过 api.call('skin_manager', 'get_owned_skins', npc.id) 异步拉取
 
+import { showToast } from './daily_shop.js';
+
 const TABS = [
     { key: 'ability', name: '能力&经验', enabled: true },
     { key: 'costume', name: '服装&皮肤', enabled: true },
@@ -271,7 +273,7 @@ function renderCharinfoBottomBar(el, npc) {
                         showCharacterInfo(npc);
                     }
                 } else {
-                    alert((result && result[1]) || '更换失败');
+                    showToast((result && result[1]) || '更换失败');
                 }
             };
         }
