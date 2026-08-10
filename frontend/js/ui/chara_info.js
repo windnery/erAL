@@ -76,12 +76,14 @@ function renderAbilityTab(content, npc) {
 
     const avatar = document.createElement('img');
     avatar.className = 'charinfo-avatar';
-    avatar.src = `assets/avatars/${npc.name}.webp`;
+    // 优先用后端下发的当前穿戴皮肤头像路径；无则按约定拼接默认皮肤
+    avatar.src = npc.avatar || `assets/avatars/${npc.name}/${npc.id}_default.webp`;
     avatar.alt = npc.name;
     avatar.onclick = function (e) {
         e.stopPropagation();
         const portraitEl = document.getElementById('fullscreen_portrait');
-        portraitEl.innerHTML = `<img src="assets/portraits/${npc.name}.webp" alt="${npc.name}">`;
+        // 优先用后端下发的当前穿戴皮肤立绘路径；无则按约定拼接默认皮肤
+    portraitEl.innerHTML = `<img src="${npc.portrait || `assets/portraits/${npc.name}/${npc.id}_default.webp`}" alt="${npc.name}">`;
         portraitEl.style.display = 'flex';
     };
     content.appendChild(avatar);

@@ -8,6 +8,10 @@ function makeCmdSpan(cmd, callbacks) {
     span.onclick = async function () {
         if (cmd.needs_target) {
             if (cmd.frontend) {
+                if (cmd.key === 'akashi_shop') {
+                    callbacks.openSkinShop(callbacks.refresh);
+                    return;
+                }
                 callbacks.showCharaInfo(callbacks.getSelectedNpc());
                 return;
             }

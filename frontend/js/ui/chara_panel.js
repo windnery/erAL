@@ -17,8 +17,8 @@ export function renderPortrait(npcs, selectedId, onSelect) {
         avatar.title = npc.name;
 
         const img = document.createElement('img');
-        // 头像资源约定：assets/avatars/{name}.webp，原图尺寸 116x116
-        img.src = `assets/avatars/${npc.name}.webp`;
+        // 优先用后端下发的当前穿戴皮肤头像路径；无则按约定拼接默认皮肤
+        img.src = npc.avatar || `assets/avatars/${npc.name}/${npc.id}_default.webp`;
         img.alt = npc.name;
         img.className = 'npc-avatar-img';
         avatar.appendChild(img);

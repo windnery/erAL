@@ -3,6 +3,7 @@ import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
 import { showCharacterInfo, hideCharacterInfo } from './ui/chara_info.js';
+import { openSkinShop } from './ui/skin_shop.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
@@ -93,7 +94,9 @@ function showCharaInfo(npcId) {
 
 function showFullscreenPortrait(npc) {
     const el = document.getElementById('fullscreen_portrait');
-    el.innerHTML = `<img src="assets/portraits/${npc.name}.webp" alt="${npc.name}">`;
+    // 优先用后端下发的当前穿戴皮肤立绘；无则按约定拼接默认皮肤
+    const portraitPath = npc.portrait || `assets/portraits/${npc.name}/${npc.id}_default.webp`;
+    el.innerHTML = `<img src="${portraitPath}" alt="${npc.name}">`;
     document.getElementById('game_screen').style.display = 'none';
     el.style.display = 'flex';
 }
@@ -129,7 +132,7 @@ async function refresh() {
     if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop };
     renderStatusBar(state.location, state.time, state.player);
 
     const menu_screen = document.getElementById('menu_screen');
@@ -209,6 +212,12 @@ document.getElementById('fullscreen_portrait').addEventListener('click', hideFul
 
 // 全屏角色信息点击关闭
 document.getElementById('fullscreen_charinfo').addEventListener('click', hideCharacterInfo);
+
+// 皮肤立绘点击关闭（回到商店）
+document.getElementById('skin_shop_portrait').addEventListener('click', function () {
+    this.style.display = 'none';
+    this.innerHTML = '';
+});
 
 // 绑定新游戏和继续游戏按钮的点击事件
 document.getElementById('new_game_btn').addEventListener('click', new_game);
