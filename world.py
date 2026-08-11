@@ -1,4 +1,4 @@
-from config.palam_lv import PALAM_LV
+from config.palam_config import PALAM_LV
 from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc

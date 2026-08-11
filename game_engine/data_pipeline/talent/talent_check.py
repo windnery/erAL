@@ -1,7 +1,7 @@
 from __future__ import  annotations
 from typing import TYPE_CHECKING
 from game_engine.models.shipgirl import ShipGirl
-from config.talent_lv import RELATIONSHIP
+from config.talent_config import RELATIONSHIP
 
 if TYPE_CHECKING:
     from world import World

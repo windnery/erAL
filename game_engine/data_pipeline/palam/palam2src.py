@@ -1,5 +1,5 @@
 # 修正系数
-from config.palam2src_weight import PALAM_SRC_WEIGHTS
+from config.palam_config import PALAM2SRC_WEIGHTS
 
 K_ACCEL = 0.3
 
@@ -11,7 +11,7 @@ def palam2src(palam_lv: dict[str, int], source: dict[str, int | float]) -> dict[
             continue
         modify = lv * (1 + K_ACCEL * (lv - 1) / 2)
         # 每个 palam 按权重表修正对应 source
-        for src_key, coef in PALAM_SRC_WEIGHTS.get(palam_key, {}).items():
+        for src_key, coef in PALAM2SRC_WEIGHTS.get(palam_key, {}).items():
             if not source.get(src_key, 0):
                 continue
             source[src_key] += int(coef * modify)

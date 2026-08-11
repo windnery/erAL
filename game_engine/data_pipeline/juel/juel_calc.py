@@ -1,5 +1,5 @@
 from game_engine.models.character import Character
-from config.juel import JUEL_GET, JUEL_SET
+from config.juel_config import JUEL_GET, JUEL_SET
 
 
 def juel_calc(npc: Character):

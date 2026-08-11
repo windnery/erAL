@@ -2,7 +2,7 @@ from __future__ import annotations
 from random import randint, choice
 from typing import TYPE_CHECKING, Any
 
-from config.time import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
+from config.time_config import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
 from data.data_loader import load_shipgirls
 from game_engine.commands.interact.end_date import end_date
 from game_engine.managers.MapManager import MapManager

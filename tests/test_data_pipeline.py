@@ -9,8 +9,8 @@
 """
 import pytest
 
-from config.juel import get_juel_demand
-from config.palam_lv import PALAM_LV
+from config.juel_config import get_juel_demand
+from config.palam_config import PALAM_LV
 from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
 
 
@@ -158,7 +158,7 @@ class TestJuel2Abl:
         """
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
-        from config.abl_lv import JUEL2ABL_MAX_LV
+        from config.abl_config import JUEL2ABL_MAX_LV
         z23.talent = {}  # 排除 talent 对 demand 的干扰
         for k in z23.abl:
             if k != 'obedience_abl':
@@ -207,7 +207,7 @@ class TestJuel2Abl:
         """
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
-        from config.abl_lv import JUEL2ABL_MAX_LV
+        from config.abl_config import JUEL2ABL_MAX_LV
         z23.talent = {}
         # 除 obedience 外全满级，隔离跨 abl 扣减干扰
         for k in z23.abl:

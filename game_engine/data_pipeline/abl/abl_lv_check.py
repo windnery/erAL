@@ -1,5 +1,5 @@
-from config.juel import get_juel_demand
-from config.abl_lv import EXP2ABL, ABL_LV, JUEL2ABL_MAX_LV, EXP2ABL_MAX_LV
+from config.juel_config import get_juel_demand
+from config.abl_config import EXP2ABL, ABL_LV, JUEL2ABL_MAX_LV, EXP2ABL_MAX_LV
 from game_engine.models.character import Character
 
 

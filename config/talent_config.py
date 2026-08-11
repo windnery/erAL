@@ -9,3 +9,22 @@ TALENT2SRC_SET = {
     'oral_fan', 'c_sensitivity', 'v_sensitivity', 'a_sensitivity', 
     'b_sensitivity', 'm_sensitivity', 'bra_size', 'hip_size',
 }
+
+RELATIONSHIP = {
+    # 陷落阶段门槛
+    '1': {
+        'favor': 800,
+        'trust': 150,
+        'intimacy_abl': 4
+    },
+    '2': {
+        'favor': 1500,
+        'trust': 300,
+        'intimacy_abl': 6
+    },
+    '3': {
+        'favor': 2500,
+        'trust': 500,
+        'intimacy_abl': 8
+    }
+}

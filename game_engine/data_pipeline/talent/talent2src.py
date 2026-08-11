@@ -1,5 +1,5 @@
 from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
-from config.talent2src_set import TALENT2SRC_SET
+from config.talent_config import TALENT2SRC_SET
 from game_engine.models.character import Character
 
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from config.palam_lv import PALAM_LV
+from config.palam_config import PALAM_LV
 from config.attr_defs import ATTR_DEFS
 
 

@@ -1,5 +1,5 @@
 # 修正系数
-from config.abl2src_weight import ABL_SRC_WEIGHTS
+from config.abl_config import ABL2SRC_WEIGHTS
 
 K_ACCEL = 0.5
 
@@ -9,7 +9,7 @@ def abl2src(abl: dict[str, int], source: dict[str, int]) -> dict[str, int]:
         if lv <= 0: continue
         modify = lv * (1 + K_ACCEL * (lv - 1) / 2)
         # 每个 abl 只修正自己语义对应的 source
-        for src_key, coef in ABL_SRC_WEIGHTS[abl_key].items():
+        for src_key, coef in ABL2SRC_WEIGHTS[abl_key].items():
             if source.get(src_key, 0):
                 source[src_key] += int(coef * modify)
                 # 避免 source 值小于 0
