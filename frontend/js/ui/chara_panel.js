@@ -64,6 +64,35 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagD
     appendBar(barRow, '气力', base.energy, base.max_energy, 'chara-bar-fill-ene');
     el.appendChild(barRow);
 
+    // 情绪（粉色爱心）/ 理性（黄色星星）同一行，位于体力气力条与 palam 区之间
+    // 情绪：每 200 一颗爱心，最多 5 颗；低于 200 不显示但固定占位 5 颗的空位
+    // 理性：5 颗黄星，每少 200 少一颗（ceil 语义：900→5 颗），到 0 什么都不显示，同样固定占位
+    const emoRatRow = document.createElement('div');
+    emoRatRow.className = 'chara-emo-rat-row';
+
+    const emoLabel = document.createElement('span');
+    emoLabel.className = 'chara-emo-rat-label';
+    emoLabel.textContent = '情绪';
+    emoRatRow.appendChild(emoLabel);
+
+    const emoHearts = document.createElement('span');
+    emoHearts.className = 'chara-hearts';
+    emoHearts.textContent = '❤'.repeat(Math.max(0, Math.min(5, Math.floor((base.emotion ?? 0) / 200))));
+    emoRatRow.appendChild(emoHearts);
+
+    const ratLabel = document.createElement('span');
+    ratLabel.className = 'chara-emo-rat-label';
+    ratLabel.textContent = '理性';
+    emoRatRow.appendChild(ratLabel);
+
+    const ratStars = document.createElement('span');
+    ratStars.className = 'chara-stars';
+    const ratCount = Math.max(0, Math.min(5, Math.ceil((base.rationality ?? 1000) / 200)));
+    ratStars.textContent = '★'.repeat(ratCount);
+    emoRatRow.appendChild(ratStars);
+
+    el.appendChild(emoRatRow);
+
     // Palam 面板：每行5个，格式 [名称LvN ████░░░░ 数值]
     if (npc.palam) {
         const keys = Object.keys(npc.palam);

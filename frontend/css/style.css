@@ -206,6 +206,40 @@ button {
     background: #6f6;
 }
 
+/* 情绪/理性展示行：固定占位 5 颗，不足留空 */
+.chara-emo-rat-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+    min-height: 20px;
+}
+
+.chara-emo-rat-label {
+    color: #fff;
+}
+
+/* 爱心：粉色，固定占位 5 颗宽度（不足部分留空，位置不塌） */
+.chara-hearts {
+    display: inline-block;
+    min-width: 5em;          /* 5 颗爱心横向占位 */
+    color: #ff6fae;          /* 粉色 */
+    letter-spacing: 2px;
+    font-size: 14px;
+    line-height: 1;
+    margin-right: 12px;
+}
+
+/* 星星：黄色，固定占位 5 颗宽度 */
+.chara-stars {
+    display: inline-block;
+    min-width: 5em;
+    color: #ffd700;          /* 金色/黄色 */
+    letter-spacing: 2px;
+    font-size: 14px;
+    line-height: 1;
+}
+
 #Act_COM,
 #Ex_COM {
     min-height: 24px;
