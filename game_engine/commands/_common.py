@@ -1,3 +1,4 @@
+from config.base_config import MAX_RATIONALITY
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
@@ -146,6 +147,10 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     else:
         attitude += 100
         mes = add_attitude_mes(mes, '信赖(100)')
+    # 情绪&理性
+    temp = npc.get_emotion() // 25 + (MAX_RATIONALITY - npc.get_rationality()) // 25
+    attitude += temp
+    mes = add_attitude_mes(mes, f'情绪&理性({temp})')
     # 陷落阶段
     temp = npc.get_talent_value("relationship") * 50
     attitude += temp
@@ -217,13 +222,13 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
         attitude -= 20
         mes = add_attitude_mes(mes, '阴郁的(-20)')
     # 难以逾越的底线
-    if npc.has_talent("impassable_line") and npc.exp["love_exp"] == 0:
+    if npc.has_talent("impassable_line") and impassable_line > 0:
         attitude -= impassable_line
         mes = add_attitude_mes(mes, f'难以逾越的底线({-impassable_line})')
     # 不在意目光
     if npc.has_talent("not_minding_the_gaze"):
         attitude += 10
-        mes = add_attitude_mes(mes, '不在乎目光(10)')
+        mes = add_attitude_mes(mes, '不在意目光(10)')
     # 自己爱解放/压抑
     temp = npc.get_talent_value("self_love") * 20
     attitude += temp
@@ -235,15 +240,16 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     # 羞耻心(-1不知羞耻 1害羞)
     temp = -npc.get_talent_value("shame") * 2
     attitude += temp
-    mes = add_attitude_mes(mes, f'{npc.get_talent_name("sense_of_shame")}{temp}')
+    mes = add_attitude_mes(mes, f'{npc.get_talent_name("sense_of_shame")}({temp})')
     # 献身的
     if npc.has_talent("devoted"):
         attitude += 30
         mes = add_attitude_mes(mes, f'{npc.get_talent_name("devoted")}(+30)')
     # 玩家魅力
-    temp = player.get_talent_value("charm") * 20
-    attitude += temp
-    mes = add_attitude_mes(mes, f"玩家魅力({temp})")
+    if player.get_talent_value("charm") != 0:
+        temp = player.get_talent_value("charm") * 20
+        attitude += temp
+        mes = add_attitude_mes(mes, f"玩家魅力({temp})")
     # TODO: 情绪/理性
     # TODO: 刻印
     # TODO: cflag
