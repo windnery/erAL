@@ -131,6 +131,10 @@ class NpcManager:
                 self.set_loc(sg.id, player.location['region'], player.location['node'])
                 continue
 
+            # 情绪&理性自然变化
+            sg.emotion_natural_change(elapsed_minutes)
+            sg.rationality_natural_change(elapsed_minutes)
+
             # 自由行动：根据推进时长影响移动概率
             # 基础概率：移动节点15%，离开区域5%，留在原地80%
             # 每推进1分钟，移动节点概率+1%（离开区域概率不变）

@@ -134,6 +134,9 @@ class World:
         # 检查talent
         for npc in self.npc_manager.get_all_npcs():
             pages.extend(talent_check(self, npc))
+            # 在这里重置每个舰娘的情绪和理性 避免额外一次全遍历
+            npc.reset_emotion()
+            npc.reset_rationality()
 
         # 生成新的一天的工作量
         self.work_manager.set_works()

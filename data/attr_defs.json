@@ -3,7 +3,9 @@
         "max_stamina": {"name": "最大体力", "default": 2000},
         "max_energy": {"name": "最大精力", "default": 2000},
         "stamina": {"name": "体力", "default": 2000},
-        "energy": {"name": "精力", "default": 2000}
+        "energy": {"name": "精力", "default": 2000},
+        "emotion": {"name": "情绪", "default": 0},
+        "rationality": {"name": "理性", "default": 1000}
     },
     
     "favor": {"name": "好感度", "default": 0},

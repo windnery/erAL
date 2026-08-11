@@ -1,6 +1,8 @@
-from config.source_kind import ALL_SOURCE_KEYS
+from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
+from game_engine.data_pipeline.palam.palam_calc import palam_calc
+from game_engine.data_pipeline.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
@@ -11,6 +13,20 @@ def new_source(base: dict[str, int]):
     s = {k: 0 for k in ALL_SOURCE_KEYS}
     if base: s.update(base)
     return s
+
+def source_proc(source: dict[str, int], player: Player, npc: ShipGirl, ctx: CommandContext):
+    """source的统一转换过程"""
+    # source->palam
+    mes_source, mes_target = palam_calc(source, player, npc)
+    for mes in mes_source:
+        ctx.say(mes)
+    for mes in mes_target:
+        ctx.say(mes)
+    # 更新palam等级
+    player.update_palam_level()
+    npc.update_palam_level()
+    # source->情绪/理性
+    emotion_rationality_calc(source, npc)
 
 
 def low_intimacy2favor(intimacy_abl: int) -> int:
