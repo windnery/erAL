@@ -1,4 +1,4 @@
-from config.source_kind import POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 
 ABL_SRC_WEIGHTS = {
     'c_sen_abl': {

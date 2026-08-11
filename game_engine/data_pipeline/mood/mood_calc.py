@@ -1,6 +1,6 @@
 from random import random
 
-from config.source_kind import POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 from game_engine.models.character import Character
 
 

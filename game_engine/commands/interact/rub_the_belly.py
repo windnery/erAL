@@ -2,7 +2,7 @@
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, global_can, favor_trust_proc
+from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -85,15 +85,8 @@ def rub_the_belly(world: World, option: str):
 
     # TODO: source->mood
 
-    # source->palam
-    mes_source, mes_target = palam_calc(source, world.player, npc)
-    for mes in mes_source:
-        ctx.say(mes)
-    for mes in mes_target:
-        ctx.say(mes)
-    # 更新palam等级
-    world.player.update_palam_level()
-    npc.update_palam_level()
+    # source转换过程统一处理
+    source_proc(source, world.player, npc, ctx)
 
     # 体力和气力消耗
     n_stamina_cost = 5

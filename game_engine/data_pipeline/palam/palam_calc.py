@@ -4,7 +4,7 @@ from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
 
 def palam_calc(src: dict[str, int], source: Character, target: Character):
-    '''将source转成palam'''
+    """将source转成palam"""
     mes_source: list[str] = [f'{source.name}']
     mes_target: list[str] = [f'{target.name}']
 
@@ -48,8 +48,8 @@ def palam_calc(src: dict[str, int], source: Character, target: Character):
 
 
 def love_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理love_source
-        return: 恭顺 欲情'''
+    """处理love_source
+        return: 恭顺 欲情"""
     # TODO: 强行
     love_source = source.get('love_source', 0)
     # TODO: 对方主导
@@ -63,8 +63,8 @@ def love_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dic
     }
 
 def sex_act_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理sex_act_source
-        return: 习得'''
+    """处理sex_act_source
+        return: 习得"""
     sex_act_source = source.get('sex_act_source', 0)
     # TODO: 对方主导
     # abl: 技巧
@@ -87,8 +87,8 @@ def sex_act_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, 
     }
 
 def achievement_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理achievement_source
-        return: 恭顺'''
+    """处理achievement_source
+        return: 恭顺"""
     achievement_source = source.get('achievement_source', 0)
     # TODO: 对方主导
     # abl: 顺从
@@ -100,8 +100,8 @@ def achievement_source(source: dict[str, int], target_chara: ShipGirl) -> dict[s
     }
 
 def pain_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理pain_source
-        return: 苦痛 欲情 恐惧'''
+    """处理pain_source
+        return: 苦痛 欲情 恐惧"""
     pain_source2pain = source.get('pain_source', 0)
     pain_source2lust = source.get('pain_source', 0)
     pain_source2fear = source.get('pain_source', 0) // 20
@@ -128,8 +128,8 @@ def pain_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dic
         'fear_palam': {'chara': 'target', 'value': int(pain_source2fear)}
     }
 def fear_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理fear_source
-        return: 恐惧'''
+    """处理fear_source
+        return: 恐惧"""
     fear_source = source.get('fear_source', 0)
     # TODO: 对方主导
     # abl: 顺从
@@ -139,8 +139,8 @@ def fear_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dic
     }
 
 def lubrication_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理lubrication_source
-        return: 润滑'''
+    """处理lubrication_source
+        return: 润滑"""
     lubrication_source = source.get('lubrication_source', 0)
     # TODO: 体型
     return {
@@ -148,8 +148,8 @@ def lubrication_source(source: dict[str, int], target_chara: ShipGirl) -> dict[s
     }
 
 def lust_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理lust_source
-        return: 欲情'''
+    """处理lust_source
+        return: 欲情"""
     lust_source = source.get('lust_source', 0)
     # TODO: 发情
     # abl: 欲望
@@ -159,8 +159,8 @@ def lust_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dic
     }
 
 def obedience_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理obedience_source
-        return: 恭顺'''
+    """处理obedience_source
+        return: 恭顺"""
     obedience_source = source.get('obedience_source', 0)
     # TODO: 对方主导
     # abl: 顺从
@@ -181,8 +181,8 @@ def obedience_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str
     }
 
 def exposure_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理exposure_source
-        return: 欲情 羞耻'''
+    """处理exposure_source
+        return: 欲情 羞耻"""
     exposure_source_1 = source.get('exposure_source', 0)
     exposure_source_2 = source.get('exposure_source', 0)
     # TODO: 害羞和不知羞耻
@@ -219,8 +219,8 @@ def exposure_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str,
         'shame_palam': {'chara': 'target', 'value': int(exposure_source_2)}
     }
 def submission_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理submission_source
-        return: 屈服'''
+    """处理submission_source
+        return: 屈服"""
     submission_source = source.get('submission_source', 0)
     # TODO: 对方主导
     # abl: 顺从
@@ -242,8 +242,8 @@ def submission_source(source: dict[str, int], target_chara: ShipGirl) -> dict[st
         'submission_palam': {'chara': 'target', 'value': int(submission_source)}
     }
 def happiness_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理happiness_source
-        return: target好意 player欲情'''
+    """处理happiness_source
+        return: target好意 player欲情"""
     happiness_source = source.get('happiness_source', 0)
     # TODO: 对方主导
     # TODO: 陷落素质
@@ -285,8 +285,8 @@ def happiness_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str
     }
 
 def conquest_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理conquest_source
-        return: target优越 TODO: target欲情 player屈服 target羞耻'''
+    """处理conquest_source
+        return: target优越 TODO: target欲情 player屈服 target羞耻"""
     conquest_source = source.get('conquest_source', 0)
     # TODO: 地位分歧 高位和低位
     # TODO: 对方主导
@@ -304,8 +304,8 @@ def conquest_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str,
     }
 
 def passivity_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理passivity_source
-        return: target好意 TODO: target屈服 player恭顺 target恭顺'''
+    """处理passivity_source
+        return: target好意 TODO: target屈服 player恭顺 target恭顺"""
     passivity_source = source.get('passivity_source', 0)
     # TODO: 地位分歧 高位和低位
     # TODO: 对方主导
@@ -318,8 +318,8 @@ def passivity_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str
     }
 
 def unclean_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理unclean_source
-        return: 不快'''
+    """处理unclean_source
+        return: 不快"""
     unclean_source = source.get('unclean_source', 0)
     # abl: 顺从
     match target_chara.abl['obedience_abl']:
@@ -336,8 +336,8 @@ def unclean_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, 
     }
 
 def depression_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理depression_source
-        return: 抑郁'''
+    """处理depression_source
+        return: 抑郁"""
     depression_source = source.get('depression_source', 0)
     # 心情
     depression_source *= (10 + 2 * get_mood_revision(target_chara.get_mood())) / 10
@@ -366,8 +366,8 @@ def depression_source(source: dict[str, int], target_chara: ShipGirl) -> dict[st
     }
 
 def escape_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理escape_source
-        return: 反感'''
+    """处理escape_source
+        return: 反感"""
     escape_source = source.get('escape_source', 0)
     # TODO: 性的兴趣
     # abl: 顺从
@@ -395,8 +395,8 @@ def escape_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, d
     }
 
 def disgust_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, dict[str, str|int]]:
-    '''处理disgust_source
-        return: 反感'''
+    """处理disgust_source
+        return: 反感"""
     disgust_source = source.get('disgust_source', 0)
     # 心情
     disgust_source *= (10 - 3 * get_mood_revision(target_chara.get_mood())) / 10
@@ -439,7 +439,7 @@ def disgust_source(source: dict[str, int], target_chara: ShipGirl) -> dict[str, 
 
 
 def abl_revision(source: int|float, abl: int, type: bool):
-    '''处理abl对source的修正'''
+    """处理abl对source的修正"""
     if type:
         match abl:
             case 0:
@@ -492,7 +492,7 @@ def abl_revision(source: int|float, abl: int, type: bool):
                 return source * 5.0
             
 def get_mood_revision(mood: Mood):
-    '''处理mood对source的修正'''
+    """处理mood对source的修正"""
     match mood:
         case Mood.ANGRY:
             return -1.5

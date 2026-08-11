@@ -1,6 +1,6 @@
 from random import uniform
 
-from config.source_kind import POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 from game_engine.data_pipeline.favor.favor2src import favor2source
 from game_engine.data_pipeline.mood.mood2src import mood2source
 from game_engine.data_pipeline.palam.palam2src import palam2src

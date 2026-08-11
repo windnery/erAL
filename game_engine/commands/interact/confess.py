@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
-from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes
+from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
+    source_proc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 
@@ -103,18 +104,14 @@ def confess(world: World, option: str):
         if v != 0:
             source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
     ctx.say(" ".join(source_list))
-    # source->palam
-    mes_source, mes_target = palam_calc(source, world.player, npc)
-    for mes in mes_source:
-        ctx.say(mes)
-    for mes in mes_target:
-        ctx.say(mes)
-    # 更新palam等级
-    world.player.update_palam_level()
-    npc.update_palam_level()
+
+    # source转换过程统一处理
+    source_proc(source, world.player, npc, ctx)
+
     # 体力和气力消耗
     energy_cost = 100
     ctx.consume(energy=energy_cost, chara=world.player)
+
     # 好感和信赖
     favor_trust_proc(source, npc, ctx)
 

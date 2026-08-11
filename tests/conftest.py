@@ -50,5 +50,5 @@ def z23_nearby(world):
 @pytest.fixture
 def source_dict():
     """构造一个全 0 的 source 字典"""
-    from config.source_kind import ALL_SOURCE_KEYS
+    from config.source_config import ALL_SOURCE_KEYS
     return {k: 0 for k in ALL_SOURCE_KEYS}

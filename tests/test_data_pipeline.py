@@ -11,7 +11,7 @@ import pytest
 
 from config.juel import get_juel_demand
 from config.palam_lv import PALAM_LV
-from config.source_kind import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
 
 
 # ============================================================
