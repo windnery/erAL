@@ -23,35 +23,35 @@ class TestPalam2Src:
         """palam 等级全 0 时 source 不变"""
         from game_engine.data_pipeline.palam.palam2src import palam2src
         src = dict(source_dict)
-        result = palam2src({k: 0 for k in source_dict}, src)
-        assert result == src
+        palam2src({k: 0 for k in source_dict}, src)
+        assert src == dict(source_dict)
 
     def test_c_pleasure_adds_to_c_pleasure_source(self, source_dict):
         """c_pleasure_palam 等级 1 时给 c_pleasure_source 加权重"""
         from game_engine.data_pipeline.palam.palam2src import palam2src
         src = dict(source_dict)
         src['c_pleasure_source'] = 100
-        result = palam2src({'c_pleasure_palam': 1}, src)
+        palam2src({'c_pleasure_palam': 1}, src)
         # modify = 1 * (1 + 0.3*0/2) = 1.0, coef=4 → +4
-        assert result['c_pleasure_source'] == 104
+        assert src['c_pleasure_source'] == 104
 
     def test_negative_source_not_clamped_to_zero_for_pure_zero(self, source_dict):
         """source 原值 0 时不添加（continue 语义），保持 0"""
         from game_engine.data_pipeline.palam.palam2src import palam2src
         src = dict(source_dict)
-        result = palam2src({'pain_palam': 3}, src)
+        palam2src({'pain_palam': 3}, src)
         # pain_palam 有 -3 权重到 c_pleasure_source，但原值 0 应保持 0
-        assert result['c_pleasure_source'] == 0
+        assert src['c_pleasure_source'] == 0
 
     def test_lv_curve_grows_faster_than_linear(self, source_dict):
         """等级越高，修正量超线性增长（K_ACCEL 滚雪球）"""
         from game_engine.data_pipeline.palam.palam2src import palam2src
         src1 = dict(source_dict); src1['c_pleasure_source'] = 1000
         src2 = dict(source_dict); src2['c_pleasure_source'] = 1000
-        r1 = palam2src({'c_pleasure_palam': 2}, src1)
-        r2 = palam2src({'c_pleasure_palam': 4}, src2)
-        d1 = r1['c_pleasure_source'] - 1000
-        d2 = r2['c_pleasure_source'] - 1000
+        palam2src({'c_pleasure_palam': 2}, src1)
+        palam2src({'c_pleasure_palam': 4}, src2)
+        d1 = src1['c_pleasure_source'] - 1000
+        d2 = src2['c_pleasure_source'] - 1000
         assert d2 > 2 * d1  # 4级增量 > 2倍 2级增量
 
 
@@ -277,7 +277,7 @@ class TestPalam2Favor:
     def test_kindness_plus_obedience_bonus(self, z23):
         from game_engine.data_pipeline.palam.palam2favor import palam2favor
         # 好意 6 级 + 恭顺 0 级 = 6 → 分段 <9 → +2（代码定义 6 落入 +2 段）
-        pl = {'kindness_palam': 6, 'obedience_palam': 0,
+        pl = {'kindness_palam': 6, 'obedience_palam': 0, 'lust_palam': 0,
               'disgust_palam': 0, 'unhappiness_palam': 0, 'depression_palam': 0,
               'pain_palam': 0, 'fear_palam': 0}
         assert palam2favor(pl) == 2
@@ -285,7 +285,7 @@ class TestPalam2Favor:
     def test_negative_palams_penalize(self, z23):
         from game_engine.data_pipeline.palam.palam2favor import palam2favor
         # 反感 5 + 不快 2 + 抑郁 1 + 苦痛 0 + 恐怖 0 = 8 → -2
-        pl = {'kindness_palam': 0, 'obedience_palam': 0,
+        pl = {'kindness_palam': 0, 'obedience_palam': 0, 'lust_palam': 0,
               'disgust_palam': 5, 'unhappiness_palam': 2, 'depression_palam': 1,
               'pain_palam': 0, 'fear_palam': 0}
         assert palam2favor(pl) == -2
@@ -347,8 +347,8 @@ class TestTalent2Src:
         src = dict(source_dict)
         src['escape_source'] = 100
         z23.talent = {'virgin': '1'}
-        result = talent2src(z23, src)
-        assert result['escape_source'] == 120
+        talent2src(z23, src)
+        assert src['escape_source'] == 120
 
     def test_relationship0_penalizes_positive(self, z23, source_dict):
         from game_engine.data_pipeline.talent.talent2src import talent2src
@@ -356,9 +356,9 @@ class TestTalent2Src:
         for k in POSITIVE_SRC:
             src[k] = 100
         z23.talent = {'relationship': '0'}
-        result = talent2src(z23, src)
+        talent2src(z23, src)
         for k in POSITIVE_SRC:
-            assert result[k] == 80  # 陌生 ×0.8
+            assert src[k] == 80  # 陌生 ×0.8
 
     def test_tsundere_low_intimacy_penalizes_obedience(self, z23, source_dict):
         from game_engine.data_pipeline.talent.talent2src import talent2src
@@ -366,8 +366,8 @@ class TestTalent2Src:
         src['obedience_source'] = 100
         z23.talent = {'tsundere': '1'}
         z23.abl['intimacy_abl'] = 2  # ≤4
-        result = talent2src(z23, src)
-        assert result['obedience_source'] == 70
+        talent2src(z23, src)
+        assert src['obedience_source'] == 70
 
 
 class TestFavor2Source:
@@ -387,29 +387,26 @@ class TestFavor2Source:
 # ============================================================
 
 class TestCommonSrcModify:
-    def test_non_dating_no_extra_multiplier(self, world, z23_nearby, source_dict, monkeypatch):
-        """非约会状态无 1.2 倍加成（monkeypatch 消除 uniform 随机）"""
+    def test_non_dating_no_extra_multiplier(self, world, z23_nearby, source_dict):
+        """非约会状态无 1.2 倍加成（uniform 已移除，无随机）"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
-        monkeypatch.setattr('game_engine.data_pipeline.common_src_modify.uniform', lambda a, b: 1.0)
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
         z23_nearby.base['mood'] = 0
         result = common_src_modify(src, z23_nearby)
-        # 1000 * 1.3(favor300) * 1.0(mood) * 0.8(relationship0陌生) * 1.0 = 1040
+        # 1000 * 1.3(favor300) * 0.8(relationship0陌生) * 1.0(emo/rat默认) = 1040
         assert result['love_source'] == 1040
 
-    def test_dating_state_modifies_source(self, world, z23_nearby, source_dict, monkeypatch):
-        """约会状态下正向 source 放大 1.2 倍（monkeypatch 消除随机）"""
+    def test_dating_state_modifies_source(self, world, z23_nearby, source_dict):
+        """约会状态下正向 source 放大 1.2 倍（uniform 已移除，无随机）"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
-        monkeypatch.setattr('game_engine.data_pipeline.common_src_modify.uniform', lambda a, b: 1.0)
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
-        z23_nearby.base['mood'] = 0
         z23_nearby.cflag['dating'] = True
         result = common_src_modify(src, z23_nearby)
-        # 1000 * 1.3 * 1.0 * 0.8(relationship0) * 1.2(dating) = 1248
+        # 1000 * 1.3 * 0.8(relationship0) * 1.2(dating) * 1.0(emo/rat默认) = 1248
         assert result['love_source'] == 1248
 
 
