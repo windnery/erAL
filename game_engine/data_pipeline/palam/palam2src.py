@@ -3,8 +3,9 @@ from config.palam2src_weight import PALAM_SRC_WEIGHTS
 
 K_ACCEL = 0.3
 
-def palam2src(palam_lv: dict[str, int], source: dict[str, int]) -> dict[str, int]:
-    '''palam_lv对source的修正'''
+
+def palam2src(palam_lv: dict[str, int], source: dict[str, int | float]) -> dict[str, int]:
+    """palam_lv对source的修正"""
     for palam_key, lv in palam_lv.items():
         if lv <= 0:
             continue
@@ -16,4 +17,3 @@ def palam2src(palam_lv: dict[str, int], source: dict[str, int]) -> dict[str, int
             source[src_key] += int(coef * modify)
             # 避免 source 值小于 0
             source[src_key] = max(source[src_key], 0)
-    return source

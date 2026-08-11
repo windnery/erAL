@@ -2,33 +2,34 @@ from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
 from config.talent2src_set import TALENT2SRC_SET
 from game_engine.models.character import Character
 
-def talent2src(chara: Character, source: dict[str, int]):
+
+def talent2src(chara: Character, source: dict[str, int | float]):
     """天赋对source的修正"""
     for k, v in chara.talent.items():
         if k in TALENT2SRC_SET:
             func_name = f'_{k}2src'
             func = globals().get(func_name)
             if func:
-                if k in ['relationship', 'courage', 'attitude', 'response', 'self_respect', 'sexual_interest', 'sense_of_shame', 'pain_tolerance', 'wetness', 'foul_tolerance', 'pleasure_response', 'c_sensitivity', 'v_sensitivity', 'a_sensitivity', 'b_sensitivity', 'm_sensitivity', 'bra_size', 'hip_size']:
-                    source = func(v, source)
+                if k in ['relationship', 'courage', 'attitude', 'response', 'self_respect', 'sexual_interest',
+                         'sense_of_shame', 'pain_tolerance', 'wetness', 'foul_tolerance', 'pleasure_response',
+                         'c_sensitivity', 'v_sensitivity', 'a_sensitivity', 'b_sensitivity', 'm_sensitivity',
+                         'bra_size', 'hip_size']:
+                    func(v, source)
                 elif k == 'tsundere':
                     intimacy_abl = chara.abl.get('intimacy_abl', 0)
-                    source = func(source, intimacy_abl)
+                    func(source, intimacy_abl)
                 else:
-                    source = func(source)
-
-    return source
+                    func(source)
 
 
-def _virgin2src(source: dict[str, int|float]):
+def _virgin2src(source: dict[str, int | float]):
     """处女对source的修正"""
     source['sex_act_source'] *= 0.8
     source['exposure_source'] *= 0.8
     source['escape_source'] *= 1.2
 
-    return source
 
-def _relationship2src(flag: str, source: dict[str, int|float]):
+def _relationship2src(flag: str, source: dict[str, int | float]):
     """陷落阶段对source的修正"""
     if flag == '0':
         # 陌生
@@ -61,18 +62,16 @@ def _relationship2src(flag: str, source: dict[str, int|float]):
         for n in NEGATIVE_SRC:
             source[n] *= 0.1
 
-    return source
 
-def _lover2src(source: dict[str, int|float]):
+def _lover2src(source: dict[str, int | float]):
     """恋人对source的修正"""
     for p in POSITIVE_SRC:
         source[p] *= 1.5
     for n in NEGATIVE_SRC:
         source[n] *= 0.7
 
-    return source
 
-def _courage2src(flag: str, source: dict[str, int|float]):
+def _courage2src(flag: str, source: dict[str, int | float]):
     """胆量对source的修正"""
     if flag == '-1':
         # 胆怯
@@ -93,9 +92,8 @@ def _courage2src(flag: str, source: dict[str, int|float]):
         source['conquest_source'] *= 0.8
         source['passivity_source'] *= 0.8
 
-    return source
 
-def _attitude2src(flag: str, source: dict[str, int|float]):
+def _attitude2src(flag: str, source: dict[str, int | float]):
     """态度对source的修正"""
     if flag == '-1':
         # 坦率
@@ -113,9 +111,8 @@ def _attitude2src(flag: str, source: dict[str, int|float]):
         for n in NEGATIVE_SRC:
             source[n] *= 1.1
 
-    return source
 
-def _response2src(flag: str, source: dict[str, int|float]):
+def _response2src(flag: str, source: dict[str, int | float]):
     """应答对source的修正"""
     if flag == '-1':
         # 老实
@@ -132,9 +129,8 @@ def _response2src(flag: str, source: dict[str, int|float]):
         source['achievement_source'] *= 0.8
         source['disgust_source'] *= 1.2
 
-    return source
 
-def _self_respect2src(flag: str, source: dict[str, int|float]):
+def _self_respect2src(flag: str, source: dict[str, int | float]):
     """自尊心对source的修正"""
     if flag == '-1':
         # 自尊心低
@@ -156,9 +152,8 @@ def _self_respect2src(flag: str, source: dict[str, int|float]):
         source['fear_source'] *= 0.9
         source['escape_source'] *= 0.9
 
-    return source
 
-def _tsundere2src(source: dict[str, int|float], intimacy_abl: int):
+def _tsundere2src(source: dict[str, int | float], intimacy_abl: int):
     """傲娇对source的修正"""
     if intimacy_abl <= 4:
         # 亲密低
@@ -173,31 +168,27 @@ def _tsundere2src(source: dict[str, int|float], intimacy_abl: int):
         for n in NEGATIVE_SRC:
             source[n] *= 0.8
 
-    return source
 
-def _self_control2src(source: dict[str, int|float]):
+def _self_control2src(source: dict[str, int | float]):
     """自制力对source的修正"""
     source['exposure_source'] *= 0.8
     source['lust_source'] *= 0.8
     source['depression_source'] *= 0.9
 
-    return source
 
-def _indifference2src(source: dict[str, int|float]):
+def _indifference2src(source: dict[str, int | float]):
     """冷淡对source的修正"""
     for p in POSITIVE_SRC:
         source[p] *= 0.9
 
-    return source
 
-def _emotional_deficiency2src(source: dict[str, int|float]):
+def _emotional_deficiency2src(source: dict[str, int | float]):
     """感情缺乏对source的修正"""
     for k in ALL_SOURCE_KEYS:
         source[k] *= 0.9
 
-    return source
 
-def _sexual_interest2src(flag: str, source: dict[str, int|float]):
+def _sexual_interest2src(flag: str, source: dict[str, int | float]):
     """性的兴趣对source的修正"""
     if flag == '-1':
         # 保守的
@@ -222,9 +213,8 @@ def _sexual_interest2src(flag: str, source: dict[str, int|float]):
         source['m_pleasure_source'] *= 1.2
         source['lubrication_source'] *= 1.2
 
-    return source
 
-def _bright2src(source: dict[str, int|float]):
+def _bright2src(source: dict[str, int | float]):
     """开朗对source的修正"""
     source['happiness_source'] *= 1.2
     source['lust_source'] *= 1.2
@@ -234,9 +224,8 @@ def _bright2src(source: dict[str, int|float]):
     source['depression_source'] *= 0.8
     source['escape_source'] *= 0.9
 
-    return source
 
-def _morose2src(source: dict[str, int|float]):
+def _morose2src(source: dict[str, int | float]):
     """阴郁对source的修正"""
     source['happiness_source'] *= 0.8
     source['lust_source'] *= 0.8
@@ -247,9 +236,8 @@ def _morose2src(source: dict[str, int|float]):
     source['escape_source'] *= 1.1
     source['sex_act_source'] *= 0.9
 
-    return source
 
-def _impassable_line2src(source: dict[str, int|float]):
+def _impassable_line2src(source: dict[str, int | float]):
     """难以逾越的底线对source的修正"""
     # 非处女会移除
     source['sex_act_source'] *= 0.5
@@ -257,16 +245,14 @@ def _impassable_line2src(source: dict[str, int|float]):
     source['lust_source'] *= 0.5
     source['disgust_source'] *= 1.2
 
-    return source
 
-def _not_minding_the_gaze2src(source: dict[str, int|float]):
+def _not_minding_the_gaze2src(source: dict[str, int | float]):
     """不在意他人目光对source的修正"""
     source['exposure_source'] *= 1.5
     source['unclean_source'] *= 0.8
 
-    return source
 
-def _innocent2src(source: dict[str, int|float]):
+def _innocent2src(source: dict[str, int | float]):
     """天真对source的修正"""
     source['sex_act_source'] *= 0.8
     source['lust_source'] *= 0.8
@@ -278,9 +264,8 @@ def _innocent2src(source: dict[str, int|float]):
     for k in NEGATIVE_SRC:
         source[k] *= 1.2
 
-    return source
 
-def _chastity2src(flag: str, source: dict[str, int|float]):
+def _chastity2src(flag: str, source: dict[str, int | float]):
     """贞操对source的修正"""
     if flag == '-1':
         # 不在乎贞操
@@ -295,9 +280,8 @@ def _chastity2src(flag: str, source: dict[str, int|float]):
         source['achievement_source'] *= 0.8
         source['lubrication_source'] *= 0.8
 
-    return source
 
-def _self_love2src(flag: str, source: dict[str, int|float]):
+def _self_love2src(flag: str, source: dict[str, int | float]):
     """自己爱对source的修正"""
     if flag == '-1':
         # 压抑
@@ -328,9 +312,8 @@ def _self_love2src(flag: str, source: dict[str, int|float]):
         source['conquest_source'] *= 0.8
         source['passivity_source'] *= 0.8
 
-    return source
 
-def _resistance2src(source: dict[str, int|float]):
+def _resistance2src(source: dict[str, int | float]):
     """抵抗对source的修正"""
     for k in POSITIVE_SRC:
         source[k] *= 0.9
@@ -339,9 +322,8 @@ def _resistance2src(source: dict[str, int|float]):
     source['disgust_source'] *= 1.1
     source['escape_source'] *= 1.1
 
-    return source
 
-def _sense_of_shame2src(flag: str, source: dict[str, int|float]):
+def _sense_of_shame2src(flag: str, source: dict[str, int | float]):
     """羞耻心对source的修正"""
     if flag == '-1':
         # 不知羞耻
@@ -362,9 +344,8 @@ def _sense_of_shame2src(flag: str, source: dict[str, int|float]):
         source['lust_source'] *= 0.8
         source['passivity_source'] *= 1.2
 
-    return source
 
-def _pain_tolerance2src(flag: str, source: dict[str, int|float]):
+def _pain_tolerance2src(flag: str, source: dict[str, int | float]):
     """痛觉对source的修正"""
     if flag == '-1':
         # 不怕痛
@@ -373,9 +354,8 @@ def _pain_tolerance2src(flag: str, source: dict[str, int|float]):
         # 怕痛
         source['pain_source'] *= 0.7
 
-    return source
 
-def _wetness2src(flag: str, source: dict[str, int|float]):
+def _wetness2src(flag: str, source: dict[str, int | float]):
     """易湿程度对source的修正"""
     if flag == '-1':
         # 不易湿
@@ -384,15 +364,13 @@ def _wetness2src(flag: str, source: dict[str, int|float]):
         # 容易湿
         source['lubrication_source'] *= 1.3
 
-    return source
 
-def _urophilia2src(source: dict[str, int|float]):
+def _urophilia2src(source: dict[str, int | float]):
     """漏尿癖对source的修正"""
     source['lubrication_source'] *= 1.2
 
-    return source
 
-def _foul_tolerance2src(flag: str, source: dict[str, int|float]):
+def _foul_tolerance2src(flag: str, source: dict[str, int | float]):
     """污臭耐性对source的修正"""
     if flag == '-2':
         # 洁癖
@@ -407,9 +385,8 @@ def _foul_tolerance2src(flag: str, source: dict[str, int|float]):
         # 污臭无视
         source['unclean_source'] *= 0.5
 
-    return source
 
-def _devoted2src(source: dict[str, int|float]):
+def _devoted2src(source: dict[str, int | float]):
     """献身的对source的修正"""
     source['obedience_source'] *= 1.2
     source['submission_source'] *= 1.2
@@ -422,9 +399,8 @@ def _devoted2src(source: dict[str, int|float]):
     source['happiness_source'] *= 1.2
     source['escape_source'] *= 0.8
 
-    return source
 
-def _pleasure_response2src(flag: str, source: dict[str, int|float]):
+def _pleasure_response2src(flag: str, source: dict[str, int | float]):
     """快感应答对source的修正"""
     if flag == '-1':
         # 否定快感
@@ -441,34 +417,29 @@ def _pleasure_response2src(flag: str, source: dict[str, int|float]):
         source['b_pleasure_source'] *= 1.2
         source['m_pleasure_source'] *= 1.2
 
-    return source
 
-def _vaginal_fan2src(source: dict[str, int|float]):
+def _vaginal_fan2src(source: dict[str, int | float]):
     """淫壶对source的修正"""
     source['c_pleasure_source'] *= 2.0
     source['v_pleasure_source'] *= 2.0
 
-    return source
 
-def _anal_fan2src(source: dict[str, int|float]):
+def _anal_fan2src(source: dict[str, int | float]):
     """淫尻对source的修正"""
     source['a_pleasure_source'] *= 2.0
 
-    return source
 
-def _breast_fan2src(source: dict[str, int|float]):
+def _breast_fan2src(source: dict[str, int | float]):
     """淫乳对source的修正"""
     source['b_pleasure_source'] *= 2.0
 
-    return source
 
-def _oral_fan2src(source: dict[str, int|float]):
+def _oral_fan2src(source: dict[str, int | float]):
     """淫舌对source的修正"""
     source['m_pleasure_source'] *= 2.0
 
-    return source
 
-def _c_sensitivity2src(flag: str, source: dict[str, int|float]):
+def _c_sensitivity2src(flag: str, source: dict[str, int | float]):
     """C感度对source的修正"""
     if flag == '-1':
         # 钝感
@@ -489,9 +460,8 @@ def _c_sensitivity2src(flag: str, source: dict[str, int|float]):
         # 一触即溃
         source['c_pleasure_source'] *= 3.0
 
-    return source
 
-def _v_sensitivity2src(flag: str, source: dict[str, int|float]):
+def _v_sensitivity2src(flag: str, source: dict[str, int | float]):
     """V感度对source的修正"""
     if flag == '-1':
         # 钝感
@@ -512,9 +482,8 @@ def _v_sensitivity2src(flag: str, source: dict[str, int|float]):
         # 一触即溃
         source['v_pleasure_source'] *= 3.0
 
-    return source
 
-def _a_sensitivity2src(flag: str, source: dict[str, int|float]):
+def _a_sensitivity2src(flag: str, source: dict[str, int | float]):
     """A感度对source的修正"""
     if flag == '-1':
         # 钝感
@@ -535,9 +504,8 @@ def _a_sensitivity2src(flag: str, source: dict[str, int|float]):
         # 一触即溃
         source['a_pleasure_source'] *= 3.0
 
-    return source
 
-def _b_sensitivity2src(flag: str, source: dict[str, int|float]):
+def _b_sensitivity2src(flag: str, source: dict[str, int | float]):
     """B感度对source的修正"""
     if flag == '-1':
         # 钝感
@@ -558,9 +526,8 @@ def _b_sensitivity2src(flag: str, source: dict[str, int|float]):
         # 一触即溃
         source['b_pleasure_source'] *= 3.0
 
-    return source
 
-def _m_sensitivity2src(flag: str, source: dict[str, int|float]):
+def _m_sensitivity2src(flag: str, source: dict[str, int | float]):
     """M感度对source的修正"""
     if flag == '-1':
         # 钝感
@@ -581,9 +548,8 @@ def _m_sensitivity2src(flag: str, source: dict[str, int|float]):
         # 一触即溃
         source['m_pleasure_source'] *= 3.0
 
-    return source
 
-def _bra_size2src(flag: str, source: dict[str, int|float]):
+def _bra_size2src(flag: str, source: dict[str, int | float]):
     """胸围对source的修正"""
     if flag == '-2':
         # 绝壁
@@ -607,9 +573,8 @@ def _bra_size2src(flag: str, source: dict[str, int|float]):
         # 魔乳
         source['b_pleasure_source'] *= 3.0
 
-    return source
 
-def _hip_size2src(flag: str, source: dict[str, int|float]):
+def _hip_size2src(flag: str, source: dict[str, int | float]):
     """臀围对source的修正"""
     if flag == '-2':
         # 纤臀
@@ -629,6 +594,3 @@ def _hip_size2src(flag: str, source: dict[str, int|float]):
     elif flag == '4':
         # 超臀
         source['a_pleasure_source'] *= 2.5
-
-    return source
-

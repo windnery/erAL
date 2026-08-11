@@ -1,21 +1,20 @@
-def palam2favor(palam_lv: dict[str, int]):
-    """palam等级对好感的修正"""
+def palam2trust(palam_lv: dict[str, int]):
+    """palam等级对信赖的修正"""
     bonus = 0
-    
-    # 好意 恭顺 欲情
+
+    # 好意 恭顺
     kindness_lv = palam_lv['kindness_palam']
     obedience_lv = palam_lv['obedience_palam']
-    lust_lv = palam_lv['lust_palam']
-    if kindness_lv + obedience_lv + lust_lv < 3:
+    if kindness_lv + obedience_lv < 3:
         pass
-    elif kindness_lv + obedience_lv + lust_lv < 6:
+    elif kindness_lv + obedience_lv < 6:
         bonus += 1
-    elif kindness_lv + obedience_lv + lust_lv < 9:
+    elif kindness_lv + obedience_lv < 9:
         bonus += 2
-    elif kindness_lv + obedience_lv + lust_lv < 12:
-        bonus += 4
+    elif kindness_lv + obedience_lv < 12:
+        bonus += 3
     else:
-        bonus += 5
+        bonus += 4
 
     # 反感 不快 抑郁 苦痛 恐怖
     disgust_lv = palam_lv['disgust_palam']

@@ -2,7 +2,7 @@ from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
-from game_engine.data_pipeline.emo_rat_calc import emotion_rationality_calc
+from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
