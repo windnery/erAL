@@ -281,6 +281,8 @@ class TestDailyCommands:
 
     def test_work_increases_work_exp(self, world):
         """工作增加经验"""
+        # 需要玩家在工作地点（WORK_LOC）才能通过 can_work
+        world.player.location = {'region': 'office', 'node': 'desk'}
         before = world.player.exp['work_exp']
         mes = world.command_manager.do_cmd('work', None)
         assert world.player.exp['work_exp'] == before + 1

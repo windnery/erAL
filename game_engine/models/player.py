@@ -1,25 +1,27 @@
+from copy import deepcopy
 from dataclasses import dataclass
 
-from config.chara_config import PLAYER_DATA
+from data.data_loader import load_player
 from game_engine.models.character import Character
 
 
 @dataclass
 class Player(Character):
     """玩家类"""
-    id: str = PLAYER_DATA['id']
-    name: str = PLAYER_DATA['name']
+    player_data = load_player()
+    id: str = player_data['id']
+    name: str = player_data['name']
     money: int = 0
 
     def __post_init__(self):
-        self.wake_time = PLAYER_DATA['wake_time']
-        self.location = PLAYER_DATA['location']
-        self.base = PLAYER_DATA['base']
-        self.abl = PLAYER_DATA['abl']
-        self.exp = PLAYER_DATA['exp']
-        self.juel = PLAYER_DATA['juel']
-        self.palam = PLAYER_DATA['palam']
-        self.talent = PLAYER_DATA['talent']
+        self.wake_time = self.player_data['wake_time']
+        self.location = self.player_data['location']
+        self.base = self.player_data['base']
+        self.abl = self.player_data['abl']
+        self.exp = self.player_data['exp']
+        self.juel = self.player_data['juel']
+        self.palam = self.player_data['palam']
+        self.talent = self.player_data['talent']
 
     def get_state(self):
         """返回玩家状态"""

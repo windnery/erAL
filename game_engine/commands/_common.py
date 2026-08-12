@@ -15,19 +15,22 @@ def new_source(base: dict[str, int]):
     if base: s.update(base)
     return s
 
-def source_proc(source: dict[str, int], player: Player, npc: ShipGirl, ctx: CommandContext):
+
+def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext):
     """source的统一转换过程"""
     # source->palam
-    mes_source, mes_target = palam_calc(source, player, npc)
+    mes_source, mes_target = palam_calc(source, actor, target)
     for mes in mes_source:
         ctx.say(mes)
     for mes in mes_target:
         ctx.say(mes)
     # 更新palam等级
-    player.update_palam_level()
-    npc.update_palam_level()
+    actor.update_palam_level()
+    target.update_palam_level()
     # source->情绪/理性
-    emotion_rationality_calc(source, npc)
+    if isinstance(target, ShipGirl):
+        # 只有舰娘有情绪/理性
+        emotion_rationality_calc(source, target)
 
 
 def low_intimacy2favor(intimacy_abl: int) -> int:
@@ -52,6 +55,22 @@ def low_favor2favor(favor: int) -> int:
         return -1
     else:
         return 0
+
+
+def get_name_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
+    """通过id获取角色名"""
+    npc = npc_manager.get_npc_by_id(chara_id)
+    if npc:
+        return npc.name
+    if chara_id == player.id:
+        return player.name
+    else:
+        return chara_id
+
+
+def get_entity_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
+    """通过id获取角色"""
+    return npc_manager.get_npc_by_id(chara_id) if chara_id != PLAYER_ID else player
 
 
 def global_can(player: Player, npc: ShipGirl):

@@ -2,8 +2,8 @@ from __future__ import annotations
 from random import randint, choice
 from typing import TYPE_CHECKING, Any
 
-from config.chara_config import SHIPGIRLS_DB
 from config.time_config import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
+from data.data_loader import load_shipgirls
 from game_engine.commands.interact.end_date import end_date
 from game_engine.managers.MapManager import MapManager
 from game_engine.models.player import Player
@@ -32,7 +32,7 @@ class NpcManager:
 
     def __init__(self, world: World):
         # 所有舰娘的初始化数据
-        self.shipgirls_db = SHIPGIRLS_DB
+        self.shipgirls_db = load_shipgirls()
         # 初始化所有舰娘对象
         self.shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in self.shipgirls_db.items()}
         # 秘书舰
