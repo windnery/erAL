@@ -10,6 +10,7 @@ from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.SaveManager import SaveManager
 from game_engine.managers.SkinManager import SkinManager
 from game_engine.managers.TimeManager import TimeManager
+from game_engine.managers.TrainManager import TrainManager
 from game_engine.managers.WorkManager import WorkManager
 from game_engine.models.player import Player
 
@@ -24,9 +25,12 @@ class World:
         self.command_manager = CommandManager(self)
         self.skin_manager = SkinManager(self.npc_manager)
         self.item_manager = ItemManager(self.player)
+        self.train_manager = TrainManager(self.npc_manager)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
         self.save_manager = SaveManager(self)
+        # 日常/调教模式
+        self.train_mode = False
 
     def get_state(self, selected_npc_id: str | None = None):
         """一次性返回前端需要的全部状态"""
@@ -69,6 +73,10 @@ class World:
         """包装一层改变气力的方法"""
         self.player.set_energy(self.player.get_energy() + delta)
         return ''
+
+    def is_training(self):
+        """是否是调教模式"""
+        return self.train_mode
 
     def settle_day(self, sleep: bool = False, exhaustion: bool = False):
         """日终结算 

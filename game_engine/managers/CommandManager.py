@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
-    REGISTER_NEEDS_TARGET, REGISTER_FRONTEND
+    REGISTER_NEEDS_TARGET, REGISTER_FRONTEND, REGISTER_MODE
 
 if TYPE_CHECKING:
     from world import World
@@ -101,6 +101,8 @@ class CommandManager:
         for key in REGISTER_CMD:
             if REGISTER_CAT.get(key) in ('系统', '菜单'):
                 continue
+            if REGISTER_MODE.get(key):
+                continue
             if REGISTER_NEEDS_TARGET.get(key, True):
                 continue
 
@@ -130,6 +132,8 @@ class CommandManager:
         commands = []
         for key in REGISTER_CMD:
             if REGISTER_CAT.get(key) == '系统':
+                continue
+            if REGISTER_MODE.get(key):
                 continue
             if not REGISTER_NEEDS_TARGET.get(key, True):
                 continue

@@ -1,10 +1,16 @@
+from collections import defaultdict
+
 from config.base_config import MAX_RATIONALITY
+from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
+from game_engine.managers.NpcManager import NpcManager
+from game_engine.managers.TrainManager import TrainManager
+from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
 
@@ -85,7 +91,37 @@ def global_can(player: Player, npc: ShipGirl):
     return True
 
 
-def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
+def train_global_can(train_manager: TrainManager):
+    """调教指令不可用的通用判定 优先级最高"""
+    train = train_manager.train
+    if train:
+        # 调教方1+
+        if not train.actors:
+            return False
+        # 被调教方1+
+        if not train.targets:
+            return False
+        # 调教方有角色气力0
+        for source in train.actors:
+            chara = train_manager.npc_manager.get_npc_by_id(source) if source != PLAYER_ID else train.player
+            if chara.is_energy_empty():
+                return False
+    else:
+        return False
+
+    return True
+
+
+def accumulate_sources(dict_iterable) -> dict[str, int]:
+    result = defaultdict(int)
+    for item in dict_iterable:
+        for inner_dict in item.values():
+            for key, value in inner_dict.items():
+                result[key] += value
+    return dict(result)
+
+
+def favor_trust_proc(source: dict[str, int | float], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
                      ex_favor: int = 0, ex_trust: int = 0):
     """处理好感和信赖"""
     favor_delta = favor_calc(npc, source)
@@ -116,6 +152,7 @@ def add_attitude_mes(mes: str, new: str):
     else:
         mes = new
     return mes
+
 
 def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     """合意判定

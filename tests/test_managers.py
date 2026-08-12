@@ -461,3 +461,52 @@ class TestWorldState:
         result = world.change_stamina(-10)
         # 体力清零 → 结算 → 返回结算文本
         assert result != ''
+
+
+class TestTrainCommands:
+    """调教指令通道：不进普通 act_com，由 TrainManager.get_train_commands 提供"""
+
+    def _make_train(self, world, actors, targets):
+        from game_engine.managers.TrainManager import Train
+        world.train_manager.train = Train(world.player.location, world.player)
+        world.train_manager.train.actors = list(actors)
+        world.train_manager.train.targets = list(targets)
+
+    def test_caress_not_in_act_com(self, world):
+        """调教指令不进普通地点指令列表（无论是否有会话）"""
+        keys = [c['key'] for c in world.command_manager.get_Act_COM()]
+        assert 'caress' not in keys
+
+        self._make_train(world, ['player', 'Z23'], ['laffey'])
+        keys = [c['key'] for c in world.command_manager.get_Act_COM()]
+        assert 'caress' not in keys
+
+    def test_caress_not_in_npc_commands(self, world):
+        """调教指令也不进选中舰娘的交互指令列表"""
+        z23 = world.npc_manager.shipgirls['Z23']
+        place_next_to_player(world, z23)
+        keys = [c['key'] for c in world.command_manager.get_Act_COM('Z23')]
+        assert 'caress' not in keys
+
+    def test_get_train_commands_empty_without_session(self, world):
+        """无调教会话时指令列表为空"""
+        assert world.train_manager.get_train_commands() == []
+
+    def test_get_train_commands_returns_caress(self, world):
+        """会话人数达标时返回调教指令"""
+        self._make_train(world, ['player', 'Z23'], ['laffey'])
+        commands = world.train_manager.get_train_commands()
+        assert [c['key'] for c in commands] == ['caress']
+        assert commands[0]['name'] == '爱抚'
+        assert commands[0]['cat'] == '爱抚'
+
+    def test_get_train_commands_filters_by_can(self, world):
+        """人数不满足 can 时指令被过滤（1 调教者 vs 1 被调教者）"""
+        self._make_train(world, ['player'], ['Z23', 'laffey', 'javelin'])
+        assert world.train_manager.get_train_commands() == []
+
+
+    def test_train_manager_world_property(self, world):
+        """TrainManager.world 属性指向同一 World"""
+        assert world.train_manager.world is world
+        assert world.train_manager.world is world.npc_manager.world
