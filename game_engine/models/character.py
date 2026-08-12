@@ -46,6 +46,22 @@ class Character:
         """气力是否为0"""
         return self.get_energy() == 0
 
+    def set_abl(self, abl: str, value: int) -> None:
+        """设置abl"""
+        self.abl[abl] = max(0, value)
+
+    def get_abl(self, abl: str) -> int:
+        """获取abl"""
+        return self.abl.get(abl, 0)
+
+    def set_exp(self, exp: str, value: int) -> None:
+        """设置exp"""
+        self.exp[exp] = max(0, value)
+
+    def get_exp(self, exp: str) -> int:
+        """获取exp"""
+        return self.exp.get(exp, 0)
+
     def clear_palam(self) -> None:
         """清空palam"""
         for k in self.palam.keys():

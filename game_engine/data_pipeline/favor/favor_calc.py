@@ -3,7 +3,7 @@ from game_engine.data_pipeline.palam.palam2favor import palam2favor
 from game_engine.models.shipgirl import ShipGirl
 
 
-def favor_calc(npc: ShipGirl, source: dict[str, int]) -> int:
+def favor_calc(npc: ShipGirl, source: dict[str, int|float]) -> int:
     """好感度上升计算处理"""
     favor_delta = 0
 

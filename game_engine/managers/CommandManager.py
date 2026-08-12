@@ -13,18 +13,18 @@ class CommandManager:
         self.world = world
 
     def get_Act_COM(self, selected_npc_id: str | None = None):
-        '''获取交互指令'''
+        """获取交互指令"""
         act_com = self._get_location_commands()
         act_com += self._get_npc_commands(selected_npc_id)
         return act_com
 
     def get_EX_COM(self):
-        '''获取通用指令(系统指令)'''
+        """获取通用指令(系统指令)"""
         ex_com = self._get_system_commands()
         return ex_com
 
     def get_MENU_COM(self):
-        '''获取缓冲菜单指令'''
+        """获取缓冲菜单指令"""
         return [{'key': k, 'name': REGISTER_CMD_NAME[k], 'cat': '菜单'}
                 for k in REGISTER_CMD if REGISTER_CAT.get(k) == '菜单']
 
@@ -42,7 +42,7 @@ class CommandManager:
                     {'key': '8', 'name': '8:00', 'value': {'hour': 8, 'minute': 0}},
                     {'key': '9', 'name': '9:00', 'value': {'hour': 9, 'minute': 0}}]
         elif command == 'set_secretary_ship':
-            # 全部舰娘（不限附近）
+            # 全部舰娘
             return [{'key': sg.id, 'name': sg.name, 'value': {'shipgirl_id': sg.id}}
                     for sg in self.world.npc_manager.get_all_npcs()]
         elif command in ('save', 'load'):

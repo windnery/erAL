@@ -11,5 +11,7 @@
     "poke_the_cheek": 1,
     "rub_the_butt": 3,
     "hug": 5,
-    "work_together": 60
+    "work_together": 60,
+
+    "caress": 5
 }

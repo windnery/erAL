@@ -6,7 +6,7 @@ from game_engine.data_pipeline.talent.talent2src import talent2src
 from game_engine.models.shipgirl import ShipGirl
 
 
-def common_src_modify(source: dict[str, int], npc: ShipGirl) -> dict[str, int]:
+def common_src_modify(source: dict[str, int|float], npc: ShipGirl) -> dict[str, int]:
     """对source进行通用修正"""
     # 好感对source修正
     positive_favor_multi, negative_favor_multi = favor2source(npc.favor)
@@ -34,4 +34,4 @@ def common_src_modify(source: dict[str, int], npc: ShipGirl) -> dict[str, int]:
     for k, v in source.items():
         source[k] = int(v)
 
-    return source
+    return {k: int(v) for k, v in source.items()}
