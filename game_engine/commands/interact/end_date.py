@@ -20,7 +20,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
-@register_cmd("end_date", "结束约会", "日常", can)
+@register_cmd("end_date", "结束约会", "日常", can=can)
 def end_date(world: World, option: str, time_out: bool=False):
     """结束约会"""
     ctx = CommandContext(world)

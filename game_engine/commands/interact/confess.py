@@ -61,7 +61,7 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     return ok, mes
 
 
-@register_cmd("confess", "告白", "日常", can)
+@register_cmd("confess", "告白", "日常", can=can)
 def confess(world: World, option: str):
     """告白
     world: 游戏世界对象

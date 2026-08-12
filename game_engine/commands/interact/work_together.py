@@ -30,7 +30,7 @@ def can(world: World, npc: ShipGirl):
     return True
 
 
-@register_cmd('work_together', '一起工作', '日常', can)
+@register_cmd('work_together', '一起工作', '日常', can=can)
 def work_together(world, option=None):
     """一起工作"""
     ctx = CommandContext(world)

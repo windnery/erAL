@@ -27,7 +27,7 @@ def can(world: World, npc: ShipGirl):
     return True
 
 
-@register_cmd('talk', '会话', '日常', can)
+@register_cmd('talk', '会话', '日常', can=can)
 def talk(world: World, option: str):
     """会话
     world: 游戏世界对象

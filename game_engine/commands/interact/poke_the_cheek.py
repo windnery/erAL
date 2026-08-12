@@ -38,7 +38,7 @@ def can(world: World, npc: ShipGirl):
     return True
 
 
-@register_cmd('poke_the_cheek', '戳脸颊', '亲昵', can)
+@register_cmd('poke_the_cheek', '戳脸颊', '亲昵', can=can)
 def poke_the_cheek(world: World, option: str):
     """戳脸颊
     world: 游戏世界对象

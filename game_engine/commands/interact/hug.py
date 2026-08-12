@@ -37,7 +37,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
-@register_cmd('hug', '拥抱', '亲昵', can)
+@register_cmd('hug', '拥抱', '亲昵', can=can)
 def hug(world: World, option: str):
     """拥抱
     world: 游戏世界对象

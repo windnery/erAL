@@ -16,7 +16,7 @@ def can(world: World, npc: ShipGirl):
     return False
 
 
-@register_cmd('akashi_shop', '明石商店', '日常', can, frontend=True)
+@register_cmd('akashi_shop', '明石商店', '日常', can=can, frontend=True)
 def akashi_shop(world: World, option: str):
     """明石商店（纯前端指令，后端不执行逻辑）
 

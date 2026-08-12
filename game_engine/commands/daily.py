@@ -44,7 +44,7 @@ def can_work(world: World, npc=None):
         return False
     return True
 
-@register_cmd('nap', '小睡', '日常', can_nap, needs_target=False)
+@register_cmd('nap', '小睡', '日常', can=can_nap, needs_target=False)
 def nap(world, option=None):
     """小睡"""
     ctx = CommandContext(world)
@@ -64,7 +64,7 @@ def nap(world, option=None):
     return ctx.result()
 
 
-@register_cmd('sleep', '睡觉', '日常', can_sleep, needs_target=False)
+@register_cmd('sleep', '睡觉', '日常', can=can_sleep, needs_target=False)
 def sleep(world, option=None):
     """睡觉"""
     # 调用settle_day方法进行日终结算
@@ -72,7 +72,7 @@ def sleep(world, option=None):
     return mes
 
 
-@register_cmd('work', '工作', '日常', can_work, needs_target=False)
+@register_cmd('work', '工作', '日常', can=can_work, needs_target=False)
 def work(world, option=None):
     """工作"""
     ctx = CommandContext(world)

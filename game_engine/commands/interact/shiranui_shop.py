@@ -16,7 +16,7 @@ def can(world: World, npc: ShipGirl):
     return False
 
 
-@register_cmd('shiranui_shop', '不知火商店', '日常', can, frontend=True)
+@register_cmd('shiranui_shop', '不知火商店', '日常', can=can, frontend=True)
 def shiranui_shop(world: World, option: str):
     """不知火商店（纯前端指令，后端不执行逻辑）"""
     return []

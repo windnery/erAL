@@ -38,7 +38,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
-@register_cmd('rub_the_butt', '摸屁股', '性骚扰', can)
+@register_cmd('rub_the_butt', '摸屁股', '性骚扰', can=can)
 def rub_the_butt(world: World, option: str):
     """摸屁股
     world: 游戏世界对象

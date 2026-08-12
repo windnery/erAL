@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 def can(world: World, npc: ShipGirl):
-    '''执行判定'''
+    """执行判定"""
     # 通用判定
     if not global_can(world.player, npc):
         return False
@@ -35,11 +35,11 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
-@register_cmd('body_touch', '身体接触', '亲昵', can)
+@register_cmd('body_touch', '身体接触', '亲昵', can=can)
 def body_touch(world: World, option: str):
-    '''身体接触
+    """身体接触
     world: 游戏世界对象
-    option: 指令对象'''
+    option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     source: dict[str, int] = new_source({

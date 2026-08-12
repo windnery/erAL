@@ -38,7 +38,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
-@register_cmd('request_a_lap_pillow', '索求膝枕', '亲昵', can)
+@register_cmd('request_a_lap_pillow', '索求膝枕', '亲昵', can=can)
 def request_a_lap_pillow(world: World, option: str):
     """索求膝枕
     world: 游戏世界对象

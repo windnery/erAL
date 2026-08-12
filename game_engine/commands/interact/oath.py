@@ -67,7 +67,7 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     return ok, mes
 
 
-@register_cmd("oath", "誓约", "日常", can)
+@register_cmd("oath", "誓约", "日常", can=can)
 def oath(world: World, option: str):
     """誓约
     world: 游戏世界对象

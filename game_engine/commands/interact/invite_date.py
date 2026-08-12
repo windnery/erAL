@@ -64,7 +64,7 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     return ok, mes
 
 
-@register_cmd("invite_date", "约会", "日常", can)
+@register_cmd("invite_date", "约会", "日常", can=can)
 def invite_date(world: World, option: str):
     """约会
     world: 游戏世界对象
