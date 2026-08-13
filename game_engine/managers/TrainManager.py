@@ -18,11 +18,7 @@ class Train:
         self.actors: list[str] = []  # 调教者
         self.targets: list[str] = []  # 被调教者
         self.initiative: dict[str, int] = {}  # 主导权
-        self.leader: str = PLAYER_ID  # 主导者(默认为玩家)
-
-    def do_cmd(self, cmd: str) -> str:
-        """执行调教指令（预留，待接入调教执行时设计）"""
-        return ''
+        self.leader: str = ''  # 主导者
 
 
 class TrainManager:
@@ -33,6 +29,14 @@ class TrainManager:
     @property
     def world(self) -> World:
         return self.npc_manager.world
+
+    # def do_cmd(self, cmd: str) -> str:
+    #     """执行调教指令"""
+    #     func = REGISTER_CMD.get(cmd)
+    #     can = REGISTER_CAN.get(cmd)
+    #     if can(self.world):
+    #         return func(self.world)
+    #     return ''
 
     def get_train_commands(self):
         """返回当前调教会话可用的调教指令列表（仅 train_mode=True 的指令）
@@ -53,3 +57,21 @@ class TrainManager:
                 'cat': REGISTER_CAT[key],
             })
         return commands
+
+    def new_train(self, actors: list[str], targets: list[str], initiative: dict[str, int], leader: str=PLAYER_ID):
+        """开始一场调教"""
+        # 进入调教模式
+        self.world.train_mode = True
+        # 初始化一场调教
+        region = self.world.player.location['region']
+        node = self.world.player.location['node']
+        self.train = Train({'region': region, 'node': node}, self.world.player)
+        self.train.actors = actors
+        self.train.targets = targets
+        self.train.initiative = initiative
+        self.train.leader = leader
+
+    def end_train(self):
+        """结束一场调教"""
+        self.train = None
+        self.world.train_mode = False

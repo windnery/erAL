@@ -7,7 +7,6 @@ from game_engine.commands._commands import register_cmd
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.exp_calc import exp_calc
-from game_engine.models.character import Character
 
 if TYPE_CHECKING:
     from world import World

@@ -65,11 +65,11 @@ def low_favor2favor(favor: int) -> int:
 
 def get_name_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
     """通过id获取角色名"""
+    if chara_id == player.id:
+        return player.name
     npc = npc_manager.get_npc_by_id(chara_id)
     if npc:
         return npc.name
-    if chara_id == player.id:
-        return player.name
     else:
         return chara_id
 
@@ -114,10 +114,11 @@ def train_global_can(train_manager: TrainManager):
 
 def accumulate_sources(dict_iterable) -> dict[str, int]:
     result = defaultdict(int)
-    for item in dict_iterable:
-        for inner_dict in item.values():
-            for key, value in inner_dict.items():
-                result[key] += value
+    if isinstance(dict_iterable, dict):
+        dict_iterable = dict_iterable.values()
+    for inner_dict in dict_iterable:
+        for key, value in inner_dict.items():
+            result[key] += value
     return dict(result)
 
 
@@ -306,7 +307,6 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
         temp = player.get_talent_value("charm") * 20
         attitude += temp
         mes = add_attitude_mes(mes, f"玩家魅力({temp})")
-    # TODO: 情绪/理性
     # TODO: 刻印
     # TODO: cflag
     # 约会中

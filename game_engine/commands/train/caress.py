@@ -9,7 +9,6 @@ from game_engine.commands._common import train_global_can, new_source, get_name_
     favor_trust_proc, accumulate_sources, source_proc
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
-from game_engine.managers.TrainManager import TrainManager
 
 if TYPE_CHECKING:
     from world import World
@@ -55,12 +54,13 @@ def caress(world: World):
         tar_name += '等人'
     ctx.say(f'{src_name}温柔地用手指来回抚摸着{tar_name}的肌肤……')
     for target_id in train.targets:
+        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
-            line = get_entity_by_id(world.npc_manager, world.player, target_id).get_line('caress')
+            line = chara.get_line('caress')
             if line:
                 # 有口上
-                ctx.say(line.replace('{name}', target_id.name))
+                ctx.say(line.replace('{name}', chara.name))
 
     # 推进时间
     ctx.advance_time(command_time_data['caress'])

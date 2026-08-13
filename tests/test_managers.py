@@ -496,17 +496,94 @@ class TestTrainCommands:
         """会话人数达标时返回调教指令"""
         self._make_train(world, ['player', 'Z23'], ['laffey'])
         commands = world.train_manager.get_train_commands()
-        assert [c['key'] for c in commands] == ['caress']
+        assert [c['key'] for c in commands] == ['caress', 'end_train']
         assert commands[0]['name'] == '爱抚'
         assert commands[0]['cat'] == '爱抚'
 
     def test_get_train_commands_filters_by_can(self, world):
         """人数不满足 can 时指令被过滤（1 调教者 vs 1 被调教者）"""
         self._make_train(world, ['player'], ['Z23', 'laffey', 'javelin'])
-        assert world.train_manager.get_train_commands() == []
+        keys = [c['key'] for c in world.train_manager.get_train_commands()]
+        assert 'caress' not in keys
 
 
     def test_train_manager_world_property(self, world):
         """TrainManager.world 属性指向同一 World"""
         assert world.train_manager.world is world
         assert world.train_manager.world is world.npc_manager.world
+
+    def test_push_down_registered_and_enters_train(self, world, z23, player):
+        """推倒成功：进入调教模式并建立会话"""
+        place_next_to_player(world, z23)
+        z23.set_talent('relationship', '1')
+        z23.abl['intimacy_abl'] = 10
+        z23.favor = 40000
+        z23.trust = 900
+
+        result = world.command_manager.do_cmd('push_down', 'Z23')
+        assert isinstance(result, list)
+        assert world.train_mode is True
+        assert world.train_manager.train is not None
+        assert world.train_manager.train.actors == ['player']
+        assert world.train_manager.train.targets == ['Z23']
+
+    def test_push_down_can_gate(self, world, z23, player):
+        """亲密不足6时推倒不可用且不进入调教"""
+        place_next_to_player(world, z23)
+        z23.set_talent('relationship', '1')
+        z23.abl['intimacy_abl'] = 5
+        z23.favor = 1000
+
+        from game_engine.commands.interact.push_down import can
+        assert can(world, z23) is False
+        assert world.command_manager.do_cmd('push_down', 'Z23') == ''
+        assert world.train_mode is False
+
+    def test_push_down_failure_does_not_enter_train(self, world, z23, player):
+        """合意判定失败：负source惩罚，不进入调教"""
+        place_next_to_player(world, z23)
+        z23.set_talent('relationship', '1')
+        z23.abl['intimacy_abl'] = 10
+        z23.favor = 800
+        z23.trust = 0
+        player.abl['talk_abl'] = 0
+
+        result = world.command_manager.do_cmd('push_down', 'Z23')
+        assert isinstance(result, list)
+        assert world.train_mode is False
+        assert world.train_manager.train is None
+
+    def test_end_train_registered_and_exits_mode(self, world):
+        """结束调教：退出会话并复位模式"""
+        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        assert world.train_mode is True
+
+        result = world.command_manager.do_cmd('end_train')
+        assert isinstance(result, list)
+        assert world.train_mode is False
+        assert world.train_manager.train is None
+
+    def test_do_cmd_caress_via_command_manager(self, world, z23, player):
+        """调教指令经 CommandManager 入口单参调用正常执行"""
+        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        initial_energy = player.base['energy']
+
+        result = world.command_manager.do_cmd('caress')
+        assert isinstance(result, list)
+        assert len(result) > 0
+        # 玩家被消耗了体力和气力
+        assert player.base['energy'] == initial_energy - 20
+        # 关键：执行的是单参 func(world) 而非双参，不抛 TypeError
+
+    def test_get_state_includes_train_mode(self, world):
+        """get_state 返回调教模式状态与调教指令列表"""
+        state = world.get_state()
+        assert state['train_mode'] is False
+        assert state['train_com'] == []
+
+        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        state = world.get_state()
+        assert state['train_mode'] is True
+        keys = [c['key'] for c in state['train_com']]
+        assert 'caress' in keys
+        assert 'end_train' in keys

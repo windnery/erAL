@@ -54,6 +54,8 @@ class World:
             'cflag_defs': {k: v['name'] for k, v in ATTR_DEFS.get('cflag', {}).items()},
             'palam_defs': {k: v['name'] for k, v in ATTR_DEFS.get('palam', {}).items()},
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},
+            'train_mode': self.train_mode,
+            'train_com': self.train_manager.get_train_commands(),
         }
 
     def advance_time_with_events(self, minutes: int):

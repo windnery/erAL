@@ -66,6 +66,13 @@ class CommandManager:
         if not func:
             return ''
 
+        # 调教指令：单参数约定 func(world)，目标从会话解析
+        if REGISTER_MODE.get(command):
+            can = REGISTER_CAN.get(command)
+            if can and not can(self.world):
+                return ''
+            return func(self.world)
+
         can = REGISTER_CAN.get(command)
         is_target_command = REGISTER_NEEDS_TARGET.get(command, True)
         is_system_command = REGISTER_CAT.get(command) == '系统'
