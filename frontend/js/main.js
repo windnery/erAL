@@ -1,7 +1,8 @@
-import { getState, getCmdOptions, doCmd, getSaveList, doLoad } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
+import { renderTrainAvatars, renderTrainMembers } from './ui/train_panel.js';
 import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
 import { openDailyShop } from './ui/daily_shop.js';
@@ -82,11 +83,19 @@ async function selectNpc(npcId) {
     }
     selectedNpcId = npcId;
     // 仅重渲头像高亮、面板与指令区（不从后端重新拉取）
-    const npcs = currentNearby;
-    renderPortrait(npcs, selectedNpcId, selectNpc);
-    renderCharaPanel(npcs, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
+    refreshAvatarsPanel();
+    renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     // 重新请求后端，只获取当前选中 NPC 可执行的指令。
     await refresh();
+}
+
+// 头像行渲染：按当前模式选择数据源（日常=附近舰娘 / 训练=参与者）
+function refreshAvatarsPanel() {
+    if (currentTrainMode) {
+        renderTrainAvatars(currentTrainParticipants, selectedNpcId, selectNpc);
+    } else {
+        renderPortrait(currentNearby, selectedNpcId, selectNpc);
+    }
 }
 
 function showCharaInfo(npcId) {
@@ -102,8 +111,10 @@ async function refreshCharacterInfo(npcId) {
     currentPalamDefs = state.palam_defs || {};
     currentPalamLvMap = state.palam_lv_map || {};
     currentCflagDefs = state.cflag_defs || {};
+    currentTrainMode = state.train_mode || false;
+    currentTrainParticipants = state.train_participants || [];
     // 同步刷新游戏界面（头像选择栏/详情面板），换装后的图片立即生效
-    renderPortrait(currentNearby, selectedNpcId, selectNpc);
+    refreshAvatarsPanel();
     renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     const npc = currentNearby.find(n => n.id === npcId);
     if (npc) {
@@ -145,6 +156,9 @@ let currentPalamDefs = {};
 let currentPalamLvMap = {};
 // cflag 名称映射
 let currentCflagDefs = {};
+// 调教模式状态与参与者（训练态渲染数据源）
+let currentTrainMode = false;
+let currentTrainParticipants = [];
 
 async function refresh() {
     const state = await getState(selectedNpcId);
@@ -153,11 +167,16 @@ async function refresh() {
     currentPalamDefs = state.palam_defs || {};
     currentPalamLvMap = state.palam_lv_map || {};
     currentCflagDefs = state.cflag_defs || {};
-    // 若选中舰娘已不在附近（离开了），重置选中
-    if (selectedNpcId && !currentNearby.some(n => n.id === selectedNpcId)) {
+    currentTrainMode = state.train_mode || false;
+    currentTrainParticipants = state.train_participants || [];
+    // 若选中舰娘已不再可用（训练态看参与者、日常看附近），重置选中
+    const validIds = currentTrainMode
+        ? currentTrainParticipants.map(p => p.id)
+        : currentNearby.map(n => n.id);
+    if (selectedNpcId && !validIds.includes(selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop, openDailyShop, openInventory };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget };
     renderStatusBar(state.location, state.time, state.player);
 
     const menu_screen = document.getElementById('menu_screen');
@@ -172,11 +191,21 @@ async function refresh() {
         // 正常游戏界面
         menu_screen.style.display = 'none';
         main_menu.style.display = 'block';
-        // 后端已按当前选中的舰娘过滤交互指令
-        const actCom = state.act_com || [];
-        renderCommands(actCom, 'act', callbacks);
-        renderCommands(state.ex_com, 'ex', callbacks);
-        renderPortrait(currentNearby, selectedNpcId, selectNpc);
+        // 训练态布局：头像行 + 调教指令区 + 目标区；日常布局：头像行 + 交互/系统指令区
+        document.getElementById('Act_COM').style.display = currentTrainMode ? 'none' : '';
+        document.getElementById('Ex_COM').style.display = currentTrainMode ? 'none' : '';
+        document.getElementById('TRAIN_COM').style.display = currentTrainMode ? '' : 'none';
+        document.getElementById('train_members').style.display = currentTrainMode ? '' : 'none';
+        if (currentTrainMode) {
+            renderTrainAvatars(currentTrainParticipants, selectedNpcId, selectNpc);
+            renderCommands(state.train_com || [], 'train', callbacks);
+            renderTrainMembers(currentTrainParticipants, callbacks);
+        } else {
+            // 后端已按当前选中的舰娘过滤交互指令
+            renderCommands(state.act_com || [], 'act', callbacks);
+            renderCommands(state.ex_com, 'ex', callbacks);
+            renderPortrait(currentNearby, selectedNpcId, selectNpc);
+        }
         renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     }
 }

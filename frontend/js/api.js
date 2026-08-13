@@ -14,6 +14,14 @@ export async function doCmd(cmd, option = null) {
     return await call('command_manager', 'do_cmd', cmd, option);
 }
 
+export async function toggleActor(id) {
+    return await call('train_manager', 'toggle_actor', id);
+}
+
+export async function toggleTarget(id) {
+    return await call('train_manager', 'toggle_target', id);
+}
+
 export async function getSaveList() {
     return await call('save_manager', 'get_save_list');
 }

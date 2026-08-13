@@ -1077,3 +1077,67 @@ button {
 #MENU_COM .section-divider .section-line {
     display: none;
 }
+
+/* ===== 调教面板 ===== */
+#TRAIN_COM {
+    min-height: 24px;
+    line-height: 1.8;
+    padding: 4px 0;
+    margin-top: 8px;
+}
+
+#TRAIN_COM .com-cmd {
+    color: #fff;
+    margin-left: 36px;
+    white-space: nowrap;
+    cursor: default;
+    transition: color 0.15s ease;
+}
+
+#TRAIN_COM .com-cmd:hover {
+    color: #ff0;
+}
+
+#train_members {
+    padding: 4px 0;
+    margin-top: 8px;
+}
+
+.member-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.member-name {
+    min-width: 80px;
+    color: #fff;
+}
+
+.member-initiative {
+    min-width: 90px;
+    color: #aaa;
+}
+
+.member-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    cursor: default;
+    padding: 0 2px;
+}
+
+.member-btn:hover {
+    color: #ff0;
+}
+
+.member-arrow {
+    color: #888;
+    font-size: 12px;
+}
+
+.member-info {
+    color: #9cf;
+    margin-left: 8px;
+}

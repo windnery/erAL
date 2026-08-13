@@ -1,5 +1,7 @@
 const CAT_ORDER = ['日常', '亲昵', '性骚扰'];
-let selectedCategory = CAT_ORDER[0];
+const TRAIN_CAT_ORDER = ['特殊', '爱抚', '亲吻', '侍奉', '身体开发', '道具', 'SM', '羞耻', '精神调教', '温柔系'];
+// 每类指令区独立的分类选中态（act 与 train 互不影响）
+const selectedCat = { act: CAT_ORDER[0], train: TRAIN_CAT_ORDER[0] };
 
 function makeCmdSpan(cmd, callbacks) {
     let span = document.createElement('span');
@@ -55,13 +57,13 @@ function renderSectionDivider(label) {
     return divider;
 }
 
-function renderActDivider(allCats, cmdPanel, groups, callbacks) {
+function renderActDivider(allCats, cmdPanel, groups, callbacks, type) {
     const divider = document.createElement('div');
     divider.className = 'section-divider';
 
     const prefix = document.createElement('span');
     prefix.className = 'section-label';
-    prefix.textContent = 'Act_COM';
+    prefix.textContent = type === 'train' ? 'TRAIN_COM' : 'Act_COM';
     divider.appendChild(prefix);
 
     for (let cat of allCats) {
@@ -74,16 +76,16 @@ function renderActDivider(allCats, cmdPanel, groups, callbacks) {
         catSpan.className = 'act-cat-link';
         catSpan.textContent = '[' + cat + ']';
         catSpan.dataset.cat = cat;
-        if (cat === selectedCategory) {
+        if (cat === selectedCat[type]) {
             catSpan.classList.add('selected');
         }
         catSpan.onclick = function () {
-            selectedCategory = cat;
+            selectedCat[type] = cat;
             divider.querySelectorAll('.act-cat-link').forEach(el => {
-                el.classList.toggle('selected', el.dataset.cat === selectedCategory);
+                el.classList.toggle('selected', el.dataset.cat === selectedCat[type]);
             });
             cmdPanel.innerHTML = '';
-            renderActiveCategory(cmdPanel, groups, callbacks);
+            renderActiveCategory(cmdPanel, groups, callbacks, type);
         };
         divider.appendChild(catSpan);
     }
@@ -99,10 +101,14 @@ export function renderCommands(commands, type, callbacks) {
     const actDiv = document.getElementById('Act_COM');
     const exDiv = document.getElementById('Ex_COM');
     const menuDiv = document.getElementById('MENU_COM');
+    const trainDiv = document.getElementById('TRAIN_COM');
 
     if (type === 'act') {
         actDiv.innerHTML = '';
-        renderActCommands(actDiv, commands, callbacks);
+        renderActCommands(actDiv, commands, callbacks, 'act');
+    } else if (type === 'train') {
+        trainDiv.innerHTML = '';
+        renderActCommands(trainDiv, commands, callbacks, 'train');
     } else if (type === 'ex') {
         exDiv.innerHTML = '';
         renderExCommands(exDiv, commands, callbacks, 'Ex_COM');
@@ -112,29 +118,30 @@ export function renderCommands(commands, type, callbacks) {
     }
 }
 
-function renderActCommands(container, commands, callbacks) {
+function renderActCommands(container, commands, callbacks, type) {
     const groups = {};
     for (let cmd of commands) {
-        const cat = cmd.cat || '日常';
+        const cat = cmd.cat || (type === 'train' ? TRAIN_CAT_ORDER[0] : '日常');
         (groups[cat] = groups[cat] || []).push(cmd);
     }
 
+    const catOrder = type === 'train' ? TRAIN_CAT_ORDER : CAT_ORDER;
     const allCats = [
-        ...CAT_ORDER,
-        ...Object.keys(groups).filter(cat => !CAT_ORDER.includes(cat)),
+        ...catOrder,
+        ...Object.keys(groups).filter(cat => !catOrder.includes(cat)),
     ];
 
     const cmdPanel = document.createElement('div');
     cmdPanel.className = 'act-commands';
 
-    container.appendChild(renderActDivider(allCats, cmdPanel, groups, callbacks));
+    container.appendChild(renderActDivider(allCats, cmdPanel, groups, callbacks, type));
     container.appendChild(cmdPanel);
 
-    renderActiveCategory(cmdPanel, groups, callbacks);
+    renderActiveCategory(cmdPanel, groups, callbacks, type);
 }
 
-function renderActiveCategory(container, groups, callbacks) {
-    const cmds = groups[selectedCategory] || [];
+function renderActiveCategory(container, groups, callbacks, type) {
+    const cmds = groups[selectedCat[type]] || [];
     for (let cmd of cmds) {
         container.appendChild(makeCmdSpan(cmd, callbacks));
     }
