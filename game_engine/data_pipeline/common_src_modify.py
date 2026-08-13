@@ -1,4 +1,5 @@
 from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
+from game_engine.data_pipeline.abl.abl2src import abl2src
 from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
 from game_engine.data_pipeline.favor.favor2src import favor2source
 from game_engine.data_pipeline.palam.palam2src import palam2src
@@ -16,6 +17,9 @@ def common_src_modify(source: dict[str, int], npc: ShipGirl) -> dict[str, int]:
             source[k] = int(v * positive_favor_multi)
         elif k in NEGATIVE_SRC:
             source[k] = int(v * negative_favor_multi)
+
+    # abl对source修正
+    abl2src(npc.abl, source)
 
     # palam对source修正
     palam2src(npc.palam_lv, source)

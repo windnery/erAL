@@ -4,7 +4,7 @@ from config.palam_config import PALAM2SRC_WEIGHTS
 K_ACCEL = 0.3
 
 
-def palam2src(palam_lv: dict[str, int], source: dict[str, int | float]) -> dict[str, int]:
+def palam2src(palam_lv: dict[str, int], source: dict[str, int | float]):
     """palam_lv对source的修正"""
     for palam_key, lv in palam_lv.items():
         if lv <= 0:
