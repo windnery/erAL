@@ -555,7 +555,7 @@ class TestTrainCommands:
 
     def test_end_train_registered_and_exits_mode(self, world):
         """结束调教：退出会话并复位模式"""
-        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
         assert world.train_mode is True
 
         result = world.command_manager.do_cmd('end_train')
@@ -565,7 +565,7 @@ class TestTrainCommands:
 
     def test_do_cmd_caress_via_command_manager(self, world, z23, player):
         """调教指令经 CommandManager 入口单参调用正常执行"""
-        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
         initial_energy = player.base['energy']
 
         result = world.command_manager.do_cmd('caress')
@@ -581,9 +581,77 @@ class TestTrainCommands:
         assert state['train_mode'] is False
         assert state['train_com'] == []
 
-        world.train_manager.new_train(['player'], ['Z23'], {'player': 100, 'Z23': 0})
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
         state = world.get_state()
         assert state['train_mode'] is True
         keys = [c['key'] for c in state['train_com']]
         assert 'caress' in keys
         assert 'end_train' in keys
+
+    def test_toggle_actor_adds_and_excludes_from_targets(self, world):
+        """加入调教者列表，互斥移出被调教者列表"""
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
+        err = world.train_manager.toggle_actor('Z23')
+        assert err == ''
+        assert world.train_manager.train.actors == ['player', 'Z23']
+        assert world.train_manager.train.targets == []
+
+    def test_toggle_actor_removes(self, world):
+        """再次点击调教者按钮移出调教者列表"""
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
+        world.train_manager.toggle_actor('player')
+        assert world.train_manager.train.actors == []
+        assert world.train_manager.train.targets == ['Z23']
+        # 再点加回来
+        world.train_manager.toggle_actor('player')
+        assert world.train_manager.train.actors == ['player']
+
+    def test_toggle_target_symmetric(self, world):
+        """被调教者按钮对称行为"""
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
+        err = world.train_manager.toggle_target('player')
+        assert err == ''
+        assert world.train_manager.train.targets == ['Z23', 'player']
+        assert world.train_manager.train.actors == []
+        # 玩家回到调教者侧
+        world.train_manager.toggle_target('player')
+        world.train_manager.toggle_actor('player')
+        assert world.train_manager.train.actors == ['player']
+        assert world.train_manager.train.targets == ['Z23']
+
+    def test_toggle_unknown_id_returns_error(self, world):
+        """非参与者 id 返回错误且列表不变"""
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
+        err = world.train_manager.toggle_actor('laffey')
+        assert err != ''
+        assert world.train_manager.train.actors == ['player']
+        assert world.train_manager.train.targets == ['Z23']
+
+    def test_toggle_without_session_returns_error(self, world):
+        """无会话时返回错误"""
+        assert world.train_manager.train is None
+        assert world.train_manager.toggle_actor('Z23') != ''
+
+    def test_get_state_train_participants(self, world):
+        """get_state 返回参与者信息：id/name/avatar/initiative/侧别"""
+        state = world.get_state()
+        assert state['train_participants'] == []
+
+        world.train_manager.new_train(['player', 'Z23'], {'player': 100, 'Z23': 0})
+        state = world.get_state()
+        parts = state['train_participants']
+        assert len(parts) == 2
+
+        player = next(p for p in parts if p['id'] == 'player')
+        assert player['is_player'] is True
+        assert player['avatar'] is None
+        assert player['initiative'] == 100
+        assert player['is_actor'] is True
+        assert player['is_target'] is False
+
+        z23 = next(p for p in parts if p['id'] == 'Z23')
+        assert z23['is_player'] is False
+        assert z23['avatar'] is not None
+        assert z23['initiative'] == 0
+        assert z23['is_actor'] is False
+        assert z23['is_target'] is True

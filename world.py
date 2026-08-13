@@ -56,7 +56,33 @@ class World:
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},
             'train_mode': self.train_mode,
             'train_com': self.train_manager.get_train_commands(),
+            'train_participants': self._get_train_participants(),
         }
+
+    def _get_train_participants(self):
+        """调教会话参与者信息（非训练态返回空列表）"""
+        train = self.train_manager.train
+        if not train:
+            return []
+        participants = []
+        for chara_id in train.participants:
+            is_player = chara_id == self.player.id
+            if is_player:
+                chara = self.player
+                avatar = None
+            else:
+                chara = self.npc_manager.get_npc_by_id(chara_id)
+                avatar = self.skin_manager.get_ship_skin_paths(chara_id)['avatar']
+            participants.append({
+                'id': chara_id,
+                'name': chara.name,
+                'avatar': avatar,
+                'is_player': is_player,
+                'initiative': train.initiative.get(chara_id, 0),
+                'is_actor': chara_id in train.actors,
+                'is_target': chara_id in train.targets,
+            })
+        return participants
 
     def advance_time_with_events(self, minutes: int):
         """推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）"""

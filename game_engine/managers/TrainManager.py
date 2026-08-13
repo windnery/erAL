@@ -17,6 +17,7 @@ class Train:
         self.player = player
         self.actors: list[str] = []  # 调教者
         self.targets: list[str] = []  # 被调教者
+        self.participants: list[str] = []  # 会话名册（固定，与两侧列表独立）
         self.initiative: dict[str, int] = {}  # 主导权
         self.leader: str = ''  # 主导者
 
@@ -29,14 +30,6 @@ class TrainManager:
     @property
     def world(self) -> World:
         return self.npc_manager.world
-
-    # def do_cmd(self, cmd: str) -> str:
-    #     """执行调教指令"""
-    #     func = REGISTER_CMD.get(cmd)
-    #     can = REGISTER_CAN.get(cmd)
-    #     if can(self.world):
-    #         return func(self.world)
-    #     return ''
 
     def get_train_commands(self):
         """返回当前调教会话可用的调教指令列表（仅 train_mode=True 的指令）
@@ -58,7 +51,7 @@ class TrainManager:
             })
         return commands
 
-    def new_train(self, actors: list[str], targets: list[str], initiative: dict[str, int], leader: str=PLAYER_ID):
+    def new_train(self, participants: list[str], initiative: dict[str, int], leader: str=PLAYER_ID):
         """开始一场调教"""
         # 进入调教模式
         self.world.train_mode = True
@@ -66,8 +59,10 @@ class TrainManager:
         region = self.world.player.location['region']
         node = self.world.player.location['node']
         self.train = Train({'region': region, 'node': node}, self.world.player)
-        self.train.actors = actors
-        self.train.targets = targets
+        self.train.participants = participants
+        # 默认分侧：玩家为调教者，其余为被调教者（之后可经 toggle_actor/toggle_target 动态调整）
+        self.train.actors = [p for p in participants if p == PLAYER_ID]
+        self.train.targets = [p for p in participants if p != PLAYER_ID]
         self.train.initiative = initiative
         self.train.leader = leader
 
@@ -75,3 +70,27 @@ class TrainManager:
         """结束一场调教"""
         self.train = None
         self.world.train_mode = False
+
+    def _toggle(self, field: str, chara_id: str) -> str:
+        """把角色加入/移出某个列表（互斥：加入一侧自动移出另一侧）"""
+        if not self.train:
+            return '当前没有调教会话'
+        if chara_id not in self.train.participants:
+            return f'{chara_id}不在本次调教参与者中'
+        lists = {'actors': self.train.actors, 'targets': self.train.targets}
+        other = {'actors': self.train.targets, 'targets': self.train.actors}
+        if chara_id in lists[field]:
+            lists[field].remove(chara_id)
+        else:
+            if chara_id in other[field]:
+                other[field].remove(chara_id)
+            lists[field].append(chara_id)
+        return ''
+
+    def toggle_actor(self, chara_id: str) -> str:
+        """把角色加入/移出调教者列表（互斥）"""
+        return self._toggle('actors', chara_id)
+
+    def toggle_target(self, chara_id: str) -> str:
+        """把角色加入/移出被调教者列表（互斥）"""
+        return self._toggle('targets', chara_id)

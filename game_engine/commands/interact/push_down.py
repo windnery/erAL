@@ -109,6 +109,6 @@ def push_down(world: World, option: str):
     else:
         # 开始一场调教
         initiative = {f'{world.player.id}': 100, f'{npc.id}': 0}  # 主导权
-        world.train_manager.new_train([world.player.id], [npc.id], initiative)
+        world.train_manager.new_train([world.player.id, npc.id], initiative)
 
     return ctx.result()

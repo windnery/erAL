@@ -7,5 +7,5 @@ from api import Api
 FRONTEND_DIR = Path(__file__).parent / 'frontend'
 
 api = Api()
-webview.create_window('erAL', str(FRONTEND_DIR / 'index.html'), width=1024, height=768, js_api=api)
-webview.start()
+webview.create_window('erAL', str(FRONTEND_DIR / 'index.html'), width=1024, height=860, js_api=api)
+webview.start(debug=True)
