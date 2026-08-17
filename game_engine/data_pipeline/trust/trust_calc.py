@@ -2,7 +2,7 @@ from game_engine.data_pipeline.base.emo_rat2trust import emo_rat2trust
 from game_engine.data_pipeline.palam.palam2trust import palam2trust
 
 
-def trust_calc(npc, source):
+def trust_calc(npc, source: dict[str, int]):
     """信赖上升计算处理"""
     trust_delta = 0
 

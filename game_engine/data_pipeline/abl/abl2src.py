@@ -3,7 +3,7 @@ from config.abl_config import ABL2SRC_WEIGHTS
 
 K_ACCEL = 0.5
 
-def abl2src(abl: dict[str, int], source: dict[str, int]):
+def abl2src(abl: dict[str, int], source: dict[str, int | float]):
     """abl等级对source的修正"""
     for abl_key, lv in abl.items():
         if lv <= 0: continue

@@ -444,3 +444,37 @@ class TestCommonSrcModifyEmoRat:
         z23_nearby.favor = 300
         result = common_src_modify(src, z23_nearby)
         assert result['love_source'] == 2080  # 1040*2.0
+
+
+# ============================================================
+# 第六层：source 类型约定（约定C）
+# 全链路允许 int|float，common_src_modify 出口统一转 int，
+# 防止 float 泄漏进 emotion/rationality 存档值。
+# ============================================================
+class TestSourceTypeInvariant:
+    def test_common_src_modify_returns_int_values(self, world, z23_nearby, source_dict):
+        """约定C：common_src_modify 出口必须全部转回 int"""
+        from game_engine.data_pipeline.common_src_modify import common_src_modify
+        src = dict(source_dict)
+        src['pain_source'] = 15
+        src['v_pleasure_source'] = 120
+        z23_nearby.favor = 300
+        result = common_src_modify(src, z23_nearby)
+        assert all(isinstance(v, int) for v in result.values())
+
+    def test_float_source_no_emotion_leak(self, world, z23_nearby, source_dict):
+        """float source（pain_check_v 前置）流入 emotion_rationality_calc 后，情绪/理性保持 int"""
+        from game_engine.commands._common import pain_check_v
+        from game_engine.data_pipeline.common_src_modify import common_src_modify
+        from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
+        src = dict(source_dict)
+        src['pain_source'] = 15
+        src['v_pleasure_source'] = 120
+        # 模拟 finger_insert 修复后的顺序：pain_check_v 在 common_src_modify 之前
+        pain_check_v(src, z23_nearby)
+        assert not all(isinstance(v, int) for v in src.values())
+        src = common_src_modify(src, z23_nearby)
+        assert all(isinstance(v, int) for v in src.values())
+        emotion_rationality_calc(src, z23_nearby)
+        assert isinstance(z23_nearby.get_emotion(), int)
+        assert isinstance(z23_nearby.get_rationality(), int)

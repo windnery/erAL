@@ -65,10 +65,10 @@ def caress(world: World):
     # 推进时间
     ctx.advance_time(command_time_data['finger_insert'])
 
-    sources: dict[str, dict[str, int]] = {}
+    sources: dict[str, dict[str, int | float]] = {}
     # 调教者
     for actor_id in train.actors:
-        temp_sources: dict[str, dict[str, int]] = {
+        temp_sources: dict[str, dict[str, int | float]] = {
             actor_id: source.copy()
         }
         chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
@@ -100,10 +100,10 @@ def caress(world: World):
             sources[target_id]['exposure_source'] *= 1.5
             sources[target_id]['escape_source'] *= 1.2
             sources[target_id]['disgust_source'] *= 1.2
-        # 通用source修正
-        sources[target_id] = common_src_modify(sources[target_id], chara)
         # v苦痛判定
         pain_check_v(sources[target_id], chara)
+        # 通用source修正
+        sources[target_id] = common_src_modify(sources[target_id], chara)
 
         source_list = [f'{tar_name} ']
         for k, v in sources[target_id].items():

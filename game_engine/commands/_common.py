@@ -116,7 +116,7 @@ def train_global_can(train_manager: TrainManager):
     return True
 
 
-def accumulate_sources(dict_iterable) -> dict[str, int]:
+def accumulate_sources(dict_iterable) -> dict[str, int | float]:
     result = defaultdict(int)
     if isinstance(dict_iterable, dict):
         dict_iterable = dict_iterable.values()
@@ -126,7 +126,7 @@ def accumulate_sources(dict_iterable) -> dict[str, int]:
     return dict(result)
 
 
-def favor_trust_proc(source: dict[str, int | float], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
+def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
                      ex_favor: int = 0, ex_trust: int = 0):
     """处理好感和信赖"""
     favor_delta = favor_calc(npc, source)
@@ -149,7 +149,7 @@ def favor_trust_proc(source: dict[str, int | float], npc: ShipGirl, ctx: Command
     elif trust_delta < 0:
         ctx.say(f'信赖{trust_delta} ({npc.name})')
 
-def pain_check_v(source: dict[str, int], chara: Character):
+def pain_check_v(source: dict[str, int | float], chara: Character):
     """v苦痛判定"""
     # exp: v经验
     if chara.exp['v_exp'] < ABL_LV[1]:

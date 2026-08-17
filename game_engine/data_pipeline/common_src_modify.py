@@ -8,7 +8,7 @@ from game_engine.data_pipeline.talent.talent2src import talent2src
 from game_engine.models.character import Character
 
 
-def common_src_modify(source: dict[str, int], chara: Character) -> dict[str, int]:
+def common_src_modify(source: dict[str, int | float], chara: Character) -> dict[str, int]:
     """对source进行通用修正"""
     # 好感对source修正
     if chara.id != PLAYER_ID:

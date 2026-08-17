@@ -65,10 +65,10 @@ def caress(world: World):
     # 推进时间
     ctx.advance_time(command_time_data['lick_pussy'])
 
-    sources: dict[str, dict[str, int]] = {}
+    sources: dict[str, dict[str, int | float]] = {}
     # 调教者
     for actor_id in train.actors:
-        temp_sources: dict[str, dict[str, int]] = {
+        temp_sources: dict[str, dict[str, int | float]] = {
             actor_id: source.copy()
         }
         chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
