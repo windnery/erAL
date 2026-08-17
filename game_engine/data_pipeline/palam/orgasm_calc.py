@@ -24,13 +24,13 @@ def orgasm_lv_print(part: str, orgasm_lv: int):
     """绝顶等级打印"""
     mes = ''
     if orgasm_lv == 1:
-        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}！（珠子加成）"
+        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}！"
     elif orgasm_lv == 2:
-        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}强绝顶！（珠子大加成）"
+        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}强绝顶！（珠子加成）"
     elif orgasm_lv == 3:
-        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}超强绝顶！（珠子特大加成）"
+        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}超强绝顶！（珠子大加成）"
     elif orgasm_lv == 4:
-        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}最强绝顶！（珠子最大加成）"
+        mes = f"{part}{ORGASM_LV_CN[orgasm_lv]}最强绝顶！（珠子特大加成）"
     return mes
 
 

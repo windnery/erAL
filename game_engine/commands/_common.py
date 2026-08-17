@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from config.abl_config import ABL_LV
 from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
@@ -37,7 +38,7 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
     actor.update_palam_level()
     target.update_palam_level()
     # source->情绪/理性
-    if isinstance(target, ShipGirl):
+    if target.id != PLAYER_ID:
         # 只有舰娘有情绪/理性
         emotion_rationality_calc(source, target)
 
@@ -147,6 +148,38 @@ def favor_trust_proc(source: dict[str, int | float], npc: ShipGirl, ctx: Command
         ctx.say(f'信赖+{trust_delta} ({npc.name})')
     elif trust_delta < 0:
         ctx.say(f'信赖{trust_delta} ({npc.name})')
+
+def pain_check_v(source: dict[str, int], chara: Character):
+    """v苦痛判定"""
+    # exp: v经验
+    if chara.exp['v_exp'] < ABL_LV[1]:
+        source['pain_source'] *= 2.5
+        source['disgust_source'] *= 1.5
+    elif chara.exp['v_exp'] < ABL_LV[2]:
+        source['pain_source'] *= 1.5
+        source['disgust_source'] *= 1.2
+    elif chara.exp['v_exp'] < ABL_LV[3]:
+        pass
+    elif chara.exp['v_exp'] < ABL_LV[4]:
+        source['pain_source'] *= 0.5
+    elif chara.exp['v_exp'] < ABL_LV[5]:
+        source['pain_source'] *= 0.3
+    else:
+        source['pain_source'] *= 0.1
+
+    # palam: 润滑
+    if chara.palam_lv['lubrication_palam'] < 1:
+        source['pain_source'] *= 1.2
+        source['disgust_source'] *= 1.5
+    elif chara.palam_lv['lubrication_palam'] < 2:
+        source['pain_source'] *= 0.7
+        source['disgust_source'] *= 1.2
+    elif chara.palam_lv['lubrication_palam'] < 3:
+        source['pain_source'] *= 0.4
+    elif chara.palam_lv['lubrication_palam'] < 4:
+        source['pain_source'] *= 0.2
+    else:
+        source['pain_source'] *= 0.1
 
 
 def add_attitude_mes(mes: str, new: str):

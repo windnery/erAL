@@ -1,4 +1,5 @@
 from config.abl_config import EXP_LV
+from config.chara_config import PLAYER_ID
 from config.mood_enum import Mood
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
@@ -481,26 +482,27 @@ def happiness_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict
     # abl: 欲望
     happiness_source *= (100 + 5 * target.abl['desire_abl']) // 100
     # 好感度
-    if target.favor <= 10:
-        happiness_source *= 0.5
-    elif target.favor <= 50:
-        happiness_source *= 0.8
-    elif target.favor <= 100:
-        happiness_source *= 1.0
-    elif target.favor <= 300:
-        happiness_source *= 1.2
-    elif target.favor <= 500:
-        happiness_source *= 1.2
-    elif target.favor <= 700:
-        happiness_source *= 1.3
-    elif target.favor <= 1000:
-        happiness_source *= 1.4
-    elif target.favor <= 3000:
-        happiness_source *= 1.5
-    elif target.favor <= 5000:
-        happiness_source *= 1.7
-    elif target.favor <= 500_000:
-        happiness_source = min(1_000_000_000, happiness_source * (100 + target.favor / 50) / 100)
+    if target.id != PLAYER_ID:
+        if target.favor <= 10:
+            happiness_source *= 0.5
+        elif target.favor <= 50:
+            happiness_source *= 0.8
+        elif target.favor <= 100:
+            happiness_source *= 1.0
+        elif target.favor <= 300:
+            happiness_source *= 1.2
+        elif target.favor <= 500:
+            happiness_source *= 1.2
+        elif target.favor <= 700:
+            happiness_source *= 1.3
+        elif target.favor <= 1000:
+            happiness_source *= 1.4
+        elif target.favor <= 3000:
+            happiness_source *= 1.5
+        elif target.favor <= 5000:
+            happiness_source *= 1.7
+        elif target.favor <= 500_000:
+            happiness_source = min(1_000_000_000, happiness_source * (100 + target.favor / 50) / 100)
 
     return {
         'kindness_palam': {'chara': 'target', 'value': int(happiness_source)},
