@@ -181,6 +181,37 @@ def pain_check_v(source: dict[str, int | float], chara: Character):
     else:
         source['pain_source'] *= 0.1
 
+def pain_check_a(source: dict[str, int | float], chara: Character):
+    """a苦痛判定"""
+    # exp: a经验
+    if chara.exp['a_exp'] < ABL_LV[1]:
+        source['pain_source'] *= 3.0
+        source['disgust_source'] *= 3.0
+    elif chara.exp['a_exp'] < ABL_LV[2]:
+        source['pain_source'] *= 2.0
+        source['disgust_source'] *= 2.0
+    elif chara.exp['a_exp'] < ABL_LV[3]:
+        source['disgust_source'] *= 1.5
+    elif chara.exp['a_exp'] < ABL_LV[4]:
+        source['pain_source'] *= 0.6
+        source['disgust_source'] *= 1.2
+    elif chara.exp['a_exp'] < ABL_LV[5]:
+        source['pain_source'] *= 0.4
+    else:
+        source['pain_source'] *= 0.2
+
+    # palam: 润滑
+    if chara.palam_lv['lubrication_palam'] < 1:
+        source['pain_source'] *= 1.2
+        source['disgust_source'] *= 2.0
+    elif chara.palam_lv['lubrication_palam'] < 2:
+        source['disgust_source'] *= 1.5
+    elif chara.palam_lv['lubrication_palam'] < 3:
+        source['pain_source'] *= 0.6
+    elif chara.palam_lv['lubrication_palam'] < 4:
+        source['pain_source'] *= 0.3
+    else:
+        source['pain_source'] *= 0.2
 
 def add_attitude_mes(mes: str, new: str):
     """添加合意判定输出消息"""

@@ -28,7 +28,7 @@ def can(world: World):
 
 
 @register_cmd('lick_pussy', '舔阴', cat='爱抚', train_mode=True, can=can, needs_target=False)
-def caress(world: World):
+def lick_pussy(world: World):
     """舔阴"""
     ctx = CommandContext(world)
     train = world.train_manager.train
