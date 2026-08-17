@@ -5,6 +5,7 @@ from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
+from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
@@ -30,6 +31,8 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
         ctx.say(mes)
     for mes in mes_target:
         ctx.say(mes)
+    # 绝顶判定
+    ctx.say(*orgasm_check(target))
     # 更新palam等级
     actor.update_palam_level()
     target.update_palam_level()

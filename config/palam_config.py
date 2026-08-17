@@ -360,3 +360,39 @@ PALAM2SRC_WEIGHTS: dict[str, dict[str, int]] = {
         'conquest_source': -2,
     },
 }
+
+ORGASM_BASE = {
+    'c_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
+    'v_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
+    'a_pleasure_palam': [30_000, 80_000, 150_000, 250_000],
+    'b_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
+    'm_pleasure_palam': [15_000, 30_000, 80_000, 150_000]
+}
+
+ORGASM_NUM_CN = {
+    2: '二重',
+    3: '三重',
+    4: '四重',
+    5: '五重'
+}
+
+ORGASM_LV_CN = {
+    1: '绝顶',
+    2: '强绝顶',
+    3: '超强绝顶',
+    4: '最强绝顶'
+}
+
+ORGASM_NUM_JUEL_MODIFIER = {
+    2: 1.5,
+    3: 2.0,
+    4: 2.5,
+    5: 3.0
+}
+
+ORGASM_LV_JUEL_MODIFIER = {
+    1: 1.0,
+    2: 1.5,
+    3: 2.0,
+    4: 2.5
+}
