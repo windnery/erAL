@@ -93,9 +93,6 @@ def nipple_caress(world: World):
                         for k, v in merged_source.items()}
         }
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
-        # abl: 受虐属性
-        sources[target_id]['b_pleasure_source'] += chara.abl['masochistic_abl'] * 5
-        sources[target_id]['love_source'] += chara.abl['masochistic_abl'] * 5
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 

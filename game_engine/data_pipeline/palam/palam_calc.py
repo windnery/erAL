@@ -1,6 +1,5 @@
-from config.abl_config import EXP_LV
+from config.abl_config import ABL_LV
 from config.chara_config import PLAYER_ID
-from config.mood_enum import Mood
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
@@ -95,15 +94,15 @@ def v_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     v_pleasure_source *= p_source_revision(v_sen_abl, True) / 10
     # exp: V经验
     v_exp = target.exp['v_exp']
-    if EXP_LV[v_exp] < 1:
+    if v_exp < ABL_LV[1]:
         v_pleasure_source *= 0.3
-    elif EXP_LV[v_exp] < 2:
+    elif v_exp < ABL_LV[2]:
         v_pleasure_source *= 0.5
-    elif EXP_LV[v_exp] < 3:
+    elif v_exp < ABL_LV[3]:
         v_pleasure_source *= 0.8
-    elif EXP_LV[v_exp] < 4:
+    elif v_exp < ABL_LV[4]:
         pass
-    elif EXP_LV[v_exp] < 5:
+    elif v_exp < ABL_LV[5]:
         v_pleasure_source *= 1.2
     else:
         v_pleasure_source *= 1.5
@@ -152,15 +151,15 @@ def a_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     a_pleasure_source *= p_source_revision(a_sen_abl, True) / 10
     # exp: A经验
     a_exp = target.exp['a_exp']
-    if EXP_LV[a_exp] < 1:
+    if a_exp < ABL_LV[1]:
         a_pleasure_source *= 0.3
-    elif EXP_LV[a_exp] < 2:
+    elif a_exp < ABL_LV[2]:
         a_pleasure_source *= 0.5
-    elif EXP_LV[a_exp] < 3:
+    elif a_exp < ABL_LV[3]:
         a_pleasure_source *= 0.8
-    elif EXP_LV[a_exp] < 4:
+    elif a_exp < ABL_LV[4]:
         pass
-    elif EXP_LV[a_exp] < 5:
+    elif a_exp < ABL_LV[5]:
         a_pleasure_source *= 1.2
     else:
         a_pleasure_source *= 1.5
@@ -239,15 +238,15 @@ def m_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     m_pleasure_source *= p_source_revision(m_sen_abl, True) / 10
     # exp: M经验
     m_exp = target.exp['m_exp']
-    if EXP_LV[m_exp] < 1:
+    if m_exp < ABL_LV[1]:
         m_pleasure_source *= 0.3
-    elif EXP_LV[m_exp] < 2:
+    elif m_exp < ABL_LV[2]:
         m_pleasure_source *= 0.5
-    elif EXP_LV[m_exp] < 3:
+    elif m_exp < ABL_LV[3]:
         pass
-    elif EXP_LV[m_exp] < 4:
+    elif m_exp < ABL_LV[4]:
         m_pleasure_source *= 2.0
-    elif EXP_LV[m_exp] < 5:
+    elif m_exp < ABL_LV[5]:
         m_pleasure_source *= 3.0
     else:
         m_pleasure_source *= 5.0

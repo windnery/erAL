@@ -1,5 +1,5 @@
 const CAT_ORDER = ['日常', '亲昵', '性骚扰'];
-const TRAIN_CAT_ORDER = ['特殊', '爱抚', '亲吻', '侍奉', '身体开发', '道具', 'SM', '羞耻', '精神调教', '温柔系'];
+const TRAIN_CAT_ORDER = ['特殊', '爱抚', '交流', '性交', '道具'];
 // 每类指令区独立的分类选中态（act 与 train 互不影响）
 const selectedCat = { act: CAT_ORDER[0], train: TRAIN_CAT_ORDER[0] };
 

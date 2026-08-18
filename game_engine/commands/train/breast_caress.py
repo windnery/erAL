@@ -53,7 +53,7 @@ def breast_caress(world: World):
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
-    ctx.say(f'{src_name}仔细揉搓着{tar_name}的柔软胸部……')
+    ctx.say(f'{src_name}温柔地抚摸着{tar_name}的柔软胸部……')
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:

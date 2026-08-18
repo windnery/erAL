@@ -72,7 +72,7 @@ ABL2SRC_WEIGHTS = {
         'lust_source': 1,
     },
     'm_sen_abl': {
-        's_pleasure_source': 4,
+        'm_pleasure_source': 4,
         'lubrication_source': 2,
         'sex_act_source': 2,
         'lust_source': 1,

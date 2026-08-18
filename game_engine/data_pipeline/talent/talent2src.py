@@ -25,7 +25,7 @@ def talent2src(chara: Character, source: dict[str, int | float]):
 def _virgin2src(source: dict[str, int | float]):
     """处女对source的修正"""
     source['sex_act_source'] *= 0.8
-    source['exposure_source'] *= 0.8
+    source['exposure_source'] *= 1.2
     source['escape_source'] *= 1.2
 
 
