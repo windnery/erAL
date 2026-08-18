@@ -20,16 +20,21 @@ def can(world: World):
     # 通用判定
     if not train_global_can(train_manager):
         return False
-    # 玩家不能被舔（男性）
-    if PLAYER_ID in train_manager.train.targets:  # type: ignore
+    # 人数判定
+    if len(train_manager.train.actors) * 2 < len(train_manager.train.targets):  # type: ignore
         return False
+    # 绝壁不可
+    for target_id in train_manager.train.targets:
+        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        if chara.get_talent_value('bra_size') == -2:
+            return False
 
     return True
 
 
-@register_cmd('lick_pussy', '舔阴', cat='爱抚', train_mode=True, can=can, needs_target=False)
-def lick_pussy(world: World):
-    """舔阴"""
+@register_cmd('breast_massage', '揉胸', cat='爱抚', train_mode=True, can=can, needs_target=False)
+def breast_massage(world: World):
+    """揉胸"""
     ctx = CommandContext(world)
     train = world.train_manager.train
     if train is None:
@@ -38,11 +43,11 @@ def lick_pussy(world: World):
     tar_num = len(train.targets)  # 被调教者人数
     num_adjust = float(act_num / tar_num)  # 人数补正
     source: dict[str, int] = new_source({
-        'c_pleasure_source': 80,
-        'lubrication_source': 1000,
-        'exposure_source': 10,
-        'escape_source': 15,
-        'disgust_source': 15
+        'b_pleasure_source': 30,
+        'love_source': 15,
+        'exposure_source': 20,
+        'escape_source': 30,
+        'disgust_source': 50
     })
 
     src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
@@ -52,18 +57,18 @@ def lick_pussy(world: World):
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
-    ctx.say(f'{src_name}把脸埋在了{tar_name}的密缝上，用舌头激烈地舔舐着……')
+    ctx.say(f'{src_name}仔细揉搓着{tar_name}的柔软胸部……')
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
-            line = chara.get_line('lick_pussy')  # type: ignore
+            line = chara.get_line('breast_massage')  # type: ignore
             if line:
                 # 有口上
                 ctx.say(line.replace('{name}', chara.name))
 
     # 推进时间
-    ctx.advance_time(command_time_data['lick_pussy'])
+    ctx.advance_time(command_time_data['breast_massage'])
 
     sources: dict[str, dict[str, int | float]] = {}
     # 调教者
@@ -72,18 +77,15 @@ def lick_pussy(world: World):
             actor_id: source.copy()
         }
         chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
-        # abl: 舌
-        temp_sources[actor_id]['c_pleasure_source'] += chara.abl['tongue_abl'] * 20
-        temp_sources[actor_id]['lubrication_source'] += chara.abl['tongue_abl'] * 80
+        temp_sources[actor_id]['b_pleasure_source'] += chara.abl['finger_abl'] * 20
 
-        if chara.has_talent('flexible_tongue'):
-            temp_sources[actor_id]['c_pleasure_source'] *= 1.5
-            temp_sources[actor_id]['lubrication_source'] *= 1.5
+        if chara.has_talent('flexible_fingers'):
+            temp_sources[actor_id]['b_pleasure_source'] *= 1.5
 
         sources.update(temp_sources)
 
         # exp
-        chara.set_exp('tongue_exp', chara.get_exp('tongue_exp') + 1)
+        chara.set_exp('finger_exp', chara.get_exp('finger_exp') + 1)
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -105,7 +107,7 @@ def lick_pussy(world: World):
         ctx.say(' '.join(source_list))
 
         # 体力和气力消耗
-        ctx.consume(stamina=5, energy=50, chara=chara)
+        ctx.consume(stamina=10, energy=50, chara=chara)
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
@@ -117,12 +119,8 @@ def lick_pussy(world: World):
         for target_id in train.targets:
             target = get_entity_by_id(
                 world.npc_manager, world.player, target_id)
-            # 额外处理调教者方的反馈source
-            m_pleasure_source = 50
-            source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
             # 笛卡尔积
             source_proc(sources[target_id], actor, target, ctx)
-            source_proc(source, target, actor, ctx)
 
-    ctx.say(f'度过了{command_time_data["lick_pussy"]}分钟')
+    ctx.say(f'度过了{command_time_data["breast_massage"]}分钟')
     return ctx.result()

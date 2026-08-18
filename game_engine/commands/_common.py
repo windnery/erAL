@@ -66,6 +66,10 @@ def low_favor2favor(favor: int) -> int:
     else:
         return 0
 
+def get_revision(raw_num: int, limit: int, revision_rate: int|float) -> int:
+    """获取修正后的数值"""
+    return int(limit - limit * revision_rate / (revision_rate + raw_num))
+
 
 def get_name_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
     """通过id获取角色名"""
@@ -149,6 +153,7 @@ def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext,
     elif trust_delta < 0:
         ctx.say(f'信赖{trust_delta} ({npc.name})')
 
+
 def pain_check_v(source: dict[str, int | float], chara: Character):
     """v苦痛判定"""
     # exp: v经验
@@ -181,6 +186,7 @@ def pain_check_v(source: dict[str, int | float], chara: Character):
     else:
         source['pain_source'] *= 0.1
 
+
 def pain_check_a(source: dict[str, int | float], chara: Character):
     """a苦痛判定"""
     # exp: a经验
@@ -212,6 +218,7 @@ def pain_check_a(source: dict[str, int | float], chara: Character):
         source['pain_source'] *= 0.3
     else:
         source['pain_source'] *= 0.2
+
 
 def add_attitude_mes(mes: str, new: str):
     """添加合意判定输出消息"""

@@ -20,16 +20,17 @@ def can(world: World):
     # 通用判定
     if not train_global_can(train_manager):
         return False
-    # 玩家不能被舔（男性）
-    if PLAYER_ID in train_manager.train.targets:  # type: ignore
+    # 人数判定
+    if len(train_manager.train.actors) < len(train_manager.train.targets):  # type: ignore
         return False
 
     return True
 
 
-@register_cmd('lick_pussy', '舔阴', cat='爱抚', train_mode=True, can=can, needs_target=False)
-def lick_pussy(world: World):
-    """舔阴"""
+
+@register_cmd('nipple_sucking', '吸乳头', cat='爱抚', train_mode=True, can=can, needs_target=False)
+def nipple_sucking(world: World):
+    """吸乳头"""
     ctx = CommandContext(world)
     train = world.train_manager.train
     if train is None:
@@ -38,11 +39,11 @@ def lick_pussy(world: World):
     tar_num = len(train.targets)  # 被调教者人数
     num_adjust = float(act_num / tar_num)  # 人数补正
     source: dict[str, int] = new_source({
-        'c_pleasure_source': 80,
-        'lubrication_source': 1000,
-        'exposure_source': 10,
-        'escape_source': 15,
-        'disgust_source': 15
+        'b_pleasure_source': 50,
+        'love_source': 30,
+        'exposure_source': 20,
+        'unclean_source': 30,
+        'disgust_source': 100
     })
 
     src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
@@ -52,18 +53,18 @@ def lick_pussy(world: World):
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
-    ctx.say(f'{src_name}把脸埋在了{tar_name}的密缝上，用舌头激烈地舔舐着……')
+    ctx.say(f'{src_name}吸允着{tar_name}的乳头……')
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
-            line = chara.get_line('lick_pussy')  # type: ignore
+            line = chara.get_line('nipple_sucking')  # type: ignore
             if line:
                 # 有口上
                 ctx.say(line.replace('{name}', chara.name))
 
     # 推进时间
-    ctx.advance_time(command_time_data['lick_pussy'])
+    ctx.advance_time(command_time_data['nipple_sucking'])
 
     sources: dict[str, dict[str, int | float]] = {}
     # 调教者
@@ -72,13 +73,11 @@ def lick_pussy(world: World):
             actor_id: source.copy()
         }
         chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
-        # abl: 舌
-        temp_sources[actor_id]['c_pleasure_source'] += chara.abl['tongue_abl'] * 20
-        temp_sources[actor_id]['lubrication_source'] += chara.abl['tongue_abl'] * 80
+        temp_sources[actor_id]['b_pleasure_source'] += chara.abl['tongue_abl'] * 20
+        temp_sources[actor_id]['love_source'] += chara.abl['tongue_abl'] * 5
 
         if chara.has_talent('flexible_tongue'):
-            temp_sources[actor_id]['c_pleasure_source'] *= 1.5
-            temp_sources[actor_id]['lubrication_source'] *= 1.5
+            temp_sources[actor_id]['b_pleasure_source'] *= 1.5
 
         sources.update(temp_sources)
 
@@ -117,12 +116,8 @@ def lick_pussy(world: World):
         for target_id in train.targets:
             target = get_entity_by_id(
                 world.npc_manager, world.player, target_id)
-            # 额外处理调教者方的反馈source
-            m_pleasure_source = 50
-            source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
             # 笛卡尔积
             source_proc(sources[target_id], actor, target, ctx)
-            source_proc(source, target, actor, ctx)
 
-    ctx.say(f'度过了{command_time_data["lick_pussy"]}分钟')
+    ctx.say(f'度过了{command_time_data["nipple_sucking"]}分钟')
     return ctx.result()
