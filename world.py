@@ -130,6 +130,9 @@ class World:
             self.change_stamina(self.player.base['max_stamina'] * sleep_minutes // 480)
             self.change_energy(self.player.base['max_energy'] * sleep_minutes // 480)
             self.change_vitality(self.player.base.get('max_vitality', 2000) * sleep_minutes // 480)
+            for npc in self.npc_manager.get_all_npcs():
+                npc.set_stamina(npc.get_stamina() + npc.base['max_stamina'] * sleep_minutes // 480)
+                npc.set_energy(npc.get_energy() + npc.base['max_energy'] * sleep_minutes // 480)
             pages.append(f'{self.player.name}准备睡觉……')
             pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}　精力+{self.player.get_vitality() - current_vitality}')
 
@@ -147,6 +150,9 @@ class World:
             self.change_stamina(self.player.base['max_stamina'])
             self.change_energy(self.player.base['max_energy'])
             self.change_vitality(self.player.base.get('max_vitality', 2000))
+            for npc in self.npc_manager.get_all_npcs():
+                npc.set_stamina(npc.base['max_stamina'])
+                npc.set_energy(npc.base['max_energy'])
 
             pages.append(f'强制休息了一段时间，恢复了全部体力与气力')
 
