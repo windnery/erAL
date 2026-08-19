@@ -50,7 +50,7 @@ class TimeManager:
         # 获取正常睡觉的时间
         current = self.hour * 60 + self.minute
         target = self.player.wake_time['hour'] * 60 + self.player.wake_time['minute']  # 醒来的时间
-        if current > target:
+        if current >= target:
             # 如果当前时间已经超过设定的醒来时间，则推进到第二天
             minutes_to_advance = (24 * 60 - current) + target
         else:

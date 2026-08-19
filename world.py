@@ -102,6 +102,11 @@ class World:
         self.player.set_energy(self.player.get_energy() + delta)
         return ''
 
+    def change_vitality(self, delta: int):
+        # Change the player's vitality.
+        self.player.set_vitality(self.player.get_vitality() + delta)
+        return ''
+
     def is_training(self):
         """是否是调教模式"""
         return self.train_mode
@@ -121,10 +126,12 @@ class World:
             # 体力和气力恢复，按8小时为满值恢复
             current_stamina = self.player.get_stamina()
             current_energy = self.player.get_energy()
+            current_vitality = self.player.get_vitality()
             self.change_stamina(self.player.base['max_stamina'] * sleep_minutes // 480)
             self.change_energy(self.player.base['max_energy'] * sleep_minutes // 480)
+            self.change_vitality(self.player.base.get('max_vitality', 2000) * sleep_minutes // 480)
             pages.append(f'{self.player.name}准备睡觉……')
-            pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}')
+            pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}　精力+{self.player.get_vitality() - current_vitality}')
 
             self.time_manager.to_next_day()  # 推进到第二天
             # 更新舰娘到新时间的位置（起床后的调度）
@@ -139,6 +146,7 @@ class World:
 
             self.change_stamina(self.player.base['max_stamina'])
             self.change_energy(self.player.base['max_energy'])
+            self.change_vitality(self.player.base.get('max_vitality', 2000))
 
             pages.append(f'强制休息了一段时间，恢复了全部体力与气力')
 

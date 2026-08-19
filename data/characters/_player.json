@@ -12,8 +12,10 @@
     "base": {
         "max_stamina": 2000,
         "max_energy": 2000,
+        "max_vitality": 2000,
         "stamina": 2000,
-        "energy": 2000
+        "energy": 2000,
+        "vitality": 2000
     },
     "abl": {
         "c_sen_abl": 0,
@@ -62,7 +64,8 @@
 
         "talk_exp": 0,
         "work_exp": 0,
-        "love_exp": 0
+        "love_exp": 0,
+        "ejaculation_exp": 0
     },
     "palam": {
         "c_pleasure_palam": 0,
@@ -103,5 +106,7 @@
         "depression_juel": 0,
         "negation_juel": 0
     },
-    "talent": {}
+    "talent": {
+        "male_virgin": "1"
+    }
 }

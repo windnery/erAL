@@ -15,4 +15,5 @@ def abl2src(abl: dict[str, int], source: dict[str, int | float]):
                 source[src_key] += int(coef * modify)
                 # 避免 source 值小于 0
                 source[src_key] = max(source[src_key], 0)
+    return source
 

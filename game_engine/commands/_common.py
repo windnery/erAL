@@ -1,13 +1,16 @@
 from collections import defaultdict
 
 from config.abl_config import ABL_LV
+from config.attr_defs import ATTR_DEFS
 from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
+from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
+from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.managers.NpcManager import NpcManager
@@ -389,3 +392,46 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
         mes = add_attitude_mes(mes, '约会中(40)')
 
     return mes, attitude
+
+
+def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
+    """射精判定"""
+    player = world.player
+    train = world.train_manager.train
+    if train is None:
+        return
+
+    from game_engine.data_pipeline.palam.ejaculation_calc import ejaculation_check
+
+    if not ejaculation_check(player):
+        return
+
+    player.set_exp('ejaculation_exp', player.get_exp('ejaculation_exp') + 1)
+    player.set_vitality(player.get_vitality() - EJACULATION_VITALITY_COST)
+    ctx.say(f'{player.name}射精了！（{position}）')
+
+    semen_src = new_source(SEMEN_SOURCES.get(position, {}))
+    for target_id in train.targets:
+        if target_id == PLAYER_ID:
+            continue
+        chara = get_entity_by_id(world.npc_manager, player, target_id)
+        chara.set_exp('semen_exp', chara.get_exp('semen_exp') + 1)
+        chara.set_exp('v_semen_exp', chara.get_exp('v_semen_exp') + 1)
+        line = chara.get_line('ejaculation')  # type: ignore
+        if line:
+            ctx.say(line.replace('{name}', chara.name))
+
+        source = common_src_modify(semen_src.copy(), chara)
+        source_list = [f'{chara.name} ']
+        for key, value in source.items():
+            if value:
+                source_list.append(f"{ATTR_DEFS['source'][key]['name']}({value})")
+        ctx.say(' '.join(source_list))
+        source_proc(source, player, chara, ctx)
+        favor_trust_proc(source, chara, ctx)
+
+    player.palam['m_pleasure_palam'] = 0
+    player.update_palam_level()
+    if player.get_vitality() == 0:
+        world.train_manager.end_train()
+        ctx.say('精力耗尽，本次调教强制结束……')

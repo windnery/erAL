@@ -396,3 +396,14 @@ ORGASM_LV_JUEL_MODIFIER = {
     3: 2.0,
     4: 2.5
 }
+# 玩家射精闭环配置
+EJACULATION_THRESHOLD: int = 5000
+EJACULATION_VITALITY_COST: int = 200
+SEMEN_SOURCES: dict[str, dict[str, int]] = {
+    '中出': {
+        'v_pleasure_source': 500,
+        'lust_source': 300,
+        'submission_source': 300,
+        'unclean_source': 300,
+    },
+}

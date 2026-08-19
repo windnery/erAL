@@ -212,6 +212,27 @@
             "texts": [
                 "你轻拍了一下{name}的屁股，她跳起来惊呼：「指挥官——！」"
             ]
+        },
+        {
+            "action": "common_position",
+            "conditions": {"min_favor": 800},
+            "texts": [
+                "「呀……！」{name}轻呼一声，脸上泛起红晕：「指挥官，别、别看那么仔细呀！」"
+            ]
+        },
+        {
+            "action": "defloration",
+            "conditions": {},
+            "texts": [
+                "「唔……有点疼……」{name}忍着痛挤出笑容：「但是因为是指挥官，我可以的！」"
+            ]
+        },
+        {
+            "action": "ejaculation",
+            "conditions": {},
+            "texts": [
+                "「到、到了……里面好热……」{name}全身一颤，声音带着哭腔：「这种地方……会怀上吗？」"
+            ]
         }
     ]
 }

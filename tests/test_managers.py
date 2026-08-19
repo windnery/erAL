@@ -496,9 +496,14 @@ class TestTrainCommands:
         """会话人数达标时返回调教指令"""
         self._make_train(world, ['player', 'Z23'], ['laffey'])
         commands = world.train_manager.get_train_commands()
-        assert [c['key'] for c in commands] == ['caress', 'end_train']
-        assert commands[0]['name'] == '爱抚'
-        assert commands[0]['cat'] == '爱抚'
+        keys = [c['key'] for c in commands]
+        assert 'caress' in keys
+        assert 'end_train' in keys
+        caress = next(c for c in commands if c['key'] == 'caress')
+        assert caress['name'] == '爱抚'
+        assert caress['cat'] == '爱抚'
+
+
 
     def test_get_train_commands_filters_by_can(self, world):
         """人数不满足 can 时指令被过滤（1 调教者 vs 1 被调教者）"""

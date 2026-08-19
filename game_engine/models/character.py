@@ -42,6 +42,16 @@ class Character:
         """获取气力"""
         return self.base['energy']
 
+    def set_vitality(self, value: int) -> bool:
+        """设置精力，并返回是否还有剩余。"""
+        max_vitality = self.base.get('max_vitality', 2000)
+        self.base['vitality'] = max(0, min(value, max_vitality))
+        return bool(self.base['vitality'])
+
+    def get_vitality(self) -> int:
+        """获取精力。旧角色数据没有精力字段时按满精力处理。"""
+        return self.base.get('vitality', self.base.get('max_vitality', 2000))
+
     def is_energy_empty(self) -> bool:
         """气力是否为0"""
         return self.get_energy() == 0

@@ -106,6 +106,8 @@ def kiss(world: World):
         ctx.say(f'{chara.name} {mes}')
         if not ok:
             train.targets.remove(target_id)
+    if len(train.targets) == 0:
+        return ctx.result()
     act_num = len(train.actors)  # 调教者人数
     tar_num = len(train.targets)  # 被调教者人数
     num_adjust = float(act_num / tar_num)  # 人数补正

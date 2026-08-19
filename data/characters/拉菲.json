@@ -222,6 +222,27 @@
       "texts": [
         "{name}被碰到屁股，红着脸跳开了。"
       ]
+    },
+    {
+      "action": "common_position",
+      "conditions": {"min_favor": 800},
+      "texts": [
+        "{name}被你填满的瞬间轻轻皱眉：「指挥官，里面……感觉好奇怪……」"
+      ]
+    },
+    {
+      "action": "defloration",
+      "conditions": {},
+      "texts": [
+        "「唔……好疼……」{name}眼角渗出泪珠，却仍呆呆地望着你。"
+      ]
+    },
+    {
+      "action": "ejaculation",
+      "conditions": {},
+      "texts": [
+        "温热的精液沿着大腿滑落，{name}脸颊泛红：「好奇怪的感觉……」"
+      ]
     }
   ]
 }

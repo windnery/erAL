@@ -55,8 +55,8 @@ def nap(world, option=None):
     ctx.advance_time(command_time_data['nap'])
 
     # 回复体力和气力
-    stamina_recovered = int(player.get_stamina() * 0.25) + randint(-80, 100)
-    energy_recovered = int(player.get_energy() * 0.25) + randint(-80, 100)
+    stamina_recovered = max(0, int(player.get_stamina() * 0.25) + randint(-80, 100))
+    energy_recovered = max(0, int(player.get_energy() * 0.25) + randint(-80, 100))
     ctx.recover(stamina=stamina_recovered, energy=energy_recovered)
 
     ctx.say(f"小睡了一会儿，恢复了{stamina_recovered}点体力和{energy_recovered}点气力")
