@@ -1,9 +1,10 @@
 {
     "id": "javelin",
     "name": "标枪",
-    "location": {
-        "region": "home",
-        "node": "bedroom"
+    "color": "#DDA0DD",
+  "location": {
+        "region": "royal_dorm",
+        "node": "javelin_room"
     },
     "base": {
         "max_stamina": 1500,

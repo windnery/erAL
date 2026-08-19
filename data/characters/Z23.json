@@ -1,9 +1,10 @@
 {
     "id": "Z23",
     "name": "Z23",
-    "location": {
-        "region": "home",
-        "node": "bedroom"
+    "color": "#A9B7C6",
+  "location": {
+        "region": "ironblood_dorm",
+        "node": "z23_room"
     },
     "base": {
         "max_stamina": 1500,

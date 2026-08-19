@@ -18,5 +18,25 @@
     "name": "商店街",
     "micro_map": "shop_street.json",
     "entry_node": "street"
+  },
+  "eagle_union_dorm": {
+    "name": "白鹰宿舍区",
+    "micro_map": "eagle_union_dorm.json",
+    "entry_node": "corridor"
+  },
+  "ironblood_dorm": {
+    "name": "铁血宿舍区",
+    "micro_map": "ironblood_dorm.json",
+    "entry_node": "corridor"
+  },
+  "royal_dorm": {
+    "name": "皇家宿舍区",
+    "micro_map": "royal_dorm.json",
+    "entry_node": "corridor"
+  },
+  "sakura_dorm": {
+    "name": "重樱宿舍区",
+    "micro_map": "sakura_dorm.json",
+    "entry_node": "corridor"
   }
 }

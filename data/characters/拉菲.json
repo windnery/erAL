@@ -1,9 +1,10 @@
 {
   "id": "laffey",
   "name": "拉菲",
+  "color": "#FFB6C1",
   "location": {
-    "region": "home",
-    "node": "bedroom"
+    "region": "eagle_union_dorm",
+    "node": "laffey_room"
   },
   "base": {
     "max_stamina": 1500,
@@ -121,8 +122,8 @@
       {
         "desc": "{name}准备回家睡觉了……",
         "location": {
-          "region": "home",
-          "node": "bedroom"
+          "region": "eagle_union_dorm",
+          "node": "laffey_room"
         },
         "time": {
           "start": [

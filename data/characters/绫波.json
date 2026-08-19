@@ -2,8 +2,8 @@
     "id": "ayanami",
     "name": "绫波",
     "location": {
-        "region": "home",
-        "node": "bedroom"
+        "region": "sakura_dorm",
+        "node": "ayanami_room"
     },
     "base": {
         "max_stamina": 1500,

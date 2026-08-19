@@ -26,7 +26,7 @@ class MapManager:
         """获取当前区域可前往的节点"""
         nodes: list[dict[str, str]] = []
         for node_id in self.maps[region].keys():
-            if node_id != node:  # 移除当前节点
+            if node_id != node and node in move_time_data and node_id in move_time_data[node]:  # 仅显示有通行时间的节点
                 nodes.append(
                     {'key': node_id, 'name': self.maps[region][node_id]['name'], 'time': move_time_data[node][node_id]})
         nodes.append({'key': 'return', 'name': '返回'})  # 添加返回选项

@@ -8,5 +8,13 @@
     "private_room": {"food_window": 2, "hall": 1},
 
     "street": {"shop": 3},
-    "shop": {"street": 3}
+    "shop": {"street": 3},
+
+    "corridor": {"laffey_room": 1, "z23_room": 1, "javelin_room": 1, "ayanami_room": 1, "shiranui_room": 1, "akashi_room": 1},
+    "laffey_room": {"corridor": 1},
+    "z23_room": {"corridor": 1},
+    "javelin_room": {"corridor": 1},
+    "ayanami_room": {"corridor": 1},
+    "shiranui_room": {"corridor": 1},
+    "akashi_room": {"corridor": 1}
 }

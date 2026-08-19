@@ -2,8 +2,8 @@
   "id": "shiranui",
   "name": "不知火",
   "location": {
-    "region": "home",
-    "node": "bedroom"
+    "region": "sakura_dorm",
+    "node": "shiranui_room"
   },
   "base": {
     "max_stamina": 1500,

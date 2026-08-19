@@ -1,0 +1,6 @@
+{
+  "corridor": {"name": "重樱宿舍走廊", "actions": {}},
+  "ayanami_room": {"name": "绫波的房间", "actions": {}},
+  "shiranui_room": {"name": "不知火的房间", "actions": {}},
+  "akashi_room": {"name": "明石的房间", "actions": {}}
+}
