@@ -1,10 +1,10 @@
 {
     "base": {
         "max_stamina": {"name": "最大体力", "default": 2000},
-        "max_energy": {"name": "最大精力", "default": 2000},
+        "max_energy": {"name": "最大气力", "default": 2000},
         "max_vitality": {"name": "最大精力", "default": 2000},
         "stamina": {"name": "体力", "default": 2000},
-        "energy": {"name": "精力", "default": 2000},
+        "energy": {"name": "气力", "default": 2000},
         "vitality": {"name": "精力", "default": 2000},
         "emotion": {"name": "情绪", "default": 0},
         "rationality": {"name": "理性", "default": 1000}

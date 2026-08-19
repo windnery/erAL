@@ -316,53 +316,55 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     mes = add_attitude_mes(mes, f'侍奉精神({temp})') if temp != 0 else mes
     """palam"""
     # 亲密
-    attitude += npc.palam_lv['kindness_palam'] * 5
-    mes = add_attitude_mes(mes, f'好意({npc.palam_lv["kindness_palam"] * 5})') if temp != 0 else mes
+    t = npc.palam_lv['kindness_palam'] * 5
+    attitude += t
+    mes = add_attitude_mes(mes, f'好意({t})') if t != 0 else mes
     # 欲望
-    attitude += npc.palam_lv['lust_palam'] * 5
-    mes = add_attitude_mes(mes, f'欲望({npc.palam_lv["lust_palam"] * 5})') if temp != 0 else mes
+    t = npc.palam_lv['lust_palam'] * 5
+    attitude += t
+    mes = add_attitude_mes(mes, f'欲望({t})') if t != 0 else mes
     """talent"""
     # 胆怯
     if npc.get_talent_value("courage") == -1:
         attitude -= 20
-        mes = add_attitude_mes(mes, '胆怯(-20)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '胆怯(-20)')
     # 叛逆
     if npc.get_talent_value("attitude") == 1:
         attitude -= 30
-        mes = add_attitude_mes(mes, '叛逆(-30)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '叛逆(-30)')
     # 傲慢
     if npc.get_talent_value("response") == 1:
         attitude -= 20
-        mes = add_attitude_mes(mes, '傲慢(-20)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '傲慢(-20)')
     # 自尊心高
     if npc.get_talent_value("self_respect") == 1:
         attitude -= 10
-        mes = add_attitude_mes(mes, '自尊心高(-10)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '自尊心高(-10)')
     # 傲娇
     if npc.has_talent("tsundere"):
         # 傲娇且关系在喜欢以下
         if npc.get_talent_value("relationship") < 2:
             attitude -= 20
-            mes = add_attitude_mes(mes, '傲娇(-20)') if temp != 0 else mes
+            mes = add_attitude_mes(mes, '傲娇(-20)')
         else:
             attitude += 30
-            mes = add_attitude_mes(mes, '傲娇(30)') if temp != 0 else mes
+            mes = add_attitude_mes(mes, '傲娇(30)')
     # 冷漠
     if npc.has_talent("indifference"):
         attitude -= 30
-        mes = add_attitude_mes(mes, '冷漠(-30)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '冷漠(-30)')
     # 感情缺乏
     if npc.has_talent("emotional_deficiency"):
         attitude -= 30
-        mes = add_attitude_mes(mes, '感情缺乏(-30)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '感情缺乏(-30)')
     # 开朗的
     if npc.has_talent("bright"):
         attitude += 20
-        mes = add_attitude_mes(mes, '开朗的(20)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '开朗的(20)')
     # 阴郁的
     if npc.has_talent("morose"):
         attitude -= 20
-        mes = add_attitude_mes(mes, '阴郁的(-20)') if temp != 0 else mes
+        mes = add_attitude_mes(mes, '阴郁的(-20)')
     # 难以逾越的底线
     if npc.has_talent("impassable_line") and impassable_line > 0:
         attitude -= impassable_line

@@ -616,15 +616,15 @@ def v_semen_addiction_juel_demand(chara: Character):
 
 def a_semen_addiction_juel_demand(chara: Character):
     """肛射中毒"""
-    # 精液中毒限制
-    if chara.abl['semen_addiction_abl'] < chara.abl['v_semen_addiction_abl']:
+    # 精液中毒限制（肛射中毒不得超过精液中毒）
+    if chara.abl['semen_addiction_abl'] < chara.abl['a_semen_addiction_abl']:
         return {'lust_juel': -1}
-    lust_demand = BASE_V_A_SEMEN_ADDICTION_LUST_JUEL_DEMAND.get(chara.abl['v_semen_addiction_abl'],
-                                                                15_000 * (chara.abl['v_semen_addiction_abl'] - 3))
-    submission_demand = BASE_V_A_SEMEN_ADDICTION_SUBMISSION_JUEL_DEMAND.get(chara.abl['v_semen_addiction_abl'],
+    lust_demand = BASE_V_A_SEMEN_ADDICTION_LUST_JUEL_DEMAND.get(chara.abl['a_semen_addiction_abl'],
+                                                                15_000 * (chara.abl['a_semen_addiction_abl'] - 3))
+    submission_demand = BASE_V_A_SEMEN_ADDICTION_SUBMISSION_JUEL_DEMAND.get(chara.abl['a_semen_addiction_abl'],
                                                                             100_000 * (
                                                                                     chara.abl[
-                                                                                        'v_semen_addiction_abl'] - 3
+                                                                                        'a_semen_addiction_abl'] - 3
                                                                             ))
     # 难以逾越的底线
     if chara.has_talent('impassable_line'):
