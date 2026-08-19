@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
@@ -53,12 +54,9 @@ def hug(world: World, option: str):
         'passivity_source': 120,  # 被动
         'conquest_source': 120  # 征服
     })
-
-    line = npc.get_line('hug')
     ctx.say(f'抱住了{npc.name}……')
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'hug')
 
     # 推进时间
     ctx.advance_time(command_time_data['hug'])

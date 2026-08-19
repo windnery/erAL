@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
@@ -50,12 +51,9 @@ def body_touch(world: World, option: str):
         'conquest_source': 100,     # 征服
         'passivity_source': 100,    # 被动
     })
-
-    line = npc.get_line('body_touch')
     ctx.say(f'尝试和{npc.name}身体接触……')
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'body_touch')
 
     # 推进时间
     ctx.advance_time(command_time_data['body_touch'])

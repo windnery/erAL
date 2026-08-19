@@ -15,12 +15,14 @@ class ShipGirl(Character):
     trust: int = 0  # 信赖度
     schedule: dict[str, Any] = field(default_factory=dict)  # 作息时间表
     lines: list[dict[str, Any]] = field(default_factory=list)  # 台词
+    color: str = '#ffffff'
 
     def get_state(self):
         """返回舰娘状态"""
         return {
             "id": self.id,
             "name": self.name,
+            "color": self.color,
             "favor": self.favor,
             "trust": self.trust,
             "base": self.base,

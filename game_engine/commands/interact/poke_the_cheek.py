@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
@@ -52,12 +53,9 @@ def poke_the_cheek(world: World, option: str):
         'submission_source': 500,  # 屈服
         'passivity_source': 100,  # 被动
     })
-
-    line = npc.get_line('poke_the_cheek')
     ctx.say(f'戳了戳{npc.name}的脸蛋……')
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'poke_the_cheek')
 
     # 推进时间
     ctx.advance_time(command_time_data['poke_the_cheek'])

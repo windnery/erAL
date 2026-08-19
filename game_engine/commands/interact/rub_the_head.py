@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
@@ -50,12 +51,9 @@ def rub_the_head(world: World, option: str):
         'love_source': 150,  # 情爱
         'disgust_source': 80,  # 反感
     })
-
-    line = npc.get_line('rub_the_head')
     ctx.say(f'摸了摸{npc.name}的头……')
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'rub_the_head')
 
     # 推进时间
     ctx.advance_time(command_time_data['rub_the_head'])

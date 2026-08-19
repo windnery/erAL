@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
@@ -25,14 +26,11 @@ def end_date(world: World, option: str, time_out: bool=False):
     """结束约会"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
-
-    line = npc.get_line("end_date")
     if time_out:
-        ctx.say(f"因为时间太晚了而不得不终止和{npc.name}的约会……")
-    else: ctx.say(f"结束了和{npc.name}的约会……")
-    if line:
-        # 有口上
-        ctx.say(line.replace("{name}", npc.name))
+        ctx.say(f'因为时间太晚了而不得不终止和{npc.name}的约会……')
+    else: ctx.say(f'结束了和{npc.name}的约会……')
+
+    say_chara_line(npc, ctx, 'end_date')
 
     # TODO: 约会后的处理 包括情绪、理性等
 

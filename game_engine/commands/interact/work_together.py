@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from random import randint
 from typing import TYPE_CHECKING
 
@@ -36,12 +37,9 @@ def work_together(world, option=None):
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
     work_manager = world.work_manager
-
-    line = npc.get_line('work_together')
     ctx.say(f"和{npc.name}一起认真工作……")
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'work_together')
 
     # 推进时间
     ctx.advance_time(command_time_data['work_together'])

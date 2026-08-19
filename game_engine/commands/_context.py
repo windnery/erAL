@@ -48,9 +48,12 @@ class CommandContext:
         if energy:
             self._exhaustion_mes += self.world.change_energy(energy)
 
-    def say(self, *msgs: str):
+    def say(self, *msgs: str, color: str | None = None):
         '''添加一条或多条消息'''
-        self.messages.extend(msgs)
+        if color is None:
+            self.messages.extend(msgs)
+        else:
+            self.messages.extend(f'[[c:{color}]]{msg}[[/c]]' for msg in msgs)
 
     def result(self) -> list[str]:
         '''组装最终返回：核心消息 + NPC 变动事件 + 耗尽结算（若有）'''

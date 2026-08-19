@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
@@ -74,12 +75,9 @@ def oath(world: World, option: str):
     option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
+    ctx.say(f'{world.player.name}掏出了事先准备好的誓约之戒，向{npc.name}发起神圣的誓约之邀！')
 
-    line = npc.get_line("oath")
-    ctx.say(f"{world.player.name}掏出了事先准备好的誓约之戒，向{npc.name}发起神圣的誓约之邀！")
-    if line:
-        # 有口上
-        ctx.say(line.replace("{name}", npc.name))
+    say_chara_line(npc, ctx, 'oath')
 
     ok, detail = able(world, npc)
     ctx.say(detail)

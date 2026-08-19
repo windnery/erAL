@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.attr_defs import ATTR_DEFS
@@ -62,10 +63,7 @@ def breast_massage(world: World):
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
-            line = chara.get_line('breast_massage')  # type: ignore
-            if line:
-                # 有口上
-                ctx.say(line.replace('{name}', chara.name))
+            say_chara_line(chara, ctx, 'breast_massage')
 
     # 推进时间
     ctx.advance_time(command_time_data['breast_massage'])

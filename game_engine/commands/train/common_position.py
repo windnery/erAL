@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
@@ -141,9 +142,7 @@ def common_position(world: World):
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         if target_id != PLAYER_ID:
-            line = chara.get_line('common_position')  # type: ignore[attr-defined]
-            if line:
-                ctx.say(line.replace('{name}', chara.name))
+            say_chara_line(chara, ctx, 'common_position')
 
     ctx.advance_time(command_time_data['common_position'])
 
@@ -169,9 +168,7 @@ def common_position(world: World):
             chara.set_talent('virgin', '0')
             source['pain_source'] *= 3
             ctx.say(f'{chara.name}的处女膜被贯穿了！（破处）')
-            line = chara.get_line('defloration')
-            if line:
-                ctx.say(line.replace('{name}', chara.name))
+            say_chara_line(chara, ctx, 'defloration')
 
         pain_check_v(source, chara)
         source = common_src_modify(source, chara)

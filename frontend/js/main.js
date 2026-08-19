@@ -7,6 +7,7 @@ import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
 import { openDailyShop } from './ui/daily_shop.js';
 import { openInventory } from './ui/inventory.js';
+import { parseColoredMessage } from './ui/colored_text.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
@@ -63,15 +64,18 @@ function showFullscreenOptions(options, onPick) {
 function appendPageGroup(el, startIdx) {
     const endIdx = Math.min(startIdx + PAGE_SIZE, textPages.length);
     for (let i = startIdx; i < endIdx; i++) {
-        let p = document.createElement('p');
-        p.textContent = textPages[i];
-        el.appendChild(p);
+        el.appendChild(createPageElement(textPages[i]));
     }
 }
 
 function createPageElement(text) {
-    let p = document.createElement('p');
-    p.textContent = text;
+    const p = document.createElement('p');
+    for (const node of parseColoredMessage(text)) {
+        const span = document.createElement('span');
+        span.textContent = node.text;
+        if (node.color) span.style.color = node.color;
+        p.appendChild(span);
+    }
     return p;
 }
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
@@ -67,12 +68,9 @@ def confess(world: World, option: str):
     option: 指令对象"""
     ctx = CommandContext(world)
     npc = world.npc_manager.get_npc_by_id(option)
+    ctx.say(f'鼓起勇气对{npc.name}告白了！')
 
-    line = npc.get_line("confess")
-    ctx.say(f"鼓起勇气对{npc.name}告白了！")
-    if line:
-        # 有口上
-        ctx.say(line.replace("{name}", npc.name))
+    say_chara_line(npc, ctx, 'confess')
 
     ok, detail = able(world, npc)
     ctx.say(detail)

@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
@@ -53,12 +54,9 @@ def rub_the_belly(world: World, option: str):
         'disgust_source': 150,  # 反感
         'passivity_source': 120,  # 被动
     })
-
-    line = npc.get_line('rub_the_belly')
     ctx.say(f'揉了揉{npc.name}的肚子……')
-    if line:
-        # 有口上
-        ctx.say(line.replace('{name}', npc.name))
+
+    say_chara_line(npc, ctx, 'rub_the_belly')
 
     # 推进时间
     ctx.advance_time(command_time_data['body_touch'])

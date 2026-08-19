@@ -6,6 +6,14 @@ from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
+
+def say_chara_line(chara, ctx: CommandContext, action: str):
+    """输出带有角色颜色的对白。"""
+    line = chara.get_line(action)
+    if line:
+        ctx.say(line.replace('{name}', chara.name), color=getattr(chara, 'color', '#ffffff'))
+
+
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
 from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES
@@ -18,7 +26,6 @@ from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
-
 
 def new_source(base: dict[str, int]):
     """根据base生成新的source"""
@@ -417,9 +424,7 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
         chara = get_entity_by_id(world.npc_manager, player, target_id)
         chara.set_exp('semen_exp', chara.get_exp('semen_exp') + 1)
         chara.set_exp('v_semen_exp', chara.get_exp('v_semen_exp') + 1)
-        line = chara.get_line('ejaculation')  # type: ignore
-        if line:
-            ctx.say(line.replace('{name}', chara.name))
+        say_chara_line(chara, ctx, 'ejaculation')
 
         source = common_src_modify(semen_src.copy(), chara)
         source_list = [f'{chara.name} ']
