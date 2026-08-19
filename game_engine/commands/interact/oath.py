@@ -77,10 +77,10 @@ def oath(world: World, option: str):
     npc = world.npc_manager.get_npc_by_id(option)
     ctx.say(f'{world.player.name}掏出了事先准备好的誓约之戒，向{npc.name}发起神圣的誓约之邀！')
 
-    say_chara_line(npc, ctx, 'oath')
-
     ok, detail = able(world, npc)
+    say_chara_line(npc, ctx, 'oath')
     ctx.say(detail)
+
     if not ok:
         ctx.say(f"{npc.name}不知所措，最终还是拒绝了……")
         source: dict[str, int] = new_source(

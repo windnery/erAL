@@ -8,10 +8,13 @@ from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
 
 def say_chara_line(chara, ctx: CommandContext, action: str):
-    """输出带有角色颜色的对白。"""
-    line = chara.get_line(action)
-    if line:
-        ctx.say(line.replace('{name}', chara.name), color=getattr(chara, 'color', '#ffffff'))
+    """输出角色口上场景（按角色色逐条染色）；无口上时静默。"""
+    from game_engine.dialogue import get_scene
+
+    scene = get_scene(chara, action)
+    if scene:
+        for msg in scene:
+            ctx.say(msg.replace('{name}', chara.name), color=getattr(chara, 'color', '#ffffff'))
 
 
 from game_engine.data_pipeline.favor.favor_calc import favor_calc

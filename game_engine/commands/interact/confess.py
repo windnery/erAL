@@ -51,7 +51,6 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     score += temp
     mes = add_attitude_mes(mes, f"会话({temp})")
 
-
     if score >= success_score:
         mes += f"={score}≥{success_score} 成功！"
         ok = True
@@ -70,10 +69,10 @@ def confess(world: World, option: str):
     npc = world.npc_manager.get_npc_by_id(option)
     ctx.say(f'鼓起勇气对{npc.name}告白了！')
 
-    say_chara_line(npc, ctx, 'confess')
-
     ok, detail = able(world, npc)
     ctx.say(detail)
+    say_chara_line(npc, ctx, 'confess')
+
     if not ok:
         ctx.say(f"尽管很诚心地告白了，但还是被{npc.name}拒绝了……")
         source: dict[str, int] = new_source(

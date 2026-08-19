@@ -76,10 +76,10 @@ def push_down(world: World, option: str):
     npc = world.npc_manager.get_npc_by_id(option)
     ctx.say(f'尝试推倒{npc.name}！')
 
-    say_chara_line(npc, ctx, 'push_down')
-
     ok, detail = able(world, npc)
     ctx.say(detail)
+    say_chara_line(npc, ctx, 'push_down')
+
     if not ok:
         ctx.say(f"遭到了剧烈反抗……", f"{npc.name}似乎生气了……")
         # TODO: 心情

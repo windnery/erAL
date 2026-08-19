@@ -74,10 +74,10 @@ def invite_date(world: World, option: str):
     npc = world.npc_manager.get_npc_by_id(option)
     ctx.say(f'尝试邀请{npc.name}去约会……')
 
-    say_chara_line(npc, ctx, 'invite_date')
-
     ok, detail = able(world, npc)
     ctx.say(detail)
+    say_chara_line(npc, ctx, 'invite_date')
+
     if not ok:
         ctx.say(f"{npc.name}拒绝了你的邀请")
         source: dict[str, int] = new_source(
