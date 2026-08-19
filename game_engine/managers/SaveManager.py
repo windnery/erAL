@@ -103,7 +103,11 @@ class SaveManager:
 
             p = d['player']
             self.world.player.location = p['location']
-            self.world.player.base = p['base']
+            player_base = p['base']
+            # 旧存档没有精力字段时，按玩家最大精力初始化。
+            player_base.setdefault('max_vitality', self.world.player.base.get('max_vitality', 2000))
+            player_base.setdefault('vitality', player_base['max_vitality'])
+            self.world.player.base = player_base
             self.world.player.money = p['money']
             self.world.player.wake_time = p['wake_time']
             self.world.player.abl = p['abl']

@@ -23,4 +23,8 @@ export function renderStatusBar(location, time, player) {
     const enePct = (player.base.energy / player.base.max_energy) * 100;
     document.getElementById('energy_fill').style.width = enePct + '%';
     document.getElementById('energy_text').textContent = `${player.base.energy}/${player.base.max_energy}`;
+    // vitality bar
+    const vitPct = (player.base.vitality / player.base.max_vitality) * 100;
+    document.getElementById('vitality_fill').style.width = vitPct + '%';
+    document.getElementById('vitality_text').textContent = player.base.vitality + '/' + player.base.max_vitality;
 }

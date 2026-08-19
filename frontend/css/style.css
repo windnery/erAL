@@ -360,6 +360,10 @@ button {
     background: #66c;
 }
 
+#vitality_fill {
+    background: #f5f5f5;
+}
+
 /* 角色面板气力条复用同色 */
 .chara-bar-fill-ene {
     background: #66c;
