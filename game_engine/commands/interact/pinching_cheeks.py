@@ -3,16 +3,12 @@ from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from game_engine.commands._common import new_source, low_intimacy2favor, low_favor2favor, global_can, favor_trust_proc, \
-    source_proc
+from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
-from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from config.attr_defs import ATTR_DEFS
-from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -39,6 +35,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
+
 @register_cmd('pinching_cheeks', '揉脸蛋', '亲昵', can=can)
 def pinching_cheeks(world: World, option: str):
     """揉脸蛋
@@ -61,7 +58,7 @@ def pinching_cheeks(world: World, option: str):
     # ABL: 亲密
     if npc.abl['intimacy_abl'] <= 3:
         source['happiness_source'] += 100 + npc.abl['intimacy_abl'] * 20
-        source['love_source'] += 150+npc.abl['intimacy_abl'] * 30
+        source['love_source'] += 150 + npc.abl['intimacy_abl'] * 30
     elif npc.abl['intimacy_abl'] <= 5:
         source['happiness_source'] += 300 + npc.abl['intimacy_abl'] * 40
         source['love_source'] += 350 + npc.abl['intimacy_abl'] * 30

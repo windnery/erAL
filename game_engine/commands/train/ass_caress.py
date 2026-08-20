@@ -10,6 +10,7 @@ from game_engine.commands._common import pain_check_a, train_global_can, new_sou
     favor_trust_proc, accumulate_sources, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 
 if TYPE_CHECKING:
     from world import World
@@ -76,7 +77,7 @@ def ass_caress(world: World):
         sources.update(temp_sources)
 
         # exp
-        chara.set_exp('finger_exp', chara.get_exp('finger_exp') + 1)
+        ctx.say(exp_calc('finger_exp', chara))
 
         # 体力和气力消耗
         ctx.consume(stamina=20, energy=20, chara=chara)
@@ -103,6 +104,9 @@ def ass_caress(world: World):
 
         # 体力和气力消耗
         ctx.consume(stamina=40, energy=100, chara=chara)
+
+        # exp
+        ctx.say(exp_calc('a_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:

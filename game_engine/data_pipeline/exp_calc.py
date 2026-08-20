@@ -5,7 +5,7 @@ from game_engine.models.character import Character
 def exp_calc(exp: str, chara: Character, num: int = 1):
     """计算exp获得"""
     mes: str = ""
-    chara.exp[exp] += num
+    chara.set_exp(exp, num + chara.get_exp(exp))
     mes = f"{ATTR_DEFS['exp'][exp]['name']}+{num} ({chara.name})"
 
     return mes

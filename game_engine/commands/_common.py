@@ -221,8 +221,8 @@ def accumulate_sources(dict_iterable) -> dict[str, int | float]:
 def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
                      ex_favor: int = 0, ex_trust: int = 0):
     """处理好感和信赖"""
-    favor_delta = favor_calc(npc, source)
-    trust_delta = trust_calc(npc, source)
+    favor_delta = favor_calc(ctx.world.player, npc, source)
+    trust_delta = trust_calc(ctx.world.player, npc, source)
     # 亲昵指令额外判断好感度和亲密
     if is_intimate:
         favor_delta += low_intimacy2favor(npc.abl['intimacy_abl'])

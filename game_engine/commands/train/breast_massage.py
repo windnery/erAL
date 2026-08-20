@@ -10,6 +10,7 @@ from game_engine.commands._common import train_global_can, new_source, get_name_
     favor_trust_proc, accumulate_sources, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 
 if TYPE_CHECKING:
     from world import World
@@ -83,7 +84,7 @@ def breast_massage(world: World):
         sources.update(temp_sources)
 
         # exp
-        chara.set_exp('finger_exp', chara.get_exp('finger_exp') + 1)
+        ctx.say(exp_calc('finger_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -106,6 +107,9 @@ def breast_massage(world: World):
 
         # 体力和气力消耗
         ctx.consume(stamina=10, energy=50, chara=chara)
+
+        # exp
+        ctx.say(exp_calc('b_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:

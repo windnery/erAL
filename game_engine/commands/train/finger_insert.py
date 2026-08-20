@@ -10,6 +10,7 @@ from game_engine.commands._common import pain_check_v, train_global_can, new_sou
     favor_trust_proc, accumulate_sources, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 
 if TYPE_CHECKING:
     from world import World
@@ -79,7 +80,7 @@ def finger_insert(world: World):
         sources.update(temp_sources)
 
         # exp
-        chara.set_exp('finger_exp', chara.get_exp('finger_exp') + 1)
+        ctx.say(exp_calc('finger_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -112,12 +113,12 @@ def finger_insert(world: World):
         # 体力和气力消耗
         ctx.consume(stamina=30, energy=80, chara=chara)
 
+        # v exp
+        ctx.say(exp_calc('v_exp', chara))
+
         # 处理好感和信赖
         if target_id != PLAYER_ID:
             favor_trust_proc(sources[target_id], chara, ctx)
-
-        # exp
-        chara.set_exp('v_exp', chara.get_exp('v_exp') + 1)
 
     # source转换过程统一处理
     pairs = []

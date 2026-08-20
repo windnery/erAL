@@ -20,6 +20,7 @@ from game_engine.commands._common import (
 )
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -156,7 +157,7 @@ def common_position(world: World):
             actor.set_talent('male_virgin', '0')
             ctx.say(f'{actor.name}也告别了处男之身！')
         # 插入经验
-        actor.set_exp('insert_exp', actor.get_exp('insert_exp') + 1)
+        ctx.say(exp_calc('insert_exp', actor))
 
     merged_source = accumulate_sources(actor_sources)
     target_sources: dict[str, dict[str, int]] = {}
@@ -184,11 +185,11 @@ def common_position(world: World):
         if target_id != PLAYER_ID:
             favor_trust_proc(source, chara, ctx)
         # v经验 v性交经验
-        chara.set_exp('v_exp', chara.get_exp('v_exp') + 1)
-        chara.set_exp('v_insert_exp', chara.get_exp('v_insert_exp') + 1)
-        chara.set_exp('love_exp', chara.get_exp('love_exp') + chara.get_talent_value('relationship') * 2)
+        ctx.say(exp_calc('v_exp', chara))
+        ctx.say(exp_calc('v_insert_exp', chara))
+        ctx.say(exp_calc('love_exp', chara, chara.get_talent_value('relationship') * 2))
         if chara.get_talent_value('virgin') == 1 and chara.get_talent_value('relationship') > 1:
-            chara.set_exp('love_exp', chara.get_exp('love_exp') + 10)
+            ctx.say(exp_calc('love_exp', chara, 10))
 
     pairs = []
     for actor_id in train.actors:

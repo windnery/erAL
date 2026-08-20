@@ -11,6 +11,7 @@ from game_engine.commands._common import accumulate_sources, add_attitude_mes, g
     favor_trust_proc, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -157,8 +158,8 @@ def kiss(world: World):
         sources.update(temp_sources)
 
         # exp
-        chara.set_exp('tongue_exp', chara.get_exp('tongue_exp') + 1)
-        chara.set_exp('kiss_exp', chara.get_exp('kiss_exp') + 1)
+        ctx.say(exp_calc('tongue_exp', chara))
+        ctx.say(exp_calc('kiss_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -191,6 +192,10 @@ def kiss(world: World):
 
         # 体力和气力消耗
         ctx.consume(energy=50, chara=chara)
+
+        # exp
+        ctx.say(exp_calc('tongue_exp', chara))
+        ctx.say(exp_calc('kiss_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
