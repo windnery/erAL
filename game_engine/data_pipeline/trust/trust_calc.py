@@ -1,15 +1,45 @@
 from game_engine.data_pipeline.base.emo_rat2trust import emo_rat2trust
 from game_engine.data_pipeline.palam.palam2trust import palam2trust
+from game_engine.models.player import Player
+from game_engine.models.shipgirl import ShipGirl
 
 
-def trust_calc(npc, source: dict[str, int]):
+def trust_calc(player: Player, npc: ShipGirl, source: dict[str, int]):
     """信赖上升计算处理"""
     trust_delta = 0
 
     # abl: 亲密
     trust_delta += (npc.abl['intimacy_abl'] // 5)
 
-    # TODO: 素质
+    # 叛逆
+    if npc.get_talent_value('attitude') > 0:
+        trust_delta -= 1
+    # 坦率
+    elif npc.get_talent_value('attitude') < 0:
+        trust_delta += 1
+    # 同时开朗
+    if player.has_talent('bright') and npc.has_talent('bright'):
+        trust_delta += 1
+    # 同时阴郁
+    if player.has_talent('morose') and npc.has_talent('morose'):
+        trust_delta += 1
+    # 感情缺乏
+    if npc.has_talent('emotional_deficiency'):
+        trust_delta -= 1
+    # 抵抗
+    if npc.has_talent('resistance'):
+        trust_delta -= 2
+    # 献身的
+    if npc.has_talent('devoted'):
+        trust_delta += 1
+    # 玩家魅力
+    trust_delta += player.get_talent_value('charm')
+    # 陷落阶段
+    trust_delta *= {1: 1.2, 2: 1.5, 3: 1.7, 4: 2.0}.get(npc.get_talent_value('relationship'), 1)
+    # 恋人
+    if player.has_talent('lover'):
+        trust_delta *= 1.5
+    trust_delta = int(trust_delta)
 
     temp = 0
     # 情爱
@@ -35,8 +65,8 @@ def trust_calc(npc, source: dict[str, int]):
         temp -= (50 - 20_000 / (source.get('pain_source', 0) + 400)) * (npc.abl['masochistic_abl'] - 3) // 3 // (2 if low_rat else 1)
         # 恐怖
         temp -= (50 - 20_000 / (source.get('fear_source', 0) + 400)) * (npc.abl['obedience_abl'] - 3) // 3 // (2 if low_rat else 1)
-        # 不洁 TODO: 这里缺个污臭耐性
-        temp -= (50 - 25_000 / (source.get('unclean_source', 0) + 500)) // (2 if low_rat else 1)
+        # 不洁
+        temp -= (50 - 25_000 / (source.get('unclean_source', 0) + 500)) * (2 - npc.get_talent_value('foul_tolerance')) // 2 // (2 if low_rat else 1)
         # 抑郁
         temp -= (50 - 15_000 / (source.get('depression_source', 0) + 300)) // (2 if low_rat else 1)
         # 逃逸
