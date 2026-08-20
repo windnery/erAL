@@ -14,6 +14,7 @@ const SHOP_PAGE_SIZE = 10; // 每页展示皮肤数（随游戏进程可增加�
 let shopSkins = [];      // 当前商店在售皮肤列表
 let shopPage = 0;        // 当前页码
 let selectedSkinId = null; // 当前选中的皮肤 id
+let playerMoney = 0;     // 玩家当前资金（用于购买禁用判断）
 let shopOnClose = null;  // 关闭回调（由 main.js 注入，用于 refresh）
 
 // 打开商店：拉取未购买皮肤并渲染
@@ -35,7 +36,19 @@ export async function openSkinShop(onClose) {
     el.style.display = 'flex';
     el.innerHTML = '';
 
+    await loadPlayerMoney();
     await loadShopSkins();
+}
+
+// 拉取当前资金（用于购买禁用判断）
+async function loadPlayerMoney() {
+    try {
+        const state = await getState(null);
+        playerMoney = (state && state.player && state.player.money) || 0;
+    } catch (e) {
+        console.error('获取资金失败:', e);
+        playerMoney = 0;
+    }
 }
 
 // 拉取商店数据（失败时显示错误信息）
@@ -162,12 +175,13 @@ function renderBottomBar(el) {
 
     const totalPages = Math.max(1, Math.ceil(shopSkins.length / SHOP_PAGE_SIZE));
 
-    // 购买（未选中 -> disabled）
+    // 购买（选中 + 资金足够 才可点，与不知火商店一致）
     const selected = shopSkins.find(s => s.skin_id === selectedSkinId);
+    const canBuy = selected && playerMoney >= (selected.price || 0);
     const buyBtn = document.createElement('span');
-    buyBtn.className = 'skin-shop-action' + (selected ? '' : ' disabled');
+    buyBtn.className = 'skin-shop-action' + (canBuy ? '' : ' disabled');
     buyBtn.textContent = '购买';
-    if (selected) {
+    if (canBuy) {
         buyBtn.onclick = async function () {
             const result = await window.pywebview.api.call('skin_manager', 'buy_skin', selected.skin_id);
             // result: [ok, msg]
@@ -233,13 +247,16 @@ function closeSkinShop() {
     if (shopOnClose) shopOnClose();
 }
 
-// 购买成功后同步状态栏金钱显示（拉最新 player.money 只更新 money 元素）
+// 购买成功后同步状态栏金钱显示（拉最新 player.money 只更新 money 元素 + 更新本地资金变量）
 async function refreshMoneyDisplay() {
     try {
         const state = await getState(null);
         const moneyEl = document.getElementById('money');
-        if (moneyEl && state && state.player) {
-            moneyEl.textContent = `资金: ${state.player.money}`;
+        if (state && state.player) {
+            playerMoney = state.player.money;
+            if (moneyEl) {
+                moneyEl.textContent = `资金: ${playerMoney}`;
+            }
         }
     } catch (e) {
         console.error('刷新金钱失败:', e);
