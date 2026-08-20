@@ -22,6 +22,7 @@ class Player(Character):
         self.juel = deepcopy(self.player_data['juel'])
         self.palam = deepcopy(self.player_data['palam'])
         self.talent = deepcopy(self.player_data['talent'])
+        super().__post_init__()
 
     def get_state(self):
         """返回玩家状态"""

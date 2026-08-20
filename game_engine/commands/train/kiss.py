@@ -8,7 +8,7 @@ from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import accumulate_sources, add_attitude_mes, get_revision, train_global_can, new_source, get_name_by_id, get_entity_by_id, \
-    favor_trust_proc, source_proc
+    favor_trust_proc, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.models.shipgirl import ShipGirl
@@ -197,6 +197,7 @@ def kiss(world: World):
             favor_trust_proc(sources[target_id], chara, ctx)
 
     # source转换过程统一处理
+    pairs = []
     for actor_id in train.actors:
         actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
         for target_id in train.targets:
@@ -208,8 +209,10 @@ def kiss(world: World):
                 m_pleasure_source *= 1.5
             source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
             # 笛卡尔积
-            source_proc(sources[target_id], actor, target, ctx)
-            source_proc(source, target, actor, ctx)
+            pairs.append((sources[target_id], actor, target))
+            # 反馈：target给actor的m_pleasure
+            pairs.append((source, target, actor))
+    source_proc_batch(pairs, ctx)
 
     ctx.say(f'度过了{command_time_data["kiss"]}分钟')
     return ctx.result()

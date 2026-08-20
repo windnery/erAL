@@ -4,10 +4,15 @@ from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
 
-def palam_calc(src: dict[str, int], source: Character, target: Character):
-    """将source转成palam"""
+def palam_calc(src: dict[str, int], source: Character, target: Character, dry_run: bool = False):
+    """将source转成palam
+    dry_run: 只计算增量不应用，返回 changes 供外部聚合（配合 source_proc_batch 使用）
+    返回：(mes_source, mes_target, changes)
+        changes: dict[(chara_kind, palam), delta]，chara_kind 为 'source' 或 'target'
+    """
     mes_source: list[str] = [f'{source.name}']
     mes_target: list[str] = [f'{target.name}']
+    changes: dict[tuple[str, str], int] = {}
 
     palam_dict_list: list[dict[str, dict[str, str|int]]] = []
     palam_dict_list.append(c_pleasure_source(src, target))  # type: ignore
@@ -40,16 +45,20 @@ def palam_calc(src: dict[str, int], source: Character, target: Character):
             key = (info['chara'], palam)          # ('target', 'lust_palam')
             merged[key] = merged.get(key, 0) + int(info['value']) # type: ignore
 
-    # 统一应用 + 打印
-    for (chara_kind, palam), value in merged.items():
-        if value == 0:
-            continue
-        chara = source if chara_kind == 'source' else target
-        mes = f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {value} = {chara.palam[palam] + value}'
-        (mes_source if chara_kind == 'source' else mes_target).append(mes)
-        chara.palam[palam] += value
+    if dry_run:
+        # 只返回增量，不改 palam
+        changes = merged
+    else:
+        # 统一应用 + 打印
+        for (chara_kind, palam), value in merged.items():
+            if value == 0:
+                continue
+            chara = source if chara_kind == 'source' else target
+            mes = f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {value} = {chara.palam[palam] + value}'
+            (mes_source if chara_kind == 'source' else mes_target).append(mes)
+            chara.palam[palam] += value
 
-    return mes_source, mes_target
+    return mes_source, mes_target, changes
 
 
 def c_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str|int]]:

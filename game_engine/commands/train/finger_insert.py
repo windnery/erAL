@@ -7,7 +7,7 @@ from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import pain_check_v, train_global_can, new_source, get_name_by_id, get_entity_by_id, \
-    favor_trust_proc, accumulate_sources, source_proc
+    favor_trust_proc, accumulate_sources, source_proc_batch
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 
@@ -120,13 +120,15 @@ def finger_insert(world: World):
         chara.set_exp('v_exp', chara.get_exp('v_exp') + 1)
 
     # source转换过程统一处理
+    pairs = []
     for actor_id in train.actors:
         actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
         for target_id in train.targets:
             target = get_entity_by_id(
                 world.npc_manager, world.player, target_id)
             # 笛卡尔积
-            source_proc(sources[target_id], actor, target, ctx)
+            pairs.append((sources[target_id], actor, target))
+    source_proc_batch(pairs, ctx)
 
     ctx.say(f'度过了{command_time_data["finger_insert"]}分钟')
     return ctx.result()

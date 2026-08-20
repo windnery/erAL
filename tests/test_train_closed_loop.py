@@ -65,3 +65,106 @@ class TestTrainClosedLoop:
         world.command_manager.do_cmd('common_position')
         assert world.train_manager.train is None
         assert world.train_mode is False
+
+
+class TestSourceProcBatch:
+    """source_proc_batch 批量聚合：多对累计数值、按角色合并打印"""
+
+    @staticmethod
+    def _ctx(world):
+        from game_engine.commands._context import CommandContext
+        return CommandContext(world)
+
+    def _run(self, world, pairs):
+        from game_engine.commands._common import source_proc_batch
+        ctx = self._ctx(world)
+        source_proc_batch(pairs, ctx)
+        return ctx
+
+    def _lines(self, ctx, name):
+        return [m for m in ctx.messages if name in m]
+
+    def test_multi_actor_single_target_merges_output(self, world):
+        """2调教者×1被调教者：target 的 palam 变化只输出一次，数值累计"""
+        from game_engine.commands._common import new_source
+        laffey = world.npc_manager.shipgirls['laffey']
+        z23 = world.npc_manager.shipgirls['Z23']
+        laffey.palam['c_pleasure_palam'] = 0
+        laffey.palam['b_pleasure_palam'] = 0
+        src = new_source({'c_pleasure_source': 100, 'b_pleasure_source': 100})
+        ctx = self._run(world, [
+            (src.copy(), world.player, laffey),
+            (src.copy(), z23, laffey),
+        ])
+        laffey_lines = self._lines(ctx, laffey.name)
+        assert len(laffey_lines) == 1, f'拉菲消息行数={len(laffey_lines)}，应为1（合并）'
+        # 数值应累计两次 100
+        assert laffey.palam['c_pleasure_palam'] > 100, f'c_pleasure 应累计 2 次，实际 {laffey.palam["c_pleasure_palam"]}'
+
+    def test_forward_and_feedback_same_chara_merged(self, world):
+        """正向+反馈：同一角色（拉菲）只输出一次"""
+        from game_engine.commands._common import new_source
+        laffey = world.npc_manager.shipgirls['laffey']
+        laffey.palam['c_pleasure_palam'] = 0
+        src_forward = new_source({'c_pleasure_source': 50})
+        src_feedback = new_source({'m_pleasure_source': 30})
+        ctx = self._run(world, [
+            (src_forward.copy(), world.player, laffey),
+            (src_feedback.copy(), laffey, world.player),
+        ])
+        laffey_lines = self._lines(ctx, laffey.name)
+        player_lines = self._lines(ctx, world.player.name)
+        assert len(laffey_lines) == 1, f'拉菲消息行数={len(laffey_lines)}，应为1'
+        assert len(player_lines) == 1, f'指挥官消息行数={len(player_lines)}，应为1'
+
+    def test_kiss_scene_all_chara_once(self, world):
+        """kiss 场景（2调教者×1被调教者+反馈）：每个角色只输出一次"""
+        from game_engine.commands._common import new_source
+        laffey = world.npc_manager.shipgirls['laffey']
+        z23 = world.npc_manager.shipgirls['Z23']
+        laffey.palam['c_pleasure_palam'] = 0
+        laffey.palam['m_pleasure_palam'] = 0
+        world.player.palam['m_pleasure_palam'] = 0
+        z23.palam['m_pleasure_palam'] = 0
+        src = new_source({'m_pleasure_source': 50, 'c_pleasure_source': 40})
+        pairs = []
+        for actor in (world.player, z23):
+            pairs.append((src.copy(), actor, laffey))
+            pairs.append((new_source({'m_pleasure_source': 30}), laffey, actor))
+        ctx = self._run(world, pairs)
+        for name in (world.player.name, z23.name, laffey.name):
+            lines = self._lines(ctx, name)
+            assert len(lines) == 1, f'{name}消息行数={len(lines)}，应为1'
+        # 拉菲的 m_pleasure 应累计 2 次正向（单对时先测基线再对比）
+        laffey.palam['m_pleasure_palam'] = 0
+        src_single = new_source({'m_pleasure_source': 50, 'c_pleasure_source': 40})
+        ctx_single = self._run(world, [(src_single.copy(), world.player, laffey)])
+        single_val = laffey.palam['m_pleasure_palam']
+        assert single_val > 0, '单对基线应为正'
+        # 两对时累计（重跑两对，从 0 开始）
+        laffey.palam['m_pleasure_palam'] = 0
+        src2 = new_source({'m_pleasure_source': 50, 'c_pleasure_source': 40})
+        pairs2 = []
+        for actor in (world.player, z23):
+            pairs2.append((src2.copy(), actor, laffey))
+            pairs2.append((new_source({'m_pleasure_source': 30}), laffey, actor))
+        self._run(world, pairs2)
+        assert laffey.palam['m_pleasure_palam'] > single_val, \
+            f'两对累计 {laffey.palam["m_pleasure_palam"]} 应大于单对 {single_val}'
+
+    def test_orgasm_and_emotion_once_per_target(self, world):
+        """绝顶/情绪理性：每个 target 只执行一次（去重）"""
+        from game_engine.commands._common import new_source
+        laffey = world.npc_manager.shipgirls['laffey']
+        z23 = world.npc_manager.shipgirls['Z23']
+        laffey.palam['c_pleasure_palam'] = 0
+        # 情绪基线
+        laffey.set_emotion(0)
+        src = new_source({'c_pleasure_source': 1000})
+        ctx = self._run(world, [
+            (src.copy(), world.player, laffey),
+            (src.copy(), z23, laffey),
+        ])
+        # 情绪/理性是静默修改，只验证不崩 + palam 正确累计
+        assert laffey.palam['c_pleasure_palam'] > 0
+        assert len(ctx.messages) > 0

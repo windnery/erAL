@@ -38,9 +38,9 @@ def new_source(base: dict[str, int]):
 
 
 def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext):
-    """source的统一转换过程"""
+    """source的统一转换过程（单对）"""
     # source->palam
-    mes_source, mes_target = palam_calc(source, actor, target)
+    mes_source, mes_target, _ = palam_calc(source, actor, target)
     for mes in mes_source:
         ctx.say(mes)
     for mes in mes_target:
@@ -54,6 +54,81 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
     if target.id != PLAYER_ID:
         # 只有舰娘有情绪/理性
         emotion_rationality_calc(source, target)
+
+
+def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext):
+    """source的统一转换过程（批量，多对 (source, actor, target)）
+    数值：每对依次累计（保持笛卡尔积多次累计语义）
+    输出：按角色聚合后统一打印一次（同一角色只出现一次）
+    绝顶/等级/情绪理性：每个角色实例执行一次（去重）
+    """
+    if not pairs:
+        return
+
+    # 收集所有对的增量（dry_run 不改 palam）
+    per_chara: dict[int, dict[str, int]] = {}  # id(chara) -> {palam_key: delta}
+    source_of: dict[int, dict[str, int]] = {}  # id(target) -> 该角色收到的 source（用于情绪/理性）
+    targets_order: list[int] = []  # 保持 target 出现顺序
+    actors_order: list[int] = []
+
+    for source, actor, target in pairs:
+        _, _, changes = palam_calc(source, actor, target, dry_run=True)
+        for (chara_kind, palam), delta in changes.items():
+            chara = actor if chara_kind == 'source' else target
+            key = id(chara)
+            per_chara.setdefault(key, {})
+            per_chara[key][palam] = per_chara[key].get(palam, 0) + delta
+            if key not in targets_order and chara_kind == 'target':
+                targets_order.append(key)
+            if key not in actors_order and chara_kind == 'source':
+                actors_order.append(key)
+        # 记录每个 target 收到的 source（同 target 多对时合并）
+        tid = id(target)
+        if tid not in source_of:
+            source_of[tid] = {}
+        for k, v in source.items():
+            source_of[tid][k] = source_of[tid].get(k, 0) + v
+
+    # 统一应用 + 按角色打印一次
+    for key, deltas in per_chara.items():
+        if not deltas:
+            continue
+        # 找该角色的对象
+        chara = None
+        for _, actor, target in pairs:
+            if id(actor) == key:
+                chara = actor
+                break
+            if id(target) == key:
+                chara = target
+                break
+        if chara is None:
+            continue
+        mes = [f'{chara.name}']
+        for palam, delta in deltas.items():
+            if delta == 0:
+                continue
+            mes.append(f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {delta} = {chara.palam[palam] + delta}')
+            chara.palam[palam] += delta
+        if len(mes) > 1:
+            ctx.say(*mes)
+
+    # 绝顶/等级/情绪理性：每个角色实例一次（去重）
+    processed: set[int] = set()
+    for _, actor, target in pairs:
+        # target 侧
+        tid = id(target)
+        if tid not in processed:
+            processed.add(tid)
+            ctx.say(*orgasm_check(target))
+            target.update_palam_level()
+            if target.id != PLAYER_ID and tid in source_of:
+                emotion_rationality_calc(source_of[tid], target)
+        # actor 侧
+        aid = id(actor)
+        if aid not in processed:
+            processed.add(aid)
+            actor.update_palam_level()
 
 
 def low_intimacy2favor(intimacy_abl: int) -> int:

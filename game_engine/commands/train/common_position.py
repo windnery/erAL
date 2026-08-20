@@ -15,7 +15,7 @@ from game_engine.commands._common import (
     get_name_by_id,
     new_source,
     pain_check_v,
-    source_proc,
+    source_proc_batch,
     train_global_can, add_attitude_mes,
 )
 from game_engine.commands._context import CommandContext
@@ -190,13 +190,16 @@ def common_position(world: World):
         if chara.get_talent_value('virgin') == 1 and chara.get_talent_value('relationship') > 1:
             chara.set_exp('love_exp', chara.get_exp('love_exp') + 10)
 
+    pairs = []
     for actor_id in train.actors:
         actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
         for target_id in train.targets:
             target = get_entity_by_id(world.npc_manager, world.player, target_id)
-            source_proc(target_sources[target_id], actor, target, ctx)
+            pairs.append((target_sources[target_id], actor, target))
             feedback = common_src_modify({'c_pleasure_source': 400}, actor)
-            source_proc(feedback, target, actor, ctx)
+            # 反馈：target给actor的c_pleasure
+            pairs.append((feedback, target, actor))
+    source_proc_batch(pairs, ctx)
 
     ejaculation_proc(world, ctx, '中出')
     ctx.say(f'度过了{command_time_data["common_position"]}分钟')
