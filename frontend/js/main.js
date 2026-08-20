@@ -1,4 +1,4 @@
-import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
+﻿import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
@@ -104,7 +104,7 @@ function refreshAvatarsPanel() {
 
 function showCharaInfo(npcId) {
     const npc = currentNearby.find(n => n.id === npcId);
-    if (npc) showCharacterInfo(npc, refreshCharacterInfo);
+    if (npc) showCharacterInfo(npc, refreshCharacterInfo, currentAblDefs, currentExpDefs);
 }
 
 // 换装等操作后：重新拉取后端数据更新 currentNearby，并重开角色信息面板
@@ -115,6 +115,8 @@ async function refreshCharacterInfo(npcId) {
     currentPalamDefs = state.palam_defs || {};
     currentPalamLvMap = state.palam_lv_map || {};
     currentCflagDefs = state.cflag_defs || {};
+    currentAblDefs = state.abl_defs || {};
+    currentExpDefs = state.exp_defs || {};
     currentTrainMode = state.train_mode || false;
     currentTrainParticipants = state.train_participants || [];
     // 同步刷新游戏界面（头像选择栏/详情面板），换装后的图片立即生效
@@ -160,6 +162,10 @@ let currentPalamDefs = {};
 let currentPalamLvMap = {};
 // cflag 名称映射
 let currentCflagDefs = {};
+// abl 名称映射
+let currentAblDefs = {};
+// exp 名称映射
+let currentExpDefs = {};
 // 调教模式状态与参与者（训练态渲染数据源）
 let currentTrainMode = false;
 let currentTrainParticipants = [];
@@ -171,6 +177,8 @@ async function refresh() {
     currentPalamDefs = state.palam_defs || {};
     currentPalamLvMap = state.palam_lv_map || {};
     currentCflagDefs = state.cflag_defs || {};
+    currentAblDefs = state.abl_defs || {};
+    currentExpDefs = state.exp_defs || {};
     currentTrainMode = state.train_mode || false;
     currentTrainParticipants = state.train_participants || [];
     // 若选中舰娘已不再可用（训练态看参与者、日常看附近），重置选中

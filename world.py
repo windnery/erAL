@@ -53,6 +53,8 @@ class World:
             'nearby_npcs': nearby,
             'cflag_defs': {k: v['name'] for k, v in ATTR_DEFS.get('cflag', {}).items()},
             'palam_defs': {k: v['name'] for k, v in ATTR_DEFS.get('palam', {}).items()},
+            'abl_defs': {k: v['name'] for k, v in ATTR_DEFS.get('abl', {}).items()},
+            'exp_defs': {k: v['name'] for k, v in ATTR_DEFS.get('exp', {}).items()},
             'palam_lv_map': {str(k): v for k, v in PALAM_LV.items()},
             'train_mode': self.train_mode,
             'train_com': self.train_manager.get_train_commands(),

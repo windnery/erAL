@@ -12,7 +12,6 @@
     
     "favor": {"name": "好感度", "default": 0},
     "trust": {"name": "信赖度", "default": 0},
-    "mood": {"name": "心情", "default": 0},
 
     "abl": {
         "c_sen_abl": {"name": "C感度", "default": 0},

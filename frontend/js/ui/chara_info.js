@@ -16,9 +16,13 @@ let activeTab = 'ability';
 let ownedSkins = [];       // 当前舰娘已拥有皮肤列表
 let selectedSkinId = null; // 皮肤页当前选中（换装目标）
 let onChanged = null;      // 换装等变更后的刷新回调（由 main.js 注入）
+let ablDefsCache = {};     // 能力名称映射
+let expDefsCache = {};     // 经验名称映射
 
-export function showCharacterInfo(npc, changedCb) {
+export function showCharacterInfo(npc, changedCb, ablDefs, expDefs) {
     onChanged = changedCb || null;
+    ablDefsCache = ablDefs || ablDefsCache;
+    expDefsCache = expDefs || expDefsCache;
     const el = document.getElementById('fullscreen_charinfo');
     el.innerHTML = '';
 
@@ -44,7 +48,7 @@ export function showCharacterInfo(npc, changedCb) {
     const content = document.createElement('div');
     content.className = 'charinfo-content';
     if (activeTab === 'ability') {
-        renderAbilityTab(content, npc);
+        renderAbilityTab(content, npc, ablDefsCache, expDefsCache);
     } else if (activeTab === 'costume') {
         renderCostumeTab(content, npc);
     } else {
@@ -64,7 +68,7 @@ export function showCharacterInfo(npc, changedCb) {
 
 // ---------- 能力&经验页 ----------
 
-function renderAbilityTab(content, npc) {
+function renderAbilityTab(content, npc, ablDefs, expDefs) {
     const base = npc.base || {};
 
     const infoRow = document.createElement('div');
@@ -101,6 +105,12 @@ function renderAbilityTab(content, npc) {
     };
     content.appendChild(avatar);
 
+    // 能力（abl）块
+    appendStatsSection(content, '能力', npc.abl, ablDefs);
+
+    // 经验（exp）块
+    appendStatsSection(content, '经验', npc.exp, expDefs);
+
     const divider2 = document.createElement('div');
     divider2.className = 'charinfo-section-divider';
     const title2 = document.createElement('span');
@@ -130,6 +140,47 @@ function renderAbilityTab(content, npc) {
         list.appendChild(item);
     }
     content.appendChild(list);
+}
+
+// 通用属性块：分栏标题 + 网格（名称 数值）
+function appendStatsSection(content, title, data, defs) {
+    const divider = document.createElement('div');
+    divider.className = 'charinfo-section-divider';
+    const titleEl = document.createElement('span');
+    titleEl.className = 'charinfo-section-title';
+    titleEl.textContent = title;
+    const line = document.createElement('span');
+    line.className = 'charinfo-divider-line';
+    divider.appendChild(titleEl);
+    divider.appendChild(line);
+    content.appendChild(divider);
+
+    if (!data || Object.keys(data).length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'charinfo-hint';
+        empty.textContent = '暂无数据';
+        content.appendChild(empty);
+        return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'charinfo-stats-grid';
+    for (const key of Object.keys(data)) {
+        const name = (defs && defs[key]) || key;
+        const value = data[key] ?? 0;
+        const item = document.createElement('span');
+        item.className = 'charinfo-stats-item';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'charinfo-stats-name';
+        nameSpan.textContent = name;
+        const valueSpan = document.createElement('span');
+        valueSpan.className = 'charinfo-stats-value';
+        valueSpan.textContent = value;
+        item.appendChild(nameSpan);
+        item.appendChild(valueSpan);
+        grid.appendChild(item);
+    }
+    content.appendChild(grid);
 }
 
 // ---------- 服装&皮肤页 ----------

@@ -482,6 +482,33 @@ button {
     margin-top: 12px;
 }
 
+/* 能力/经验网格：名称+数值，等宽列 */
+.charinfo-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px 16px;
+    margin-top: 12px;
+}
+
+.charinfo-stats-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px;
+    color: #fff;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.charinfo-stats-name {
+    color: #ccc;
+}
+
+.charinfo-stats-value {
+    color: #fc0;
+    font-size: 16px;
+}
+
 .charinfo-talent-item {
     color: #fff;
     font-size: 16px;
