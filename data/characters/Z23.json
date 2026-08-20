@@ -1,131 +1,41 @@
 {
-    "id": "Z23",
-    "name": "Z23",
-    "color": "#A9B7C6",
+  "id": "Z23",
+  "name": "Z23",
+  "color": "#A9B7C6",
   "location": {
-        "region": "ironblood_dorm",
-        "node": "z23_room"
+    "region": "ironblood_dorm",
+    "node": "z23_room"
+  },
+  "base": {
+    "max_stamina": 1500,
+    "max_energy": 1500,
+    "stamina": 1500,
+    "energy": 1500
+  },
+  "talent": {
+    "alignment": "2",
+    "ship_type": "0",
+    "virgin": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "response": "-1",
+    "self_respect": "1",
+    "pain_tolerance": "-1",
+    "learning_ability": "1",
+    "bra_size": "0",
+    "female_body": "0",
+    "hip_size": "-1"
+  },
+  "schedule": {
+    "sleep": {
+      "hour": 23,
+      "minute": 0
     },
-    "base": {
-        "max_stamina": 1500,
-        "max_energy": 1500,
-        "stamina": 1500,
-        "energy": 1500,
-        "mood": 0
+    "wake_up": {
+      "hour": 7,
+      "minute": 0
     },
-    "abl": {
-        "c_sen_abl": 0,
-        "v_sen_abl": 0,
-        "a_sen_abl": 0,
-        "b_sen_abl": 0,
-        "m_sen_abl": 0,
-        "intimacy_abl": 0,
-        "obedience_abl": 0,
-        "desire_abl": 0,
-        "skill_abl": 0,
-        "servant_abl": 0,
-        "exposure_abl": 0,
-        "masochistic_abl": 0,
-        "sadism_abl": 0,
-
-        "masturbation_addiction_abl": 0,
-        "semen_addiction_abl": 0,
-        "v_semen_addiction_abl": 0,
-        "a_semen_addiction_abl": 0,
-
-        "talk_abl": 0,
-        "work_abl": 0,
-
-        "finger_abl": 0,
-        "tongue_abl": 0,
-        "breast_abl": 0,
-        "waist_abl": 0,
-        "vagina_abl": 0,
-        "anal_abl": 0
-    },
-    "exp": {
-        "c_exp": 0,
-        "v_exp": 0,
-        "a_exp": 0,
-        "b_exp": 0,
-        "m_exp": 0,
-        "c_orgasm_exp": 0,
-        "v_orgasm_exp": 0,
-        "a_orgasm_exp": 0,
-        "b_orgasm_exp": 0,
-        "m_orgasm_exp": 0,
-
-        "v_expand_exp": 0,
-        "a_expand_exp": 0,
-
-        "talk_exp": 0,
-        "work_exp": 0,
-        "love_exp": 0
-
-    },
-    "juel": {
-        "c_pleasure_juel": 0,
-        "v_pleasure_juel": 0,
-        "a_pleasure_juel": 0,
-        "b_pleasure_juel": 0,
-        "m_pleasure_juel": 0,
-        "obedience_juel": 0,
-        "lust_juel": 0,
-        "submission_juel": 0,
-        "learn_juel": 0,
-        "shame_juel": 0,
-        "pain_juel": 0,
-        "fear_juel": 0,
-        "kindness_juel": 0,
-        "disgust_juel": 0,
-        "unhappiness_juel": 0,
-        "depression_juel": 0,
-        "negation_juel": 0
-    },
-    "palam": {
-        "c_pleasure_palam": 0,
-        "v_pleasure_palam": 0,
-        "a_pleasure_palam": 0,
-        "b_pleasure_palam": 0,
-        "m_pleasure_palam": 0,
-        "lubrication_palam": 0,
-        "obedience_palam": 0,
-        "lust_palam": 0,
-        "submission_palam": 0,
-        "learn_palam": 0,
-        "shame_palam": 0,
-        "pain_palam": 0,
-        "fear_palam": 0,
-        "kindness_palam": 0,
-        "superiority_palam": 0,
-        "disgust_palam": 0,
-        "unhappiness_palam": 0,
-        "depression_palam": 0
-    },
-    "talent": {
-        "alignment": "2",
-        "ship_type": "0",
-        "virgin": "1",
-        "sex": "0",
-        "relationship": "0",
-        "courage": "1",
-        "response": "-1",
-        "self_respect": "1",
-        "pain_tolerance": "-1",
-        "learning_ability": "1",
-        "bra_size": "0",
-        "female_body": "0",
-        "hip_size": "-1"
-    },
-    "schedule": {
-        "sleep": {
-            "hour": 23,
-            "minute": 0
-        },
-        "wake_up": {
-            "hour": 7,
-            "minute": 0
-        },
-        "works": []
-    }
+    "works": []
+  }
 }
