@@ -22,6 +22,10 @@ function makeCmdSpan(cmd, callbacks) {
                 callbacks.openInventory(callbacks.refresh);
                 return;
             }
+            if (cmd.key === 'show_player_info') {
+                callbacks.showPlayerInfo();
+                return;
+            }
             if (cmd.needs_target) {
                 callbacks.showCharaInfo(callbacks.getSelectedNpc());
                 return;

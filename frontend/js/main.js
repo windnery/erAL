@@ -7,6 +7,7 @@ import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
 import { openDailyShop } from './ui/daily_shop.js';
 import { openInventory } from './ui/inventory.js';
+import { showPlayerInfo } from './ui/player_info.js';
 import { parseColoredMessage } from './ui/colored_text.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
@@ -107,9 +108,15 @@ function showCharaInfo(npcId) {
     if (npc) showCharacterInfo(npc, refreshCharacterInfo, currentAblDefs, currentExpDefs);
 }
 
+// 玩家信息面板（纯前端指令 show_player_info 的渲染入口）
+function showPlayerInfoPanel() {
+    showPlayerInfo(currentPlayer, currentAblDefs, currentExpDefs);
+}
+
 // 换装等操作后：重新拉取后端数据更新 currentNearby，并重开角色信息面板
 async function refreshCharacterInfo(npcId) {
     const state = await getState(selectedNpcId);
+    currentPlayer = state.player || {};
     currentNearby = state.nearby_npcs || [];
     currentActCom = state.act_com || [];
     currentPalamDefs = state.palam_defs || {};
@@ -154,6 +161,8 @@ function hideFullscreenPortrait() {
 
 // 最近一次拉取到的附近舰娘，供 selectNpc 复用
 let currentNearby = [];
+// 最近一次拉取到的玩家状态，供 showPlayerInfo 复用
+let currentPlayer = {};
 // 最近一次拉取到的 Act_COM 原始列表（含 needs_target 指令），供 selectNpc 复用
 let currentActCom = [];
 // palam 名称映射
@@ -172,6 +181,7 @@ let currentTrainParticipants = [];
 
 async function refresh() {
     const state = await getState(selectedNpcId);
+    currentPlayer = state.player || {};
     currentNearby = state.nearby_npcs || [];
     currentActCom = state.act_com || [];
     currentPalamDefs = state.palam_defs || {};
@@ -188,7 +198,7 @@ async function refresh() {
     if (selectedNpcId && !validIds.includes(selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget };
     renderStatusBar(state.location, state.time, state.player);
 
     const menu_screen = document.getElementById('menu_screen');

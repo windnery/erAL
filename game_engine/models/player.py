@@ -31,6 +31,9 @@ class Player(Character):
             'wake_time': self.wake_time,
             'location': self.location,
             'base': self.base,
+            'abl': self.abl,
+            'exp': self.exp,
+            'talent_list': self.get_talent_list(),
             'money': self.money
         }
 

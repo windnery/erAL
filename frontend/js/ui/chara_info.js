@@ -144,7 +144,7 @@ function renderAbilityTab(content, npc, ablDefs, expDefs) {
 
 // 通用属性块：大标题 + 按 group 分组渲染（组间空行分隔，不显示组名）
 // showRank=true 时数值带等级字母+变色（能力）；false 时纯数字（经验）
-function appendStatsSection(content, title, data, defs, showRank) {
+export function appendStatsSection(content, title, data, defs, showRank) {
     // 大标题（能力 / 经验）
     const divider = document.createElement('div');
     divider.className = 'charinfo-section-divider';
@@ -386,7 +386,7 @@ function renderCharinfoBottomBar(el, npc) {
 
 // ---------- 通用 ----------
 
-function appendBar(row, label, value, max, color) {
+export function appendBar(row, label, value, max, color) {
     const lab = document.createElement('span');
     lab.className = 'charinfo-bar-label';
     lab.textContent = label;
