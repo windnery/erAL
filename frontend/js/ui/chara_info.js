@@ -16,8 +16,8 @@ let activeTab = 'ability';
 let ownedSkins = [];       // 当前舰娘已拥有皮肤列表
 let selectedSkinId = null; // 皮肤页当前选中（换装目标）
 let onChanged = null;      // 换装等变更后的刷新回调（由 main.js 注入）
-let ablDefsCache = {};     // 能力名称映射
-let expDefsCache = {};     // 经验名称映射
+let ablDefsCache = {};     // 能力名称映射（含 group）
+let expDefsCache = {};     // 经验名称映射（含 group）
 
 export function showCharacterInfo(npc, changedCb, ablDefs, expDefs) {
     onChanged = changedCb || null;
@@ -105,11 +105,11 @@ function renderAbilityTab(content, npc, ablDefs, expDefs) {
     };
     content.appendChild(avatar);
 
-    // 能力（abl）块
-    appendStatsSection(content, '能力', npc.abl, ablDefs);
+    // 能力（abl）块：带等级字母+变色，按分组渲染
+    appendStatsSection(content, '能力', npc.abl, ablDefs, true);
 
-    // 经验（exp）块
-    appendStatsSection(content, '经验', npc.exp, expDefs);
+    // 经验（exp）块：纯数字，按分组渲染
+    appendStatsSection(content, '经验', npc.exp, expDefs, false);
 
     const divider2 = document.createElement('div');
     divider2.className = 'charinfo-section-divider';
@@ -142,8 +142,10 @@ function renderAbilityTab(content, npc, ablDefs, expDefs) {
     content.appendChild(list);
 }
 
-// 通用属性块：分栏标题 + 网格（名称 数值）
-function appendStatsSection(content, title, data, defs) {
+// 通用属性块：大标题 + 按 group 分组渲染（组间空行分隔，不显示组名）
+// showRank=true 时数值带等级字母+变色（能力）；false 时纯数字（经验）
+function appendStatsSection(content, title, data, defs, showRank) {
+    // 大标题（能力 / 经验）
     const divider = document.createElement('div');
     divider.className = 'charinfo-section-divider';
     const titleEl = document.createElement('span');
@@ -155,6 +157,7 @@ function appendStatsSection(content, title, data, defs) {
     divider.appendChild(line);
     content.appendChild(divider);
 
+    // 空数据兜底
     if (!data || Object.keys(data).length === 0) {
         const empty = document.createElement('div');
         empty.className = 'charinfo-hint';
@@ -163,24 +166,62 @@ function appendStatsSection(content, title, data, defs) {
         return;
     }
 
-    const grid = document.createElement('div');
-    grid.className = 'charinfo-stats-grid';
-    for (const key of Object.keys(data)) {
-        const name = (defs && defs[key]) || key;
+    // 辅助：渲染一格
+    function makeItem(key) {
+        const def = defs && defs[key];
+        const name = (def && def.name) || key;
         const value = data[key] ?? 0;
         const item = document.createElement('span');
         item.className = 'charinfo-stats-item';
+        item.title = `${name} ${value}`;
         const nameSpan = document.createElement('span');
         nameSpan.className = 'charinfo-stats-name';
         nameSpan.textContent = name;
         const valueSpan = document.createElement('span');
         valueSpan.className = 'charinfo-stats-value';
-        valueSpan.textContent = value;
+        if (showRank) {
+            valueSpan.style.color = rankColor(value);
+            valueSpan.textContent = `${value} ${rankLetter(value)}`;
+        } else {
+            valueSpan.textContent = value;
+        }
         item.appendChild(nameSpan);
         item.appendChild(valueSpan);
-        grid.appendChild(item);
+        return item;
     }
-    content.appendChild(grid);
+
+    // 按 group 分组（无 group 的归入 0）
+    const grouped = {};
+    for (const key of Object.keys(data)) {
+        const g = (defs && defs[key] && defs[key].group) || 0;
+        if (!grouped[g]) grouped[g] = [];
+        grouped[g].push(key);
+    }
+
+    // 按 group 数字排序渲染，每组一个网格，组间用 margin 分隔（不显示组名）
+    const sortedGroups = Object.keys(grouped).sort((a, b) => Number(a) - Number(b));
+    for (const g of sortedGroups) {
+        const grid = document.createElement('div');
+        grid.className = 'charinfo-stats-grid';
+        for (const key of grouped[g]) {
+            grid.appendChild(makeItem(key));
+        }
+        content.appendChild(grid);
+    }
+}
+
+// 数值 -> 等级字母：0 F, 1 E, 2 D, 3 C, 4 B, 5 A, 6 S, 7+ SS
+function rankLetter(value) {
+    const ranks = ['F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS'];
+    const v = Math.max(0, Math.floor(value));
+    return ranks[Math.min(v, ranks.length - 1)];
+}
+
+// 数值 -> 颜色：0 灰, 1 白, 2 绿, 3 蓝, 4 紫, 5 金, 6 橙, 7+ 红
+function rankColor(value) {
+    const colors = ['#888', '#fff', '#4f4', '#4af', '#c4f', '#fc0', '#f80', '#f33'];
+    const v = Math.max(0, Math.floor(value));
+    return colors[Math.min(v, colors.length - 1)];
 }
 
 // ---------- 服装&皮肤页 ----------

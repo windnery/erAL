@@ -1,486 +1,1029 @@
 {
-    "base": {
-        "max_stamina": {"name": "最大体力", "default": 2000},
-        "max_energy": {"name": "最大气力", "default": 2000},
-        "max_vitality": {"name": "最大精力", "default": 2000},
-        "stamina": {"name": "体力", "default": 2000},
-        "energy": {"name": "气力", "default": 2000},
-        "vitality": {"name": "精力", "default": 2000},
-        "emotion": {"name": "情绪", "default": 0},
-        "rationality": {"name": "理性", "default": 1000}
+  "base": {
+    "max_stamina": {
+      "name": "最大体力",
+      "default": 2000
     },
-    
-    "favor": {"name": "好感度", "default": 0},
-    "trust": {"name": "信赖度", "default": 0},
-
-    "abl": {
-        "c_sen_abl": {"name": "C感度", "default": 0},
-        "v_sen_abl": {"name": "V感度", "default": 0},
-        "a_sen_abl": {"name": "A感度", "default": 0},
-        "b_sen_abl": {"name": "B感度", "default": 0},
-        "m_sen_abl": {"name": "M感度", "default": 0},
-        "intimacy_abl": {"name": "亲密", "default": 0},
-        "obedience_abl": {"name": "顺从", "default": 0},
-        "desire_abl": {"name": "欲望", "default": 0},
-        "skill_abl": {"name": "技巧", "default": 0},
-        "servant_abl": {"name": "侍奉精神", "default": 0},
-        "exposure_abl": {"name": "露出癖", "default": 0},
-        "masochistic_abl": {"name": "受虐属性", "default": 0},
-        "sadism_abl": {"name": "施虐属性", "default": 0},
-
-        "masturbation_addiction_abl": {"name": "自慰中毒", "default": 0},
-        "semen_addiction_abl": {"name": "精液中毒", "default": 0},
-        "v_semen_addiction_abl": {"name": "穴射中毒", "default": 0},
-        "a_semen_addiction_abl": {"name": "肛射中毒", "default": 0},
-
-        "talk_abl": {"name": "会话", "default": 0},
-        "work_abl": {"name": "工作", "default": 0},
-
-        "finger_abl": {"name": "指", "default": 0},
-        "tongue_abl": {"name": "舌", "default": 0},
-        "breast_abl": {"name": "胸", "default": 0},
-        "waist_abl": {"name": "腰", "default": 0},
-        "vagina_abl": {"name": "穴", "default": 0},
-        "anal_abl": {"name": "肛门", "default": 0}
+    "max_energy": {
+      "name": "最大气力",
+      "default": 2000
     },
-
-    "cflag": {
-        "sleeping": {"name": "睡眠中", "default": false},
-        "working": {"name": "工作中", "default": false},
-        "following": {"name": "同行中", "default": false},
-        "secretary_ship": {"name": "秘书舰", "default": false},
-        "secretary_ship_following": {"name": "秘书舰同行中", "default": false},
-        "dating": {"name": "约会中", "default": false},
-        "dating_following": {"name": "约会同行中", "default": false}
+    "max_vitality": {
+      "name": "最大精力",
+      "default": 2000
     },
-
-    "exp": {
-        "c_exp": {"name": "C经验", "default": 0},
-        "v_exp": {"name": "V经验", "default": 0},
-        "a_exp": {"name": "A经验", "default": 0},
-        "b_exp": {"name": "B经验", "default": 0},
-        "m_exp": {"name": "M经验", "default": 0},
-        "c_orgasm_exp": {"name": "C绝顶经验", "default": 0},
-        "v_orgasm_exp": {"name": "V绝顶经验", "default": 0},
-        "a_orgasm_exp": {"name": "A绝顶经验", "default": 0},
-        "b_orgasm_exp": {"name": "B绝顶经验", "default": 0},
-        "m_orgasm_exp": {"name": "M绝顶经验", "default": 0},
-        "orgasm_exp": {"name": "绝顶经验", "default": 0},
-        "ejaculation_exp": {"name": "射精经验", "default": 0},
-        "milk_exp": {"name": "喷乳经验", "default": 0},
-        "pee_exp": {"name": "放尿经验", "default": 0},
-        "semen_exp": {"name": "精液经验", "default": 0},
-        "drink_semen_exp": {"name": "饮精经验", "default": 0},
-        "v_semen_exp": {"name": "穴射经验", "default": 0},
-        "a_semen_exp": {"name": "肛射经验", "default": 0},
-        "extract_exp": {"name": "被榨经验", "default": 0},
-        "v_insert_exp": {"name": "V性交经验", "default": 0},
-        "a_insert_exp": {"name": "A性交经验", "default": 0},
-        "masturbation_exp": {"name": "自慰经验", "default": 0},
-        "finger_exp": {"name": "手淫经验", "default": 0},
-        "tongue_exp": {"name": "口淫经验", "default": 0},
-        "breast_exp": {"name": "乳交经验", "default": 0},
-        "kiss_exp": {"name": "接吻经验", "default": 0},
-        "item_exp": {"name": "道具使用经验", "default": 0},
-        "insert_exp": {"name": "插入经验", "default": 0},
-
-        "v_expand_exp": {"name": "V扩张经验", "default": 0},
-        "a_expand_exp": {"name": "A扩张经验", "default": 0},
-
-        "talk_exp": {"name": "会话经验", "default": 0},
-        "work_exp": {"name": "工作经验", "default": 0},
-        "love_exp": {"name": "爱情经验", "default": 0}
+    "stamina": {
+      "name": "体力",
+      "default": 2000
     },
-
-    "juel": {
-        "c_pleasure_juel": {"name": "快C之珠", "default": 0},
-        "v_pleasure_juel": {"name": "快V之珠", "default": 0},
-        "a_pleasure_juel": {"name": "快A之珠", "default": 0},
-        "b_pleasure_juel": {"name": "快B之珠", "default": 0},
-        "m_pleasure_juel": {"name": "快M之珠", "default": 0},
-        "obedience_juel": {"name": "恭顺之珠", "default": 0},
-        "lust_juel": {"name": "欲情之珠", "default": 0},
-        "submission_juel": {"name": "屈服之珠", "default": 0},
-        "learn_juel": {"name": "习得之珠", "default": 0},
-        "shame_juel": {"name": "羞耻之珠", "default": 0},
-        "pain_juel": {"name": "苦痛之珠", "default": 0},
-        "fear_juel": {"name": "恐怖之珠", "default": 0},
-        "kindness_juel": {"name": "好意之珠", "default": 0},
-        "disgust_juel": {"name": "反感之珠", "default": 0},
-        "unhappiness_juel": {"name": "不快之珠", "default": 0},
-        "depression_juel": {"name": "抑郁之珠", "default": 0},
-        "negation_juel": {"name": "否定之珠", "default": 0}
+    "energy": {
+      "name": "气力",
+      "default": 2000
     },
-
-    "palam": {
-        "c_pleasure_palam": {"name": "快C", "default": 0},
-        "v_pleasure_palam": {"name": "快V", "default": 0},
-        "a_pleasure_palam": {"name": "快A", "default": 0},
-        "b_pleasure_palam": {"name": "快B", "default": 0},
-        "m_pleasure_palam": {"name": "快M", "default": 0},
-        "lubrication_palam": {"name": "润滑", "default": 0},
-        "obedience_palam": {"name": "恭顺", "default": 0},
-        "lust_palam": {"name": "欲情", "default": 0},
-        "submission_palam": {"name": "屈服", "default": 0},
-        "learn_palam": {"name": "习得", "default": 0},
-        "shame_palam": {"name": "羞耻", "default": 0},
-        "pain_palam": {"name": "苦痛", "default": 0},
-        "fear_palam": {"name": "恐怖", "default": 0},
-        "kindness_palam": {"name": "好意", "default": 0},
-        "superiority_palam": {"name": "优越", "default": 0},
-        "disgust_palam": {"name": "反感", "default": 0},
-        "unhappiness_palam": {"name": "不快", "default": 0},
-        "depression_palam": {"name": "抑郁", "default": 0}
+    "vitality": {
+      "name": "精力",
+      "default": 2000
     },
-
-    "source": {
-        "c_pleasure_source": {"name": "快C", "default": 0},
-        "v_pleasure_source": {"name": "快V", "default": 0},
-        "a_pleasure_source": {"name": "快A", "default": 0},
-        "b_pleasure_source": {"name": "快B", "default": 0},
-        "m_pleasure_source": {"name": "快M", "default": 0},
-        "lubrication_source": {"name": "润滑", "default": 0},
-        "love_source": {"name": "情爱", "default": 0},
-        "sex_act_source": {"name": "性行为", "default": 0},
-        "achievement_source": {"name": "达成", "default": 0},
-        "pain_source": {"name": "苦痛", "default": 0},
-        "fear_source": {"name": "恐怖", "default": 0},
-        "lust_source": {"name": "欲情", "default": 0},
-        "obedience_source": {"name": "恭顺", "default": 0},
-        "exposure_source": {"name": "露出", "default": 0},
-        "submission_source": {"name": "屈服", "default": 0},
-        "happiness_source": {"name": "欢乐", "default": 0},
-        "conquest_source": {"name": "征服", "default": 0},
-        "passivity_source": {"name": "被动", "default": 0},
-        "unclean_source": {"name": "不洁", "default": 0},
-        "depression_source": {"name": "抑郁", "default": 0},
-        "escape_source": {"name": "逃逸", "default": 0},
-        "disgust_source": {"name": "反感", "default": 0}
+    "emotion": {
+      "name": "情绪",
+      "default": 0
     },
-
-    "talent": {
-        "alignment": {
-            "has_value": true,
-            "name": "阵营",
-            "value": {
-                "0": "白鹰", "1": "重樱", "2": "铁血", "3": "鸢尾",
-                "4": "维希教廷", "5": "撒丁帝国", "6": "皇家", "7": "东煌",
-                "8": "北方联合", "9": "郁金王国", "10": "META", "11": "飓风"
-            }
-        },
-        "ship_type": {
-            "has_value": true,
-            "name": "舰船种类",
-            "value": {
-                "0": "驱逐", "1": "轻巡", "2": "重巡", "3": "战列",
-                "4": "航母", "5": "潜艇", "6": "维修", "7": "航战",
-                "8": "轻航", "9": "运输", "10": "重炮", "11": "战巡",
-                "12": "超巡"
-            }
-        },
-        "virgin": {
-            "has_value": true,
-            "name": "处女",
-            "value": {
-                "0": "非处女", "1": "处女", "2": "再生处女"
-            }
-        },
-        "male_virgin": {
-            "has_value": true,
-            "name": "处男",
-            "value": {
-                "0": "非处男", "1": "处男"
-            }
-        },
-        "sex": {
-            "has_value": true,
-            "name": "性别",
-            "value": {
-                "0": "女性", "1": "男性"
-            }
-        },
-        "relationship": {
-            "has_value": true,
-            "name": "陷落阶段",
-            "value": {
-                "0": "陌生", "1": "友好", "2": "喜欢", "3": "爱", "4": "誓约"
-            }
-        },
-        "lover": {
-            "has_value": false,
-            "name": "恋人"
-        },
-        "courage": {
-            "has_value": true,
-            "name": "胆量",
-            "value": {
-                "-1": "胆怯", "0": "", "1": "坚强"
-            }
-        },
-        "attitude": {
-            "has_value": true,
-            "name": "态度",
-            "value": {
-                "-1": "坦率", "0": "", "1": "叛逆"
-            }
-        },
-        "response": {
-            "has_value": true,
-            "name": "应答",
-            "value": {
-                "-1": "老实", "0": "", "1": "傲慢"
-            }
-        },
-        "self_respect": {
-            "has_value": true,
-            "name": "自尊心",
-            "value": {
-                "-1": "自尊心低", "0": "", "1": "自尊心高"
-            }
-        },
-        "tsundere": {
-            "has_value": false,
-            "name": "傲娇"
-        },
-        "self_control": {
-            "has_value": false,
-            "name": "自制力"
-        },
-        "indifference": {
-            "has_value": false,
-            "name": "冷漠"
-        },
-        "emotional_deficiency": {
-            "has_value": false,
-            "name": "感情缺乏"
-        },
-        "sexual_interest": {
-            "has_value": true,
-            "name": "性的兴趣",
-            "value": {
-                "-1": "保守的", "0": "", "1": "好奇心"
-            }
-        },
-        "bright": {
-            "has_value": false,
-            "name": "开朗的"
-        },
-        "morose": {
-            "has_value": false,
-            "name": "阴郁的"
-        },
-        "impassable_line": {
-            "has_value": false,
-            "name": "难以逾越的底线"
-        },
-        "not_minding_the_gaze": {
-            "has_value": false,
-            "name": "不在意目光"
-        },
-        "innocent": {
-            "has_value": false,
-            "name": "天真"
-        },
-        "chastity": {
-            "has_value": true,
-            "name": "贞操",
-            "value": {
-                "-1": "不在乎贞操", "0": "", "1": "贞操重视"
-            }
-        },
-        "self_love": {
-            "has_value": true,
-            "name": "自己爱",
-            "value": {
-                "-1": "压抑", "0": "", "1": "解放"
-            }
-        },
-        "resistance": {
-            "has_value": false,
-            "name": "抵抗"
-        },
-        "sense_of_shame": {
-            "has_value": true,
-            "name": "羞耻心",
-            "value": {
-                "-1": "不知羞耻", "0": "普通", "1": "害羞"
-            }
-        },
-        "pain_tolerance": {
-            "has_value": true,
-            "name": "痛觉",
-            "value": {
-                "-1": "不怕痛", "0": "普通", "1": "怕痛"
-            }
-        },
-        "wetness": {
-            "has_value": true,
-            "name": "易湿程度",
-            "value": {
-                "-1": "不易湿", "0": "普通", "1": "容易湿"
-            }
-        },
-        "learning_ability": {
-            "has_value": true,
-            "name": "学习速度",
-            "value": {
-                "-1": "学习慢", "0": "普通", "1": "学习快"
-            }
-        },
-        "flexible_fingers": {
-            "has_value": false,
-            "name": "灵巧手指"
-        },
-        "flexible_tongue": {
-            "has_value": false,
-            "name": "灵巧舌头"
-        },
-        "urophilia": {
-            "has_value": false,
-            "name": "漏尿癖"
-        },
-        "foul_tolerance": {
-            "has_value": true,
-            "name": "污臭耐性",
-            "value": {
-                "-2": "洁癖", "-1": "污臭敏感", "0": "普通", "1": "污臭钝感", "2": "污臭无视"
-            }
-        },
-        "devoted": {
-            "has_value": false,
-            "name": "献身的"
-        },
-        "pleasure_response": {
-            "has_value": true,
-            "name": "快感应答",
-            "value": {
-                "-1": "否定快感", "0": "普通", "1": "接受快感"
-            }
-        },
-        "easy_to_addicted": {
-            "has_value": false,
-            "name": "容易中毒"
-        },
-        "easy_to_orgasm": {
-            "has_value": false,
-            "name": "容易高潮"
-        },
-        "masturbation_fan": {
-            "has_value": false,
-            "name": "自慰狂"
-        },
-        "vaginal_fan": {
-            "has_value": false,
-            "name": "淫壶"
-        },
-        "anal_fan": {
-            "has_value": false,
-            "name": "淫尻"
-        },
-        "breast_fan": {
-            "has_value": false,
-            "name": "淫乳"
-        },
-        "oral_fan": {
-            "has_value": false,
-            "name": "淫舌"
-        },
-        "sadism": {
-            "has_value": false,
-            "name": "施虐狂"
-        },
-        "masochism": {
-            "has_value": false,
-            "name": "受虐狂"
-        },
-        "charm": {
-            "has_value": true,
-            "name": "魅力",
-            "value": {
-                "0": "普通", "1": "魅力", "2": "迷之魅力"
-            }
-        },
-        "female_body": {
-            "has_value": true,
-            "name": "体型",
-            "value": {
-                "-1": "萝莉", "0": "少女", "1": "御姐", "2": "熟女"
-            }
-        },
-        "male_body": {
-            "has_value": true,
-            "name": "体型",
-            "value": {
-                "-1": "正太", "0": "匀称", "1": "强壮", "2": "魁梧"
-            }
-        },
-        "c_sensitivity": {
-            "has_value": true,
-            "name": "C感度",
-            "value": {
-                "-1": "钝感", "0": "普通", "1": "敏感", "2": "过敏", "3": "超敏", "4": "极敏", "5": "一触即溃"
-            }
-        },
-        "v_sensitivity": {
-            "has_value": true,
-            "name": "V感度",
-            "value": {
-                "-1": "钝感", "0": "普通", "1": "敏感", "2": "过敏", "3": "超敏", "4": "极敏", "5": "一触即溃"
-            }
-        },
-        "a_sensitivity": {
-            "has_value": true,
-            "name": "A感度",
-            "value": {
-                "-1": "钝感", "0": "普通", "1": "敏感", "2": "过敏", "3": "超敏", "4": "极敏", "5": "一触即溃"
-            }
-        },
-        "b_sensitivity": {
-            "has_value": true,
-            "name": "B感度",
-            "value": {
-                "-1": "钝感", "0": "普通", "1": "敏感", "2": "过敏", "3": "超敏", "4": "极敏", "5": "一触即溃"
-            }
-        },
-        "m_sensitivity": {
-            "has_value": true,
-            "name": "M感度",
-            "value": {
-                "-1": "钝感", "0": "普通", "1": "敏感", "2": "过敏", "3": "超敏", "4": "极敏", "5": "一触即溃"
-            }
-        },
-        "bra_size": {
-            "has_value": true,
-            "name": "胸围",
-            "value": {
-                "-2": "绝壁", "-1": "贫乳", "0": "普乳", "1": "巨乳", "2": "丰乳", "3": "爆乳", "4": "超乳", "5": "魔乳"
-            }
-        },
-        "hip_size": {
-            "has_value": true,
-            "name": "臀围",
-            "value": {
-                "-2": "纤臀", "-1": "小臀", "0": "普臀", "1": "巨臀", "2": "丰臀", "3": "爆臀", "4": "超臀"
-            }
-        },
-        "wine_tolerance": {
-            "has_value": true,
-            "name": "酒量",
-            "value": {
-                "-2": "不会喝酒", "-1": "不擅长喝酒", "0": "普通", "1": "擅长喝酒", "2": "酒豪", "3": "海量"
-            }
-        },
-        "milk_body": {
-            "has_value": false,
-            "name": "母乳体质"
-        }
-
+    "rationality": {
+      "name": "理性",
+      "default": 1000
     }
-
-    
-
-    
-
-
-
+  },
+  "favor": {
+    "name": "好感度",
+    "default": 0
+  },
+  "trust": {
+    "name": "信赖度",
+    "default": 0
+  },
+  "abl": {
+    "c_sen_abl": {
+      "name": "C感度",
+      "default": 0,
+      "group": 1
+    },
+    "v_sen_abl": {
+      "name": "V感度",
+      "default": 0,
+      "group": 1
+    },
+    "a_sen_abl": {
+      "name": "A感度",
+      "default": 0,
+      "group": 1
+    },
+    "b_sen_abl": {
+      "name": "B感度",
+      "default": 0,
+      "group": 1
+    },
+    "m_sen_abl": {
+      "name": "M感度",
+      "default": 0,
+      "group": 1
+    },
+    "intimacy_abl": {
+      "name": "亲密",
+      "default": 0,
+      "group": 2
+    },
+    "obedience_abl": {
+      "name": "顺从",
+      "default": 0,
+      "group": 2
+    },
+    "desire_abl": {
+      "name": "欲望",
+      "default": 0,
+      "group": 2
+    },
+    "skill_abl": {
+      "name": "技巧",
+      "default": 0,
+      "group": 2
+    },
+    "servant_abl": {
+      "name": "侍奉精神",
+      "default": 0,
+      "group": 2
+    },
+    "exposure_abl": {
+      "name": "露出癖",
+      "default": 0,
+      "group": 2
+    },
+    "masochistic_abl": {
+      "name": "受虐属性",
+      "default": 0,
+      "group": 2
+    },
+    "sadism_abl": {
+      "name": "施虐属性",
+      "default": 0,
+      "group": 2
+    },
+    "masturbation_addiction_abl": {
+      "name": "自慰中毒",
+      "default": 0,
+      "group": 3
+    },
+    "semen_addiction_abl": {
+      "name": "精液中毒",
+      "default": 0,
+      "group": 3
+    },
+    "v_semen_addiction_abl": {
+      "name": "穴射中毒",
+      "default": 0,
+      "group": 3
+    },
+    "a_semen_addiction_abl": {
+      "name": "肛射中毒",
+      "default": 0,
+      "group": 3
+    },
+    "talk_abl": {
+      "name": "会话",
+      "default": 0,
+      "group": 4
+    },
+    "work_abl": {
+      "name": "工作",
+      "default": 0,
+      "group": 4
+    },
+    "finger_abl": {
+      "name": "指",
+      "default": 0,
+      "group": 5
+    },
+    "tongue_abl": {
+      "name": "舌",
+      "default": 0,
+      "group": 5
+    },
+    "breast_abl": {
+      "name": "胸",
+      "default": 0,
+      "group": 5
+    },
+    "waist_abl": {
+      "name": "腰",
+      "default": 0,
+      "group": 5
+    },
+    "vagina_abl": {
+      "name": "穴",
+      "default": 0,
+      "group": 5
+    },
+    "anal_abl": {
+      "name": "肛门",
+      "default": 0,
+      "group": 5
+    }
+  },
+  "cflag": {
+    "sleeping": {
+      "name": "睡眠中",
+      "default": false
+    },
+    "working": {
+      "name": "工作中",
+      "default": false
+    },
+    "following": {
+      "name": "同行中",
+      "default": false
+    },
+    "secretary_ship": {
+      "name": "秘书舰",
+      "default": false
+    },
+    "secretary_ship_following": {
+      "name": "秘书舰同行中",
+      "default": false
+    },
+    "dating": {
+      "name": "约会中",
+      "default": false
+    },
+    "dating_following": {
+      "name": "约会同行中",
+      "default": false
+    }
+  },
+  "exp": {
+    "c_exp": {
+      "name": "C经验",
+      "default": 0,
+      "group": 1
+    },
+    "v_exp": {
+      "name": "V经验",
+      "default": 0,
+      "group": 1
+    },
+    "a_exp": {
+      "name": "A经验",
+      "default": 0,
+      "group": 1
+    },
+    "b_exp": {
+      "name": "B经验",
+      "default": 0,
+      "group": 1
+    },
+    "m_exp": {
+      "name": "M经验",
+      "default": 0,
+      "group": 1
+    },
+    "c_orgasm_exp": {
+      "name": "C绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "v_orgasm_exp": {
+      "name": "V绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "a_orgasm_exp": {
+      "name": "A绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "b_orgasm_exp": {
+      "name": "B绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "m_orgasm_exp": {
+      "name": "M绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "orgasm_exp": {
+      "name": "绝顶经验",
+      "default": 0,
+      "group": 1
+    },
+    "ejaculation_exp": {
+      "name": "射精经验",
+      "default": 0,
+      "group": 1
+    },
+    "milk_exp": {
+      "name": "喷乳经验",
+      "default": 0,
+      "group": 1
+    },
+    "pee_exp": {
+      "name": "放尿经验",
+      "default": 0,
+      "group": 1
+    },
+    "semen_exp": {
+      "name": "精液经验",
+      "default": 0,
+      "group": 1
+    },
+    "drink_semen_exp": {
+      "name": "饮精经验",
+      "default": 0,
+      "group": 1
+    },
+    "v_semen_exp": {
+      "name": "穴射经验",
+      "default": 0,
+      "group": 1
+    },
+    "a_semen_exp": {
+      "name": "肛射经验",
+      "default": 0,
+      "group": 1
+    },
+    "extract_exp": {
+      "name": "被榨经验",
+      "default": 0,
+      "group": 1
+    },
+    "v_insert_exp": {
+      "name": "V性交经验",
+      "default": 0,
+      "group": 1
+    },
+    "a_insert_exp": {
+      "name": "A性交经验",
+      "default": 0,
+      "group": 1
+    },
+    "masturbation_exp": {
+      "name": "自慰经验",
+      "default": 0,
+      "group": 1
+    },
+    "finger_exp": {
+      "name": "手淫经验",
+      "default": 0,
+      "group": 1
+    },
+    "tongue_exp": {
+      "name": "口淫经验",
+      "default": 0,
+      "group": 1
+    },
+    "breast_exp": {
+      "name": "乳交经验",
+      "default": 0,
+      "group": 1
+    },
+    "kiss_exp": {
+      "name": "接吻经验",
+      "default": 0,
+      "group": 1
+    },
+    "item_exp": {
+      "name": "道具使用经验",
+      "default": 0,
+      "group": 1
+    },
+    "insert_exp": {
+      "name": "插入经验",
+      "default": 0,
+      "group": 1
+    },
+    "v_expand_exp": {
+      "name": "V扩张经验",
+      "default": 0,
+      "group": 1
+    },
+    "a_expand_exp": {
+      "name": "A扩张经验",
+      "default": 0,
+      "group": 1
+    },
+    "talk_exp": {
+      "name": "会话经验",
+      "default": 0,
+      "group": 2
+    },
+    "work_exp": {
+      "name": "工作经验",
+      "default": 0,
+      "group": 2
+    },
+    "love_exp": {
+      "name": "爱情经验",
+      "default": 0,
+      "group": 2
+    }
+  },
+  "juel": {
+    "c_pleasure_juel": {
+      "name": "快C之珠",
+      "default": 0
+    },
+    "v_pleasure_juel": {
+      "name": "快V之珠",
+      "default": 0
+    },
+    "a_pleasure_juel": {
+      "name": "快A之珠",
+      "default": 0
+    },
+    "b_pleasure_juel": {
+      "name": "快B之珠",
+      "default": 0
+    },
+    "m_pleasure_juel": {
+      "name": "快M之珠",
+      "default": 0
+    },
+    "obedience_juel": {
+      "name": "恭顺之珠",
+      "default": 0
+    },
+    "lust_juel": {
+      "name": "欲情之珠",
+      "default": 0
+    },
+    "submission_juel": {
+      "name": "屈服之珠",
+      "default": 0
+    },
+    "learn_juel": {
+      "name": "习得之珠",
+      "default": 0
+    },
+    "shame_juel": {
+      "name": "羞耻之珠",
+      "default": 0
+    },
+    "pain_juel": {
+      "name": "苦痛之珠",
+      "default": 0
+    },
+    "fear_juel": {
+      "name": "恐怖之珠",
+      "default": 0
+    },
+    "kindness_juel": {
+      "name": "好意之珠",
+      "default": 0
+    },
+    "disgust_juel": {
+      "name": "反感之珠",
+      "default": 0
+    },
+    "unhappiness_juel": {
+      "name": "不快之珠",
+      "default": 0
+    },
+    "depression_juel": {
+      "name": "抑郁之珠",
+      "default": 0
+    },
+    "negation_juel": {
+      "name": "否定之珠",
+      "default": 0
+    }
+  },
+  "palam": {
+    "c_pleasure_palam": {
+      "name": "快C",
+      "default": 0
+    },
+    "v_pleasure_palam": {
+      "name": "快V",
+      "default": 0
+    },
+    "a_pleasure_palam": {
+      "name": "快A",
+      "default": 0
+    },
+    "b_pleasure_palam": {
+      "name": "快B",
+      "default": 0
+    },
+    "m_pleasure_palam": {
+      "name": "快M",
+      "default": 0
+    },
+    "lubrication_palam": {
+      "name": "润滑",
+      "default": 0
+    },
+    "obedience_palam": {
+      "name": "恭顺",
+      "default": 0
+    },
+    "lust_palam": {
+      "name": "欲情",
+      "default": 0
+    },
+    "submission_palam": {
+      "name": "屈服",
+      "default": 0
+    },
+    "learn_palam": {
+      "name": "习得",
+      "default": 0
+    },
+    "shame_palam": {
+      "name": "羞耻",
+      "default": 0
+    },
+    "pain_palam": {
+      "name": "苦痛",
+      "default": 0
+    },
+    "fear_palam": {
+      "name": "恐怖",
+      "default": 0
+    },
+    "kindness_palam": {
+      "name": "好意",
+      "default": 0
+    },
+    "superiority_palam": {
+      "name": "优越",
+      "default": 0
+    },
+    "disgust_palam": {
+      "name": "反感",
+      "default": 0
+    },
+    "unhappiness_palam": {
+      "name": "不快",
+      "default": 0
+    },
+    "depression_palam": {
+      "name": "抑郁",
+      "default": 0
+    }
+  },
+  "source": {
+    "c_pleasure_source": {
+      "name": "快C",
+      "default": 0
+    },
+    "v_pleasure_source": {
+      "name": "快V",
+      "default": 0
+    },
+    "a_pleasure_source": {
+      "name": "快A",
+      "default": 0
+    },
+    "b_pleasure_source": {
+      "name": "快B",
+      "default": 0
+    },
+    "m_pleasure_source": {
+      "name": "快M",
+      "default": 0
+    },
+    "lubrication_source": {
+      "name": "润滑",
+      "default": 0
+    },
+    "love_source": {
+      "name": "情爱",
+      "default": 0
+    },
+    "sex_act_source": {
+      "name": "性行为",
+      "default": 0
+    },
+    "achievement_source": {
+      "name": "达成",
+      "default": 0
+    },
+    "pain_source": {
+      "name": "苦痛",
+      "default": 0
+    },
+    "fear_source": {
+      "name": "恐怖",
+      "default": 0
+    },
+    "lust_source": {
+      "name": "欲情",
+      "default": 0
+    },
+    "obedience_source": {
+      "name": "恭顺",
+      "default": 0
+    },
+    "exposure_source": {
+      "name": "露出",
+      "default": 0
+    },
+    "submission_source": {
+      "name": "屈服",
+      "default": 0
+    },
+    "happiness_source": {
+      "name": "欢乐",
+      "default": 0
+    },
+    "conquest_source": {
+      "name": "征服",
+      "default": 0
+    },
+    "passivity_source": {
+      "name": "被动",
+      "default": 0
+    },
+    "unclean_source": {
+      "name": "不洁",
+      "default": 0
+    },
+    "depression_source": {
+      "name": "抑郁",
+      "default": 0
+    },
+    "escape_source": {
+      "name": "逃逸",
+      "default": 0
+    },
+    "disgust_source": {
+      "name": "反感",
+      "default": 0
+    }
+  },
+  "talent": {
+    "alignment": {
+      "has_value": true,
+      "name": "阵营",
+      "value": {
+        "0": "白鹰",
+        "1": "重樱",
+        "2": "铁血",
+        "3": "鸢尾",
+        "4": "维希教廷",
+        "5": "撒丁帝国",
+        "6": "皇家",
+        "7": "东煌",
+        "8": "北方联合",
+        "9": "郁金王国",
+        "10": "META",
+        "11": "飓风"
+      }
+    },
+    "ship_type": {
+      "has_value": true,
+      "name": "舰船种类",
+      "value": {
+        "0": "驱逐",
+        "1": "轻巡",
+        "2": "重巡",
+        "3": "战列",
+        "4": "航母",
+        "5": "潜艇",
+        "6": "维修",
+        "7": "航战",
+        "8": "轻航",
+        "9": "运输",
+        "10": "重炮",
+        "11": "战巡",
+        "12": "超巡"
+      }
+    },
+    "virgin": {
+      "has_value": true,
+      "name": "处女",
+      "value": {
+        "0": "非处女",
+        "1": "处女",
+        "2": "再生处女"
+      }
+    },
+    "male_virgin": {
+      "has_value": true,
+      "name": "处男",
+      "value": {
+        "0": "非处男",
+        "1": "处男"
+      }
+    },
+    "sex": {
+      "has_value": true,
+      "name": "性别",
+      "value": {
+        "0": "女性",
+        "1": "男性"
+      }
+    },
+    "relationship": {
+      "has_value": true,
+      "name": "陷落阶段",
+      "value": {
+        "0": "陌生",
+        "1": "友好",
+        "2": "喜欢",
+        "3": "爱",
+        "4": "誓约"
+      }
+    },
+    "lover": {
+      "has_value": false,
+      "name": "恋人"
+    },
+    "courage": {
+      "has_value": true,
+      "name": "胆量",
+      "value": {
+        "-1": "胆怯",
+        "0": "",
+        "1": "坚强"
+      }
+    },
+    "attitude": {
+      "has_value": true,
+      "name": "态度",
+      "value": {
+        "-1": "坦率",
+        "0": "",
+        "1": "叛逆"
+      }
+    },
+    "response": {
+      "has_value": true,
+      "name": "应答",
+      "value": {
+        "-1": "老实",
+        "0": "",
+        "1": "傲慢"
+      }
+    },
+    "self_respect": {
+      "has_value": true,
+      "name": "自尊心",
+      "value": {
+        "-1": "自尊心低",
+        "0": "",
+        "1": "自尊心高"
+      }
+    },
+    "tsundere": {
+      "has_value": false,
+      "name": "傲娇"
+    },
+    "self_control": {
+      "has_value": false,
+      "name": "自制力"
+    },
+    "indifference": {
+      "has_value": false,
+      "name": "冷漠"
+    },
+    "emotional_deficiency": {
+      "has_value": false,
+      "name": "感情缺乏"
+    },
+    "sexual_interest": {
+      "has_value": true,
+      "name": "性的兴趣",
+      "value": {
+        "-1": "保守的",
+        "0": "",
+        "1": "好奇心"
+      }
+    },
+    "bright": {
+      "has_value": false,
+      "name": "开朗的"
+    },
+    "morose": {
+      "has_value": false,
+      "name": "阴郁的"
+    },
+    "impassable_line": {
+      "has_value": false,
+      "name": "难以逾越的底线"
+    },
+    "not_minding_the_gaze": {
+      "has_value": false,
+      "name": "不在意目光"
+    },
+    "innocent": {
+      "has_value": false,
+      "name": "天真"
+    },
+    "chastity": {
+      "has_value": true,
+      "name": "贞操",
+      "value": {
+        "-1": "不在乎贞操",
+        "0": "",
+        "1": "贞操重视"
+      }
+    },
+    "self_love": {
+      "has_value": true,
+      "name": "自己爱",
+      "value": {
+        "-1": "压抑",
+        "0": "",
+        "1": "解放"
+      }
+    },
+    "resistance": {
+      "has_value": false,
+      "name": "抵抗"
+    },
+    "sense_of_shame": {
+      "has_value": true,
+      "name": "羞耻心",
+      "value": {
+        "-1": "不知羞耻",
+        "0": "普通",
+        "1": "害羞"
+      }
+    },
+    "pain_tolerance": {
+      "has_value": true,
+      "name": "痛觉",
+      "value": {
+        "-1": "不怕痛",
+        "0": "普通",
+        "1": "怕痛"
+      }
+    },
+    "wetness": {
+      "has_value": true,
+      "name": "易湿程度",
+      "value": {
+        "-1": "不易湿",
+        "0": "普通",
+        "1": "容易湿"
+      }
+    },
+    "learning_ability": {
+      "has_value": true,
+      "name": "学习速度",
+      "value": {
+        "-1": "学习慢",
+        "0": "普通",
+        "1": "学习快"
+      }
+    },
+    "flexible_fingers": {
+      "has_value": false,
+      "name": "灵巧手指"
+    },
+    "flexible_tongue": {
+      "has_value": false,
+      "name": "灵巧舌头"
+    },
+    "urophilia": {
+      "has_value": false,
+      "name": "漏尿癖"
+    },
+    "foul_tolerance": {
+      "has_value": true,
+      "name": "污臭耐性",
+      "value": {
+        "-2": "洁癖",
+        "-1": "污臭敏感",
+        "0": "普通",
+        "1": "污臭钝感",
+        "2": "污臭无视"
+      }
+    },
+    "devoted": {
+      "has_value": false,
+      "name": "献身的"
+    },
+    "pleasure_response": {
+      "has_value": true,
+      "name": "快感应答",
+      "value": {
+        "-1": "否定快感",
+        "0": "普通",
+        "1": "接受快感"
+      }
+    },
+    "easy_to_addicted": {
+      "has_value": false,
+      "name": "容易中毒"
+    },
+    "easy_to_orgasm": {
+      "has_value": false,
+      "name": "容易高潮"
+    },
+    "masturbation_fan": {
+      "has_value": false,
+      "name": "自慰狂"
+    },
+    "vaginal_fan": {
+      "has_value": false,
+      "name": "淫壶"
+    },
+    "anal_fan": {
+      "has_value": false,
+      "name": "淫尻"
+    },
+    "breast_fan": {
+      "has_value": false,
+      "name": "淫乳"
+    },
+    "oral_fan": {
+      "has_value": false,
+      "name": "淫舌"
+    },
+    "sadism": {
+      "has_value": false,
+      "name": "施虐狂"
+    },
+    "masochism": {
+      "has_value": false,
+      "name": "受虐狂"
+    },
+    "charm": {
+      "has_value": true,
+      "name": "魅力",
+      "value": {
+        "0": "普通",
+        "1": "魅力",
+        "2": "迷之魅力"
+      }
+    },
+    "female_body": {
+      "has_value": true,
+      "name": "体型",
+      "value": {
+        "-1": "萝莉",
+        "0": "少女",
+        "1": "御姐",
+        "2": "熟女"
+      }
+    },
+    "male_body": {
+      "has_value": true,
+      "name": "体型",
+      "value": {
+        "-1": "正太",
+        "0": "匀称",
+        "1": "强壮",
+        "2": "魁梧"
+      }
+    },
+    "c_sensitivity": {
+      "has_value": true,
+      "name": "C感度",
+      "value": {
+        "-1": "钝感",
+        "0": "普通",
+        "1": "敏感",
+        "2": "过敏",
+        "3": "超敏",
+        "4": "极敏",
+        "5": "一触即溃"
+      }
+    },
+    "v_sensitivity": {
+      "has_value": true,
+      "name": "V感度",
+      "value": {
+        "-1": "钝感",
+        "0": "普通",
+        "1": "敏感",
+        "2": "过敏",
+        "3": "超敏",
+        "4": "极敏",
+        "5": "一触即溃"
+      }
+    },
+    "a_sensitivity": {
+      "has_value": true,
+      "name": "A感度",
+      "value": {
+        "-1": "钝感",
+        "0": "普通",
+        "1": "敏感",
+        "2": "过敏",
+        "3": "超敏",
+        "4": "极敏",
+        "5": "一触即溃"
+      }
+    },
+    "b_sensitivity": {
+      "has_value": true,
+      "name": "B感度",
+      "value": {
+        "-1": "钝感",
+        "0": "普通",
+        "1": "敏感",
+        "2": "过敏",
+        "3": "超敏",
+        "4": "极敏",
+        "5": "一触即溃"
+      }
+    },
+    "m_sensitivity": {
+      "has_value": true,
+      "name": "M感度",
+      "value": {
+        "-1": "钝感",
+        "0": "普通",
+        "1": "敏感",
+        "2": "过敏",
+        "3": "超敏",
+        "4": "极敏",
+        "5": "一触即溃"
+      }
+    },
+    "bra_size": {
+      "has_value": true,
+      "name": "胸围",
+      "value": {
+        "-2": "绝壁",
+        "-1": "贫乳",
+        "0": "普乳",
+        "1": "巨乳",
+        "2": "丰乳",
+        "3": "爆乳",
+        "4": "超乳",
+        "5": "魔乳"
+      }
+    },
+    "hip_size": {
+      "has_value": true,
+      "name": "臀围",
+      "value": {
+        "-2": "纤臀",
+        "-1": "小臀",
+        "0": "普臀",
+        "1": "巨臀",
+        "2": "丰臀",
+        "3": "爆臀",
+        "4": "超臀"
+      }
+    },
+    "wine_tolerance": {
+      "has_value": true,
+      "name": "酒量",
+      "value": {
+        "-2": "不会喝酒",
+        "-1": "不擅长喝酒",
+        "0": "普通",
+        "1": "擅长喝酒",
+        "2": "酒豪",
+        "3": "海量"
+      }
+    },
+    "milk_body": {
+      "has_value": false,
+      "name": "母乳体质"
+    }
+  }
 }

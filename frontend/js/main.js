@@ -124,7 +124,7 @@ async function refreshCharacterInfo(npcId) {
     renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     const npc = currentNearby.find(n => n.id === npcId);
     if (npc) {
-        showCharacterInfo(npc, refreshCharacterInfo);
+        showCharacterInfo(npc, refreshCharacterInfo, currentAblDefs, currentExpDefs);
     } else {
         // 舰娘已不在附近：关面板回游戏
         const el = document.getElementById('fullscreen_charinfo');

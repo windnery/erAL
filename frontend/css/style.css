@@ -445,8 +445,8 @@ button {
     height: 100%;
     background-color: black;
     color: white;
-    padding: 24px 30px;
-    overflow-y: auto;
+    padding: 12px 24px;
+    overflow: hidden;
     z-index: 999;
     font-size: 16px;
 }
@@ -455,13 +455,14 @@ button {
     display: flex;
     gap: 4px;
     border-bottom: 1px solid #444;
-    margin-bottom: 20px;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
 }
 
 .charinfo-tab {
     color: #888;
-    padding: 4px 12px;
+    padding: 2px 12px;
+    font-size: 14px;
     cursor: default;
     user-select: none;
 }
@@ -478,46 +479,47 @@ button {
 .charinfo-talent-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 8px;
-    margin-top: 12px;
+    gap: 2px 8px;
+    margin-top: 4px;
 }
 
-/* 能力/经验网格：名称+数值，等宽列 */
+/* 能力/经验网格：每行 8 个，紧凑排布（参考调教目标区），字号 14px；组间 margin 分隔（相邻组间距更大，突出分组） */
 .charinfo-stats-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px 16px;
-    margin-top: 12px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px 10px;
+    margin-top: 6px;
 }
 
 .charinfo-stats-item {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 6px;
+    gap: 4px;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     white-space: nowrap;
+    line-height: 1.5;
 }
 
 .charinfo-stats-name {
     color: #ccc;
+    font-size: 14px;
 }
 
 .charinfo-stats-value {
-    color: #fc0;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .charinfo-talent-item {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     white-space: nowrap;
 }
 
 .charinfo-hint {
     color: #888;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 12px;
 }
 
@@ -530,26 +532,26 @@ button {
 
 .charinfo-info-row {
     color: #fff;
-    font-size: 16px;
-    margin-bottom: 8px;
+    font-size: 14px;
+    margin-bottom: 4px;
 }
 
 .charinfo-bar-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
 }
 
 .charinfo-bar-label {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .charinfo-bar-track {
     display: inline-block;
-    width: 120px;
-    height: 12px;
+    width: 100px;
+    height: 10px;
     background-color: #333;
     vertical-align: middle;
 }
@@ -562,8 +564,8 @@ button {
 
 .charinfo-bar-text {
     color: #fff;
-    font-size: 16px;
-    margin-right: 16px;
+    font-size: 14px;
+    margin-right: 12px;
 }
 
 .charinfo-section-divider {
@@ -574,7 +576,7 @@ button {
 
 .charinfo-section-title {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -589,7 +591,7 @@ button {
     width: 116px;
     height: 116px;
     display: block;
-    margin: 12px 0;
+    margin: 6px 0;
 }
 
 /* 角色信息-皮肤页：已拥有皮肤网格（复用商店卡片布局） */
@@ -605,8 +607,8 @@ button {
 
 /* 角色信息-底部操作栏：分界线 + 操作项 */
 .charinfo-bottom {
-    margin-top: 40px;
-    padding-top: 12px;
+    margin-top: 20px;
+    padding-top: 8px;
     border-top: 1px solid #555;
 }
 
@@ -619,7 +621,7 @@ button {
 
 .charinfo-bottom-action {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     cursor: default;
     user-select: none;
 }
