@@ -35,6 +35,7 @@ def nipple_sucking(world: World):
     """吸乳头"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None:
         return []
     act_num = len(train.actors)  # 调教者人数
@@ -81,7 +82,7 @@ def nipple_sucking(world: World):
         sources.update(temp_sources)
 
         # exp
-        ctx.say(exp_calc('tongue_exp', chara))
+        exp_mes.append(exp_calc('tongue_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -106,7 +107,7 @@ def nipple_sucking(world: World):
         ctx.consume(stamina=5, energy=50, chara=chara)
 
         # exp
-        ctx.say(exp_calc('b_exp', chara))
+        exp_mes.append(exp_calc('b_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
@@ -122,6 +123,8 @@ def nipple_sucking(world: World):
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ctx.say(f'度过了{command_time_data["nipple_sucking"]}分钟')
     return ctx.result()

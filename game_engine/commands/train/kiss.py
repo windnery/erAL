@@ -99,6 +99,7 @@ def kiss(world: World):
     """亲吻"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None:
         return []
     # able判定
@@ -158,8 +159,8 @@ def kiss(world: World):
         sources.update(temp_sources)
 
         # exp
-        ctx.say(exp_calc('tongue_exp', chara))
-        ctx.say(exp_calc('kiss_exp', chara))
+        exp_mes.append(exp_calc('tongue_exp', chara))
+        exp_mes.append(exp_calc('kiss_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -194,8 +195,8 @@ def kiss(world: World):
         ctx.consume(energy=50, chara=chara)
 
         # exp
-        ctx.say(exp_calc('tongue_exp', chara))
-        ctx.say(exp_calc('kiss_exp', chara))
+        exp_mes.append(exp_calc('tongue_exp', chara))
+        exp_mes.append(exp_calc('kiss_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
@@ -218,6 +219,8 @@ def kiss(world: World):
             # 反馈：target给actor的m_pleasure
             pairs.append((source, target, actor))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ctx.say(f'度过了{command_time_data["kiss"]}分钟')
     return ctx.result()

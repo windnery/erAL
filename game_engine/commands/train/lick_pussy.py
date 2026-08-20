@@ -34,6 +34,7 @@ def lick_pussy(world: World):
     """舔阴"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None:
         return []
     act_num = len(train.actors)  # 调教者人数
@@ -82,7 +83,7 @@ def lick_pussy(world: World):
         sources.update(temp_sources)
 
         # exp
-        ctx.say(exp_calc('tongue_exp', chara))
+        exp_mes.append(exp_calc('tongue_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -107,7 +108,7 @@ def lick_pussy(world: World):
         ctx.consume(stamina=5, energy=50, chara=chara)
 
         # exp
-        ctx.say(exp_calc('a_exp', chara))
+        exp_mes.append(exp_calc('c_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
@@ -128,6 +129,8 @@ def lick_pussy(world: World):
             # 反馈：target给actor的m_pleasure
             pairs.append((source, target, actor))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ctx.say(f'度过了{command_time_data["lick_pussy"]}分钟')
     return ctx.result()

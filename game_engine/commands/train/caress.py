@@ -34,6 +34,7 @@ def caress(world: World):
     """爱抚"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None: return []
     act_num = len(train.actors)  # 调教者人数
     tar_num = len(train.targets)  # 被调教者人数
@@ -82,7 +83,7 @@ def caress(world: World):
         sources.update(temp_sources)
 
         # exp
-        ctx.say(exp_calc('finger_exp', chara))
+        exp_mes.append(exp_calc('finger_exp', chara))
 
         # 体力和气力消耗
         ctx.consume(stamina=20, energy=20, chara=chara)
@@ -121,6 +122,8 @@ def caress(world: World):
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ctx.say(f'度过了{command_time_data["caress"]}分钟')
     return ctx.result()

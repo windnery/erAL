@@ -34,6 +34,7 @@ def finger_insert(world: World):
     """指插入"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None:
         return []
     act_num = len(train.actors)  # 调教者人数
@@ -80,7 +81,7 @@ def finger_insert(world: World):
         sources.update(temp_sources)
 
         # exp
-        ctx.say(exp_calc('finger_exp', chara))
+        exp_mes.append(exp_calc('finger_exp', chara))
 
     # 合并调教者产生的source
     merged_source = accumulate_sources(sources)
@@ -114,7 +115,7 @@ def finger_insert(world: World):
         ctx.consume(stamina=30, energy=80, chara=chara)
 
         # v exp
-        ctx.say(exp_calc('v_exp', chara))
+        exp_mes.append(exp_calc('v_exp', chara))
 
         # 处理好感和信赖
         if target_id != PLAYER_ID:
@@ -130,6 +131,8 @@ def finger_insert(world: World):
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ctx.say(f'度过了{command_time_data["finger_insert"]}分钟')
     return ctx.result()

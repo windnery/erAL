@@ -108,6 +108,7 @@ def common_position(world: World):
     """正常位"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None or not train.actors or not train.targets:
         return []
 
@@ -151,13 +152,13 @@ def common_position(world: World):
     for actor_id in train.actors:
         actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
         source = base_source.copy()
-        source['v_pleasure_source'] += actor.abl.get('vagina_abl', 0) * 5
+        # source['v_pleasure_source'] += actor.abl.get('vagina_abl', 0) * 5
         actor_sources[actor_id] = source
         if actor.id == PLAYER_ID and actor.get_talent_value('male_virgin') == 1:
             actor.set_talent('male_virgin', '0')
-            ctx.say(f'{actor.name}也告别了处男之身！')
+            ctx.say(f'{actor.name}告别了处男之身！')
         # 插入经验
-        ctx.say(exp_calc('insert_exp', actor))
+        exp_mes.append(exp_calc('insert_exp', actor))
 
     merged_source = accumulate_sources(actor_sources)
     target_sources: dict[str, dict[str, int]] = {}
@@ -185,11 +186,11 @@ def common_position(world: World):
         if target_id != PLAYER_ID:
             favor_trust_proc(source, chara, ctx)
         # v经验 v性交经验
-        ctx.say(exp_calc('v_exp', chara))
-        ctx.say(exp_calc('v_insert_exp', chara))
-        ctx.say(exp_calc('love_exp', chara, chara.get_talent_value('relationship') * 2))
+        exp_mes.append(exp_calc('v_exp', chara))
+        exp_mes.append(exp_calc('v_insert_exp', chara))
+        exp_mes.append(exp_calc('love_exp', chara, chara.get_talent_value('relationship') * 2))
         if chara.get_talent_value('virgin') == 1 and chara.get_talent_value('relationship') > 1:
-            ctx.say(exp_calc('love_exp', chara, 10))
+            exp_mes.append(exp_calc('love_exp', chara, 10))
 
     pairs = []
     for actor_id in train.actors:
@@ -201,6 +202,8 @@ def common_position(world: World):
             # 反馈：target给actor的c_pleasure
             pairs.append((feedback, target, actor))
     source_proc_batch(pairs, ctx)
+
+    ctx.say(*exp_mes)
 
     ejaculation_proc(world, ctx, '中出')
     ctx.say(f'度过了{command_time_data["common_position"]}分钟')
