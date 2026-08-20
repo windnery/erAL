@@ -115,7 +115,8 @@ def request_a_lap_pillow(world: World, option: str):
 
     # 经验
     if npc.is_dating():
-        ctx.say(*exp_calc(['love_exp'], world.player, npc, True))
+        ctx.say(exp_calc('love_exp', world.player))
+        ctx.say(exp_calc('love_exp', npc))
 
     ctx.say(f'度过了{command_time_data["request_a_lap_pillow"]}分钟')
     return ctx.result()

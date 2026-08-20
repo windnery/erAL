@@ -414,12 +414,7 @@ class TestExpCalc:
     def test_exp_calc_player_only(self, world):
         from game_engine.data_pipeline.exp_calc import exp_calc
         before = world.player.exp['talk_exp']
-        mes = exp_calc(['talk_exp'], world.player)
+        mes = exp_calc('talk_exp', world.player)
         assert world.player.exp['talk_exp'] == before + 1
         assert any('会话经验' in m for m in mes)
 
-    def test_exp_calc_npc_gain(self, world, z23):
-        from game_engine.data_pipeline.exp_calc import exp_calc
-        before = z23.exp['talk_exp']
-        mes = exp_calc(['talk_exp'], world.player, npc=z23, npc_gain=True)
-        assert z23.exp['talk_exp'] == before + 1

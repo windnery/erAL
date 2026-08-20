@@ -93,8 +93,10 @@ def talk(world: World, option: str):
 
     # 获得经验处理
     if npc.is_dating():
-        ctx.say(*exp_calc(['talk_exp', 'love_exp'], world.player, npc, True))
-    else: ctx.say(*exp_calc(['talk_exp'], world.player, npc, True))
+        ctx.say(exp_calc('love_exp', world.player))
+        ctx.say(exp_calc('love_exp', npc))
+    ctx.say(exp_calc('talk_exp', world.player))
+    ctx.say(exp_calc('talk_exp', npc))
 
     ctx.say(f'度过了{command_time_data["talk"]}分钟')
     return ctx.result()

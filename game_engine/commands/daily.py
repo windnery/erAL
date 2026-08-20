@@ -109,7 +109,7 @@ def work(world, option=None):
     ctx.say(f"{world.player.name}完成了{works}工作量，还剩{work_manager.works}工作量")
 
     # 经验
-    ctx.say(exp_calc(['work_exp'], world.player))
+    ctx.say(exp_calc('work_exp', world.player))
 
     ctx.say(f'度过了{command_time_data["work"]}分钟')
 
