@@ -11,19 +11,19 @@ from game_engine.commands._context import CommandContext
 from game_engine.managers.NpcManager import NpcManager
 
 
-def say_chara_line(chara, ctx: CommandContext, action: str):
+def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
     """输出角色口上场景（按角色色逐条染色）；无口上时静默。"""
     from game_engine.dialogue import get_scene
 
     scene = get_scene(chara, action)
     if scene:
         for msg in scene:
-            ctx.say(msg.replace('{name}', chara.name), color=getattr(chara, 'color', '#ffffff'))
+            ctx.say_block(block, f'[[c:{getattr(chara, "color", "#ffffff")}]]{msg.replace("{name}", chara.name)}[[/c]]')
 
 
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
-from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES
+from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES, ORGASM_BASE
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
@@ -41,16 +41,18 @@ def new_source(base: dict[str, int]):
     return s
 
 
-def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext):
+def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext, block: str = 'palam'):
     """source的统一转换过程（单对）"""
     # source->palam
     mes_source, mes_target, _ = palam_calc(source, actor, target)
-    for mes in mes_source:
-        ctx.say(mes)
-    for mes in mes_target:
-        ctx.say(mes)
+    if mes_source:
+        ctx.say_block(block, *mes_source)
+    if mes_target:
+        ctx.say_block(block, *mes_target)
     # 绝顶判定
-    ctx.say(*orgasm_check(target))
+    orgasm_mes = orgasm_check(target)
+    if orgasm_mes:
+        ctx.say_block(block, *orgasm_mes)
     # 更新palam等级
     actor.update_palam_level()
     target.update_palam_level()
@@ -60,11 +62,12 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
         emotion_rationality_calc(source, target)
 
 
-def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext):
+def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
+                      world=None, ejaculation_position: str | None = None):
     """source的统一转换过程（批量，多对 (source, actor, target)）
     数值：每对依次累计（保持笛卡尔积多次累计语义）
     输出：按角色聚合后统一打印一次（同一角色只出现一次）
-    绝顶/等级/情绪理性：每个角色实例执行一次（去重）
+    顺序：基础palam -> 射精处理(提示+口上+精液palam) -> 绝顶判定/等级/情绪理性
     """
     if not pairs:
         return
@@ -93,7 +96,7 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         for k, v in source.items():
             source_of[tid][k] = source_of[tid].get(k, 0) + v
 
-    # 统一应用 + 按角色打印一次
+    # 1. 统一应用基础 palam + 按角色打印一次
     for key, deltas in per_chara.items():
         if not deltas:
             continue
@@ -116,16 +119,22 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
                 f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {delta} = {chara.palam[palam] + delta}')
             chara.palam[palam] += delta
         if len(mes) > 1:
-            ctx.say(*mes)
+            ctx.say_block('palam', *mes)
 
-    # 绝顶/等级/情绪理性：每个角色实例一次（去重）
+    # 2. 基础 palam 之后、绝顶之前进行射精处理
+    if world and ejaculation_position:
+        ejaculation_proc(world, ctx, ejaculation_position, check_orgasm=False)
+
+    # 3. 绝顶/等级/情绪理性：每个角色实例一次（去重）
     processed: set[int] = set()
     for _, actor, target in pairs:
         # target 侧
         tid = id(target)
         if tid not in processed:
             processed.add(tid)
-            ctx.say(*orgasm_check(target))
+            orgasm_mes = orgasm_check(target)
+            if orgasm_mes:
+                ctx.say_block('palam', *orgasm_mes)
             target.update_palam_level()
             if target.id != PLAYER_ID and tid in source_of:
                 emotion_rationality_calc(source_of[tid], target)
@@ -225,7 +234,7 @@ def accumulate_sources(dict_iterable) -> dict[str, int | float]:
 
 
 def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext, is_intimate: bool = False,
-                     ex_favor: int = 0, ex_trust: int = 0):
+                     ex_favor: int = 0, ex_trust: int = 0, block: str = 'favor', is_ejaculation: bool = False):
     """处理好感和信赖"""
     favor_delta = favor_calc(ctx.world.player, npc, source)
     trust_delta = trust_calc(ctx.world.player, npc, source)
@@ -239,13 +248,15 @@ def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext,
     npc.trust += trust_delta
 
     if favor_delta > 0:
-        ctx.say(f'好感+{favor_delta} ({npc.name})')
+        ctx.say_block(block,
+                      f'好感+{favor_delta} ({npc.name})' + ('[[c:#ff6fae]](射精加成)[[/c]]' if is_ejaculation else ''))
     elif favor_delta < 0:
-        ctx.say(f'好感{favor_delta} ({npc.name})')
+        ctx.say_block(block, f'好感{favor_delta} ({npc.name})')
     if trust_delta > 0:
-        ctx.say(f'信赖+{trust_delta} ({npc.name})')
+        ctx.say_block(block,
+                      f'信赖+{trust_delta} ({npc.name})' + ('[[c:#ff6fae]](射精加成)[[/c]]' if is_ejaculation else ''))
     elif trust_delta < 0:
-        ctx.say(f'信赖{trust_delta} ({npc.name})')
+        ctx.say_block(block, f'信赖{trust_delta} ({npc.name})')
 
 
 def pain_check_v(source: dict[str, int | float], chara: Character):
@@ -487,7 +498,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     return mes, attitude
 
 
-def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
+def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check_orgasm: bool = True):
     """射精判定"""
     player = world.player
     train = world.train_manager.train
@@ -501,7 +512,7 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
 
     player.set_exp('ejaculation_exp', player.get_exp('ejaculation_exp') + 1)
     player.set_vitality(player.get_vitality() - EJACULATION_VITALITY_COST)
-    ctx.say(f'{player.name}射精了！（{position}）')
+    ctx.say_block('palam', f'{player.name}射精了！（{position}）')
 
     semen_src = new_source(SEMEN_SOURCES.get(position, {}))
     for target_id in train.targets:
@@ -510,18 +521,27 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
         chara = get_entity_by_id(world.npc_manager, player, target_id)
         chara.set_exp('semen_exp', chara.get_exp('semen_exp') + 1)
         chara.set_exp('v_semen_exp', chara.get_exp('v_semen_exp') + 1)
-        say_chara_line(chara, ctx, 'ejaculation')
+        say_chara_line(chara, ctx, 'ejaculation', block='palam')
 
         source = common_src_modify(semen_src.copy(), chara)
-        ctx.say_source(source, prefix=f'{chara.name}')
-        source_proc(source, player, chara, ctx)
-        favor_trust_proc(source, chara, ctx)
+        mes_source, mes_target, _ = palam_calc(source, player, chara)
+        if mes_target:
+            ctx.say_block('palam', *mes_target)
+        if check_orgasm:
+            orgasm_mes = orgasm_check(chara)
+            if orgasm_mes:
+                ctx.say_block('palam', *orgasm_mes)
+            chara.update_palam_level()
+            emotion_rationality_calc(source, chara)
+        favor_trust_proc(source, chara, ctx, block='favor', is_ejaculation=True)
 
-    player.palam['m_pleasure_palam'] = 0
+    for palam in ORGASM_BASE.keys():
+        # 射精后清空所有部位快感
+        player.palam[palam] = 0
     player.update_palam_level()
     if player.get_vitality() == 0:
         world.train_manager.end_train()
-        ctx.say('精力耗尽，本次调教强制结束……')
+        ctx.say_block('palam', '精力耗尽，本次调教强制结束……')
 
 
 def work_abl_modifier(abl: int, works: int):

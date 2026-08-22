@@ -59,6 +59,11 @@ def palam_calc(src: dict[str, int], source: Character, target: Character, dry_ru
             (mes_source if chara_kind == 'source' else mes_target).append(mes)
             chara.palam[palam] += value
 
+        if len(mes_source) == 1:
+            mes_source = []
+        if len(mes_target) == 1:
+            mes_target = []
+
     return mes_source, mes_target, changes
 
 

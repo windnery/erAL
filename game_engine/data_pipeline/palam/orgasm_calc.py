@@ -9,13 +9,15 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: Character, orgasm_num: int):
     climaxed = [(palam_id, lv) for palam_id, lv in orgasm_lv.items() if lv > 0]
     for palam_id, lv in climaxed:
         part = palam_id[0].upper()  # 绝顶部位
-        mes.append(orgasm_lv_print(part, lv))
+        text = orgasm_lv_print(part, lv)
+        mes.append(f'[[c:#ff6fae]]{text}[[/c]]')
         # 绝顶后palam和juel处理
         orgasm_palam_juel_proc(palam_id, target, orgasm_num, lv)
     climaxed_lv = [lv for _, lv in climaxed]
     if orgasm_num >= 2 and len(set(climaxed_lv)) == 1:
         lv = climaxed_lv[0]
-        mes.append(f'{ORGASM_NUM_CN[orgasm_num]}{ORGASM_LV_CN[lv]}！（各部位珠子加成）')
+        text = f'{ORGASM_NUM_CN[orgasm_num]}{ORGASM_LV_CN[lv]}！（各部位珠子加成）'
+        mes.append(f'[[c:#ff6fae]]{text}[[/c]]')
 
     return mes
 

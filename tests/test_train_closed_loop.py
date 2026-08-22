@@ -168,3 +168,49 @@ class TestSourceProcBatch:
         # 情绪/理性是静默修改，只验证不崩 + palam 正确累计
         assert laffey.palam['c_pleasure_palam'] > 0
         assert len(ctx.messages) > 0
+
+
+class TestEjaculationAndOrgasmFormat:
+    """验证绝顶粉色、射精苍白色、射精口上与结果按序展示"""
+
+    def test_orgasm_message_colored_pink(self, world):
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
+        laffey = world.npc_manager.shipgirls['laffey']
+        laffey.palam['v_pleasure_palam'] = 20000
+        mes = orgasm_check(laffey)
+        assert len(mes) > 0
+        assert all(m.startswith('[[c:#ff6fae]]') and m.endswith('[[/c]]') for m in mes)
+
+    def test_ejaculation_order_and_colors(self, world):
+        TestTrainClosedLoop._make_position_train(world)
+        laffey = world.npc_manager.shipgirls['laffey']
+        laffey.favor = 1000
+        laffey.set_talent('virgin', '0')
+        laffey.exp['v_exp'] = 100
+        laffey.palam['v_pleasure_palam'] = 14500
+        world.player.palam['m_pleasure_palam'] = 5000
+
+        result = world.command_manager.do_cmd('common_position')
+        assert isinstance(result, list)
+
+        # 顺序应为：基础palam -> 射精消息 -> 绝顶消息 -> 时间消息
+        ejac_idx = -1
+        time_idx = -1
+        palam_idx = -1
+        orgasm_idx = -1
+        for i, line in enumerate(result):
+            if '射精了' in line:
+                ejac_idx = i
+                assert '[[c:#f5f5f5]]' in line
+            if '度过了' in line:
+                time_idx = i
+            if '快V' in line or '欲情' in line:
+                if palam_idx == -1:
+                    palam_idx = i
+            if '绝顶！' in line:
+                orgasm_idx = i
+                assert '[[c:#ff6fae]]' in line
+
+        assert ejac_idx != -1, "应包含射精消息"
+        assert orgasm_idx != -1, "应包含绝顶消息"
+        assert palam_idx < ejac_idx < orgasm_idx < time_idx, "顺序应为: 基础palam < 射精消息 < 绝顶消息 < 时间消息"

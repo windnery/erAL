@@ -3,13 +3,11 @@ from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import (
     accumulate_sources,
-    ejaculation_proc,
     favor_trust_proc,
     get_entity_by_id,
     get_name_by_id,
@@ -205,12 +203,11 @@ def common_position(world: World):
             target = get_entity_by_id(world.npc_manager, world.player, target_id)
             pairs.append((target_sources[target_id], actor, target))
             feedback = common_src_modify({'c_pleasure_source': 400}, actor)
+            ctx.say_source(feedback, src_name)
             # 反馈：target给actor的c_pleasure
             pairs.append((feedback, target, actor))
-    source_proc_batch(pairs, ctx)
+    source_proc_batch(pairs, ctx, world=world, ejaculation_position='中出')
 
-    ctx.say(*exp_mes)
+    ctx.say_exp(*exp_mes)
 
-    ejaculation_proc(world, ctx, '中出')
-    ctx.say(f'度过了{command_time_data["common_position"]}分钟')
     return ctx.result()
