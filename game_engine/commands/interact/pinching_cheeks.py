@@ -82,11 +82,7 @@ def pinching_cheeks(world: World, option: str):
     # 通用source修正
     source = common_src_modify(source, npc)
 
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(' '.join(source_list))
+    ctx.say_source(source)
 
     # TODO: source->mood
 

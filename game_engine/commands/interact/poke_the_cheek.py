@@ -90,11 +90,7 @@ def poke_the_cheek(world: World, option: str):
     # 通用source修正
     source = common_src_modify(source, npc)
 
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(' '.join(source_list))
+    ctx.say_source(source)
 
     # TODO: source->mood
 
@@ -104,8 +100,8 @@ def poke_the_cheek(world: World, option: str):
     # 体力和气力消耗
     p_energy_cost = 50
     n_energy_cost = 50
-    ctx.consume(p_energy_cost, world.player)
-    ctx.consume(n_energy_cost, npc)
+    ctx.consume(energy=p_energy_cost, chara=world.player)
+    ctx.consume(energy=n_energy_cost, chara=npc)
 
     # 好感和信赖处理
     favor_trust_proc(source, npc, ctx, True)

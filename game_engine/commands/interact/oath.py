@@ -107,11 +107,7 @@ def oath(world: World, option: str):
     # 通用source修正
     source = common_src_modify(source, npc)
 
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(" ".join(source_list))
+    ctx.say_source(source)
 
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)

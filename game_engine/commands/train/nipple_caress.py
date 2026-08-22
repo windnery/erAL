@@ -96,11 +96,7 @@ def nipple_caress(world: World):
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 
-        source_list = [f'{tar_name} ']
-        for k, v in sources[target_id].items():
-            if v != 0:
-                source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-        ctx.say(' '.join(source_list))
+        ctx.say_source(sources[target_id], prefix=f'{tar_name}')
 
         # 体力和气力消耗
         ctx.consume(stamina=5, energy=30, chara=chara)

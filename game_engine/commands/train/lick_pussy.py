@@ -98,11 +98,7 @@ def lick_pussy(world: World):
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 
-        source_list = [f'{tar_name} ']
-        for k, v in sources[target_id].items():
-            if v != 0:
-                source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-        ctx.say(' '.join(source_list))
+        ctx.say_source(sources[target_id], prefix=f'{tar_name}')
 
         # 体力和气力消耗
         ctx.consume(stamina=5, energy=50, chara=chara)
@@ -124,6 +120,7 @@ def lick_pussy(world: World):
             # 额外处理调教者方的反馈source
             m_pleasure_source = 50
             source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
+            ctx.say_source(source, src_name)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
             # 反馈：target给actor的m_pleasure

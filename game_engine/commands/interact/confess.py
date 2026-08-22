@@ -35,7 +35,10 @@ def can(world: World, npc: ShipGirl):
     if npc.abl["intimacy_abl"] < 7:
         return False
     # 好感度低于800
-    return not npc.favor < 800
+    if npc.favor < 800:
+        return False
+
+    return True
 
 
 def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
@@ -95,11 +98,7 @@ def confess(world: World, option: str):
 
     # 通用source修正
     source = common_src_modify(source, npc)
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(" ".join(source_list))
+    ctx.say_source(source)
 
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)

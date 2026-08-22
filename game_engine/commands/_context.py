@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from config.attr_defs import ATTR_DEFS
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
 
@@ -54,6 +55,16 @@ class CommandContext:
             self.messages.extend(msgs)
         else:
             self.messages.extend(f'[[c:{color}]]{msg}[[/c]]' for msg in msgs)
+
+    def say_source(self, source: dict[str, int], prefix: str = ''):
+        '''添加一条source消息（打印 source 信息，自动过滤 0 值项）
+        prefix: 可选前缀，如角色名（train 指令用 f'{tar_name} '）
+        '''
+        source_list = [prefix] if prefix else []
+        for k, v in source.items():
+            if v != 0:
+                source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
+        self.say(' '.join(source_list))
 
     def result(self) -> list[str]:
         '''组装最终返回：核心消息 + NPC 变动事件 + 耗尽结算（若有）'''

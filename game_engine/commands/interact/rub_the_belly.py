@@ -56,7 +56,7 @@ def rub_the_belly(world: World, option: str):
     say_chara_line(npc, ctx, 'rub_the_belly')
 
     # 推进时间
-    ctx.advance_time(command_time_data['body_touch'])
+    ctx.advance_time(command_time_data['rub_the_belly'])
 
     # TODO: 怀孕补正
     # TODO: 衣服补正
@@ -72,11 +72,7 @@ def rub_the_belly(world: World, option: str):
     # 通用source修正
     source = common_src_modify(source, npc)
 
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(' '.join(source_list))
+    ctx.say_source(source)
 
     # TODO: source->mood
 

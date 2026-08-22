@@ -181,11 +181,7 @@ def common_position(world: World):
         source = common_src_modify(source, chara)
         target_sources[target_id] = source
 
-        source_list = [f'{chara.name} ']
-        for key, value in source.items():
-            if value:
-                source_list.append(f"{ATTR_DEFS['source'][key]['name']}({value})")
-        ctx.say(' '.join(source_list))
+        ctx.say_source(source, prefix=f'{chara.name}')
 
         ctx.consume(stamina=50, energy=60, chara=chara)
         if target_id != PLAYER_ID:

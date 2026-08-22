@@ -2,7 +2,6 @@ from __future__ import annotations
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from ...data_pipeline.exp_calc import exp_calc
@@ -70,15 +69,7 @@ def talk(world: World, option: str):
     # 通用source修正
     source = common_src_modify(source, npc)
 
-    source_list = []
-    for k, v in source.items():
-        if v != 0:
-            source_list.append(f"{ATTR_DEFS['source'][k]['name']}({v})")
-    ctx.say(' '.join(source_list))
-
-    # source->mood
-    # mood_delta = src2mood_proc(source, npc)
-    # npc.base['mood'] += mood_delta
+    ctx.say_source(source, npc.name)
 
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)
