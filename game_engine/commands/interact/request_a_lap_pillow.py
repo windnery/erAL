@@ -8,7 +8,6 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
-from config.attr_defs import ATTR_DEFS
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -108,8 +107,7 @@ def request_a_lap_pillow(world: World, option: str):
 
     # 经验
     if npc.is_dating():
-        ctx.say(exp_calc('love_exp', world.player))
-        ctx.say(exp_calc('love_exp', npc))
+        ctx.say_exp(exp_calc('love_exp', world.player))
+        ctx.say_exp(exp_calc('love_exp', npc))
 
-    ctx.say(f'度过了{command_time_data["request_a_lap_pillow"]}分钟')
     return ctx.result()

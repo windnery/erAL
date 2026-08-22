@@ -2,7 +2,6 @@ from __future__ import annotations
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
@@ -92,10 +91,6 @@ def rub_the_butt(world: World, option: str):
 
     ctx.say_source(source)
 
-    # TODO: source->mood
-    # mood_delta = src2mood_proc(source, npc)
-    # npc.base['mood'] += mood_delta
-
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)
 
@@ -110,8 +105,7 @@ def rub_the_butt(world: World, option: str):
 
     # 经验
     if npc.is_dating():
-        ctx.say(exp_calc('love_exp', world.player))
-        ctx.say(exp_calc('love_exp', npc))
+        ctx.say_exp(exp_calc('love_exp', world.player))
+        ctx.say_exp(exp_calc('love_exp', npc))
 
-    ctx.say(f'度过了{command_time_data["rub_the_butt"]}分钟')
     return ctx.result()

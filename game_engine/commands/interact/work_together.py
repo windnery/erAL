@@ -72,11 +72,9 @@ def work_together(world, option=None):
 
     # 经验
     if npc.is_dating():
-        ctx.say(exp_calc('love_exp', world.player))
-        ctx.say(exp_calc('love_exp', npc))
-    ctx.say(exp_calc('work_exp', world.player))
-    ctx.say(exp_calc('work_exp', npc))
-
-    ctx.say(f'度过了{command_time_data["work_together"]}分钟')
+        ctx.say_exp(exp_calc('love_exp', world.player))
+        ctx.say_exp(exp_calc('love_exp', npc))
+    ctx.say_exp(exp_calc('work_exp', world.player))
+    ctx.say_exp(exp_calc('work_exp', npc))
 
     return ctx.result()

@@ -3,7 +3,6 @@ from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.abl_config import ABL_LV
-from config.attr_defs import ATTR_DEFS
 from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
@@ -195,5 +194,4 @@ def spread_the_ass(world: World):
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)
 
-    ctx.say(f'度过了{command_time_data["spread_the_ass"]}分钟')
     return ctx.result()

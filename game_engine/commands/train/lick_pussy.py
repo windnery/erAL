@@ -2,7 +2,6 @@ from __future__ import annotations
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
@@ -119,15 +118,14 @@ def lick_pussy(world: World):
                 world.npc_manager, world.player, target_id)
             # 额外处理调教者方的反馈source
             m_pleasure_source = 50
-            source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
-            ctx.say_source(source, src_name)
+            feedback = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
+            ctx.say_source(feedback, src_name)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
             # 反馈：target给actor的m_pleasure
-            pairs.append((source, target, actor))
+            pairs.append((feedback, target, actor))
     source_proc_batch(pairs, ctx)
 
-    ctx.say(*exp_mes)
+    ctx.say_exp(*exp_mes)
 
-    ctx.say(f'度过了{command_time_data["lick_pussy"]}分钟')
     return ctx.result()

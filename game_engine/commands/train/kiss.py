@@ -3,7 +3,6 @@ from game_engine.commands._common import say_chara_line
 from random import randint
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
@@ -220,7 +219,6 @@ def kiss(world: World):
             pairs.append((source, target, actor))
     source_proc_batch(pairs, ctx)
 
-    ctx.say(*exp_mes)
+    ctx.say_exp(*exp_mes)
 
-    ctx.say(f'度过了{command_time_data["kiss"]}分钟')
     return ctx.result()

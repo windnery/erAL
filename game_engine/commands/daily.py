@@ -99,6 +99,4 @@ def work(world, option=None):
     # 经验
     ctx.say(exp_calc('work_exp', world.player))
 
-    ctx.say(f'度过了{command_time_data["work"]}分钟')
-
     return ctx.result()

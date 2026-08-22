@@ -8,7 +8,6 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
-from config.attr_defs import ATTR_DEFS
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -92,8 +91,6 @@ def poke_the_cheek(world: World, option: str):
 
     ctx.say_source(source)
 
-    # TODO: source->mood
-
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)
 
@@ -108,8 +105,7 @@ def poke_the_cheek(world: World, option: str):
 
     # 经验
     if npc.is_dating():
-        ctx.say(exp_calc('love_exp', world.player))
-        ctx.say(exp_calc('love_exp', npc))
+        ctx.say_exp(exp_calc('love_exp', world.player))
+        ctx.say_exp(exp_calc('love_exp', npc))
 
-    ctx.say(f'度过了{command_time_data["poke_the_cheek"]}分钟')
     return ctx.result()
