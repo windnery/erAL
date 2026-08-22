@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import defaultdict
 
 from config.abl_config import ABL_LV
@@ -6,6 +8,8 @@ from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
+from game_engine.managers.NpcManager import NpcManager
+
 
 def say_chara_line(chara, ctx: CommandContext, action: str):
     """输出角色口上场景（按角色色逐条染色）；无口上时静默。"""
@@ -24,11 +28,11 @@ from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
-from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+
 
 def new_source(base: dict[str, int]):
     """根据base生成新的source"""
@@ -108,7 +112,8 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         for palam, delta in deltas.items():
             if delta == 0:
                 continue
-            mes.append(f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {delta} = {chara.palam[palam] + delta}')
+            mes.append(
+                f'{ATTR_DEFS["palam"][palam]["name"]} {chara.palam[palam]} + {delta} = {chara.palam[palam] + delta}')
             chara.palam[palam] += delta
         if len(mes) > 1:
             ctx.say(*mes)
@@ -154,7 +159,8 @@ def low_favor2favor(favor: int) -> int:
     else:
         return 0
 
-def get_revision(raw_num: int, limit: int, revision_rate: int|float) -> int:
+
+def get_revision(raw_num: int, limit: int, revision_rate: int | float) -> int:
     """获取修正后的数值"""
     return int(limit - limit * revision_rate / (revision_rate + raw_num))
 
@@ -461,7 +467,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     temp = -npc.get_talent_value("shame") * 2
     if temp != 0:
         attitude += temp
-        mes = add_attitude_mes(mes, f'{npc.get_talent_name("sense_of_shame")}({temp})')
+        mes = add_attitude_mes(mes, f'{npc.get_talent_name("shame")}({temp})')
     # 献身的
     if npc.has_talent("devoted"):
         attitude += 30
@@ -507,11 +513,7 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
         say_chara_line(chara, ctx, 'ejaculation')
 
         source = common_src_modify(semen_src.copy(), chara)
-        source_list = [f'{chara.name} ']
-        for key, value in source.items():
-            if value:
-                source_list.append(f"{ATTR_DEFS['source'][key]['name']}({value})")
-        ctx.say(' '.join(source_list))
+        ctx.say_source(source, prefix=f'{chara.name}')
         source_proc(source, player, chara, ctx)
         favor_trust_proc(source, chara, ctx)
 
@@ -520,3 +522,22 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出'):
     if player.get_vitality() == 0:
         world.train_manager.end_train()
         ctx.say('精力耗尽，本次调教强制结束……')
+
+
+def work_abl_modifier(abl: int, works: int):
+    """工作abl加成"""
+    match abl:
+        case 1:
+            works *= 1.25
+        case 2:
+            works *= 1.5
+        case 3:
+            works *= 1.75
+        case 4:
+            works *= 2
+        case 5:
+            works *= 2.5
+        case 6:
+            works *= 3
+
+    return int(works)

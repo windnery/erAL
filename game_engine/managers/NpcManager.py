@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any
 
 from config.time_config import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
 from data.data_loader import load_shipgirls
-from game_engine.commands.interact.end_date import end_date
 from game_engine.managers.MapManager import MapManager
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
@@ -120,6 +119,8 @@ class NpcManager:
                 if hour > DATING_END_TIME['hour'] or (
                         hour == DATING_END_TIME['hour'] and minute >= DATING_END_TIME['minute']):
                     # 取消约会状态
+                    # 函数内延迟导入，避免循环导入（end_date → interact/__init__ → talk → _common）
+                    from game_engine.commands.interact.end_date import end_date
                     end_date(self.world, sg.id, True)
 
             if sg.is_working():
