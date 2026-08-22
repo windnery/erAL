@@ -1,5 +1,5 @@
 from __future__ import annotations
-from game_engine.commands._common import say_chara_line
+from game_engine.commands._common import say_chara_line, work_abl_modifier
 from random import randint
 from typing import TYPE_CHECKING
 
@@ -46,40 +46,16 @@ def work_together(world, option=None):
 
     # 做工作
     # 玩家的工作部分
-    works = randint(120, 180)
+    player_works = randint(120, 180)
     work_abl = world.player.abl['work_abl']
     # abl加成
-    match work_abl:
-        case 1:
-            works *= 1.25
-        case 2:
-            works *= 1.5
-        case 3:
-            works *= 1.75
-        case 4:
-            works *= 2
-        case 5:
-            works *= 2.5
-        case 6:
-            works *= 3
+    player_works = work_abl_modifier(work_abl, player_works)
     # 秘书舰的工作部分
-    works += randint(80, 140)
+    secretary_works = randint(80, 140)
     work_abl = npc.abl['work_abl']
     # abl加成
-    match work_abl:
-        case 1:
-            works *= 1.25
-        case 2:
-            works *= 1.5
-        case 3:
-            works *= 1.75
-        case 4:
-            works *= 2
-        case 5:
-            works *= 2.5
-        case 6:
-            works *= 3
-    works = int(works)
+    secretary_works = work_abl_modifier(work_abl, secretary_works)
+    works = int(player_works + secretary_works)
     work_manager.do_work(works)
 
     # 消耗体力和气力

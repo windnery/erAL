@@ -4,6 +4,7 @@ from random import randint
 
 from config.map_actions import NAP_LOC, SLEEP_LOC, WORK_LOC
 from game_engine.commands._commands import register_cmd
+from game_engine.commands._common import work_abl_modifier
 from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.exp_calc import exp_calc
@@ -86,20 +87,7 @@ def work(world, option=None):
     works = randint(120, 180)
     work_abl = world.player.abl['work_abl']
     # abl加成
-    match work_abl:
-        case 1:
-            works *= 1.25
-        case 2:
-            works *= 1.5
-        case 3:
-            works *= 1.75
-        case 4:
-            works *= 2
-        case 5:
-            works *= 2.5
-        case 6:
-            works *= 3
-    works = int(works)
+    works = work_abl_modifier(work_abl, works)
     work_manager.do_work(works)
 
     # 消耗体力和气力
