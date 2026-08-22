@@ -337,6 +337,12 @@ button {
     z-index: 999;
 }
 
+.fullscreen-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
 /* 状态条样式 */
 .bar-track {
     display: inline-block;

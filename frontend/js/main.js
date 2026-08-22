@@ -1,4 +1,4 @@
-﻿import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
@@ -13,19 +13,60 @@ import { parseColoredMessage } from './ui/colored_text.js';
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
 
-// 全屏翻页状态
-const PAGE_SIZE = 5;
-let textPages = [];
-let currentPage = 0;
+// 全屏文字区展示状态：按分区块追加展示
+let textBlocks = [];
+let currentBlock = 0;
+
+// 将消息数组按空行切成块（空行是分区边界，由后端 result() 生成）
+function splitBlocks(pages) {
+    const blocks = [];
+    let cur = [];
+    for (const p of pages) {
+        if (p === '') {
+            if (cur.length) blocks.push(cur);
+            cur = [];
+        } else {
+            cur.push(p);
+        }
+    }
+    if (cur.length) blocks.push(cur);
+    return blocks;
+}
+
+// 在全屏文字区追加渲染第 idx 个块的消息
+function appendBlock(el, idx) {
+    const block = textBlocks[idx];
+    if (!block || block.length === 0) return;
+
+    // 非首块追加前插入一个空行分隔
+    if (idx > 0) {
+        const spacer = document.createElement('p');
+        spacer.appendChild(document.createElement('br'));
+        el.appendChild(spacer);
+    }
+
+    for (const text of block) {
+        el.appendChild(createPageElement(text));
+    }
+
+    // 本次所有消息都显示完毕后立即在最下方打印分界线
+    if (idx === textBlocks.length - 1) {
+        const divider = document.createElement('div');
+        divider.className = 'fullscreen-divider';
+        el.appendChild(divider);
+    }
+
+    el.scrollTop = el.scrollHeight;
+}
 
 function showFullscreenText(pages) {
     if (pages.length === 0) return;
-    textPages = pages;
-    currentPage = 0;
+    textBlocks = splitBlocks(pages);
+    currentBlock = 0;
     const el = document.getElementById('fullscreen_text');
     const main_menu = document.getElementById('game_screen');
     el.innerHTML = '';
-    appendPageGroup(el, 0);
+    appendBlock(el, 0);
     el.scrollTop = 0;
 
     main_menu.style.display = 'none';
@@ -60,13 +101,6 @@ function showFullscreenOptions(options, onPick) {
 
     main_menu.style.display = 'none';
     el.style.display = 'block';
-}
-
-function appendPageGroup(el, startIdx) {
-    const endIdx = Math.min(startIdx + PAGE_SIZE, textPages.length);
-    for (let i = startIdx; i < endIdx; i++) {
-        el.appendChild(createPageElement(textPages[i]));
-    }
 }
 
 function createPageElement(text) {
@@ -269,13 +303,11 @@ async function load_game() {
 // WebView初始化完成后刷新一下界面
 document.addEventListener('pywebviewready', refresh);
 
-// 全屏文字区点击翻页
+// 全屏文字区点击追加：每点一次在同页面追加展示下一个分区块（空行分隔），到底后关闭
 document.getElementById('fullscreen_text').addEventListener('click', function() {
-    const nextStart = currentPage + PAGE_SIZE;
-    if (nextStart < textPages.length) {
-        currentPage = nextStart;
-        appendPageGroup(this, nextStart);
-        this.scrollTop = this.scrollHeight;
+    if (currentBlock + 1 < textBlocks.length) {
+        currentBlock++;
+        appendBlock(this, currentBlock);
     } else {
         this.style.display = 'none';
         this.innerHTML = '';
