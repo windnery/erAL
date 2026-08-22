@@ -299,8 +299,8 @@ class TestFavorCalc:
         src['happiness_source'] = 5000
         src['c_pleasure_source'] = 5000
         src['v_pleasure_source'] = 5000
-        favor_calc(z23, src)  # 不崩即可
-        assert True
+        delta = favor_calc(world.player, z23, src)  # 不崩即可
+        assert delta > 0
 
     def test_negative_sources_decrease_favor(self, world, z23):
         from game_engine.data_pipeline.favor.favor_calc import favor_calc
@@ -308,14 +308,14 @@ class TestFavorCalc:
         src['disgust_source'] = 5000
         src['escape_source'] = 5000
         src['fear_source'] = 5000
-        favor_calc(z23, src)  # 不崩即可
-        assert True
+        delta = favor_calc(world.player, z23, src)  # 不崩即可
+        assert delta < 0
 
     def test_zero_source_stable(self, world, z23):
         """全 0 source 时 favor_delta 稳定（不 NaN 不异常）"""
         from game_engine.data_pipeline.favor.favor_calc import favor_calc
         src = {k: 0 for k in ALL_SOURCE_KEYS}
-        favor_calc(z23, src)  # 无异常即通过
+        favor_calc(world.player, z23, src)  # 无异常即通过
 
 
 class TestTrustCalc:
@@ -324,8 +324,8 @@ class TestTrustCalc:
         src = {k: 0 for k in ALL_SOURCE_KEYS}
         src['love_source'] = 5000
         src['happiness_source'] = 5000
-        trust_calc(z23, src)  # 不崩即可
-        assert True
+        delta = trust_calc(world.player, z23, src)  # 不崩即可
+        assert delta > 0
 
 
 class TestMood2Favor:
@@ -416,5 +416,5 @@ class TestExpCalc:
         before = world.player.exp['talk_exp']
         mes = exp_calc('talk_exp', world.player)
         assert world.player.exp['talk_exp'] == before + 1
-        assert any('会话经验' in m for m in mes)
+        assert '会话经验' in mes
 
