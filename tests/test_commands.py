@@ -286,3 +286,23 @@ class TestDailyCommands:
         before = world.player.exp['work_exp']
         mes = world.command_manager.do_cmd('work', None)
         assert world.player.exp['work_exp'] == before + 1
+
+
+class TestTimeMessageOrder:
+    def test_time_message_is_at_end_of_result(self, world):
+        """度过时间的消息必须位于返回结果的最后一条"""
+        from game_engine.commands._context import CommandContext
+        ctx = CommandContext(world)
+        ctx.say("叙事消息1", "叙事消息2")
+        ctx.advance_time(15)
+        ctx.say_exp("经验增加")
+        result = ctx.result()
+        assert result[-1] == "度过了15分钟"
+
+    def test_talk_command_places_time_at_end(self, world):
+        """talk 指令执行后度过时间为最后一条"""
+        npc = world.npc_manager.shipgirls['Z23']
+        place_next_to_player(world, npc)
+        result = world.command_manager.do_cmd('talk', npc.id)
+        assert isinstance(result, list)
+        assert result[-1] == "度过了5分钟"
