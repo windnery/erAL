@@ -474,18 +474,18 @@ class TestTrainCommands:
 
     def test_caress_not_in_act_com(self, world):
         """调教指令不进普通地点指令列表（无论是否有会话）"""
-        keys = [c['key'] for c in world.command_manager.get_Act_COM()]
+        keys = [c['key'] for c in world.command_manager.get_act_com()]
         assert 'caress' not in keys
 
         self._make_train(world, ['player', 'Z23'], ['laffey'])
-        keys = [c['key'] for c in world.command_manager.get_Act_COM()]
+        keys = [c['key'] for c in world.command_manager.get_act_com()]
         assert 'caress' not in keys
 
     def test_caress_not_in_npc_commands(self, world):
         """调教指令也不进选中舰娘的交互指令列表"""
         z23 = world.npc_manager.shipgirls['Z23']
         place_next_to_player(world, z23)
-        keys = [c['key'] for c in world.command_manager.get_Act_COM('Z23')]
+        keys = [c['key'] for c in world.command_manager.get_act_com('Z23')]
         assert 'caress' not in keys
 
     def test_get_train_commands_empty_without_session(self, world):

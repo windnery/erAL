@@ -45,9 +45,9 @@ class World:
         return {
             'player': self.player.get_state(),
             'location': self.map_manager.get_current_loc(self.player),
-            'act_com': self.command_manager.get_Act_COM(selected_npc_id),
-            'ex_com': self.command_manager.get_EX_COM(),
-            'menu_com': self.command_manager.get_MENU_COM(),
+            'act_com': self.command_manager.get_act_com(selected_npc_id),
+            'ex_com': self.command_manager.get_ex_com(),
+            'menu_com': self.command_manager.get_menu_com(),
             'menu_active': self.menu_active,
             'time': self.time_manager.get_state(),
             'nearby_npcs': nearby,

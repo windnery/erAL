@@ -38,7 +38,7 @@ class TestTrainClosedLoop:
         assert cmd['cat'] == '性交'
 
     def test_v_insert_not_in_act_commands(self, world):
-        assert 'common_position' not in [c['key'] for c in world.command_manager.get_Act_COM()]
+        assert 'common_position' not in [c['key'] for c in world.command_manager.get_act_com()]
 
     def test_v_insert_breaks_both_virgins(self, world):
         self._make_position_train(world)
