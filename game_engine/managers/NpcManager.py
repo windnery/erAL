@@ -13,8 +13,8 @@ if TYPE_CHECKING:
     from world import World
 
 
-def _in_work(hour: int, minute: int, start: list[int], end: list[int]) -> bool:
-    """判断当前时间 (hour, minute) 是否在 [start, end) 工作时段内
+def time_check(hour: int, minute: int, start: list[int], end: list[int]) -> bool:
+    """判断当前时间 (hour, minute) 是否在 [start, end) 时段内
     start/end: [时, 分] 列表，如 [8, 30]
     支持：常规时段（8:30-19:30）、同小时时段（9:00-9:30）、跨天时段（22:00-2:00）
     """
@@ -82,10 +82,9 @@ class NpcManager:
 
         for sg in self.shipgirls.values():
             # 睡觉时间：回家
-            if ((hour >= sg.schedule['sleep']['hour'] and minute >= sg.schedule['sleep']['minute']) or
-                    (hour < sg.schedule['wake_up']['hour']) or
-                    (hour == sg.schedule['sleep']['hour'] and minute < sg.schedule['sleep']['minute'])
-            ):
+            sleep_start_time: list[int] = sg.schedule['sleep']['start']
+            sleep_end_time: list[int] = sg.schedule['sleep']['end']
+            if time_check(hour, minute, sleep_start_time, sleep_end_time):
                 sleep_region = self.shipgirls_db[sg.id]['location']['region']
                 sleep_node = self.shipgirls_db[sg.id]['location']['node']
                 self.set_loc(sg.id, sleep_region, sleep_node)
@@ -103,7 +102,7 @@ class NpcManager:
                 work_node: str = work['location']['node']
                 work_start_time: list[int] = work['time']['start']
                 work_end_time: list[int] = work['time']['end']
-                if _in_work(hour, minute, work_start_time, work_end_time):
+                if time_check(hour, minute, work_start_time, work_end_time):
                     # 工作时间
                     self.set_loc(sg.id, work_region, work_node)
                     working = True

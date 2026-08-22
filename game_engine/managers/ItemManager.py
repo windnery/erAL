@@ -44,8 +44,8 @@ class ItemManager:
     def buy_items(self, item_id: str, num: int=1):
         """购买道具"""
         total_price = self.items_db[item_id]['price'] * num
-        if self.player.money >= total_price:
-            self.player.money -= total_price
+        if self.player.get_money() >= total_price:
+            self.player.set_money(self.player.get_money() - total_price)
             self.gain_items(item_id, num)
             return True, f'购买成功！'
         return False, f'资金不足：需要 {total_price}，当前 {self.player.money}'

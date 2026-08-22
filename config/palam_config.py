@@ -4,6 +4,7 @@
 
 # palam等级规则
 PALAM_LV: dict[int, int] = {
+    0: 0,
     1: 100,
     2: 200,
     3: 500,

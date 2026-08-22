@@ -27,12 +27,14 @@
   },
   "schedule": {
     "sleep": {
-      "hour": 23,
-      "minute": 0
-    },
-    "wake_up": {
-      "hour": 9,
-      "minute": 0
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        9,
+        0
+      ]
     },
     "works": [
       {

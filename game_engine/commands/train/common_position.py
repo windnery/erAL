@@ -113,12 +113,16 @@ def common_position(world: World):
         return []
 
     # able判定
+    failed_targets: list[str] = []
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         ok, mes = able(world, chara)
         ctx.say(f'{chara.name} {mes}')
         if not ok:
-            train.targets.remove(target_id)
+            failed_targets.append(target_id)
+    # 循环结束后统一移除（避免迭代中修改列表导致元素跳过）
+    for target_id in failed_targets:
+        train.targets.remove(target_id)
     if len(train.targets) == 0:
         return ctx.result()
 
@@ -162,12 +166,13 @@ def common_position(world: World):
 
     merged_source = accumulate_sources(actor_sources)
     target_sources: dict[str, dict[str, int]] = {}
+    defloration: dict[str, bool] = {}  # 记录本次破处发生的角色（在清除天赋前记录）
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         source = {key: int(value * num_adjust) for key, value in merged_source.items()}
 
         if chara.get_talent_value('virgin') == 1:
-            chara.set_talent('virgin', '0')
+            defloration[target_id] = True
             source['pain_source'] *= 3
             ctx.say(f'{chara.name}的处女膜被贯穿了！（破处）')
             say_chara_line(chara, ctx, 'defloration')
@@ -189,8 +194,13 @@ def common_position(world: World):
         exp_mes.append(exp_calc('v_exp', chara))
         exp_mes.append(exp_calc('v_insert_exp', chara))
         exp_mes.append(exp_calc('love_exp', chara, chara.get_talent_value('relationship') * 2))
-        if chara.get_talent_value('virgin') == 1 and chara.get_talent_value('relationship') > 1:
+        if defloration.get(target_id) and chara.get_talent_value('relationship') > 1:
+            # 首夜奖励：处女且关系>1 时额外给 love_exp
             exp_mes.append(exp_calc('love_exp', chara, 10))
+        if defloration.get(target_id):
+            # 破处后无条件清除处女天赋（不依赖关系等级）
+            chara.set_talent('virgin', '0')
+
 
     pairs = []
     for actor_id in train.actors:

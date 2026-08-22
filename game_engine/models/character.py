@@ -82,9 +82,10 @@ class Character:
     def update_palam_level(self) -> None:
         """更新palam等级"""
         for k, v in self.palam.items():
-            for level, threshold in PALAM_LV.items():
-                if v < threshold:
-                    self.palam_lv[k] = level - 1
+            # 倒序遍历：从最高等级往下找第一个满足 v >= threshold 的等级
+            for level, threshold in reversed(PALAM_LV.items()):
+                if v >= threshold:
+                    self.palam_lv[k] = level
                     break
 
     def get_talent_list(self) -> list[str]:

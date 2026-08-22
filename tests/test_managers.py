@@ -178,11 +178,11 @@ class TestUpdatePositions:
 
     def test_in_work_overnight_math(self):
         """_in_work 跨天时段数学正确（不依赖舰娘作息）"""
-        from game_engine.managers.NpcManager import _in_work
-        assert _in_work(23, 30, [22, 0], [2, 0]) is True
-        assert _in_work(1, 0, [22, 0], [2, 0]) is True
-        assert _in_work(2, 0, [22, 0], [2, 0]) is False
-        assert _in_work(21, 59, [22, 0], [2, 0]) is False
+        from game_engine.managers.NpcManager import time_check
+        assert time_check(23, 30, [22, 0], [2, 0]) is True
+        assert time_check(1, 0, [22, 0], [2, 0]) is True
+        assert time_check(2, 0, [22, 0], [2, 0]) is False
+        assert time_check(21, 59, [22, 0], [2, 0]) is False
 
     def test_current_minute_from_time_manager(self, world):
         """回归 minutes 语义：当前分钟读 time_manager，推进量不影响工作判断

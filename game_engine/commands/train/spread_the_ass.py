@@ -106,12 +106,16 @@ def spread_the_ass(world: World):
     if train is None:
         return []
     # able判定
+    failed_targets: list[str] = []
     for target_id in train.targets:
         chara = get_entity_by_id(world.npc_manager, world.player, target_id)
         ok, mes = able(world, chara)
         ctx.say(f'{chara.name} {mes}')
         if not ok:
-            train.targets.remove(target_id)
+            failed_targets.append(target_id)
+    # 循环结束后统一移除（避免迭代中修改列表导致元素跳过）
+    for target_id in failed_targets:
+        train.targets.remove(target_id)
     if len(train.targets) == 0:
         return ctx.result()
     

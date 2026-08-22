@@ -40,3 +40,7 @@ class Player(Character):
     def set_money(self, value: int):
         """设置金钱"""
         self.money = max(0, value)
+
+    def get_money(self):
+        """获取金钱"""
+        return self.money
