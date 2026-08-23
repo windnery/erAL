@@ -85,7 +85,6 @@ def push_down(world: World, option: str):
 
     if not ok:
         ctx.say(f"遭到了剧烈反抗……", f"{npc.name}似乎生气了……")
-        # TODO: 心情
         source: dict[str, int] = new_source(
             {"escape_source": 1000, "disgust_source": 1200}
         )

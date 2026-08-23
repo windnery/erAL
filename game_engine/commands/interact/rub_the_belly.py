@@ -64,8 +64,6 @@ def rub_the_belly(world: World, option: str):
     finger_abl = world.player.abl['finger_abl']
     source['v_pleasure_source'] += finger_abl * 5
 
-    # TODO: 情绪补正
-
     source['passivity_source'] = 120 + 240 * npc.abl['obedience_abl']
 
     # 通用source修正
