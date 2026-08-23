@@ -57,7 +57,7 @@ def load_attr_defs():
 # - talent: 角色 JSON 全权负责（不参与 default 合并）
 # - favor/trust: 平铺结构 {name, default}，JSON 没写时用 default
 # - base/abl/exp/juel/palam/cflag: 嵌套结构 {key: {name, default}}，default 打底 + JSON 覆盖
-# - base 额外过滤：只保留 attr_defs 定义的键（清理 mood 等已下线字段残留）
+# - base 额外过滤：只保留 attr_defs 定义的键
 _FLAT_SECTIONS = ('favor', 'trust')
 _NESTED_SECTIONS = ('base', 'abl', 'exp', 'juel', 'palam', 'cflag')
 _FILTER_SECTIONS = ('base',)  # 过滤掉 attr_defs 未定义的键
@@ -75,7 +75,7 @@ def _merge_section(spec_defs, chara_data, section: str):
 	result = {k: v['default'] for k, v in spec_defs.items()}
 	json_data = chara_data.get(section, {})
 	if section in _FILTER_SECTIONS:
-		# 只保留 attr_defs 定义的键（清掉 mood 等已下线字段残留）
+		# 只保留 attr_defs 定义的键
 		json_data = {k: v for k, v in json_data.items() if k in spec_defs}
 	result.update(json_data)
 	return result

@@ -558,8 +558,7 @@ def happiness_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict
     happiness_source = source.get('happiness_source', 0)
     # TODO: 对方主导
     # TODO: 陷落素质
-    # 心情
-    # happiness_source *= (10 + 2 * get_mood_revision(target.get_mood())) / 10
+
     # TODO: 媚药
     # TODO: 利尿剂
     # TODO: 情绪
@@ -669,7 +668,7 @@ def depression_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
         return: 抑郁"""
     depression_source = source.get('depression_source', 0)
     # 心情
-    # depression_source *= (10 + 2 * get_mood_revision(target.get_mood())) / 10
+
     # TODO: 陷落素质
     # abl: 顺从
     match target.abl['obedience_abl']:
@@ -759,7 +758,7 @@ def disgust_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[s
         return: 反感"""
     disgust_source = source.get('disgust_source', 0)
     # 心情
-    # disgust_source *= (10 - 3 * get_mood_revision(target.get_mood())) / 10
+
     # TODO: 对方主导
     # abl: 顺从
     match target.abl['obedience_abl'] + target.abl['intimacy_abl']:

@@ -2,7 +2,7 @@
 """第一层：数据管线单元测试
 
 覆盖：palam2src / abl2src / juel_calc / juel2abl / exp2abl /
-      palam2favor / favor_calc / trust_calc / mood2favor /
+      palam2favor / favor_calc / trust_calc /
       talent2src / favor2source / common_src_modify / exp_calc
 
 重点回归：juel2abl 固定 demand bug（1000 juel 直接升 13 级）
@@ -270,7 +270,7 @@ class TestExp2Abl:
 
 
 # ============================================================
-# palam2favor / favor_calc / trust_calc / mood2favor
+# palam2favor / favor_calc / trust_calc
 # ============================================================
 
 class TestPalam2Favor:
@@ -327,14 +327,6 @@ class TestTrustCalc:
         delta = trust_calc(world.player, z23, src)  # 不崩即可
         assert delta > 0
 
-
-class TestMood2Favor:
-    def test_mood_mapping(self, world, z23):
-        from game_engine.data_pipeline.mood.mood2favor import mood2favor
-        from config.mood_enum import Mood
-        assert mood2favor(Mood.ANGRY) == -2
-        assert mood2favor(Mood.NEUTRAL) == 0
-        assert mood2favor(Mood.BLISS) == 3
 
 
 # ============================================================
@@ -393,7 +385,6 @@ class TestCommonSrcModify:
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
-        z23_nearby.base['mood'] = 0
         result = common_src_modify(src, z23_nearby)
         # 1000 * 1.3(favor300) * 0.8(relationship0陌生) * 1.0(emo/rat默认) = 1040
         assert result['love_source'] == 1040

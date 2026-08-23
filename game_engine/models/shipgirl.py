@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from config.base_config import MAX_RATIONALITY, MIN_EMOTION, MAX_EMOTION
-from config.mood_enum import Mood
 from game_engine.models.character import Character
 
 
@@ -31,23 +30,7 @@ class ShipGirl(Character):
             "palam_lv": self.palam_lv,
             "talent": self.get_talent_list(),
             "schedule": self.schedule,
-            "mood_label": self.get_mood().value,
         }
-
-    def get_mood(self) -> Mood:
-        """获取心情值"""
-        if -10 <= self.base.get("mood", 0) < -5:
-            return Mood.ANGRY
-        elif -5 <= self.base.get("mood", 0) < 0:
-            return Mood.UNHAPPY
-        elif 0 <= self.base.get("mood", 0) < 2:
-            return Mood.NEUTRAL
-        elif 2 <= self.base.get("mood", 0) < 5:
-            return Mood.HAPPY
-        elif 5 <= self.base.get("mood", 0) < 8:
-            return Mood.DELIGHTED
-        else:
-            return Mood.BLISS
 
     def get_emotion(self):
         """获取情绪值"""

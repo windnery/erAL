@@ -83,7 +83,6 @@ def pinching_cheeks(world: World, option: str):
 
     ctx.say_source(source)
 
-    # TODO: source->mood
 
     # source转换过程统一处理
     source_proc(source, world.player, npc, ctx)
