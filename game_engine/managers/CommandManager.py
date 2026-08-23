@@ -3,7 +3,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
-    REGISTER_NEEDS_TARGET, REGISTER_FRONTEND, REGISTER_MODE
+    REGISTER_CONTINUOUS, REGISTER_NEEDS_TARGET, REGISTER_FRONTEND, REGISTER_MODE
 
 if TYPE_CHECKING:
     from world import World
@@ -72,10 +72,19 @@ class CommandManager:
 
         # 调教指令：单参数约定 func(world)，目标从会话解析
         if REGISTER_MODE.get(command):
+            train = self.world.train_manager.train
+            is_continuous = REGISTER_CONTINUOUS.get(command, False)
+            if is_continuous and train and command in train.continuous_commands:
+                train.continuous_commands.remove(command)
+                return [f'已停止持续执行{REGISTER_CMD_NAME[command]}。']
             can = REGISTER_CAN.get(command)
             if can and not can(self.world):
                 return ''
             result = func(self.world)
+            train = self.world.train_manager.train
+            if is_continuous and train and command not in train.continuous_commands:
+                train.continuous_commands.append(command)
+            self._run_continuous_commands(command, result)
             LOGGER.info(
                 'command.executed',
                 extra={
@@ -118,6 +127,26 @@ class CommandManager:
             },
         )
         return result
+
+    def _run_continuous_commands(self, selected_command: str, result: list[str]) -> None:
+        train = self.world.train_manager.train
+        if train is None:
+            return
+        for command in list(train.continuous_commands):
+            if command == selected_command:
+                continue
+            func = REGISTER_CMD.get(command)
+            can = REGISTER_CAN.get(command)
+            if func is None or (can and not can(self.world)):
+                train.continuous_commands.remove(command)
+                continue
+            repeated_result = func(self.world)
+            if repeated_result:
+                if result:
+                    result.append('')
+                result.extend(repeated_result)
+            if self.world.train_manager.train is None:
+                return
 
     def _get_system_commands(self):
         # 系统类指令：从注册表反查 cat='系统' 的指令

@@ -28,7 +28,10 @@ def can(world: World):
     return True
 
 
-@register_cmd('caress', '爱抚', cat='爱抚', train_mode=True, can=can, needs_target=False)
+@register_cmd(
+    'caress', '爱抚', cat='爱抚', train_mode=True, can=can,
+    needs_target=False, continuous=True,
+)
 def caress(world: World):
     """爱抚"""
     ctx = CommandContext(world)

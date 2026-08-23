@@ -90,6 +90,7 @@ class SaveManager:
                     'participants': list(train.participants),
                     'initiative': dict(train.initiative),
                     'leader': train.leader,
+                    'continuous_commands': list(train.continuous_commands),
                 },
             },
         }
@@ -175,6 +176,7 @@ class SaveManager:
                 train.participants = list(train_state['participants'])
                 train.initiative = dict(train_state['initiative'])
                 train.leader = train_state['leader']
+                train.continuous_commands = list(train_state.get('continuous_commands', []))
                 self.world.train_manager.train = train
                 self.world.train_mode = True
 

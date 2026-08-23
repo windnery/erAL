@@ -70,8 +70,11 @@ class TimeManager:
         返回: list[str] 事件消息列表"""
         r, n = self.player.location['region'], self.player.location['node']
 
-        # 推进前：谁在这
-        before = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}
+        before_locations = {
+            sg.id: (sg.name, sg.location['region'], sg.location['node'])
+            for sg in self.npc_manager.get_all_npcs()
+        }
+        before = [sg.id for sg in self.npc_manager.get_npcs_at(r, n)]
 
         # 推进时间
         self.advance_time(minutes)
@@ -79,17 +82,25 @@ class TimeManager:
         # 更新舰娘位置（当前时间由 NpcManager 内部读 time_manager，minutes 仅作推进量）
         self.npc_manager.update_positions(minutes, self.map_manager, self.player)
 
-        # 推进后：谁在这
-        after = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}
+        after_locations = {
+            sg.id: (sg.name, sg.location['region'], sg.location['node'])
+            for sg in self.npc_manager.get_all_npcs()
+        }
+        after = [sg.id for sg in self.npc_manager.get_npcs_at(r, n)]
 
         # 对比生成消息
         events = []
-        for sg_id, name in before.items():
+        for sg_id in before:
             if sg_id not in after:
-                events.append(f'{name}起身离开了。')
-        for sg_id, name in after.items():
+                name, destination_region, destination_node = after_locations[sg_id]
+                destination = self.map_manager.get_location_name(
+                    destination_region, destination_node)
+                events.append(f'{name}起身离开了，前往{destination}。')
+        for sg_id in after:
             if sg_id not in before:
-                events.append(f'{name}走了过来。')
+                name, origin_region, origin_node = before_locations[sg_id]
+                origin = self.map_manager.get_location_name(origin_region, origin_node)
+                events.append(f'{name}从{origin}走了过来。')
 
         return events
 

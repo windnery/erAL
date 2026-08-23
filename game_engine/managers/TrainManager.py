@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from config.chara_config import PLAYER_ID
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
-    REGISTER_MODE
+    REGISTER_CONTINUOUS, REGISTER_MODE
 from game_engine.models.player import Player
 
 if TYPE_CHECKING:
@@ -20,6 +20,7 @@ class Train:
         self.participants: list[str] = []  # 会话名册（固定，与两侧列表独立）
         self.initiative: dict[str, int] = {}  # 主导权
         self.leader: str = ''  # 主导者
+        self.continuous_commands: list[str] = []
 
 
 class TrainManager:
@@ -41,13 +42,17 @@ class TrainManager:
         for key in REGISTER_CMD:
             if not REGISTER_MODE.get(key):
                 continue
+            is_continuous = REGISTER_CONTINUOUS.get(key, False)
+            is_active = is_continuous and key in self.train.continuous_commands
             can = REGISTER_CAN.get(key)
-            if can and not can(self.world):
+            if not is_active and can and not can(self.world):
                 continue
             commands.append({
                 'key': key,
-                'name': REGISTER_CMD_NAME[key],
+                'name': f'停止{REGISTER_CMD_NAME[key]}' if is_active else REGISTER_CMD_NAME[key],
                 'cat': REGISTER_CAT[key],
+                'continuous': is_continuous,
+                'active': is_active,
             })
         return commands
 

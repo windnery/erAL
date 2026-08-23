@@ -16,11 +16,12 @@ class MapManager:
 
     def get_current_loc(self, character):
         """获取当前位置信息"""
-        region_name = self.regions[character.location['region']]['name']
-        node_name = self.maps[character.location['region']][character.location['node']]['name']
-        mes = f'{region_name} · {node_name}'
+        return self.get_location_name(character.location['region'], character.location['node'])
 
-        return mes
+    def get_location_name(self, region: str, node: str) -> str:
+        region_name = self.regions[region]['name']
+        node_name = self.maps[region][node]['name']
+        return f'{region_name} · {node_name}'
 
     def get_available_nodes(self, region: str, node: str):
         """获取当前区域可前往的节点"""
