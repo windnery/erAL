@@ -2,7 +2,6 @@ from config.abl_config import ABL_LV
 from config.chara_config import PLAYER_ID
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
-from game_engine.models.shipgirl import ShipGirl
 
 
 def palam_calc(src: dict[str, int], source: Character, target: Character, dry_run: bool = False):
@@ -16,35 +15,35 @@ def palam_calc(src: dict[str, int], source: Character, target: Character, dry_ru
     changes: dict[tuple[str, str], int] = {}
 
     palam_dict_list: list[dict[str, dict[str, str | int]]] = []
-    palam_dict_list.append(c_pleasure_source(src, target))  # type: ignore
-    palam_dict_list.append(v_pleasure_source(src, target))  # type: ignore
-    palam_dict_list.append(a_pleasure_source(src, target))  # type: ignore
-    palam_dict_list.append(b_pleasure_source(src, target))  # type: ignore
-    palam_dict_list.append(m_pleasure_source(src, target))  # type: ignore
-    palam_dict_list.append(love_source(src, target))  # type: ignore
-    palam_dict_list.append(sex_act_source(src, target))  # type: ignore
-    palam_dict_list.append(achievement_source(src, target))  # type: ignore
-    palam_dict_list.append(pain_source(src, target))  # type: ignore
-    palam_dict_list.append(fear_source(src, target))  # type: ignore
-    palam_dict_list.append(lubrication_source(src, target))  # type: ignore
-    palam_dict_list.append(lust_source(src, target))  # type: ignore
-    palam_dict_list.append(obedience_source(src, target))  # type: ignore
-    palam_dict_list.append(exposure_source(src, target))  # type: ignore
-    palam_dict_list.append(submission_source(src, target))  # type: ignore
-    palam_dict_list.append(happiness_source(src, target))  # type: ignore
-    palam_dict_list.append(conquest_source(src, target))  # type: ignore
-    palam_dict_list.append(passivity_source(src, target))  # type: ignore
-    palam_dict_list.append(unclean_source(src, target))  # type: ignore
-    palam_dict_list.append(depression_source(src, target))  # type: ignore
-    palam_dict_list.append(escape_source(src, target))  # type: ignore
-    palam_dict_list.append(disgust_source(src, target))  # type: ignore
+    palam_dict_list.append(c_pleasure_source(src, target))
+    palam_dict_list.append(v_pleasure_source(src, target))
+    palam_dict_list.append(a_pleasure_source(src, target))
+    palam_dict_list.append(b_pleasure_source(src, target))
+    palam_dict_list.append(m_pleasure_source(src, target))
+    palam_dict_list.append(love_source(src, target))
+    palam_dict_list.append(sex_act_source(src, target))
+    palam_dict_list.append(achievement_source(src, target))
+    palam_dict_list.append(pain_source(src, source, target))
+    palam_dict_list.append(fear_source(src, target))
+    palam_dict_list.append(lubrication_source(src, target))
+    palam_dict_list.append(lust_source(src, target))
+    palam_dict_list.append(obedience_source(src, target))
+    palam_dict_list.append(exposure_source(src, target))
+    palam_dict_list.append(submission_source(src, target))
+    palam_dict_list.append(happiness_source(src, target))
+    palam_dict_list.append(conquest_source(src, target))
+    palam_dict_list.append(passivity_source(src, target))
+    palam_dict_list.append(unclean_source(src, target))
+    palam_dict_list.append(depression_source(src, target))
+    palam_dict_list.append(escape_source(src, target))
+    palam_dict_list.append(disgust_source(src, target))
 
     # 聚合：按 (chara, palam) 求和
     merged: dict[tuple[str, str], int] = {}
     for palam_dict in palam_dict_list:
         for palam, info in palam_dict.items():
             key = (info['chara'], palam)  # ('target', 'lust_palam')
-            merged[key] = merged.get(key, 0) + int(info['value'])  # type: ignore
+            merged[key] = merged.get(key, 0) + int(info['value'])
 
     if dry_run:
         # 只返回增量，不改 palam
@@ -67,7 +66,7 @@ def palam_calc(src: dict[str, int], source: Character, target: Character, dry_ru
     return mes_source, mes_target, changes
 
 
-def c_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def c_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理c_pleasure_source
         return: 快C 欲情"""
     c_pleasure_source = source.get('c_pleasure_source', 0)
@@ -98,7 +97,7 @@ def c_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def v_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def v_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理v_pleasure_source
         return: 快V 欲情"""
     v_pleasure_source = source.get('v_pleasure_source', 0)
@@ -156,7 +155,7 @@ def v_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def a_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def a_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理v_pleasure_source
         return: 快A 欲情"""
     a_pleasure_source = source.get('a_pleasure_source', 0)
@@ -214,7 +213,7 @@ def a_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def b_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def b_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理b_pleasure_source
         return: 快B 欲情"""
     b_pleasure_source = source.get('b_pleasure_source', 0)
@@ -245,7 +244,7 @@ def b_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def m_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def m_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理m_pleasure_source
         return: 快M 欲情"""
     m_pleasure_source = source.get('m_pleasure_source', 0)
@@ -290,7 +289,7 @@ def m_pleasure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def love_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def love_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理love_source
         return: 恭顺 欲情"""
     # TODO: 强行
@@ -306,7 +305,7 @@ def love_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str,
     }
 
 
-def sex_act_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def sex_act_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理sex_act_source
         return: 习得"""
     sex_act_source = source.get('sex_act_source', 0)
@@ -342,7 +341,7 @@ def sex_act_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[s
     }
 
 
-def achievement_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def achievement_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理achievement_source
         return: 恭顺"""
     achievement_source = source.get('achievement_source', 0)
@@ -356,7 +355,7 @@ def achievement_source(source: dict[str, int], target: ShipGirl) -> dict[str, di
     }
 
 
-def pain_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def pain_source(source: dict[str, int], actor: Character, target: Character) -> dict[str, dict[str, str | int]]:
     """处理pain_source
         return: 苦痛 欲情 恐惧"""
     pain_source2pain = source.get('pain_source', 0)
@@ -388,8 +387,12 @@ def pain_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str,
         case _:
             pain_source2lust *= 3.0
     # TODO: 体型
-    # TODO: 调教者施虐狂
-    # TODO: 胆怯
+    # 调教者施虐狂
+    if actor.has_talent('sadism'):
+        pain_source2lust *= 2.5
+    # 胆怯
+    if target.get_talent_value('courage'):
+        pain_source2fear *= 2.0
     return {
         'pain_palam': {'chara': 'target', 'value': int(pain_source2pain)},
         'lust_palam': {'chara': 'target', 'value': int(pain_source2lust)},
@@ -397,7 +400,7 @@ def pain_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str,
     }
 
 
-def fear_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def fear_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理fear_source
         return: 恐惧"""
     fear_source = source.get('fear_source', 0)
@@ -409,7 +412,7 @@ def fear_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str,
     }
 
 
-def lubrication_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def lubrication_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理lubrication_source
         return: 润滑"""
     lubrication_source = source.get('lubrication_source', 0)
@@ -419,7 +422,7 @@ def lubrication_source(source: dict[str, int], target: ShipGirl) -> dict[str, di
     }
 
 
-def lust_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def lust_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理lust_source
         return: 欲情"""
     lust_source = source.get('lust_source', 0)
@@ -431,7 +434,7 @@ def lust_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str,
     }
 
 
-def obedience_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def obedience_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理obedience_source
         return: 恭顺"""
     obedience_source = source.get('obedience_source', 0)
@@ -465,12 +468,17 @@ def obedience_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict
     }
 
 
-def exposure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def exposure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理exposure_source
         return: 欲情 羞耻"""
     exposure_source_1 = source.get('exposure_source', 0)
     exposure_source_2 = source.get('exposure_source', 0)
     # TODO: 害羞和不知羞耻
+    if target.get_talent_value('sense_of_shame') > 0:
+        exposure_source_1 *= 2.0
+    elif target.get_talent_value('sense_of_shame') < 0:
+        exposure_source_1 *= 0.5
+    # TODO: 有旁人在场
     # 润滑追加露出
     exposure_source_1 += source.get('lubrication_source', 0) // 2
     # TODO: 对方主导
@@ -516,7 +524,7 @@ def exposure_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[
     }
 
 
-def submission_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def submission_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理submission_source
         return: 屈服"""
     submission_source = source.get('submission_source', 0)
@@ -552,17 +560,19 @@ def submission_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def happiness_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def happiness_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理happiness_source
         return: target好意 player欲情"""
     happiness_source = source.get('happiness_source', 0)
     # TODO: 对方主导
-    # TODO: 陷落素质
-
+    # 陷落素质
+    happiness_source *= 10 + 3 * target.get_talent_value('relationship') // 10
     # TODO: 媚药
     # TODO: 利尿剂
-    # TODO: 情绪
-    # TODO: 约会中
+    # TODO: 旁人在场+情绪
+    # 约会中
+    if target.id != PLAYER_ID and target.is_dating():
+        happiness_source *= 1.3
     # abl: 亲密
     happiness_source *= (100 + 5 * target.abl['intimacy_abl']) // 100
     # abl: 欲望
@@ -596,7 +606,7 @@ def happiness_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict
     }
 
 
-def conquest_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def conquest_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理conquest_source
         return: target优越 TODO: target欲情 player屈服 target羞耻"""
     conquest_source = source.get('conquest_source', 0)
@@ -622,7 +632,7 @@ def conquest_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[
     }
 
 
-def passivity_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def passivity_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理passivity_source
         return: target好意 TODO: target屈服 player恭顺 target恭顺"""
     passivity_source = source.get('passivity_source', 0)
@@ -637,7 +647,7 @@ def passivity_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict
     }
 
 
-def unclean_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def unclean_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理unclean_source
         return: 不快"""
     unclean_source = source.get('unclean_source', 0)
@@ -663,13 +673,15 @@ def unclean_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[s
     }
 
 
-def depression_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def depression_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理depression_source
         return: 抑郁"""
     depression_source = source.get('depression_source', 0)
-    # 心情
-
-    # TODO: 陷落素质
+    # 陷落素质
+    if target.get_talent_value('relationship') == 1:
+        depression_source *= 0.75
+    elif target.get_talent_value('relationship') >= 2:
+        depression_source *= 0.25
     # abl: 顺从
     match target.abl['obedience_abl']:
         case 0:
@@ -708,11 +720,15 @@ def depression_source(source: dict[str, int], target: ShipGirl) -> dict[str, dic
     }
 
 
-def escape_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def escape_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理escape_source
         return: 反感"""
     escape_source = source.get('escape_source', 0)
-    # TODO: 性的兴趣
+    # 性的兴趣
+    if target.get_talent_value('sexual_interest') > 0:
+        escape_source *= 0.8
+    elif target.get_talent_value('sexual_interest') < 0:
+        escape_source *= 2.0
     # abl: 顺从
     match target.abl['obedience_abl']:
         case 0:
@@ -753,7 +769,7 @@ def escape_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[st
     }
 
 
-def disgust_source(source: dict[str, int], target: ShipGirl) -> dict[str, dict[str, str | int]]:
+def disgust_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理disgust_source
         return: 反感"""
     disgust_source = source.get('disgust_source', 0)

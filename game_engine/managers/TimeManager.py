@@ -2,6 +2,7 @@ from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
 
+
 class TimeManager:
     def __init__(self, player: Player, npc_manager: NpcManager, map_manager: MapManager):
         self.day = 1
@@ -86,7 +87,9 @@ class TimeManager:
         events = []
         for sg_id, name in before.items():
             if sg_id not in after:
-                events.append(f'{name}起身离开了。')
+                sg = self.npc_manager.get_npc_by_id(sg_id)
+                events.append(
+                    f'{name}前往了[[c:#ffd400]]{self.map_manager.get_region_name(sg.location["region"])}[[/c]]的[[c:#ffd400]]{self.map_manager.get_node_name(sg.location["region"], sg.location["node"])}[[/c]]')
         for sg_id, name in after.items():
             if sg_id not in before:
                 events.append(f'{name}走了过来。')
@@ -97,4 +100,3 @@ class TimeManager:
         # 推进到正常睡觉的醒来时间
         minutes_to_advance = self.get_sleep_time()
         self.advance_time(minutes_to_advance)
-

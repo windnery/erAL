@@ -41,3 +41,11 @@ class MapManager:
                     {'key': r_id, 'name': self.regions[r_id]['name'], 'time': leave_time_data[region][r_id]})
         regions.append({'key': 'return', 'name': '返回'})  # 添加返回选项
         return regions
+
+    def get_region_name(self, region_id: str):
+        """获取区域名称"""
+        return self.regions[region_id]['name']
+
+    def get_node_name(self, region_id: str, node_id: str):
+        """获取节点名称"""
+        return self.maps[region_id][node_id]['name']

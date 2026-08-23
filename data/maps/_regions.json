@@ -1,6 +1,6 @@
 {
   "home": {
-    "name": "家",
+    "name": "指挥官的家",
     "micro_map": "home.json",
     "entry_node": "living_room"
   },
