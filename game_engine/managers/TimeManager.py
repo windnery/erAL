@@ -1,6 +1,13 @@
+from typing import Final
+
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
+
+MINUTES_PER_DAY: Final = 24 * 60
+DROWSY_AFTER_WAKE_MINUTES: Final = 16 * 60
+DROWSY_RESOURCE_COST_PER_MINUTE: Final = 1
+
 
 class TimeManager:
     def __init__(self, player: Player, npc_manager: NpcManager, map_manager: MapManager):
@@ -46,6 +53,17 @@ class TimeManager:
             'period': self.get_period()
         }
 
+    def is_drowsy(self) -> bool:
+        current_minute = self.hour * 60 + self.minute
+        return self._is_drowsy_minute(current_minute)
+
+    def _is_drowsy_minute(self, current_minute: int) -> bool:
+        wake_minute = self.player.wake_time['hour'] * 60 + self.player.wake_time['minute']
+        drowsy_start = (wake_minute + DROWSY_AFTER_WAKE_MINUTES) % MINUTES_PER_DAY
+        if drowsy_start < wake_minute:
+            return drowsy_start <= current_minute < wake_minute
+        return current_minute >= drowsy_start or current_minute < wake_minute
+
     def get_sleep_time(self):
         # 获取正常睡觉的时间
         current = self.hour * 60 + self.minute
@@ -76,8 +94,19 @@ class TimeManager:
         }
         before = [sg.id for sg in self.npc_manager.get_npcs_at(r, n)]
 
+        start_minute = self.day * MINUTES_PER_DAY + self.hour * 60 + self.minute
+        drowsy_minutes = sum(
+            self._is_drowsy_minute((start_minute + offset) % MINUTES_PER_DAY)
+            for offset in range(minutes)
+        )
+
         # 推进时间
         self.advance_time(minutes)
+
+        if drowsy_minutes:
+            resource_cost = drowsy_minutes * DROWSY_RESOURCE_COST_PER_MINUTE
+            self.player.set_stamina(self.player.get_stamina() - resource_cost)
+            self.player.set_energy(self.player.get_energy() - resource_cost)
 
         # 更新舰娘位置（当前时间由 NpcManager 内部读 time_manager，minutes 仅作推进量）
         self.npc_manager.update_positions(minutes, self.map_manager, self.player)
