@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from config.base_config import TALK_FATIGUE_THRESHOLD
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
@@ -19,6 +21,9 @@ def can(world: World, npc: ShipGirl):
     """执行判定"""
     # 通用判定
     if not global_can(world.player, npc):
+        return False
+    # 会话疲劳判定 如果不是喜欢以上或恋人且已疲劳
+    if npc.is_talk_fatigue and npc.get_talent_value('relationship') < 2 and not npc.has_talent('lover'):
         return False
 
     return True
@@ -88,5 +93,22 @@ def talk(world: World, option: str):
         ctx.say_exp(exp_calc('love_exp', npc))
     ctx.say_exp(exp_calc('talk_exp', world.player))
     ctx.say_exp(exp_calc('talk_exp', npc))
+
+    # 会话疲劳值更新
+    # 如果不是喜欢以上或恋人
+    if npc.get_talent_value('relationship') < 2 and not npc.has_talent('lover'):
+        base = 100 if npc.is_dating() else 200
+        talk_failure = base // (4 + npc.abl['talk_abl'])
+        if npc.talk_fatigue + talk_failure >= TALK_FATIGUE_THRESHOLD:
+            npc.is_talk_fatigue = True
+            ctx.say(
+                f'{npc.name} 会话疲劳值 {npc.talk_fatigue}+{talk_failure}=[[c:#ff0000]]{npc.talk_fatigue + talk_failure}[[/c]]')
+        else:
+            ctx.say(f'{npc.name} 会话疲劳值 {npc.talk_fatigue}+{talk_failure}={npc.talk_fatigue + talk_failure}')
+        npc.talk_fatigue += talk_failure
+    elif npc.has_talent('lover'):
+        ctx.say(f'[[c:#ffd400]]作为{npc.name}的[恋人]，她和你好像有说不完的话！[[/c]]')
+    elif npc.get_talent_value('relationship') >= 2:
+        ctx.say(f'[[c:#ffd400]]由于和{npc.name}的关系非凡({npc.get_talent_name("relationship")})，她和你好像有说不完的话！[[/c]]')
 
     return ctx.result()

@@ -2,6 +2,7 @@ from __future__ import annotations
 from random import randint, choice
 from typing import TYPE_CHECKING, Any
 
+from config.base_config import TALK_FATIGUE_RECOVER_THRESHOLD
 from config.time_config import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
 from data.data_loader import load_shipgirls
 from game_engine.managers.MapManager import MapManager
@@ -159,6 +160,11 @@ class NpcManager:
                     if target_nodes:
                         target_node = choice(target_nodes)
                         self.set_loc(sg.id, target_region['key'], target_node)
+
+            # 会话疲劳值衰减
+            sg.talk_fatigue_decay(elapsed_minutes)
+            if sg.talk_fatigue < TALK_FATIGUE_RECOVER_THRESHOLD:
+                sg.is_talk_fatigue = False
 
     def get_npc_by_id(self, shipgirl_id: str):
         """根据舰娘ID获取舰娘对象

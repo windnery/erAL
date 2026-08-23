@@ -11,6 +11,8 @@ class ShipGirl(Character):
 
     favor: int = 0  # 好感度
     trust: int = 0  # 信赖度
+    talk_fatigue: int = 0  # 会话疲劳值
+    is_talk_fatigue: bool = False  # 是否会话疲劳
     schedule: dict[str, Any] = field(default_factory=dict)  # 作息时间表
     color: str = '#ffffff'
 
@@ -86,3 +88,7 @@ class ShipGirl(Character):
     def is_dating(self) -> bool:
         """是否正在约会"""
         return self.cflag.get("dating", False)
+
+    def talk_fatigue_decay(self, dt: int):
+        """会话疲劳值衰减"""
+        self.talk_fatigue = max(self.talk_fatigue - dt, 0)
