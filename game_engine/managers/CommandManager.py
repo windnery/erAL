@@ -1,4 +1,5 @@
 from __future__ import annotations
+import logging
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
@@ -6,6 +7,9 @@ from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_
 
 if TYPE_CHECKING:
     from world import World
+
+
+LOGGER = logging.getLogger('eral.command')
 
 
 class CommandManager:
@@ -71,7 +75,17 @@ class CommandManager:
             can = REGISTER_CAN.get(command)
             if can and not can(self.world):
                 return ''
-            return func(self.world)
+            result = func(self.world)
+            LOGGER.info(
+                'command.executed',
+                extra={
+                    'category': REGISTER_CAT.get(command, ''),
+                    'command': command,
+                    'target_id': None,
+                    'train_mode': True,
+                },
+            )
+            return result
 
         can = REGISTER_CAN.get(command)
         is_target_command = REGISTER_NEEDS_TARGET.get(command, True)
@@ -93,7 +107,17 @@ class CommandManager:
             elif not can(self.world):
                 return ''
 
-        return func(self.world, option)
+        result = func(self.world, option)
+        LOGGER.info(
+            'command.executed',
+            extra={
+                'category': REGISTER_CAT.get(command, ''),
+                'command': command,
+                'target_id': option if is_target_command else None,
+                'train_mode': False,
+            },
+        )
+        return result
 
     def _get_system_commands(self):
         # 系统类指令：从注册表反查 cat='系统' 的指令
