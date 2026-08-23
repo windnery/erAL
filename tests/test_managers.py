@@ -333,8 +333,8 @@ class TestSaveLoad:
         assert all(not e['has_save'] for e in lst)
 
 
-class TestSaveLoadV2:
-    """v2 存档：皮肤系统 + 道具系统 roundtrip + 版本迁移"""
+class TestSaveLoadVersions:
+    """版本化存档：皮肤、道具和旧版本迁移"""
 
     def test_save_then_load_skins_and_items(self, world, tmp_path):
         """存档→读档：皮肤购买/穿戴 + 背包道具一致"""
@@ -375,13 +375,15 @@ class TestSaveLoadV2:
 
         from world import World
         world2 = World()
+        expected_unlocked = world2.skin_manager.unlocked_skins.copy()
+        expected_locked = world2.skin_manager.locked_skins.copy()
+        expected_wearing = world2.skin_manager.ships_wear_skin.copy()
         world2.save_manager.sav_dir = tmp_path
         err = world2.save_manager.load_game(1)
         assert err is None, f'v1 迁移失败: {err}'
-        # 默认空皮肤/道具
-        assert world2.skin_manager.unlocked_skins == set()
-        assert world2.skin_manager.locked_skins == set()
-        assert world2.skin_manager.ships_wear_skin == {}
+        assert world2.skin_manager.unlocked_skins == expected_unlocked
+        assert world2.skin_manager.locked_skins == expected_locked
+        assert world2.skin_manager.ships_wear_skin == expected_wearing
         assert world2.item_manager.items == {}
 
     def test_future_version_rejected(self, world, tmp_path):
@@ -401,10 +403,10 @@ class TestSaveLoadV2:
         assert err is not None
         assert '版本过新' in err
 
-    def test_save_version_is_2(self, world):
-        """新存档版本号=2"""
+    def test_save_version_is_3(self, world):
+        """新存档版本号=3"""
         data = world.save_manager.serialize_world()
-        assert data['version'] == 2
+        assert data['version'] == 3
         assert 'skins' in data['data']
         assert 'items' in data['data']
 

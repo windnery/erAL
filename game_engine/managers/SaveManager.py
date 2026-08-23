@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -6,7 +7,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from world import World
 
-SAVE_VERSION = 2
+LOGGER = logging.getLogger('eral.save')
+SAVE_VERSION = 3
 SLOT_COUNT = 3
 
 
@@ -20,6 +22,7 @@ class SaveManager:
     def serialize_world(self) -> dict:
         world = self.world
         player = world.player
+        train = world.train_manager.train
         sg_state = {}
         for sg in world.npc_manager.get_all_npcs():
             sg_state[sg.id] = {
@@ -33,6 +36,8 @@ class SaveManager:
                 'palam': sg.palam,
                 'cflag': sg.cflag,
                 'talent': sg.talent,
+                'talk_fatigue': sg.talk_fatigue,
+                'is_talk_fatigue': sg.is_talk_fatigue,
             }
         return {
             'version': SAVE_VERSION,
@@ -58,6 +63,7 @@ class SaveManager:
                     'juel': player.juel,
                     'palam': player.palam,
                     'talent': player.talent,
+                    'cflag': player.cflag,
                 },
                 'shipgirls': sg_state,
                 'work': {
@@ -77,6 +83,14 @@ class SaveManager:
                 },
                 # v2 新增：道具系统
                 'items': dict(world.item_manager.items),
+                'train': None if train is None else {
+                    'location': train.location,
+                    'actors': list(train.actors),
+                    'targets': list(train.targets),
+                    'participants': list(train.participants),
+                    'initiative': dict(train.initiative),
+                    'leader': train.leader,
+                },
             },
         }
 
@@ -85,15 +99,7 @@ class SaveManager:
         try:
             version = data.get('version', 1)
             d = data['data']
-            # v1 -> v2 迁移：老档没有 skins/items 键，补默认空值
-            if version < 2:
-                d.setdefault('skins', {
-                    'unlocked_skins': [],
-                    'locked_skins': [],
-                    'ships_wear_skin': {},
-                })
-                d.setdefault('items', {})
-            elif version > SAVE_VERSION:
+            if version > SAVE_VERSION:
                 return f'存档版本过新（{version} > {SAVE_VERSION}），请更新游戏'
 
             tm = d['time']
@@ -115,6 +121,7 @@ class SaveManager:
             self.world.player.juel = p['juel']
             self.world.player.palam = p['palam']
             self.world.player.talent = p['talent']
+            self.world.player.cflag = p.get('cflag', self.world.player.cflag)
 
             from game_engine.models.shipgirl import ShipGirl
             for sg_id, st in d['shipgirls'].items():
@@ -129,6 +136,8 @@ class SaveManager:
                 sg.palam = st['palam']
                 sg.cflag = st['cflag']
                 sg.talent = st['talent']
+                sg.talk_fatigue = st.get('talk_fatigue', 0)
+                sg.is_talk_fatigue = st.get('is_talk_fatigue', False)
                 sg.update_palam_level()
                 self.world.npc_manager.shipgirls[sg_id] = sg
 
@@ -142,15 +151,32 @@ class SaveManager:
             )
             self.world.player.update_palam_level()
 
-            # v2：皮肤系统还原
-            skins = d['skins']
-            skin_mgr = self.world.skin_manager
-            skin_mgr.unlocked_skins = set(skins.get('unlocked_skins', []))
-            skin_mgr.locked_skins = set(skins.get('locked_skins', []))
-            skin_mgr.ships_wear_skin = dict(skins.get('ships_wear_skin', {}))
+            skins = d.get('skins')
+            if skins is not None:
+                skin_mgr = self.world.skin_manager
+                skin_mgr.unlocked_skins = set(skins.get('unlocked_skins', []))
+                skin_mgr.locked_skins = set(skins.get('locked_skins', []))
+                skin_mgr.ships_wear_skin = dict(skins.get('ships_wear_skin', {}))
 
-            # v2：道具系统还原
-            self.world.item_manager.items = dict(d.get('items', {}))
+            items = d.get('items')
+            if items is not None:
+                self.world.item_manager.items = dict(items)
+
+            train_state = d.get('train')
+            if train_state is None:
+                self.world.train_manager.train = None
+                self.world.train_mode = False
+            else:
+                from game_engine.managers.TrainManager import Train
+
+                train = Train(train_state['location'], self.world.player)
+                train.actors = list(train_state['actors'])
+                train.targets = list(train_state['targets'])
+                train.participants = list(train_state['participants'])
+                train.initiative = dict(train_state['initiative'])
+                train.leader = train_state['leader']
+                self.world.train_manager.train = train
+                self.world.train_mode = True
 
             return None
         except (KeyError, TypeError, ValueError) as e:
@@ -165,8 +191,20 @@ class SaveManager:
         path.parent.mkdir(parents=True, exist_ok=True)
         data = self.serialize_world()
         data['meta']['saved_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        temp_path = path.with_suffix('.tmp')
+        try:
+            with open(temp_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            temp_path.replace(path)
+        except OSError:
+            LOGGER.exception('save.failed', extra={'slot': slot})
+            raise
+        finally:
+            temp_path.unlink(missing_ok=True)
+        LOGGER.info(
+            'save.completed',
+            extra={'slot': slot, 'version': SAVE_VERSION, 'day': self.world.time_manager.day},
+        )
         return data['meta']
 
     def load_game(self, slot: int) -> str | None:
@@ -178,8 +216,17 @@ class SaveManager:
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except (json.JSONDecodeError, OSError) as e:
+            LOGGER.exception('save.load_failed', extra={'slot': slot})
             return f'存档读取失败：{e}'
-        return self.deserialize_world(data)
+        error = self.deserialize_world(data)
+        if error is not None:
+            LOGGER.warning('save.rejected', extra={'slot': slot})
+            return error
+        LOGGER.info(
+            'save.loaded',
+            extra={'slot': slot, 'version': data.get('version', 1)},
+        )
+        return None
 
     def get_save_list(self) -> list[dict]:
         """返回 3 个槽位信息：{slot, has_save, day, hour, minute, player_name}"""
