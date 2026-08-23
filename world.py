@@ -105,7 +105,7 @@ class World:
         return ''
 
     def change_vitality(self, delta: int):
-        # Change the player's vitality.
+        """包装一层改变气力的方法"""
         self.player.set_vitality(self.player.get_vitality() + delta)
         return ''
 

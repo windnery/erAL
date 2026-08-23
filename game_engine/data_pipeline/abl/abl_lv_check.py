@@ -26,7 +26,7 @@ def juel2abl(chara: Character, attr_defs):
                 if chara.juel[k] >= v != -1:
                     chara.juel[k] -= v
                     break
-            mes.append(f"{chara.name}的{attr_defs['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！")
+            mes.append(f"[[c:#ffd400]]{chara.name}的{attr_defs['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！[[/c]]")
     return mes
 
 
@@ -41,5 +41,5 @@ def exp2abl(chara: Character, attr_defs):
                 chara.exp[exp_k] >= ABL_LV[chara.abl[abl_k] + 1]
         ):
             chara.abl[abl_k] += 1
-            mes.append(f'{chara.name}的{attr_defs["abl"][abl_k]["name"]}提升到了{chara.abl[abl_k]}！')
+            mes.append(f'[[c:#ffd400]]{chara.name}的{attr_defs["abl"][abl_k]["name"]}提升到了{chara.abl[abl_k]}！[[/c]]')
     return mes
