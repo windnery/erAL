@@ -2,6 +2,7 @@ from __future__ import annotations
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
+from config.map_actions import LAP_PILLOW_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
@@ -22,7 +23,10 @@ def can(world: World, npc: ShipGirl):
     # 工作中且陷落阶段在“爱”以下
     if npc.is_working() and npc.get_talent_value('relationship') < 3:
         return False
-    # TODO: 必须在室内且不是厕所/浴室
+    region = world.player.location['region']
+    node = world.player.location['node']
+    if node not in LAP_PILLOW_LOC.get(region, []):
+        return False
     # 陷落阶段在喜欢以上
     if npc.get_talent_value('relationship') >= 2:
         return True

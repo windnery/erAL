@@ -60,7 +60,6 @@ class CommandManager:
                 }
                 for s in slots
             ]
-        # TODO: 其他指令在这里补充
         else:
             return []
 
