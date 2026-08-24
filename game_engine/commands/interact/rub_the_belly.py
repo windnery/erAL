@@ -34,6 +34,7 @@ def can(world: World, npc: ShipGirl):
 
     return True
 
+
 @register_cmd('rub_the_belly', '抚摸肚子', '性骚扰', can=can)
 def rub_the_belly(world: World, option: str):
     """抚摸肚子
@@ -64,9 +65,9 @@ def rub_the_belly(world: World, option: str):
     finger_abl = world.player.abl['finger_abl']
     source['v_pleasure_source'] += finger_abl * 5
 
-    # TODO: 情绪补正
-
-    source['passivity_source'] = 120 + 240 * npc.abl['obedience_abl']
+    # 情绪补正
+    source['v_pleasure_source'] += npc.get_emotion() // 100 + 30
+    source['disgust_source'] -= npc.get_emotion() // 100
 
     # 通用source修正
     source = common_src_modify(source, npc)

@@ -26,7 +26,7 @@ def can(world: World, npc: ShipGirl):
     if npc.get_talent_value('relationship') >= 2:
         return True
     # 好感度低
-    if npc.favor < 350:
+    if npc.favor < 400:
         return False
     # 亲密低
     if npc.abl['intimacy_abl'] < 5:
@@ -46,7 +46,7 @@ def rub_the_butt(world: World, option: str):
         'happiness_source': 100,  # 欢乐
         'love_source': 100,  # 情爱
         'exposure_source': 200,  # 暴露
-        'disgust_source': 300,  # 反感
+        'disgust_source': 500,  # 反感
         'lust_source': 100,  # 欲情
         'passivity_source': 100,  # 被动
     })
@@ -84,8 +84,6 @@ def rub_the_butt(world: World, option: str):
         source['lust_source'] += 1000 + 250 * npc.abl['desire_abl']
         source['passivity_source'] += 1000 + 250 * npc.abl['obedience_abl']
 
-    # TODO: 睡眠中
-
     # 通用source修正
     source = common_src_modify(source, npc)
 
@@ -101,7 +99,21 @@ def rub_the_butt(world: World, option: str):
     ctx.consume(energy=n_energy_cost, chara=npc)
 
     # 处理好感和信赖
-    favor_trust_proc(source, npc, ctx, True, ex_trust=-1)
+    # 亲密低导致好感下降
+    if npc.abl['intimacy_abl'] <= 5:
+        ex_favor = -5
+        ex_trust = -3
+    elif npc.abl['intimacy_abl'] <= 7:
+        ex_favor = -3
+        ex_trust = -2
+    elif npc.abl['intimacy_abl'] <= 9:
+        ex_favor = -1
+        ex_trust = -1
+    else:
+        ex_favor = 0
+        ex_trust = 0
+
+    favor_trust_proc(source, npc, ctx, True, ex_favor, ex_trust)
 
     # 经验
     if npc.is_dating():

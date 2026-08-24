@@ -84,8 +84,6 @@ def poke_the_cheek(world: World, option: str):
     else:
         source['happiness_source'] += 1000 + (npc.favor - 5000) // 5
 
-    # TODO: 睡眠中
-
     # 通用source修正
     source = common_src_modify(source, npc)
 

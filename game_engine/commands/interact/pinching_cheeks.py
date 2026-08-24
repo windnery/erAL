@@ -76,7 +76,11 @@ def pinching_cheeks(world: World, option: str):
     else:
         source['happiness_source'] += 1000 + (npc.favor - 5000) // 5
 
-    # TODO: 睡眠中
+    # 睡眠中
+    if npc.is_sleeping():
+        source['happiness_source'] //= 2
+        source['love_source'] //= 2
+        source['pain_source'] *= 2
 
     # 通用source修正
     source = common_src_modify(source, npc)
