@@ -439,6 +439,24 @@
       "default": 0
     }
   },
+  "mark": {
+    "pain_mark": {
+      "name": "苦痛刻印",
+      "default": 0
+    },
+    "pleasure_mark": {
+      "name": "快乐刻印",
+      "default": 0
+    },
+    "submission_mark": {
+      "name": "屈服刻印",
+      "default": 0
+    },
+    "disappointment_mark": {
+      "name": "失望刻印",
+      "default": 0
+    }
+  },
   "palam": {
     "c_pleasure_palam": {
       "name": "快C",

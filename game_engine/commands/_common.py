@@ -8,6 +8,7 @@ from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
+from game_engine.data_pipeline.mark.mark_calc import mark_calc
 from game_engine.managers.NpcManager import NpcManager
 
 
@@ -42,8 +43,10 @@ def new_source(base: dict[str, int]):
     return s
 
 
-def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext, block: str = 'palam'):
+def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx: CommandContext, block: str = 'palam'):
     """source的统一转换过程（单对）"""
+    # 刻印处理（仅舰娘有刻印）
+    mark_calc(source, target, ctx)
     # source->palam
     mes_source, mes_target, _ = palam_calc(source, actor, target)
     if mes_source:
@@ -58,10 +61,8 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
     actor.update_palam_level()
     target.update_palam_level()
     # source->情绪/理性/心情
-    if target.id != PLAYER_ID:
-        # 只有舰娘有情绪/理性/心情
-        emotion_rationality_calc(source, target)
-        mood_proc(source, target)
+    emotion_rationality_calc(source, target)
+    mood_proc(source, target)
 
 
 def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
@@ -138,9 +139,11 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
             if orgasm_mes:
                 ctx.say_block('palam', *orgasm_mes)
             target.update_palam_level()
-            if target.id != PLAYER_ID and tid in source_of:
+            if isinstance(target, ShipGirl) and tid in source_of:
                 emotion_rationality_calc(source_of[tid], target)
                 mood_proc(source_of[tid], target)
+                # 刻印处理
+                mark_calc(source_of[tid], target, ctx)
         # actor 侧
         aid = id(actor)
         if aid not in processed:

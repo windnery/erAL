@@ -179,7 +179,10 @@ class TestEjaculationAndOrgasmFormat:
         laffey.palam['v_pleasure_palam'] = 20000
         mes = orgasm_check(laffey)
         assert len(mes) > 0
-        assert all(m.startswith('[[c:#ff6fae]]') and m.endswith('[[/c]]') for m in mes)
+        # 绝顶消息统一为粉色；快乐刻印获取消息为金色（与其他刻印一致）
+        for m in mes:
+            assert m.endswith('[[/c]]')
+            assert m.startswith('[[c:#ff6fae]]') or m.startswith('[[c:#ffd400]]')
 
     def test_ejaculation_order_and_colors(self, world):
         TestTrainClosedLoop._make_position_train(world)

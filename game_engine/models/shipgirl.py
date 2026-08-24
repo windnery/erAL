@@ -12,6 +12,7 @@ class ShipGirl(Character):
 
     favor: int = 0  # 好感度
     trust: int = 0  # 信赖度
+    mark: dict[str, int] = field(default_factory=dict)  # 刻印
     talk_fatigue: int = 0  # 会话疲劳值
     is_talk_fatigue: bool = False  # 是否会话疲劳
     schedule: dict[str, Any] = field(default_factory=dict)  # 作息时间表

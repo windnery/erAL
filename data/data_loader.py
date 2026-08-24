@@ -56,10 +56,10 @@ def load_attr_defs():
 # 属性 section 的合并策略：
 # - talent: 角色 JSON 全权负责（不参与 default 合并）
 # - favor/trust: 平铺结构 {name, default}，JSON 没写时用 default
-# - base/abl/exp/juel/palam/cflag: 嵌套结构 {key: {name, default}}，default 打底 + JSON 覆盖
+# - base/abl/exp/juel/palam/cflag/mark: 嵌套结构 {key: {name, default}}，default 打底 + JSON 覆盖
 # - base 额外过滤：只保留 attr_defs 定义的键
 _FLAT_SECTIONS = ('favor', 'trust')
-_NESTED_SECTIONS = ('base', 'abl', 'exp', 'juel', 'palam', 'cflag')
+_NESTED_SECTIONS = ('base', 'abl', 'exp', 'juel', 'palam', 'cflag', 'mark')
 _FILTER_SECTIONS = ('base',)  # 过滤掉 attr_defs 未定义的键
 
 
@@ -84,7 +84,7 @@ def _merge_section(spec_defs, chara_data, section: str):
 def merge_character_attrs(attr_defs, chara_data: dict[str, Any]) -> dict[str, Any]:
 	"""将角色 JSON 数据与 attr_defs 的 default 合并，返回补全后的角色数据
 
-	- 数值 section（base/abl/exp/juel/palam/cflag）: default 打底 + JSON 覆盖
+	- 数值 section（base/abl/exp/juel/palam/cflag/mark）: default 打底 + JSON 覆盖
 	- favor/trust: JSON 覆盖，缺省用 default
 	- talent: 纯 JSON，不合并
 	- 顶层键（id/name/location/schedule 等）: 原样保留

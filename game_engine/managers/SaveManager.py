@@ -36,6 +36,7 @@ class SaveManager:
                 'palam': sg.palam,
                 'cflag': sg.cflag,
                 'talent': sg.talent,
+                'mark': sg.mark,
                 'talk_fatigue': sg.talk_fatigue,
                 'is_talk_fatigue': sg.is_talk_fatigue,
             }
@@ -136,6 +137,8 @@ class SaveManager:
                 sg.palam = st['palam']
                 sg.cflag = st['cflag']
                 sg.talent = st['talent']
+                # 刻印（旧存档无该字段时保持默认0）
+                sg.mark = st.get('mark', sg.mark)
                 sg.talk_fatigue = st.get('talk_fatigue', 0)
                 sg.is_talk_fatigue = st.get('is_talk_fatigue', False)
                 sg.update_palam_level()
