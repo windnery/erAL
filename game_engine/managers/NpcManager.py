@@ -124,6 +124,16 @@ class NpcManager:
                     from game_engine.commands.interact.end_date import end_date
                     end_date(self.world, sg.id, True)
 
+            # 情绪&理性&心情自然变化
+            sg.emotion_natural_change(elapsed_minutes)
+            sg.rationality_natural_change(elapsed_minutes)
+            sg.mood_natural_change(elapsed_minutes)
+
+            # 会话疲劳值衰减 1分钟减2点
+            sg.talk_fatigue_decay(elapsed_minutes * 2)
+            if sg.talk_fatigue < TALK_FATIGUE_RECOVER_THRESHOLD:
+                sg.is_talk_fatigue = False
+
             if sg.is_working():
                 continue
 
@@ -131,11 +141,6 @@ class NpcManager:
                 # 同行中
                 self.set_loc(sg.id, player.location['region'], player.location['node'])
                 continue
-
-            # 情绪&理性&心情自然变化
-            sg.emotion_natural_change(elapsed_minutes)
-            sg.rationality_natural_change(elapsed_minutes)
-            sg.mood_natural_change(elapsed_minutes)
 
             # 自由行动：根据推进时长影响移动概率
             # 基础概率：移动节点15%，离开区域5%，留在原地80%
@@ -161,11 +166,6 @@ class NpcManager:
                     if target_nodes:
                         target_node = choice(target_nodes)
                         self.set_loc(sg.id, target_region['key'], target_node)
-
-            # 会话疲劳值衰减 1分钟减2点
-            sg.talk_fatigue_decay(elapsed_minutes * 2)
-            if sg.talk_fatigue < TALK_FATIGUE_RECOVER_THRESHOLD:
-                sg.is_talk_fatigue = False
 
     def get_npc_by_id(self, shipgirl_id: str):
         """根据舰娘ID获取舰娘对象
