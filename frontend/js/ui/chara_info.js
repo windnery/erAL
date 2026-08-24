@@ -192,7 +192,7 @@ export function appendStatsSection(content, title, data, defs, showRank) {
         valueSpan.className = 'charinfo-stats-value';
         if (showRank) {
             valueSpan.style.color = rankColor(value);
-            valueSpan.textContent = `${value} ${rankLetter(value)}`;
+            valueSpan.textContent = `${rankLetter(value)} ${value}`;
         } else {
             valueSpan.textContent = value;
         }

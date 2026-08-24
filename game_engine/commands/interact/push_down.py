@@ -1,20 +1,17 @@
 from __future__ import annotations
-from game_engine.commands._common import say_chara_line
-
 from typing import TYPE_CHECKING
 
 from config.mood_config import MOOD_BAD
 from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
-    source_proc
+    source_proc, say_chara_line
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 
 from ...models.shipgirl import ShipGirl
+from .._commands import register_cmd
+from .._context import CommandContext
 
 if TYPE_CHECKING:
     from world import World
-
-from .._commands import register_cmd
-from .._context import CommandContext
 
 
 def can(world: World, npc: ShipGirl):
