@@ -1,0 +1,31 @@
+MOOD_BLISS = 2
+MOOD_GOOD = 1
+MOOD_NEUTRAL = 0
+MOOD_BAD = -1
+
+MOOD_LABELS = {
+    MOOD_BLISS: '幸福',
+    MOOD_GOOD: '好心情',
+    MOOD_NEUTRAL: '',
+    MOOD_BAD: '愤怒'
+}
+
+MOOD_COLORS = {
+    MOOD_BLISS: '#ffd400',
+    MOOD_GOOD: '#66ccff',
+    MOOD_NEUTRAL: '',
+    MOOD_BAD: '#ff0000'
+}
+
+
+# 每日心情概率
+MOOD_GOOD_RATE = 0.1
+MOOD_NEUTRAL_RATE = 0.8
+MOOD_BAD_RATE = 0.1
+
+# 算法参数
+MOOD_HALF_SATURATION = 30000
+MOOD_MAX_PROB = 90
+
+# 心情随时间向平静衰减的基础周期（分钟）
+MOOD_DECAY_INTERVAL = 120

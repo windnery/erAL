@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from config.base_config import MAX_RATIONALITY, MIN_EMOTION, MAX_EMOTION
+from config.mood_config import MOOD_LABELS, MOOD_COLORS, MOOD_BAD, MOOD_BLISS
 from game_engine.models.character import Character
 
 
@@ -32,6 +33,9 @@ class ShipGirl(Character):
             "palam_lv": self.palam_lv,
             "talent": self.get_talent_list(),
             "schedule": self.schedule,
+            "mood": self.get_mood(),
+            "mood_label": self.get_mood_label(),
+            "mood_color": self.get_mood_color(),
         }
 
     def get_emotion(self):
@@ -67,6 +71,32 @@ class ShipGirl(Character):
     def reset_rationality(self):
         """重置理性值"""
         self.set_rationality(MAX_RATIONALITY)
+
+    def get_mood(self) -> int:
+        """获取心情值"""
+        return self.base.get("mood", 0)
+
+    def set_mood(self, value: int):
+        """设置心情值"""
+        value = min(max(value, MOOD_BAD), MOOD_BLISS)
+        self.base['mood'] = value
+
+    def get_mood_label(self) -> str:
+        """获取心情标签"""
+        return MOOD_LABELS[self.get_mood()]
+
+    def get_mood_color(self) -> str:
+        """获取心情颜色"""
+        return MOOD_COLORS.get(self.get_mood(), '')
+
+    def apply_mood_change(self, value: int):
+        """应用心情变化"""
+        self.set_mood(self.get_mood() + value)
+
+    def mood_natural_change(self, dt: int):
+        """心情自然变化"""
+        from game_engine.data_pipeline.mood.mood_calc import mood_natural_change
+        mood_natural_change(self, dt)
 
     def is_sleeping(self) -> bool:
         """是否正在睡觉"""

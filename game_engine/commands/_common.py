@@ -27,6 +27,7 @@ from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES, ORGASM
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
+from game_engine.data_pipeline.mood.mood_calc import mood_proc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
@@ -56,10 +57,11 @@ def source_proc(source: dict[str, int], actor: Character, target: Character, ctx
     # 更新palam等级
     actor.update_palam_level()
     target.update_palam_level()
-    # source->情绪/理性
+    # source->情绪/理性/心情
     if target.id != PLAYER_ID:
-        # 只有舰娘有情绪/理性
+        # 只有舰娘有情绪/理性/心情
         emotion_rationality_calc(source, target)
+        mood_proc(source, target)
 
 
 def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
@@ -138,6 +140,7 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
             target.update_palam_level()
             if target.id != PLAYER_ID and tid in source_of:
                 emotion_rationality_calc(source_of[tid], target)
+                mood_proc(source_of[tid], target)
         # actor 侧
         aid = id(actor)
         if aid not in processed:

@@ -1,4 +1,4 @@
-﻿// 全屏角色信息面板：分类 tab + 内容渲染
+// 全屏角色信息面板：分类 tab + 内容渲染
 // 数据来源：showCharacterInfo(npc) 传入的 nearby_npcs 单项（含 id/name/avatar/portrait/favor/trust/talent...）
 // 皮肤页数据：通过 api.call('skin_manager', 'get_owned_skins', npc.id) 异步拉取
 
@@ -73,7 +73,18 @@ function renderAbilityTab(content, npc, ablDefs, expDefs) {
 
     const infoRow = document.createElement('div');
     infoRow.className = 'charinfo-info-row';
-    infoRow.textContent = `${npc.name}  好感度: ${npc.favor ?? 0}  信赖度: ${npc.trust ?? 0}`;
+    infoRow.appendChild(document.createTextNode(`${npc.name}  好感度: ${npc.favor ?? 0}  信赖度: ${npc.trust ?? 0}`));
+    if (npc.mood_label) {
+        const moodColors = {
+            '幸福': '#ffd400',
+            '好心情': '#66ccff',
+            '愤怒': '#ff0000'
+        };
+        const moodSpan = document.createElement('span');
+        moodSpan.style.color = npc.mood_color || moodColors[npc.mood_label] || '#66ccff';
+        moodSpan.textContent = `  ${npc.mood_label}`;
+        infoRow.appendChild(moodSpan);
+    }
     content.appendChild(infoRow);
 
     const barRow = document.createElement('div');

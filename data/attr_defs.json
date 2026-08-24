@@ -31,6 +31,10 @@
     "rationality": {
       "name": "理性",
       "default": 1000
+    },
+    "mood": {
+      "name": "心情",
+      "default": 0
     }
   },
   "favor": {

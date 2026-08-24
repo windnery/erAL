@@ -3,7 +3,7 @@ from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
+from config.mood_config import MOOD_BAD
 from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
     source_proc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
@@ -21,6 +21,9 @@ def can(world: World, npc: ShipGirl):
     """执行判定"""
     # 通用判定(气力0 睡眠)
     if not global_can(world.player, npc):
+        return False
+    # 愤怒状态
+    if npc.get_mood() == MOOD_BAD:
         return False
     # 工作中
     if npc.is_working():
@@ -85,7 +88,7 @@ def push_down(world: World, option: str):
 
     if not ok:
         ctx.say(f"遭到了剧烈反抗……", f"{npc.name}似乎生气了……")
-        # TODO: 心情
+        npc.set_mood(MOOD_BAD)
         source: dict[str, int] = new_source(
             {"escape_source": 1000, "disgust_source": 1200}
         )

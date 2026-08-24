@@ -2,6 +2,7 @@ from config.palam_config import PALAM_LV
 from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc
+from game_engine.data_pipeline.mood.mood_calc import roll_daily_mood
 from game_engine.data_pipeline.talent.talent_check import talent_check
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.ItemManager import ItemManager
@@ -186,9 +187,10 @@ class World:
         # 检查talent
         for npc in self.npc_manager.get_all_npcs():
             pages.extend(talent_check(self, npc))
-            # 在这里重置每个舰娘的情绪和理性 避免额外一次全遍历
+            # 在这里重置每个舰娘的情绪、理性和新一天的心情 避免额外一次全遍历
             npc.reset_emotion()
             npc.reset_rationality()
+            npc.set_mood(roll_daily_mood())
 
         # 生成新的一天的工作量
         self.work_manager.set_works()

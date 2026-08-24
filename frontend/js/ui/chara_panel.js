@@ -54,7 +54,25 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagD
     const flags = Object.entries(npc.cflag || {})
         .filter(([, v]) => v === true)
         .map(([k]) => (cflagDefs && cflagDefs[k]) || k);
-    name.textContent = `${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0}${flags.length ? ' ' + flags.map(f => `[${f}]`).join(' ') : ''})`;
+
+    name.appendChild(document.createTextNode(`${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0}`));
+
+    if (npc.mood_label) {
+        const moodColors = {
+            '幸福': '#ffd400',
+            '好心情': '#66ccff',
+            '愤怒': '#ff0000'
+        };
+        const moodSpan = document.createElement('span');
+        moodSpan.style.color = npc.mood_color || moodColors[npc.mood_label] || '#66ccff';
+        moodSpan.textContent = ` ${npc.mood_label}`;
+        name.appendChild(moodSpan);
+    }
+
+    if (flags.length) {
+        name.appendChild(document.createTextNode(' ' + flags.map(f => `[${f}]`).join(' ')));
+    }
+    name.appendChild(document.createTextNode(')'));
     el.appendChild(name);
 
     // 体力条（绿）/ 气力条（蓝）同一行
