@@ -162,8 +162,8 @@ class NpcManager:
                         target_node = choice(target_nodes)
                         self.set_loc(sg.id, target_region['key'], target_node)
 
-            # 会话疲劳值衰减
-            sg.talk_fatigue_decay(elapsed_minutes)
+            # 会话疲劳值衰减 1分钟减2点
+            sg.talk_fatigue_decay(elapsed_minutes * 2)
             if sg.talk_fatigue < TALK_FATIGUE_RECOVER_THRESHOLD:
                 sg.is_talk_fatigue = False
 

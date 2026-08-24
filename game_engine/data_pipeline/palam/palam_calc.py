@@ -1,7 +1,7 @@
 from config.abl_config import ABL_LV
-from config.chara_config import PLAYER_ID
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.character import Character
+from game_engine.models.shipgirl import ShipGirl
 
 
 def palam_calc(src: dict[str, int], source: Character, target: Character, dry_run: bool = False):
@@ -567,18 +567,21 @@ def happiness_source(source: dict[str, int], target: Character) -> dict[str, dic
     # TODO: 对方主导
     # 陷落素质
     happiness_source *= 10 + 3 * target.get_talent_value('relationship') // 10
+    # 心情
+    if isinstance(target, ShipGirl):
+        happiness_source *= (10 + 2 * target.get_mood()) / 10
     # TODO: 媚药
     # TODO: 利尿剂
     # TODO: 旁人在场+情绪
     # 约会中
-    if target.id != PLAYER_ID and target.is_dating():
+    if isinstance(target, ShipGirl) and target.is_dating():
         happiness_source *= 1.3
     # abl: 亲密
     happiness_source *= (100 + 5 * target.abl['intimacy_abl']) // 100
     # abl: 欲望
     happiness_source *= (100 + 5 * target.abl['desire_abl']) // 100
     # 好感度
-    if target.id != PLAYER_ID:
+    if isinstance(target, ShipGirl):
         if target.favor <= 10:
             happiness_source *= 0.5
         elif target.favor <= 50:
@@ -677,6 +680,9 @@ def depression_source(source: dict[str, int], target: Character) -> dict[str, di
     """处理depression_source
         return: 抑郁"""
     depression_source = source.get('depression_source', 0)
+    # 心情
+    if isinstance(target, ShipGirl):
+        depression_source *= (10 - 2 * target.get_mood()) / 10
     # 陷落素质
     if target.get_talent_value('relationship') == 1:
         depression_source *= 0.75
@@ -774,7 +780,8 @@ def disgust_source(source: dict[str, int], target: Character) -> dict[str, dict[
         return: 反感"""
     disgust_source = source.get('disgust_source', 0)
     # 心情
-
+    if isinstance(target, ShipGirl):
+        disgust_source *= (10 - 3 * target.get_mood()) / 10
     # TODO: 对方主导
     # abl: 顺从
     match target.abl['obedience_abl'] + target.abl['intimacy_abl']:
