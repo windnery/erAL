@@ -2,7 +2,7 @@ from __future__ import annotations
 from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
-from config.map_actions import LAP_PILLOW_LOC
+from config.map_config import CAN_SIT_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
@@ -25,7 +25,7 @@ def can(world: World, npc: ShipGirl):
         return False
     region = world.player.location['region']
     node = world.player.location['node']
-    if node not in LAP_PILLOW_LOC.get(region, []):
+    if node not in CAN_SIT_LOC.get(region, []):
         return False
     # 陷落阶段在喜欢以上
     if npc.get_talent_value('relationship') >= 2:

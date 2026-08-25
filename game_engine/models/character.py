@@ -120,3 +120,12 @@ class Character:
         else:
             # 二分类素质
             return ATTR_DEFS['talent'][talent_id]['name']
+
+    def can_insert(self) -> bool:
+        """是否有插入能力"""
+        # 男
+        # TODO: 穿戴假阳具的女
+        if self.get_talent_value('sex') > 0:
+            return True
+
+        return False

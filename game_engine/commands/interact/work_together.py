@@ -3,7 +3,7 @@ from game_engine.commands._common import say_chara_line, work_abl_modifier
 from random import randint
 from typing import TYPE_CHECKING
 
-from config.map_actions import WORK_LOC
+from config.map_config import WORK_LOC
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import favor_trust_proc, new_source

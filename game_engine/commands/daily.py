@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from random import randint
 
-from config.map_actions import NAP_LOC, SLEEP_LOC, WORK_LOC
+from config.map_config import NAP_LOC, SLEEP_LOC, WORK_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import work_abl_modifier
 from game_engine.commands._context import CommandContext

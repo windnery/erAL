@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from config.map_config import HAVE_BED_LOC
 from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
@@ -32,6 +34,11 @@ def can(world: World):
         return False
     if PLAYER_ID in train_manager.train.targets:
         return False
+    for chara_id in train_manager.train.actors:
+        # 调教方有人无插入能力
+        chara = get_entity_by_id(world.npc_manager, world.player, chara_id)
+        if not chara.can_insert():
+            return False
     return True
 
 
@@ -135,8 +142,10 @@ def common_position(world: World):
         'love_source': 150,
         'pain_source': 500,
         'exposure_source': 50,
+        'unclean_source': 60,
         'disgust_source': 300
     })
+    feed_source = {'c_pleasure_source': 400}
 
     src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
     tar_name = get_name_by_id(world.npc_manager, world.player, train.targets[0])
@@ -164,6 +173,9 @@ def common_position(world: World):
             ctx.say(f'[[c:#ff6fae]]{actor.name}失去了[处男]！[[/c]]')
         # 插入经验
         exp_mes.append(exp_calc('insert_exp', actor))
+        # 消费体力和气力
+        ctx.consume(stamina=40, energy=40, chara=actor)
+
 
     merged_source = accumulate_sources(actor_sources)
     target_sources: dict[str, dict[str, int]] = {}
@@ -174,11 +186,18 @@ def common_position(world: World):
 
         if chara.get_talent_value('virgin') == 1:
             defloration[target_id] = True
-            source['pain_source'] *= 3
+            source['pain_source'] += 1000
             ctx.say(f'[[c:#ff6fae]]{chara.name}失去了[处女]！[[/c]]')
             say_chara_line(chara, ctx, 'defloration')
 
+        # v苦痛处理
         pain_check_v(source, chara)
+        # 正常位补正
+        region = chara.location['region']
+        node = chara.location['node']
+        if node in HAVE_BED_LOC[region] and len(train.actors)==1 and train.actors[0]==PLAYER_ID:
+            source['v_pleasure_source'] += chara.exp['love_exp']
+
         source = common_src_modify(source, chara)
         target_sources[target_id] = source
 
@@ -205,7 +224,7 @@ def common_position(world: World):
         for target_id in train.targets:
             target = get_entity_by_id(world.npc_manager, world.player, target_id)
             pairs.append((target_sources[target_id], actor, target))
-            feedback = common_src_modify({'c_pleasure_source': 400}, actor)
+            feedback = common_src_modify(feed_source, actor)
             ctx.say_source(feedback, src_name)
             # 反馈：target给actor的c_pleasure
             pairs.append((feedback, target, actor))

@@ -473,7 +473,7 @@ def exposure_source(source: dict[str, int], target: Character) -> dict[str, dict
         return: 欲情 羞耻"""
     exposure_source_1 = source.get('exposure_source', 0)
     exposure_source_2 = source.get('exposure_source', 0)
-    # TODO: 害羞和不知羞耻
+    # 害羞和不知羞耻
     if target.get_talent_value('sense_of_shame') > 0:
         exposure_source_1 *= 2.0
     elif target.get_talent_value('sense_of_shame') < 0:
