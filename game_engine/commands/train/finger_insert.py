@@ -47,16 +47,15 @@ def finger_insert(world: World):
         'disgust_source': 20
     })
 
-    src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
-    tar_name = get_name_by_id(
-        world.npc_manager, world.player, train.targets[0])
+    src_name = get_name_by_id(world.player, train.actors[0])
+    tar_name = get_name_by_id(world.player, train.targets[0])
     if act_num > 1:
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
     ctx.say(f'{src_name}把手指插入{tar_name}的蜜唇中来回搅弄着……')
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
             say_chara_line(chara, ctx, 'finger_insert')
@@ -70,7 +69,7 @@ def finger_insert(world: World):
         temp_sources: dict[str, dict[str, int | float]] = {
             actor_id: source.copy()
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        chara = get_entity_by_id(world.player, actor_id)
         # abl: 指
         temp_sources[actor_id]['v_pleasure_source'] += chara.abl['finger_abl'] * 5
 
@@ -91,7 +90,7 @@ def finger_insert(world: World):
             target_id: {k: int(v * num_adjust)
                         for k, v in merged_source.items()}
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         # 处女修正
         if chara.get_talent_value('virgin') > 0:
             sources[target_id]['pain_source'] *= 1.5
@@ -119,10 +118,9 @@ def finger_insert(world: World):
     # source转换过程统一处理
     pairs = []
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
-            target = get_entity_by_id(
-                world.npc_manager, world.player, target_id)
+            target = get_entity_by_id(world.player, target_id)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)

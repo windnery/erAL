@@ -180,20 +180,20 @@ def get_revision(raw_num: int, limit: int, revision_rate: int | float) -> int:
     return int(limit - limit * revision_rate / (revision_rate + raw_num))
 
 
-def get_name_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
+def get_name_by_id(player: Player, chara_id: str):
     """通过id获取角色名"""
     if chara_id == player.id:
         return player.name
-    npc = npc_manager.get_npc_by_id(chara_id)
+    npc = NpcManager.get_npc_by_id(chara_id)
     if npc:
         return npc.name
     else:
         return chara_id
 
 
-def get_entity_by_id(npc_manager: NpcManager, player: Player, chara_id: str):
+def get_entity_by_id(player: Player, chara_id: str):
     """通过id获取角色"""
-    return npc_manager.get_npc_by_id(chara_id) if chara_id != PLAYER_ID else player
+    return NpcManager.get_npc_by_id(chara_id) if chara_id != PLAYER_ID else player
 
 
 def global_can(player: Player, npc: ShipGirl):
@@ -220,7 +220,7 @@ def train_global_can(train_manager: TrainManager):
             return False
         # 调教方有角色气力0
         for source in train.actors:
-            chara = train_manager.npc_manager.get_npc_by_id(source) if source != PLAYER_ID else train.player
+            chara = NpcManager.get_npc_by_id(source) if source != PLAYER_ID else train.player
             if chara.is_energy_empty():
                 return False
     else:
@@ -524,7 +524,7 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
 
     semen_src = new_source(SEMEN_SOURCES.get(position, {}))
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, player, target_id)
+        chara = get_entity_by_id(player, target_id)
         if not isinstance(chara, ShipGirl):
             continue
         chara.set_exp('semen_exp', chara.get_exp('semen_exp') + 1)

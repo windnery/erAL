@@ -29,12 +29,12 @@ def time_check(hour: int, minute: int, start: list[int], end: list[int]) -> bool
 
 class NpcManager:
     """NPC管理器类"""
+    # 所有舰娘的初始化数据
+    shipgirls_db = load_shipgirls()
+    # 初始化所有舰娘对象
+    shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in shipgirls_db.items()}
 
     def __init__(self, world: World):
-        # 所有舰娘的初始化数据
-        self.shipgirls_db = load_shipgirls()
-        # 初始化所有舰娘对象
-        self.shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in self.shipgirls_db.items()}
         # 秘书舰
         self.secretary_ship: ShipGirl | None = None
         self.world = world
@@ -43,9 +43,10 @@ class NpcManager:
         """设置舰娘位置"""
         self.shipgirls[shipgirl_id].location = {'region': region, 'node': node}
 
-    def get_npcs_at(self, region: str, node: str):
+    @staticmethod
+    def get_npcs_at(region: str, node: str):
         """获取指定位置的NPC列表"""
-        return [sg for sg in self.shipgirls.values()
+        return [sg for sg in NpcManager.shipgirls.values()
                 if sg.location['region'] == region and sg.location['node'] == node]
 
     def get_all_npcs(self):
@@ -167,9 +168,10 @@ class NpcManager:
                         target_node = choice(target_nodes)
                         self.set_loc(sg.id, target_region['key'], target_node)
 
-    def get_npc_by_id(self, shipgirl_id: str):
+    @staticmethod
+    def get_npc_by_id(shipgirl_id: str):
         """根据舰娘ID获取舰娘对象
         shipgirl_id: 舰娘ID
         return: ShipGirl对象
         """
-        return self.shipgirls[shipgirl_id]
+        return NpcManager.shipgirls[shipgirl_id]

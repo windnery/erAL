@@ -107,7 +107,7 @@ def kiss(world: World):
     # able判定
     failed_targets: list[str] = []
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         ok, mes = able(world, chara)
         ctx.say(f'{chara.name} {mes}')
         if not ok:
@@ -130,16 +130,15 @@ def kiss(world: World):
         'disgust_source': 10
     })
 
-    src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
-    tar_name = get_name_by_id(
-        world.npc_manager, world.player, train.targets[0])
+    src_name = get_name_by_id(world.player, train.actors[0])
+    tar_name = get_name_by_id(world.player, train.targets[0])
     if act_num > 1:
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
     ctx.say(f'{src_name}亲吻{tar_name}……')
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
             say_chara_line(chara, ctx, 'kiss')
@@ -153,7 +152,7 @@ def kiss(world: World):
         temp_sources: dict[str, dict[str, int | float]] = {
             actor_id: source.copy()
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        chara = get_entity_by_id(world.player, actor_id)
         # abl: 舌
         temp_sources[actor_id]['m_pleasure_source'] += chara.abl['tongue_abl'] * 4
         temp_sources[actor_id]['love_source'] += chara.abl['tongue_abl'] * 10
@@ -177,7 +176,7 @@ def kiss(world: World):
             target_id: {k: int(v * num_adjust)
                         for k, v in merged_source.items()}
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         sources[target_id]['m_pleasure_source'] += get_revision(chara.exp['love_exp'], 200, 100)
         sources[target_id]['sex_act_source'] += get_revision(chara.exp['love_exp'], 50, 100)
         # 通用source修正
@@ -207,10 +206,9 @@ def kiss(world: World):
     # source转换过程统一处理
     pairs = []
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
-            target = get_entity_by_id(
-                world.npc_manager, world.player, target_id)
+            target = get_entity_by_id(world.player, target_id)
             # 额外处理调教者方的反馈source
             m_pleasure_source = 10 + target.abl['tongue_abl'] * 4
             if target.has_talent('flexible_tongue'):

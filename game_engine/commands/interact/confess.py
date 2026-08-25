@@ -1,13 +1,11 @@
 from __future__ import annotations
-from game_engine.commands._common import say_chara_line
 
 from typing import TYPE_CHECKING
 
-from config.attr_defs import ATTR_DEFS
 from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
     source_proc
+from game_engine.commands._common import say_chara_line
 from game_engine.data_pipeline.common_src_modify import common_src_modify
-
 from ...models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:

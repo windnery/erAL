@@ -110,7 +110,7 @@ def spread_the_ass(world: World):
     # able判定
     failed_targets: list[str] = []
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         ok, mes = able(world, chara)
         ctx.say(f'{chara.name} {mes}')
         if not ok:
@@ -135,15 +135,15 @@ def spread_the_ass(world: World):
         'disgust_source': 150
     })
 
-    src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
-    tar_name = get_name_by_id(world.npc_manager, world.player, train.targets[0])
+    src_name = get_name_by_id(world.player, train.actors[0])
+    tar_name = get_name_by_id(world.player, train.targets[0])
     if act_num > 1:
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
     ctx.say(f'{src_name}命令{tar_name}张开肛门……')
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
             say_chara_line(chara, ctx, 'spread_the_ass')
@@ -151,13 +151,14 @@ def spread_the_ass(world: World):
     # 推进时间
     ctx.advance_time(command_time_data['spread_the_ass'])
 
+    sources: dict[str, dict[str, int]] = {}
     # 被调教者
     for target_id in train.targets:
         sources: dict[str, dict[str, int]] = {
             target_id: {k: int(v * num_adjust)
                         for k, v in source.items()}
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         # 处女 贞操重视修正
         if chara.get_talent_value('virgin') > 0:
             sources[target_id]['fear_source'] *= 1.2
@@ -189,10 +190,9 @@ def spread_the_ass(world: World):
     # source转换过程统一处理
     pairs = []
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
-            target = get_entity_by_id(
-                world.npc_manager, world.player, target_id)
+            target = get_entity_by_id(world.player, target_id)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)

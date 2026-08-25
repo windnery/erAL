@@ -13,7 +13,7 @@ from importlib import import_module
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from game_engine.models.shipgirl import ShipGirl
+    pass
 
 # chara_id -> 口上模块名（本包内）
 _CHARA_MODULES: dict[str, str] = {

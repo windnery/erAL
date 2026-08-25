@@ -1,11 +1,9 @@
-import pytest
 from unittest.mock import patch
 
 from config.mood_config import (
     MOOD_BAD, MOOD_NEUTRAL, MOOD_GOOD, MOOD_BLISS, MOOD_LABELS,
-    MOOD_HALF_SATURATION, MOOD_MAX_PROB, MOOD_DECAY_INTERVAL
+    MOOD_HALF_SATURATION, MOOD_MAX_PROB
 )
-from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 from game_engine.commands._common import source_proc, source_proc_batch, new_source
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.mood.mood_calc import mood_proc, mood_natural_change, roll_daily_mood
@@ -99,8 +97,6 @@ class TestMoodProcCalculation:
         assert sg.get_mood() == MOOD_NEUTRAL
 
     def test_probability_calculation_and_capping(self):
-        sg = ShipGirl(id="test_sg", name="测试舰娘")
-
         # 净值等于半饱和常数 (30000) 时，p = 100 * 30000 // 60000 = 50
         net = MOOD_HALF_SATURATION
         p_calc = 100 * net // (net + MOOD_HALF_SATURATION)

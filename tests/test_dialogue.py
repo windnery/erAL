@@ -1,5 +1,3 @@
-import pytest
-
 from game_engine.commands._common import say_chara_line
 from game_engine.commands._context import CommandContext
 from game_engine.dialogue import get_scene

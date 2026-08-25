@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """道具背包：use_items 校验 + items 指令注册 + 系统指令 frontend 透传"""
 import pytest
-from world import World
+
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAT, REGISTER_FRONTEND
-from game_engine.managers.ItemManager import ItemManager
+from world import World
 
 
 @pytest.fixture

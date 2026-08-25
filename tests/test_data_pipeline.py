@@ -7,11 +7,8 @@
 
 重点回归：juel2abl 固定 demand bug（1000 juel 直接升 13 级）
 """
-import pytest
 
-from config.juel_config import get_juel_demand
-from config.palam_config import PALAM_LV
-from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC
 
 
 # ============================================================
@@ -136,7 +133,6 @@ class TestJuel2Abl:
         from config.attr_defs import ATTR_DEFS
         z23.juel['kindness_juel'] = 1000
         z23.abl['intimacy_abl'] = 0
-        mes = juel2abl(z23, ATTR_DEFS)
         assert z23.abl['intimacy_abl'] == 3, f'应升到 3 级，实际 {z23.abl["intimacy_abl"]}（固定 demand bug 回归）'
         # 剩余 570：1000 - 430
         assert z23.juel['kindness_juel'] == 570
@@ -244,7 +240,6 @@ class TestExp2Abl:
         from config.attr_defs import ATTR_DEFS
         z23.exp['talk_exp'] = 20  # EXP_LV[20] = 3 级
         z23.abl['talk_abl'] = 2
-        mes = exp2abl(z23, ATTR_DEFS)
         assert z23.abl['talk_abl'] == 3, \
             f'exp=20 应升到 3 级，实际 {z23.abl["talk_abl"]}（bug：阈值判定问题）'
 
@@ -265,7 +260,6 @@ class TestExp2Abl:
         from config.attr_defs import ATTR_DEFS
         z23.exp['talk_exp'] = 100_000
         z23.abl['talk_abl'] = 6  # 满级
-        mes = exp2abl(z23, ATTR_DEFS)
         assert z23.abl['talk_abl'] == 6  # 满级不降不崩
 
 

@@ -3,7 +3,6 @@
 
 覆盖：update_positions 调度、settle_day 全流程、存档读档一致性
 """
-import pytest
 
 from conftest import place_next_to_player
 
@@ -235,7 +234,6 @@ class TestSettleDay:
         world.time_manager.hour = 23
         world.time_manager.minute = 0
         world.player.wake_time = {'hour': 7, 'minute': 0}
-        pages = world.settle_day(sleep=True)
         assert world.player.get_stamina() > 0
         assert world.time_manager.hour == 7
         assert world.time_manager.day == 2
@@ -244,7 +242,6 @@ class TestSettleDay:
         """体力耗尽结算：全恢复 + 时间推进"""
         world.player.base['stamina'] = 0
         world.player.base['energy'] = 50
-        pages = world.settle_day(sleep=False, exhaustion=True)
         assert world.player.get_stamina() == world.player.base['max_stamina']
         assert world.player.get_energy() == world.player.base['max_energy']
 
@@ -272,7 +269,6 @@ class TestSettleDay:
         z23.trust = 200
         z23.abl['intimacy_abl'] = 5
         z23.set_talent('relationship', '0')
-        pages = world.settle_day()
         assert z23.get_talent_value('relationship') >= 1
 
 

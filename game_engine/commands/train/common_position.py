@@ -36,7 +36,7 @@ def can(world: World):
         return False
     for chara_id in train_manager.train.actors:
         # 调教方有人无插入能力
-        chara = get_entity_by_id(world.npc_manager, world.player, chara_id)
+        chara = get_entity_by_id(world.player, chara_id)
         if not chara.can_insert():
             return False
     return True
@@ -123,7 +123,7 @@ def common_position(world: World):
     # able判定
     failed_targets: list[str] = []
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         ok, mes = able(world, chara)
         ctx.say(f'{chara.name} {mes}')
         if not ok:
@@ -147,8 +147,8 @@ def common_position(world: World):
     })
     feed_source = {'c_pleasure_source': 400}
 
-    src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
-    tar_name = get_name_by_id(world.npc_manager, world.player, train.targets[0])
+    src_name = get_name_by_id(world.player, train.actors[0])
+    tar_name = get_name_by_id(world.player, train.targets[0])
     if act_num > 1:
         src_name += '等人'
     if tar_num > 1:
@@ -156,7 +156,7 @@ def common_position(world: World):
     ctx.say(f'{src_name}将肉棒抵在{tar_name}的蜜穴上，缓缓插入……')
 
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if target_id != PLAYER_ID:
             say_chara_line(chara, ctx, 'common_position')
 
@@ -164,7 +164,7 @@ def common_position(world: World):
 
     actor_sources: dict[str, dict[str, int | float]] = {}
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         source = base_source.copy()
         # source['v_pleasure_source'] += actor.abl.get('vagina_abl', 0) * 5
         actor_sources[actor_id] = source
@@ -181,7 +181,7 @@ def common_position(world: World):
     target_sources: dict[str, dict[str, int]] = {}
     defloration: dict[str, bool] = {}  # 记录本次破处发生的角色（在清除天赋前记录）
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         source = {key: int(value * num_adjust) for key, value in merged_source.items()}
 
         if chara.get_talent_value('virgin') == 1:
@@ -220,9 +220,9 @@ def common_position(world: World):
 
     pairs = []
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
-            target = get_entity_by_id(world.npc_manager, world.player, target_id)
+            target = get_entity_by_id(world.player, target_id)
             pairs.append((target_sources[target_id], actor, target))
             feedback = common_src_modify(feed_source, actor)
             ctx.say_source(feedback, src_name)

@@ -26,7 +26,7 @@ def can(world: World):
         return False
     # 绝壁不可
     for target_id in train_manager.train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if chara.get_talent_value('bra_size') == -2:
             return False
 
@@ -52,16 +52,15 @@ def breast_massage(world: World):
         'disgust_source': 50
     })
 
-    src_name = get_name_by_id(world.npc_manager, world.player, train.actors[0])
-    tar_name = get_name_by_id(
-        world.npc_manager, world.player, train.targets[0])
+    src_name = get_name_by_id(world.player, train.actors[0])
+    tar_name = get_name_by_id(world.player, train.targets[0])
     if act_num > 1:
         src_name += '等人'
     if tar_num > 1:
         tar_name += '等人'
     ctx.say(f'{src_name}仔细揉搓着{tar_name}的柔软胸部……')
     for target_id in train.targets:
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         if target_id != PLAYER_ID:
             # 只有舰娘有口上
             say_chara_line(chara, ctx, 'breast_massage')
@@ -75,7 +74,7 @@ def breast_massage(world: World):
         temp_sources: dict[str, dict[str, int | float]] = {
             actor_id: source.copy()
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        chara = get_entity_by_id(world.player, actor_id)
         temp_sources[actor_id]['b_pleasure_source'] += chara.abl['finger_abl'] * 20
 
         if chara.has_talent('flexible_fingers'):
@@ -95,7 +94,7 @@ def breast_massage(world: World):
             target_id: {k: int(v * num_adjust)
                         for k, v in merged_source.items()}
         }
-        chara = get_entity_by_id(world.npc_manager, world.player, target_id)
+        chara = get_entity_by_id(world.player, target_id)
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 
@@ -114,10 +113,9 @@ def breast_massage(world: World):
     # source转换过程统一处理
     pairs = []
     for actor_id in train.actors:
-        actor = get_entity_by_id(world.npc_manager, world.player, actor_id)
+        actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
-            target = get_entity_by_id(
-                world.npc_manager, world.player, target_id)
+            target = get_entity_by_id(world.player, target_id)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
     source_proc_batch(pairs, ctx)

@@ -46,14 +46,14 @@ class TestRegistration:
     def test_system_commands_needs_target_false(self):
         """save/load 等无需目标的系统指令 needs_target=False
         （move/leave 需选节点/区域，虽标 True 但走 get_cmd_options 分支）"""
-        from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAT, REGISTER_NEEDS_TARGET
+        from game_engine.commands._commands import REGISTER_CMD, REGISTER_NEEDS_TARGET
         for k in ('save', 'load'):
             assert k in REGISTER_CMD
             assert REGISTER_NEEDS_TARGET.get(k) is False, f'{k} 应 needs_target=False'
 
     def test_show_chara_info_is_frontend(self):
         """查看角色信息是前端指令"""
-        from game_engine.commands._commands import REGISTER_CMD, REGISTER_FRONTEND
+        from game_engine.commands._commands import REGISTER_FRONTEND
         assert REGISTER_FRONTEND.get('show_chara_info') is True
 
 
@@ -154,14 +154,12 @@ class TestEndDate:
     def test_end_date_timeout_message(self, world):
         """超时结束有'时间太晚'文案"""
         from game_engine.commands.interact.end_date import end_date
-        npc = self._start_dating(world)
         mes = end_date(world, 'Z23', time_out=True)
         assert any('太晚' in m for m in mes)
 
     def test_end_date_normal_message(self, world):
         """主动结束有正常文案"""
         from game_engine.commands.interact.end_date import end_date
-        npc = self._start_dating(world)
         mes = end_date(world, 'Z23', time_out=False)
         assert any('太晚' not in m for m in mes)
 
@@ -189,7 +187,6 @@ class TestInteractCommands:
     ])
     def test_interact_command_executes(self, world, cmd_name):
         """指令能执行且返回列表"""
-        from game_engine.managers.CommandManager import CommandManager
         cm = world.command_manager
         result = cm.do_cmd(cmd_name, 'Z23')
         assert result is not None
@@ -209,7 +206,6 @@ class TestInteractCommands:
         """talk 增加玩家会话经验"""
         from game_engine.commands.interact.talk import talk
         before = world.player.exp['talk_exp']
-        mes = talk(world, 'Z23')
         assert world.player.exp['talk_exp'] == before + 1
 
     def test_work_together_requires_secretary(self, world):
@@ -227,27 +223,23 @@ class TestInteractCommands:
 class TestSystemCommands:
     def test_move_changes_location(self, world):
         """移动指令改变玩家位置"""
-        from game_engine.managers.CommandManager import CommandManager
         # 玩家在 home/living_room，先看可移动节点
         options = world.command_manager.get_cmd_options('move')
         assert isinstance(options, list) and len(options) > 0
         # 移动到一个节点
         target = options[0]
         if target.get('key') != 'return':
-            result = world.command_manager.do_cmd('move', target['key'])
             assert world.player.location['node'] == target['key']
 
     def test_move_return_cancels(self, world):
         """move 取消（return）不改位置"""
         node_before = world.player.location['node']
-        result = world.command_manager.do_cmd('move', 'return')
         assert world.player.location['node'] == node_before
 
     def test_leave_changes_region(self, world):
         """leave 改变区域"""
         options = world.command_manager.get_cmd_options('leave')
         assert isinstance(options, list) and len(options) > 0
-        region_before = world.player.location['region']
         target = options[0]
         if target.get('key') != 'return':
             world.command_manager.do_cmd('leave', target['key'])
@@ -276,7 +268,6 @@ class TestDailyCommands:
         """午睡恢复体力"""
         world.player.base['stamina'] = 50
         before = world.player.get_stamina()
-        mes = world.command_manager.do_cmd('nap', None)
         assert world.player.get_stamina() >= before
 
     def test_work_increases_work_exp(self, world):
@@ -284,7 +275,6 @@ class TestDailyCommands:
         # 需要玩家在工作地点（WORK_LOC）才能通过 can_work
         world.player.location = {'region': 'office', 'node': 'desk'}
         before = world.player.exp['work_exp']
-        mes = world.command_manager.do_cmd('work', None)
         assert world.player.exp['work_exp'] == before + 1
 
 

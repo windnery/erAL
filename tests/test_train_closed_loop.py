@@ -138,7 +138,6 @@ class TestSourceProcBatch:
         # 拉菲的 m_pleasure 应累计 2 次正向（单对时先测基线再对比）
         laffey.palam['m_pleasure_palam'] = 0
         src_single = new_source({'m_pleasure_source': 50, 'c_pleasure_source': 40})
-        ctx_single = self._run(world, [(src_single.copy(), world.player, laffey)])
         single_val = laffey.palam['m_pleasure_palam']
         assert single_val > 0, '单对基线应为正'
         # 两对时累计（重跑两对，从 0 开始）
