@@ -144,7 +144,9 @@ def common_position(world: World):
         'unclean_source': 60,
         'disgust_source': 300
     })
-    feed_source = {'c_pleasure_source': 400}
+    feedback_source = new_source({
+        'c_pleasure_source': 400,
+    })
 
     src_name = get_name_by_id(world.player, train.actors[0])
     tar_name = get_name_by_id(world.player, train.targets[0])
@@ -224,7 +226,7 @@ def common_position(world: World):
         for target_id in train.targets:
             target = get_entity_by_id(world.player, target_id)
             pairs.append((target_sources[target_id], actor, target))
-            feedback = common_src_modify(feed_source, actor)
+            feedback = common_src_modify(feedback_source, actor)
             ctx.say_source(feedback, src_name)
             # 反馈：target给actor的c_pleasure
             pairs.append((feedback, target, actor))

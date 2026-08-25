@@ -671,6 +671,19 @@ def impassable_line_modify(chara: Character, friendship: bool = False):
 
 
 def get_base_exp_modify(chara: Character, demand: int | float, kind: str):
-    demand *= 10 / (5 + EXP_LV[chara.exp[f'{kind}_exp']])
-    demand *= (1 + chara.abl[f'{kind}_sen_abl']) / (1 + EXP_LV[chara.exp[f'{kind}_orgasm_exp']])
+    demand *= 10 / (5 + _exp_to_lv(chara.exp.get(f'{kind}_exp', 0)))
+    demand *= (1 + chara.abl[f'{kind}_sen_abl']) / (1 + _exp_to_lv(chara.exp.get(f'{kind}_orgasm_exp', 0)))
     return demand
+
+
+def _exp_to_lv(exp: int) -> int:
+    """经验值 -> 经验等级
+    EXP_LV 只含离散档位（0/1/4/20/50/...），无法直接按键查询任意经验值，
+    这里取「不超过 exp 的最高档位」，保证任意经验值都能查到对应的等级。"""
+    lv = 0
+    for threshold, level in EXP_LV.items():
+        if exp >= threshold:
+            lv = level
+        else:
+            break
+    return lv

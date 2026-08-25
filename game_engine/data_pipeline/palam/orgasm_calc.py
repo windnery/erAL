@@ -45,8 +45,8 @@ def orgasm_lv_print(part: str, orgasm_lv: int):
 
 def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1, orgasm_lv: int = 1):
     """绝顶palam juel处理"""
-    # 绝顶部位palam减半
-    _palam = target.palam[palam_id] // 2
+    # 绝顶部位palam变成之前的0.2倍
+    _palam = int(target.palam[palam_id] * 0.8)
     # 获取juel
     juel_id = palam_id.replace('palam', 'juel')
     best = 0

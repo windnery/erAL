@@ -363,11 +363,11 @@ PALAM2SRC_WEIGHTS: dict[str, dict[str, int]] = {
 }
 
 ORGASM_BASE = {
-    'c_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
-    'v_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
-    'a_pleasure_palam': [30_000, 80_000, 150_000, 250_000],
-    'b_pleasure_palam': [15_000, 30_000, 80_000, 150_000],
-    'm_pleasure_palam': [15_000, 30_000, 80_000, 150_000]
+    'c_pleasure_palam': [15_000, 30_000, 80_000, 200_000],
+    'v_pleasure_palam': [15_000, 30_000, 80_000, 200_000],
+    'a_pleasure_palam': [30_000, 80_000, 150_000, 350_000],
+    'b_pleasure_palam': [15_000, 30_000, 80_000, 200_000],
+    'm_pleasure_palam': [15_000, 30_000, 80_000, 200_000]
 }
 
 ORGASM_NUM_CN = {
@@ -397,7 +397,8 @@ ORGASM_LV_JUEL_MODIFIER = {
     3: 2.0,
     4: 2.5
 }
-# 玩家射精闭环配置
+
+# 玩家射精配置
 EJACULATION_THRESHOLD: int = 5000
 EJACULATION_VITALITY_COST: int = 200
 SEMEN_SOURCES: dict[str, dict[str, int]] = {

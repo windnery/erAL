@@ -130,6 +130,9 @@ def kiss(world: World):
         'unclean_source': 10,
         'disgust_source': 10
     })
+    feedback_source: dict[str, int] = new_source({
+        'm_pleasure_source': 10,
+    })
 
     src_name = get_name_by_id(world.player, train.actors[0])
     tar_name = get_name_by_id(world.player, train.targets[0])
@@ -211,10 +214,10 @@ def kiss(world: World):
         for target_id in train.targets:
             target = get_entity_by_id(world.player, target_id)
             # 额外处理调教者方的反馈source
-            m_pleasure_source = 10 + target.abl['tongue_abl'] * 4
+            feedback_source['m_pleasure_source'] += target.abl['tongue_abl'] * 4
             if target.has_talent('flexible_tongue'):
-                m_pleasure_source *= 1.5
-            source = common_src_modify({'m_pleasure_source': int(m_pleasure_source)}, actor)
+                feedback_source['m_pleasure_source'] *= 1.5
+            source = common_src_modify(feedback_source, actor)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
             # 反馈：target给actor的m_pleasure
