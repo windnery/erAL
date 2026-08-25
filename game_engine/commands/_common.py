@@ -28,7 +28,6 @@ from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
-from world import World
 
 
 def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
@@ -132,7 +131,7 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
 
     # 2. 基础 palam 之后、绝顶之前进行射精处理
     if ejaculation_position:
-        ejaculation_proc(ctx.world, ctx, ejaculation_position, check_orgasm=False)
+        ejaculation_proc(ctx, ejaculation_position, check_orgasm=False)
 
     # 3. 绝顶/等级/情绪理性：每个角色实例一次（去重）
     train = ctx.world.train_manager.train
@@ -564,10 +563,10 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     return mes, attitude
 
 
-def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check_orgasm: bool = True):
+def ejaculation_proc(ctx: CommandContext, position: str = '中出', check_orgasm: bool = True):
     """射精判定"""
-    player = world.player
-    train = world.train_manager.train
+    player = ctx.world.player
+    train = ctx.world.train_manager.train
     if train is None:
         return
 
@@ -617,7 +616,7 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
         player.palam[palam] = 0
     player.update_palam_level()
     if player.get_vitality() == 0:
-        world.train_manager.end_train()
+        ctx.world.train_manager.end_train()
         ctx.say_block('palam', '精力耗尽，本次调教强制结束……')
 
 
