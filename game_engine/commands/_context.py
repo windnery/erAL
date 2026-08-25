@@ -46,6 +46,10 @@ class CommandContext:
             if energy:
                 chara.set_energy(chara.get_energy() - energy)
                 self.blocks['stamina'].append(f'气力-{energy} ({chara.name})')
+            # 体力归零：回家休息（调教中被强制结束调教）
+            if stamina and chara.get_stamina() == 0 and not chara.cflag.get('sleeping') \
+                    and not chara.cflag.get('resting'):
+                self._exhaustion_mes += '\n'.join(self.world.npc_exhausted(chara))
 
     def recover(self, stamina: int = 0, energy: int = 0):
         """恢复体力和气力"""

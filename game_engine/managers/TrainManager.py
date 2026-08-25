@@ -70,6 +70,8 @@ class TrainManager:
         """结束一场调教"""
         self.train = None
         self.world.train_mode = False
+        # 调教期间舰娘调度被冻结（忽略睡觉等），结束后按当前时间立即重新调度
+        self.npc_manager.update_positions(0, self.world.map_manager, self.world.player)
 
     def _toggle(self, field: str, chara_id: str) -> str:
         """把角色加入/移出某个列表（互斥：加入一侧自动移出另一侧）"""

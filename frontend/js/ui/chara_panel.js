@@ -70,7 +70,17 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagD
     }
 
     if (flags.length) {
-        name.appendChild(document.createTextNode(' ' + flags.map(f => `[${f}]`).join(' ')));
+        // 疲倦用红色展示，其余 cflag 保持默认色
+        const flagColors = { '疲倦': '#ff4d4f' };
+        for (const f of flags) {
+            name.appendChild(document.createTextNode(' '));
+            const flagSpan = document.createElement('span');
+            if (flagColors[f]) {
+                flagSpan.style.color = flagColors[f];
+            }
+            flagSpan.textContent = `[${f}]`;
+            name.appendChild(flagSpan);
+        }
     }
     name.appendChild(document.createTextNode(')'));
     el.appendChild(name);

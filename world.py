@@ -88,8 +88,93 @@ class World:
         return participants
 
     def advance_time_with_events(self, minutes: int):
-        """推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）"""
-        return self.time_manager.advance_time_with_events(minutes)
+        """推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）
+        随后结算休息恢复与疲倦扣减"""
+        events = self.time_manager.advance_time_with_events(minutes)
+        self._rest_recover(minutes)
+        drain_pages = self._tired_drain(minutes)
+        if drain_pages:
+            events.extend(drain_pages)
+        return events
+
+    # ==================== 疲倦/休息 ====================
+    TIRED_THRESHOLD_MINUTES = 15 * 60  # 距起床15小时进入疲倦
+    REST_RECOVER_RATE = 0.01  # 休息中每分钟恢复1%
+
+    def _wake_minute_of(self, chara) -> int:
+        """角色的起床时刻（分钟数 0-1439）"""
+        if isinstance(chara, Player):
+            wt = chara.wake_time
+        else:
+            wt = {'hour': chara.schedule['sleep']['end'][0],
+                  'minute': chara.schedule['sleep']['end'][1]}
+        return wt['hour'] * 60 + wt['minute']
+
+    def _update_tired_flag(self, chara):
+        """按当前时间重算疲倦标志"""
+        now = self.time_manager.hour * 60 + self.time_manager.minute
+        elapsed = (now - self._wake_minute_of(chara)) % (24 * 60)
+        chara.cflag['tired'] = elapsed >= self.TIRED_THRESHOLD_MINUTES
+
+    def _tired_drain(self, minutes: int):
+        """疲倦状态每分钟扣1点体力和气力；处理归零后果
+        返回: 事件文本列表"""
+        pages = []
+        for chara in [self.player, *self.npc_manager.get_all_npcs()]:
+            self._update_tired_flag(chara)
+        for chara in [self.player, *self.npc_manager.get_all_npcs()]:
+            if not chara.cflag.get('tired'):
+                continue
+            if chara.cflag.get('sleeping') or chara.cflag.get('resting'):
+                continue
+            chara.set_stamina(chara.get_stamina() - minutes)
+            chara.set_energy(chara.get_energy() - minutes)
+
+        # 玩家体力归零：昏倒日结
+        if self.player.get_stamina() == 0:
+            pages.extend(self.settle_day(exhaustion=True))
+            return pages
+
+        # 舰娘体力归零：回家休息（调教中被强制结束调教）
+        for sg in self.npc_manager.get_all_npcs():
+            if sg.get_stamina() > 0:
+                continue
+            if sg.cflag.get('resting') or sg.cflag.get('sleeping'):
+                continue
+            pages.extend(self.npc_exhausted(sg))
+        return pages
+
+    def npc_exhausted(self, sg):
+        """舰娘体力归零的统一处理：
+        调教中→强制结束调教；随后回家进入休息中"""
+        pages = []
+        if self.train_mode and self.train_manager.train and sg.id in self.train_manager.train.participants:
+            pages.append(f'{sg.name}体力耗尽，无法继续……')
+            self.train_manager.end_train()
+            pages.append('本次调教被迫结束……')
+        pages.append(f'{sg.name}回家休息了')
+        self._start_rest(sg)
+        return pages
+
+    def _start_rest(self, sg):
+        """舰娘进入休息中：回家，等待体力气力恢复"""
+        sleep_loc = self.npc_manager.shipgirls_db[sg.id]['location']
+        self.npc_manager.set_loc(sg.id, sleep_loc['region'], sleep_loc['node'])
+        sg.cflag['resting'] = True
+        sg.cflag['working'] = False
+
+    def _rest_recover(self, minutes: int):
+        """休息中的舰娘每分钟恢复1%体力和气力，双满后解除"""
+        for sg in self.npc_manager.get_all_npcs():
+            if not sg.cflag.get('resting') or sg.cflag.get('sleeping'):
+                continue
+            sta = max(1, int(sg.base['max_stamina'] * self.REST_RECOVER_RATE)) * minutes
+            ene = max(1, int(sg.base['max_energy'] * self.REST_RECOVER_RATE)) * minutes
+            sg.set_stamina(sg.get_stamina() + sta)
+            sg.set_energy(sg.get_energy() + ene)
+            if (sg.get_stamina() >= sg.base['max_stamina']
+                    and sg.get_energy() >= sg.base['max_energy']):
+                sg.cflag['resting'] = False
 
     def change_stamina(self, delta: int):
         """包装一层改变体力的方法
@@ -199,6 +284,11 @@ class World:
 
         # 新的一天开始：回到缓冲菜单
         self.menu_active = True
+
+        # 时间已大幅推进：重算疲倦标志；体力已满的休息中舰娘解除休息
+        for chara in [self.player, *self.npc_manager.get_all_npcs()]:
+            self._update_tired_flag(chara)
+        self._rest_recover(0)
 
         return pages
 

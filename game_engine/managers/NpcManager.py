@@ -82,7 +82,10 @@ class NpcManager:
             self.secretary_ship.cflag['secretary_ship'] = True
 
         for sg in self.shipgirls.values():
-            # 睡觉时间：回家
+            # 调教状态下忽略睡觉：位置冻结，等到调教结束后再按当前时间重新调度
+            if self.world.is_training():
+                continue
+            # 睡觉时间：回家（睡觉优先级除调教外最高）
             sleep_start_time: list[int] = sg.schedule['sleep']['start']
             sleep_end_time: list[int] = sg.schedule['sleep']['end']
             if time_check(hour, minute, sleep_start_time, sleep_end_time):
@@ -91,9 +94,16 @@ class NpcManager:
                 self.set_loc(sg.id, sleep_region, sleep_node)
                 sg.cflag['sleeping'] = True
                 sg.cflag['working'] = False  # 睡觉时不在工作，避免残留
+                sg.cflag['resting'] = False  # 睡觉优先级高于休息
                 continue
             else:
                 sg.cflag['sleeping'] = False
+
+            # 休息中
+            # 不参与工作调度与移动；睡觉优先级更高，已在上方处理
+            if sg.cflag.get('resting'):
+                sg.cflag['working'] = False
+                continue
 
             # 工作时间：去工作地点
             works: list[dict[str, Any]] = sg.schedule.get('works') or []

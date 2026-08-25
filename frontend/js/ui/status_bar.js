@@ -27,4 +27,8 @@ export function renderStatusBar(location, time, player) {
     const vitPct = (player.base.vitality / player.base.max_vitality) * 100;
     document.getElementById('vitality_fill').style.width = vitPct + '%';
     document.getElementById('vitality_text').textContent = player.base.vitality + '/' + player.base.max_vitality;
+
+    // 疲倦标记（精力条后面，红色）
+    const tiredEl = document.getElementById('player_tired');
+    tiredEl.style.display = player.cflag && player.cflag.tired ? '' : 'none';
 }

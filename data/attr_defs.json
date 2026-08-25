@@ -200,6 +200,14 @@
     "dating_following": {
       "name": "约会同行中",
       "default": false
+    },
+    "tired": {
+      "name": "疲倦",
+      "default": false
+    },
+    "resting": {
+      "name": "休息中",
+      "default": false
     }
   },
   "exp": {

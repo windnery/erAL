@@ -34,7 +34,8 @@ class Player(Character):
             'abl': self.abl,
             'exp': self.exp,
             'talent_list': self.get_talent_list(),
-            'money': self.money
+            'money': self.money,
+            'cflag': self.cflag
         }
 
     def set_money(self, value: int):

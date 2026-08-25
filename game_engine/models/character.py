@@ -129,3 +129,7 @@ class Character:
             return True
 
         return False
+
+    def is_tired(self) -> bool:
+        """是否疲倦"""
+        return self.cflag['tired']

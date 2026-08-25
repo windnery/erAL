@@ -46,17 +46,20 @@ class TestFormulas:
 
     def test_orgasm_decay_by_lv_and_num(self, world):
         from game_engine.managers.TrainManager import Train
+        from config.initiative_config import ORGASM_INITIATIVE_RATE_LV, ORGASM_INITIATIVE_MULT_NUM
         laffey = world.npc_manager.shipgirls['laffey']
         train = Train(world.player.location, world.player)
-        # 单部位绝顶 lv1：-10%
+        # 单部位绝顶 lv1：按配置衰减率
         train.initiative = {laffey.id: 100}
         assert initiative_orgasm_proc(train, laffey, 1, 1) != ''
-        assert train.initiative[laffey.id] == 90
-        # 二重强绝顶 lv2 num2：20% * 1.5 = -30%
+        expected = 100 - int(100 * ORGASM_INITIATIVE_RATE_LV[1] * ORGASM_INITIATIVE_MULT_NUM[1])
+        assert train.initiative[laffey.id] == expected
+        # 二重强绝顶 lv2 num2：等级系数 × 部位数乘数
+        rate2 = ORGASM_INITIATIVE_RATE_LV[2] * ORGASM_INITIATIVE_MULT_NUM[2]
         train.initiative[laffey.id] = 100
         initiative_orgasm_proc(train, laffey, 2, 2)
-        assert train.initiative[laffey.id] == 70
-        # 五重最强绝顶 lv4 num5：50% * 3.0 -> 扣完且不为负
+        assert train.initiative[laffey.id] == 100 - int(100 * rate2)
+        # 五重最强绝顶 lv4 num5：扣完且不为负
         train.initiative[laffey.id] = 80
         initiative_orgasm_proc(train, laffey, 4, 5)
         assert train.initiative[laffey.id] == 0
@@ -136,8 +139,10 @@ class TestBatchHook:
         laffey.palam['c_pleasure_palam'] = 14995
         src = new_source({'c_pleasure_source': 10})
         ctx = self._run(world, [(src.copy(), world.player, laffey)])
-        # 绝顶衰减消息出现，主导权按 lv1 单部位 -10% 结算后再吃本轮增长
+        # 绝顶衰减消息出现，主导权按配置衰减率结算后再吃本轮增长
         joined = '\n'.join(ctx.messages)
         assert '主导权-' in joined
-        expected = 100 - int(100 * 0.10 * 1.0) + int(INITIATIVE_BASE_GROWTH * (1 - 10 / INITIATIVE_S_MAX))
+        from config.initiative_config import ORGASM_INITIATIVE_RATE_LV, ORGASM_INITIATIVE_MULT_NUM
+        decay = int(100 * ORGASM_INITIATIVE_RATE_LV[1] * ORGASM_INITIATIVE_MULT_NUM[1])
+        expected = 100 - decay + int(INITIATIVE_BASE_GROWTH * (1 - 10 / INITIATIVE_S_MAX))
         assert train.initiative['laffey'] == expected
