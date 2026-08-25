@@ -13,6 +13,7 @@
     "work_abl": 3
   },
   "talent": {
-    "male_virgin": "1"
+    "male_virgin": "1",
+    "sex": "1"
   }
 }

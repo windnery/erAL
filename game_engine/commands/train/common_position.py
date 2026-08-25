@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from config.map_config import HAVE_BED_LOC
-from game_engine.commands._common import say_chara_line
-
 from typing import TYPE_CHECKING
 
 from config.chara_config import PLAYER_ID
+from config.map_config import HAVE_BED_LOC
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import (
@@ -18,6 +16,7 @@ from game_engine.commands._common import (
     source_proc_batch,
     train_global_can, add_attitude_mes,
 )
+from game_engine.commands._common import say_chara_line
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
@@ -176,7 +175,6 @@ def common_position(world: World):
         # 消费体力和气力
         ctx.consume(stamina=40, energy=40, chara=actor)
 
-
     merged_source = accumulate_sources(actor_sources)
     target_sources: dict[str, dict[str, int]] = {}
     defloration: dict[str, bool] = {}  # 记录本次破处发生的角色（在清除天赋前记录）
@@ -195,7 +193,10 @@ def common_position(world: World):
         # 正常位补正
         region = chara.location['region']
         node = chara.location['node']
-        if node in HAVE_BED_LOC[region] and len(train.actors)==1 and train.actors[0]==PLAYER_ID:
+        if (region in HAVE_BED_LOC
+                and node in HAVE_BED_LOC[region]
+                and len(train.actors) == 1
+                and train.actors[0] == PLAYER_ID):
             source['v_pleasure_source'] += chara.exp['love_exp']
 
         source = common_src_modify(source, chara)
@@ -216,7 +217,6 @@ def common_position(world: World):
         if defloration.get(target_id):
             # 破处后无条件清除处女天赋（不依赖关系等级）
             chara.set_talent('virgin', '0')
-
 
     pairs = []
     for actor_id in train.actors:
