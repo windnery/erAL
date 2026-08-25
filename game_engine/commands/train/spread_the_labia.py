@@ -64,7 +64,10 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     score += temp
     mes = add_attitude_mes(mes, f"自慰中毒({temp})")
 
-    # TODO: 快乐刻印
+    # 快乐刻印
+    temp = npc.mark['pleasure_mark'] * 3
+    score += temp
+    mes = add_attitude_mes(mes, f"快乐刻印({temp})")
 
     # palam: 欲情
     temp = npc.palam_lv['lust_palam'] * 2

@@ -348,7 +348,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     :return: 合意值 """
     attitude = 0
     mes = ''
-    # 好感度
+    # ===================================== 好感度 =====================================
     if npc.favor <= 800:
         attitude += 0
     elif npc.favor <= 2000:
@@ -369,7 +369,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     else:
         attitude += 300
         mes = add_attitude_mes(mes, '好感(300)')
-    # 信赖
+    # ===================================== 信赖 =====================================
     if npc.trust <= 50:
         attitude -= 50
         mes = add_attitude_mes(mes, '信赖(-50)')
@@ -387,15 +387,11 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     else:
         attitude += 100
         mes = add_attitude_mes(mes, '信赖(100)')
-    # 情绪&理性
+    # ===================================== 情绪&理性 =====================================
     temp = npc.get_emotion() // 25 + (MAX_RATIONALITY - npc.get_rationality()) // 25
     attitude += temp
     mes = add_attitude_mes(mes, f'情绪&理性({temp})')
-    # 陷落阶段
-    temp = npc.get_talent_value("relationship") * 50
-    attitude += temp
-    mes = add_attitude_mes(mes, f'{npc.get_talent_name("relationship")}({temp})')
-    """abl"""
+    # ===================================== abl =====================================
     # 亲密
     temp = npc.abl['intimacy_abl'] * 10
     attitude += temp
@@ -412,7 +408,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     temp = npc.abl['servant_abl'] * 5
     attitude += temp
     mes = add_attitude_mes(mes, f'侍奉精神({temp})') if temp != 0 else mes
-    """palam"""
+    # ===================================== palam =====================================
     # 亲密
     t = npc.palam_lv['kindness_palam'] * 5
     attitude += t
@@ -421,7 +417,11 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     t = npc.palam_lv['lust_palam'] * 5
     attitude += t
     mes = add_attitude_mes(mes, f'欲望({t})') if t != 0 else mes
-    """talent"""
+    # ===================================== talent =====================================
+    # 陷落阶段
+    temp = npc.get_talent_value("relationship") * 50
+    attitude += temp
+    mes = add_attitude_mes(mes, f'{npc.get_talent_name("relationship")}({temp})')
     # 胆怯
     if npc.get_talent_value("courage") == -1:
         attitude -= 20
@@ -494,7 +494,9 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
         temp = player.get_talent_value("charm") * 20
         attitude += temp
         mes = add_attitude_mes(mes, f"玩家魅力({temp})")
-    # TODO: 刻印
+    # ===================================== 刻印 =====================================
+    attitude += npc.mark['submission_mark'] * 20 + npc.mark['pleasure_mark'] * 20
+    attitude -= npc.mark['disappointment_mark'] * 30
     # TODO: cflag
     # 约会中
     if npc.is_dating():
@@ -522,9 +524,9 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
 
     semen_src = new_source(SEMEN_SOURCES.get(position, {}))
     for target_id in train.targets:
-        if target_id == PLAYER_ID:
-            continue
         chara = get_entity_by_id(world.npc_manager, player, target_id)
+        if not isinstance(chara, ShipGirl):
+            continue
         chara.set_exp('semen_exp', chara.get_exp('semen_exp') + 1)
         chara.set_exp('v_semen_exp', chara.get_exp('v_semen_exp') + 1)
         say_chara_line(chara, ctx, 'ejaculation', block='palam')

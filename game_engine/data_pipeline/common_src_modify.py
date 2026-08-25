@@ -2,6 +2,7 @@ from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 from game_engine.data_pipeline.abl.abl2src import abl2src
 from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
 from game_engine.data_pipeline.favor.favor2src import favor2source
+from game_engine.data_pipeline.mark.mark2src import mark2src
 from game_engine.data_pipeline.mood.mood2src import mood2src
 from game_engine.data_pipeline.palam.palam2src import palam2src
 from game_engine.data_pipeline.talent.talent2src import talent2src
@@ -29,6 +30,10 @@ def common_src_modify(source: dict[str, int | float], chara: Character) -> dict[
 
     # talent对source修正
     talent2src(chara, source)
+
+    # mark对source修正
+    if isinstance(chara, ShipGirl):
+        mark2src(chara.mark, source)
 
     # 约会状态下source的修正
     if isinstance(chara, ShipGirl) and chara.is_dating():
