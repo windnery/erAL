@@ -92,7 +92,7 @@ def c_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
 
     lust_source = c_pleasure_source
     lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
-    lubrication_source = c_pleasure_source * 0.1
+    lubrication_source = c_pleasure_source * 0.2
 
     return {
         'c_pleasure_palam': {'chara': 'target', 'value': int(c_pleasure_source)},
@@ -152,7 +152,7 @@ def v_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
 
     lust_source = v_pleasure_source
     lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
-    lubrication_source = v_pleasure_source * 0.1
+    lubrication_source = v_pleasure_source * 0.2
 
     return {
         'v_pleasure_palam': {'chara': 'target', 'value': int(v_pleasure_source)},
@@ -212,7 +212,7 @@ def a_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
 
     lust_source = a_pleasure_source
     lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
-    lubrication_source = a_pleasure_source * 0.1
+    lubrication_source = a_pleasure_source * 0.2
 
     return {
         'a_pleasure_palam': {'chara': 'target', 'value': int(a_pleasure_source)},
@@ -245,7 +245,7 @@ def b_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
 
     lust_source = b_pleasure_source
     lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
-    lubrication_source = b_pleasure_source * 0.1
+    lubrication_source = b_pleasure_source * 0.2
 
     return {
         'b_pleasure_palam': {'chara': 'target', 'value': int(b_pleasure_source)},
@@ -292,7 +292,7 @@ def m_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
 
     lust_source = m_pleasure_source
     lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
-    lubrication_source = m_pleasure_source * 0.1
+    lubrication_source = m_pleasure_source * 0.2
 
     return {
         'm_pleasure_palam': {'chara': 'target', 'value': int(m_pleasure_source)},
