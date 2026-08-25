@@ -1,5 +1,7 @@
 from config.abl_config import ABL_LV
 from config.attr_defs import ATTR_DEFS
+from config.base_config import MAX_EMOTION
+from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
 
@@ -478,7 +480,9 @@ def exposure_source(source: dict[str, int], target: Character) -> dict[str, dict
         exposure_source_1 *= 2.0
     elif target.get_talent_value('sense_of_shame') < 0:
         exposure_source_1 *= 0.5
-    # TODO: 有旁人在场
+    # 有旁人在场
+    if NpcManager.with_mob(target.location['region'], target.location['node']):
+        exposure_source_1 *= 1.5
     # 润滑追加露出
     exposure_source_1 += source.get('lubrication_source', 0) // 2
     # TODO: 对方主导
@@ -572,7 +576,13 @@ def happiness_source(source: dict[str, int], target: Character) -> dict[str, dic
         happiness_source *= (10 + 2 * target.get_mood()) / 10
     # TODO: 媚药
     # TODO: 利尿剂
-    # TODO: 旁人在场+情绪
+
+    # 因为没看懂tw这段逻辑是何意味 所以暂时注释掉
+    # # 旁人在场+情绪
+    # if (NpcManager.with_mob(target.location['region'], target.location['node'])
+    #     and target.base['emotion'] < MAX_EMOTION // 2):
+    #     happiness_source *= 1.2
+
     # 约会中
     if isinstance(target, ShipGirl) and target.is_dating():
         happiness_source *= 1.3

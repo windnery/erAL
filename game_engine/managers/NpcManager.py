@@ -175,3 +175,10 @@ class NpcManager:
         return: ShipGirl对象
         """
         return NpcManager.shipgirls[shipgirl_id]
+
+    @staticmethod
+    def with_mob(region: str, node: str) -> bool:
+        """判断是否有旁人在场"""
+        if len(NpcManager.get_npcs_at(region, node)) > 1:
+            return True
+        return False

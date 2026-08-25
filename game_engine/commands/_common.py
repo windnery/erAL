@@ -6,10 +6,22 @@ from config.abl_config import ABL_LV
 from config.attr_defs import ATTR_DEFS
 from config.base_config import MAX_RATIONALITY
 from config.chara_config import PLAYER_ID
+from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES, ORGASM_BASE
 from config.source_config import ALL_SOURCE_KEYS
 from game_engine.commands._context import CommandContext
+from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
+from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.favor.favor_calc import favor_calc
 from game_engine.data_pipeline.mark.mark_calc import mark_calc
+from game_engine.data_pipeline.mood.mood_calc import mood_proc
+from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
+from game_engine.data_pipeline.palam.palam_calc import palam_calc
+from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.managers.NpcManager import NpcManager
+from game_engine.managers.TrainManager import TrainManager
+from game_engine.models.character import Character
+from game_engine.models.player import Player
+from game_engine.models.shipgirl import ShipGirl
 
 
 def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
@@ -20,20 +32,6 @@ def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrat
     if scene:
         for msg in scene:
             ctx.say_block(block, f'[[c:{getattr(chara, "color", "#ffffff")}]]{msg.replace("{name}", chara.name)}[[/c]]')
-
-
-from game_engine.data_pipeline.favor.favor_calc import favor_calc
-from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
-from config.palam_config import EJACULATION_VITALITY_COST, SEMEN_SOURCES, ORGASM_BASE
-from game_engine.data_pipeline.palam.palam_calc import palam_calc
-from game_engine.data_pipeline.common_src_modify import common_src_modify
-from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
-from game_engine.data_pipeline.mood.mood_calc import mood_proc
-from game_engine.data_pipeline.trust.trust_calc import trust_calc
-from game_engine.managers.TrainManager import TrainManager
-from game_engine.models.character import Character
-from game_engine.models.player import Player
-from game_engine.models.shipgirl import ShipGirl
 
 
 def new_source(base: dict[str, int]):
