@@ -22,6 +22,10 @@ NEGATIVE_SRC: set[str] = {
     'unclean_source', 'depression_source',
     'escape_source', 'disgust_source'
 }
+PLEASURE_SRC: set[str] = {
+    'c_pleasure_source', 'v_pleasure_source', 'a_pleasure_source',
+    'b_pleasure_source', 'm_pleasure_source'
+}
 
 # =================================================
 """理性相关"""

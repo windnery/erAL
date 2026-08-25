@@ -41,7 +41,7 @@ def lick_pussy(world: World):
     num_adjust = float(act_num / tar_num)  # 人数补正
     source: dict[str, int] = new_source({
         'c_pleasure_source': 80,
-        'lubrication_source': 1000,
+        'lubrication_source': 200,
         'exposure_source': 10,
         'escape_source': 15,
         'disgust_source': 15
@@ -122,7 +122,7 @@ def lick_pussy(world: World):
             pairs.append((sources[target_id], actor, target))
             # 反馈：target给actor的m_pleasure
             pairs.append((feedback, target, actor))
-    source_proc_batch(pairs, ctx)
+    source_proc_batch(pairs, ctx, world=world)
 
     ctx.say_exp(*exp_mes)
 

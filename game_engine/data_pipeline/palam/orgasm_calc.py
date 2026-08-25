@@ -61,9 +61,8 @@ def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1,
     target.palam[palam_id] -= _palam
 
 
-def orgasm_check(target: ShipGirl):
-    """绝顶检查"""
-    mes = []
+def orgasm_check_parts(target: ShipGirl):
+    """绝顶检查，返回 (文案列表, 各部位绝顶等级dict, 绝顶部位数)"""
     orgasm_lv = {
         # 绝顶等级 最大4
         'c_pleasure_palam': 0,
@@ -87,5 +86,13 @@ def orgasm_check(target: ShipGirl):
     if orgasm_num > 0:
         # 绝顶
         mes = orgasm_proc(orgasm_lv, target, orgasm_num)
+    else:
+        mes = []
 
+    return mes, orgasm_lv, orgasm_num
+
+
+def orgasm_check(target: ShipGirl):
+    """绝顶检查（仅返回文案，兼容旧调用）"""
+    mes, _, _ = orgasm_check_parts(target)
     return mes

@@ -116,7 +116,7 @@ def caress(world: World):
             target = get_entity_by_id(world.player, target_id)
             # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
-    source_proc_batch(pairs, ctx)
+    source_proc_batch(pairs, ctx, world=world)
 
     ctx.say_exp(*exp_mes)
 

@@ -12,9 +12,15 @@ from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.base.emo_rat_calc import emotion_rationality_calc
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.favor.favor_calc import favor_calc
+from game_engine.data_pipeline.initiative_calc import (
+    initiative_ejaculation_proc,
+    initiative_grow_proc,
+    initiative_orgasm_proc,
+    pleasure_sum,
+)
 from game_engine.data_pipeline.mark.mark_calc import mark_calc
 from game_engine.data_pipeline.mood.mood_calc import mood_proc
-from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check
+from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check, orgasm_check_parts
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.managers.NpcManager import NpcManager
@@ -64,7 +70,7 @@ def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx:
 
 
 def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
-                      world=None, ejaculation_position: str | None = None):
+                      world, ejaculation_position: str | None = None):
     """source的统一转换过程（批量，多对 (source, actor, target)）
     数值：每对依次累计（保持笛卡尔积多次累计语义）
     输出：按角色聚合后统一打印一次（同一角色只出现一次）
@@ -127,15 +133,21 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         ejaculation_proc(world, ctx, ejaculation_position, check_orgasm=False)
 
     # 3. 绝顶/等级/情绪理性：每个角色实例一次（去重）
+    train = world.train_manager.train if world else None
     processed: set[int] = set()
     for _, actor, target in pairs:
         # target 侧
         tid = id(target)
         if tid not in processed:
             processed.add(tid)
-            orgasm_mes = orgasm_check(target)
+            orgasm_mes, org_lv, org_num = orgasm_check_parts(target)
             if orgasm_mes:
                 ctx.say_block('palam', *orgasm_mes)
+                # 绝顶主导权衰减（按最高等级 × 部位数）
+                if train is not None and train.initiative:
+                    decay_mes = initiative_orgasm_proc(train, target, max(org_lv.values()), org_num)
+                    if decay_mes:
+                        ctx.say_block('palam', decay_mes)
             target.update_palam_level()
             if isinstance(target, ShipGirl) and tid in source_of:
                 emotion_rationality_calc(source_of[tid], target)
@@ -147,6 +159,27 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         if aid not in processed:
             processed.add(aid)
             actor.update_palam_level()
+
+    # 4. 主导权增长结算：所有参与者基础增长，本轮受快感越多增长越少
+    if train is not None and train.initiative:
+        # 每人本轮收到的快感系source之和（本轮未收到按0计）
+        received: dict[str, int] = {cid: 0 for cid in train.initiative}
+        chara_of: dict[int, Character] = {}
+        for _, actor, target in pairs:
+            chara_of[id(actor)] = actor
+            chara_of[id(target)] = target
+        for tid, src in source_of.items():
+            chara = chara_of.get(tid)
+            if chara is not None:
+                received[chara.id] = received.get(chara.id, 0) + pleasure_sum(src)
+        chara_pleasures = []
+        for cid, s in received.items():
+            entity = get_entity_by_id(train.player, cid)
+            if isinstance(entity, Character):
+                chara_pleasures.append((entity, s))
+        grow_mes = initiative_grow_proc(train, chara_pleasures)
+        if grow_mes:
+            ctx.say_block('palam', *grow_mes)
 
 
 def low_intimacy2favor(intimacy_abl: int) -> int:
@@ -283,15 +316,26 @@ def pain_check_v(source: dict[str, int | float], chara: Character):
 
     # palam: 润滑
     if chara.palam_lv['lubrication_palam'] < 1:
-        source['pain_source'] *= 1.2
-        source['disgust_source'] *= 1.5
+        source['pain_source'] *= 1.5
+        source['disgust_source'] *= 1.7
     elif chara.palam_lv['lubrication_palam'] < 2:
-        source['pain_source'] *= 0.7
-        source['disgust_source'] *= 1.2
+        source['pain_source'] *= 1.3
+        source['disgust_source'] *= 1.5
     elif chara.palam_lv['lubrication_palam'] < 3:
-        source['pain_source'] *= 0.4
+        source['pain_source'] *= 1.1
+        source['disgust_source'] *= 1.2
     elif chara.palam_lv['lubrication_palam'] < 4:
-        source['pain_source'] *= 0.2
+        source['pain_source'] *= 0.9
+    elif chara.palam_lv['lubrication_palam'] < 5:
+        source['pain_source'] *= 0.8
+    elif chara.palam_lv['lubrication_palam'] < 6:
+        source['pain_source'] *= 0.6
+    elif chara.palam_lv['lubrication_palam'] < 7:
+        source['pain_source'] *= 0.5
+    elif chara.palam_lv['lubrication_palam'] < 8:
+        source['pain_source'] *= 0.4
+    elif chara.palam_lv['lubrication_palam'] < 9:
+        source['pain_source'] *= 0.3
     else:
         source['pain_source'] *= 0.1
 
@@ -317,13 +361,25 @@ def pain_check_a(source: dict[str, int | float], chara: Character):
 
     # palam: 润滑
     if chara.palam_lv['lubrication_palam'] < 1:
-        source['pain_source'] *= 1.2
-        source['disgust_source'] *= 2.0
+        source['pain_source'] *= 1.5
+        source['disgust_source'] *= 1.7
     elif chara.palam_lv['lubrication_palam'] < 2:
+        source['pain_source'] *= 1.3
         source['disgust_source'] *= 1.5
     elif chara.palam_lv['lubrication_palam'] < 3:
-        source['pain_source'] *= 0.6
+        source['pain_source'] *= 1.1
+        source['disgust_source'] *= 1.2
     elif chara.palam_lv['lubrication_palam'] < 4:
+        source['pain_source'] *= 0.9
+    elif chara.palam_lv['lubrication_palam'] < 5:
+        source['pain_source'] *= 0.8
+    elif chara.palam_lv['lubrication_palam'] < 6:
+        source['pain_source'] *= 0.6
+    elif chara.palam_lv['lubrication_palam'] < 7:
+        source['pain_source'] *= 0.5
+    elif chara.palam_lv['lubrication_palam'] < 8:
+        source['pain_source'] *= 0.4
+    elif chara.palam_lv['lubrication_palam'] < 9:
         source['pain_source'] *= 0.3
     else:
         source['pain_source'] *= 0.2
@@ -493,13 +549,15 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
         attitude += temp
         mes = add_attitude_mes(mes, f"玩家魅力({temp})")
     # ===================================== 刻印 =====================================
-    attitude += npc.mark['submission_mark'] * 20 + npc.mark['pleasure_mark'] * 20
-    attitude -= npc.mark['disappointment_mark'] * 30
+    # 屈服&快乐刻印
+    temp = npc.mark['submission_mark'] * 20 + npc.mark['pleasure_mark'] * 20
+    attitude += temp
+    mes = add_attitude_mes(mes, f'屈服&快乐刻印({temp})')
+    # 失望刻印
+    temp = npc.mark['disappointment_mark'] * 30
+    attitude -= temp
+    mes = add_attitude_mes(mes, f'失望刻印({-temp})')
     # TODO: cflag
-    # 约会中
-    if npc.is_dating():
-        attitude += 40
-        mes = add_attitude_mes(mes, '约会中(40)')
 
     return mes, attitude
 
@@ -519,6 +577,11 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
     player.set_exp('ejaculation_exp', player.get_exp('ejaculation_exp') + 1)
     player.set_vitality(player.get_vitality() - EJACULATION_VITALITY_COST)
     ctx.say_block('palam', f'{player.name}射精了！（{position}）')
+    # 射精主导权衰减
+    if train.initiative:
+        decay_mes = initiative_ejaculation_proc(train, player)
+        if decay_mes:
+            ctx.say_block('palam', decay_mes)
 
     semen_src = new_source(SEMEN_SOURCES.get(position, {}))
     for target_id in train.targets:
@@ -534,9 +597,14 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
         if mes_target:
             ctx.say_block('palam', *mes_target)
         if check_orgasm:
-            orgasm_mes = orgasm_check(chara)
+            orgasm_mes, org_lv, org_num = orgasm_check_parts(chara)
             if orgasm_mes:
                 ctx.say_block('palam', *orgasm_mes)
+                # 绝顶主导权衰减（按最高等级 × 部位数）
+                if train.initiative:
+                    decay_mes = initiative_orgasm_proc(train, chara, max(org_lv.values()), org_num)
+                    if decay_mes:
+                        ctx.say_block('palam', decay_mes)
             chara.update_palam_level()
             emotion_rationality_calc(source, chara)
         favor_trust_proc(source, chara, ctx, block='favor', is_ejaculation=True)
