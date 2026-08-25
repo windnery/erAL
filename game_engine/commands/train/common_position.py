@@ -228,7 +228,7 @@ def common_position(world: World):
             ctx.say_source(feedback, src_name)
             # 反馈：target给actor的c_pleasure
             pairs.append((feedback, target, actor))
-    source_proc_batch(pairs, ctx, world=world, ejaculation_position='中出')
+    source_proc_batch(pairs, ctx, ejaculation_position='中出')
 
     ctx.say_exp(*exp_mes)
 

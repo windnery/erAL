@@ -94,3 +94,10 @@ class TrainManager:
     def toggle_target(self, chara_id: str) -> str:
         """把角色加入/移出被调教者列表（互斥）"""
         return self._toggle('targets', chara_id)
+
+    def initiative_cmp(self, chara_id1: str, chara_id2: str):
+        """比较两个角色的主导权"""
+        if not self.train:
+            # 没有调教会话时，默认玩家主导(不过正常流程应该不存在这种情况)
+            return True
+        return self.train.initiative.get(chara_id1, 0) - self.train.initiative.get(chara_id2, 0) >= 0

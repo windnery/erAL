@@ -28,6 +28,7 @@ from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+from world import World
 
 
 def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
@@ -70,7 +71,7 @@ def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx:
 
 
 def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
-                      world, ejaculation_position: str | None = None):
+                      ejaculation_position: str | None = None):
     """source的统一转换过程（批量，多对 (source, actor, target)）
     数值：每对依次累计（保持笛卡尔积多次累计语义）
     输出：按角色聚合后统一打印一次（同一角色只出现一次）
@@ -86,7 +87,8 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
     actors_order: list[int] = []
 
     for source, actor, target in pairs:
-        _, _, changes = palam_calc(source, actor, target, dry_run=True)
+        self_initiative = ctx.world.train_manager.initiative_cmp(actor.id, target.id)
+        _, _, changes = palam_calc(source, actor, target, dry_run=True, self_initiative=self_initiative)
         for (chara_kind, palam), delta in changes.items():
             chara = actor if chara_kind == 'source' else target
             key = id(chara)
@@ -129,11 +131,11 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
             ctx.say_block('palam', *mes)
 
     # 2. 基础 palam 之后、绝顶之前进行射精处理
-    if world and ejaculation_position:
-        ejaculation_proc(world, ctx, ejaculation_position, check_orgasm=False)
+    if ejaculation_position:
+        ejaculation_proc(ctx.world, ctx, ejaculation_position, check_orgasm=False)
 
     # 3. 绝顶/等级/情绪理性：每个角色实例一次（去重）
-    train = world.train_manager.train if world else None
+    train = ctx.world.train_manager.train
     processed: set[int] = set()
     for _, actor, target in pairs:
         # target 侧
@@ -593,7 +595,8 @@ def ejaculation_proc(world, ctx: CommandContext, position: str = '中出', check
         say_chara_line(chara, ctx, 'ejaculation', block='palam')
 
         source = common_src_modify(semen_src.copy(), chara)
-        mes_source, mes_target, _ = palam_calc(source, player, chara)
+        mes_source, mes_target, _ = palam_calc(source, player, chara,
+                                               self_initiative=ctx.world.train_manager.initiative_cmp(player.id, chara.id))
         if mes_target:
             ctx.say_block('palam', *mes_target)
         if check_orgasm:

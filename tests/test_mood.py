@@ -219,7 +219,7 @@ class TestMoodPipelineAndCommands:
         source = new_source({"disgust_source": 50000})
 
         with patch("game_engine.data_pipeline.mood.mood_calc.randint", return_value=0):
-            source_proc_batch([(source, world.player, z23)], ctx, world=world)
+            source_proc_batch([(source, world.player, z23)], ctx)
             assert z23.get_mood() == MOOD_BAD
 
     def test_push_down_can_gate_when_angry(self):

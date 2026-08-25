@@ -218,7 +218,7 @@ def kiss(world: World):
             pairs.append((sources[target_id], actor, target))
             # 反馈：target给actor的m_pleasure
             pairs.append((source, target, actor))
-    source_proc_batch(pairs, ctx, world=world)
+    source_proc_batch(pairs, ctx)
 
     ctx.say_exp(*exp_mes)
 

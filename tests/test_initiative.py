@@ -103,7 +103,7 @@ class TestBatchHook:
         from game_engine.commands._common import source_proc_batch
         from game_engine.commands._context import CommandContext
         ctx = CommandContext(world)
-        source_proc_batch(pairs, ctx, world=world)
+        source_proc_batch(pairs, ctx)
         return ctx
 
     def _make_train(self, world):
