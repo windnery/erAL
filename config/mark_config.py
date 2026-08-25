@@ -21,9 +21,9 @@ MARK_PAIN = {
 
 MARK_SUBMISSION = {
     # 恭顺+屈服
-    1: 4500,
-    2: 7000,
-    3: 10000
+    1: 7500,
+    2: 18000,
+    3: 30000
 }
 
 MARK_DISAPPOINTMENT = {
