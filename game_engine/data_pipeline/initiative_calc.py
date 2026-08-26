@@ -30,6 +30,9 @@ def initiative_grow_proc(train, chara_pleasures: list[tuple[Character, int]]) ->
     for chara, received in chara_pleasures:
         if chara.id not in train.initiative:
             continue
+        # 神志不清：主导权不再增长
+        if chara.cflag.get('unconscious'):
+            continue
         delta = growth_delta(received)
         if delta <= 0:
             continue

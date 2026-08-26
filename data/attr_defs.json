@@ -209,6 +209,10 @@
       "name": "疲倦",
       "default": false
     },
+    "unconscious": {
+      "name": "神志不清",
+      "default": false
+    },
     "resting": {
       "name": "休息中",
       "default": false

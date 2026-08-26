@@ -68,6 +68,11 @@ class TrainManager:
 
     def end_train(self):
         """结束一场调教"""
+        # 解除神志不清状态
+        for cid in self.train.participants:
+            entity = self.world.player if cid == PLAYER_ID else self.npc_manager.shipgirls.get(cid)
+            if entity is not None:
+                entity.cflag['unconscious'] = False
         self.train = None
         self.world.train_mode = False
         # 调教期间舰娘调度被冻结（忽略睡觉等），结束后按当前时间立即重新调度

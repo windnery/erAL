@@ -46,6 +46,13 @@ class CommandContext:
             if energy:
                 chara.set_energy(chara.get_energy() - energy)
                 self.blocks['stamina'].append(f'气力-{energy} ({chara.name})')
+            # 调教中目标气力归零：陷入神志不清，主导权强制归0
+            if energy and chara.get_energy() == 0 and self.world.is_training():
+                train = self.world.train_manager.train
+                if train and chara.id in train.targets and not chara.cflag.get('unconscious'):
+                    chara.cflag['unconscious'] = True
+                    train.initiative[chara.id] = 0
+                    self._exhaustion_mes += f'{chara.name}气力0，开始神志不清了……彻底失去了主导权！'
             # 体力归零：回家休息（调教中被强制结束调教）
             if stamina and chara.get_stamina() == 0 and not chara.cflag.get('sleeping') \
                     and not chara.cflag.get('resting'):
