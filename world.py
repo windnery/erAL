@@ -5,6 +5,7 @@ from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.data_pipeline.mood.mood_calc import roll_daily_mood
 from game_engine.data_pipeline.talent.talent_check import talent_check
 from game_engine.managers.CommandManager import CommandManager
+from game_engine.managers.EventManager import EventManager
 from game_engine.managers.ItemManager import ItemManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
@@ -24,6 +25,7 @@ class World:
         self.work_manager = WorkManager()
         self.time_manager = TimeManager(self.player, self.npc_manager, self.map_manager)
         self.command_manager = CommandManager(self)
+        self.event_manager = EventManager(self)
         self.skin_manager = SkinManager(self.npc_manager)
         self.item_manager = ItemManager(self.player)
         self.train_manager = TrainManager(self.npc_manager)
@@ -60,6 +62,13 @@ class World:
             'train_mode': self.train_mode,
             'train_com': self.train_manager.get_train_commands(),
             'train_participants': self._get_train_participants(),
+            'pending_choice': {
+                'title': self.event_manager.pending_choice.title,
+                'options': [
+                    {'key': o.key, 'text': o.text, 'desc': o.desc}
+                    for o in self.event_manager.pending_choice.options
+                ]
+            } if self.event_manager.pending_choice else None,
         }
 
     def _get_train_participants(self):

@@ -13,6 +13,7 @@ class Api:
             'skin_manager': world.skin_manager,
             'item_manager': world.item_manager,
             'train_manager': world.train_manager,
+            'event_manager': world.event_manager,
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

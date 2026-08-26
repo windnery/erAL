@@ -84,6 +84,8 @@ class SaveManager:
                 },
                 # v2 新增：道具系统
                 'items': dict(world.item_manager.items),
+                # v3 新增：事件系统
+                'events': world.event_manager.get_state(),
                 'train': None if train is None else {
                     'location': train.location,
                     'actors': list(train.actors),
@@ -164,6 +166,9 @@ class SaveManager:
             items = d.get('items')
             if items is not None:
                 self.world.item_manager.items = dict(items)
+
+            events = d.get('events')
+            self.world.event_manager.load_state(events)
 
             train_state = d.get('train')
             if train_state is None:

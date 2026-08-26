@@ -38,6 +38,9 @@ def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrat
     if scene:
         for msg in scene:
             ctx.say_block(block, f'[[c:{getattr(chara, "color", "#ffffff")}]]{msg.replace("{name}", chara.name)}[[/c]]')
+        return True
+    # False说明无口上
+    return False
 
 
 def new_source(base: dict[str, int]):
@@ -637,3 +640,37 @@ def work_abl_modifier(abl: int, works: int):
             works *= 3
 
     return int(works)
+
+
+def data_score_calc(npc: ShipGirl):
+    """约会得分计算"""
+    # 刻印
+    score = npc.mark['submission_mark'] * 10 + npc.mark['pleasure_mark'] * 10
+    # 喜欢及以上
+    if npc.get_talent_value('relationship') >= 2:
+        intimacy_score = min(npc.abl['intimacy_abl'] * 10, 100)  # 亲密
+        desire_score = min(npc.abl['desire_abl'] * 10, 100)  # 欲望
+        servant_score = min(npc.abl['servant_abl'] * 10, 100)  # 侍奉精神
+        dating_exp_score = min(npc.exp['date_exp'], 100)  # 约会经验
+        love_exp_score = min(npc.exp['love_exp'], 100)  # 爱情经验
+        score += intimacy_score + desire_score + servant_score + dating_exp_score + love_exp_score
+    elif npc.get_talent_value('relationship') == 1:
+        # 友好
+        intimacy_score = min(npc.abl['intimacy_abl'] * 10, 50)  # 亲密
+        desire_score = min(npc.abl['desire_abl'] * 10, 50)  # 欲望
+        servant_score = min(npc.abl['servant_abl'] * 10, 50)  # 侍奉精神
+        dating_exp_score = min(npc.exp['date_exp'], 50)  # 约会经验
+        love_exp_score = min(npc.exp['love_exp'], 50)  # 爱情经验
+        score += intimacy_score + desire_score + servant_score + dating_exp_score + love_exp_score
+    # palam
+    lust_palam_lv = min(npc.palam_lv['lust_palam'], 10) * 5
+    kindness_palam_lv = min(npc.palam_lv['kindness_palam'], 10) * 5
+    obedience_palam_lv = min(npc.palam_lv['obedience_palam'], 10) * 5
+    score += lust_palam_lv + kindness_palam_lv + obedience_palam_lv
+    # 情绪/理性
+    score += npc.base['emotion'] // 50 + (MAX_RATIONALITY - npc.base['rationality']) // 30
+    # talent
+    score += npc.get_talent_value('courage') * 10 + npc.get_talent_value('sexual_interest') * 10\
+            - npc.get_talent_value('self_control') * 10 - npc.get_talent_value('indifference') * 10
+
+    return score

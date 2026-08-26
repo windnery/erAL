@@ -379,6 +379,11 @@
       "default": 0,
       "group": 2
     },
+    "date_exp": {
+      "name": "约会经验",
+      "default": 0,
+      "group": 2
+    },
     "love_exp": {
       "name": "爱情经验",
       "default": 0,
@@ -683,6 +688,10 @@
         "1": "处女",
         "2": "再生处女"
       }
+    },
+    "no_kiss_exp": {
+      "has_value": false,
+      "name": "无接吻经验"
     },
     "male_virgin": {
       "has_value": true,
