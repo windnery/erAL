@@ -8,6 +8,6 @@ def exp_calc(exp: str, chara: Character, num: int = 1):
     mes = f"{ATTR_DEFS['exp'][exp]['name']}+{num} ({chara.name})"
 
     if chara.has_talent('no_kiss_exp') and chara.exp['kiss_exp'] > 0:
-        chara.set_talent('no_kiss_exp', '0')
+        chara.talent.pop('no_kiss_exp')
 
     return mes
