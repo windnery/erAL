@@ -33,3 +33,7 @@ export async function doSave(slot) {
 export async function doLoad(slot) {
     return await call('save_manager', 'load_game', slot);
 }
+
+export async function chooseOption(optionKey) {
+    return await call('event_manager', 'choose_option', optionKey);
+}

@@ -1,4 +1,4 @@
-import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, chooseOption } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
@@ -74,15 +74,17 @@ function showFullscreenText(pages) {
 }
 
 // 全屏选择幕：纯文字选项，悬停变黄，点空白无效（区别于叙事翻页幕）
-function showFullscreenOptions(options, onPick) {
+function showFullscreenOptions(options, onPick, promptText = null) {
     const el = document.getElementById('fullscreen_options');
     const main_menu = document.getElementById('game_screen');
     el.innerHTML = '';
 
-    const prompt = document.createElement('div');
-    prompt.className = 'option-prompt';
-    prompt.textContent = '请选择：';
-    el.appendChild(prompt);
+    if (promptText) {
+        const prompt = document.createElement('div');
+        prompt.className = 'option-prompt';
+        prompt.textContent = promptText;
+        el.appendChild(prompt);
+    }
 
     const list = document.createElement('div');
     list.className = 'option-list';
@@ -101,6 +103,24 @@ function showFullscreenOptions(options, onPick) {
 
     main_menu.style.display = 'none';
     el.style.display = 'block';
+}
+
+function showEventChoice(pendingChoice, callbacks) {
+    const options = pendingChoice.options.map(opt => ({
+        key: opt.key,
+        name: opt.text.startsWith('- ') ? opt.text : `- ${opt.text}`,
+        desc: opt.desc
+    }));
+
+    showFullscreenOptions(options, async (selectedOpt) => {
+        const result = await chooseOption(selectedOpt.key);
+        if (result && (typeof result === 'string' || (Array.isArray(result) && result.length > 0))) {
+            const pages = Array.isArray(result) ? result : [result];
+            showFullscreenText(pages);
+        } else {
+            refresh();
+        }
+    }, pendingChoice.title || null);
 }
 
 function createPageElement(text) {
@@ -234,6 +254,12 @@ async function refresh() {
     }
     const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget };
     renderStatusBar(state.location, state.time, state.player);
+
+    // 若有挂起的事件选择，直接展示选项幕
+    if (state.pending_choice) {
+        showEventChoice(state.pending_choice, callbacks);
+        return;
+    }
 
     const menu_screen = document.getElementById('menu_screen');
     const main_menu = document.getElementById('game_screen');
