@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+from config.cflag_config import ATTACH_MAPPING
 from config.palam_config import PALAM_LV
 from config.attr_defs import ATTR_DEFS
 
@@ -130,6 +131,22 @@ class Character:
 
         return False
 
+    def cflag_clear_except(self, keys: list[str]) -> None:
+        """除keys外，清空cflag"""
+        for k in self.cflag.keys():
+            if k not in keys:
+                self.cflag[k] = False
+
+    def cflag_set_attach(self, key: str) -> None:
+        """设置key的附属cflag"""
+        attach_cflags = ATTACH_MAPPING.get(key, [])
+        for attach_cflag in attach_cflags:
+            self.cflag[attach_cflag] = True
+
     def is_tired(self) -> bool:
         """是否疲倦"""
         return self.cflag['tired']
+
+    def is_dating(self) -> bool:
+        """是否正在约会"""
+        return self.cflag.get("dating", False)

@@ -20,6 +20,9 @@ def can(world: World, npc: ShipGirl):
     # 通用判定
     if not global_can(world.player, npc):
         return False
+    # 当日已约会
+    if npc.cflag["have_dated_today"]:
+        return False
     # 工作中
     if npc.is_working():
         return False
@@ -96,7 +99,10 @@ def invite_date(world: World, option: str):
         )
         # 进入约会状态
         npc.cflag["dating"] = True
+        world.player.cflag["dating"] = True
+        npc.cflag['dating_day'] = world.time_manager.day
         npc.cflag["dating_following"] = True
+        npc.cflag['have_dated_today'] = True
 
     # 通用source修正
     source = common_src_modify(source, npc)

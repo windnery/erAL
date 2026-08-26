@@ -116,10 +116,6 @@ class ShipGirl(Character):
         )
         return is_following
 
-    def is_dating(self) -> bool:
-        """是否正在约会"""
-        return self.cflag.get("dating", False)
-
     def talk_fatigue_decay(self, dt: int):
         """会话疲劳值衰减"""
         self.talk_fatigue = max(self.talk_fatigue - dt, 0)

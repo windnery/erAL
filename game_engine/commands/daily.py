@@ -20,6 +20,8 @@ def can_nap(world: World, npc=None):
         return False
     if player.location['node'] not in NAP_LOC[player.location['region']]:
         return False
+    if player.is_dating():
+        return False
     return True
 
 def can_sleep(world: World, npc=None):
@@ -28,6 +30,8 @@ def can_sleep(world: World, npc=None):
     if player.location['region'] not in SLEEP_LOC:
         return False
     if player.location['node'] not in SLEEP_LOC[player.location['region']]:
+        return False
+    if player.is_dating():
         return False
     return True
 
@@ -41,6 +45,8 @@ def can_work(world: World, npc=None):
     if world.work_manager.works <= 0:
         return False
     if world.player.is_energy_empty():
+        return False
+    if player.is_dating():
         return False
     return True
 

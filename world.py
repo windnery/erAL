@@ -243,6 +243,13 @@ class World:
                 npc.set_energy(npc.base['max_energy'])
 
             pages.append(f'强制休息了一段时间，恢复了全部体力与气力')
+            # 体力耗尽也可能推进到深夜/次日，统一走调度，处理约会超时与舰娘回位
+            self.npc_manager.update_positions(exhaustion_minutes, self.map_manager, self.player)
+
+        # 重置当日已约会的状态
+        for npc in self.npc_manager.get_all_npcs():
+            if npc.cflag.get('dating_day', None) is not None and npc.cflag['dating_day'] < self.time_manager.day:
+                npc.cflag['have_dated_today'] = False
 
         # 根据工作量结算金钱
         if self.work_manager.works_done > 0:

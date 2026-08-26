@@ -36,6 +36,7 @@ def end_date(world: World, option: str, time_out: bool=False):
 
     # 解除约会状态
     npc.cflag['dating'] = False
+    world.player.cflag['dating'] = False
     npc.cflag['dating_following'] = False
 
     return ctx.result()
