@@ -51,15 +51,20 @@ class CommandManager:
                     for sg in self.world.npc_manager.get_all_npcs()]
         elif command in ('save', 'load'):
             slots = self.world.save_manager.get_save_list()
-            return [
-                {
+            options = []
+            for s in slots:
+                if s['has_save']:
+                    time_info = f" [{s['saved_at']}]" if s.get('saved_at') else ""
+                    name = (f'槽位{s["slot"]}：第{s["day"]}天 '
+                            f'{str(s["hour"]).zfill(2)}:{str(s["minute"]).zfill(2)} {s["player_name"]}{time_info}')
+                else:
+                    name = f'槽位{s["slot"]}：空'
+                options.append({
                     'key': str(s['slot']),
-                    'name': (f'槽位{s["slot"]}：第{s["day"]}天 '
-                             f'{s["hour"]}:{str(s["minute"]).zfill(2)} {s["player_name"]}')
-                    if s['has_save'] else f'槽位{s["slot"]}：空',
-                }
-                for s in slots
-            ]
+                    'name': name,
+                    'has_save': s['has_save']
+                })
+            return options
         else:
             return []
 

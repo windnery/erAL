@@ -95,3 +95,39 @@ def test_existing_slot_survives_when_atomic_replace_fails(world, tmp_path, monke
     # Then: the previous slot is untouched and the temporary file is cleaned up.
     assert slot_path.read_bytes() == original
     assert not (tmp_path / 'slot_1.tmp').exists()
+
+
+def test_ten_save_slots_and_saved_at_timestamp(world, tmp_path):
+    world.save_manager.sav_dir = tmp_path
+    save_list = world.save_manager.get_save_list()
+    assert len(save_list) == 10
+    assert all(s['has_save'] is False for s in save_list)
+
+    # 存档到槽位 10
+    meta = world.save_manager.save_game(10)
+    assert 'saved_at' in meta
+    assert meta['saved_at'] != ''
+
+    # 检查 save_list 状态
+    updated_list = world.save_manager.get_save_list()
+    assert len(updated_list) == 10
+    slot10 = next(s for s in updated_list if s['slot'] == 10)
+    assert slot10['has_save'] is True
+    assert slot10['saved_at'] == meta['saved_at']
+
+    # 检查 CommandManager 的选项文本格式
+    opts = world.command_manager.get_cmd_options('save')
+    assert len(opts) == 10
+    opt10 = next(o for o in opts if o['key'] == '10')
+    assert f"[{meta['saved_at']}]" in opt10['name']
+    opt1 = next(o for o in opts if o['key'] == '1')
+    assert '空' in opt1['name']
+
+    # 读档槽位 10
+    from world import World
+    restored = World()
+    restored.save_manager.sav_dir = tmp_path
+    err = restored.save_manager.load_game(10)
+    assert err is None
+    assert restored.time_manager.day == world.time_manager.day
+

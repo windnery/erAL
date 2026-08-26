@@ -305,12 +305,15 @@ function new_game() {
 
 async function load_game() {
     const slots = await getSaveList();
-    const options = slots.map(s => ({
-        key: s.slot,
-        name: s.has_save
-            ? `槽位${s.slot}：第${s.day}天 ${String(s.hour).padStart(2, '0')}:${String(s.minute).padStart(2, '0')} ${s.player_name}`
-            : `槽位${s.slot}：空`,
-    }));
+    const options = slots.map(s => {
+        const timeInfo = s.saved_at ? ` [${s.saved_at}]` : '';
+        return {
+            key: s.slot,
+            name: s.has_save
+                ? `槽位${s.slot}：第${s.day}天 ${String(s.hour).padStart(2, '0')}:${String(s.minute).padStart(2, '0')} ${s.player_name}${timeInfo}`
+                : `槽位${s.slot}：空`,
+        };
+    });
     showFullscreenOptions(options, async (opt) => {
         const err = await doLoad(opt.key);
         if (err) {

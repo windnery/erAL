@@ -59,12 +59,13 @@ def items(world: World, option: str):
 
 @register_cmd('save', '存档', '系统', needs_target=False)
 def save(world: World, option=None):
-    """存档：option 为槽位 key（'1'/'2'/'3'）"""
+    """存档：option 为槽位 key（'1'~'10'）"""
     if option is None:
         return ['请选择存档槽位']
     slot = int(option)
     meta = world.save_manager.save_game(slot)
-    return [f'已保存到槽位{slot}（第{meta["day"]}天 {meta["hour"]}:{str(meta["minute"]).zfill(2)}）']
+    time_info = f" [{meta['saved_at']}]" if meta.get('saved_at') else ""
+    return [f'已保存到槽位{slot}（第{meta["day"]}天 {meta["hour"]}:{str(meta["minute"]).zfill(2)}{time_info}）']
 
 
 @register_cmd('load', '读档', '系统', needs_target=False)

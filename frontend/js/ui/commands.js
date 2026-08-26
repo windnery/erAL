@@ -164,6 +164,23 @@ function renderExCommands(container, commands, callbacks, label = 'Ex_COM') {
 
 function show_options(command, options, callbacks) {
     callbacks.showFullscreenOptions(options, async (option) => {
+        // 如果是存档指令且选择的槽位已有存档，弹出二次确认
+        if (command === 'save' && option.has_save) {
+            const confirmOptions = [
+                { key: 'confirm', name: '- 确认' },
+                { key: 'cancel', name: '- 取消' },
+            ];
+            callbacks.showFullscreenOptions(confirmOptions, async (confirmOpt) => {
+                if (confirmOpt.key === 'confirm') {
+                    let result = await callbacks.doCmd(command, option.key);
+                    show_text_result(result, callbacks);
+                } else {
+                    if (callbacks.refresh) callbacks.refresh();
+                }
+            }, `${option.name} 已存在存档，确定覆盖吗？`);
+            return;
+        }
+
         // 若选项带 value（结构化数据），传整个 option；否则回退传 option.key
         let payload = (option && option.value !== undefined) ? option.value : option.key;
         let result = await callbacks.doCmd(command, payload);

@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger('eral.save')
 SAVE_VERSION = 3
-SLOT_COUNT = 3
+SLOT_COUNT = 10
 
 
 class SaveManager:
@@ -237,7 +237,7 @@ class SaveManager:
         return None
 
     def get_save_list(self) -> list[dict]:
-        """返回 3 个槽位信息：{slot, has_save, day, hour, minute, player_name}"""
+        """返回 10 个槽位信息：{slot, has_save, day, hour, minute, player_name, saved_at}"""
         result = []
         for slot in range(1, SLOT_COUNT + 1):
             entry = {'slot': slot, 'has_save': False}
@@ -252,6 +252,7 @@ class SaveManager:
                         'hour': meta.get('hour'),
                         'minute': meta.get('minute'),
                         'player_name': meta.get('player_name', ''),
+                        'saved_at': meta.get('saved_at', ''),
                     })
                 except (json.JSONDecodeError, OSError):
                     entry['has_save'] = False
