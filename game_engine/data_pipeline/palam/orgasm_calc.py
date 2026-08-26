@@ -45,14 +45,14 @@ def orgasm_lv_print(part: str, orgasm_lv: int):
 
 def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1, orgasm_lv: int = 1):
     """绝顶palam juel处理"""
-    # 绝顶部位palam变成之前的0.2倍
-    _palam = int(target.palam[palam_id] * 0.8)
+    # 绝顶部位palam变成之前的0.1倍
+    _palam = int(target.palam[palam_id] * 0.9)
     # 获取juel
     juel_id = palam_id.replace('palam', 'juel')
     best = 0
     for _palam_lv, juel in JUEL_GET.items():
         if _palam >= _palam_lv:
-            best = juel
+            best = juel // 2  # 绝顶只发一半数量的珠子防止数值膨胀
         else:
             break
     modifier = ORGASM_NUM_JUEL_MODIFIER.get(orgasm_num, 1.0) * ORGASM_LV_JUEL_MODIFIER.get(orgasm_lv, 1.0)

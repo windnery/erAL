@@ -18,19 +18,19 @@ def favor2source(favor: int) -> tuple[float, float]:
     elif favor < 800:
         positive_favor_multi = 1.4
         negative_favor_multi = 0.7
-    elif favor < 1000:
+    elif favor < 1200:
         positive_favor_multi = 1.5
         negative_favor_multi = 0.7
-    elif favor < 1500:
+    elif favor < 1800:
         positive_favor_multi = 1.6
         negative_favor_multi = 0.6
-    elif favor < 2000:
+    elif favor < 2500:
         positive_favor_multi = 1.7
         negative_favor_multi = 0.6
-    elif favor < 3000:
+    elif favor < 3500:
         positive_favor_multi = 1.8
         negative_favor_multi = 0.5
-    elif favor < 4000:
+    elif favor < 5000:
         positive_favor_multi = 1.9
         negative_favor_multi = 0.5
     else:

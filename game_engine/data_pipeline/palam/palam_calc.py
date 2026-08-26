@@ -922,15 +922,15 @@ def p_source_revision(abl: int, is_sen: bool):
     """处理abl对快感系source的修正"""
     if is_sen:
         if 0 <= abl <= 5:
-            return 10 + 7 * abl
+            return 10 + 5 * abl
         elif 5 < abl <= 9:
-            return 25 + 4 * abl
+            return 22 + 3 * abl
         elif 9 < abl <= 15:
-            return 45 + 2 * abl
+            return 35 + 2 * abl
         elif 15 < abl <= 19:
-            return 70 + abl
+            return 55 + abl
         else:
-            return 90
+            return 80
     else:
         if 0 <= abl <= 5:
             return 25 + 7 * abl

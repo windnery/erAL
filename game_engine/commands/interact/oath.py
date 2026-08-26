@@ -26,11 +26,20 @@ def can(world: World, npc: ShipGirl):
     # 关系未达到爱
     if npc.get_talent_value("relationship") < 3:
         return False
-    # 亲密度不足9
+    # 不是恋人
+    if not npc.has_talent("lover"):
+        return False
+    # 爱情经验不足
+    if npc.exp["love_exp"] < 50:
+        return False
+    # 亲密度不足
     if npc.abl["intimacy_abl"] < 9:
         return False
-    # 好感度低于1500
-    if npc.favor < 1500:
+    # 好感不足
+    if npc.favor < 3500:
+        return False
+    # 信赖不足
+    if npc.trust < 1000:
         return False
     # 没有誓约之戒
     if not world.item_manager.has_item("oath_ring"):
