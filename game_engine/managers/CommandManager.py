@@ -1,15 +1,13 @@
 from __future__ import annotations
-import logging
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
     REGISTER_NEEDS_TARGET, REGISTER_FRONTEND, REGISTER_MODE
+from game_engine.logging_config import set_runtime_context
 
 if TYPE_CHECKING:
     from world import World
 
-
-LOGGER = logging.getLogger('eral.command')
 
 
 class CommandManager:
@@ -86,6 +84,13 @@ class CommandManager:
             return []
 
     def do_cmd(self, command: str, option: str | None = None):
+        # Keep only the last attempted action in memory for a possible crash report.
+        set_runtime_context(
+            action='command',
+            command=command,
+            target_id=option,
+            location=dict(self.world.player.location),
+        )
         # 执行指令
         func = REGISTER_CMD.get(command)
         if not func:
@@ -97,15 +102,6 @@ class CommandManager:
             if can and not can(self.world):
                 return ''
             result = func(self.world)
-            LOGGER.info(
-                'command.executed',
-                extra={
-                    'category': REGISTER_CAT.get(command, ''),
-                    'command': command,
-                    'target_id': None,
-                    'train_mode': True,
-                },
-            )
             return result
 
         can = REGISTER_CAN.get(command)
@@ -129,15 +125,6 @@ class CommandManager:
                 return ''
 
         result = func(self.world, option)
-        LOGGER.info(
-            'command.executed',
-            extra={
-                'category': REGISTER_CAT.get(command, ''),
-                'command': command,
-                'target_id': option if is_target_command else None,
-                'train_mode': False,
-            },
-        )
         return result
 
     def _get_system_commands(self):

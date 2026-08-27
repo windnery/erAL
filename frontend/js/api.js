@@ -37,3 +37,22 @@ export async function doLoad(slot) {
 export async function chooseOption(optionKey) {
     return await call('event_manager', 'choose_option', optionKey);
 }
+
+export async function reportFrontendError(error) {
+    const api = window.pywebview?.api;
+    if (!api?.report_frontend_error) return false;
+
+    try {
+        await api.report_frontend_error(
+            error.message || 'Unknown frontend error',
+            error.source || '',
+            error.line || null,
+            error.column || null,
+            error.stack || '',
+        );
+        return true;
+    } catch (_) {
+        // Reporting must never create a second frontend error.
+        return false;
+    }
+}

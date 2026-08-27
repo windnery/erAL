@@ -1,3 +1,9 @@
+from game_engine.logging_config import (
+    clear_runtime_context,
+    report_crash,
+    report_frontend_error,
+    set_runtime_context,
+)
 from world import World
 
 
@@ -17,16 +23,41 @@ class Api:
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):
-        # 根据函数名调用对应的函数
-        manager = self.managers.get(manager_name)
+        """Dispatch a webview call and report backend failures before re-raising."""
+        set_runtime_context(
+            api_manager=manager_name,
+            api_function=func_name,
+            api_argument_count=len(args) + len(kwargs),
+        )
+        try:
+            manager = self.managers.get(manager_name)
+            if manager is None:
+                raise ValueError(f'{manager_name!r} not found')
 
-        if not manager:
-            raise ValueError(f"'{manager_name}'未找到")
-        func = getattr(manager, func_name, None)
-        if not func:
-            raise ValueError(f"'{func_name}'未找到")
-        
-        return func(*args, **kwargs)
+            func = getattr(manager, func_name, None)
+            if func is None or not callable(func):
+                raise ValueError(f'{func_name!r} not found on {manager_name!r}')
 
+            return func(*args, **kwargs)
+        except Exception as error:
+            report_crash(error, source='api.call')
+            raise
+        finally:
+            clear_runtime_context()
 
-
+    def report_frontend_error(
+        self,
+        message,
+        source='',
+        line=None,
+        column=None,
+        stack='',
+    ):
+        """Receive an unhandled browser error from the pywebview frontend."""
+        return report_frontend_error(
+            message,
+            source=source,
+            line=line,
+            column=column,
+            stack=stack,
+        )

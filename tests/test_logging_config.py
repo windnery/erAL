@@ -1,93 +1,91 @@
 import json
+import logging
 
-from game_engine.logging_config import configure_logging, shutdown_logging
+import pytest
 
-
-class SimulatedDiskError(RuntimeError):
-    pass
+from api import Api
+from game_engine.logging_config import (
+    LOG_FILE_NAME,
+    configure_logging,
+    report_crash,
+    report_frontend_error,
+    shutdown_logging,
+)
 
 
 def read_events(log_path):
-    return [json.loads(line) for line in log_path.read_text(encoding='utf-8').splitlines()]
+    return [
+        json.loads(line)
+        for line in log_path.read_text(encoding='utf-8').splitlines()
+    ]
 
 
-def test_json_log_preserves_event_name_and_fields(tmp_path):
-    # Given: a logger configured to write into an isolated directory.
+def test_normal_runtime_events_are_not_persisted(tmp_path):
     logger = configure_logging(tmp_path)
-
-    # When: a stable event with structured fields is emitted.
-    logger.info('save.completed', extra={'slot': 2, 'day': 5})
+    logger.info('application.started')
+    logging.getLogger('eral.command').info(
+        'command.executed',
+        extra={'command': 'open_your_eyes'},
+    )
     shutdown_logging()
 
-    # Then: the JSON line exposes machine-readable event data.
-    payload = json.loads((tmp_path / 'eral.log').read_text(encoding='utf-8'))
-    assert payload['event'] == 'save.completed'
-    assert payload['level'] == 'INFO'
-    assert payload['fields'] == {'day': 5, 'slot': 2}
+    assert not (tmp_path / LOG_FILE_NAME).exists()
 
 
-def test_json_log_preserves_exception_details(tmp_path):
-    # Given: a configured logger at an exception-handling boundary.
-    logger = configure_logging(tmp_path)
-
-    # When: the boundary records a real exception.
-    try:
-        raise SimulatedDiskError('disk unavailable')
-    except SimulatedDiskError:
-        logger.exception('save.failed', extra={'slot': 1})
-    shutdown_logging()
-
-    # Then: type, message, and traceback survive JSON serialization.
-    payload = json.loads((tmp_path / 'eral.log').read_text(encoding='utf-8'))
-    assert payload['exception']['type'] == 'SimulatedDiskError'
-    assert payload['exception']['message'] == 'disk unavailable'
-    assert 'SimulatedDiskError: disk unavailable' in payload['exception']['traceback']
-
-
-def test_command_execution_emits_state_transition_event(world, tmp_path):
-    # Given: runtime logging and a menu command that can execute.
+def test_crash_report_preserves_exception_details(tmp_path):
     configure_logging(tmp_path)
 
-    # When: the command manager executes the command.
-    world.command_manager.do_cmd('open_your_eyes')
+    try:
+        raise RuntimeError('backend boom')
+    except RuntimeError as error:
+        assert report_crash(error, source='test')
+
     shutdown_logging()
 
-    # Then: the command transition is reconstructable from structured fields.
-    events = read_events(tmp_path / 'eral.log')
-    event = next(item for item in events if item['event'] == 'command.executed')
-    assert event['fields']['command'] == 'open_your_eyes'
-    assert event['fields']['category'] == '菜单'
+    payload = read_events(tmp_path / LOG_FILE_NAME)[0]
+    assert payload['event'] == 'game.crashed'
+    assert payload['level'] == 'CRITICAL'
+    assert payload['fields']['source'] == 'test'
+    assert payload['exception']['type'] == 'RuntimeError'
+    assert payload['exception']['message'] == 'backend boom'
+    assert 'RuntimeError: backend boom' in payload['exception']['traceback']
+    assert 'python' in payload['runtime']
 
 
-def test_save_success_emits_slot_and_version_event(world, tmp_path):
-    # Given: runtime logging and an isolated save directory.
-    configure_logging(tmp_path / 'logs')
-    world.save_manager.sav_dir = tmp_path / 'saves'
+def test_api_boundary_reports_backend_crash(tmp_path):
+    class BrokenManager:
+        def explode(self):
+            raise LookupError('bad game state')
 
-    # When: the world is saved successfully.
-    world.save_manager.save_game(2)
+    configure_logging(tmp_path)
+    api = Api.__new__(Api)
+    api.managers = {'broken': BrokenManager()}
+
+    with pytest.raises(LookupError, match='bad game state'):
+        api.call('broken', 'explode')
     shutdown_logging()
 
-    # Then: the persisted transition identifies its slot and schema version.
-    events = read_events(tmp_path / 'logs' / 'eral.log')
-    event = next(item for item in events if item['event'] == 'save.completed')
-    assert event['fields']['slot'] == 2
-    assert event['fields']['version'] == 3
+    payload = read_events(tmp_path / LOG_FILE_NAME)[0]
+    assert payload['fields']['source'] == 'api.call'
+    assert payload['fields']['context']['api_manager'] == 'broken'
+    assert payload['fields']['context']['api_function'] == 'explode'
 
 
-def test_load_success_emits_slot_and_version_event(world, tmp_path):
-    # Given: an existing slot and logging enabled only for the load boundary.
-    world.save_manager.sav_dir = tmp_path / 'saves'
-    world.save_manager.save_game(3)
-    configure_logging(tmp_path / 'logs')
+def test_frontend_crash_report_includes_javascript_context(tmp_path):
+    configure_logging(tmp_path)
 
-    # When: the slot is loaded successfully.
-    error = world.save_manager.load_game(3)
+    assert report_frontend_error(
+        'Cannot read properties of undefined',
+        source='main.js',
+        line=42,
+        column=7,
+        stack='TypeError: Cannot read properties of undefined',
+    )
     shutdown_logging()
 
-    # Then: one load transition records the restored schema version.
-    assert error is None
-    events = read_events(tmp_path / 'logs' / 'eral.log')
-    event = next(item for item in events if item['event'] == 'save.loaded')
-    assert event['fields']['slot'] == 3
-    assert event['fields']['version'] == 3
+    payload = read_events(tmp_path / LOG_FILE_NAME)[0]
+    assert payload['fields']['source'] == 'frontend'
+    assert payload['fields']['client_source'] == 'main.js'
+    assert payload['fields']['line'] == 42
+    assert payload['fields']['javascript_stack'].startswith('TypeError:')
+    assert payload['exception']['type'] == 'FrontendError'

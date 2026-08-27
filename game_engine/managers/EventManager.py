@@ -1,5 +1,4 @@
 from __future__ import annotations
-import logging
 from typing import TYPE_CHECKING
 
 from game_engine.events._base import EVENT_REGISTRY, BaseEvent, PendingChoice, ChoiceOption
@@ -9,8 +8,6 @@ if TYPE_CHECKING:
     from world import World
     from game_engine.commands._context import CommandContext
     from game_engine.models.shipgirl import ShipGirl
-
-LOGGER = logging.getLogger('eral.event')
 
 
 class EventManager:
@@ -33,7 +30,6 @@ class EventManager:
         """记录事件已触发"""
         key = self._make_key(event_id, target_id)
         self.history.add(key)
-        LOGGER.info(f"Event triggered and recorded: {key}")
 
     def set_pending_choice(
         self,
@@ -119,15 +115,13 @@ class EventManager:
         for event in candidates:
             try:
                 can = event.can_trigger(self.world, ctx, target=target, **kwargs)
-            except Exception as ex:
-                LOGGER.error(f"Error checking can_trigger for {event.event_id}: {ex}", exc_info=True)
+            except Exception:
                 can = False
 
             if can:
                 try:
                     success = event.execute(self.world, ctx, target=target, **kwargs)
-                except Exception as ex:
-                    LOGGER.error(f"Error executing event {event.event_id}: {ex}", exc_info=True)
+                except Exception:
                     success = False
 
                 if success:

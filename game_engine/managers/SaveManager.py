@@ -1,5 +1,4 @@
 import json
-import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -7,7 +6,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from world import World
 
-LOGGER = logging.getLogger('eral.save')
 SAVE_VERSION = 3
 SLOT_COUNT = 10
 
@@ -204,15 +202,8 @@ class SaveManager:
             with open(temp_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
             temp_path.replace(path)
-        except OSError:
-            LOGGER.exception('save.failed', extra={'slot': slot})
-            raise
         finally:
             temp_path.unlink(missing_ok=True)
-        LOGGER.info(
-            'save.completed',
-            extra={'slot': slot, 'version': SAVE_VERSION, 'day': self.world.time_manager.day},
-        )
         return data['meta']
 
     def load_game(self, slot: int) -> str | None:
@@ -224,16 +215,10 @@ class SaveManager:
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except (json.JSONDecodeError, OSError) as e:
-            LOGGER.exception('save.load_failed', extra={'slot': slot})
             return f'存档读取失败：{e}'
         error = self.deserialize_world(data)
         if error is not None:
-            LOGGER.warning('save.rejected', extra={'slot': slot})
             return error
-        LOGGER.info(
-            'save.loaded',
-            extra={'slot': slot, 'version': data.get('version', 1)},
-        )
         return None
 
     def get_save_list(self) -> list[dict]:

@@ -1,4 +1,4 @@
-import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, chooseOption } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, chooseOption, reportFrontendError } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
@@ -12,6 +12,26 @@ import { parseColoredMessage } from './ui/colored_text.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
+
+// 将未处理的前端异常送回后端，和 Python 崩溃使用同一份报告文件。
+window.addEventListener('error', (event) => {
+    void reportFrontendError({
+        message: event.error?.message || event.message || 'Unknown frontend error',
+        source: event.filename || '',
+        line: event.lineno,
+        column: event.colno,
+        stack: event.error?.stack || '',
+    });
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+    const reason = event.reason;
+    void reportFrontendError({
+        message: reason?.message || String(reason || 'Unhandled promise rejection'),
+        source: 'unhandledrejection',
+        stack: reason?.stack || '',
+    });
+});
 
 // 全屏文字区展示状态：按分区块追加展示
 let textBlocks = [];
