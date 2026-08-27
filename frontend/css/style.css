@@ -143,19 +143,39 @@ button {
 
 #charaPortrait {
     min-height: 120px;
-    padding: 4px 0;
+    max-height: 145px;
+    padding: 4px 10px;
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 12px;
+    flex-wrap: nowrap; /* 单行横向排布，不换行挤占下方空间 */
+    overflow-x: auto; /* 超出宽度支持平滑横向滚动 */
+    overflow-y: hidden;
     align-items: flex-end;
-    justify-content: center; /* 头像居中显示 */
+    justify-content: flex-start;
+    scrollbar-width: thin;
+    scrollbar-color: #36f #111;
 }
 
-/* 头像块：点击选中的舰娘高亮；头像用原图尺寸 116x116 */
+#charaPortrait::-webkit-scrollbar {
+    height: 4px;
+}
+
+#charaPortrait::-webkit-scrollbar-track {
+    background: #111;
+}
+
+#charaPortrait::-webkit-scrollbar-thumb {
+    background: #36f;
+    border-radius: 2px;
+}
+
+/* 头像块：点击选中的舰娘高亮；头像用尺寸 116x116 */
 .npc-avatar {
     text-align: center;
     border: 2px solid transparent;
     padding: 2px;
+    flex-shrink: 0; /* 防止多头像时被横向挤压变形 */
+    cursor: default;
 }
 
 .npc-avatar.selected {
@@ -1194,3 +1214,193 @@ button {
     color: #9cf;
     margin-left: 8px;
 }
+
+/* ==========================================================================
+   秘书舰选择面板 (Secretary Ship Selector)
+   ========================================================================== */
+#secretary_selector_screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    color: #fff;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+}
+
+.sec-wrap {
+    width: 95%;
+    max-width: 900px;
+    height: 96vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #000;
+    border: 1px solid #333;
+    padding: 10px 16px;
+    box-sizing: border-box;
+}
+
+.sec-header {
+    margin-bottom: 2px;
+}
+
+.sec-title {
+    font-size: 17px;
+    font-weight: bold;
+    color: #36f;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+}
+
+.sec-filter-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    user-select: none;
+    font-size: 14px;
+    background: #111;
+    padding: 5px 10px;
+    border: 1px solid #222;
+}
+
+.sec-tag {
+    color: #bbb;
+    cursor: default;
+    transition: color 0.15s ease;
+}
+
+.sec-tag:hover {
+    color: #fff;
+}
+
+.sec-tag.selected {
+    color: #ff0 !important;
+    font-weight: bold;
+}
+
+.sec-filter-sep {
+    color: #444;
+    margin: 0 4px;
+}
+
+/* 6x5 网格区 (每页最多30个，5行自适应高度，最大116*116，无滚轮不裁切) */
+.sec-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px 8px;
+    align-items: center;
+    justify-items: center;
+    margin: 4px 0;
+    overflow: hidden; /* 禁用内部滚动条，完全依赖分页 */
+}
+
+.sec-empty {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    color: #888;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 舰娘卡片：自适应每行高度，原生头像 + 下方名字 */
+.sec-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 2px solid transparent;
+    padding: 1px;
+    background: transparent;
+    cursor: default;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.sec-card.selected {
+    border-color: #ff0 !important;
+}
+
+.sec-avatar-img {
+    height: calc(100% - 18px);
+    max-height: 116px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.sec-name-box {
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: center;
+}
+
+.sec-current-badge {
+    color: #36f;
+    font-size: 11px;
+    margin-left: 2px;
+}
+
+/* 分界线 */
+.sec-divider {
+    width: 100%;
+    height: 1px;
+    background: #333;
+    margin: 4px 0;
+}
+
+/* 底部交互栏 */
+.sec-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 2px;
+    user-select: none;
+}
+
+.sec-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.sec-action-btn {
+    color: #fff;
+    font-size: 15px;
+    cursor: default;
+    letter-spacing: 1px;
+    transition: color 0.15s ease;
+}
+
+.sec-action-btn:hover:not(.disabled) {
+    color: #ff0;
+}
+
+.sec-action-btn.disabled {
+    color: #555 !important;
+    cursor: default !important;
+}
+
+.sec-page-info {
+    color: #888;
+    font-size: 13px;
+}
+

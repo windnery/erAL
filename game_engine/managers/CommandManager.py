@@ -47,8 +47,25 @@ class CommandManager:
                     {'key': '9', 'name': '9:00', 'value': {'hour': 9, 'minute': 0}}]
         elif command == 'set_secretary_ship':
             # 全部舰娘
-            return [{'key': sg.id, 'name': sg.name, 'value': {'shipgirl_id': sg.id}}
-                    for sg in self.world.npc_manager.get_all_npcs()]
+            current_sec_id = self.world.npc_manager.secretary_ship.id if self.world.npc_manager.secretary_ship else None
+            options = []
+            for sg in self.world.npc_manager.get_all_npcs():
+                avatar_path = ''
+                if hasattr(self.world, 'skin_manager') and self.world.skin_manager:
+                    avatar_path = self.world.skin_manager.get_ship_skin_paths(sg.id).get('avatar', '')
+                if not avatar_path:
+                    avatar_path = f"assets/avatars/{sg.name}/{sg.id}_default.webp"
+                options.append({
+                    'key': sg.id,
+                    'name': sg.name,
+                    'id': sg.id,
+                    'ship_type': str(sg.talent.get('ship_type', '0')),
+                    'alignment': str(sg.talent.get('alignment', '0')),
+                    'avatar': avatar_path,
+                    'is_current': sg.id == current_sec_id,
+                    'value': {'shipgirl_id': sg.id}
+                })
+            return options
         elif command in ('save', 'load'):
             slots = self.world.save_manager.get_save_list()
             options = []

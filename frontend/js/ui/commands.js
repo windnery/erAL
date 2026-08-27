@@ -1,3 +1,5 @@
+import { openSecretarySelector } from './secretary_selector.js';
+
 const CAT_ORDER = ['日常', '亲昵', '性骚扰'];
 const TRAIN_CAT_ORDER = ['特殊', '爱抚', '交流', '性交', '道具'];
 // 每类指令区独立的分类选中态（act 与 train 互不影响）
@@ -163,6 +165,11 @@ function renderExCommands(container, commands, callbacks, label = 'Ex_COM') {
 }
 
 function show_options(command, options, callbacks) {
+    if (command === 'set_secretary_ship') {
+        openSecretarySelector(options, callbacks);
+        return;
+    }
+
     callbacks.showFullscreenOptions(options, async (option) => {
         // 如果是存档指令且选择的槽位已有存档，弹出二次确认
         if (command === 'save' && option.has_save) {

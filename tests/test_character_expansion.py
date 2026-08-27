@@ -81,3 +81,14 @@ def test_world_initializes_with_all_shipgirls():
     cassin = world.npc_manager.shipgirls["cassin"]
     assert nevada.base["max_stamina"] >= 2800
     assert cassin.base["max_stamina"] == 1500
+
+def test_set_secretary_ship_options_metadata():
+    """测试设定秘书舰选项包含完整的阵营、舰种、头像与状态元数据"""
+    world = World()
+    options = world.command_manager.get_cmd_options("set_secretary_ship")
+    assert len(options) == 34
+    for opt in options:
+        assert "id" in opt and "name" in opt and "avatar" in opt
+        assert "ship_type" in opt and "alignment" in opt
+        assert "is_current" in opt
+        assert opt["value"] == {"shipgirl_id": opt["id"]}
