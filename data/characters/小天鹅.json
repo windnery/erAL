@@ -1,0 +1,43 @@
+{
+  "id": "cygnet",
+  "name": "小天鹅",
+  "color": "#F5B7B1",
+  "location": {
+    "region": "royal_dorm",
+    "node": "cygnet_room"
+  },
+  "base": {
+    "max_stamina": 1700,
+    "max_energy": 1500,
+    "stamina": 1700,
+    "energy": 1500
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "0",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "-1",
+    "attitude": "-1",
+    "sense_of_shame": "1",
+    "innocent": "1",
+    "female_body": "0",
+    "bra_size": "1",
+    "hip_size": "1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        30
+      ]
+    },
+    "works": []
+  }
+}

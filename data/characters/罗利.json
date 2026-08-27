@@ -1,0 +1,42 @@
+{
+  "id": "raleigh",
+  "name": "罗利",
+  "color": "#7FB3D5",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "raleigh_room"
+  },
+  "base": {
+    "max_stamina": 1850,
+    "max_energy": 1950,
+    "stamina": 1850,
+    "energy": 1950
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "attitude": "-1",
+    "response": "-1",
+    "devoted": "1",
+    "female_body": "0",
+    "bra_size": "1",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        22,
+        30
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

@@ -7,10 +7,10 @@
     "node": "javelin_room"
   },
   "base": {
-    "max_stamina": 1500,
-    "max_energy": 1500,
-    "stamina": 1500,
-    "energy": 1500
+    "max_stamina": 1700,
+    "max_energy": 1700,
+    "stamina": 1700,
+    "energy": 1700
   },
   "talent": {
     "alignment": "6",

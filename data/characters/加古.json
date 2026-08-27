@@ -1,0 +1,41 @@
+{
+  "id": "kako",
+  "name": "加古",
+  "color": "#81C784",
+  "location": {
+    "region": "sakura_dorm",
+    "node": "kako_room"
+  },
+  "base": {
+    "max_stamina": 2400,
+    "max_energy": 2200,
+    "stamina": 2400,
+    "energy": 2200
+  },
+  "talent": {
+    "alignment": "1",
+    "ship_type": "2",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "1",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        30
+      ],
+      "end": [
+        7,
+        30
+      ]
+    },
+    "works": []
+  }
+}

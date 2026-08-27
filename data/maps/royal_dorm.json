@@ -1,4 +1,12 @@
 {
   "corridor": {"name": "皇家宿舍走廊", "actions": {}},
-  "javelin_room": {"name": "标枪的房间", "actions": {}}
+  "javelin_room": {"name": "标枪的房间", "actions": {}},
+  "leander_room": {"name": "利安得的房间", "actions": {}},
+  "hermes_room": {"name": "竞技神的房间", "actions": {}},
+  "bulldog_room": {"name": "大斗犬的房间", "actions": {}},
+  "beagle_room": {"name": "小猎兔犬的房间", "actions": {}},
+  "cygnet_room": {"name": "小天鹅的房间", "actions": {}},
+  "comet_room": {"name": "彗星的房间", "actions": {}},
+  "crescent_room": {"name": "新月的房间", "actions": {}},
+  "foxhound_room": {"name": "狐提的房间", "actions": {}}
 }

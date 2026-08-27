@@ -1,0 +1,41 @@
+{
+  "id": "omaha",
+  "name": "奥马哈",
+  "color": "#F39C12",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "omaha_room"
+  },
+  "base": {
+    "max_stamina": 1950,
+    "max_energy": 1850,
+    "stamina": 1950,
+    "energy": 1850
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "attitude": "-1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "-1",
+    "hip_size": "-1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        30
+      ]
+    },
+    "works": []
+  }
+}

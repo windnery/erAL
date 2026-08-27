@@ -1,0 +1,42 @@
+{
+  "id": "foxhound",
+  "name": "狐提",
+  "color": "#F8C471",
+  "location": {
+    "region": "royal_dorm",
+    "node": "foxhound_room"
+  },
+  "base": {
+    "max_stamina": 1700,
+    "max_energy": 1650,
+    "stamina": 1700,
+    "energy": 1650
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "0",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "attitude": "-1",
+    "bright": "1",
+    "devoted": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

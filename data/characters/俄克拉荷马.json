@@ -1,0 +1,43 @@
+{
+  "id": "oklahoma",
+  "name": "俄克拉荷马",
+  "color": "#E8A87C",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "oklahoma_room"
+  },
+  "base": {
+    "max_stamina": 2800,
+    "max_energy": 2600,
+    "stamina": 2800,
+    "energy": 2600
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "3",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "attitude": "-1",
+    "response": "-1",
+    "devoted": "1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "1",
+    "hip_size": "1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

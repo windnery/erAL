@@ -7,9 +7,9 @@
     "node": "laffey_room"
   },
   "base": {
-    "max_stamina": 1500,
+    "max_stamina": 1600,
     "max_energy": 1500,
-    "stamina": 1500,
+    "stamina": 1600,
     "energy": 1500
   },
   "talent": {

@@ -1,0 +1,42 @@
+{
+  "id": "leander",
+  "name": "利安得",
+  "color": "#58D68D",
+  "location": {
+    "region": "royal_dorm",
+    "node": "leander_room"
+  },
+  "base": {
+    "max_stamina": 1950,
+    "max_energy": 2050,
+    "stamina": 1950,
+    "energy": 2050
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "attitude": "-1",
+    "bright": "1",
+    "devoted": "1",
+    "female_body": "0",
+    "bra_size": "1",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

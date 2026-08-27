@@ -69,7 +69,7 @@ class CommandManager:
             return []
 
     def do_cmd(self, command: str, option: str | None = None):
-        # Execute a command and re-check its availability.
+        # 执行指令
         func = REGISTER_CMD.get(command)
         if not func:
             return ''

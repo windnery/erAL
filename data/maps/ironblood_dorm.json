@@ -1,4 +1,7 @@
 {
   "corridor": {"name": "铁血宿舍走廊", "actions": {}},
-  "z23_room": {"name": "Z23的房间", "actions": {}}
+  "z23_room": {"name": "Z23的房间", "actions": {}},
+  "konigsberg_room": {"name": "柯尼斯堡的房间", "actions": {}},
+  "karlsruhe_room": {"name": "卡尔斯鲁厄的房间", "actions": {}},
+  "koln_room": {"name": "科隆的房间", "actions": {}}
 }

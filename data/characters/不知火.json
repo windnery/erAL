@@ -7,9 +7,9 @@
   },
   "base": {
     "max_stamina": 1500,
-    "max_energy": 1500,
+    "max_energy": 1700,
     "stamina": 1500,
-    "energy": 1500
+    "energy": 1700
   },
   "talent": {
     "alignment": "1",

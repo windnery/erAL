@@ -1,0 +1,42 @@
+{
+  "id": "hermes",
+  "name": "竞技神",
+  "color": "#E74C3C",
+  "location": {
+    "region": "royal_dorm",
+    "node": "hermes_room"
+  },
+  "base": {
+    "max_stamina": 1900,
+    "max_energy": 2250,
+    "stamina": 1900,
+    "energy": 2250
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "8",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "self_respect": "1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

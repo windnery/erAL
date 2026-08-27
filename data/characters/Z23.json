@@ -7,10 +7,10 @@
     "node": "z23_room"
   },
   "base": {
-    "max_stamina": 1500,
-    "max_energy": 1500,
-    "stamina": 1500,
-    "energy": 1500
+    "max_stamina": 1650,
+    "max_energy": 1750,
+    "stamina": 1650,
+    "energy": 1750
   },
   "talent": {
     "alignment": "2",

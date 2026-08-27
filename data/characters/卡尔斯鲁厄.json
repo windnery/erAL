@@ -1,0 +1,42 @@
+{
+  "id": "karlsruhe",
+  "name": "卡尔斯鲁厄",
+  "color": "#B03A2E",
+  "location": {
+    "region": "ironblood_dorm",
+    "node": "karlsruhe_room"
+  },
+  "base": {
+    "max_stamina": 2000,
+    "max_energy": 1950,
+    "stamina": 2000,
+    "energy": 1950
+  },
+  "talent": {
+    "alignment": "2",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        6,
+        30
+      ]
+    },
+    "works": []
+  }
+}
