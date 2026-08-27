@@ -13,7 +13,7 @@ def favor_calc(player: Player, npc: ShipGirl, source: dict[str, int]) -> int:
 
     # 叛逆
     if npc.get_talent_value('attitude') > 0:
-        favor_delta -= 2
+        favor_delta -= 1
     # 坦率
     elif npc.get_talent_value('attitude') < 0:
         favor_delta += 1
@@ -69,7 +69,7 @@ def favor_calc(player: Player, npc: ShipGirl, source: dict[str, int]) -> int:
     # 苦痛
     temp += (50 - 20_000 / (source.get('pain_source', 0) + 400)) * (npc.abl['masochistic_abl'] - 3) // 3
     # 欢乐
-    temp += (50 - 60_000 / (source.get('happiness_source', 0) + 2000))
+    temp += (50 - 40_000 / (source.get('happiness_source', 0) + 2000))
     # 征服
     temp += (30 - 90_000 / (source.get('conquest_source', 0) + 3000))
     # 被动

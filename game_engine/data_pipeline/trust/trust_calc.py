@@ -28,7 +28,7 @@ def trust_calc(player: Player, npc: ShipGirl, source: dict[str, int]):
         trust_delta -= 1
     # 抵抗
     if npc.has_talent('resistance'):
-        trust_delta -= 2
+        trust_delta -= 1
     # 献身的
     if npc.has_talent('devoted'):
         trust_delta += 1
@@ -51,7 +51,7 @@ def trust_calc(player: Player, npc: ShipGirl, source: dict[str, int]):
     # 屈服
     temp += (15 - 15_000 / (source.get('submission_source', 0) + 1000))
     # 欢乐
-    temp += (30 - 150_000 / (source.get('happiness_source', 0) + 5000))
+    temp += (30 - 100_000 / (source.get('happiness_source', 0) + 5000))
     # 征服
     temp += (30 - 90_000 / (source.get('conquest_source', 0) + 3000))
     # 被动
@@ -75,7 +75,7 @@ def trust_calc(player: Player, npc: ShipGirl, source: dict[str, int]):
         temp -= (50 - 10_000 / (source.get('disgust_source', 0) + 200)) // (2 if low_rat else 1)
 
     # palam等级对信赖的修正
-    trust_delta += palam2trust(npc.palam)
+    trust_delta += palam2trust(npc.palam_lv)
 
     # 情绪&理性对信赖的修正
     trust_delta += emo_rat2trust(npc.base.get('emotion', 0), npc.base.get('rationality', 1000))
