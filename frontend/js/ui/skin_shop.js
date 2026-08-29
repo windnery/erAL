@@ -9,7 +9,7 @@
 import { getState } from '../api.js';
 import { showToast } from './daily_shop.js';
 
-const SHOP_PAGE_SIZE = 10; // 每页展示皮肤数（随游戏进程可增加）
+const SHOP_PAGE_SIZE = 18; // 每页展示皮肤数（每日随机上架18个）
 
 let shopSkins = [];      // 当前商店在售皮肤列表
 let shopPage = 0;        // 当前页码
@@ -115,7 +115,7 @@ function makeSkinCard(skin) {
 
     const label = document.createElement('div');
     label.className = 'skin-card-label';
-    label.textContent = `${skin.chara_name}-${skin.skin_name}`;
+    label.textContent = `${skin.chara_name}——${skin.skin_name}`;
     card.appendChild(label);
 
     const price = document.createElement('div');

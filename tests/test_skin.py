@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""皮肤系统测试：SkinManager 初始化 / 商店列表 / 购买流程"""
+"""皮肤系统测试：SkinManager 初始化 / 每日商店列表 / 购买流程 / 穿戴与换装"""
 import pytest
 
 
@@ -13,7 +13,7 @@ def skin_manager(world):
 
 class TestSkinManagerInit:
     def test_default_skin_in_unlocked(self, skin_manager):
-        """默认皮肤应自动进入已拥有集合（__init__ 修复的回归测试）"""
+        """默认皮肤应自动进入已拥有集合"""
         assert 'laffey_default' in skin_manager.unlocked_skins
 
     def test_sale_skin_in_locked(self, skin_manager):
@@ -24,21 +24,28 @@ class TestSkinManagerInit:
         """默认皮肤不应出现在未购买集合"""
         assert 'laffey_default' not in skin_manager.locked_skins
 
+    def test_today_shop_skins_count(self, skin_manager):
+        """每日初始化的商店在售皮肤数不超过 12 个"""
+        assert len(skin_manager.today_shop_skins) <= 12
+        assert len(skin_manager.today_shop_skins) > 0
+
 
 # ---------- 商店列表 ----------
 
 class TestGetShopSkins:
     def test_shop_contains_only_locked(self, skin_manager):
-        """商店列表只包含未购买皮肤"""
+        """商店列表只包含未购买皮肤，且不包含默认/改造/誓约皮肤"""
         shop = skin_manager.get_shop_skins()
+        assert len(shop) <= 12
         ids = [s['skin_id'] for s in shop]
-        assert 'laffey_snow_rabbit_and_candy_apple' in ids
         assert 'laffey_default' not in ids
         assert 'laffey_retrofit' not in ids
-        assert 'laffey_oath' not in ids
+        assert 'laffey_white_rabbit\'s_oath' not in ids
 
     def test_shop_item_structure(self, skin_manager):
         """商店条目结构：skin_id/chara_name/skin_name/price/avatar/portrait"""
+        # 手动将雪兔皮肤加入今日货架进行结构测试
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         shop = skin_manager.get_shop_skins()
         item = next(s for s in shop if s['skin_id'] == 'laffey_snow_rabbit_and_candy_apple')
         assert item['chara_name'] == '拉菲'
@@ -49,41 +56,50 @@ class TestGetShopSkins:
         assert 'portraits' in item['portrait']
 
     def test_shop_empty_after_buy_all(self, skin_manager, player):
-        """买光所有在售皮肤后商店为空"""
+        """买光今日货架上的所有在售皮肤后商店为空"""
         player.set_money(999999)
-        for skin in skin_manager.get_shop_skins():
+        for skin in list(skin_manager.get_shop_skins()):
             skin_manager.buy_skin(skin['skin_id'])
         assert skin_manager.get_shop_skins() == []
+
+    def test_refresh_daily_shop_filters_unlocked(self, skin_manager):
+        """每日刷新时，已拥有的皮肤绝不会被抽选上架"""
+        skin_manager.unlocked_skins.add('laffey_snow_rabbit_and_candy_apple')
+        skin_manager.refresh_daily_shop()
+        assert 'laffey_snow_rabbit_and_candy_apple' not in skin_manager.today_shop_skins
 
 
 # ---------- 购买 ----------
 
 class TestBuySkin:
     def test_buy_success_deducts_money(self, skin_manager, player):
-        """购买成功：扣钱 + 皮肤进已拥有 + 商店移除"""
+        """购买成功：扣钱 + 皮肤进已拥有 + 从今日货架移除"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(2000)
         ok, msg = skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         assert ok is True
         assert player.money == 1000
         assert 'laffey_snow_rabbit_and_candy_apple' in skin_manager.unlocked_skins
-        assert 'laffey_snow_rabbit_and_candy_apple' not in skin_manager.locked_skins
+        assert 'laffey_snow_rabbit_and_candy_apple' not in skin_manager.today_shop_skins
 
     def test_buy_fail_insufficient_money(self, skin_manager, player):
         """资金不足：购买失败、不扣钱、皮肤不变"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(500)
         ok, msg = skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         assert ok is False
         assert '资金不足' in msg
         assert player.money == 500
-        assert 'laffey_snow_rabbit_and_candy_apple' in skin_manager.locked_skins
+        assert 'laffey_snow_rabbit_and_candy_apple' in skin_manager.today_shop_skins
 
     def test_buy_fail_already_owned(self, skin_manager, player):
         """重复购买：已拥有则拒绝"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(9999)
         skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         ok, msg = skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         assert ok is False
-        assert '不可购买' in msg
+        assert '不在售或已拥有' in msg
 
     def test_buy_fail_default_skin(self, skin_manager, player):
         """默认皮肤不可购买（不在商店）"""
@@ -99,6 +115,7 @@ class TestBuySkin:
 
     def test_money_never_negative(self, skin_manager, player):
         """set_money 钳制：扣款后不会为负"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(1000)
         skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         assert player.money == 0
@@ -142,6 +159,7 @@ class TestWearSkinPaths:
 
     def test_wear_skin_paths_after_buy_and_wear(self, skin_manager, player):
         """购买并穿戴后，返回该皮肤的真实图片路径"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(9999)
         skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         # 模拟更换皮肤：把 ships_wear_skin 指向新皮肤
@@ -162,16 +180,14 @@ class TestWearSkinPaths:
         for npc in state['nearby_npcs']:
             assert 'avatar' in npc
             assert 'portrait' in npc
-            # 默认穿戴皮肤：下发的是 default 皮肤真实路径
             assert npc['avatar'] != ''
             assert npc['portrait'] != ''
 
     def test_get_state_reflects_worn_skin(self, world):
         """穿戴皮肤后 get_state 下发新路径（更换皮肤后立即可见）"""
-        # 先把拉菲放到玩家身边
         laffey = world.npc_manager.shipgirls['laffey']
         world.npc_manager.set_loc(laffey.id, world.player.location['region'], world.player.location['node'])
-        # 购买并穿戴雪兔皮肤
+        world.skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         world.player.set_money(9999)
         world.skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         world.skin_manager.ships_wear_skin['laffey'] = 'laffey_snow_rabbit_and_candy_apple'
@@ -194,6 +210,7 @@ class TestOwnedSkins:
 
     def test_owned_skins_after_buy(self, skin_manager, player):
         """购买后皮肤进入已拥有列表，未穿戴"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(9999)
         skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         owned = skin_manager.get_owned_skins('laffey')
@@ -217,6 +234,7 @@ class TestOwnedSkins:
 class TestEquipSkin:
     def test_equip_success(self, skin_manager, player):
         """换装成功：ships_wear_skin 更新 + is_wearing 翻转"""
+        skin_manager.today_shop_skins = ['laffey_snow_rabbit_and_candy_apple']
         player.set_money(9999)
         skin_manager.buy_skin('laffey_snow_rabbit_and_candy_apple')
         ok, msg = skin_manager.equip_skin('laffey', 'laffey_snow_rabbit_and_candy_apple')

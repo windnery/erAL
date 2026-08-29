@@ -8,10 +8,13 @@ if TYPE_CHECKING:
 
 SAVE_VERSION = 3
 SLOT_COUNT = 10
+MAX_SLOTS = 10
 
 
 class SaveManager:
     """世界状态存档管理：存 delta（仅运行时字段），静态数据读档时从 data/ 重建"""
+
+    MAX_SLOTS = 10
 
     def __init__(self, world: 'World', sav_dir: Path | None = None):
         self.world = world
@@ -78,6 +81,7 @@ class SaveManager:
                 'skins': {
                     'unlocked_skins': sorted(world.skin_manager.unlocked_skins),
                     'locked_skins': sorted(world.skin_manager.locked_skins),
+                    'today_shop_skins': list(world.skin_manager.today_shop_skins),
                     'ships_wear_skin': dict(world.skin_manager.ships_wear_skin),
                 },
                 # v2 新增：道具系统
@@ -160,6 +164,10 @@ class SaveManager:
                 skin_mgr.unlocked_skins = set(skins.get('unlocked_skins', []))
                 skin_mgr.locked_skins = set(skins.get('locked_skins', []))
                 skin_mgr.ships_wear_skin = dict(skins.get('ships_wear_skin', {}))
+                if 'today_shop_skins' in skins:
+                    skin_mgr.today_shop_skins = list(skins.get('today_shop_skins', []))
+                else:
+                    skin_mgr.refresh_daily_shop()
 
             items = d.get('items')
             if items is not None:

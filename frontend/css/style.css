@@ -637,10 +637,11 @@ button {
 
 .charinfo-stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px 16px;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 2px;
+    column-gap: 16px;
     font-size: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .charinfo-stats-item {
@@ -648,6 +649,7 @@ button {
     justify-content: space-between;
     gap: 4px;
     white-space: nowrap;
+    line-height: 1.3;
 }
 
 .charinfo-stats-name {
@@ -715,6 +717,16 @@ button {
     color: var(--color-hover);
 }
 
+.charinfo-skin-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 790px;
+    gap: 16px 14px;
+    padding: 12px 0;
+    margin: 0 auto;
+}
+
 /* ==========================================================================
    皮肤商店（明石商店）
    ========================================================================== */
@@ -737,16 +749,16 @@ button {
 }
 
 .skin-shop-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, 120px);
+    gap: 18px 12px;
     justify-content: center;
-    width: 636px;
-    gap: 14px;
     padding: 0;
+    margin: 0 auto;
 }
 
 .skin-card {
-    width: 116px;
+    width: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -763,6 +775,7 @@ button {
     border: 2px solid transparent;
     box-sizing: border-box;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .skin-card.selected .skin-card-avatar {
@@ -793,8 +806,10 @@ button {
 }
 
 .skin-card-label {
-    margin-top: 4px;
-    font-size: 14px;
+    width: 100%;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.35;
     color: var(--color-text-main);
     text-align: center;
     white-space: normal;
@@ -802,9 +817,9 @@ button {
 }
 
 .skin-card-price {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--color-gold);
-    margin-top: 2px;
+    margin-top: 3px;
     text-align: center;
 }
 

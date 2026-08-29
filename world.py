@@ -298,6 +298,9 @@ class World:
         self.work_manager.works_done = 0  # 重置已完成工作量
         pages.append(f'又有了新的工作……今天的工作量是{self.work_manager.works}')
 
+        # 刷新每日明石皮肤商店在售列表
+        self.skin_manager.refresh_daily_shop()
+
         # 新的一天开始：回到缓冲菜单
         self.menu_active = True
 

@@ -325,7 +325,7 @@ class TestSaveLoad:
         """槽位列表"""
         world.save_manager.sav_dir = tmp_path
         lst = world.save_manager.get_save_list()
-        assert len(lst) == 3
+        assert len(lst) == world.save_manager.MAX_SLOTS
         assert all(not e['has_save'] for e in lst)
 
 
@@ -335,9 +335,9 @@ class TestSaveLoadVersions:
     def test_save_then_load_skins_and_items(self, world, tmp_path):
         """存档→读档：皮肤购买/穿戴 + 背包道具一致"""
         # 制造皮肤/道具状态
-        world.skin_manager.gain_skin('snow_rabbit_and_candy_apple')
-        world.skin_manager.locked_skins.discard('snow_rabbit_and_candy_apple')
-        world.skin_manager.equip_skin('laffey', 'snow_rabbit_and_candy_apple')
+        world.skin_manager.gain_skin('laffey_snow_rabbit_and_candy_apple')
+        world.skin_manager.locked_skins.discard('laffey_snow_rabbit_and_candy_apple')
+        world.skin_manager.equip_skin('laffey', 'laffey_snow_rabbit_and_candy_apple')
         world.item_manager.gain_items('oath_ring', 2)
 
         world.save_manager.sav_dir = tmp_path
@@ -350,9 +350,9 @@ class TestSaveLoadVersions:
         assert err is None, f'读档失败: {err}'
 
         # 皮肤：已购买 + 穿戴
-        assert 'snow_rabbit_and_candy_apple' in world2.skin_manager.unlocked_skins
-        assert 'snow_rabbit_and_candy_apple' not in world2.skin_manager.locked_skins
-        assert world2.skin_manager.ships_wear_skin['laffey'] == 'snow_rabbit_and_candy_apple'
+        assert 'laffey_snow_rabbit_and_candy_apple' in world2.skin_manager.unlocked_skins
+        assert 'laffey_snow_rabbit_and_candy_apple' not in world2.skin_manager.locked_skins
+        assert world2.skin_manager.ships_wear_skin['laffey'] == 'laffey_snow_rabbit_and_candy_apple'
         # 道具
         assert world2.item_manager.items.get('oath_ring') == 2
 
