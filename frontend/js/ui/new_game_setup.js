@@ -1,5 +1,4 @@
-// 开局设置向导面板：EraTW 经典字符终端风格
-// 支持设置指挥官姓名、初始最大体力与气力 (1800~2500)
+// 开局设置向导面板：设置指挥官姓名、初始最大体力与气力 (1800~2500)
 
 import { getInitialSettingDefs, applyInitialSettings } from '../api.js';
 
@@ -35,11 +34,11 @@ export async function showNewGameSetup(onConfirm, onCancel) {
         el.innerHTML = '';
 
         const screen = document.createElement('div');
-        screen.className = 'era-setup-screen';
+        screen.className = 'setup-screen';
 
         // 顶部提示语
         const header = document.createElement('div');
-        header.className = 'era-setup-header';
+        header.className = 'setup-header';
         header.textContent = '## 指挥官就任登记表 ##';
         header.style.fontSize = '20px';
         header.style.fontWeight = 'bold';
@@ -50,29 +49,29 @@ export async function showNewGameSetup(onConfirm, onCancel) {
 
         // 名字设置行
         const nameRow = document.createElement('div');
-        nameRow.className = 'era-setup-row';
+        nameRow.className = 'setup-row';
 
         if (isEditingName) {
             const promptBox = document.createElement('div');
-            promptBox.className = 'era-name-edit-box';
+            promptBox.className = 'setup-name-box';
 
             const promptText = document.createElement('div');
-            promptText.className = 'era-prompt-text';
+            promptText.className = 'setup-prompt-text';
             promptText.textContent = `想要变更的话请输入新的名字。(留空为默认【${defs.default_name}】)`;
             promptBox.appendChild(promptText);
 
             const inputRow = document.createElement('div');
-            inputRow.className = 'era-input-row';
+            inputRow.className = 'setup-input-row';
 
             const input = document.createElement('input');
             input.type = 'text';
-            input.className = 'era-text-input';
+            input.className = 'setup-text-input';
             input.value = currentName;
             input.maxLength = 20;
             inputRow.appendChild(input);
 
             const okBtn = document.createElement('span');
-            okBtn.className = 'era-button';
+            okBtn.className = 'setup-btn';
             okBtn.textContent = '[确定]';
             okBtn.onclick = () => {
                 const val = input.value.trim();
@@ -83,7 +82,7 @@ export async function showNewGameSetup(onConfirm, onCancel) {
             inputRow.appendChild(okBtn);
 
             const resetBtn = document.createElement('span');
-            resetBtn.className = 'era-button';
+            resetBtn.className = 'setup-btn';
             resetBtn.textContent = '[恢复默认]';
             resetBtn.onclick = () => {
                 currentName = defs.default_name;
@@ -93,7 +92,7 @@ export async function showNewGameSetup(onConfirm, onCancel) {
             inputRow.appendChild(resetBtn);
 
             const cancelBtn = document.createElement('span');
-            cancelBtn.className = 'era-button era-btn-dim';
+            cancelBtn.className = 'setup-btn btn-dim';
             cancelBtn.textContent = '[取消]';
             cancelBtn.onclick = () => {
                 isEditingName = false;
@@ -111,12 +110,12 @@ export async function showNewGameSetup(onConfirm, onCancel) {
             nameRow.appendChild(label);
 
             const val = document.createElement('span');
-            val.className = 'era-name-val';
+            val.className = 'setup-name-val';
             val.textContent = `${currentName} `;
             nameRow.appendChild(val);
 
             const changeBtn = document.createElement('span');
-            changeBtn.className = 'era-button';
+            changeBtn.className = 'setup-btn';
             changeBtn.textContent = '[变更]';
             changeBtn.onclick = () => {
                 isEditingName = true;
@@ -128,7 +127,7 @@ export async function showNewGameSetup(onConfirm, onCancel) {
 
         screen.appendChild(createDivider());
 
-        // 3. 体力与气力设置行
+        // 体力与气力设置行
         const staRow = createBaseBarRow({
             label: '体力',
             val: currentStamina,
@@ -157,12 +156,12 @@ export async function showNewGameSetup(onConfirm, onCancel) {
 
         screen.appendChild(createDivider());
 
-        // 4. 底部操作按钮
+        // 底部操作按钮
         const bottomBox = document.createElement('div');
-        bottomBox.className = 'era-bottom-box';
+        bottomBox.className = 'setup-bottom-box';
 
         const finishBtn = document.createElement('div');
-        finishBtn.className = 'era-menu-option';
+        finishBtn.className = 'setup-menu-option';
         finishBtn.textContent = '- 设定完毕';
         finishBtn.onclick = async () => {
             finishBtn.style.pointerEvents = 'none';
@@ -186,7 +185,7 @@ export async function showNewGameSetup(onConfirm, onCancel) {
         bottomBox.appendChild(finishBtn);
 
         const backBtn = document.createElement('div');
-        backBtn.className = 'era-menu-option era-btn-dim';
+        backBtn.className = 'setup-menu-option btn-dim';
         backBtn.style.marginTop = '8px';
         backBtn.textContent = '- 返回主菜单';
         backBtn.onclick = () => {
@@ -206,25 +205,25 @@ export async function showNewGameSetup(onConfirm, onCancel) {
 
 function createDivider() {
     const div = document.createElement('div');
-    div.className = 'era-drawline';
+    div.className = 'setup-divider';
     return div;
 }
 
 function createBaseBarRow({ label, val, min, max, fillColor, onStep }) {
     const row = document.createElement('div');
-    row.className = 'era-base-row';
+    row.className = 'setup-base-row';
 
     const lbl = document.createElement('span');
-    lbl.className = 'era-base-label';
+    lbl.className = 'setup-base-label';
     lbl.textContent = label;
     row.appendChild(lbl);
 
     // 进度条轨道
     const track = document.createElement('span');
-    track.className = 'era-base-track';
+    track.className = 'setup-base-track';
 
     const fill = document.createElement('span');
-    fill.className = 'era-base-fill';
+    fill.className = 'setup-base-fill';
     fill.style.width = '100%';
     fill.style.backgroundColor = fillColor;
     track.appendChild(fill);
@@ -232,7 +231,7 @@ function createBaseBarRow({ label, val, min, max, fillColor, onStep }) {
 
     // 数值文字 ( 2000/ 2000)
     const valText = document.createElement('span');
-    valText.className = 'era-base-val';
+    valText.className = 'setup-base-val';
     const padVal = String(val).padStart(4, ' ');
     valText.textContent = `( ${padVal}/ ${padVal})`;
     row.appendChild(valText);
@@ -242,7 +241,7 @@ function createBaseBarRow({ label, val, min, max, fillColor, onStep }) {
     const canAdd = val < max;
 
     const btnSub = document.createElement('span');
-    btnSub.className = 'era-button' + (canSub ? '' : ' disabled');
+    btnSub.className = 'setup-btn' + (canSub ? '' : ' disabled');
     btnSub.textContent = '[-]';
     if (canSub) {
         btnSub.onclick = () => onStep(-100);
@@ -250,7 +249,7 @@ function createBaseBarRow({ label, val, min, max, fillColor, onStep }) {
     row.appendChild(btnSub);
 
     const btnAdd = document.createElement('span');
-    btnAdd.className = 'era-button' + (canAdd ? '' : ' disabled');
+    btnAdd.className = 'setup-btn' + (canAdd ? '' : ' disabled');
     btnAdd.textContent = '[+]';
     if (canAdd) {
         btnAdd.onclick = () => onStep(100);

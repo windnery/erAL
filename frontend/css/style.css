@@ -1,4 +1,39 @@
-/* 全局样式 */
+/* ==========================================================================
+   全局设计变量 (Design Tokens)
+   ========================================================================== */
+:root {
+    /* 核心交互与状态高亮 */
+    --color-hover: #ffff00;          /* 统一鼠标悬浮高亮色：纯黄 */
+    --color-selected: #ffff00;       /* 图片选中边框：纯黄 */
+    --color-active-green: #70c070;   /* 选项激活 */
+    --color-gold: #fc0;              /* 资金 */
+    --color-danger: #ff4d4f;         /* 警告/疲劳 */
+    --color-stamina: #6f6;           /* 体力 */
+    --color-energy: #66c;            /* 气力 */
+    --color-vitality: #ccc;          /* 精力 */
+
+    /* 文本色阶 */
+    --color-text-main: #ffffff;      /* 主要正文：纯白 */
+    --color-text-sub: #cccccc;       /* 次要描述：浅灰白 */
+    --color-text-dim: #888888;       /* 辅助文本：暗灰 */
+    --color-text-disabled: #555555;  /* 禁用状态文本：深灰 */
+
+    /* 线条与边框 */
+    --color-border-divider: rgba(255, 255, 255, 0.55);
+    --color-border-dashed: #555555;
+    --color-border-blue: #3366ff;
+    --color-border-dark: #333333;
+
+    /* 背景与色块 */
+    --color-bg-black: #000000;
+    --color-bg-dark: #111111;
+    --color-bg-panel: #0a0d12;
+    --color-bg-track: #222222;
+}
+
+/* ==========================================================================
+   全局重置与通用规范
+   ========================================================================== */
 * {
     margin: 0 2px;
     padding: 0;
@@ -7,13 +42,41 @@
 
 body {
     margin: 0;
-    background-color: black;
-    color: white;
+    background-color: var(--color-bg-black);
+    color: var(--color-text-main);
     font-family: Arial, sans-serif;
     overflow: hidden;
 }
 
-/* 主菜单 */
+button {
+    border: none;
+    background: none;
+    font-family: inherit;
+    color: inherit;
+    cursor: default;
+    user-select: none;
+}
+
+/* 统一通用禁用样式 */
+.disabled,
+:disabled {
+    color: var(--color-text-disabled) !important;
+    cursor: default !important;
+    text-decoration: none !important;
+}
+
+/* 弱化按钮基础样式 */
+.btn-dim {
+    color: var(--color-text-dim);
+}
+
+.btn-dim:hover:not(.disabled) {
+    color: var(--color-hover) !important;
+}
+
+/* ==========================================================================
+   主菜单 (Title / Main Menu)
+   ========================================================================== */
 #main_menu {
     position: relative;
     width: 100%;
@@ -23,7 +86,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: black;
+    background: var(--color-bg-black);
     overflow: hidden;
 }
 
@@ -40,8 +103,8 @@ body {
     position: relative;
     z-index: 1;
     font-size: 48px;
-    color: #fff;
-    text-shadow: 0 0 12px rgba(0,0,0,0.8);
+    color: var(--color-text-main);
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
     margin-bottom: 40px;
     letter-spacing: 8px;
 }
@@ -56,33 +119,31 @@ body {
 }
 
 .menu-option {
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 18px;
     white-space: nowrap;
     letter-spacing: 4px;
     transition: color 0.15s ease;
+    cursor: default;
     user-select: none;
 }
 
 .menu-option:hover {
-    color: #ff0;
+    color: var(--color-hover);
 }
 
-button {
-    border: none;
-    background: none;
-    font-family: inherit;
-}
-
+/* ==========================================================================
+   共享状态栏 (Status Bar)
+   ========================================================================== */
 #status_bar {
     margin-top: 5px;
     padding: 4px 10px;
-    border-top: 3px double #36f;
-    border-bottom: 3px double #36f;
+    border-top: 3px double var(--color-border-blue);
+    border-bottom: 3px double var(--color-border-blue);
 }
 
 #day {
-    color: #36f;
+    color: var(--color-border-blue);
 }
 
 #period {
@@ -94,9 +155,44 @@ button {
 }
 
 #money {
-    color: #fc0;
+    color: var(--color-gold);
 }
 
+/* 共享状态条进度条样式 */
+.bar-track {
+    display: inline-block;
+    width: 80px;
+    height: 14px;
+    background-color: var(--color-bg-track);
+    vertical-align: middle;
+}
+
+.bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    vertical-align: top;
+}
+
+#stamina_fill {
+    background: var(--color-stamina);
+}
+
+#energy_fill {
+    background: var(--color-energy);
+}
+
+#vitality_fill {
+    background: var(--color-vitality);
+}
+
+/* 角色面板气力条复用同色 */
+.chara-bar-fill-ene {
+    background: #66c;
+}
+
+/* ==========================================================================
+   角色信息区 (Character Panel)
+   ========================================================================== */
 #charaPanel {
     height: 350px;
     min-height: 24px;
@@ -111,7 +207,7 @@ button {
 }
 
 .palam-item {
-    color: #ccc;
+    color: var(--color-text-sub);
     font-size: 13px;
     width: 20%;
     white-space: nowrap;
@@ -128,7 +224,7 @@ button {
     display: inline-block;
     width: 80px;
     height: 8px;
-    background-color: #333;
+    background-color: var(--color-border-dark);
     vertical-align: middle;
     flex-shrink: 0;
 }
@@ -150,13 +246,13 @@ button {
     padding: 6px 10px;
     display: flex;
     gap: 12px;
-    flex-wrap: nowrap; /* 单行横向排布，不换行挤占下方空间 */
-    overflow-x: auto; /* 超出宽度支持平滑横向滚动 */
+    flex-wrap: nowrap;
+    overflow-x: auto;
     overflow-y: hidden;
     align-items: center;
     justify-content: safe center;
     scrollbar-width: thin;
-    scrollbar-color: #36f #111;
+    scrollbar-color: var(--color-border-blue) #111;
 }
 
 #charaPortrait::-webkit-scrollbar {
@@ -168,21 +264,21 @@ button {
 }
 
 #charaPortrait::-webkit-scrollbar-thumb {
-    background: #36f;
+    background: var(--color-border-blue);
     border-radius: 2px;
 }
 
-/* 头像块：点击选中的舰娘高亮；头像用尺寸 116x116 */
+/* 头像块：点击选中的舰娘高亮；头像尺寸 116x116 */
 .npc-avatar {
     text-align: center;
     border: 2px solid transparent;
     padding: 2px;
-    flex-shrink: 0; /* 防止多头像时被横向挤压变形 */
+    flex-shrink: 0;
     cursor: default;
 }
 
 .npc-avatar.selected {
-    border-color: #ff0;
+    border-color: var(--color-selected);
 }
 
 .npc-avatar-img {
@@ -193,17 +289,17 @@ button {
 }
 
 .npc-avatar-name {
-    color: #fff;
+    color: var(--color-text-main);
     margin-top: 2px;
 }
 
 .chara-hint {
-    color: #666;
+    color: var(--color-text-disabled);
 }
 
 /* 名字行（含好感/信赖，同行同字号） */
 .chara-name {
-    color: #fff;
+    color: var(--color-text-main);
     margin-bottom: 2px;
 }
 
@@ -216,20 +312,20 @@ button {
 }
 
 .chara-bar-label {
-    color: #fff;
+    color: var(--color-text-main);
 }
 
 .chara-bar-text {
-    color: #fff;
+    color: var(--color-text-main);
     margin-right: 12px;
 }
 
-/* 角色面板体力/气力条配色（与状态栏区分，用绿/蓝） */
+/* 角色面板体力/气力条配色 */
 .chara-bar-fill-sta {
     background: #6f6;
 }
 
-/* 情绪/理性展示行：固定占位 5 颗，不足留空 */
+/* 情绪/理性展示行：固定占位 5 颗 */
 .chara-emo-rat-row {
     display: flex;
     align-items: center;
@@ -239,30 +335,33 @@ button {
 }
 
 .chara-emo-rat-label {
-    color: #fff;
+    color: var(--color-text-main);
 }
 
-/* 爱心：粉色，固定占位 5 颗宽度（不足部分留空，位置不塌） */
+/* 爱心：粉色 */
 .chara-hearts {
     display: inline-block;
-    min-width: 5em;          /* 5 颗爱心横向占位 */
-    color: #ff6fae;          /* 粉色 */
+    min-width: 5em;
+    color: #ff6fae;
     letter-spacing: 2px;
     font-size: 14px;
     line-height: 1;
     margin-right: 12px;
 }
 
-/* 星星：黄色，固定占位 5 颗宽度 */
+/* 星星：金色/黄色 */
 .chara-stars {
     display: inline-block;
     min-width: 5em;
-    color: #ffd700;          /* 金色/黄色 */
+    color: #ffd700;
     letter-spacing: 2px;
     font-size: 14px;
     line-height: 1;
 }
 
+/* ==========================================================================
+   指令交互区 (Act_COM, Ex_COM, Menu_COM, Train_COM)
+   ========================================================================== */
 #Act_COM,
 #Ex_COM {
     min-height: 24px;
@@ -282,48 +381,41 @@ button {
 }
 
 .section-label {
-    color: #fff;
+    color: var(--color-text-main);
     white-space: nowrap;
     letter-spacing: 1px;
 }
 
 .section-line {
     flex: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid var(--color-border-divider);
     margin-left: 8px;
 }
 
-/* Act 分类链接（在分界线标签中） */
+/* Act 分类链接 */
 .act-cat-link {
-    color: #fff;
+    color: var(--color-text-main);
     cursor: default;
     letter-spacing: 1px;
 }
 
 .act-cat-link:hover {
-    color: #ff0;
+    color: var(--color-hover);
 }
 
 .act-cat-link.selected {
-    color: #ff0;
+    color: var(--color-selected);
 }
 
 /* 指令文本 */
 #Act_COM .com-cmd,
 #Ex_COM .com-cmd {
-    color: #fff;
+    color: var(--color-text-main);
     margin-left: 36px;
     white-space: nowrap;
 }
 
-/* 指令间隔：Act/Ex 面板内指令间距 */
-.act-commands {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 18px;
-    padding: 2px 0;
-}
-
+.act-commands,
 .ex-command-list {
     display: flex;
     flex-wrap: wrap;
@@ -331,21 +423,27 @@ button {
     padding: 2px 0;
 }
 
-/* 指令悬浮效果（Act/Ex/菜单统一） */
+/* 指令悬浮效果统一 */
 #Act_COM .com-cmd,
 #Ex_COM .com-cmd,
-#MENU_COM .com-cmd {
-    color: #fff;
+#MENU_COM .com-cmd,
+#TRAIN_COM .com-cmd {
+    color: var(--color-text-main);
     cursor: default;
+    user-select: none;
     transition: color 0.15s ease;
 }
 
 #Act_COM .com-cmd:hover,
 #Ex_COM .com-cmd:hover,
-#MENU_COM .com-cmd:hover {
-    color: #ff0;
+#MENU_COM .com-cmd:hover,
+#TRAIN_COM .com-cmd:hover {
+    color: var(--color-hover);
 }
 
+/* ==========================================================================
+   全屏文字区 & 选项幕
+   ========================================================================== */
 #fullscreen_text {
     display: none;
     position: fixed;
@@ -353,53 +451,20 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--color-bg-black);
     padding: 30px;
     white-space: pre-line;
     overflow-y: auto;
     z-index: 999;
 }
 
-.fullscreen-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
+.fullscreen_text_hint {
+    color: #ff0;
+    font-size: 14px;
     margin-top: 16px;
-    margin-bottom: 8px;
+    user-select: none;
 }
 
-/* 状态条样式 */
-.bar-track {
-    display: inline-block;
-    width: 80px;
-    height: 14px;
-    background-color: #333;
-    vertical-align: middle;
-}
-
-.bar-fill {
-    height: 100%;
-    transition: width 0.3s ease;
-    vertical-align: top;
-}
-
-#stamina_fill {
-    background: #6f6;
-}
-
-#energy_fill {
-    background: #66c;
-}
-
-#vitality_fill {
-    background: #f5f5f5;
-}
-
-/* 角色面板气力条复用同色 */
-.chara-bar-fill-ene {
-    background: #66c;
-}
-
-
-/* 全屏选择幕：与叙事幕平行，仅展示纯文字选项 */
 #fullscreen_options {
     display: none;
     position: fixed;
@@ -407,44 +472,44 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
-    color: white;
-    font-size: 16px;
+    background-color: var(--color-bg-black);
     padding: 30px;
     overflow-y: auto;
     z-index: 999;
 }
 
 #fullscreen_options .option-prompt {
-    color: #888;
-    margin-bottom: 16px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--color-text-main);
 }
 
 #fullscreen_options .option-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
-/* 选项纯文字：无边框、无背景、无小手，悬停变黄 */
 #fullscreen_options .option-item {
-    color: #fff;
+    font-size: 15px;
+    color: var(--color-text-main);
     cursor: default;
-    font-size: 18px;
-    width: fit-content;
+    user-select: none;
+    padding: 4px 0;
+    transition: color 0.15s ease;
 }
 
 #fullscreen_options .option-item:hover {
-    color: #ff0;
+    color: var(--color-hover);
 }
 
 #fullscreen_options .option-hint {
-    color: #666;
-    margin-top: 24px;
+    color: #ff0;
     font-size: 13px;
+    margin-top: 24px;
+    user-select: none;
 }
 
-/* 全屏立绘 */
 #fullscreen_portrait {
     display: none;
     position: fixed;
@@ -452,19 +517,22 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--color-bg-black);
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    cursor: default;
 }
 
 #fullscreen_portrait img {
-    max-width: 95%;
-    max-height: 95%;
+    max-width: 90%;
+    max-height: 90%;
     object-fit: contain;
 }
 
-/* 全屏角色信息面板 */
+/* ==========================================================================
+   全屏角色信息面板 (Character Info Fullscreen)
+   ========================================================================== */
 #fullscreen_charinfo {
     display: none;
     position: fixed;
@@ -472,96 +540,51 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
-    color: white;
-    padding: 12px 0px;
-    overflow: hidden;
-    z-index: 999;
-    font-size: 16px;
+    background-color: var(--color-bg-black);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 900;
 }
 
 .charinfo-tabbar {
     display: flex;
-    gap: 4px;
-    border-bottom: 1px solid #444;
-    margin-bottom: 8px;
-    padding-bottom: 4px;
-}
-
-.charinfo-tab {
-    color: #888;
-    padding: 2px 12px;
-    font-size: 14px;
-    cursor: default;
-    user-select: none;
-}
-
-.charinfo-tab.active {
-    color: #fff;
-    border-bottom: 2px solid #fc0;
-}
-
-.charinfo-tab.disabled {
-    color: #444;
-}
-
-.charinfo-talent-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 8px;
-    margin-top: 4px;
-}
-
-/* 能力/经验网格：每行 8 个，紧凑排布（参考调教目标区），字号 14px；组间 margin 分隔（相邻组间距更大，突出分组） */
-.charinfo-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 1px 10px;
-    margin-top: 6px;
-}
-
-.charinfo-stats-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 4px;
-    color: #fff;
-    font-size: 14px;
-    white-space: nowrap;
-    line-height: 1.5;
-}
-
-.charinfo-stats-name {
-    color: #ccc;
-    font-size: 14px;
-}
-
-.charinfo-stats-value {
-    font-size: 14px;
-}
-
-.charinfo-talent-item {
-    color: #fff;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.charinfo-hint {
-    color: #888;
-    font-size: 14px;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border-divider);
     margin-bottom: 12px;
 }
 
-.charinfo-close-hint {
-    color: #555;
-    font-size: 16px;
-    margin-top: 30px;
-    text-align: center;
+.charinfo-tab {
+    color: var(--color-text-dim);
+    font-size: 15px;
+    cursor: default;
+    user-select: none;
+    padding: 2px 8px;
+    transition: color 0.15s ease;
+}
+
+.charinfo-tab.active {
+    color: var(--color-selected);
+    font-weight: bold;
+}
+
+.charinfo-tab:hover:not(.disabled):not(.active) {
+    color: var(--color-hover);
+}
+
+.charinfo-tab.disabled {
+    color: #444 !important;
+    cursor: default;
+}
+
+.charinfo-content {
+    font-size: 14px;
+    line-height: 1.8;
 }
 
 .charinfo-info-row {
-    color: #fff;
-    font-size: 14px;
+    color: var(--color-text-main);
+    font-size: 15px;
     margin-bottom: 4px;
 }
 
@@ -569,19 +592,83 @@ button {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-bottom: 8px;
+}
+
+.charinfo-section-divider {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 6px;
+}
+
+.charinfo-section-title {
+    color: var(--color-text-main);
+    font-size: 15px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.charinfo-divider-line {
+    flex: 1;
+    border-bottom: 1px solid var(--color-border-divider);
+    margin-left: 8px;
+}
+
+.charinfo-avatar {
+    width: 116px;
+    height: 116px;
+    display: block;
+    margin: 8px 0;
+    cursor: default;
+}
+
+.charinfo-talent-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin: 6px 0;
+}
+
+.charinfo-talent-item {
+    color: var(--color-text-main);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.charinfo-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px 16px;
+    font-size: 14px;
     margin-bottom: 6px;
 }
 
+.charinfo-stats-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.charinfo-stats-name {
+    color: var(--color-text-sub);
+}
+
+.charinfo-stats-value {
+    color: var(--color-text-main);
+    font-weight: bold;
+}
+
 .charinfo-bar-label {
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 14px;
 }
 
 .charinfo-bar-track {
     display: inline-block;
-    width: 100px;
-    height: 10px;
-    background-color: #333;
+    width: 120px;
+    height: 12px;
+    background-color: var(--color-bg-track);
     vertical-align: middle;
 }
 
@@ -592,67 +679,21 @@ button {
 }
 
 .charinfo-bar-text {
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 14px;
-    margin-right: 12px;
+    margin-right: 16px;
 }
 
-.charinfo-section-divider {
-    display: flex;
-    align-items: center;
-    gap: 0;
+.charinfo-hint {
+    color: var(--color-text-disabled);
+    padding: 20px 0;
+    text-align: center;
 }
 
-.charinfo-section-title {
-    color: #fff;
-    font-size: 14px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.charinfo-divider-line {
-    flex: 1;
-    height: 0;
-    border-top: 1px solid #555;
-}
-
-.charinfo-avatar {
-    width: 116px;
-    height: 116px;
-    display: block;
-    margin: 6px 0;
-}
-
-/* 玩家信息面板头像占位框（116px，不放图片） */
-.playerinfo-avatar-placeholder {
-    width: 116px;
-    height: 116px;
-    margin: 6px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed #666;
-    color: #888;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-/* 角色信息-皮肤页：已拥有皮肤网格（复用商店卡片布局） */
-.charinfo-skin-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 636px;
-    gap: 14px;
-    margin: 0 auto;
-    padding: 0;
-}
-
-/* 角色信息-底部操作栏：分界线 + 操作项 */
 .charinfo-bottom {
     margin-top: 20px;
     padding-top: 8px;
-    border-top: 1px solid #555;
+    border-top: 1px solid var(--color-border-dashed);
 }
 
 .charinfo-bottom-actions {
@@ -663,26 +704,20 @@ button {
 }
 
 .charinfo-bottom-action {
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 14px;
     cursor: default;
     user-select: none;
+    transition: color 0.15s ease;
 }
 
-.charinfo-bottom-action:hover {
-    color: #ff0;
+.charinfo-bottom-action:hover:not(.disabled) {
+    color: var(--color-hover);
 }
 
-.charinfo-bottom-action.disabled {
-    color: #666;
-    cursor: default;
-}
-
-.charinfo-bottom-action.disabled:hover {
-    color: #666;
-}
-
-/* ===== 皮肤商店（明石商店） ===== */
+/* ==========================================================================
+   皮肤商店（明石商店）
+   ========================================================================== */
 #skin_shop_screen {
     display: none;
     position: fixed;
@@ -690,23 +725,21 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #111;
-    color: #fff;
+    background: var(--color-bg-dark);
+    color: var(--color-text-main);
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
     z-index: 900;
-    padding: 24px 20px 60px;   /* 底部留出操作栏空间 */
+    padding: 24px 20px 60px;
     box-sizing: border-box;
-    /* 方案B：顶部接续状态栏的双横线（与 #status_bar 同款） */
-    border-top: 3px double #36f;
+    border-top: 3px double var(--color-border-blue);
 }
 
 .skin-shop-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /* 每行5个：5*116 + 4*14(gap) = 636px */
     width: 636px;
     gap: 14px;
     padding: 0;
@@ -724,17 +757,16 @@ button {
     box-sizing: border-box;
 }
 
-/* 头像容器：选中黄框只包围头像 */
 .skin-card-avatar {
     width: 116px;
     height: 116px;
     border: 2px solid transparent;
     box-sizing: border-box;
-    overflow: hidden;  /* img 固定 116px 会溢出容器 2px 盖住右/下边框，裁掉 */
+    overflow: hidden;
 }
 
 .skin-card.selected .skin-card-avatar {
-    border-color: #fc0;
+    border-color: var(--color-gold);
 }
 
 .skin-card-img {
@@ -742,7 +774,7 @@ button {
     height: 116px;
     object-fit: contain;
     display: block;
-    background: #222;
+    background: var(--color-bg-track);
     box-sizing: border-box;
 }
 
@@ -752,8 +784,8 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #222;
-    color: #888;
+    background: var(--color-bg-track);
+    color: var(--color-text-dim);
     font-size: 12px;
     text-align: center;
     overflow: hidden;
@@ -763,27 +795,25 @@ button {
 .skin-card-label {
     margin-top: 4px;
     font-size: 14px;
-    color: #fff;
+    color: var(--color-text-main);
     text-align: center;
-    /* 允许长名字超出 116px，不截断 */
     white-space: normal;
     word-break: break-all;
 }
 
 .skin-card-price {
     font-size: 14px;
-    color: #fc0;
+    color: var(--color-gold);
     margin-top: 2px;
     text-align: center;
 }
 
 .skin-shop-empty {
-    color: #888;
+    color: var(--color-text-dim);
     margin-top: 40px;
     font-size: 16px;
 }
 
-/* 底部操作栏：固定窗口最下方，上方一条纯横线，指令样式 */
 .skin-shop-bottom {
     position: fixed;
     bottom: 0;
@@ -793,14 +823,14 @@ button {
     justify-content: center;
     gap: 28px;
     padding: 8px 0;
-    background: #111;
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    background: var(--color-bg-dark);
+    border-top: 1px solid var(--color-border-divider);
     box-sizing: border-box;
     z-index: 901;
 }
 
 .skin-shop-action {
-    color: #fff;
+    color: var(--color-text-main);
     cursor: default;
     user-select: none;
     transition: color 0.15s ease;
@@ -808,19 +838,10 @@ button {
     line-height: 1.8;
 }
 
-.skin-shop-action:hover {
-    color: #ff0;
+.skin-shop-action:hover:not(.disabled) {
+    color: var(--color-hover);
 }
 
-.skin-shop-action.disabled {
-    color: #555;
-}
-
-.skin-shop-action.disabled:hover {
-    color: #555;   /* 禁用：悬浮不变黄 */
-}
-
-/* 皮肤全屏立绘 */
 #skin_shop_portrait {
     display: none;
     position: fixed;
@@ -828,7 +849,7 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--color-bg-black);
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -842,39 +863,30 @@ button {
     object-fit: contain;
 }
 
-.skin-portrait-placeholder {
-    color: #888;
-    font-size: 16px;
-}
-
-.skin-portrait-hint {
-    color: #555;
-    font-size: 14px;
-    margin-top: 12px;
-}
-
-/* ===== 道具商店（不知火商店） ===== */
-#daily_shop_screen {
+/* ==========================================================================
+   道具商店（不知火商店）与 背包
+   ========================================================================== */
+#daily_shop_screen,
+#inventory_screen {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #111;
-    color: #fff;
+    background: var(--color-bg-dark);
+    color: var(--color-text-main);
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
     z-index: 900;
-    padding: 24px 20px 140px;   /* 底部留出操作栏空间 */
+    padding: 24px 20px 140px;
     box-sizing: border-box;
-    /* 顶部接续状态栏的双横线（与 #status_bar 同款） */
-    border-top: 3px double #36f;
+    border-top: 3px double var(--color-border-blue);
 }
 
-/* 道具列表：纯文字竖排，指令风格 */
-.daily-shop-list {
+.daily-shop-list,
+.inv-list {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -882,8 +894,9 @@ button {
     width: 100%;
 }
 
-.daily-shop-item {
-    color: #fff;
+.daily-shop-item,
+.inv-item {
+    color: var(--color-text-main);
     cursor: default;
     user-select: none;
     font-size: 16px;
@@ -891,41 +904,39 @@ button {
     transition: color 0.15s ease;
 }
 
-.daily-shop-item:hover {
-    color: #ff0;
+.daily-shop-item:hover,
+.inv-item:hover {
+    color: var(--color-hover);
 }
 
-/* 选中 -> 黄色 */
-.daily-shop-item.selected {
-    color: #ff0;
+.daily-shop-item.selected,
+.daily-shop-item.has-count,
+.inv-item.selected {
+    color: var(--color-selected);
 }
 
-/* 购买数量>0 -> 常驻黄色（即使未选中） */
-.daily-shop-item.has-count {
-    color: #ff0;
-}
-
-.daily-shop-empty {
-    color: #888;
+.daily-shop-empty,
+.inv-empty {
+    color: var(--color-text-dim);
     margin-top: 40px;
     font-size: 16px;
 }
 
-/* 描述块：固定位置，选中显示 desc */
-.daily-shop-desc {
+.daily-shop-desc,
+.inv-desc {
     margin-top: 20px;
     min-height: 48px;
     width: 80%;
     max-width: 560px;
-    color: #ccc;
+    color: var(--color-text-sub);
     font-size: 14px;
     line-height: 1.6;
     text-align: center;
     box-sizing: border-box;
 }
 
-/* 底部操作区：固定窗口最下方 */
-.daily-shop-bottom {
+.daily-shop-bottom,
+.inv-bottom {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -935,35 +946,34 @@ button {
     align-items: center;
     gap: 6px;
     padding: 8px 0 10px;
-    background: #111;
+    background: var(--color-bg-dark);
     box-sizing: border-box;
     z-index: 901;
 }
 
-/* 数量设置行 */
 .daily-shop-countrow {
     display: flex;
     justify-content: center;
     gap: 18px;
 }
 
-/* 购买/返回行 */
-.daily-shop-actionrow {
+.daily-shop-actionrow,
+.inv-actionrow {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 28px;
 }
 
-/* 分界线 */
-.daily-shop-divider {
+.daily-shop-divider,
+.inv-divider {
     width: 100%;
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    border-top: 1px solid var(--color-border-divider);
 }
 
-/* 指令样式按钮 */
-.daily-shop-action {
-    color: #fff;
+.daily-shop-action,
+.inv-action {
+    color: var(--color-text-main);
     cursor: default;
     user-select: none;
     transition: color 0.15s ease;
@@ -971,25 +981,16 @@ button {
     line-height: 1.8;
 }
 
-.daily-shop-action:hover {
-    color: #ff0;
+.daily-shop-action:hover:not(.disabled),
+.inv-action:hover:not(.disabled) {
+    color: var(--color-hover);
 }
 
-.daily-shop-action.disabled {
-    color: #555;
-}
-
-.daily-shop-action.disabled:hover {
-    color: #555;   /* 禁用：悬浮不变黄 */
-}
-
-/* 总花费提示 */
 .daily-shop-total {
-    color: #fc0;
+    color: var(--color-gold);
     font-size: 14px;
 }
 
-/* 轻提示条：界面内短暂显示消息（替代 alert） */
 .shop-toast {
     display: none;
     position: fixed;
@@ -997,7 +998,7 @@ button {
     left: 50%;
     transform: translateX(-50%);
     background: rgba(40, 40, 40, 0.95);
-    color: #ff0;
+    color: var(--color-hover);
     border: 1px solid #666;
     padding: 8px 18px;
     font-size: 14px;
@@ -1012,204 +1013,70 @@ button {
     text-overflow: ellipsis;
 }
 
-/* ===== 道具背包（系统指令「道具」） ===== */
-#inventory_screen {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #111;
-    color: #fff;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    z-index: 900;
-    padding: 24px 20px 120px;   /* 底部留出操作栏空间 */
-    box-sizing: border-box;
-    /* 顶部接续状态栏的双横线（与 #status_bar 同款） */
-    border-top: 3px double #36f;
-}
-
-/* 道具列表：纯文字竖排，指令风格 */
-.inv-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-}
-
-.inv-item {
-    color: #fff;
-    cursor: default;
-    user-select: none;
-    font-size: 16px;
-    line-height: 1.8;
-    transition: color 0.15s ease;
-}
-
-.inv-item:hover {
-    color: #ff0;
-}
-
-/* 选中 -> 黄色 */
-.inv-item.selected {
-    color: #ff0;
-}
-
-.inv-empty {
-    color: #888;
-    margin-top: 40px;
-    font-size: 16px;
-}
-
-/* 描述块：固定位置，选中显示 desc */
-.inv-desc {
-    margin-top: 20px;
-    min-height: 48px;
-    width: 80%;
-    max-width: 560px;
-    color: #ccc;
-    font-size: 14px;
-    line-height: 1.6;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-/* 底部操作区：固定窗口最下方 */
-.inv-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 0 10px;
-    background: #111;
-    box-sizing: border-box;
-    z-index: 901;
-}
-
-/* 分界线 */
-.inv-divider {
-    width: 100%;
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
-}
-
-/* 使用/返回行 */
-.inv-actionrow {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 28px;
-}
-
-/* 指令样式按钮 */
-.inv-action {
-    color: #fff;
-    cursor: default;
-    user-select: none;
-    transition: color 0.15s ease;
-    font-size: 16px;
-    line-height: 1.8;
-}
-
-.inv-action:hover {
-    color: #ff0;
-}
-
-.inv-action.disabled {
-    color: #555;
-}
-
-.inv-action.disabled:hover {
-    color: #555;   /* 禁用：悬浮不变黄 */
-}
-
-/* ===== 缓冲菜单界面（每日开始） ===== */
+/* ==========================================================================
+   缓冲菜单界面 (Menu Screen)
+   ========================================================================== */
 #menu_screen {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background: black;
+    background: var(--color-bg-black);
 }
 
 #MENU_COM {
     margin-top: 20px;
 }
 
-/* 菜单指令区标题：【主菜单】标签，绿色（与体力条同色），无分界线横线 */
 #MENU_COM .section-divider .section-label {
     color: #6f6;
     font-weight: bold;
 }
 
-#MENU_COM .section-divider .section-line {
-    display: none;
-}
-
-/* ===== 调教面板 ===== */
-#TRAIN_COM {
+/* ==========================================================================
+   调教目标区 (Train Target Panel)
+   ========================================================================== */
+#train_members {
+    margin-top: 8px;
     min-height: 24px;
     line-height: 1.8;
     padding: 4px 0;
-    margin-top: 8px;
-}
-
-#TRAIN_COM .com-cmd {
-    color: #fff;
-    margin-left: 36px;
-    white-space: nowrap;
-    cursor: default;
-    transition: color 0.15s ease;
-}
-
-#TRAIN_COM .com-cmd:hover {
-    color: #ff0;
-}
-
-#train_members {
-    padding: 4px 0;
-    margin-top: 8px;
 }
 
 .member-row {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
+    padding: 2px 0;
 }
 
 .member-name {
+    color: var(--color-text-main);
+    font-weight: bold;
     min-width: 80px;
-    color: #fff;
 }
 
 .member-initiative {
-    min-width: 90px;
-    color: #aaa;
+    color: #9cf;
+    min-width: 70px;
 }
 
 .member-btn {
-    background: transparent;
     border: none;
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 15px;
     cursor: default;
     padding: 0 2px;
+    transition: color 0.15s ease;
 }
 
 .member-btn:hover {
-    color: #ff0;
+    color: var(--color-hover);
 }
 
 .member-arrow {
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 12px;
 }
 
@@ -1225,7 +1092,7 @@ button {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.95);
-    color: #fff;
+    color: var(--color-text-main);
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -1240,8 +1107,8 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: #000;
-    border: 1px solid #333;
+    background: var(--color-bg-black);
+    border: 1px solid var(--color-border-dark);
     padding: 10px 16px;
     box-sizing: border-box;
 }
@@ -1265,9 +1132,9 @@ button {
     gap: 8px;
     user-select: none;
     font-size: 14px;
-    background: #111;
+    background: var(--color-bg-dark);
     padding: 5px 10px;
-    border: 1px solid #222;
+    border: 1px solid var(--color-bg-track);
 }
 
 .sec-tag {
@@ -1277,11 +1144,11 @@ button {
 }
 
 .sec-tag:hover {
-    color: #fff;
+    color: var(--color-hover);
 }
 
 .sec-tag.selected {
-    color: #ff0 !important;
+    color: var(--color-selected) !important;
     font-weight: bold;
 }
 
@@ -1290,7 +1157,6 @@ button {
     margin: 0 4px;
 }
 
-/* 6x5 网格区 (每页最多30个，5行自适应高度，最大116*116，无滚轮不裁切) */
 .sec-grid {
     flex: 1;
     min-height: 0;
@@ -1301,20 +1167,19 @@ button {
     align-items: center;
     justify-items: center;
     margin: 4px 0;
-    overflow: hidden; /* 禁用内部滚动条，完全依赖分页 */
+    overflow: hidden;
 }
 
 .sec-empty {
     grid-column: 1 / -1;
     grid-row: 1 / -1;
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 舰娘卡片：自适应每行高度，原生头像 + 下方名字 */
 .sec-card {
     display: flex;
     flex-direction: column;
@@ -1332,7 +1197,7 @@ button {
 }
 
 .sec-card.selected {
-    border-color: #ff0 !important;
+    border-color: var(--color-selected) !important;
 }
 
 .sec-avatar-img {
@@ -1348,7 +1213,7 @@ button {
     height: 16px;
     line-height: 16px;
     font-size: 12px;
-    color: #fff;
+    color: var(--color-text-main);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1362,15 +1227,13 @@ button {
     margin-left: 2px;
 }
 
-/* 分界线 */
 .sec-divider {
     width: 100%;
     height: 1px;
-    background: #333;
+    background: var(--color-border-dark);
     margin: 4px 0;
 }
 
-/* 底部交互栏 */
 .sec-footer {
     display: flex;
     justify-content: space-between;
@@ -1386,7 +1249,7 @@ button {
 }
 
 .sec-action-btn {
-    color: #fff;
+    color: var(--color-text-main);
     font-size: 15px;
     cursor: default;
     letter-spacing: 1px;
@@ -1394,65 +1257,60 @@ button {
 }
 
 .sec-action-btn:hover:not(.disabled) {
-    color: #ff0;
-}
-
-.sec-action-btn.disabled {
-    color: #555 !important;
-    cursor: default !important;
+    color: var(--color-hover);
 }
 
 .sec-page-info {
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 13px;
 }
 
-/* ============================================================
-   开局设置面板：EraTW 经典字符终端风格
-   ============================================================ */
+/* ==========================================================================
+   开局设置面板 (New Game Setup)
+   ========================================================================== */
 #new_game_setup {
     position: fixed;
     inset: 0;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--color-bg-black);
+    color: var(--color-text-main);
     z-index: 120;
     overflow-y: auto;
 }
 
-.era-setup-screen {
+.setup-screen {
     padding: 24px 32px;
     font-family: Consolas, 'Courier New', 'SimSun', monospace;
     font-size: 15px;
     line-height: 1.8;
-    color: #ffffff;
+    color: var(--color-text-main);
 }
 
-.era-setup-header {
-    color: #ffffff;
+.setup-header {
+    color: var(--color-text-main);
     margin-bottom: 4px;
 }
 
-.era-drawline {
-    border-bottom: 1px dashed #555555;
+.setup-divider {
+    border-bottom: 1px dashed var(--color-border-dashed);
     margin: 8px 0 10px 0;
     width: 100%;
 }
 
-.era-setup-row {
+.setup-row {
     display: flex;
     align-items: center;
     min-height: 28px;
     margin: 3px 0;
 }
 
-.era-name-val {
-    color: #ffffff;
+.setup-name-val {
+    color: var(--color-text-main);
     font-weight: normal;
     margin: 0 4px;
 }
 
-.era-button {
-    color: #70c070;
+.setup-btn {
+    color: var(--color-active-green);
     cursor: default;
     user-select: none;
     margin: 0 3px;
@@ -1461,100 +1319,86 @@ button {
     transition: color 0.1s ease;
 }
 
-.era-button:hover:not(.disabled) {
-    color: #ffff00;
+.setup-btn:hover:not(.disabled) {
+    color: var(--color-hover);
 }
 
-.era-button.disabled {
-    color: #555555 !important;
-    cursor: default !important;
-    text-decoration: none !important;
-}
-
-.era-button.era-btn-dim {
-    color: #888888;
-}
-
-.era-button.era-btn-dim:hover:not(.disabled) {
-    color: #ffffff;
-}
-
-.era-name-edit-box {
+.setup-name-box {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.era-prompt-text {
-    color: #cccccc;
+.setup-prompt-text {
+    color: var(--color-text-sub);
 }
 
-.era-input-row {
+.setup-input-row {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 4px;
 }
 
-.era-text-input {
-    background: #111111;
-    border: 1px solid #70c070;
-    color: #ffffff;
+.setup-text-input {
+    background: var(--color-bg-dark);
+    border: 1px solid var(--color-active-green);
+    color: var(--color-text-main);
     font-family: inherit;
     font-size: 14px;
     padding: 3px 8px;
     outline: none;
 }
 
-.era-text-input:focus {
-    border-color: #ffff00;
+.setup-text-input:focus {
+    border-color: var(--color-hover);
 }
 
-.era-base-row {
+.setup-base-row {
     display: flex;
     align-items: center;
     margin: 5px 0;
     white-space: nowrap;
 }
 
-.era-base-label {
+.setup-base-label {
     width: 44px;
     flex-shrink: 0;
-    color: #ffffff;
+    color: var(--color-text-main);
 }
 
-.era-base-track {
+.setup-base-track {
     display: inline-block;
     width: 280px;
     height: 12px;
-    background-color: #222222;
+    background-color: var(--color-bg-track);
     margin: 0 8px;
     vertical-align: middle;
     position: relative;
     border-radius: 1px;
 }
 
-.era-base-fill {
+.setup-base-fill {
     display: block;
     height: 100%;
 }
 
-.era-base-val {
-    color: #ffffff;
+.setup-base-val {
+    color: var(--color-text-main);
     font-family: monospace;
-    min-width: 150px;
+    min-width: 100px;
     margin-right: 6px;
 }
 
-.era-bottom-box {
+.setup-bottom-box {
     margin-top: 14px;
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.era-menu-option {
-    color: #70c070;
+.setup-menu-option {
+    color: var(--color-active-green);
     cursor: default;
     user-select: none;
     font-size: 15px;
@@ -1562,16 +1406,6 @@ button {
     transition: color 0.1s ease;
 }
 
-.era-menu-option:hover:not(.disabled) {
-    color: #ffff00;
+.setup-menu-option:hover:not(.disabled) {
+    color: var(--color-hover);
 }
-
-.era-menu-option.era-btn-dim {
-    color: #888888;
-}
-
-.era-menu-option.era-btn-dim:hover {
-    color: #ffffff;
-}
-
-
