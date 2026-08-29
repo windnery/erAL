@@ -1,0 +1,8 @@
+{
+  "foote_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/富特/foote_default.webp",
+    "portrait": "frontend/assets/portraits/富特/foote_default.webp"
+  }
+}

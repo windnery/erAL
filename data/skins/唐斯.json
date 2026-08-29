@@ -1,0 +1,21 @@
+{
+  "downes_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/唐斯/downes_default.webp",
+    "portrait": "frontend/assets/portraits/唐斯/downes_default.webp"
+  },
+  "downes_retrofit": {
+    "retrofit": true,
+    "name": "唐斯·改",
+    "avatar": "frontend/assets/avatars/唐斯/downes_retrofit.webp",
+    "portrait": "frontend/assets/portraits/唐斯/downes_retrofit.webp"
+  },
+  "downes_part-time_bomber": {
+    "is_sale": true,
+    "price": 700,
+    "name": "捣蛋的帮手？",
+    "avatar": "frontend/assets/avatars/唐斯/downes_part-time_bomber.webp",
+    "portrait": "frontend/assets/portraits/唐斯/downes_part-time_bomber.webp"
+  }
+}

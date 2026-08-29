@@ -1,0 +1,14 @@
+{
+  "langley_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/兰利/langley_default.webp",
+    "portrait": "frontend/assets/portraits/兰利/langley_default.webp"
+  },
+  "langley_retrofit": {
+    "retrofit": true,
+    "name": "兰利·改",
+    "avatar": "frontend/assets/avatars/兰利/langley_retrofit.webp",
+    "portrait": "frontend/assets/portraits/兰利/langley_retrofit.webp"
+  }
+}

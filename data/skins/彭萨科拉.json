@@ -1,0 +1,8 @@
+{
+  "pensacola_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/彭萨科拉/pensacola_default.webp",
+    "portrait": "frontend/assets/portraits/彭萨科拉/pensacola_default.webp"
+  }
+}

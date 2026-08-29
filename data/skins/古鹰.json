@@ -1,0 +1,14 @@
+{
+  "furutaka_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/古鹰/furutaka_default.webp",
+    "portrait": "frontend/assets/portraits/古鹰/furutaka_default.webp"
+  },
+  "furutaka_retrofit": {
+    "retrofit": true,
+    "name": "古鹰·改",
+    "avatar": "frontend/assets/avatars/古鹰/furutaka_retrofit.webp",
+    "portrait": "frontend/assets/portraits/古鹰/furutaka_retrofit.webp"
+  }
+}

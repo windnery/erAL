@@ -1,0 +1,14 @@
+{
+  "craven_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/克雷文/craven_default.webp",
+    "portrait": "frontend/assets/portraits/克雷文/craven_default.webp"
+  },
+  "craven_retrofit": {
+    "retrofit": true,
+    "name": "克雷文·改",
+    "avatar": "frontend/assets/avatars/克雷文/craven_retrofit.webp",
+    "portrait": "frontend/assets/portraits/克雷文/craven_retrofit.webp"
+  }
+}

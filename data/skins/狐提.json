@@ -1,0 +1,14 @@
+{
+  "foxhound_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/狐提/foxhound_default.webp",
+    "portrait": "frontend/assets/portraits/狐提/foxhound_default.webp"
+  },
+  "foxhound_retrofit": {
+    "retrofit": true,
+    "name": "狐提·改",
+    "avatar": "frontend/assets/avatars/狐提/foxhound_retrofit.webp",
+    "portrait": "frontend/assets/portraits/狐提/foxhound_retrofit.webp"
+  }
+}

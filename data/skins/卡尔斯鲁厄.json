@@ -1,0 +1,14 @@
+{
+  "karlsruhe_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/卡尔斯鲁厄/karlsruhe_default.webp",
+    "portrait": "frontend/assets/portraits/卡尔斯鲁厄/karlsruhe_default.webp"
+  },
+  "karlsruhe_retrofit": {
+    "retrofit": true,
+    "name": "卡尔斯鲁厄·改",
+    "avatar": "frontend/assets/avatars/卡尔斯鲁厄/karlsruhe_retrofit.webp",
+    "portrait": "frontend/assets/portraits/卡尔斯鲁厄/karlsruhe_retrofit.webp"
+  }
+}

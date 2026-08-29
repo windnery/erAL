@@ -1,0 +1,14 @@
+{
+  "comet_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/彗星/comet_default.webp",
+    "portrait": "frontend/assets/portraits/彗星/comet_default.webp"
+  },
+  "comet_retrofit": {
+    "retrofit": true,
+    "name": "彗星·改",
+    "avatar": "frontend/assets/avatars/彗星/comet_retrofit.webp",
+    "portrait": "frontend/assets/portraits/彗星/comet_retrofit.webp"
+  }
+}

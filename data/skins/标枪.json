@@ -4,5 +4,63 @@
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/标枪/javelin_default.webp",
     "portrait": "frontend/assets/portraits/标枪/javelin_default.webp"
+  },
+  "javelin_retrofit": {
+    "retrofit": true,
+    "name": "标枪·改",
+    "avatar": "frontend/assets/avatars/标枪/javelin_retrofit.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_retrofit.webp"
+  },
+  "javelin_a_different_dance": {
+    "is_sale": false,
+    "name": "夜宴的新风格？",
+    "avatar": "frontend/assets/avatars/标枪/javelin_a_different_dance.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_a_different_dance.webp"
+  },
+  "javelin_a_legend_is_born": {
+    "is_sale": true,
+    "price": 780,
+    "name": "成就达成？！",
+    "avatar": "frontend/assets/avatars/标枪/javelin_a_legend_is_born.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_a_legend_is_born.webp"
+  },
+  "javelin_beach_picnic": {
+    "is_sale": true,
+    "price": 1080,
+    "name": "沙滩野餐会",
+    "avatar": "frontend/assets/avatars/标枪/javelin_beach_picnic.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_beach_picnic.webp"
+  },
+  "javelin_energetic_idol_120%_motivation": {
+    "is_sale": true,
+    "price": 800,
+    "name": "王道偶像·元气120！",
+    "avatar": "frontend/assets/avatars/标枪/javelin_energetic_idol_120%_motivation.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_energetic_idol_120%_motivation.webp"
+  },
+  "javelin_let's_become_waitresses": {
+    "is_sale": true,
+    "price": 700,
+    "name": "一起成为服务生！",
+    "avatar": "frontend/assets/avatars/标枪/javelin_let's_become_waitresses.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_let's_become_waitresses.webp"
+  },
+  "javelin_operation_pillow_fight": {
+    "is_sale": false,
+    "name": "枕头大战！",
+    "avatar": "frontend/assets/avatars/标枪/javelin_operation_pillow_fight.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_operation_pillow_fight.webp"
+  },
+  "javelin_slow_ahead": {
+    "is_sale": false,
+    "name": "微速前进！",
+    "avatar": "frontend/assets/avatars/标枪/javelin_slow_ahead.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_slow_ahead.webp"
+  },
+  "javelin_blissful_purity": {
+    "oath": true,
+    "name": "幸福纯白",
+    "avatar": "frontend/assets/avatars/标枪/javelin_blissful_purity.webp",
+    "portrait": "frontend/assets/portraits/标枪/javelin_blissful_purity.webp"
   }
 }

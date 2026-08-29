@@ -1,0 +1,8 @@
+{
+  "konigsberg_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/柯尼斯堡/konigsberg_default.webp",
+    "portrait": "frontend/assets/portraits/柯尼斯堡/konigsberg_default.webp"
+  }
+}

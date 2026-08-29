@@ -4,5 +4,107 @@
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/绫波/ayanami_default.webp",
     "portrait": "frontend/assets/portraits/绫波/ayanami_default.webp"
+  },
+  "ayanami_retrofit": {
+    "retrofit": true,
+    "name": "绫波·改",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_retrofit.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_retrofit.webp"
+  },
+  "ayanami_cola_fills_you_with_determination": {
+    "is_sale": false,
+    "name": "可乐，加上努力？",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_cola_fills_you_with_determination.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_cola_fills_you_with_determination.webp"
+  },
+  "ayanami_covert_ops_cloak": {
+    "is_sale": true,
+    "price": 800,
+    "name": "特殊潜入作战披风",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_covert_ops_cloak.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_covert_ops_cloak.webp"
+  },
+  "ayanami_demon's_finest_dress": {
+    "oath": true,
+    "name": "鬼神之华裳",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_demon's_finest_dress.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_demon's_finest_dress.webp"
+  },
+  "ayanami_disarming_deep_blue": {
+    "is_sale": true,
+    "price": 800,
+    "name": "深蓝邀约",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_disarming_deep_blue.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_disarming_deep_blue.webp"
+  },
+  "ayanami_dynamic_kick": {
+    "is_sale": true,
+    "price": 880,
+    "name": "跃动飞踢！",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_dynamic_kick.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_dynamic_kick.webp"
+  },
+  "ayanami_dynasty_shipgirl": {
+    "is_sale": true,
+    "price": 880,
+    "name": "苍墨武鉴",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_dynasty_shipgirl.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_dynasty_shipgirl.webp"
+  },
+  "ayanami_grade_a_sailor_uniform": {
+    "is_sale": true,
+    "price": 780,
+    "name": "一式水手风制服",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_grade_a_sailor_uniform.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_grade_a_sailor_uniform.webp"
+  },
+  "ayanami_low-key_idol_confused": {
+    "is_sale": true,
+    "price": 800,
+    "name": "冷静偶像·迷惑中",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_low-key_idol_confused.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_low-key_idol_confused.webp"
+  },
+  "ayanami_lunar_demon": {
+    "is_sale": true,
+    "price": 800,
+    "name": "新岁之鬼神",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_lunar_demon.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_lunar_demon.webp"
+  },
+  "ayanami_nightfall_raiment": {
+    "is_sale": true,
+    "price": 880,
+    "name": "黯然礼装",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_nightfall_raiment.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_nightfall_raiment.webp"
+  },
+  "ayanami_off-duty_battles_station_gear": {
+    "is_sale": true,
+    "price": 800,
+    "name": "微速战斗姿势",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_off-duty_battles_station_gear.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_off-duty_battles_station_gear.webp"
+  },
+  "ayanami_pulse_of_the_new_year": {
+    "is_sale": true,
+    "price": 800,
+    "name": "新年的愿望",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_pulse_of_the_new_year.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_pulse_of_the_new_year.webp"
+  },
+  "ayanami_rock_'n'_demon": {
+    "is_sale": true,
+    "price": 800,
+    "name": "乐队型鬼神",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_rock_'n'_demon.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_rock_'n'_demon.webp"
+  },
+  "ayanami_witch_in_ambush": {
+    "is_sale": true,
+    "price": 780,
+    "name": "待宵的魔女",
+    "avatar": "frontend/assets/avatars/绫波/ayanami_witch_in_ambush.webp",
+    "portrait": "frontend/assets/portraits/绫波/ayanami_witch_in_ambush.webp"
   }
 }

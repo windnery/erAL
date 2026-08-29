@@ -1,0 +1,14 @@
+{
+  "koln_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/科隆/koln_default.webp",
+    "portrait": "frontend/assets/portraits/科隆/koln_default.webp"
+  },
+  "koln_retrofit": {
+    "retrofit": true,
+    "name": "科隆·改",
+    "avatar": "frontend/assets/avatars/科隆/koln_retrofit.webp",
+    "portrait": "frontend/assets/portraits/科隆/koln_retrofit.webp"
+  }
+}

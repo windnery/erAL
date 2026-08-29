@@ -4,5 +4,93 @@
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/Z23/Z23_default.webp",
     "portrait": "frontend/assets/portraits/Z23/Z23_default.webp"
+  },
+  "Z23_retrofit": {
+    "retrofit": true,
+    "name": "Z23·改",
+    "avatar": "frontend/assets/avatars/Z23/Z23_retrofit.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_retrofit.webp"
+  },
+  "Z23_breezy_doubles": {
+    "is_sale": true,
+    "price": 880,
+    "name": "非正式沙滩排球赛",
+    "avatar": "frontend/assets/avatars/Z23/Z23_breezy_doubles.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_breezy_doubles.webp"
+  },
+  "Z23_cafe_trainee_new_base": {
+    "is_sale": true,
+    "price": 700,
+    "name": "新设基地·茶店体验",
+    "avatar": "frontend/assets/avatars/Z23/Z23_cafe_trainee_new_base.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_cafe_trainee_new_base.webp"
+  },
+  "Z23_inky_antics": {
+    "is_sale": true,
+    "price": 780,
+    "name": "案上墨戏",
+    "avatar": "frontend/assets/avatars/Z23/Z23_inky_antics.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_inky_antics.webp"
+  },
+  "Z23_keeper_of_the_comf-fort": {
+    "is_sale": true,
+    "price": 800,
+    "name": "秘密的起居室",
+    "avatar": "frontend/assets/avatars/Z23/Z23_keeper_of_the_comf-fort.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_keeper_of_the_comf-fort.webp"
+  },
+  "Z23_perfect_smile": {
+    "is_sale": true,
+    "price": 800,
+    "name": "标准笑容？",
+    "avatar": "frontend/assets/avatars/Z23/Z23_perfect_smile.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_perfect_smile.webp"
+  },
+  "Z23_philosophy_sensei": {
+    "is_sale": true,
+    "price": 780,
+    "name": "哲学讲师",
+    "avatar": "frontend/assets/avatars/Z23/Z23_philosophy_sensei.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_philosophy_sensei.webp"
+  },
+  "Z23_serious_idol_acting_manager": {
+    "is_sale": true,
+    "price": 800,
+    "name": "正经偶像·经纪人担当？",
+    "avatar": "frontend/assets/avatars/Z23/Z23_serious_idol_acting_manager.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_serious_idol_acting_manager.webp"
+  },
+  "Z23_tanz_der_blumen": {
+    "is_sale": true,
+    "price": 880,
+    "name": "舞会与黑蔷薇",
+    "avatar": "frontend/assets/avatars/Z23/Z23_tanz_der_blumen.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_tanz_der_blumen.webp"
+  },
+  "Z23_the_banquet's_honor_student": {
+    "is_sale": true,
+    "price": 800,
+    "name": "宴会上的优等生",
+    "avatar": "frontend/assets/avatars/Z23/Z23_the_banquet's_honor_student.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_the_banquet's_honor_student.webp"
+  },
+  "Z23_the_eyecatch_in_the_rye": {
+    "is_sale": true,
+    "price": 800,
+    "name": "书架边的“风景”？",
+    "avatar": "frontend/assets/avatars/Z23/Z23_the_eyecatch_in_the_rye.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_the_eyecatch_in_the_rye.webp"
+  },
+  "Z23_upgrade_failure": {
+    "is_sale": false,
+    "name": "强化失败？！",
+    "avatar": "frontend/assets/avatars/Z23/Z23_upgrade_failure.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_upgrade_failure.webp"
+  },
+  "Z23_schwarze_hochzeit": {
+    "oath": true,
+    "name": "黑曜的嫁衣",
+    "avatar": "frontend/assets/avatars/Z23/Z23_schwarze_hochzeit.webp",
+    "portrait": "frontend/assets/portraits/Z23/Z23_schwarze_hochzeit.webp"
   }
 }

@@ -4,5 +4,39 @@
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/明石/akashi_default.webp",
     "portrait": "frontend/assets/portraits/明石/akashi_default.webp"
+  },
+  "akashi_akashi's_in_the_red": {
+    "is_sale": true,
+    "price": 800,
+    "name": "正月，浴衣，赤字",
+    "avatar": "frontend/assets/avatars/明石/akashi_akashi's_in_the_red.webp",
+    "portrait": "frontend/assets/portraits/明石/akashi_akashi's_in_the_red.webp"
+  },
+  "akashi_the_black_cat_cometh": {
+    "is_sale": true,
+    "price": 780,
+    "name": "黑猫来袭！",
+    "avatar": "frontend/assets/avatars/明石/akashi_the_black_cat_cometh.webp",
+    "portrait": "frontend/assets/portraits/明石/akashi_the_black_cat_cometh.webp"
+  },
+  "akashi_welcome_to_azurcon": {
+    "is_sale": true,
+    "price": 800,
+    "name": "明石_在A1摊位喵！",
+    "avatar": "frontend/assets/avatars/明石/akashi_welcome_to_azurcon.webp",
+    "portrait": "frontend/assets/portraits/明石/akashi_welcome_to_azurcon.webp"
+  },
+  "akashi_welcome_to_sofmap": {
+    "is_sale": true,
+    "price": 780,
+    "name": "欢迎光临Sofmap！",
+    "avatar": "frontend/assets/avatars/明石/akashi_welcome_to_sofmap.webp",
+    "portrait": "frontend/assets/portraits/明石/akashi_welcome_to_sofmap.webp"
+  },
+  "akashi_white_cat's_repayment": {
+    "oath": true,
+    "name": "白猫的报恩",
+    "avatar": "frontend/assets/avatars/明石/akashi_white_cat's_repayment.webp",
+    "portrait": "frontend/assets/portraits/明石/akashi_white_cat's_repayment.webp"
   }
 }

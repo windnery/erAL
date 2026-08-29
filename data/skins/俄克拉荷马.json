@@ -1,0 +1,21 @@
+{
+  "oklahoma_default": {
+    "default": true,
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/俄克拉荷马/oklahoma_default.webp",
+    "portrait": "frontend/assets/portraits/俄克拉荷马/oklahoma_default.webp"
+  },
+  "oklahoma_retrofit": {
+    "retrofit": true,
+    "name": "俄克拉荷马·改",
+    "avatar": "frontend/assets/avatars/俄克拉荷马/oklahoma_retrofit.webp",
+    "portrait": "frontend/assets/portraits/俄克拉荷马/oklahoma_retrofit.webp"
+  },
+  "oklahoma_piratey_transformation": {
+    "is_sale": true,
+    "price": 780,
+    "name": "炸裂变身大作战！",
+    "avatar": "frontend/assets/avatars/俄克拉荷马/oklahoma_piratey_transformation.webp",
+    "portrait": "frontend/assets/portraits/俄克拉荷马/oklahoma_piratey_transformation.webp"
+  }
+}
