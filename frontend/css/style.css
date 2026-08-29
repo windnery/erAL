@@ -1407,3 +1407,171 @@ button {
     font-size: 13px;
 }
 
+/* ============================================================
+   开局设置面板：EraTW 经典字符终端风格
+   ============================================================ */
+#new_game_setup {
+    position: fixed;
+    inset: 0;
+    background-color: #000000;
+    color: #ffffff;
+    z-index: 120;
+    overflow-y: auto;
+}
+
+.era-setup-screen {
+    padding: 24px 32px;
+    font-family: Consolas, 'Courier New', 'SimSun', monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #ffffff;
+}
+
+.era-setup-header {
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.era-drawline {
+    border-bottom: 1px dashed #555555;
+    margin: 8px 0 10px 0;
+    width: 100%;
+}
+
+.era-setup-row {
+    display: flex;
+    align-items: center;
+    min-height: 28px;
+    margin: 3px 0;
+}
+
+.era-name-val {
+    color: #ffffff;
+    font-weight: normal;
+    margin: 0 4px;
+}
+
+.era-button {
+    color: #70c070;
+    cursor: default;
+    user-select: none;
+    margin: 0 3px;
+    font-family: inherit;
+    font-size: inherit;
+    transition: color 0.1s ease;
+}
+
+.era-button:hover:not(.disabled) {
+    color: #ffff00;
+}
+
+.era-button.disabled {
+    color: #555555 !important;
+    cursor: default !important;
+    text-decoration: none !important;
+}
+
+.era-button.era-btn-dim {
+    color: #888888;
+}
+
+.era-button.era-btn-dim:hover:not(.disabled) {
+    color: #ffffff;
+}
+
+.era-name-edit-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.era-prompt-text {
+    color: #cccccc;
+}
+
+.era-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.era-text-input {
+    background: #111111;
+    border: 1px solid #70c070;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 3px 8px;
+    outline: none;
+}
+
+.era-text-input:focus {
+    border-color: #ffff00;
+}
+
+.era-base-row {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    white-space: nowrap;
+}
+
+.era-base-label {
+    width: 44px;
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+.era-base-track {
+    display: inline-block;
+    width: 280px;
+    height: 12px;
+    background-color: #222222;
+    margin: 0 8px;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 1px;
+}
+
+.era-base-fill {
+    display: block;
+    height: 100%;
+}
+
+.era-base-val {
+    color: #ffffff;
+    font-family: monospace;
+    min-width: 150px;
+    margin-right: 6px;
+}
+
+.era-bottom-box {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.era-menu-option {
+    color: #70c070;
+    cursor: default;
+    user-select: none;
+    font-size: 15px;
+    width: fit-content;
+    transition: color 0.1s ease;
+}
+
+.era-menu-option:hover:not(.disabled) {
+    color: #ffff00;
+}
+
+.era-menu-option.era-btn-dim {
+    color: #888888;
+}
+
+.era-menu-option.era-btn-dim:hover {
+    color: #ffffff;
+}
+
+

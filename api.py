@@ -4,6 +4,7 @@ from game_engine.logging_config import (
     report_frontend_error,
     set_runtime_context,
 )
+from game_engine.setting import SettingManager
 from world import World
 
 
@@ -20,6 +21,7 @@ class Api:
             'item_manager': world.item_manager,
             'train_manager': world.train_manager,
             'event_manager': world.event_manager,
+            'setting_manager': SettingManager(world),
         }
 
     def call(self, manager_name: str, func_name: str, *args, **kwargs):

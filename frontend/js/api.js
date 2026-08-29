@@ -38,6 +38,14 @@ export async function chooseOption(optionKey) {
     return await call('event_manager', 'choose_option', optionKey);
 }
 
+export async function getInitialSettingDefs() {
+    return await call('setting_manager', 'get_initial_setting_defs');
+}
+
+export async function applyInitialSettings(name, maxStamina, maxEnergy) {
+    return await call('setting_manager', 'apply_initial_settings', name, maxStamina, maxEnergy);
+}
+
 export async function reportFrontendError(error) {
     const api = window.pywebview?.api;
     if (!api?.report_frontend_error) return false;

@@ -9,6 +9,7 @@ import { openDailyShop } from './ui/daily_shop.js';
 import { openInventory } from './ui/inventory.js';
 import { showPlayerInfo } from './ui/player_info.js';
 import { parseColoredMessage } from './ui/colored_text.js';
+import { showNewGameSetup } from './ui/new_game_setup.js';
 
 // 当前选中的舰娘 id（前端 UI 态，不进后端）
 let selectedNpcId = null;
@@ -318,9 +319,15 @@ function showStatusBar() {
 
 function new_game() {
     document.getElementById('main_menu').style.display = 'none';
-    showStatusBar();
-    // 缓冲菜单由 refresh 根据 menu_active 决定显示
-    refresh();
+    showNewGameSetup(
+        () => {
+            showStatusBar();
+            refresh();
+        },
+        () => {
+            document.getElementById('main_menu').style.display = 'flex';
+        }
+    );
 }
 
 async function load_game() {
