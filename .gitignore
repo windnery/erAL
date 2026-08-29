@@ -14,3 +14,4 @@ sav/
 logs/
 /eratohoK/
 /docs/
+.pytest_cache/

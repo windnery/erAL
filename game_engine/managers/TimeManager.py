@@ -1,3 +1,4 @@
+from game_engine.dialogue import get_scene
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
@@ -50,7 +51,8 @@ class TimeManager:
     def get_sleep_time(self):
         # 获取正常睡觉的时间
         current = self.hour * 60 + self.minute
-        target = self.player.wake_time['hour'] * 60 + self.player.wake_time['minute']  # 醒来的时间
+        target = self.player.wake_time['hour'] * \
+            60 + self.player.wake_time['minute']  # 醒来的时间
         if current >= target:
             # 如果当前时间已经超过设定的醒来时间，则推进到第二天
             minutes_to_advance = (24 * 60 - current) + target
@@ -62,8 +64,10 @@ class TimeManager:
         # 获取体力耗尽的休息时间
         # 体力耗尽后会一直睡到体力和气力恢复到最大值，假设每小时恢复体力和气力的1/10
         # 恢复速率: max/10 每小时 = max/600 每分钟，所需分钟数 = remaining * 600 / max
-        stamina_recovery_time = (self.player.base['max_stamina'] - self.player.base['stamina']) * 600 // self.player.base['max_stamina']
-        energy_recovery_time = (self.player.base['max_energy'] - self.player.base['energy']) * 600 // self.player.base['max_energy']
+        stamina_recovery_time = (
+            self.player.base['max_stamina'] - self.player.base['stamina']) * 600 // self.player.base['max_stamina']
+        energy_recovery_time = (
+            self.player.base['max_energy'] - self.player.base['energy']) * 600 // self.player.base['max_energy']
         return max(stamina_recovery_time, energy_recovery_time)
 
     def advance_time_with_events(self, minutes: int):
@@ -78,7 +82,8 @@ class TimeManager:
         self.advance_time(minutes)
 
         # 更新舰娘位置（当前时间由 NpcManager 内部读 time_manager，minutes 仅作推进量）
-        self.npc_manager.update_positions(minutes, self.map_manager, self.player)
+        self.npc_manager.update_positions(
+            minutes, self.map_manager, self.player)
 
         # 推进后：谁在这
         after = {sg.id: sg.name for sg in self.npc_manager.get_npcs_at(r, n)}
@@ -93,6 +98,24 @@ class TimeManager:
         for sg_id, name in after.items():
             if sg_id not in before:
                 events.append(f'{name}走了过来。')
+
+        # encounter 事件
+        for sg_id, name in after.items():
+            if sg_id in before:
+                continue  # 已经在这里的舰娘不触发 encounter
+            sg = self.npc_manager.get_npc_by_id(sg_id)
+            if not sg.is_following():
+                # 未跟随
+                events.append(f'遇到了[[c:{sg.color}]]{name}[[/c]]。')
+
+            if not sg.cflag['have_encountered']:
+                # 之前没见过
+                sg.cflag['have_encountered'] = True
+                events.append(f'第一次遇到{name}。')
+                scene = get_scene(sg, 'first_encounter', self.player.name)
+                if scene:
+                    for msg in scene:
+                        events.append(f'[[c:{sg.color}]]{msg}[[/c]]')
 
         return events
 

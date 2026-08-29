@@ -216,6 +216,11 @@
     "resting": {
       "name": "休息中",
       "default": false
+    },
+    "have_encountered": {
+      "name": "已见过面",
+      "default": false,
+      "is_shown": false
     }
   },
   "exp": {

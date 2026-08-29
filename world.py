@@ -54,7 +54,7 @@ class World:
             'menu_active': self.menu_active,
             'time': self.time_manager.get_state(),
             'nearby_npcs': nearby,
-            'cflag_defs': {k: v['name'] for k, v in ATTR_DEFS.get('cflag', {}).items()},
+            'cflag_defs': ATTR_DEFS.get('cflag', {}),
             'palam_defs': {k: v['name'] for k, v in ATTR_DEFS.get('palam', {}).items()},
             'abl_defs': ATTR_DEFS.get('abl', {}),
             'exp_defs': ATTR_DEFS.get('exp', {}),

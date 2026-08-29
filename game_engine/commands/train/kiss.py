@@ -143,7 +143,7 @@ def kiss(world: World):
     ctx.say(f'{src_name}亲吻{tar_name}……')
     for target_id in train.targets:
         chara = get_entity_by_id(world.player, target_id)
-        if target_id != PLAYER_ID:
+        if isinstance(chara, ShipGirl):
             # 只有舰娘有口上
             say_chara_line(chara, ctx, 'kiss')
 
@@ -204,7 +204,7 @@ def kiss(world: World):
         exp_mes.append(exp_calc('kiss_exp', chara))
 
         # 处理好感和信赖
-        if target_id != PLAYER_ID:
+        if isinstance(chara, ShipGirl):
             favor_trust_proc(sources[target_id], chara, ctx)
 
     # source转换过程统一处理

@@ -52,8 +52,21 @@ export function renderCharaPanel(npcs, selectedId, palamDefs, palamLvMap, cflagD
     const name = document.createElement('div');
     name.className = 'chara-name';
     const flags = Object.entries(npc.cflag || {})
-        .filter(([, v]) => v === true)
-        .map(([k]) => (cflagDefs && cflagDefs[k]) || k);
+        .filter(([k, v]) => {
+            if (v !== true) return false;
+            const def = cflagDefs && cflagDefs[k];
+            if (def && typeof def === 'object' && def.is_shown === false) {
+                return false;
+            }
+            return true;
+        })
+        .map(([k]) => {
+            const def = cflagDefs && cflagDefs[k];
+            if (def && typeof def === 'object') {
+                return def.name || k;
+            }
+            return def || k;
+        });
 
     name.appendChild(document.createTextNode(`${npc.name} (好感 ${npc.favor ?? 0} 信赖 ${npc.trust ?? 0}`));
 

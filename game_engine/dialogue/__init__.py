@@ -35,7 +35,7 @@ def _get_module(chara_id: str):
     return _MODULE_CACHE[module_name]
 
 
-def get_scene(chara, action: str) -> list[str] | None:
+def get_scene(chara, action: str, player_name: str) -> list[str] | None:
     """获取角色某个 action 的口上场景（消息列表）；无口上返回 None。"""
     module = _get_module(chara.id)
     if module is None:
@@ -43,7 +43,7 @@ def get_scene(chara, action: str) -> list[str] | None:
     fn = getattr(module, action, None)
     if fn is None:
         return None
-    scenes = fn(chara)
+    scenes = fn(chara, player_name)
     if not scenes:
         return None
     return list(random.choice(scenes))

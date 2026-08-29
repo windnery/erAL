@@ -34,10 +34,10 @@ def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrat
     """输出角色口上场景（按角色色逐条染色）；无口上时静默。"""
     from game_engine.dialogue import get_scene
 
-    scene = get_scene(chara, action)
+    scene = get_scene(chara, action, ctx.world.player.name)
     if scene:
         for msg in scene:
-            ctx.say_block(block, f'[[c:{getattr(chara, "color", "#ffffff")}]]{msg.replace("{name}", chara.name)}[[/c]]')
+            ctx.say_block(block, f'[[c:{chara.color}]]{msg}[[/c]]')
         return True
     # False说明无口上
     return False

@@ -7,8 +7,7 @@ FRONTEND_DIR = Path(__file__).parent / 'frontend'
 
 
 def main():
-    # Install crash reporting before importing the UI/runtime so startup
-    # failures are captured as well.
+    # 收集崩溃日志
     configure_logging()
 
     import webview
@@ -18,11 +17,11 @@ def main():
     webview.create_window(
         'erAL',
         str(FRONTEND_DIR / 'index.html'),
-        width=1024,
-        height=860,
+        width=1600,
+        height=900,
         js_api=api,
     )
-    webview.start(debug=True)
+    webview.start()
 
 
 if __name__ == '__main__':
