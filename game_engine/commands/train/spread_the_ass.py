@@ -7,9 +7,11 @@ from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import add_attitude_mes, train_global_can, new_source, get_name_by_id, get_entity_by_id, \
-    favor_trust_proc, source_proc_batch
+    check_body_slots
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.data_pipeline.exp_calc import exp_calc
+from game_engine.models.continuous_command import ContinuousCommand
 from game_engine.models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -24,6 +26,9 @@ def can(world: World):
         return False
     # 人数判定
     if len(train_manager.train.actors) * 2 < len(train_manager.train.targets):  # type: ignore
+        return False
+    # 槽位判定（被调教方1手1菊穴）
+    if not check_body_slots(world, actor_slots={}, target_slots={'hands': 1, 'ass': 1}):
         return False
 
     return True
@@ -100,11 +105,83 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     return ok, mes
 
 
-@register_cmd('spread_the_ass', '张开菊穴', cat='爱抚', train_mode=True, can=can, needs_target=False)
+def continuous_tick(world: World, ctx: CommandContext, cmd: ContinuousCommand):
+    # 持续效果
+    act_num = len(cmd.actor_ids)
+    tar_num = len(cmd.target_ids)
+    if act_num == 0 or tar_num == 0:
+        return [], []
+    num_adjust = float(act_num / tar_num)
+    source: dict[str, int] = new_source({
+        'a_pleasure_source': 25,
+        'achievement_source': 10,
+        'fear_source': 60,
+        'lubrication_source': 5,
+        'exposure_source': 150,
+        'submission_source': 225,
+        'escape_source': 75,
+        'disgust_source': 75
+    })
+
+    sources: dict[str, dict[str, int]] = {}
+    exp_mes = []
+    # 被调教者
+    for target_id in cmd.target_ids:
+        sources: dict[str, dict[str, int]] = {
+            target_id: {k: int(v * num_adjust)
+                        for k, v in source.items()}
+        }
+        chara = get_entity_by_id(world.player, target_id)
+        if chara.get_talent_value('virgin') > 0:
+            sources[target_id]['fear_source'] = int(
+                sources[target_id]['fear_source'] * 1.2)
+            sources[target_id]['submission_source'] = int(
+                sources[target_id]['submission_source'] * 1.2)
+            sources[target_id]['disgust_source'] = int(
+                sources[target_id]['disgust_source'] * 1.2)
+            sources[target_id]['exposure_source'] += 150
+            if chara.get_talent_value('chastity') > 0:
+                sources[target_id]['exposure_source'] *= 2
+                sources[target_id]['escape_source'] *= 2
+
+        sources[target_id] = common_src_modify(sources[target_id], chara)
+
+        # 50% 消耗
+        ctx.consume(stamina=25, energy=45, chara=chara)
+
+        if chara.abl['exposure_abl'] >= 3:
+            chara.set_exp('masturbation_exp',
+                          chara.get_exp('masturbation_exp') + 1)
+            exp_mes.append(exp_calc('masturbation_exp', chara))
+
+    pairs = []
+    for actor_id in cmd.actor_ids:
+        actor = get_entity_by_id(world.player, actor_id)
+        for target_id in cmd.target_ids:
+            target = get_entity_by_id(world.player, target_id)
+            pairs.append((sources[target_id], actor, target))
+
+    return pairs, exp_mes
+
+
+@register_cmd(
+    'spread_the_ass',
+    '张开菊穴',
+    cat='爱抚',
+    train_mode=True,
+    can=can,
+    needs_target=False,
+    continuous=True,
+    continuous_text='{actors}命令{targets}张开肛门',
+    actor_slots={},
+    target_slots={'hands': 1, 'ass': 1},
+    continuous_tick=continuous_tick,
+)
 def spread_the_ass(world: World):
     """张开菊穴"""
     ctx = CommandContext(world)
     train = world.train_manager.train
+    exp_mes = []
     if train is None:
         return []
     # able判定
@@ -120,7 +197,14 @@ def spread_the_ass(world: World):
         train.targets.remove(target_id)
     if len(train.targets) == 0:
         return ctx.result()
-    
+
+    new_cmd_id = None
+    if getattr(world, 'is_current_cmd_continuous', False):
+        new_cmd = world.train_manager.add_continuous_cmd(
+            'spread_the_ass', list(train.actors), list(train.targets))
+        if new_cmd:
+            new_cmd_id = new_cmd.id
+
     act_num = len(train.actors)  # 调教者人数
     tar_num = len(train.targets)  # 被调教者人数
     num_adjust = float(act_num / tar_num)  # 人数补正
@@ -161,9 +245,12 @@ def spread_the_ass(world: World):
         chara = get_entity_by_id(world.player, target_id)
         # 处女 贞操重视修正
         if chara.get_talent_value('virgin') > 0:
-            sources[target_id]['fear_source'] *= 1.2
-            sources[target_id]['submission_source'] *= 1.2
-            sources[target_id]['disgust_source'] *= 1.2
+            sources[target_id]['fear_source'] = int(
+                sources[target_id]['fear_source'] * 1.2)
+            sources[target_id]['submission_source'] = int(
+                sources[target_id]['submission_source'] * 1.2)
+            sources[target_id]['disgust_source'] = int(
+                sources[target_id]['disgust_source'] * 1.2)
             sources[target_id]['exposure_source'] += 300
             if chara.get_talent_value('chastity') > 0:
                 sources[target_id]['exposure_source'] *= 2
@@ -172,29 +259,26 @@ def spread_the_ass(world: World):
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 
-        ctx.say_source(sources[target_id], prefix=f'{tar_name}')
-
         # 体力和气力消耗
         ctx.consume(stamina=50, energy=90, chara=chara)
 
         # exp: 自慰
         if chara.abl['exposure_abl'] >= 3:
             # 露出癖3以上加算自慰经验
-            chara.set_exp('masturbation_exp', chara.get_exp(
-                'masturbation_exp') + 1)
+            chara.set_exp('masturbation_exp',
+                          chara.get_exp('masturbation_exp') + 1)
+            exp_mes.append(exp_calc('masturbation_exp', chara))
 
-        # 处理好感和信赖
-        if target_id != PLAYER_ID:
-            favor_trust_proc(sources[target_id], chara, ctx)
-
-    # source转换过程统一处理
+    # 构建主指令 pairs
     pairs = []
     for actor_id in train.actors:
         actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
             target = get_entity_by_id(world.player, target_id)
-            # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
-    source_proc_batch(pairs, ctx)
+
+    # 统一回合结算管道
+    from game_engine.commands._common import process_train_turn
+    process_train_turn(world, ctx, pairs, exp_mes, new_cmd_id=new_cmd_id)
 
     return ctx.result()

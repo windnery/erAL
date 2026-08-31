@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
+import re
+from typing import TYPE_CHECKING, Any
 
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.player import Player
@@ -21,6 +23,9 @@ class CommandContext:
         self.blocks: dict[str, list[str]] = {k: [] for k in self.BLOCK_ORDER}
         self._npc_events: list[str] = []
         self._exhaustion_mes: str = ''
+        self._consumed: dict[str, dict[str, Any]] = {}
+        self._exp_items: dict[tuple[str, str, str], int] = {}
+        self._non_matching_exp: list[str] = []
 
     def advance_time(self, minutes: int):
         """推进时间，自动记录 NPC 变动事件与度过时间消息"""
@@ -31,32 +36,51 @@ class CommandContext:
     def consume(self, stamina: int = 0, energy: int = 0, chara: Character | None = None):
         """消耗体力和气力（传正数表示消耗量）
         npc: 若指定，NPC 也同步消耗"""
+        target_chara = chara if chara is not None else self.world.player
         # 如果传入玩家
-        if isinstance(chara, Player):
+        if isinstance(target_chara, Player):
             if energy:
                 self._exhaustion_mes += self.world.change_energy(-energy)
-                self.blocks['stamina'].append(f'气力-{energy} ({self.world.player.name})')
             if stamina:
                 self._exhaustion_mes += self.world.change_stamina(-stamina)
-                self.blocks['stamina'].append(f'体力-{stamina} ({self.world.player.name})')
-        elif isinstance(chara, ShipGirl):
+        elif isinstance(target_chara, ShipGirl):
             if stamina:
-                chara.set_stamina(chara.get_stamina() - stamina)
-                self.blocks['stamina'].append(f'体力-{stamina} ({chara.name})')
+                target_chara.set_stamina(target_chara.get_stamina() - stamina)
             if energy:
-                chara.set_energy(chara.get_energy() - energy)
-                self.blocks['stamina'].append(f'气力-{energy} ({chara.name})')
+                target_chara.set_energy(target_chara.get_energy() - energy)
             # 调教中目标气力归零：陷入神志不清，主导权强制归0
-            if energy and chara.get_energy() == 0 and self.world.is_training():
+            if energy and target_chara.get_energy() == 0 and self.world.is_training():
                 train = self.world.train_manager.train
-                if train and chara.id in train.targets and not chara.cflag.get('unconscious'):
-                    chara.cflag['unconscious'] = True
-                    train.initiative[chara.id] = 0
-                    self._exhaustion_mes += f'{chara.name}气力0，开始神志不清了……彻底失去了主导权！'
+                if train and target_chara.id in train.targets and not target_chara.cflag.get('unconscious'):
+                    target_chara.cflag['unconscious'] = True
+                    train.initiative[target_chara.id] = 0
+                    self._exhaustion_mes += f'{target_chara.name}气力0，开始神志不清了……彻底失去了主导权！'
             # 体力归零：回家休息（调教中被强制结束调教）
-            if stamina and chara.get_stamina() == 0 and not chara.cflag.get('sleeping') \
-                    and not chara.cflag.get('resting'):
-                self._exhaustion_mes += '\n'.join(self.world.npc_exhausted(chara))
+            if stamina and target_chara.get_stamina() == 0 and not target_chara.cflag.get('sleeping') \
+                    and not target_chara.cflag.get('resting'):
+                self._exhaustion_mes += '\n'.join(self.world.npc_exhausted(target_chara))
+
+        # 累计消耗并同步更新 stamina block
+        cid = target_chara.id
+        if cid not in self._consumed:
+            self._consumed[cid] = {'name': target_chara.name, 'stamina': 0, 'energy': 0}
+        self._consumed[cid]['stamina'] += stamina
+        self._consumed[cid]['energy'] += energy
+        self._sync_stamina_block()
+
+    def _sync_stamina_block(self):
+        lines = []
+        # 优先展示玩家，再展示其他角色
+        sorted_items = sorted(
+            self._consumed.values(),
+            key=lambda info: (0 if info['name'] == self.world.player.name else 1)
+        )
+        for info in sorted_items:
+            if info['stamina'] > 0:
+                lines.append(f"体力-{info['stamina']} ({info['name']})")
+            if info['energy'] > 0:
+                lines.append(f"气力-{info['energy']} ({info['name']})")
+        self.blocks['stamina'] = lines
 
     def recover(self, stamina: int = 0, energy: int = 0):
         """恢复体力和气力"""
@@ -89,8 +113,26 @@ class CommandContext:
         self.say_block('source', ' '.join(source_list))
 
     def say_exp(self, *msgs: str):
-        """添加经验消息（经验获得提示）"""
-        self.blocks['exp'].extend(msgs)
+        """添加经验消息（经验获得提示，自动按角色与经验类型累加合并）"""
+        for msg in msgs:
+            if not msg:
+                continue
+            m = re.match(r"^(.+?)\+(\d+)\s*\((.+?)\)(.*)$", msg.strip())
+            if m:
+                exp_name, delta_str, chara_name, suffix = m.groups()
+                key = (exp_name, chara_name, suffix)
+                if key not in self._exp_items:
+                    self._exp_items[key] = 0
+                self._exp_items[key] += int(delta_str)
+            else:
+                self._non_matching_exp.append(msg)
+        self._sync_exp_block()
+
+    def _sync_exp_block(self):
+        lines = []
+        for (exp_name, chara_name, suffix), total_delta in self._exp_items.items():
+            lines.append(f"{exp_name}+{total_delta} ({chara_name}){suffix}")
+        self.blocks['exp'] = lines + self._non_matching_exp
 
     def say_block(self, key: str, *msgs: str):
         """向指定分区添加消息"""

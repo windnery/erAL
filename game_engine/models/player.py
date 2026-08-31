@@ -1,5 +1,6 @@
 from copy import deepcopy
 from dataclasses import dataclass
+from typing import ClassVar
 
 from data.data_loader import load_player
 from game_engine.models.character import Character
@@ -13,6 +14,13 @@ class Player(Character):
     name: str = player_data['name']
     money: int = 0
 
+    DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {
+        'hands': 2,
+        'mouth': 1,
+        'penis': 1,
+        'ass': 1
+    }
+
     def __post_init__(self):
         self.wake_time = deepcopy(self.player_data['wake_time'])
         self.location = deepcopy(self.player_data['location'])
@@ -22,6 +30,8 @@ class Player(Character):
         self.juel = deepcopy(self.player_data['juel'])
         self.palam = deepcopy(self.player_data['palam'])
         self.talent = deepcopy(self.player_data['talent'])
+        # 身体槽位
+        self.body_slots = deepcopy(self.DEFAULT_BODY_SLOTS)
         super().__post_init__()
 
     def get_state(self):

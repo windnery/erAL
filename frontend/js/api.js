@@ -22,6 +22,10 @@ export async function toggleTarget(id) {
     return await call('train_manager', 'toggle_target', id);
 }
 
+export async function cancelContinuousCmd(cmdId) {
+    return await call('train_manager', 'cancel_continuous_cmd', cmdId);
+}
+
 export async function getSaveList() {
     return await call('save_manager', 'get_save_list');
 }

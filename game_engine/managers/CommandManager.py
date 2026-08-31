@@ -101,7 +101,14 @@ class CommandManager:
             can = REGISTER_CAN.get(command)
             if can and not can(self.world):
                 return ''
-            result = func(self.world)
+            is_continuous = isinstance(option, dict) and bool(option.get('continuous'))
+            if is_continuous and self.world.train_manager.has_continuous_cmd(command):
+                return ['该指令已经在持续执行中']
+            self.world.is_current_cmd_continuous = is_continuous
+            try:
+                result = func(self.world)
+            finally:
+                self.world.is_current_cmd_continuous = False
             return result
 
         can = REGISTER_CAN.get(command)

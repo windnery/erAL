@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import ClassVar
 
 from config.cflag_config import ATTACH_MAPPING
 from config.palam_config import PALAM_LV
@@ -19,11 +20,37 @@ class Character:
     palam: dict[str, int] = field(default_factory=dict)
     palam_lv: dict[str, int] = field(default_factory=dict)
     talent: dict[str, str] = field(default_factory=dict)
+    body_slots: dict[str, int] = field(default_factory=dict)
+    DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {}
 
     def __post_init__(self):
         # 初始化palam等级
         for k in self.palam.keys():
             self.palam_lv[k] = 0
+
+    def has_body_slots(self, slots: dict[str, int]) -> bool:
+        """检查身体槽位是否满足要求"""
+        return all(self.body_slots.get(k, 0) >= v for k, v in slots.items())
+
+    def consume_body_slots(self, slots: dict[str, int]) -> bool:
+        """消耗/占用身体槽位"""
+        if not self.has_body_slots(slots):
+            return False
+        for k, v in slots.items():
+            self.body_slots[k] = self.body_slots.get(k, 0) - v
+        return True
+
+    def restore_body_slots(self, slots: dict[str, int]) -> None:
+        """归还身体槽位（不超过默认上限）"""
+        for k, v in slots.items():
+            default_max = getattr(self, 'DEFAULT_BODY_SLOTS', {}).get(k, self.body_slots.get(k, 0) + v)
+            self.body_slots[k] = min(default_max, self.body_slots.get(k, 0) + v)
+
+    def reset_body_slots(self) -> None:
+        """重置所有身体槽位为默认最大值"""
+        from copy import deepcopy
+        if hasattr(self, 'DEFAULT_BODY_SLOTS') and self.DEFAULT_BODY_SLOTS:
+            self.body_slots = deepcopy(self.DEFAULT_BODY_SLOTS)
 
     def set_stamina(self, value: int) -> bool:
         """设置体力，返回是否还有剩余"""

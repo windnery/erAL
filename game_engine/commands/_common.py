@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from collections import defaultdict
 
@@ -24,10 +25,13 @@ from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check, orgasm_che
 from game_engine.data_pipeline.palam.palam_calc import palam_calc
 from game_engine.data_pipeline.trust.trust_calc import trust_calc
 from game_engine.managers.NpcManager import NpcManager
-from game_engine.managers.TrainManager import TrainManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+
+if TYPE_CHECKING:
+    from world import World
+    from game_engine.managers.TrainManager import TrainManager
 
 
 def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
@@ -46,7 +50,8 @@ def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrat
 def new_source(base: dict[str, int]):
     """根据base生成新的source"""
     s = {k: 0 for k in ALL_SOURCE_KEYS}
-    if base: s.update(base)
+    if base:
+        s.update(base)
     return s
 
 
@@ -83,14 +88,18 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         return
 
     # 收集所有对的增量（dry_run 不改 palam）
-    per_chara: dict[int, dict[str, int]] = {}  # id(chara) -> {palam_key: delta}
-    source_of: dict[int, dict[str, int]] = {}  # id(target) -> 该角色收到的 source（用于情绪/理性）
+    # id(chara) -> {palam_key: delta}
+    per_chara: dict[int, dict[str, int]] = {}
+    # id(target) -> 该角色收到的 source（用于情绪/理性）
+    source_of: dict[int, dict[str, int]] = {}
     targets_order: list[int] = []  # 保持 target 出现顺序
     actors_order: list[int] = []
 
     for source, actor, target in pairs:
-        self_initiative = ctx.world.train_manager.initiative_cmp(actor.id, target.id)
-        _, _, changes = palam_calc(source, actor, target, dry_run=True, self_initiative=self_initiative)
+        self_initiative = ctx.world.train_manager.initiative_cmp(
+            actor.id, target.id)
+        _, _, changes = palam_calc(
+            source, actor, target, dry_run=True, self_initiative=self_initiative)
         for (chara_kind, palam), delta in changes.items():
             chara = actor if chara_kind == 'source' else target
             key = id(chara)
@@ -149,7 +158,8 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
                 ctx.say_block('palam', *orgasm_mes)
                 # 绝顶主导权衰减（按最高等级 × 部位数）
                 if train is not None and train.initiative:
-                    decay_mes = initiative_orgasm_proc(train, target, max(org_lv.values()), org_num)
+                    decay_mes = initiative_orgasm_proc(
+                        train, target, max(org_lv.values()), org_num)
                     if decay_mes:
                         ctx.say_block('palam', decay_mes)
             target.update_palam_level()
@@ -175,7 +185,8 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         for tid, src in source_of.items():
             chara = chara_of.get(tid)
             if chara is not None:
-                received[chara.id] = received.get(chara.id, 0) + pleasure_sum(src)
+                received[chara.id] = received.get(
+                    chara.id, 0) + pleasure_sum(src)
         chara_pleasures = []
         for cid, s in received.items():
             entity = get_entity_by_id(train.player, cid)
@@ -220,13 +231,10 @@ def get_name_by_id(player: Player, chara_id: str):
     if chara_id == player.id:
         return player.name
     npc = NpcManager.get_npc_by_id(chara_id)
-    if npc:
-        return npc.name
-    else:
-        return chara_id
+    return npc.name if npc else chara_id
 
 
-def get_entity_by_id(player: Player, chara_id: str):
+def get_entity_by_id(player: Player, chara_id: str) -> Character:
     """通过id获取角色"""
     return NpcManager.get_npc_by_id(chara_id) if chara_id != PLAYER_ID else player
 
@@ -255,13 +263,110 @@ def train_global_can(train_manager: TrainManager):
             return False
         # 调教方有角色气力0
         for source in train.actors:
-            chara = NpcManager.get_npc_by_id(source) if source != PLAYER_ID else train.player
+            chara = NpcManager.get_npc_by_id(
+                source) if source != PLAYER_ID else train.player
             if chara.is_energy_empty():
                 return False
     else:
         return False
 
     return True
+
+
+def check_body_slots(world: World, actor_slots: dict[str, int] | None = None, target_slots: dict[str, int] | None = None) -> bool:
+    """检查调教方和被调教方是否具备指定的身体槽位"""
+    train = world.train_manager.train
+    if not train:
+        return False
+    if actor_slots:
+        for actor_id in train.actors:
+            actor = get_entity_by_id(world.player, actor_id)
+            if not actor or not actor.has_body_slots(actor_slots):
+                return False
+    if target_slots:
+        for target_id in train.targets:
+            target = get_entity_by_id(world.player, target_id)
+            if not target or not target.has_body_slots(target_slots):
+                return False
+    return True
+
+
+def process_train_turn(
+    world: World,
+    ctx: CommandContext,
+    main_pairs: list[tuple[dict[str, int], Character, Character]],
+    main_exp_mes: list[str] | None = None,
+    new_cmd_id: str | None = None,
+    ejaculation_position: str | None = None,
+):
+    """调教指令的统一回合结算管道：
+    1. 收集所有持续中指令产生的 pairs、exp 并扣减 50% 体力/气力
+    2. 按 (actor, target) 合并所有 Source 字典
+    3. 输出单次汇总的 Source 提示
+    4. 统一执行一次 source_proc_batch（Palam/绝顶/主导权/情绪理性）
+    5. 统一为每个被调教者结算一次好感度与信赖度
+    6. 统一输出所有 Exp 增量
+    """
+    train = world.train_manager.train
+    if not train:
+        return
+
+    all_exp_mes = list(main_exp_mes or [])
+    all_pairs = list(main_pairs)
+
+    from game_engine.commands._commands import REGISTER_CONTINUOUS_TICK
+
+    # 遍历收集所有持续中指令（跳过本轮刚加入的 new_cmd_id）
+    for cmd in list(train.continuous_commands):
+        if new_cmd_id and cmd.id == new_cmd_id:
+            continue
+        tick_func = REGISTER_CONTINUOUS_TICK.get(cmd.command_key)
+        if tick_func:
+            res = tick_func(world, ctx, cmd)
+            if res:
+                tick_pairs, tick_exp = res
+                all_pairs.extend(tick_pairs)
+                all_exp_mes.extend(tick_exp)
+
+    # 将所有 pairs 按 (id(actor), id(target)) 进行 Source 累加合并
+    merged_pairs_map: dict[tuple[int, int], tuple[dict[str, int], Character, Character]] = {}
+    target_totals: dict[int, tuple[Character, dict[str, int]]] = {}
+
+    for src, actor, target in all_pairs:
+        pair_key = (id(actor), id(target))
+        if pair_key not in merged_pairs_map:
+            merged_pairs_map[pair_key] = (new_source({}), actor, target)
+        for k, v in src.items():
+            merged_pairs_map[pair_key][0][k] = merged_pairs_map[pair_key][0].get(k, 0) + int(v)
+
+        tid = id(target)
+        if tid not in target_totals:
+            target_totals[tid] = (target, new_source({}))
+        for k, v in src.items():
+            target_totals[tid][1][k] = target_totals[tid][1].get(k, 0) + int(v)
+
+    final_pairs = list(merged_pairs_map.values())
+
+    # 输出所有收到 Source 的角色摘要，包括目标对调教方的反馈。
+    # 反馈 Source 仍然会参与后续结算，不能因为角色当前不在 targets 列表就隐藏摘要。
+    for tid, (target_chara, total_src) in target_totals.items():
+        ctx.say_source(total_src, prefix=target_chara.name)
+
+    # 统一执行一轮 source_proc_batch
+    source_proc_batch(final_pairs, ctx, ejaculation_position=ejaculation_position)
+
+    # 统一为每个被调教者结算一次好感度与信赖度
+    for tid, (target_chara, total_src) in target_totals.items():
+        if isinstance(target_chara, ShipGirl) and target_chara.id in train.targets:
+            favor_trust_proc(total_src, target_chara, ctx)
+
+    # 统一输出 exp 信息
+    ctx.say_exp(*all_exp_mes)
+
+
+def execute_continuous_ticks(world: World, ctx: CommandContext, skip_cmd_id: str | None = None):
+    """兼容旧接口"""
+    process_train_turn(world, ctx, [], [], new_cmd_id=skip_cmd_id)
 
 
 def accumulate_sources(dict_iterable) -> dict[str, int | float]:
@@ -479,7 +584,8 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     # 陷落阶段
     temp = npc.get_talent_value("relationship") * 50
     attitude += temp
-    mes = add_attitude_mes(mes, f'{npc.get_talent_name("relationship")}({temp})')
+    mes = add_attitude_mes(
+        mes, f'{npc.get_talent_name("relationship")}({temp})')
     # 胆怯
     if npc.get_talent_value("courage") == -1:
         attitude -= 20
@@ -533,11 +639,13 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     temp = npc.get_talent_value("self_love") * 20
     if temp != 0:
         attitude += temp
-        mes = add_attitude_mes(mes, f'{npc.get_talent_name("self_love")}({temp})')
+        mes = add_attitude_mes(
+            mes, f'{npc.get_talent_name("self_love")}({temp})')
     # 抵抗
     if npc.has_talent("resistance"):
         attitude -= 30
-        mes = add_attitude_mes(mes, f'{npc.get_talent_name("resistance")}(-30)')
+        mes = add_attitude_mes(
+            mes, f'{npc.get_talent_name("resistance")}(-30)')
     # 羞耻心(-1不知羞耻 1害羞)
     temp = -npc.get_talent_value("shame") * 2
     if temp != 0:
@@ -580,7 +688,7 @@ def ejaculation_proc(ctx: CommandContext, position: str = '中出', check_orgasm
 
     player.set_exp('ejaculation_exp', player.get_exp('ejaculation_exp') + 1)
     player.set_vitality(player.get_vitality() - EJACULATION_VITALITY_COST)
-    ctx.say_block('palam', f'{player.name}射精了！（{position}）')
+    ctx.say_block('palam', f'[[c:#f5f5f5]]{player.name}射精了！（{position}）[[/c]]')
     # 射精主导权衰减
     if train.initiative:
         decay_mes = initiative_ejaculation_proc(train, player)
@@ -607,12 +715,14 @@ def ejaculation_proc(ctx: CommandContext, position: str = '中出', check_orgasm
                 ctx.say_block('palam', *orgasm_mes)
                 # 绝顶主导权衰减（按最高等级 × 部位数）
                 if train.initiative:
-                    decay_mes = initiative_orgasm_proc(train, chara, max(org_lv.values()), org_num)
+                    decay_mes = initiative_orgasm_proc(
+                        train, chara, max(org_lv.values()), org_num)
                     if decay_mes:
                         ctx.say_block('palam', decay_mes)
             chara.update_palam_level()
             emotion_rationality_calc(source, chara)
-        favor_trust_proc(source, chara, ctx, block='favor', is_ejaculation=True)
+        favor_trust_proc(source, chara, ctx, block='favor',
+                         is_ejaculation=True)
 
     for palam in ORGASM_BASE.keys():
         # 射精后清空所有部位快感
@@ -653,7 +763,8 @@ def data_score_calc(npc: ShipGirl):
         servant_score = min(npc.abl['servant_abl'] * 10, 100)  # 侍奉精神
         dating_exp_score = min(npc.exp['date_exp'], 100)  # 约会经验
         love_exp_score = min(npc.exp['love_exp'], 100)  # 爱情经验
-        score += intimacy_score + desire_score + servant_score + dating_exp_score + love_exp_score
+        score += intimacy_score + desire_score + \
+            servant_score + dating_exp_score + love_exp_score
     elif npc.get_talent_value('relationship') == 1:
         # 友好
         intimacy_score = min(npc.abl['intimacy_abl'] * 10, 50)  # 亲密
@@ -661,16 +772,19 @@ def data_score_calc(npc: ShipGirl):
         servant_score = min(npc.abl['servant_abl'] * 10, 50)  # 侍奉精神
         dating_exp_score = min(npc.exp['date_exp'], 50)  # 约会经验
         love_exp_score = min(npc.exp['love_exp'], 50)  # 爱情经验
-        score += intimacy_score + desire_score + servant_score + dating_exp_score + love_exp_score
+        score += intimacy_score + desire_score + \
+            servant_score + dating_exp_score + love_exp_score
     # palam
     lust_palam_lv = min(npc.palam_lv['lust_palam'], 10) * 5
     kindness_palam_lv = min(npc.palam_lv['kindness_palam'], 10) * 5
     obedience_palam_lv = min(npc.palam_lv['obedience_palam'], 10) * 5
     score += lust_palam_lv + kindness_palam_lv + obedience_palam_lv
     # 情绪/理性
-    score += npc.base['emotion'] // 50 + (MAX_RATIONALITY - npc.base['rationality']) // 30
+    score += npc.base['emotion'] // 50 + \
+        (MAX_RATIONALITY - npc.base['rationality']) // 30
     # talent
     score += npc.get_talent_value('courage') * 10 + npc.get_talent_value('sexual_interest') * 10\
-            - npc.get_talent_value('self_control') * 10 - npc.get_talent_value('indifference') * 10
+        - npc.get_talent_value('self_control') * 10 - \
+        npc.get_talent_value('indifference') * 10
 
     return score

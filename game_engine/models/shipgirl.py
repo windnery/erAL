@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, ClassVar
 
 from config.base_config import MAX_RATIONALITY, MIN_EMOTION, MAX_EMOTION
 from config.mood_config import MOOD_LABELS, MOOD_COLORS, MOOD_BAD, MOOD_BLISS
@@ -17,6 +17,21 @@ class ShipGirl(Character):
     is_talk_fatigue: bool = False  # 是否会话疲劳
     schedule: dict[str, Any] = field(default_factory=dict)  # 作息时间表
     color: str = '#ffffff'
+    DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {
+        'hands': 2,
+        'mouth': 1,
+        'breasts': 2,
+        'clitoris': 1,
+        'vagina': 1,
+        'ass': 1,
+        'feet': 2
+    }
+
+    def __post_init__(self):
+        from copy import deepcopy
+        super().__post_init__()
+        # 身体槽位
+        self.body_slots = deepcopy(self.DEFAULT_BODY_SLOTS)
 
     def get_state(self):
         """返回舰娘状态"""

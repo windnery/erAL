@@ -194,7 +194,7 @@ button {
    角色信息区 (Character Panel)
    ========================================================================== */
 #charaPanel {
-    height: 350px;
+    height: 250px;
     min-height: 24px;
     padding: 4px 0;
 }
@@ -438,6 +438,75 @@ button {
 #Ex_COM .com-cmd:hover,
 #MENU_COM .com-cmd:hover,
 #TRAIN_COM .com-cmd:hover {
+    color: var(--color-hover);
+}
+
+/* 持续指令组与单次/持续按钮 */
+.com-cmd-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 20px;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.com-cmd-group .com-cmd-name {
+    color: var(--color-text-main);
+    cursor: default;
+    transition: color 0.15s ease;
+}
+
+.com-cmd-group .com-cmd-name:hover {
+    color: var(--color-hover);
+}
+
+.com-cmd-group .com-cmd-action {
+    color: var(--color-text-sub);
+    cursor: default;
+    font-size: 13px;
+    transition: color 0.15s ease;
+}
+
+.com-cmd-group .com-cmd-action:hover {
+    color: var(--color-hover);
+}
+
+.com-cmd-group .com-cmd-action.disabled {
+    color: var(--color-text-sub);
+    cursor: default;
+    opacity: 0.7;
+}
+
+/* 持续指令固定状态栏（固定在舰娘palam面板下方） */
+.train-continuous-container {
+    margin: 6px 12px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.continuous-cmd-item {
+    font-size: 14px;
+    color: var(--color-text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.continuous-cmd-text {
+    color: var(--color-text-main);
+}
+
+.continuous-cmd-cancel {
+    color: var(--color-text-main);
+    cursor: default;
+    user-select: none;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+.continuous-cmd-cancel:hover {
     color: var(--color-hover);
 }
 

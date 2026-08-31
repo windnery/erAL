@@ -40,6 +40,7 @@ class SaveManager:
                 'mark': sg.mark,
                 'talk_fatigue': sg.talk_fatigue,
                 'is_talk_fatigue': sg.is_talk_fatigue,
+                'body_slots': dict(sg.body_slots),
             }
         return {
             'version': SAVE_VERSION,
@@ -66,6 +67,7 @@ class SaveManager:
                     'palam': player.palam,
                     'talent': player.talent,
                     'cflag': player.cflag,
+                    'body_slots': dict(player.body_slots),
                 },
                 'shipgirls': sg_state,
                 'work': {
@@ -95,6 +97,18 @@ class SaveManager:
                     'participants': list(train.participants),
                     'initiative': dict(train.initiative),
                     'leader': train.leader,
+                    'continuous_commands': [
+                        {
+                            'id': cmd.id,
+                            'command_key': cmd.command_key,
+                            'command_name': cmd.command_name,
+                            'actor_ids': list(cmd.actor_ids),
+                            'target_ids': list(cmd.target_ids),
+                            'actor_slots': dict(cmd.actor_slots),
+                            'target_slots': dict(cmd.target_slots),
+                        }
+                        for cmd in train.continuous_commands
+                    ],
                 },
             },
         }
@@ -106,6 +120,13 @@ class SaveManager:
             d = data['data']
             if version > SAVE_VERSION:
                 return f'存档版本过新（{version} > {SAVE_VERSION}），请更新游戏'
+
+            # 读档可能发生在当前调教过程中，先清理旧会话占用的槽位，避免
+            # 当前世界的玩家对象残留旧状态。
+            self.world.train_manager.clear_all_continuous_cmds()
+            self.world.player.reset_body_slots()
+            for sg in self.world.npc_manager.get_all_npcs():
+                sg.reset_body_slots()
 
             tm = d['time']
             self.world.time_manager.day = tm['day']
@@ -127,6 +148,9 @@ class SaveManager:
             self.world.player.palam = p['palam']
             self.world.player.talent = p['talent']
             self.world.player.cflag = p.get('cflag', self.world.player.cflag)
+            self.world.player.body_slots = dict(
+                p.get('body_slots', self.world.player.DEFAULT_BODY_SLOTS)
+            )
 
             from game_engine.models.shipgirl import ShipGirl
             for sg_id, st in d['shipgirls'].items():
@@ -145,6 +169,9 @@ class SaveManager:
                 sg.mark = st.get('mark', sg.mark)
                 sg.talk_fatigue = st.get('talk_fatigue', 0)
                 sg.is_talk_fatigue = st.get('is_talk_fatigue', False)
+                sg.body_slots = dict(
+                    st.get('body_slots', sg.DEFAULT_BODY_SLOTS)
+                )
                 sg.update_palam_level()
                 self.world.npc_manager.shipgirls[sg_id] = sg
 
@@ -189,6 +216,20 @@ class SaveManager:
                 train.participants = list(train_state['participants'])
                 train.initiative = dict(train_state['initiative'])
                 train.leader = train_state['leader']
+                from game_engine.models.continuous_command import ContinuousCommand
+                train.continuous_commands = []
+                for cmd_data in train_state.get('continuous_commands', []):
+                    cmd = ContinuousCommand(
+                        command_key=cmd_data['command_key'],
+                        command_name=cmd_data.get('command_name', cmd_data['command_key']),
+                        actor_ids=list(cmd_data['actor_ids']),
+                        target_ids=list(cmd_data['target_ids']),
+                        actor_slots=dict(cmd_data.get('actor_slots', {})),
+                        target_slots=dict(cmd_data.get('target_slots', {})),
+                    )
+                    if cmd_data.get('id'):
+                        cmd.id = cmd_data['id']
+                    train.continuous_commands.append(cmd)
                 self.world.train_manager.train = train
                 self.world.train_mode = True
 

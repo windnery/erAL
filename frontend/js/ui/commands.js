@@ -5,7 +5,45 @@ const TRAIN_CAT_ORDER = ['特殊', '爱抚', '交流', '性交', '道具'];
 // 每类指令区独立的分类选中态（act 与 train 互不影响）
 const selectedCat = { act: CAT_ORDER[0], train: TRAIN_CAT_ORDER[0] };
 
-function makeCmdSpan(cmd, callbacks) {
+function makeCmdSpan(cmd, callbacks, type) {
+    if (type === 'train' && cmd.continuous) {
+        let group = document.createElement('span');
+        group.className = 'com-cmd-group';
+
+        let nameSpan = document.createElement('span');
+        nameSpan.className = 'com-cmd-name';
+        nameSpan.textContent = cmd.name;
+        nameSpan.onclick = async function () {
+            let result = await callbacks.doCmd(cmd.key, { continuous: false });
+            show_text_result(result, callbacks);
+        };
+        group.appendChild(nameSpan);
+
+        let singleBtn = document.createElement('span');
+        singleBtn.className = 'com-cmd-action';
+        singleBtn.textContent = '[单次]';
+        singleBtn.title = '单次执行';
+        singleBtn.onclick = async function () {
+            let result = await callbacks.doCmd(cmd.key, { continuous: false });
+            show_text_result(result, callbacks);
+        };
+        group.appendChild(singleBtn);
+
+        let contBtn = document.createElement('span');
+        contBtn.className = 'com-cmd-action' + (cmd.continuous_active ? ' disabled' : '');
+        contBtn.textContent = cmd.continuous_active ? '[已持续]' : '[持续]';
+        contBtn.title = cmd.continuous_active ? '该指令已经在持续执行中' : '持续执行';
+        if (!cmd.continuous_active) {
+            contBtn.onclick = async function () {
+                let result = await callbacks.doCmd(cmd.key, { continuous: true });
+                show_text_result(result, callbacks);
+            };
+        }
+        group.appendChild(contBtn);
+
+        return group;
+    }
+
     let span = document.createElement('span');
     span.className = 'com-cmd';
     span.textContent = cmd.name;
@@ -149,7 +187,7 @@ function renderActCommands(container, commands, callbacks, type) {
 function renderActiveCategory(container, groups, callbacks, type) {
     const cmds = groups[selectedCat[type]] || [];
     for (let cmd of cmds) {
-        container.appendChild(makeCmdSpan(cmd, callbacks));
+        container.appendChild(makeCmdSpan(cmd, callbacks, type));
     }
 }
 

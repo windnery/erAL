@@ -6,12 +6,15 @@ class TestTrainClosedLoop:
         world.train_manager.train = Train(world.player.location, world.player)
         world.train_manager.train.actors = list(actors)
         world.train_manager.train.targets = list(targets)
+        world.train_mode = True
 
     @staticmethod
     def _make_position_train(world):
         TestTrainClosedLoop._make_train(world, ['player'], ['laffey'])
         laffey = world.npc_manager.shipgirls['laffey']
         laffey.abl.update({'desire_abl': 10, 'v_sen_abl': 10, 'servant_abl': 10})
+        laffey.palam_lv['lubrication_palam'] = 3
+        world.train_manager.train.initiative = {'player': 100, 'laffey': 50}
 
     def test_vitality_clamp(self, world):
         world.player.set_vitality(9999)
@@ -32,7 +35,7 @@ class TestTrainClosedLoop:
         assert ejaculation_check(world.player) is True
 
     def test_v_insert_in_train_commands(self, world):
-        self._make_train(world, ['player', 'Z23'], ['laffey'])
+        self._make_train(world, ['player'], ['laffey'])
         cmd = next(c for c in world.train_manager.get_train_commands() if c['key'] == 'common_position')
         assert cmd['name'] == '正常位'
         assert cmd['cat'] == '性交'
@@ -59,30 +62,43 @@ class TestTrainClosedLoop:
 
     def test_vitality_zero_forces_end_train(self, world):
         self._make_position_train(world)
+        world.player.set_vitality(1)
         world.player.palam['m_pleasure_palam'] = 5000
-        from config.palam_config import EJACULATION_VITALITY_COST
-        world.player.set_vitality(EJACULATION_VITALITY_COST)
         world.command_manager.do_cmd('common_position')
+        assert world.player.get_vitality() == 0
         assert world.train_manager.train is None
-        assert world.train_mode is False
+        assert 'common_position' not in [c['key'] for c in world.command_manager.get_act_com()]
+
+    def test_unconscious_on_energy_zero(self, world):
+        self._make_position_train(world)
+        laffey = world.npc_manager.shipgirls['laffey']
+        laffey.set_energy(10)
+        world.command_manager.do_cmd('common_position')
+        assert laffey.get_energy() == 0
+        assert laffey.cflag.get('unconscious') is True
+        assert world.train_manager.train.initiative['laffey'] == 0
+
+    def test_initiative_display_in_palam_status(self, world):
+        self._make_position_train(world)
+        result = world.command_manager.do_cmd('common_position')
+        assert isinstance(result, list)
+        found = any('主导权' in line for line in result)
+        assert found, "调教结算中应包含主导权变动消息"
 
 
 class TestSourceProcBatch:
-    """source_proc_batch 批量聚合：多对累计数值、按角色合并打印"""
-
-    @staticmethod
-    def _ctx(world):
-        from game_engine.commands._context import CommandContext
-        return CommandContext(world)
+    """测试 source_proc_batch 的通用多角色结算能力"""
 
     def _run(self, world, pairs):
         from game_engine.commands._common import source_proc_batch
-        ctx = self._ctx(world)
+        from game_engine.commands._context import CommandContext
+        ctx = CommandContext(world)
         source_proc_batch(pairs, ctx)
         return ctx
 
-    def _lines(self, ctx, name):
-        return [m for m in ctx.messages if name in m]
+    def _lines(self, ctx, chara_name: str) -> list[str]:
+        palam_lines = ctx.blocks.get('palam', [])
+        return [l for l in palam_lines if l.startswith(chara_name)]
 
     def test_multi_actor_single_target_merges_output(self, world):
         """2调教者×1被调教者：target 的 palam 变化只输出一次，数值累计"""
@@ -138,6 +154,7 @@ class TestSourceProcBatch:
         # 拉菲的 m_pleasure 应累计 2 次正向（单对时先测基线再对比）
         laffey.palam['m_pleasure_palam'] = 0
         src_single = new_source({'m_pleasure_source': 50, 'c_pleasure_source': 40})
+        self._run(world, [(src_single, world.player, laffey)])
         single_val = laffey.palam['m_pleasure_palam']
         assert single_val > 0, '单对基线应为正'
         # 两对时累计（重跑两对，从 0 开始）

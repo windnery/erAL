@@ -62,6 +62,7 @@ class World:
             'train_mode': self.train_mode,
             'train_com': self.train_manager.get_train_commands(),
             'train_participants': self._get_train_participants(),
+            'continuous_commands': self.train_manager.get_continuous_state() if self.train_mode else [],
             'pending_choice': {
                 'title': self.event_manager.pending_choice.title,
                 'options': [

@@ -1,8 +1,8 @@
-import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, chooseOption, reportFrontendError } from './api.js';
+import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, cancelContinuousCmd, chooseOption, reportFrontendError } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
 import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
-import { renderTrainAvatars, renderTrainMembers } from './ui/train_panel.js';
+import { renderTrainAvatars, renderTrainMembers, renderContinuousStatus } from './ui/train_panel.js';
 import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
 import { openDailyShop } from './ui/daily_shop.js';
@@ -273,7 +273,7 @@ async function refresh() {
     if (selectedNpcId && !validIds.includes(selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, toggleActor, toggleTarget, cancelContinuousCmd };
     renderStatusBar(state.location, state.time, state.player);
 
     // 若有挂起的事件选择，直接展示选项幕
@@ -303,11 +303,13 @@ async function refresh() {
             renderTrainAvatars(currentTrainParticipants, selectedNpcId, selectNpc);
             renderCommands(state.train_com || [], 'train', callbacks);
             renderTrainMembers(currentTrainParticipants, callbacks);
+            renderContinuousStatus(state.continuous_commands || [], callbacks);
         } else {
             // 后端已按当前选中的舰娘过滤交互指令
             renderCommands(state.act_com || [], 'act', callbacks);
             renderCommands(state.ex_com, 'ex', callbacks);
             renderPortrait(currentNearby, selectedNpcId, selectNpc);
+            renderContinuousStatus([], callbacks);
         }
         renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     }

@@ -97,3 +97,36 @@ export function renderTrainMembers(participants, callbacks) {
         el.appendChild(row);
     }
 }
+
+export function renderContinuousStatus(continuousCommands, callbacks) {
+    const el = document.getElementById('train_continuous_status');
+    if (!el) return;
+    el.innerHTML = '';
+    if (!continuousCommands || continuousCommands.length === 0) {
+        el.style.display = 'none';
+        return;
+    }
+    el.style.display = 'flex';
+
+    for (let cmd of continuousCommands) {
+        const item = document.createElement('div');
+        item.className = 'continuous-cmd-item';
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'continuous-cmd-text';
+        textSpan.textContent = cmd.text;
+        item.appendChild(textSpan);
+
+        const cancelBtn = document.createElement('span');
+        cancelBtn.className = 'continuous-cmd-cancel';
+        cancelBtn.textContent = ' [解除]';
+        cancelBtn.title = '解除该持续指令并归还身体部位';
+        cancelBtn.onclick = async () => {
+            await callbacks.cancelContinuousCmd(cmd.id);
+            callbacks.refresh();
+        };
+        item.appendChild(cancelBtn);
+
+        el.appendChild(item);
+    }
+}

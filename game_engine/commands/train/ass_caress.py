@@ -6,10 +6,11 @@ from config.chara_config import PLAYER_ID
 from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import pain_check_a, train_global_can, new_source, get_name_by_id, get_entity_by_id, \
-    favor_trust_proc, accumulate_sources, source_proc_batch
+    accumulate_sources, check_body_slots
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
+from game_engine.models.continuous_command import ContinuousCommand
 
 if TYPE_CHECKING:
     from world import World
@@ -22,19 +23,105 @@ def can(world: World):
     if not train_global_can(train_manager):
         return False
     # 人数判定
-    if len(train_manager.train.actors) * 2 < len(train_manager.train.targets): # type: ignore
+    if len(train_manager.train.actors) * 2 < len(train_manager.train.targets):  # type: ignore
+        return False
+    # 槽位判定（调教方1手，被调教方1菊穴）
+    if not check_body_slots(world, actor_slots={'hands': 1}, target_slots={'ass': 1}):
         return False
 
     return True
 
 
-@register_cmd('ass_caress', '肛门爱抚', cat='爱抚', train_mode=True, can=can, needs_target=False)
+def continuous_tick(world: World, ctx: CommandContext, cmd: ContinuousCommand):
+    # 持续效果
+    act_num = len(cmd.actor_ids)
+    tar_num = len(cmd.target_ids)
+    if act_num == 0 or tar_num == 0:
+        return [], []
+    num_adjust = float(act_num / tar_num)
+    source: dict[str, int] = new_source({
+        'a_pleasure_source': 50,
+        'pain_source': 50,
+        'submission_source': 50,
+        'escape_source': 40,
+        'disgust_source': 30
+    })
+
+    sources: dict[str, dict[str, int | float]] = {}
+    exp_mes = []
+    # 调教者
+    for actor_id in cmd.actor_ids:
+        temp_sources: dict[str, dict[str, int | float]] = {
+            actor_id: source.copy()
+        }
+        chara = get_entity_by_id(world.player, actor_id)
+        temp_sources[actor_id]['a_pleasure_source'] += int(
+            chara.abl['finger_abl'] * 2)
+
+        if chara.has_talent('flexible_fingers'):
+            temp_sources[actor_id]['a_pleasure_source'] *= 1.5
+
+        sources.update(temp_sources)
+        exp_mes.append(exp_calc('finger_exp', chara))
+
+        # 50% 消耗
+        ctx.consume(stamina=10, energy=10, chara=chara)
+
+    merged_source = accumulate_sources(sources)
+
+    # 被调教者
+    for target_id in cmd.target_ids:
+        sources: dict[str, dict[str, int]] = {
+            target_id: {k: int(v * num_adjust)
+                        for k, v in merged_source.items()}
+        }
+        chara = get_entity_by_id(world.player, target_id)
+        pain_check_a(sources[target_id], chara)
+        sources[target_id] = common_src_modify(sources[target_id], chara)
+
+        # 50% 消耗
+        ctx.consume(stamina=20, energy=50, chara=chara)
+
+        exp_mes.append(exp_calc('a_exp', chara))
+
+    pairs = []
+    for actor_id in cmd.actor_ids:
+        actor = get_entity_by_id(world.player, actor_id)
+        for target_id in cmd.target_ids:
+            target = get_entity_by_id(world.player, target_id)
+            pairs.append((sources[target_id], actor, target))
+
+    return pairs, exp_mes
+
+
+@register_cmd(
+    'ass_caress',
+    '肛门爱抚',
+    cat='爱抚',
+    train_mode=True,
+    can=can,
+    needs_target=False,
+    continuous=True,
+    continuous_text='{actors}正在爱抚{targets}的肛门',
+    actor_slots={'hands': 1},
+    target_slots={'ass': 1},
+    continuous_tick=continuous_tick,
+)
 def ass_caress(world: World):
     """肛门爱抚"""
     ctx = CommandContext(world)
     train = world.train_manager.train
     exp_mes = []
-    if train is None: return []
+    if train is None:
+        return []
+
+    new_cmd_id = None
+    if getattr(world, 'is_current_cmd_continuous', False):
+        new_cmd = world.train_manager.add_continuous_cmd(
+            'ass_caress', list(train.actors), list(train.targets))
+        if new_cmd:
+            new_cmd_id = new_cmd.id
+
     act_num = len(train.actors)  # 调教者人数
     tar_num = len(train.targets)  # 被调教者人数
     num_adjust = float(act_num / tar_num)  # 人数补正
@@ -62,7 +149,7 @@ def ass_caress(world: World):
     # 推进时间
     ctx.advance_time(command_time_data['ass_caress'])
 
-    sources: dict[str, dict[str, int | float]]  = {}
+    sources: dict[str, dict[str, int | float]] = {}
     # 调教者
     for actor_id in train.actors:
         temp_sources: dict[str, dict[str, int | float]] = {
@@ -88,7 +175,8 @@ def ass_caress(world: World):
     # 被调教者
     for target_id in train.targets:
         sources: dict[str, dict[str, int]] = {
-            target_id: {k: int(v * num_adjust) for k, v in merged_source.items()}
+            target_id: {k: int(v * num_adjust)
+                        for k, v in merged_source.items()}
         }
         chara = get_entity_by_id(world.player, target_id)
         # a苦痛判定
@@ -96,28 +184,22 @@ def ass_caress(world: World):
         # 通用source修正
         sources[target_id] = common_src_modify(sources[target_id], chara)
 
-        ctx.say_source(sources[target_id], prefix=f'{tar_name}')
-
         # 体力和气力消耗
         ctx.consume(stamina=40, energy=100, chara=chara)
 
         # exp
         exp_mes.append(exp_calc('a_exp', chara))
 
-        # 处理好感和信赖
-        if target_id != PLAYER_ID:
-            favor_trust_proc(sources[target_id], chara, ctx)
-
-    # source转换过程统一处理
+    # 构建主指令 pairs
     pairs = []
     for actor_id in train.actors:
         actor = get_entity_by_id(world.player, actor_id)
         for target_id in train.targets:
             target = get_entity_by_id(world.player, target_id)
-            # 笛卡尔积
             pairs.append((sources[target_id], actor, target))
-    source_proc_batch(pairs, ctx)
 
-    ctx.say_exp(*exp_mes)
+    # 统一回合结算管道
+    from game_engine.commands._common import process_train_turn
+    process_train_turn(world, ctx, pairs, exp_mes, new_cmd_id=new_cmd_id)
 
     return ctx.result()
