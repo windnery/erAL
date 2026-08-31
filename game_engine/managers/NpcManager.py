@@ -143,7 +143,10 @@ class NpcManager:
                 sg.cflag_set_attach('dating')
                 # 判断约会是否已到期
                 current = self.world.time_manager.day * 24 * 60 + hour * 60 + minute
-                end_time = sg.cflag.get('dating_day') * 24 * 60 + DATING_END_TIME
+                dating_day = sg.cflag.get('dating_day')
+                if dating_day is None:
+                    dating_day = self.world.time_manager.day
+                end_time = dating_day * 24 * 60 + DATING_END_TIME
                 if current >= end_time:
                     # 取消约会状态
                     from game_engine.commands.interact.end_date import end_date

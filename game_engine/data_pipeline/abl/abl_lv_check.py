@@ -37,7 +37,8 @@ def exp2abl(chara: Character, attr_defs):
     for exp_k in EXP2ABL:
         abl_k = exp_k.replace('exp', 'abl')
         while (
-                chara.abl[abl_k] != EXP2ABL_MAX_LV and
+                chara.abl[abl_k] < EXP2ABL_MAX_LV and
+                (chara.abl[abl_k] + 1) in ABL_LV and
                 chara.exp[exp_k] >= ABL_LV[chara.abl[abl_k] + 1]
         ):
             chara.abl[abl_k] += 1
