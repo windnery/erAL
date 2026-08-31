@@ -21,7 +21,7 @@ def main():
         height=900,
         js_api=api,
     )
-    webview.start(debug=True)
+    webview.start()
 
 
 if __name__ == '__main__':
