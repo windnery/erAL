@@ -13,6 +13,10 @@ class TimeManager:
         self.npc_manager = npc_manager
         self.map_manager = map_manager
 
+    def get_total_minutes(self) -> int:
+        """获取从第1天0点开始的绝对游戏总分钟数"""
+        return (self.day - 1) * 1440 + self.hour * 60 + self.minute
+
     def advance_time(self, minutes: int):
         # 推进时间（纯时间计算，不处理NPC逻辑）
         self.minute += minutes

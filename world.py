@@ -310,5 +310,11 @@ class World:
             self._update_tired_flag(chara)
         self._rest_recover(0)
 
+        # 清理已过期的指令冷却
+        now_minutes = self.time_manager.get_total_minutes()
+        self.player.clear_expired_cooldowns(now_minutes)
+        for npc in self.npc_manager.get_all_npcs():
+            npc.clear_expired_cooldowns(now_minutes)
+
         return pages
 

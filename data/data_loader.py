@@ -46,6 +46,15 @@ def load_command_time():
 		command_time = json.load(f)
 	return command_time
 
+def load_command_cooldown():
+	"""加载日常指令冷却时间"""
+	path = DATA_DIR / 'time/command_cooldown.json'
+	if not path.exists():
+		return {}
+	with open(path, 'r', encoding='utf-8') as f:
+		command_cooldown = json.load(f)
+	return command_cooldown
+
 def load_attr_defs():
 	"""加载属性定义表"""
 	with open(DATA_DIR / 'attr_defs.json', 'r', encoding='utf-8') as f:

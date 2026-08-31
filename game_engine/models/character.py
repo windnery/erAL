@@ -21,12 +21,32 @@ class Character:
     palam_lv: dict[str, int] = field(default_factory=dict)
     talent: dict[str, str] = field(default_factory=dict)
     body_slots: dict[str, int] = field(default_factory=dict)
+    cmd_cooldowns: dict[str, int] = field(default_factory=dict)
     DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {}
 
     def __post_init__(self):
         # 初始化palam等级
         for k in self.palam.keys():
             self.palam_lv[k] = 0
+
+    def is_cmd_cooling_down(self, command: str, current_time: int) -> bool:
+        """检查指令是否处于冷却中"""
+        return self.cmd_cooldowns.get(command, 0) > current_time
+
+    def get_cmd_cooldown_remaining(self, command: str, current_time: int) -> int:
+        """获取指令剩余冷却分钟数"""
+        return max(0, self.cmd_cooldowns.get(command, 0) - current_time)
+
+    def set_cmd_cooldown(self, command: str, expire_time: int) -> None:
+        """设置指令冷却到期时间戳（绝对分钟数）"""
+        self.cmd_cooldowns[command] = expire_time
+
+    def clear_expired_cooldowns(self, current_time: int) -> None:
+        """清理已过期的冷却记录"""
+        self.cmd_cooldowns = {
+            cmd: exp for cmd, exp in self.cmd_cooldowns.items()
+            if exp > current_time
+        }
 
     def has_body_slots(self, slots: dict[str, int]) -> bool:
         """检查身体槽位是否满足要求"""

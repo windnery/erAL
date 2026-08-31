@@ -41,6 +41,7 @@ class SaveManager:
                 'talk_fatigue': sg.talk_fatigue,
                 'is_talk_fatigue': sg.is_talk_fatigue,
                 'body_slots': dict(sg.body_slots),
+                'cmd_cooldowns': dict(sg.cmd_cooldowns),
             }
         return {
             'version': SAVE_VERSION,
@@ -68,6 +69,7 @@ class SaveManager:
                     'talent': player.talent,
                     'cflag': player.cflag,
                     'body_slots': dict(player.body_slots),
+                    'cmd_cooldowns': dict(player.cmd_cooldowns),
                 },
                 'shipgirls': sg_state,
                 'work': {
@@ -151,6 +153,7 @@ class SaveManager:
             self.world.player.body_slots = dict(
                 p.get('body_slots', self.world.player.DEFAULT_BODY_SLOTS)
             )
+            self.world.player.cmd_cooldowns = dict(p.get('cmd_cooldowns', {}))
 
             from game_engine.models.shipgirl import ShipGirl
             for sg_id, st in d['shipgirls'].items():
@@ -172,6 +175,7 @@ class SaveManager:
                 sg.body_slots = dict(
                     st.get('body_slots', sg.DEFAULT_BODY_SLOTS)
                 )
+                sg.cmd_cooldowns = dict(st.get('cmd_cooldowns', {}))
                 sg.update_palam_level()
                 self.world.npc_manager.shipgirls[sg_id] = sg
 

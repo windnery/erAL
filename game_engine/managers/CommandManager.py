@@ -1,18 +1,47 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from game_engine.commands._commands import REGISTER_CMD, REGISTER_CAN, REGISTER_CMD_NAME, REGISTER_CAT, \
-    REGISTER_NEEDS_TARGET, REGISTER_FRONTEND, REGISTER_MODE
+from game_engine.commands._commands import (
+    REGISTER_CMD,
+    REGISTER_CAN,
+    REGISTER_CMD_NAME,
+    REGISTER_CAT,
+    REGISTER_NEEDS_TARGET,
+    REGISTER_FRONTEND,
+    REGISTER_MODE,
+    REGISTER_COOLDOWN,
+)
 from game_engine.logging_config import set_runtime_context
 
 if TYPE_CHECKING:
     from world import World
+    from game_engine.models.character import Character
 
 
 
 class CommandManager:
     def __init__(self, world: World):
         self.world = world
+
+    def get_cmd_cooldown_remaining(self, command: str, chara: Character | None = None) -> int:
+        """获取指令剩余冷却时间（分钟），0 表示无冷却或冷却已结束"""
+        target = chara if chara is not None else self.world.player
+        current_time = self.world.time_manager.get_total_minutes()
+        return target.get_cmd_cooldown_remaining(command, current_time)
+
+    def is_cmd_cooling_down(self, command: str, chara: Character | None = None) -> bool:
+        """判断指令是否处于冷却中"""
+        target = chara if chara is not None else self.world.player
+        current_time = self.world.time_manager.get_total_minutes()
+        return target.is_cmd_cooling_down(command, current_time)
+
+    def apply_cmd_cooldown(self, command: str, chara: Character | None = None):
+        """记录指令冷却到期时间"""
+        cd = REGISTER_COOLDOWN.get(command, 0)
+        if cd > 0:
+            target = chara if chara is not None else self.world.player
+            current_time = self.world.time_manager.get_total_minutes()
+            target.set_cmd_cooldown(command, current_time + cd)
 
     def get_act_com(self, selected_npc_id: str | None = None):
         """获取交互指令"""
@@ -115,14 +144,23 @@ class CommandManager:
         is_target_command = REGISTER_NEEDS_TARGET.get(command, True)
         is_system_command = REGISTER_CAT.get(command) == '系统'
 
+        target_chara = self.world.player
+        npc = None
+        if is_target_command:
+            if option is None:
+                return ''
+            try:
+                npc = self.world.npc_manager.get_npc_by_id(option)
+                target_chara = npc
+            except KeyError:
+                return ''
+
+        # 冷却判定：如果处于冷却中，直接拒绝执行
+        if self.is_cmd_cooling_down(command, target_chara):
+            return ''
+
         if can and not is_system_command:
             if is_target_command:
-                if option is None:
-                    return ''
-                try:
-                    npc = self.world.npc_manager.get_npc_by_id(option)
-                except KeyError:
-                    return ''
                 nearby_npcs = self.world.npc_manager.get_npcs_at(
                     self.world.player.location['region'],
                     self.world.player.location['node'])
@@ -132,6 +170,9 @@ class CommandManager:
                 return ''
 
         result = func(self.world, option)
+        # 执行成功后自动记录冷却时间
+        if REGISTER_COOLDOWN.get(command, 0) > 0:
+            self.apply_cmd_cooldown(command, target_chara)
         return result
 
     def _get_system_commands(self):
@@ -150,6 +191,8 @@ class CommandManager:
             if REGISTER_MODE.get(key):
                 continue
             if REGISTER_NEEDS_TARGET.get(key, True):
+                continue
+            if self.is_cmd_cooling_down(key, self.world.player):
                 continue
 
             can = REGISTER_CAN.get(key)
@@ -182,6 +225,8 @@ class CommandManager:
             if REGISTER_MODE.get(key):
                 continue
             if not REGISTER_NEEDS_TARGET.get(key, True):
+                continue
+            if self.is_cmd_cooling_down(key, npc):
                 continue
 
             can = REGISTER_CAN.get(key)

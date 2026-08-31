@@ -1,0 +1,10 @@
+{
+    "poke_the_cheek": 5,
+    "pinching_cheeks": 10,
+    "rub_the_head": 10,
+    "rub_the_belly": 15,
+    "rub_the_butt": 15,
+    "hug": 30,
+    "request_a_lap_pillow": 60,
+    "nap": 120
+}
