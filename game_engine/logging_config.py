@@ -22,7 +22,19 @@ from typing import Final
 
 LOG_FILE_NAME = 'crash.log'
 LOGGER_NAME = 'eral'
-DEFAULT_LOG_DIR: Final = Path(__file__).resolve().parent.parent / 'logs'
+
+
+def get_app_root() -> Path:
+    """获取程序运行时的根目录。
+    - 在 PyInstaller 打包环境中（sys.frozen 为 True），返回可执行文件所在目录。
+    - 在源码开发/测试环境中，返回项目仓库根目录。
+    """
+    if getattr(sys, 'frozen', False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent.parent
+
+
+DEFAULT_LOG_DIR: Final = get_app_root() / 'logs'
 _CRASH_EVENT = 'game.crashed'
 _CRASH_LEVEL = logging.CRITICAL
 _STANDARD_FIELDS: Final = frozenset(logging.makeLogRecord({}).__dict__) | {
@@ -255,10 +267,11 @@ def configure_logging(log_dir: Path | None = None) -> logging.Logger:
     except OSError:
         # There is no useful persistent destination in this case, but the
         # process hooks still capture the error for stderr/debugger output.
-        fallback = logging.StreamHandler()
-        fallback.setLevel(_CRASH_LEVEL)
-        fallback.setFormatter(logging.Formatter('%(levelname)s %(name)s %(message)s'))
-        logger.addHandler(fallback)
+        if sys.stderr is not None:
+            fallback = logging.StreamHandler(sys.stderr)
+            fallback.setLevel(_CRASH_LEVEL)
+            fallback.setFormatter(logging.Formatter('%(levelname)s %(name)s %(message)s'))
+            logger.addHandler(fallback)
     _install_exception_hooks()
     return logger
 

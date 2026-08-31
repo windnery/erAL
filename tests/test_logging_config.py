@@ -85,7 +85,24 @@ def test_frontend_crash_report_includes_javascript_context(tmp_path):
 
     payload = read_events(tmp_path / LOG_FILE_NAME)[0]
     assert payload['fields']['source'] == 'frontend'
-    assert payload['fields']['client_source'] == 'main.js'
-    assert payload['fields']['line'] == 42
-    assert payload['fields']['javascript_stack'].startswith('TypeError:')
+    assert payload['fields']['context']['client_source'] == 'main.js'
+    assert payload['fields']['context']['line'] == 42
+    assert payload['fields']['context']['javascript_stack'].startswith('TypeError:')
     assert payload['exception']['type'] == 'FrontendError'
+
+
+def test_get_app_root_supports_frozen_environment(monkeypatch, tmp_path):
+    from game_engine.logging_config import get_app_root
+    import sys
+
+    # 非打包模式：返回项目根目录
+    monkeypatch.delattr(sys, 'frozen', raising=False)
+    assert get_app_root().exists()
+
+    # 打包模式（模拟 sys.frozen 为 True）
+    fake_exe = tmp_path / 'dist' / 'erAL.exe'
+    fake_exe.parent.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr(sys, 'frozen', True, raising=False)
+    monkeypatch.setattr(sys, 'executable', str(fake_exe))
+    assert get_app_root() == tmp_path / 'dist'
+

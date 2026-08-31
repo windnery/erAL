@@ -3,6 +3,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from game_engine.logging_config import get_app_root
+
 if TYPE_CHECKING:
     from world import World
 
@@ -18,7 +20,7 @@ class SaveManager:
 
     def __init__(self, world: 'World', sav_dir: Path | None = None):
         self.world = world
-        self.sav_dir = Path(sav_dir) if sav_dir else Path('sav')
+        self.sav_dir = Path(sav_dir) if sav_dir else get_app_root() / 'sav'
 
     def serialize_world(self) -> dict:
         world = self.world
