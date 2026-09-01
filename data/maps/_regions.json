@@ -38,5 +38,15 @@
     "name": "重樱宿舍区",
     "micro_map": "sakura_dorm.json",
     "entry_node": "corridor"
+  },
+  "dragon_empiry_dorm": {
+    "name": "东煌宿舍区",
+    "micro_map": "dragon_empiry_dorm.json",
+    "entry_node": "corridor"
+  },
+  "northern_parliament_dorm": {
+    "name": "北方联合宿舍区",
+    "micro_map": "northern_parliament_dorm.json",
+    "entry_node": "corridor"
   }
 }

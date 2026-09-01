@@ -1,8 +1,78 @@
 {
-  "corridor": {"name": "重樱宿舍走廊", "actions": {}},
-  "ayanami_room": {"name": "绫波的房间", "actions": {}},
-  "shiranui_room": {"name": "不知火的房间", "actions": {}},
-  "akashi_room": {"name": "明石的房间", "actions": {}},
-  "furutaka_room": {"name": "古鹰的房间", "actions": {}},
-  "kako_room": {"name": "加古的房间", "actions": {}}
+  "corridor": {
+    "name": "重樱宿舍走廊",
+    "actions": {}
+  },
+  "ayanami_room": {
+    "name": "绫波的房间",
+    "actions": {}
+  },
+  "shiranui_room": {
+    "name": "不知火的房间",
+    "actions": {}
+  },
+  "akashi_room": {
+    "name": "明石的房间",
+    "actions": {}
+  },
+  "furutaka_room": {
+    "name": "古鹰的房间",
+    "actions": {}
+  },
+  "kako_room": {
+    "name": "加古的房间",
+    "actions": {}
+  },
+  "akagi_room": {
+    "name": "赤城的房间",
+    "actions": {}
+  },
+  "kaga_room": {
+    "name": "加贺的房间",
+    "actions": {}
+  },
+  "souryuu_room": {
+    "name": "苍龙的房间",
+    "actions": {}
+  },
+  "hiryuu_room": {
+    "name": "飞龙的房间",
+    "actions": {}
+  },
+  "houshou_room": {
+    "name": "凤翔的房间",
+    "actions": {}
+  },
+  "shouhou_room": {
+    "name": "祥凤的房间",
+    "actions": {}
+  },
+  "takao_room": {
+    "name": "高雄的房间",
+    "actions": {}
+  },
+  "fusou_room": {
+    "name": "扶桑的房间",
+    "actions": {}
+  },
+  "yamashiro_room": {
+    "name": "山城的房间",
+    "actions": {}
+  },
+  "yuudachi_room": {
+    "name": "夕立的房间",
+    "actions": {}
+  },
+  "shigure_room": {
+    "name": "时雨的房间",
+    "actions": {}
+  },
+  "shiratsuyu_room": {
+    "name": "白露的房间",
+    "actions": {}
+  },
+  "kagerou_room": {
+    "name": "阳炎的房间",
+    "actions": {}
+  }
 }

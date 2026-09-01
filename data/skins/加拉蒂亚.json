@@ -1,0 +1,8 @@
+{
+  "galatea_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/加拉蒂亚/galatea_default.webp",
+    "portrait": "frontend/assets/portraits/加拉蒂亚/galatea_default.webp",
+    "default": true
+  }
+}

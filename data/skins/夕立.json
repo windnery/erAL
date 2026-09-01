@@ -1,0 +1,49 @@
+{
+  "yuudachi_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_default.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_default.webp",
+    "default": true
+  },
+  "yuudachi_xili_2": {
+    "name": "雪仗将军",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_xili_2.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_xili_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yuudachi_xili_3": {
+    "name": "肉包杀手",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_xili_3.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_xili_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yuudachi_xili_4": {
+    "name": "肉肉之宴！",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_xili_4.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_xili_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yuudachi_xili_5": {
+    "name": "美梦环绕圣诞夜",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_xili_5.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_xili_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yuudachi_oath": {
+    "name": "夕立·誓约",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_oath.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "yuudachi_retrofit": {
+    "name": "夕立·改",
+    "avatar": "frontend/assets/avatars/夕立/yuudachi_retrofit.webp",
+    "portrait": "frontend/assets/portraits/夕立/yuudachi_retrofit.webp",
+    "retrofit": true
+  }
+}

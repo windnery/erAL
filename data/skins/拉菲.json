@@ -1,82 +1,84 @@
 {
   "laffey_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/拉菲/laffey_default.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_default.webp"
+    "portrait": "frontend/assets/portraits/拉菲/laffey_default.webp",
+    "default": true
+  },
+  "laffey_lafei_2": {
+    "name": "33娘",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_2.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_3": {
+    "name": "雪兔与苹果糖",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_3.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_4": {
+    "name": "白兔迎春",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_4.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_5": {
+    "name": "兔兔店员？",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_5.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_8": {
+    "name": "野餐奇遇？",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_8.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_6": {
+    "name": "兔兔偶像·提不起劲",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_6.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_lafei_9": {
+    "name": "大扫除的始末",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_9.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_9.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "laffey_oath": {
+    "name": "拉菲·誓约",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_oath.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_oath.webp",
+    "is_sale": false,
+    "oath": true
   },
   "laffey_retrofit": {
-    "retrofit": true,
     "name": "拉菲·改",
     "avatar": "frontend/assets/avatars/拉菲/laffey_retrofit.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_retrofit.webp"
+    "portrait": "frontend/assets/portraits/拉菲/laffey_retrofit.webp",
+    "retrofit": true
   },
-  "laffey_bunny_clerk": {
+  "laffey_lafei_10": {
+    "name": "末日沉眠…",
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_10.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_10.webp",
     "is_sale": true,
-    "price": 700,
-    "name": "兔兔店员？",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_bunny_clerk.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_bunny_clerk.webp"
+    "price": 800
   },
-  "laffey_bunny_idol_unmotivated": {
-    "is_sale": true,
-    "price": 800,
-    "name": "兔兔偶像·提不起劲",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_bunny_idol_unmotivated.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_bunny_idol_unmotivated.webp"
-  },
-  "laffey_lazy_days": {
-    "is_sale": true,
-    "price": 800,
+  "laffey_lafei_12": {
     "name": "白日慵懒",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_lazy_days.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_lazy_days.webp"
-  },
-  "laffey_picnic_adventure": {
-    "is_sale": false,
-    "name": "野餐奇遇？",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_picnic_adventure.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_picnic_adventure.webp"
-  },
-  "laffey_sleep_to_clean_another_day": {
+    "avatar": "frontend/assets/avatars/拉菲/laffey_lafei_12.webp",
+    "portrait": "frontend/assets/portraits/拉菲/laffey_lafei_12.webp",
     "is_sale": true,
-    "price": 800,
-    "name": "大扫除的始末",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_sleep_to_clean_another_day.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_sleep_to_clean_another_day.webp"
-  },
-  "laffey_sleepageddon": {
-    "is_sale": true,
-    "price": 780,
-    "name": "末日沉眠……",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_sleepageddon.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_sleepageddon.webp"
-  },
-  "laffey_sleepy_teriyaki_twister": {
-    "is_sale": true,
-    "price": 700,
-    "name": "鸡肉卷，还有倦意……",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_sleepy_teriyaki_twister.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_sleepy_teriyaki_twister.webp"
-  },
-  "laffey_snow_rabbit_and_candy_apple": {
-    "is_sale": true,
-    "price": 1000,
-    "name": "雪兔与苹果糖",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_snow_rabbit_and_candy_apple.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_snow_rabbit_and_candy_apple.webp"
-  },
-  "laffey_white_rabbit_welcomes_the_spring": {
-    "is_sale": true,
-    "price": 1080,
-    "name": "白兔迎春",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_white_rabbit_welcomes_the_spring.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_white_rabbit_welcomes_the_spring.webp"
-  },
-  "laffey_white_rabbit's_oath": {
-    "oath": true,
-    "name": "拉菲·誓约",
-    "avatar": "frontend/assets/avatars/拉菲/laffey_white_rabbit's_oath.webp",
-    "portrait": "frontend/assets/portraits/拉菲/laffey_white_rabbit's_oath.webp"
+    "price": 800
   }
 }

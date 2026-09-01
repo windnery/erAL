@@ -1,0 +1,28 @@
+{
+  "nelson_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/纳尔逊/nelson_default.webp",
+    "portrait": "frontend/assets/portraits/纳尔逊/nelson_default.webp",
+    "default": true
+  },
+  "nelson_naerxun_2": {
+    "name": "月之魔女",
+    "avatar": "frontend/assets/avatars/纳尔逊/nelson_naerxun_2.webp",
+    "portrait": "frontend/assets/portraits/纳尔逊/nelson_naerxun_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "nelson_naerxun_3": {
+    "name": "蓝金的夏夜之光",
+    "avatar": "frontend/assets/avatars/纳尔逊/nelson_naerxun_3.webp",
+    "portrait": "frontend/assets/portraits/纳尔逊/nelson_naerxun_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "nelson_retrofit": {
+    "name": "纳尔逊·改",
+    "avatar": "frontend/assets/avatars/纳尔逊/nelson_retrofit.webp",
+    "portrait": "frontend/assets/portraits/纳尔逊/nelson_retrofit.webp",
+    "retrofit": true
+  }
+}

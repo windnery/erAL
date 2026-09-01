@@ -1,8 +1,8 @@
 {
   "spence_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/斯彭斯/spence_default.webp",
-    "portrait": "frontend/assets/portraits/斯彭斯/spence_default.webp"
+    "portrait": "frontend/assets/portraits/斯彭斯/spence_default.webp",
+    "default": true
   }
 }

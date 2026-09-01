@@ -1,12 +1,154 @@
 {
-  "corridor": {"name": "皇家宿舍走廊", "actions": {}},
-  "javelin_room": {"name": "标枪的房间", "actions": {}},
-  "leander_room": {"name": "利安得的房间", "actions": {}},
-  "hermes_room": {"name": "竞技神的房间", "actions": {}},
-  "bulldog_room": {"name": "大斗犬的房间", "actions": {}},
-  "beagle_room": {"name": "小猎兔犬的房间", "actions": {}},
-  "cygnet_room": {"name": "小天鹅的房间", "actions": {}},
-  "comet_room": {"name": "彗星的房间", "actions": {}},
-  "crescent_room": {"name": "新月的房间", "actions": {}},
-  "foxhound_room": {"name": "狐提的房间", "actions": {}}
+  "corridor": {
+    "name": "皇家宿舍走廊",
+    "actions": {}
+  },
+  "javelin_room": {
+    "name": "标枪的房间",
+    "actions": {}
+  },
+  "leander_room": {
+    "name": "利安得的房间",
+    "actions": {}
+  },
+  "hermes_room": {
+    "name": "竞技神的房间",
+    "actions": {}
+  },
+  "bulldog_room": {
+    "name": "大斗犬的房间",
+    "actions": {}
+  },
+  "beagle_room": {
+    "name": "小猎兔犬的房间",
+    "actions": {}
+  },
+  "cygnet_room": {
+    "name": "小天鹅的房间",
+    "actions": {}
+  },
+  "comet_room": {
+    "name": "彗星的房间",
+    "actions": {}
+  },
+  "crescent_room": {
+    "name": "新月的房间",
+    "actions": {}
+  },
+  "foxhound_room": {
+    "name": "狐提的房间",
+    "actions": {}
+  },
+  "queen_elizabeth_room": {
+    "name": "伊丽莎白女王的房间",
+    "actions": {}
+  },
+  "warspite_room": {
+    "name": "厌战的房间",
+    "actions": {}
+  },
+  "hood_room": {
+    "name": "胡德的房间",
+    "actions": {}
+  },
+  "illustrious_room": {
+    "name": "光辉的房间",
+    "actions": {}
+  },
+  "unicorn_room": {
+    "name": "独角兽的房间",
+    "actions": {}
+  },
+  "ark_royal_room": {
+    "name": "皇家方舟的房间",
+    "actions": {}
+  },
+  "nelson_room": {
+    "name": "纳尔逊的房间",
+    "actions": {}
+  },
+  "rodney_room": {
+    "name": "罗德尼的房间",
+    "actions": {}
+  },
+  "renown_room": {
+    "name": "声望的房间",
+    "actions": {}
+  },
+  "repulse_room": {
+    "name": "反击的房间",
+    "actions": {}
+  },
+  "york_room": {
+    "name": "约克的房间",
+    "actions": {}
+  },
+  "exeter_room": {
+    "name": "埃克塞特的房间",
+    "actions": {}
+  },
+  "london_room": {
+    "name": "伦敦的房间",
+    "actions": {}
+  },
+  "suffolk_room": {
+    "name": "萨福克的房间",
+    "actions": {}
+  },
+  "norfolk_room": {
+    "name": "诺福克的房间",
+    "actions": {}
+  },
+  "kent_room": {
+    "name": "肯特的房间",
+    "actions": {}
+  },
+  "shropshire_room": {
+    "name": "什罗普郡的房间",
+    "actions": {}
+  },
+  "dorsetshire_room": {
+    "name": "多塞特郡的房间",
+    "actions": {}
+  },
+  "galatea_room": {
+    "name": "加拉蒂亚的房间",
+    "actions": {}
+  },
+  "arethusa_room": {
+    "name": "阿瑞托莎的房间",
+    "actions": {}
+  },
+  "ajax_room": {
+    "name": "阿贾克斯的房间",
+    "actions": {}
+  },
+  "achilles_room": {
+    "name": "阿基里斯的房间",
+    "actions": {}
+  },
+  "amazon_room": {
+    "name": "女将的房间",
+    "actions": {}
+  },
+  "juno_room": {
+    "name": "天后的房间",
+    "actions": {}
+  },
+  "fortune_room": {
+    "name": "命运女神的房间",
+    "actions": {}
+  },
+  "glowworm_room": {
+    "name": "萤火虫的房间",
+    "actions": {}
+  },
+  "erebus_room": {
+    "name": "黑暗界的房间",
+    "actions": {}
+  },
+  "terror_room": {
+    "name": "恐怖的房间",
+    "actions": {}
+  }
 }

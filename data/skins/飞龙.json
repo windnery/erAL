@@ -1,0 +1,21 @@
+{
+  "hiryuu_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/飞龙/hiryuu_default.webp",
+    "portrait": "frontend/assets/portraits/飞龙/hiryuu_default.webp",
+    "default": true
+  },
+  "hiryuu_feilong_2": {
+    "name": "放学后的极道少女",
+    "avatar": "frontend/assets/avatars/飞龙/hiryuu_feilong_2.webp",
+    "portrait": "frontend/assets/portraits/飞龙/hiryuu_feilong_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hiryuu_retrofit": {
+    "name": "飞龙·改",
+    "avatar": "frontend/assets/avatars/飞龙/hiryuu_retrofit.webp",
+    "portrait": "frontend/assets/portraits/飞龙/hiryuu_retrofit.webp",
+    "retrofit": true
+  }
+}

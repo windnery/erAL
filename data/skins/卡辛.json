@@ -1,21 +1,21 @@
 {
   "cassin_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/卡辛/cassin_default.webp",
-    "portrait": "frontend/assets/portraits/卡辛/cassin_default.webp"
+    "portrait": "frontend/assets/portraits/卡辛/cassin_default.webp",
+    "default": true
+  },
+  "cassin_kaxin_2": {
+    "name": "购物车大小姐",
+    "avatar": "frontend/assets/avatars/卡辛/cassin_kaxin_2.webp",
+    "portrait": "frontend/assets/portraits/卡辛/cassin_kaxin_2.webp",
+    "is_sale": true,
+    "price": 800
   },
   "cassin_retrofit": {
-    "retrofit": true,
     "name": "卡辛·改",
     "avatar": "frontend/assets/avatars/卡辛/cassin_retrofit.webp",
-    "portrait": "frontend/assets/portraits/卡辛/cassin_retrofit.webp"
-  },
-  "cassin_shopping_carte_blanche": {
-    "is_sale": true,
-    "price": 700,
-    "name": "购物车大小姐",
-    "avatar": "frontend/assets/avatars/卡辛/cassin_shopping_carte_blanche.webp",
-    "portrait": "frontend/assets/portraits/卡辛/cassin_shopping_carte_blanche.webp"
+    "portrait": "frontend/assets/portraits/卡辛/cassin_retrofit.webp",
+    "retrofit": true
   }
 }

@@ -1,8 +1,8 @@
 {
   "raleigh_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/罗利/raleigh_default.webp",
-    "portrait": "frontend/assets/portraits/罗利/raleigh_default.webp"
+    "portrait": "frontend/assets/portraits/罗利/raleigh_default.webp",
+    "default": true
   }
 }

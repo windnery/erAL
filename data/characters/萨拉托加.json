@@ -1,0 +1,47 @@
+{
+  "id": "saratoga",
+  "name": "萨拉托加",
+  "color": "#FF99CC",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "saratoga_room"
+  },
+  "base": {
+    "max_stamina": 1900,
+    "max_energy": 1850,
+    "stamina": 1900,
+    "energy": 1850
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "4",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "innocent": "1",
+    "bright": "1",
+    "female_body": "-1",
+    "bra_size": "-1",
+    "hip_size": "-1",
+    "wine_tolerance": "-1",
+    "charm": "1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

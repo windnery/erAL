@@ -1,0 +1,64 @@
+{
+  "prinz_eugen_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_default.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_default.webp",
+    "default": true
+  },
+  "prinz_eugen_ougen_2": {
+    "name": "永不褪色的笑容",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_2.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_3": {
+    "name": "百花缭乱",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_3.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_4": {
+    "name": "Wein Kornblume",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_4.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_5": {
+    "name": "Final Lap",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_5.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_6": {
+    "name": "沉醉于夜",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_6.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_7": {
+    "name": "闪耀达阵！",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_7.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_ougen_8": {
+    "name": "微醺与试探的距离",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_ougen_8.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_ougen_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "prinz_eugen_oath": {
+    "name": "欧根亲王·誓约",
+    "avatar": "frontend/assets/avatars/欧根亲王/prinz_eugen_oath.webp",
+    "portrait": "frontend/assets/portraits/欧根亲王/prinz_eugen_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

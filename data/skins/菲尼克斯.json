@@ -1,0 +1,8 @@
+{
+  "phoenix_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/菲尼克斯/phoenix_default.webp",
+    "portrait": "frontend/assets/portraits/菲尼克斯/phoenix_default.webp",
+    "default": true
+  }
+}

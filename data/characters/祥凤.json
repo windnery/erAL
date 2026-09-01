@@ -1,0 +1,45 @@
+{
+  "id": "shouhou",
+  "name": "祥凤",
+  "color": "#FF6347",
+  "location": {
+    "region": "sakura_dorm",
+    "node": "shouhou_room"
+  },
+  "base": {
+    "max_stamina": 1700,
+    "max_energy": 1650,
+    "stamina": 1700,
+    "energy": 1650
+  },
+  "talent": {
+    "alignment": "1",
+    "ship_type": "8",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "0",
+    "bright": "1",
+    "female_body": "-1",
+    "bra_size": "-1",
+    "hip_size": "-1",
+    "wine_tolerance": "-2"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

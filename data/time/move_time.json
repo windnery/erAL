@@ -1,83 +1,490 @@
 {
-    "living_room": {"bedroom": 1, "kitchen": 1},
-    "bedroom": {"living_room": 1, "kitchen": 1},
-    "kitchen": {"living_room": 1, "bedroom": 1},
-
-    "food_window": {"hall": 1, "private_room": 2},
-    "hall": {"food_window": 1, "private_room": 1},
-    "private_room": {"food_window": 2, "hall": 1},
-
-    "street": {"shop": 3},
-    "shop": {"street": 3},
-
-    "corridor": {
-        "laffey_room": 1,
-        "oklahoma_room": 1,
-        "nevada_room": 1,
-        "langley_room": 1,
-        "bogue_room": 1,
-        "ranger_room": 1,
-        "omaha_room": 1,
-        "raleigh_room": 1,
-        "pensacola_room": 1,
-        "cassin_room": 1,
-        "downes_room": 1,
-        "craven_room": 1,
-        "mccall_room": 1,
-        "aulick_room": 1,
-        "foote_room": 1,
-        "spence_room": 1,
-        "javelin_room": 1,
-        "leander_room": 1,
-        "hermes_room": 1,
-        "bulldog_room": 1,
-        "beagle_room": 1,
-        "cygnet_room": 1,
-        "comet_room": 1,
-        "crescent_room": 1,
-        "foxhound_room": 1,
-        "z23_room": 1,
-        "konigsberg_room": 1,
-        "karlsruhe_room": 1,
-        "koln_room": 1,
-        "ayanami_room": 1,
-        "shiranui_room": 1,
-        "akashi_room": 1,
-        "furutaka_room": 1,
-        "kako_room": 1
-    },
-    "laffey_room": {"corridor": 1},
-    "oklahoma_room": {"corridor": 1},
-    "nevada_room": {"corridor": 1},
-    "langley_room": {"corridor": 1},
-    "bogue_room": {"corridor": 1},
-    "ranger_room": {"corridor": 1},
-    "omaha_room": {"corridor": 1},
-    "raleigh_room": {"corridor": 1},
-    "pensacola_room": {"corridor": 1},
-    "cassin_room": {"corridor": 1},
-    "downes_room": {"corridor": 1},
-    "craven_room": {"corridor": 1},
-    "mccall_room": {"corridor": 1},
-    "aulick_room": {"corridor": 1},
-    "foote_room": {"corridor": 1},
-    "spence_room": {"corridor": 1},
-    "javelin_room": {"corridor": 1},
-    "leander_room": {"corridor": 1},
-    "hermes_room": {"corridor": 1},
-    "bulldog_room": {"corridor": 1},
-    "beagle_room": {"corridor": 1},
-    "cygnet_room": {"corridor": 1},
-    "comet_room": {"corridor": 1},
-    "crescent_room": {"corridor": 1},
-    "foxhound_room": {"corridor": 1},
-    "z23_room": {"corridor": 1},
-    "konigsberg_room": {"corridor": 1},
-    "karlsruhe_room": {"corridor": 1},
-    "koln_room": {"corridor": 1},
-    "ayanami_room": {"corridor": 1},
-    "shiranui_room": {"corridor": 1},
-    "akashi_room": {"corridor": 1},
-    "furutaka_room": {"corridor": 1},
-    "kako_room": {"corridor": 1}
+  "living_room": {
+    "bedroom": 1,
+    "kitchen": 1
+  },
+  "bedroom": {
+    "living_room": 1,
+    "kitchen": 1
+  },
+  "kitchen": {
+    "living_room": 1,
+    "bedroom": 1
+  },
+  "food_window": {
+    "hall": 1,
+    "private_room": 2
+  },
+  "hall": {
+    "food_window": 1,
+    "private_room": 1
+  },
+  "private_room": {
+    "food_window": 2,
+    "hall": 1
+  },
+  "street": {
+    "shop": 3
+  },
+  "shop": {
+    "street": 3
+  },
+  "corridor": {
+    "laffey_room": 1,
+    "oklahoma_room": 1,
+    "nevada_room": 1,
+    "langley_room": 1,
+    "bogue_room": 1,
+    "ranger_room": 1,
+    "omaha_room": 1,
+    "raleigh_room": 1,
+    "pensacola_room": 1,
+    "cassin_room": 1,
+    "downes_room": 1,
+    "craven_room": 1,
+    "mccall_room": 1,
+    "aulick_room": 1,
+    "foote_room": 1,
+    "spence_room": 1,
+    "javelin_room": 1,
+    "leander_room": 1,
+    "hermes_room": 1,
+    "bulldog_room": 1,
+    "beagle_room": 1,
+    "cygnet_room": 1,
+    "comet_room": 1,
+    "crescent_room": 1,
+    "foxhound_room": 1,
+    "z23_room": 1,
+    "konigsberg_room": 1,
+    "karlsruhe_room": 1,
+    "koln_room": 1,
+    "ayanami_room": 1,
+    "shiranui_room": 1,
+    "akashi_room": 1,
+    "furutaka_room": 1,
+    "kako_room": 1,
+    "enterprise_room": 1,
+    "cleveland_room": 1,
+    "saratoga_room": 1,
+    "lexington_room": 1,
+    "yorktown_room": 1,
+    "hornet_room": 1,
+    "san_diego_room": 1,
+    "helena_room": 1,
+    "eldridge_room": 1,
+    "hammann_room": 1,
+    "arizona_room": 1,
+    "pennsylvania_room": 1,
+    "south_dakota_room": 1,
+    "california_room": 1,
+    "tennessee_room": 1,
+    "portland_room": 1,
+    "indianapolis_room": 1,
+    "chicago_room": 1,
+    "houston_room": 1,
+    "wichita_room": 1,
+    "northampton_room": 1,
+    "brooklyn_room": 1,
+    "atlanta_room": 1,
+    "juneau_room": 1,
+    "phoenix_room": 1,
+    "vestal_room": 1,
+    "fletcher_room": 1,
+    "thatcher_room": 1,
+    "charles_ausburne_room": 1,
+    "gridley_room": 1,
+    "maury_room": 1,
+    "sims_room": 1,
+    "long_island_room": 1,
+    "queen_elizabeth_room": 1,
+    "warspite_room": 1,
+    "hood_room": 1,
+    "illustrious_room": 1,
+    "unicorn_room": 1,
+    "ark_royal_room": 1,
+    "nelson_room": 1,
+    "rodney_room": 1,
+    "renown_room": 1,
+    "repulse_room": 1,
+    "york_room": 1,
+    "exeter_room": 1,
+    "london_room": 1,
+    "suffolk_room": 1,
+    "norfolk_room": 1,
+    "kent_room": 1,
+    "shropshire_room": 1,
+    "dorsetshire_room": 1,
+    "galatea_room": 1,
+    "arethusa_room": 1,
+    "ajax_room": 1,
+    "achilles_room": 1,
+    "amazon_room": 1,
+    "juno_room": 1,
+    "fortune_room": 1,
+    "glowworm_room": 1,
+    "erebus_room": 1,
+    "terror_room": 1,
+    "akagi_room": 1,
+    "kaga_room": 1,
+    "souryuu_room": 1,
+    "hiryuu_room": 1,
+    "houshou_room": 1,
+    "shouhou_room": 1,
+    "takao_room": 1,
+    "fusou_room": 1,
+    "yamashiro_room": 1,
+    "yuudachi_room": 1,
+    "shigure_room": 1,
+    "shiratsuyu_room": 1,
+    "kagerou_room": 1,
+    "prinz_eugen_room": 1,
+    "z1_room": 1,
+    "leipzig_room": 1,
+    "ning_hai_room": 1,
+    "ping_hai_room": 1,
+    "avrora_room": 1
+  },
+  "laffey_room": {
+    "corridor": 1
+  },
+  "oklahoma_room": {
+    "corridor": 1
+  },
+  "nevada_room": {
+    "corridor": 1
+  },
+  "langley_room": {
+    "corridor": 1
+  },
+  "bogue_room": {
+    "corridor": 1
+  },
+  "ranger_room": {
+    "corridor": 1
+  },
+  "omaha_room": {
+    "corridor": 1
+  },
+  "raleigh_room": {
+    "corridor": 1
+  },
+  "pensacola_room": {
+    "corridor": 1
+  },
+  "cassin_room": {
+    "corridor": 1
+  },
+  "downes_room": {
+    "corridor": 1
+  },
+  "craven_room": {
+    "corridor": 1
+  },
+  "mccall_room": {
+    "corridor": 1
+  },
+  "aulick_room": {
+    "corridor": 1
+  },
+  "foote_room": {
+    "corridor": 1
+  },
+  "spence_room": {
+    "corridor": 1
+  },
+  "javelin_room": {
+    "corridor": 1
+  },
+  "leander_room": {
+    "corridor": 1
+  },
+  "hermes_room": {
+    "corridor": 1
+  },
+  "bulldog_room": {
+    "corridor": 1
+  },
+  "beagle_room": {
+    "corridor": 1
+  },
+  "cygnet_room": {
+    "corridor": 1
+  },
+  "comet_room": {
+    "corridor": 1
+  },
+  "crescent_room": {
+    "corridor": 1
+  },
+  "foxhound_room": {
+    "corridor": 1
+  },
+  "z23_room": {
+    "corridor": 1
+  },
+  "konigsberg_room": {
+    "corridor": 1
+  },
+  "karlsruhe_room": {
+    "corridor": 1
+  },
+  "koln_room": {
+    "corridor": 1
+  },
+  "ayanami_room": {
+    "corridor": 1
+  },
+  "shiranui_room": {
+    "corridor": 1
+  },
+  "akashi_room": {
+    "corridor": 1
+  },
+  "furutaka_room": {
+    "corridor": 1
+  },
+  "kako_room": {
+    "corridor": 1
+  },
+  "enterprise_room": {
+    "corridor": 1
+  },
+  "cleveland_room": {
+    "corridor": 1
+  },
+  "saratoga_room": {
+    "corridor": 1
+  },
+  "lexington_room": {
+    "corridor": 1
+  },
+  "yorktown_room": {
+    "corridor": 1
+  },
+  "hornet_room": {
+    "corridor": 1
+  },
+  "san_diego_room": {
+    "corridor": 1
+  },
+  "helena_room": {
+    "corridor": 1
+  },
+  "eldridge_room": {
+    "corridor": 1
+  },
+  "hammann_room": {
+    "corridor": 1
+  },
+  "arizona_room": {
+    "corridor": 1
+  },
+  "pennsylvania_room": {
+    "corridor": 1
+  },
+  "south_dakota_room": {
+    "corridor": 1
+  },
+  "california_room": {
+    "corridor": 1
+  },
+  "tennessee_room": {
+    "corridor": 1
+  },
+  "portland_room": {
+    "corridor": 1
+  },
+  "indianapolis_room": {
+    "corridor": 1
+  },
+  "chicago_room": {
+    "corridor": 1
+  },
+  "houston_room": {
+    "corridor": 1
+  },
+  "wichita_room": {
+    "corridor": 1
+  },
+  "northampton_room": {
+    "corridor": 1
+  },
+  "brooklyn_room": {
+    "corridor": 1
+  },
+  "atlanta_room": {
+    "corridor": 1
+  },
+  "juneau_room": {
+    "corridor": 1
+  },
+  "phoenix_room": {
+    "corridor": 1
+  },
+  "vestal_room": {
+    "corridor": 1
+  },
+  "fletcher_room": {
+    "corridor": 1
+  },
+  "thatcher_room": {
+    "corridor": 1
+  },
+  "charles_ausburne_room": {
+    "corridor": 1
+  },
+  "gridley_room": {
+    "corridor": 1
+  },
+  "maury_room": {
+    "corridor": 1
+  },
+  "sims_room": {
+    "corridor": 1
+  },
+  "long_island_room": {
+    "corridor": 1
+  },
+  "queen_elizabeth_room": {
+    "corridor": 1
+  },
+  "warspite_room": {
+    "corridor": 1
+  },
+  "hood_room": {
+    "corridor": 1
+  },
+  "illustrious_room": {
+    "corridor": 1
+  },
+  "unicorn_room": {
+    "corridor": 1
+  },
+  "ark_royal_room": {
+    "corridor": 1
+  },
+  "nelson_room": {
+    "corridor": 1
+  },
+  "rodney_room": {
+    "corridor": 1
+  },
+  "renown_room": {
+    "corridor": 1
+  },
+  "repulse_room": {
+    "corridor": 1
+  },
+  "york_room": {
+    "corridor": 1
+  },
+  "exeter_room": {
+    "corridor": 1
+  },
+  "london_room": {
+    "corridor": 1
+  },
+  "suffolk_room": {
+    "corridor": 1
+  },
+  "norfolk_room": {
+    "corridor": 1
+  },
+  "kent_room": {
+    "corridor": 1
+  },
+  "shropshire_room": {
+    "corridor": 1
+  },
+  "dorsetshire_room": {
+    "corridor": 1
+  },
+  "galatea_room": {
+    "corridor": 1
+  },
+  "arethusa_room": {
+    "corridor": 1
+  },
+  "ajax_room": {
+    "corridor": 1
+  },
+  "achilles_room": {
+    "corridor": 1
+  },
+  "amazon_room": {
+    "corridor": 1
+  },
+  "juno_room": {
+    "corridor": 1
+  },
+  "fortune_room": {
+    "corridor": 1
+  },
+  "glowworm_room": {
+    "corridor": 1
+  },
+  "erebus_room": {
+    "corridor": 1
+  },
+  "terror_room": {
+    "corridor": 1
+  },
+  "akagi_room": {
+    "corridor": 1
+  },
+  "kaga_room": {
+    "corridor": 1
+  },
+  "souryuu_room": {
+    "corridor": 1
+  },
+  "hiryuu_room": {
+    "corridor": 1
+  },
+  "houshou_room": {
+    "corridor": 1
+  },
+  "shouhou_room": {
+    "corridor": 1
+  },
+  "takao_room": {
+    "corridor": 1
+  },
+  "fusou_room": {
+    "corridor": 1
+  },
+  "yamashiro_room": {
+    "corridor": 1
+  },
+  "yuudachi_room": {
+    "corridor": 1
+  },
+  "shigure_room": {
+    "corridor": 1
+  },
+  "shiratsuyu_room": {
+    "corridor": 1
+  },
+  "kagerou_room": {
+    "corridor": 1
+  },
+  "prinz_eugen_room": {
+    "corridor": 1
+  },
+  "z1_room": {
+    "corridor": 1
+  },
+  "leipzig_room": {
+    "corridor": 1
+  },
+  "ning_hai_room": {
+    "corridor": 1
+  },
+  "ping_hai_room": {
+    "corridor": 1
+  },
+  "avrora_room": {
+    "corridor": 1
+  }
 }

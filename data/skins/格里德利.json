@@ -1,0 +1,15 @@
+{
+  "gridley_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/格里德利/gridley_default.webp",
+    "portrait": "frontend/assets/portraits/格里德利/gridley_default.webp",
+    "default": true
+  },
+  "gridley_gelideli_2": {
+    "name": "圣诞摄影会！",
+    "avatar": "frontend/assets/avatars/格里德利/gridley_gelideli_2.webp",
+    "portrait": "frontend/assets/portraits/格里德利/gridley_gelideli_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

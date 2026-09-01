@@ -1,14 +1,14 @@
 {
   "crescent_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/新月/crescent_default.webp",
-    "portrait": "frontend/assets/portraits/新月/crescent_default.webp"
+    "portrait": "frontend/assets/portraits/新月/crescent_default.webp",
+    "default": true
   },
   "crescent_retrofit": {
-    "retrofit": true,
     "name": "新月·改",
     "avatar": "frontend/assets/avatars/新月/crescent_retrofit.webp",
-    "portrait": "frontend/assets/portraits/新月/crescent_retrofit.webp"
+    "portrait": "frontend/assets/portraits/新月/crescent_retrofit.webp",
+    "retrofit": true
   }
 }

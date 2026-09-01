@@ -1,0 +1,71 @@
+{
+  "enterprise_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/企业/enterprise_default.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_default.webp",
+    "default": true
+  },
+  "enterprise_qiye_2": {
+    "name": "驯鹿之主",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_2.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_3": {
+    "name": "傲春之牡丹",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_3.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_4": {
+    "name": "Anniversary Drive！",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_4.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_5": {
+    "name": "翱翔的自由之翼",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_5.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_6": {
+    "name": "英雄的礼服",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_6.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_7": {
+    "name": "Wind Catcher",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_7.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_qiye_8": {
+    "name": "旅行的启程",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_8.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "enterprise_oath": {
+    "name": "企业·誓约",
+    "avatar": "frontend/assets/avatars/企业/enterprise_oath.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "enterprise_qiye_10": {
+    "name": "雨霁于心晴之时",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_10.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_10.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

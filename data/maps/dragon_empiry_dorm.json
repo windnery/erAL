@@ -1,0 +1,14 @@
+{
+  "corridor": {
+    "name": "东煌宿舍走廊",
+    "actions": {}
+  },
+  "ning_hai_room": {
+    "name": "宁海的房间",
+    "actions": {}
+  },
+  "ping_hai_room": {
+    "name": "平海的房间",
+    "actions": {}
+  }
+}

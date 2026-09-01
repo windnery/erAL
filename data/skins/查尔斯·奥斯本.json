@@ -1,0 +1,14 @@
+{
+  "charles_ausburne_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/查尔斯·奥斯本/charles_ausburne_default.webp",
+    "portrait": "frontend/assets/portraits/查尔斯·奥斯本/charles_ausburne_default.webp",
+    "default": true
+  },
+  "charles_ausburne_retrofit": {
+    "name": "查尔斯·奥斯本·改",
+    "avatar": "frontend/assets/avatars/查尔斯·奥斯本/charles_ausburne_retrofit.webp",
+    "portrait": "frontend/assets/portraits/查尔斯·奥斯本/charles_ausburne_retrofit.webp",
+    "retrofit": true
+  }
+}

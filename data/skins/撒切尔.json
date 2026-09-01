@@ -1,0 +1,8 @@
+{
+  "thatcher_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/撒切尔/thatcher_default.webp",
+    "portrait": "frontend/assets/portraits/撒切尔/thatcher_default.webp",
+    "default": true
+  }
+}

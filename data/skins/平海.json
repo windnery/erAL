@@ -1,0 +1,63 @@
+{
+  "ping_hai_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_default.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_default.webp",
+    "default": true
+  },
+  "ping_hai_pinghai_2": {
+    "name": "游兴之夏",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_2.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_3": {
+    "name": "桂花月兔",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_3.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_4": {
+    "name": "东煌姐妹！·P",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_4.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_5": {
+    "name": "美食大远征！",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_5.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_6": {
+    "name": "甜蜜嫣红",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_6.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_7": {
+    "name": "二宝的伙伴！",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_7.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_pinghai_8": {
+    "name": "热闹的盛宴准备",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_pinghai_8.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_pinghai_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ping_hai_retrofit": {
+    "name": "平海·改",
+    "avatar": "frontend/assets/avatars/平海/ping_hai_retrofit.webp",
+    "portrait": "frontend/assets/portraits/平海/ping_hai_retrofit.webp",
+    "retrofit": true
+  }
+}

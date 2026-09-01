@@ -1,0 +1,28 @@
+{
+  "san_diego_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/圣地亚哥/san_diego_default.webp",
+    "portrait": "frontend/assets/portraits/圣地亚哥/san_diego_default.webp",
+    "default": true
+  },
+  "san_diego_shengdiyage_2": {
+    "name": "圣诞亚哥！",
+    "avatar": "frontend/assets/avatars/圣地亚哥/san_diego_shengdiyage_2.webp",
+    "portrait": "frontend/assets/portraits/圣地亚哥/san_diego_shengdiyage_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "san_diego_oath": {
+    "name": "圣地亚哥·誓约",
+    "avatar": "frontend/assets/avatars/圣地亚哥/san_diego_oath.webp",
+    "portrait": "frontend/assets/portraits/圣地亚哥/san_diego_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "san_diego_retrofit": {
+    "name": "圣地亚哥·改",
+    "avatar": "frontend/assets/avatars/圣地亚哥/san_diego_retrofit.webp",
+    "portrait": "frontend/assets/portraits/圣地亚哥/san_diego_retrofit.webp",
+    "retrofit": true
+  }
+}

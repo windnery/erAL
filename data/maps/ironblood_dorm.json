@@ -1,7 +1,34 @@
 {
-  "corridor": {"name": "铁血宿舍走廊", "actions": {}},
-  "z23_room": {"name": "Z23的房间", "actions": {}},
-  "konigsberg_room": {"name": "柯尼斯堡的房间", "actions": {}},
-  "karlsruhe_room": {"name": "卡尔斯鲁厄的房间", "actions": {}},
-  "koln_room": {"name": "科隆的房间", "actions": {}}
+  "corridor": {
+    "name": "铁血宿舍走廊",
+    "actions": {}
+  },
+  "z23_room": {
+    "name": "Z23的房间",
+    "actions": {}
+  },
+  "konigsberg_room": {
+    "name": "柯尼斯堡的房间",
+    "actions": {}
+  },
+  "karlsruhe_room": {
+    "name": "卡尔斯鲁厄的房间",
+    "actions": {}
+  },
+  "koln_room": {
+    "name": "科隆的房间",
+    "actions": {}
+  },
+  "prinz_eugen_room": {
+    "name": "欧根亲王的房间",
+    "actions": {}
+  },
+  "z1_room": {
+    "name": "Z1的房间",
+    "actions": {}
+  },
+  "leipzig_room": {
+    "name": "莱比锡的房间",
+    "actions": {}
+  }
 }

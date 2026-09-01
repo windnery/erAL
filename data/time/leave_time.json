@@ -6,7 +6,9 @@
     "eagle_union_dorm": 3,
     "ironblood_dorm": 3,
     "royal_dorm": 3,
-    "sakura_dorm": 3
+    "sakura_dorm": 3,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "office": {
     "home": 5,
@@ -15,7 +17,9 @@
     "eagle_union_dorm": 5,
     "ironblood_dorm": 5,
     "royal_dorm": 5,
-    "sakura_dorm": 5
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "canteen": {
     "home": 6,
@@ -24,7 +28,9 @@
     "eagle_union_dorm": 6,
     "ironblood_dorm": 6,
     "royal_dorm": 6,
-    "sakura_dorm": 6
+    "sakura_dorm": 6,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "shop_street": {
     "home": 10,
@@ -33,7 +39,9 @@
     "eagle_union_dorm": 8,
     "ironblood_dorm": 8,
     "royal_dorm": 8,
-    "sakura_dorm": 8
+    "sakura_dorm": 8,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "eagle_union_dorm": {
     "home": 3,
@@ -42,7 +50,9 @@
     "shop_street": 8,
     "ironblood_dorm": 5,
     "royal_dorm": 5,
-    "sakura_dorm": 5
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "ironblood_dorm": {
     "home": 3,
@@ -51,7 +61,9 @@
     "shop_street": 8,
     "eagle_union_dorm": 5,
     "royal_dorm": 5,
-    "sakura_dorm": 5
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "royal_dorm": {
     "home": 3,
@@ -60,7 +72,9 @@
     "shop_street": 8,
     "eagle_union_dorm": 5,
     "ironblood_dorm": 5,
-    "sakura_dorm": 5
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
   },
   "sakura_dorm": {
     "home": 3,
@@ -70,6 +84,30 @@
     "eagle_union_dorm": 5,
     "ironblood_dorm": 5,
     "royal_dorm": 5,
-    "sakura_dorm": 5
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5,
+    "northern_parliament_dorm": 5
+  },
+  "dragon_empiry_dorm": {
+    "home": 5,
+    "office": 5,
+    "canteen": 5,
+    "shop_street": 5,
+    "eagle_union_dorm": 5,
+    "ironblood_dorm": 5,
+    "royal_dorm": 5,
+    "sakura_dorm": 5,
+    "northern_parliament_dorm": 5
+  },
+  "northern_parliament_dorm": {
+    "home": 5,
+    "office": 5,
+    "canteen": 5,
+    "shop_street": 5,
+    "eagle_union_dorm": 5,
+    "ironblood_dorm": 5,
+    "royal_dorm": 5,
+    "sakura_dorm": 5,
+    "dragon_empiry_dorm": 5
   }
 }

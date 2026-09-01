@@ -1,0 +1,15 @@
+{
+  "juno_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/天后/juno_default.webp",
+    "portrait": "frontend/assets/portraits/天后/juno_default.webp",
+    "default": true
+  },
+  "juno_tianhou_2": {
+    "name": "美味的祭典？",
+    "avatar": "frontend/assets/avatars/天后/juno_tianhou_2.webp",
+    "portrait": "frontend/assets/portraits/天后/juno_tianhou_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "sims_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/西姆斯/sims_default.webp",
+    "portrait": "frontend/assets/portraits/西姆斯/sims_default.webp",
+    "default": true
+  },
+  "sims_retrofit": {
+    "name": "西姆斯·改",
+    "avatar": "frontend/assets/avatars/西姆斯/sims_retrofit.webp",
+    "portrait": "frontend/assets/portraits/西姆斯/sims_retrofit.webp",
+    "retrofit": true
+  }
+}

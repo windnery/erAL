@@ -1,49 +1,49 @@
 {
   "cygnet_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/小天鹅/cygnet_default.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_default.webp"
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_default.webp",
+    "default": true
+  },
+  "cygnet_xiaotiane_2": {
+    "name": "海滨的十字星",
+    "avatar": "frontend/assets/avatars/小天鹅/cygnet_xiaotiane_2.webp",
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_xiaotiane_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cygnet_xiaotiane_3": {
+    "name": "圣夜的赞美诗",
+    "avatar": "frontend/assets/avatars/小天鹅/cygnet_xiaotiane_3.webp",
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_xiaotiane_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cygnet_xiaotiane_5": {
+    "name": "冬日的约会",
+    "avatar": "frontend/assets/avatars/小天鹅/cygnet_xiaotiane_5.webp",
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_xiaotiane_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cygnet_xiaotiane_4": {
+    "name": "女仆体验周？",
+    "avatar": "frontend/assets/avatars/小天鹅/cygnet_xiaotiane_4.webp",
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_xiaotiane_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cygnet_xiaotiane_6": {
+    "name": "皇家应援曲",
+    "avatar": "frontend/assets/avatars/小天鹅/cygnet_xiaotiane_6.webp",
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_xiaotiane_6.webp",
+    "is_sale": true,
+    "price": 800
   },
   "cygnet_retrofit": {
-    "retrofit": true,
     "name": "小天鹅·改",
     "avatar": "frontend/assets/avatars/小天鹅/cygnet_retrofit.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_retrofit.webp"
-  },
-  "cygnet_an_offer_to_be_maid": {
-    "is_sale": true,
-    "price": 780,
-    "name": "女仆体验周？",
-    "avatar": "frontend/assets/avatars/小天鹅/cygnet_an_offer_to_be_maid.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_an_offer_to_be_maid.webp"
-  },
-  "cygnet_holy_night's_hymn": {
-    "is_sale": true,
-    "price": 780,
-    "name": "圣夜的赞美诗",
-    "avatar": "frontend/assets/avatars/小天鹅/cygnet_holy_night's_hymn.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_holy_night's_hymn.webp"
-  },
-  "cygnet_royal_fanfare": {
-    "is_sale": true,
-    "price": 800,
-    "name": "皇家应援曲",
-    "avatar": "frontend/assets/avatars/小天鹅/cygnet_royal_fanfare.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_royal_fanfare.webp"
-  },
-  "cygnet_sea_star_on_shore": {
-    "is_sale": true,
-    "price": 800,
-    "name": "滨海的十字星",
-    "avatar": "frontend/assets/avatars/小天鹅/cygnet_sea_star_on_shore.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_sea_star_on_shore.webp"
-  },
-  "cygnet_winter_date": {
-    "is_sale": true,
-    "price": 780,
-    "name": "冬日的约会",
-    "avatar": "frontend/assets/avatars/小天鹅/cygnet_winter_date.webp",
-    "portrait": "frontend/assets/portraits/小天鹅/cygnet_winter_date.webp"
+    "portrait": "frontend/assets/portraits/小天鹅/cygnet_retrofit.webp",
+    "retrofit": true
   }
 }

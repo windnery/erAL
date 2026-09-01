@@ -1,21 +1,21 @@
 {
   "nevada_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/内华达/nevada_default.webp",
-    "portrait": "frontend/assets/portraits/内华达/nevada_default.webp"
+    "portrait": "frontend/assets/portraits/内华达/nevada_default.webp",
+    "default": true
   },
-  "navada_retrofit": {
-    "retrofit": true,
-    "name": "内华达·改",
-    "avatar": "frontend/assets/avatars/内华达/navada_retrofit.webp",
-    "portrait": "frontend/assets/portraits/内华达/navada_retrofit.webp"
-  },
-  "nevada_a_magnificent_banquet": {
-    "is_sale": true,
-    "price": 800,
+  "nevada_neihuada_2": {
     "name": "华贵的盛宴",
-    "avatar": "frontend/assets/avatars/内华达/nevada_a_magnificent_banquet.webp",
-    "portrait": "frontend/assets/portraits/内华达/nevada_a_magnificent_banquet.webp"
+    "avatar": "frontend/assets/avatars/内华达/nevada_neihuada_2.webp",
+    "portrait": "frontend/assets/portraits/内华达/nevada_neihuada_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "nevada_retrofit": {
+    "name": "内华达·改",
+    "avatar": "frontend/assets/avatars/内华达/nevada_retrofit.webp",
+    "portrait": "frontend/assets/portraits/内华达/nevada_retrofit.webp",
+    "retrofit": true
   }
 }

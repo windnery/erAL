@@ -1,0 +1,21 @@
+{
+  "z1_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/Z1/z1_default.webp",
+    "portrait": "frontend/assets/portraits/Z1/z1_default.webp",
+    "default": true
+  },
+  "z1_z1_2": {
+    "name": "“叛逆”的优等生",
+    "avatar": "frontend/assets/avatars/Z1/z1_z1_2.webp",
+    "portrait": "frontend/assets/portraits/Z1/z1_z1_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "z1_retrofit": {
+    "name": "Z1·改",
+    "avatar": "frontend/assets/avatars/Z1/z1_retrofit.webp",
+    "portrait": "frontend/assets/portraits/Z1/z1_retrofit.webp",
+    "retrofit": true
+  }
+}

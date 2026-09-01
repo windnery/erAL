@@ -1,0 +1,21 @@
+{
+  "exeter_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/埃克塞特/exeter_default.webp",
+    "portrait": "frontend/assets/portraits/埃克塞特/exeter_default.webp",
+    "default": true
+  },
+  "exeter_aikesaite_2": {
+    "name": "荣耀与举杯同在",
+    "avatar": "frontend/assets/avatars/埃克塞特/exeter_aikesaite_2.webp",
+    "portrait": "frontend/assets/portraits/埃克塞特/exeter_aikesaite_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "exeter_retrofit": {
+    "name": "埃克塞特·改",
+    "avatar": "frontend/assets/avatars/埃克塞特/exeter_retrofit.webp",
+    "portrait": "frontend/assets/portraits/埃克塞特/exeter_retrofit.webp",
+    "retrofit": true
+  }
+}

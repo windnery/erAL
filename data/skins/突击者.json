@@ -1,14 +1,14 @@
 {
   "ranger_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/突击者/ranger_default.webp",
-    "portrait": "frontend/assets/portraits/突击者/ranger_default.webp"
+    "portrait": "frontend/assets/portraits/突击者/ranger_default.webp",
+    "default": true
   },
   "ranger_retrofit": {
-    "retrofit": true,
     "name": "突击者·改",
     "avatar": "frontend/assets/avatars/突击者/ranger_retrofit.webp",
-    "portrait": "frontend/assets/portraits/突击者/ranger_retrofit.webp"
+    "portrait": "frontend/assets/portraits/突击者/ranger_retrofit.webp",
+    "retrofit": true
   }
 }

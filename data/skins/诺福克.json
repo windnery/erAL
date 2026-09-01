@@ -1,0 +1,8 @@
+{
+  "norfolk_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/诺福克/norfolk_default.webp",
+    "portrait": "frontend/assets/portraits/诺福克/norfolk_default.webp",
+    "default": true
+  }
+}

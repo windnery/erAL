@@ -1,0 +1,8 @@
+{
+  "fletcher_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/弗莱彻/fletcher_default.webp",
+    "portrait": "frontend/assets/portraits/弗莱彻/fletcher_default.webp",
+    "default": true
+  }
+}

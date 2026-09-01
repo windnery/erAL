@@ -1,0 +1,8 @@
+{
+  "houston_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/休斯敦/houston_default.webp",
+    "portrait": "frontend/assets/portraits/休斯敦/houston_default.webp",
+    "default": true
+  }
+}

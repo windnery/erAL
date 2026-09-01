@@ -1,0 +1,46 @@
+{
+  "id": "queen_elizabeth",
+  "name": "伊丽莎白女王",
+  "color": "#FFD700",
+  "location": {
+    "region": "royal_dorm",
+    "node": "queen_elizabeth_room"
+  },
+  "base": {
+    "max_stamina": 2050,
+    "max_energy": 1800,
+    "stamina": 2050,
+    "energy": 1800
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "3",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "1",
+    "response": "1",
+    "self_respect": "1",
+    "tsundere": "1",
+    "female_body": "-1",
+    "bra_size": "-2",
+    "hip_size": "-1",
+    "wine_tolerance": "-1",
+    "charm": "1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

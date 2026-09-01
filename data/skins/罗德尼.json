@@ -1,0 +1,36 @@
+{
+  "rodney_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/罗德尼/rodney_default.webp",
+    "portrait": "frontend/assets/portraits/罗德尼/rodney_default.webp",
+    "default": true
+  },
+  "rodney_luodeni_2": {
+    "name": "未来的海滨上将",
+    "avatar": "frontend/assets/avatars/罗德尼/rodney_luodeni_2.webp",
+    "portrait": "frontend/assets/portraits/罗德尼/rodney_luodeni_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "rodney_luodeni_3": {
+    "name": "一日见习店员",
+    "avatar": "frontend/assets/avatars/罗德尼/rodney_luodeni_3.webp",
+    "portrait": "frontend/assets/portraits/罗德尼/rodney_luodeni_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "rodney_luodeni_4": {
+    "name": "完美佳人",
+    "avatar": "frontend/assets/avatars/罗德尼/rodney_luodeni_4.webp",
+    "portrait": "frontend/assets/portraits/罗德尼/rodney_luodeni_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "rodney_oath": {
+    "name": "罗德尼·誓约",
+    "avatar": "frontend/assets/avatars/罗德尼/rodney_oath.webp",
+    "portrait": "frontend/assets/portraits/罗德尼/rodney_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

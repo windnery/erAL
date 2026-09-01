@@ -1,8 +1,8 @@
 {
   "bulldog_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/大斗犬/bulldog_default.webp",
-    "portrait": "frontend/assets/portraits/大斗犬/bulldog_default.webp"
+    "portrait": "frontend/assets/portraits/大斗犬/bulldog_default.webp",
+    "default": true
   }
 }

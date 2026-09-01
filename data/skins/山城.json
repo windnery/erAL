@@ -1,0 +1,63 @@
+{
+  "yamashiro_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_default.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_default.webp",
+    "default": true
+  },
+  "yamashiro_shancheng_2": {
+    "name": "季夏攻势？",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_2.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_shancheng_3": {
+    "name": "圣诞攻势！",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_3.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_shancheng_4": {
+    "name": "盛装的黑猫",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_4.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_shancheng_7": {
+    "name": "看板娘攻势！？",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_7.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_shancheng_8": {
+    "name": "假日攻势！",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_8.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_shancheng_6": {
+    "name": "制服攻势！",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_shancheng_6.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_shancheng_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "yamashiro_oath": {
+    "name": "山城·誓约",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_oath.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "yamashiro_retrofit": {
+    "name": "山城·改",
+    "avatar": "frontend/assets/avatars/山城/yamashiro_retrofit.webp",
+    "portrait": "frontend/assets/portraits/山城/yamashiro_retrofit.webp",
+    "retrofit": true
+  }
+}

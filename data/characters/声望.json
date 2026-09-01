@@ -1,0 +1,44 @@
+{
+  "id": "renown",
+  "name": "声望",
+  "color": "#C0C0C0",
+  "location": {
+    "region": "royal_dorm",
+    "node": "renown_room"
+  },
+  "base": {
+    "max_stamina": 2050,
+    "max_energy": 1800,
+    "stamina": 2050,
+    "energy": 1800
+  },
+  "talent": {
+    "alignment": "6",
+    "ship_type": "11",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "female_body": "1",
+    "bra_size": "1",
+    "hip_size": "1",
+    "wine_tolerance": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

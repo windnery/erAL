@@ -1,0 +1,28 @@
+{
+  "souryuu_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/苍龙/souryuu_default.webp",
+    "portrait": "frontend/assets/portraits/苍龙/souryuu_default.webp",
+    "default": true
+  },
+  "souryuu_canglong_2": {
+    "name": "松间鹤",
+    "avatar": "frontend/assets/avatars/苍龙/souryuu_canglong_2.webp",
+    "portrait": "frontend/assets/portraits/苍龙/souryuu_canglong_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "souryuu_canglong_3": {
+    "name": "走廊上的风纪委员",
+    "avatar": "frontend/assets/avatars/苍龙/souryuu_canglong_3.webp",
+    "portrait": "frontend/assets/portraits/苍龙/souryuu_canglong_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "souryuu_retrofit": {
+    "name": "苍龙·改",
+    "avatar": "frontend/assets/avatars/苍龙/souryuu_retrofit.webp",
+    "portrait": "frontend/assets/portraits/苍龙/souryuu_retrofit.webp",
+    "retrofit": true
+  }
+}

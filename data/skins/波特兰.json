@@ -1,0 +1,21 @@
+{
+  "portland_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/波特兰/portland_default.webp",
+    "portrait": "frontend/assets/portraits/波特兰/portland_default.webp",
+    "default": true
+  },
+  "portland_botelan_2": {
+    "name": "与印第一起的校园生活",
+    "avatar": "frontend/assets/avatars/波特兰/portland_botelan_2.webp",
+    "portrait": "frontend/assets/portraits/波特兰/portland_botelan_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "portland_retrofit": {
+    "name": "波特兰·改",
+    "avatar": "frontend/assets/avatars/波特兰/portland_retrofit.webp",
+    "portrait": "frontend/assets/portraits/波特兰/portland_retrofit.webp",
+    "retrofit": true
+  }
+}

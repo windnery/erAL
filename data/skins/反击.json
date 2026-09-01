@@ -1,0 +1,15 @@
+{
+  "repulse_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/反击/repulse_default.webp",
+    "portrait": "frontend/assets/portraits/反击/repulse_default.webp",
+    "default": true
+  },
+  "repulse_fanji_3": {
+    "name": "武韵春华",
+    "avatar": "frontend/assets/avatars/反击/repulse_fanji_3.webp",
+    "portrait": "frontend/assets/portraits/反击/repulse_fanji_3.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

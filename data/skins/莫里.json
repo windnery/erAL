@@ -1,0 +1,14 @@
+{
+  "maury_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/莫里/maury_default.webp",
+    "portrait": "frontend/assets/portraits/莫里/maury_default.webp",
+    "default": true
+  },
+  "maury_retrofit": {
+    "name": "莫里·改",
+    "avatar": "frontend/assets/avatars/莫里/maury_retrofit.webp",
+    "portrait": "frontend/assets/portraits/莫里/maury_retrofit.webp",
+    "retrofit": true
+  }
+}

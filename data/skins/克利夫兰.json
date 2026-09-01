@@ -1,0 +1,64 @@
+{
+  "cleveland_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_default.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_default.webp",
+    "default": true
+  },
+  "cleveland_kelifulan_2": {
+    "name": "恶魔降临之夜",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_2.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_3": {
+    "name": "骑士之夜",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_3.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_4": {
+    "name": "Road·Traveler",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_4.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_5": {
+    "name": "新年对决！",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_5.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_6": {
+    "name": "南方之旅",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_6.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_7": {
+    "name": "金色的指挥家",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_7.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_kelifulan_8": {
+    "name": "休息室的意外邂逅？",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_kelifulan_8.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_kelifulan_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "cleveland_oath": {
+    "name": "克利夫兰·誓约",
+    "avatar": "frontend/assets/avatars/克利夫兰/cleveland_oath.webp",
+    "portrait": "frontend/assets/portraits/克利夫兰/cleveland_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

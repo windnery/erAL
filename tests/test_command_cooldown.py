@@ -1,6 +1,7 @@
 import pytest
 from world import World
 from game_engine.commands._commands import REGISTER_COOLDOWN
+from tests.conftest import place_next_to_player
 
 
 class TestCommandCooldown:
@@ -35,8 +36,23 @@ class TestCommandCooldown:
 
     def test_npc_command_cooldown_and_isolation(self, world):
         """测试目标NPC指令执行后进入冷却并在指令列表中被隐藏，同时不影响其他NPC"""
+        world.menu_active = False
+        world.train_mode = False
+        world.time_manager.hour = 10
+        world.time_manager.minute = 0
+        world.player.location = {'region': 'home', 'node': 'living_room'}
         z23 = world.npc_manager.shipgirls['Z23']
         laffey = world.npc_manager.shipgirls['laffey']
+        place_next_to_player(world, z23)
+        place_next_to_player(world, laffey)
+        z23.cflag['sleeping'] = False
+        z23.cflag['working'] = False
+        laffey.cflag['sleeping'] = False
+        laffey.cflag['working'] = False
+        z23.favor = 1000
+        z23.abl['intimacy_abl'] = 5
+        laffey.favor = 1000
+        laffey.abl['intimacy_abl'] = 5
 
         # 初始状态：Z23 和 Laffey 都能看到 poke_the_cheek 指令
         z23_cmds_before = [c['key'] for c in world.command_manager.get_act_com('Z23')]
@@ -55,7 +71,7 @@ class TestCommandCooldown:
 
         # 隔离性：Laffey 未进入冷却，依然可执行 poke_the_cheek
         # 保证 Laffey 仍在当前地点
-        world.npc_manager.set_loc('laffey', 'home', 'living_room')
+        place_next_to_player(world, laffey)
         assert not world.command_manager.is_cmd_cooling_down('poke_the_cheek', laffey)
         laffey_cmds_after = [c['key'] for c in world.command_manager.get_act_com('laffey')]
         assert 'poke_the_cheek' in laffey_cmds_after
@@ -66,7 +82,17 @@ class TestCommandCooldown:
 
     def test_cooldown_expires_with_time(self, world):
         """测试随着游戏时间推进，冷却自然到期并重新出现"""
+        world.menu_active = False
+        world.train_mode = False
+        world.time_manager.hour = 10
+        world.time_manager.minute = 0
+        world.player.location = {'region': 'home', 'node': 'living_room'}
         z23 = world.npc_manager.shipgirls['Z23']
+        place_next_to_player(world, z23)
+        z23.cflag['sleeping'] = False
+        z23.cflag['working'] = False
+        z23.favor = 1000
+        z23.abl['intimacy_abl'] = 5
         # 执行 poke_the_cheek (CD = 5 分钟)
         world.command_manager.do_cmd('poke_the_cheek', 'Z23')
         assert world.command_manager.is_cmd_cooling_down('poke_the_cheek', z23)

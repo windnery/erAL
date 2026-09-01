@@ -1,0 +1,22 @@
+{
+  "indianapolis_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/印第安纳波利斯/indianapolis_default.webp",
+    "portrait": "frontend/assets/portraits/印第安纳波利斯/indianapolis_default.webp",
+    "default": true
+  },
+  "indianapolis_bolisi_2": {
+    "name": "与姐姐一起的校园生活？",
+    "avatar": "frontend/assets/avatars/印第安纳波利斯/indianapolis_bolisi_2.webp",
+    "portrait": "frontend/assets/portraits/印第安纳波利斯/indianapolis_bolisi_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "indianapolis_bolisi_3": {
+    "name": "环城之夜",
+    "avatar": "frontend/assets/avatars/印第安纳波利斯/indianapolis_bolisi_3.webp",
+    "portrait": "frontend/assets/portraits/印第安纳波利斯/indianapolis_bolisi_3.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

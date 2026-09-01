@@ -1,0 +1,35 @@
+{
+  "york_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/约克/york_default.webp",
+    "portrait": "frontend/assets/portraits/约克/york_default.webp",
+    "default": true
+  },
+  "york_yueke_2": {
+    "name": "真理探寻者/truth seeker",
+    "avatar": "frontend/assets/avatars/约克/york_yueke_2.webp",
+    "portrait": "frontend/assets/portraits/约克/york_yueke_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "york_yueke_3": {
+    "name": "碧波的召唤者",
+    "avatar": "frontend/assets/avatars/约克/york_yueke_3.webp",
+    "portrait": "frontend/assets/portraits/约克/york_yueke_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "york_oath": {
+    "name": "约克·誓约",
+    "avatar": "frontend/assets/avatars/约克/york_oath.webp",
+    "portrait": "frontend/assets/portraits/约克/york_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "york_retrofit": {
+    "name": "约克·改",
+    "avatar": "frontend/assets/avatars/约克/york_retrofit.webp",
+    "portrait": "frontend/assets/portraits/约克/york_retrofit.webp",
+    "retrofit": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "phoenix",
+  "name": "菲尼克斯",
+  "color": "#FF4500",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "phoenix_room"
+  },
+  "base": {
+    "max_stamina": 1800,
+    "max_energy": 1700,
+    "stamina": 1800,
+    "energy": 1700
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0",
+    "wine_tolerance": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

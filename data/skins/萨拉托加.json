@@ -1,0 +1,77 @@
+{
+  "saratoga_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_default.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_default.webp",
+    "default": true
+  },
+  "saratoga_salatuojia_2": {
+    "name": "七海的憩日",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_2.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_3": {
+    "name": "异国的偶像？",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_3.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_4": {
+    "name": "虚拟偶像？",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_4.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_5": {
+    "name": "碧海的偶像",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_5.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_6": {
+    "name": "圣夜的偶像",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_6.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_7": {
+    "name": "偶像迎春！",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_7.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_salatuojia_8": {
+    "name": "悠哉野餐时光",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_8.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "saratoga_oath": {
+    "name": "萨拉托加·誓约",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_oath.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "saratoga_retrofit": {
+    "name": "萨拉托加·改",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_retrofit.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_retrofit.webp",
+    "retrofit": true
+  },
+  "saratoga_salatuojia_10": {
+    "name": "晨曦下的苍色",
+    "avatar": "frontend/assets/avatars/萨拉托加/saratoga_salatuojia_10.webp",
+    "portrait": "frontend/assets/portraits/萨拉托加/saratoga_salatuojia_10.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

@@ -1,21 +1,21 @@
 {
   "shiranui_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/不知火/shiranui_default.webp",
-    "portrait": "frontend/assets/portraits/不知火/shiranui_default.webp"
+    "portrait": "frontend/assets/portraits/不知火/shiranui_default.webp",
+    "default": true
+  },
+  "shiranui_buzhihuo_2": {
+    "name": "月饼、不来一点吗？",
+    "avatar": "frontend/assets/avatars/不知火/shiranui_buzhihuo_2.webp",
+    "portrait": "frontend/assets/portraits/不知火/shiranui_buzhihuo_2.webp",
+    "is_sale": true,
+    "price": 800
   },
   "shiranui_retrofit": {
-    "retrofit": true,
     "name": "不知火·改",
     "avatar": "frontend/assets/avatars/不知火/shiranui_retrofit.webp",
-    "portrait": "frontend/assets/portraits/不知火/shiranui_retrofit.webp"
-  },
-  "shiranui_mooncake_merchant": {
-    "is_sale": true,
-    "price": 780,
-    "name": "月饼、不来一点吗？",
-    "avatar": "frontend/assets/avatars/不知火/shiranui_mooncake_merchant.webp",
-    "portrait": "frontend/assets/portraits/不知火/shiranui_mooncake_merchant.webp"
+    "portrait": "frontend/assets/portraits/不知火/shiranui_retrofit.webp",
+    "retrofit": true
   }
 }

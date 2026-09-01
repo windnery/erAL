@@ -1,0 +1,14 @@
+{
+  "achilles_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/阿基里斯/achilles_default.webp",
+    "portrait": "frontend/assets/portraits/阿基里斯/achilles_default.webp",
+    "default": true
+  },
+  "achilles_retrofit": {
+    "name": "阿基里斯·改",
+    "avatar": "frontend/assets/avatars/阿基里斯/achilles_retrofit.webp",
+    "portrait": "frontend/assets/portraits/阿基里斯/achilles_retrofit.webp",
+    "retrofit": true
+  }
+}

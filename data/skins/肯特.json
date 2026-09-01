@@ -1,0 +1,8 @@
+{
+  "kent_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/肯特/kent_default.webp",
+    "portrait": "frontend/assets/portraits/肯特/kent_default.webp",
+    "default": true
+  }
+}

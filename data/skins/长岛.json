@@ -1,0 +1,42 @@
+{
+  "long_island_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/长岛/long_island_default.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_default.webp",
+    "default": true
+  },
+  "long_island_changdao_2": {
+    "name": "干物三连！",
+    "avatar": "frontend/assets/avatars/长岛/long_island_changdao_2.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_changdao_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "long_island_changdao_3": {
+    "name": "L.I.@万圣限时直播中",
+    "avatar": "frontend/assets/avatars/长岛/long_island_changdao_3.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_changdao_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "long_island_changdao_4": {
+    "name": "可靠的接待员？",
+    "avatar": "frontend/assets/avatars/长岛/long_island_changdao_4.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_changdao_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "long_island_changdao_5": {
+    "name": "红包，多多益善！",
+    "avatar": "frontend/assets/avatars/长岛/long_island_changdao_5.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_changdao_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "long_island_retrofit": {
+    "name": "长岛·改",
+    "avatar": "frontend/assets/avatars/长岛/long_island_retrofit.webp",
+    "portrait": "frontend/assets/portraits/长岛/long_island_retrofit.webp",
+    "retrofit": true
+  }
+}

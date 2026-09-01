@@ -1,0 +1,15 @@
+{
+  "south_dakota_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/南达科他/south_dakota_default.webp",
+    "portrait": "frontend/assets/portraits/南达科他/south_dakota_default.webp",
+    "default": true
+  },
+  "south_dakota_nandaketa_2": {
+    "name": "剧场上的独奏",
+    "avatar": "frontend/assets/avatars/南达科他/south_dakota_nandaketa_2.webp",
+    "portrait": "frontend/assets/portraits/南达科他/south_dakota_nandaketa_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

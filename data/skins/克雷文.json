@@ -1,14 +1,15 @@
 {
   "craven_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/克雷文/craven_default.webp",
-    "portrait": "frontend/assets/portraits/克雷文/craven_default.webp"
+    "portrait": "frontend/assets/portraits/克雷文/craven_default.webp",
+    "default": true
   },
-  "craven_retrofit": {
-    "retrofit": true,
-    "name": "克雷文·改",
-    "avatar": "frontend/assets/avatars/克雷文/craven_retrofit.webp",
-    "portrait": "frontend/assets/portraits/克雷文/craven_retrofit.webp"
+  "craven_keleiwen_2": {
+    "name": "操场边的拉拉队长",
+    "avatar": "frontend/assets/avatars/克雷文/craven_keleiwen_2.webp",
+    "portrait": "frontend/assets/portraits/克雷文/craven_keleiwen_2.webp",
+    "is_sale": true,
+    "price": 800
   }
 }

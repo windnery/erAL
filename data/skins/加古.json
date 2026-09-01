@@ -1,14 +1,14 @@
 {
   "kako_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/加古/kako_default.webp",
-    "portrait": "frontend/assets/portraits/加古/kako_default.webp"
+    "portrait": "frontend/assets/portraits/加古/kako_default.webp",
+    "default": true
   },
   "kako_retrofit": {
-    "retrofit": true,
     "name": "加古·改",
     "avatar": "frontend/assets/avatars/加古/kako_retrofit.webp",
-    "portrait": "frontend/assets/portraits/加古/kako_retrofit.webp"
+    "portrait": "frontend/assets/portraits/加古/kako_retrofit.webp",
+    "retrofit": true
   }
 }

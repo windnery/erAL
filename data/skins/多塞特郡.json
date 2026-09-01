@@ -1,0 +1,8 @@
+{
+  "dorsetshire_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/多塞特郡/dorsetshire_default.webp",
+    "portrait": "frontend/assets/portraits/多塞特郡/dorsetshire_default.webp",
+    "default": true
+  }
+}

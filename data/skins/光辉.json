@@ -1,0 +1,57 @@
+{
+  "illustrious_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_default.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_default.webp",
+    "default": true
+  },
+  "illustrious_guanghui_2": {
+    "name": "永不落幕的茶会",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_2.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_guanghui_3": {
+    "name": "光辉的舞会",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_3.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_guanghui_4": {
+    "name": "异国的光辉",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_4.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_guanghui_5": {
+    "name": "钟情春日",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_5.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_guanghui_6": {
+    "name": "柔光雅乐",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_6.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_guanghui_7": {
+    "name": "二人的学习时间",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_guanghui_7.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_guanghui_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "illustrious_oath": {
+    "name": "光辉·誓约",
+    "avatar": "frontend/assets/avatars/光辉/illustrious_oath.webp",
+    "portrait": "frontend/assets/portraits/光辉/illustrious_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

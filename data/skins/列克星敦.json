@@ -1,0 +1,15 @@
+{
+  "lexington_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/列克星敦/lexington_default.webp",
+    "portrait": "frontend/assets/portraits/列克星敦/lexington_default.webp",
+    "default": true
+  },
+  "lexington_liekexingdun_2": {
+    "name": "春华佳人",
+    "avatar": "frontend/assets/avatars/列克星敦/lexington_liekexingdun_2.webp",
+    "portrait": "frontend/assets/portraits/列克星敦/lexington_liekexingdun_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

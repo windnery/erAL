@@ -1,0 +1,29 @@
+{
+  "avrora_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/阿芙乐尔/avrora_default.webp",
+    "portrait": "frontend/assets/portraits/阿芙乐尔/avrora_default.webp",
+    "default": true
+  },
+  "avrora_afuleer_2": {
+    "name": "囚塔中的曙光公主",
+    "avatar": "frontend/assets/avatars/阿芙乐尔/avrora_afuleer_2.webp",
+    "portrait": "frontend/assets/portraits/阿芙乐尔/avrora_afuleer_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "avrora_afuleer_3": {
+    "name": "略勉强的角色扮演?",
+    "avatar": "frontend/assets/avatars/阿芙乐尔/avrora_afuleer_3.webp",
+    "portrait": "frontend/assets/portraits/阿芙乐尔/avrora_afuleer_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "avrora_afuleer_4": {
+    "name": "微醺的海风",
+    "avatar": "frontend/assets/avatars/阿芙乐尔/avrora_afuleer_4.webp",
+    "portrait": "frontend/assets/portraits/阿芙乐尔/avrora_afuleer_4.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

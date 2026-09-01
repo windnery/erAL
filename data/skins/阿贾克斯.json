@@ -1,0 +1,28 @@
+{
+  "ajax_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/阿贾克斯/ajax_default.webp",
+    "portrait": "frontend/assets/portraits/阿贾克斯/ajax_default.webp",
+    "default": true
+  },
+  "ajax_ajiakesi_2": {
+    "name": "晚会女王",
+    "avatar": "frontend/assets/avatars/阿贾克斯/ajax_ajiakesi_2.webp",
+    "portrait": "frontend/assets/portraits/阿贾克斯/ajax_ajiakesi_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ajax_ajiakesi_3": {
+    "name": "节日的“特别奖励”",
+    "avatar": "frontend/assets/avatars/阿贾克斯/ajax_ajiakesi_3.webp",
+    "portrait": "frontend/assets/portraits/阿贾克斯/ajax_ajiakesi_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ajax_retrofit": {
+    "name": "阿贾克斯·改",
+    "avatar": "frontend/assets/avatars/阿贾克斯/ajax_retrofit.webp",
+    "portrait": "frontend/assets/portraits/阿贾克斯/ajax_retrofit.webp",
+    "retrofit": true
+  }
+}

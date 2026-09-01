@@ -1,0 +1,22 @@
+{
+  "wichita_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/威奇塔/wichita_default.webp",
+    "portrait": "frontend/assets/portraits/威奇塔/wichita_default.webp",
+    "default": true
+  },
+  "wichita_weiqita_2": {
+    "name": "“将军”的晚宴",
+    "avatar": "frontend/assets/avatars/威奇塔/wichita_weiqita_2.webp",
+    "portrait": "frontend/assets/portraits/威奇塔/wichita_weiqita_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "wichita_weiqita_3": {
+    "name": "万圣的支配者？",
+    "avatar": "frontend/assets/avatars/威奇塔/wichita_weiqita_3.webp",
+    "portrait": "frontend/assets/portraits/威奇塔/wichita_weiqita_3.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

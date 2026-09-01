@@ -1,0 +1,45 @@
+{
+  "id": "indianapolis",
+  "name": "印第安纳波利斯",
+  "color": "#4169E1",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "indianapolis_room"
+  },
+  "base": {
+    "max_stamina": 1850,
+    "max_energy": 1750,
+    "stamina": 1850,
+    "energy": 1750
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "2",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "-1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "0",
+    "emotional_deficiency": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0",
+    "wine_tolerance": "-1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

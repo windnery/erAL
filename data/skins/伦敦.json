@@ -1,0 +1,28 @@
+{
+  "london_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/伦敦/london_default.webp",
+    "portrait": "frontend/assets/portraits/伦敦/london_default.webp",
+    "default": true
+  },
+  "london_lundun_3": {
+    "name": "高效工作时间",
+    "avatar": "frontend/assets/avatars/伦敦/london_lundun_3.webp",
+    "portrait": "frontend/assets/portraits/伦敦/london_lundun_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "london_oath": {
+    "name": "伦敦·誓约",
+    "avatar": "frontend/assets/avatars/伦敦/london_oath.webp",
+    "portrait": "frontend/assets/portraits/伦敦/london_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "london_retrofit": {
+    "name": "伦敦·改",
+    "avatar": "frontend/assets/avatars/伦敦/london_retrofit.webp",
+    "portrait": "frontend/assets/portraits/伦敦/london_retrofit.webp",
+    "retrofit": true
+  }
+}

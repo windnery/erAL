@@ -1,0 +1,57 @@
+{
+  "takao_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/高雄/takao_default.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_default.webp",
+    "default": true
+  },
+  "takao_gaoxiong_2": {
+    "name": "沙滩狂想曲",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_2.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_gaoxiong_3": {
+    "name": "春之意",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_3.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_gaoxiong_4": {
+    "name": "校园浪漫曲",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_4.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_gaoxiong_5": {
+    "name": "至高焦点",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_5.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_gaoxiong_6": {
+    "name": "破魔舰术-神护-",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_6.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_gaoxiong_7": {
+    "name": "武者的“内在”修养",
+    "avatar": "frontend/assets/avatars/高雄/takao_gaoxiong_7.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_gaoxiong_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "takao_oath": {
+    "name": "高雄·誓约",
+    "avatar": "frontend/assets/avatars/高雄/takao_oath.webp",
+    "portrait": "frontend/assets/portraits/高雄/takao_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

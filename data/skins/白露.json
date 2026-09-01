@@ -1,0 +1,28 @@
+{
+  "shiratsuyu_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/白露/shiratsuyu_default.webp",
+    "portrait": "frontend/assets/portraits/白露/shiratsuyu_default.webp",
+    "default": true
+  },
+  "shiratsuyu_bailu_2": {
+    "name": "要来点鱼雷吗？",
+    "avatar": "frontend/assets/avatars/白露/shiratsuyu_bailu_2.webp",
+    "portrait": "frontend/assets/portraits/白露/shiratsuyu_bailu_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "shiratsuyu_bailu_3": {
+    "name": "雪融烟火夜",
+    "avatar": "frontend/assets/avatars/白露/shiratsuyu_bailu_3.webp",
+    "portrait": "frontend/assets/portraits/白露/shiratsuyu_bailu_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "shiratsuyu_retrofit": {
+    "name": "白露·改",
+    "avatar": "frontend/assets/avatars/白露/shiratsuyu_retrofit.webp",
+    "portrait": "frontend/assets/portraits/白露/shiratsuyu_retrofit.webp",
+    "retrofit": true
+  }
+}

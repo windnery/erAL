@@ -1,0 +1,21 @@
+{
+  "leipzig_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/莱比锡/leipzig_default.webp",
+    "portrait": "frontend/assets/portraits/莱比锡/leipzig_default.webp",
+    "default": true
+  },
+  "leipzig_laibixi_2": {
+    "name": "前台接待·练习中",
+    "avatar": "frontend/assets/avatars/莱比锡/leipzig_laibixi_2.webp",
+    "portrait": "frontend/assets/portraits/莱比锡/leipzig_laibixi_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "leipzig_retrofit": {
+    "name": "莱比锡·改",
+    "avatar": "frontend/assets/avatars/莱比锡/leipzig_retrofit.webp",
+    "portrait": "frontend/assets/portraits/莱比锡/leipzig_retrofit.webp",
+    "retrofit": true
+  }
+}

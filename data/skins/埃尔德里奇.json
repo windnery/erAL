@@ -1,0 +1,63 @@
+{
+  "eldridge_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_default.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_default.webp",
+    "default": true
+  },
+  "eldridge_aierdeliqi_2": {
+    "name": "圣夜的拥抱",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_2.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_aierdeliqi_3": {
+    "name": "空教室的不可思议",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_3.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_aierdeliqi_4": {
+    "name": "正月的牵手",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_4.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_aierdeliqi_5": {
+    "name": "喵喵偶像团？",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_5.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_aierdeliqi_7": {
+    "name": "太空中秋节",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_7.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_aierdeliqi_8": {
+    "name": "美好的放学时刻",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_aierdeliqi_8.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_aierdeliqi_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "eldridge_oath": {
+    "name": "埃尔德里奇·誓约",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_oath.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "eldridge_retrofit": {
+    "name": "埃尔德里奇·改",
+    "avatar": "frontend/assets/avatars/埃尔德里奇/eldridge_retrofit.webp",
+    "portrait": "frontend/assets/portraits/埃尔德里奇/eldridge_retrofit.webp",
+    "retrofit": true
+  }
+}

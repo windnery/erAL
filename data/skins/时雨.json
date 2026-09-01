@@ -1,0 +1,35 @@
+{
+  "shigure_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/时雨/shigure_default.webp",
+    "portrait": "frontend/assets/portraits/时雨/shigure_default.webp",
+    "default": true
+  },
+  "shigure_shiyu_2": {
+    "name": "进击，伊490！",
+    "avatar": "frontend/assets/avatars/时雨/shigure_shiyu_2.webp",
+    "portrait": "frontend/assets/portraits/时雨/shigure_shiyu_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "shigure_shiyu_3": {
+    "name": "晚会幸运星！",
+    "avatar": "frontend/assets/avatars/时雨/shigure_shiyu_3.webp",
+    "portrait": "frontend/assets/portraits/时雨/shigure_shiyu_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "shigure_shiyu_4": {
+    "name": "幸运Chocolate",
+    "avatar": "frontend/assets/avatars/时雨/shigure_shiyu_4.webp",
+    "portrait": "frontend/assets/portraits/时雨/shigure_shiyu_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "shigure_retrofit": {
+    "name": "时雨·改",
+    "avatar": "frontend/assets/avatars/时雨/shigure_retrofit.webp",
+    "portrait": "frontend/assets/portraits/时雨/shigure_retrofit.webp",
+    "retrofit": true
+  }
+}

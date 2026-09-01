@@ -1,0 +1,50 @@
+{
+  "queen_elizabeth_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_default.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_default.webp",
+    "default": true
+  },
+  "queen_elizabeth_yilishabai_2": {
+    "name": "女王的舞踏会",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_2.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "queen_elizabeth_yilishabai_3": {
+    "name": "A Night At The Stage",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_3.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "queen_elizabeth_yilishabai_4": {
+    "name": "女王的学园命令",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_4.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "queen_elizabeth_yilishabai_5": {
+    "name": "皇家进宝",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_5.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "queen_elizabeth_yilishabai_6": {
+    "name": "Maid·My·Highness",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_6.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "queen_elizabeth_yilishabai_7": {
+    "name": "Seaside Orders",
+    "avatar": "frontend/assets/avatars/伊丽莎白女王/queen_elizabeth_yilishabai_7.webp",
+    "portrait": "frontend/assets/portraits/伊丽莎白女王/queen_elizabeth_yilishabai_7.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

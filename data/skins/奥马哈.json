@@ -1,8 +1,8 @@
 {
   "omaha_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/奥马哈/omaha_default.webp",
-    "portrait": "frontend/assets/portraits/奥马哈/omaha_default.webp"
+    "portrait": "frontend/assets/portraits/奥马哈/omaha_default.webp",
+    "default": true
   }
 }

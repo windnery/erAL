@@ -1,0 +1,15 @@
+{
+  "vestal_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/女灶神/vestal_default.webp",
+    "portrait": "frontend/assets/portraits/女灶神/vestal_default.webp",
+    "default": true
+  },
+  "vestal_zaoshen_2": {
+    "name": "清凉的赫斯提亚",
+    "avatar": "frontend/assets/avatars/女灶神/vestal_zaoshen_2.webp",
+    "portrait": "frontend/assets/portraits/女灶神/vestal_zaoshen_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

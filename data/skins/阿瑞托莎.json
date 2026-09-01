@@ -1,0 +1,8 @@
+{
+  "arethusa_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/阿瑞托莎/arethusa_default.webp",
+    "portrait": "frontend/assets/portraits/阿瑞托莎/arethusa_default.webp",
+    "default": true
+  }
+}

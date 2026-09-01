@@ -1,0 +1,21 @@
+{
+  "amazon_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/女将/amazon_default.webp",
+    "portrait": "frontend/assets/portraits/女将/amazon_default.webp",
+    "default": true
+  },
+  "amazon_nvjiang_2": {
+    "name": "小小的管弦乐队",
+    "avatar": "frontend/assets/avatars/女将/amazon_nvjiang_2.webp",
+    "portrait": "frontend/assets/portraits/女将/amazon_nvjiang_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "amazon_retrofit": {
+    "name": "女将·改",
+    "avatar": "frontend/assets/avatars/女将/amazon_retrofit.webp",
+    "portrait": "frontend/assets/portraits/女将/amazon_retrofit.webp",
+    "retrofit": true
+  }
+}

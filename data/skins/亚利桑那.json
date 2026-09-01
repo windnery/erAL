@@ -1,0 +1,15 @@
+{
+  "arizona_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/亚利桑那/arizona_default.webp",
+    "portrait": "frontend/assets/portraits/亚利桑那/arizona_default.webp",
+    "default": true
+  },
+  "arizona_yalisangna_2": {
+    "name": "异域的舞姬",
+    "avatar": "frontend/assets/avatars/亚利桑那/arizona_yalisangna_2.webp",
+    "portrait": "frontend/assets/portraits/亚利桑那/arizona_yalisangna_2.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "warspite_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/厌战/warspite_default.webp",
+    "portrait": "frontend/assets/portraits/厌战/warspite_default.webp",
+    "default": true
+  },
+  "warspite_yanzhan_2": {
+    "name": "战士的圣诞任务",
+    "avatar": "frontend/assets/avatars/厌战/warspite_yanzhan_2.webp",
+    "portrait": "frontend/assets/portraits/厌战/warspite_yanzhan_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "warspite_yanzhan_3": {
+    "name": "Under Pleasure",
+    "avatar": "frontend/assets/avatars/厌战/warspite_yanzhan_3.webp",
+    "portrait": "frontend/assets/portraits/厌战/warspite_yanzhan_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "warspite_yanzhan_4": {
+    "name": "西瓜两断",
+    "avatar": "frontend/assets/avatars/厌战/warspite_yanzhan_4.webp",
+    "portrait": "frontend/assets/portraits/厌战/warspite_yanzhan_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "warspite_retrofit": {
+    "name": "厌战·改",
+    "avatar": "frontend/assets/avatars/厌战/warspite_retrofit.webp",
+    "portrait": "frontend/assets/portraits/厌战/warspite_retrofit.webp",
+    "retrofit": true
+  }
+}

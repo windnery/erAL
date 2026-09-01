@@ -1,0 +1,84 @@
+{
+  "unicorn_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_default.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_default.webp",
+    "default": true
+  },
+  "unicorn_dujiaoshou_2": {
+    "name": "小小的星之歌姬",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_2.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_3": {
+    "name": "春之礼",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_3.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_4": {
+    "name": "憧憬的约会日",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_4.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_5": {
+    "name": "祈愿的雪与梅",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_5.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_6": {
+    "name": "天使的My Night",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_6.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_7": {
+    "name": "清凉阅读时光",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_7.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_8": {
+    "name": "天使的护理时间",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_8.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_oath": {
+    "name": "独角兽·誓约",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_oath.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "unicorn_retrofit": {
+    "name": "独角兽·改",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_retrofit.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_retrofit.webp",
+    "retrofit": true
+  },
+  "unicorn_dujiaoshou_10": {
+    "name": "纯白守护天使",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_10.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_10.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "unicorn_dujiaoshou_11": {
+    "name": "Champion of Unicorn",
+    "avatar": "frontend/assets/avatars/独角兽/unicorn_dujiaoshou_11.webp",
+    "portrait": "frontend/assets/portraits/独角兽/unicorn_dujiaoshou_11.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

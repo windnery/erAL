@@ -1,0 +1,8 @@
+{
+  "chicago_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/芝加哥/chicago_default.webp",
+    "portrait": "frontend/assets/portraits/芝加哥/chicago_default.webp",
+    "default": true
+  }
+}

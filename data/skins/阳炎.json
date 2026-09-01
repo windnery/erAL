@@ -1,0 +1,21 @@
+{
+  "kagerou_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/阳炎/kagerou_default.webp",
+    "portrait": "frontend/assets/portraits/阳炎/kagerou_default.webp",
+    "default": true
+  },
+  "kagerou_yangyan_2": {
+    "name": "南瓜与万圣夜",
+    "avatar": "frontend/assets/avatars/阳炎/kagerou_yangyan_2.webp",
+    "portrait": "frontend/assets/portraits/阳炎/kagerou_yangyan_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kagerou_retrofit": {
+    "name": "阳炎·改",
+    "avatar": "frontend/assets/avatars/阳炎/kagerou_retrofit.webp",
+    "portrait": "frontend/assets/portraits/阳炎/kagerou_retrofit.webp",
+    "retrofit": true
+  }
+}

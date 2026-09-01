@@ -1,0 +1,45 @@
+{
+  "id": "vestal",
+  "name": "女灶神",
+  "color": "#3CB371",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "vestal_room"
+  },
+  "base": {
+    "max_stamina": 1650,
+    "max_energy": 1700,
+    "stamina": 1650,
+    "energy": 1700
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "6",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "devoted": "1",
+    "female_body": "1",
+    "bra_size": "1",
+    "hip_size": "1",
+    "wine_tolerance": "0"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

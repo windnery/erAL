@@ -1,0 +1,47 @@
+{
+  "id": "san_diego",
+  "name": "圣地亚哥",
+  "color": "#FF6347",
+  "location": {
+    "region": "eagle_union_dorm",
+    "node": "san_diego_room"
+  },
+  "base": {
+    "max_stamina": 1750,
+    "max_energy": 1700,
+    "stamina": 1750,
+    "energy": 1700
+  },
+  "talent": {
+    "alignment": "0",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "innocent": "1",
+    "bright": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0",
+    "wine_tolerance": "0",
+    "charm": "2"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

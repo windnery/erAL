@@ -1,0 +1,45 @@
+{
+  "id": "leipzig",
+  "name": "莱比锡",
+  "color": "#D8BFD8",
+  "location": {
+    "region": "ironblood_dorm",
+    "node": "leipzig_room"
+  },
+  "base": {
+    "max_stamina": 1750,
+    "max_energy": 1700,
+    "stamina": 1750,
+    "energy": 1700
+  },
+  "talent": {
+    "alignment": "2",
+    "ship_type": "1",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "-1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "0",
+    "sense_of_shame": "1",
+    "female_body": "0",
+    "bra_size": "0",
+    "hip_size": "0",
+    "wine_tolerance": "-1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

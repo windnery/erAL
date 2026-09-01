@@ -1,14 +1,14 @@
 {
   "bogue_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/博格/bogue_default.webp",
-    "portrait": "frontend/assets/portraits/博格/bogue_default.webp"
+    "portrait": "frontend/assets/portraits/博格/bogue_default.webp",
+    "default": true
   },
   "bogue_retrofit": {
-    "retrofit": true,
     "name": "博格·改",
     "avatar": "frontend/assets/avatars/博格/bogue_retrofit.webp",
-    "portrait": "frontend/assets/portraits/博格/bogue_retrofit.webp"
+    "portrait": "frontend/assets/portraits/博格/bogue_retrofit.webp",
+    "retrofit": true
   }
 }

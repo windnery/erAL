@@ -1,0 +1,14 @@
+{
+  "shropshire_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/什罗普郡/shropshire_default.webp",
+    "portrait": "frontend/assets/portraits/什罗普郡/shropshire_default.webp",
+    "default": true
+  },
+  "shropshire_retrofit": {
+    "name": "什罗普郡·改",
+    "avatar": "frontend/assets/avatars/什罗普郡/shropshire_retrofit.webp",
+    "portrait": "frontend/assets/portraits/什罗普郡/shropshire_retrofit.webp",
+    "retrofit": true
+  }
+}

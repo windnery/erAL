@@ -1,0 +1,56 @@
+{
+  "ark_royal_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_default.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_default.webp",
+    "default": true
+  },
+  "ark_royal_huangjiafangzhou_2": {
+    "name": "沙滩守望者",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_huangjiafangzhou_2.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_huangjiafangzhou_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ark_royal_huangjiafangzhou_3": {
+    "name": "晚会的守护者",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_huangjiafangzhou_3.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_huangjiafangzhou_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ark_royal_huangjiafangzhou_4": {
+    "name": "新年的守护者",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_huangjiafangzhou_4.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_huangjiafangzhou_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ark_royal_huangjiafangzhou_5": {
+    "name": "咖啡馆的观察约会？",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_huangjiafangzhou_5.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_huangjiafangzhou_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ark_royal_huangjiafangzhou_6": {
+    "name": "乐园的秩序官",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_huangjiafangzhou_6.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_huangjiafangzhou_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ark_royal_oath": {
+    "name": "皇家方舟·誓约",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_oath.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "ark_royal_retrofit": {
+    "name": "皇家方舟·改",
+    "avatar": "frontend/assets/avatars/皇家方舟/ark_royal_retrofit.webp",
+    "portrait": "frontend/assets/portraits/皇家方舟/ark_royal_retrofit.webp",
+    "retrofit": true
+  }
+}

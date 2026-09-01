@@ -15,6 +15,7 @@ from game_engine.managers.TimeManager import TimeManager
 from game_engine.managers.TrainManager import TrainManager
 from game_engine.managers.WorkManager import WorkManager
 from game_engine.models.player import Player
+import game_engine.commands
 
 
 class World:

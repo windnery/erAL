@@ -1,14 +1,14 @@
 {
   "leander_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/利安得/leander_default.webp",
-    "portrait": "frontend/assets/portraits/利安得/leander_default.webp"
+    "portrait": "frontend/assets/portraits/利安得/leander_default.webp",
+    "default": true
   },
   "leander_retrofit": {
-    "retrofit": true,
     "name": "利安得·改",
     "avatar": "frontend/assets/avatars/利安得/leander_retrofit.webp",
-    "portrait": "frontend/assets/portraits/利安得/leander_retrofit.webp"
+    "portrait": "frontend/assets/portraits/利安得/leander_retrofit.webp",
+    "retrofit": true
   }
 }

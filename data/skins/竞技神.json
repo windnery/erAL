@@ -1,14 +1,14 @@
 {
   "hermes_default": {
-    "default": true,
     "name": "原始皮肤",
     "avatar": "frontend/assets/avatars/竞技神/hermes_default.webp",
-    "portrait": "frontend/assets/portraits/竞技神/hermes_default.webp"
+    "portrait": "frontend/assets/portraits/竞技神/hermes_default.webp",
+    "default": true
   },
   "hermes_retrofit": {
-    "retrofit": true,
     "name": "竞技神·改",
     "avatar": "frontend/assets/avatars/竞技神/hermes_retrofit.webp",
-    "portrait": "frontend/assets/portraits/竞技神/hermes_retrofit.webp"
+    "portrait": "frontend/assets/portraits/竞技神/hermes_retrofit.webp",
+    "retrofit": true
   }
 }

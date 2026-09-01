@@ -1,0 +1,63 @@
+{
+  "ning_hai_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_default.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_default.webp",
+    "default": true
+  },
+  "ning_hai_ninghai_2": {
+    "name": "食欲之夏",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_2.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_3": {
+    "name": "月宫玉兔",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_3.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_4": {
+    "name": "东煌姐妹！·N",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_4.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_5": {
+    "name": "新年旅游！",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_5.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_6": {
+    "name": "姹紫盛筵",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_6.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_7": {
+    "name": "大宝的伙伴！",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_7.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_ninghai_8": {
+    "name": "慌乱的新春厨房",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_ninghai_8.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_ninghai_8.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "ning_hai_retrofit": {
+    "name": "宁海·改",
+    "avatar": "frontend/assets/avatars/宁海/ning_hai_retrofit.webp",
+    "portrait": "frontend/assets/portraits/宁海/ning_hai_retrofit.webp",
+    "retrofit": true
+  }
+}

@@ -145,7 +145,10 @@ class TestAkashiShopCommand:
         from game_engine.commands.interact.akashi_shop import can
         z23 = npcs['Z23']
         z23.cflag['working'] = True
-        assert can(world, z23) is False
+        try:
+            assert can(world, z23) is False
+        finally:
+            z23.cflag['working'] = False
 
 
 # ---------- 穿戴皮肤路径 ----------

@@ -1,0 +1,29 @@
+{
+  "hornet_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/大黄蜂/hornet_default.webp",
+    "portrait": "frontend/assets/portraits/大黄蜂/hornet_default.webp",
+    "default": true
+  },
+  "hornet_dahuangfeng_2": {
+    "name": "Bubbly Anniversary！",
+    "avatar": "frontend/assets/avatars/大黄蜂/hornet_dahuangfeng_2.webp",
+    "portrait": "frontend/assets/portraits/大黄蜂/hornet_dahuangfeng_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hornet_dahuangfeng_3": {
+    "name": "美味生活！",
+    "avatar": "frontend/assets/avatars/大黄蜂/hornet_dahuangfeng_3.webp",
+    "portrait": "frontend/assets/portraits/大黄蜂/hornet_dahuangfeng_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hornet_dahuangfeng_4": {
+    "name": "应援即是正义！",
+    "avatar": "frontend/assets/avatars/大黄蜂/hornet_dahuangfeng_4.webp",
+    "portrait": "frontend/assets/portraits/大黄蜂/hornet_dahuangfeng_4.webp",
+    "is_sale": true,
+    "price": 800
+  }
+}

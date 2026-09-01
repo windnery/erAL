@@ -1,0 +1,49 @@
+{
+  "hammann_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_default.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_default.webp",
+    "default": true
+  },
+  "hammann_haman_2": {
+    "name": "小小的夏日战争",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_haman_2.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_haman_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hammann_haman_3": {
+    "name": "舞会的傲娇妖精",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_haman_3.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_haman_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hammann_haman_4": {
+    "name": "兽耳喵喵拳！",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_haman_4.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_haman_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hammann_haman_5": {
+    "name": "圣诞Surprise！",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_haman_5.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_haman_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hammann_haman_6": {
+    "name": "Blushing Fellow",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_haman_6.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_haman_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "hammann_retrofit": {
+    "name": "哈曼·改",
+    "avatar": "frontend/assets/avatars/哈曼/hammann_retrofit.webp",
+    "portrait": "frontend/assets/portraits/哈曼/hammann_retrofit.webp",
+    "retrofit": true
+  }
+}

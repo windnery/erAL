@@ -1,0 +1,57 @@
+{
+  "kaga_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/加贺/kaga_default.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_default.webp",
+    "default": true
+  },
+  "kaga_jiahe_2": {
+    "name": "常夏的杀生石",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_2.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_jiahe_3": {
+    "name": "白狐贺正",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_3.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_jiahe_5": {
+    "name": "白羽风华",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_5.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_5.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_jiahe_4": {
+    "name": "淡樱之息",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_4.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_4.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_jiahe_6": {
+    "name": "鸾翔影集",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_6.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_jiahe_7": {
+    "name": "狐舞白绢",
+    "avatar": "frontend/assets/avatars/加贺/kaga_jiahe_7.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_jiahe_7.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "kaga_oath": {
+    "name": "加贺·誓约",
+    "avatar": "frontend/assets/avatars/加贺/kaga_oath.webp",
+    "portrait": "frontend/assets/portraits/加贺/kaga_oath.webp",
+    "is_sale": false,
+    "oath": true
+  }
+}

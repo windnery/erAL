@@ -1,0 +1,46 @@
+{
+  "id": "kaga",
+  "name": "加贺",
+  "color": "#191970",
+  "location": {
+    "region": "sakura_dorm",
+    "node": "kaga_room"
+  },
+  "base": {
+    "max_stamina": 1950,
+    "max_energy": 1850,
+    "stamina": 1950,
+    "energy": 1850
+  },
+  "talent": {
+    "alignment": "1",
+    "ship_type": "4",
+    "virgin": "1",
+    "no_kiss_exp": "1",
+    "sex": "0",
+    "relationship": "0",
+    "courage": "1",
+    "attitude": "-1",
+    "response": "-1",
+    "self_respect": "1",
+    "self_control": "1",
+    "female_body": "1",
+    "bra_size": "2",
+    "hip_size": "1",
+    "wine_tolerance": "1",
+    "charm": "1"
+  },
+  "schedule": {
+    "sleep": {
+      "start": [
+        23,
+        0
+      ],
+      "end": [
+        7,
+        0
+      ]
+    },
+    "works": []
+  }
+}

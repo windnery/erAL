@@ -1,0 +1,21 @@
+{
+  "fortune_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/命运女神/fortune_default.webp",
+    "portrait": "frontend/assets/portraits/命运女神/fortune_default.webp",
+    "default": true
+  },
+  "fortune_mingyunnvshen_2": {
+    "name": "晴空下的命运丝线",
+    "avatar": "frontend/assets/avatars/命运女神/fortune_mingyunnvshen_2.webp",
+    "portrait": "frontend/assets/portraits/命运女神/fortune_mingyunnvshen_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "fortune_retrofit": {
+    "name": "命运女神·改",
+    "avatar": "frontend/assets/avatars/命运女神/fortune_retrofit.webp",
+    "portrait": "frontend/assets/portraits/命运女神/fortune_retrofit.webp",
+    "retrofit": true
+  }
+}

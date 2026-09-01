@@ -1,0 +1,14 @@
+{
+  "suffolk_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/萨福克/suffolk_default.webp",
+    "portrait": "frontend/assets/portraits/萨福克/suffolk_default.webp",
+    "default": true
+  },
+  "suffolk_retrofit": {
+    "name": "萨福克·改",
+    "avatar": "frontend/assets/avatars/萨福克/suffolk_retrofit.webp",
+    "portrait": "frontend/assets/portraits/萨福克/suffolk_retrofit.webp",
+    "retrofit": true
+  }
+}

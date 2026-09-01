@@ -1,0 +1,35 @@
+{
+  "fusou_default": {
+    "name": "原始皮肤",
+    "avatar": "frontend/assets/avatars/扶桑/fusou_default.webp",
+    "portrait": "frontend/assets/portraits/扶桑/fusou_default.webp",
+    "default": true
+  },
+  "fusou_fusang_2": {
+    "name": "春之祝",
+    "avatar": "frontend/assets/avatars/扶桑/fusou_fusang_2.webp",
+    "portrait": "frontend/assets/portraits/扶桑/fusou_fusang_2.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "fusou_fusang_3": {
+    "name": "家有贤妻？",
+    "avatar": "frontend/assets/avatars/扶桑/fusou_fusang_3.webp",
+    "portrait": "frontend/assets/portraits/扶桑/fusou_fusang_3.webp",
+    "is_sale": true,
+    "price": 800
+  },
+  "fusou_oath": {
+    "name": "扶桑·誓约",
+    "avatar": "frontend/assets/avatars/扶桑/fusou_oath.webp",
+    "portrait": "frontend/assets/portraits/扶桑/fusou_oath.webp",
+    "is_sale": false,
+    "oath": true
+  },
+  "fusou_retrofit": {
+    "name": "扶桑·改",
+    "avatar": "frontend/assets/avatars/扶桑/fusou_retrofit.webp",
+    "portrait": "frontend/assets/portraits/扶桑/fusou_retrofit.webp",
+    "retrofit": true
+  }
+}
