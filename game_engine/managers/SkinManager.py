@@ -47,7 +47,7 @@ class SkinManager:
 
     # ---------- 每日商店刷新 ----------
 
-    def refresh_daily_shop(self, count: int = 12):
+    def refresh_daily_shop(self, count: int = 18):
         """每日随机刷新商店售卖列表：
         从所有 is_sale=True 且玩家未拥有的皮肤中，随机抽取最多 count 个上架。
         """

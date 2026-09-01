@@ -34,7 +34,7 @@ ALDB_CDN_BASE = 'https://als.mrlar.dev/full'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
 
 MAX_HEIGHT = 1280
-WEBP_QUALITY = 80
+WEBP_QUALITY = 85
 
 # 别名/同名消歧与英文 ID 强制映射
 SHIP_ID_MAP = {

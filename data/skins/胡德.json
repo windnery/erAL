@@ -33,6 +33,13 @@
     "is_sale": true,
     "price": 800
   },
+  "hood_hude_6": {
+    "name": "予我一人的华宴",
+    "avatar": "frontend/assets/avatars/胡德/hood_hude_6.webp",
+    "portrait": "frontend/assets/portraits/胡德/hood_hude_6.webp",
+    "is_sale": true,
+    "price": 800
+  },
   "hood_oath": {
     "name": "胡德·誓约",
     "avatar": "frontend/assets/avatars/胡德/hood_oath.webp",

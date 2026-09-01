@@ -12,7 +12,6 @@ import webbrowser
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import unquote
 from PIL import Image
-import io
 
 # 兼容 Windows 终端输出
 if sys.platform == 'win32':

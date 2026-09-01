@@ -54,6 +54,13 @@
     "is_sale": true,
     "price": 800
   },
+  "enterprise_qiye_9": {
+    "name": "天际的潜水者",
+    "avatar": "frontend/assets/avatars/企业/enterprise_qiye_9.webp",
+    "portrait": "frontend/assets/portraits/企业/enterprise_qiye_9.webp",
+    "is_sale": true,
+    "price": 800
+  },
   "enterprise_oath": {
     "name": "企业·誓约",
     "avatar": "frontend/assets/avatars/企业/enterprise_oath.webp",

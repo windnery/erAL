@@ -8,7 +8,8 @@ if TYPE_CHECKING:
     from world import World
 
 
-@register_cmd('leave', '离开当前区域', '系统')
+
+@register_cmd('leave', '离开当前区域', '系统', needs_target=False)
 def leave(world: World, option: str):
     """离开当前区域"""
     if option == 'return':
@@ -33,7 +34,7 @@ def leave(world: World, option: str):
     return mes
 
 
-@register_cmd('move', '移动', '系统')
+@register_cmd('move', '移动', '系统', needs_target=False)
 def move(world: World, option: str):
     """移动"""
     if option == 'return':
