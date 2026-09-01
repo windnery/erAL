@@ -177,7 +177,9 @@ def run_aldb_download(clean: bool = False):
     name_to_group = dict(EXPLICIT_SHIP_GROUP_MAP)
     for group, s_list in skins_by_group.items():
         for s in s_list:
-            if s.get('id', 0) % 10 == 0:
+            painting = s.get('painting', '')
+            # 原始皮肤：painting 不含 _g/_h/_数字 后缀
+            if painting and not painting.endswith('_g') and not painting.endswith('_h') and not re.search(r'_\d+$', painting):
                 cname = s['name_uncensored'].strip()
                 if cname in all_characters:
                     if cname not in name_to_group or (group < 900000 and name_to_group[cname] >= 900000):
@@ -209,11 +211,11 @@ def run_aldb_download(clean: bool = False):
             if not painting:
                 continue
 
-            # 判断皮肤类型
-            last_digit = skin_id_num % 10
-            is_default = (last_digit == 0 and not painting.endswith('_g'))
-            is_retro = painting.endswith('_g') or (last_digit == 9) or ('.改' in cn_name) or ('·改' in cn_name)
-            is_oath = painting.endswith('_h') or (last_digit == 8) or ('誓约' in cn_name)
+            # 判断皮肤类型（基于 painting 后缀，不依赖 ID 尾数）
+            # 原始皮肤：painting 不含 _g/_h/_数字 后缀
+            is_default = (not painting.endswith('_g') and not painting.endswith('_h') and not re.search(r'_\d+$', painting))
+            is_retro = painting.endswith('_g') or ('.改' in cn_name) or ('·改' in cn_name)
+            is_oath = painting.endswith('_h') or ('誓约' in cn_name)
 
             if is_default:
                 skin_key = f"{ship_id}_default"

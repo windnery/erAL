@@ -7,21 +7,36 @@ let selectedShipId = null;
 let currentPage = 1;
 const PAGE_SIZE = 30; // 5行 x 6列 = 30位/页
 
-// 分类标签定义
+// 分类标签定义（与 data/attr_defs.json 中的 ship_type / alignment 取值一一对应）
 const TYPE_TAGS = [
     { label: '[驱逐]', types: ['0'] },
     { label: '[轻巡]', types: ['1'] },
     { label: '[重巡]', types: ['2'] },
-    { label: '[战列]', types: ['3', '11'] },
-    { label: '[轻航]', types: ['8', '4'] },
+    { label: '[战列]', types: ['3'] },
+    { label: '[航母]', types: ['4'] },
+    { label: '[潜艇]', types: ['5'] },
     { label: '[维修]', types: ['6'] },
+    { label: '[航战]', types: ['7'] },
+    { label: '[轻航]', types: ['8'] },
+    { label: '[运输]', types: ['9'] },
+    { label: '[重炮]', types: ['10'] },
+    { label: '[战巡]', types: ['11'] },
+    { label: '[超巡]', types: ['12'] },
 ];
 
 const FACTION_TAGS = [
     { label: '[白鹰]', alignment: '0' },
-    { label: '[皇家]', alignment: '6' },
-    { label: '[铁血]', alignment: '2' },
     { label: '[重樱]', alignment: '1' },
+    { label: '[铁血]', alignment: '2' },
+    { label: '[鸢尾]', alignment: '3' },
+    { label: '[维希教廷]', alignment: '4' },
+    { label: '[撒丁帝国]', alignment: '5' },
+    { label: '[皇家]', alignment: '6' },
+    { label: '[东煌]', alignment: '7' },
+    { label: '[北方联合]', alignment: '8' },
+    { label: '[郁金王国]', alignment: '9' },
+    { label: '[META]', alignment: '10' },
+    { label: '[飓风]', alignment: '11' },
 ];
 
 // 当前已选中的分类筛选集合（允许多选）
@@ -127,10 +142,10 @@ function renderSecretarySelector() {
         filterRow.appendChild(span);
     }
 
-    const sep = document.createElement('span');
-    sep.className = 'sec-filter-sep';
-    sep.textContent = '|';
-    filterRow.appendChild(sep);
+    // 两行之间的分割线（占满整行，强制换行并分隔两类）
+    const filterDivider = document.createElement('div');
+    filterDivider.className = 'sec-filter-divider';
+    filterRow.appendChild(filterDivider);
 
     // 渲染阵营标签
     for (const tag of FACTION_TAGS) {

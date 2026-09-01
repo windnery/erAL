@@ -1236,9 +1236,12 @@ button {
     font-weight: bold;
 }
 
-.sec-filter-sep {
-    color: #444;
-    margin: 0 4px;
+.sec-filter-divider {
+    flex-basis:  100%;
+    width:  100%;
+    height:  1px;
+    background: var(--color-border-dark);
+    margin:  3px 0;
 }
 
 .sec-grid {
