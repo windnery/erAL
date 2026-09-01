@@ -58,7 +58,8 @@ def new_source(base: dict[str, int]):
 def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx: CommandContext, block: str = 'palam'):
     """source的统一转换过程（单对）"""
     # 刻印处理（仅舰娘有刻印）
-    mark_calc(source, target, ctx)
+    if isinstance(target, ShipGirl):
+        mark_calc(source, target, ctx)
     # source->palam
     mes_source, mes_target, _ = palam_calc(source, actor, target)
     if mes_source:
@@ -66,15 +67,17 @@ def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx:
     if mes_target:
         ctx.say_block(block, *mes_target)
     # 绝顶判定
-    orgasm_mes = orgasm_check(target)
-    if orgasm_mes:
-        ctx.say_block(block, *orgasm_mes)
+    if isinstance(target, ShipGirl):
+        orgasm_mes = orgasm_check(target)
+        if orgasm_mes:
+            ctx.say_block(block, *orgasm_mes)
     # 更新palam等级
     actor.update_palam_level()
     target.update_palam_level()
-    # source->情绪/理性/心情
-    emotion_rationality_calc(source, target)
-    mood_proc(source, target)
+    # source->情绪/理性/心情（仅舰娘）
+    if isinstance(target, ShipGirl):
+        emotion_rationality_calc(source, target)
+        mood_proc(source, target)
 
 
 def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], ctx: CommandContext,
@@ -143,7 +146,9 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
 
     # 2. 基础 palam 之后、绝顶之前进行射精处理
     if ejaculation_position:
-        ejaculation_proc(ctx, ejaculation_position, check_orgasm=False)
+        ejaculation_proc(ctx, position=ejaculation_position, check_orgasm=False)
+    else:
+        ejaculation_proc(ctx, check_orgasm=False)
 
     # 3. 绝顶/等级/情绪理性：每个角色实例一次（去重）
     train = ctx.world.train_manager.train
@@ -153,15 +158,16 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         tid = id(target)
         if tid not in processed:
             processed.add(tid)
-            orgasm_mes, org_lv, org_num = orgasm_check_parts(target)
-            if orgasm_mes:
-                ctx.say_block('palam', *orgasm_mes)
-                # 绝顶主导权衰减（按最高等级 × 部位数）
-                if train is not None and train.initiative:
-                    decay_mes = initiative_orgasm_proc(
-                        train, target, max(org_lv.values()), org_num)
-                    if decay_mes:
-                        ctx.say_block('palam', decay_mes)
+            if isinstance(target, ShipGirl):
+                orgasm_mes, org_lv, org_num = orgasm_check_parts(target)
+                if orgasm_mes:
+                    ctx.say_block('palam', *orgasm_mes)
+                    # 绝顶主导权衰减（按最高等级 × 部位数）
+                    if train is not None and train.initiative:
+                        decay_mes = initiative_orgasm_proc(
+                            train, target, max(org_lv.values()), org_num)
+                        if decay_mes:
+                            ctx.say_block('palam', decay_mes)
             target.update_palam_level()
             if isinstance(target, ShipGirl) and tid in source_of:
                 emotion_rationality_calc(source_of[tid], target)
@@ -674,7 +680,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     return mes, attitude
 
 
-def ejaculation_proc(ctx: CommandContext, position: str = '中出', check_orgasm: bool = True):
+def ejaculation_proc(ctx: CommandContext, position: str = '身体', check_orgasm: bool = True):
     """射精判定"""
     player = ctx.world.player
     train = ctx.world.train_manager.train

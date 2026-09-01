@@ -233,3 +233,37 @@ class TestEjaculationAndOrgasmFormat:
         assert ejac_idx != -1, "应包含射精消息"
         assert orgasm_idx != -1, "应包含绝顶消息"
         assert palam_idx < ejac_idx < orgasm_idx < time_idx, "顺序应为: 基础palam < 射精消息 < 绝顶消息 < 时间消息"
+
+    def test_reverse_train_player_high_palam_no_orgasm_crash(self, world):
+        """反向调教（舰娘为调教方，玩家为被调教方）：玩家快感达到阈值触发身体射精，不触发绝顶处理且不崩溃"""
+        saratoga = world.npc_manager.shipgirls.get('saratoga') or world.npc_manager.shipgirls['laffey']
+        TestTrainClosedLoop._make_train(world, [saratoga.id], ['player'])
+        world.train_manager.train.initiative = {saratoga.id: 100, 'player': 50}
+
+        # 玩家快感极高（超过射精阈值 5000 及绝顶阈值 10000）
+        world.player.palam['c_pleasure_palam'] = 20000
+        world.player.palam['m_pleasure_palam'] = 20000
+
+        result = world.command_manager.do_cmd('caress')
+        assert isinstance(result, list)
+        # 确保玩家触发了通用身体射精
+        assert any('射精了！（身体）' in line for line in result)
+        # 确保玩家未触发绝顶消息（只有女性舰娘有绝顶）
+        assert not any('绝顶！' in line for line in result)
+        # 确保射精后快感被清空
+        assert world.player.palam['c_pleasure_palam'] == 0
+        assert world.player.palam['m_pleasure_palam'] == 0
+
+    def test_orgasm_check_safely_ignores_player(self, world):
+        """直接对 Player 对象调用 orgasm_check / orgasm_check_parts 应安全返回空"""
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check, orgasm_check_parts
+        world.player.palam['c_pleasure_palam'] = 20000
+        world.player.palam['m_pleasure_palam'] = 20000
+
+        mes, org_lv, org_num = orgasm_check_parts(world.player)
+        assert mes == []
+        assert org_lv == {}
+        assert org_num == 0
+
+        mes_compat = orgasm_check(world.player)
+        assert mes_compat == []

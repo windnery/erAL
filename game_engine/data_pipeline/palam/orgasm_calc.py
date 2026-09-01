@@ -5,6 +5,8 @@ from game_engine.models.shipgirl import ShipGirl
 
 def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
     """绝顶处理"""
+    if not isinstance(target, ShipGirl):
+        return []
     mes: list[str] = []
     mark_mes: str = ''
     climaxed = [(palam_id, lv) for palam_id, lv in orgasm_lv.items() if lv > 0]
@@ -63,6 +65,9 @@ def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1,
 
 def orgasm_check_parts(target: ShipGirl):
     """绝顶检查，返回 (文案列表, 各部位绝顶等级dict, 绝顶部位数)"""
+    if not isinstance(target, ShipGirl):
+        return [], {}, 0
+
     orgasm_lv = {
         # 绝顶等级 最大4
         'c_pleasure_palam': 0,
@@ -94,5 +99,7 @@ def orgasm_check_parts(target: ShipGirl):
 
 def orgasm_check(target: ShipGirl):
     """绝顶检查（仅返回文案，兼容旧调用）"""
+    if not isinstance(target, ShipGirl):
+        return []
     mes, _, _ = orgasm_check_parts(target)
     return mes

@@ -408,4 +408,9 @@ SEMEN_SOURCES: dict[str, dict[str, int]] = {
         'submission_source': 300,
         'unclean_source': 300,
     },
+    '身体': {
+        'lust_source': 150,
+        'submission_source': 100,
+        'unclean_source': 100,
+    },
 }
