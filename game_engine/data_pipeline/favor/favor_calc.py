@@ -1,5 +1,5 @@
-from game_engine.data_pipeline.base.emo_rat2favor import emo_rat2favor
-from game_engine.data_pipeline.palam.palam2favor import palam2favor
+# from game_engine.data_pipeline.base.emo_rat2favor import emo_rat2favor
+# from game_engine.data_pipeline.palam.palam2favor import palam2favor
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
 
@@ -41,10 +41,10 @@ def favor_calc(player: Player, npc: ShipGirl, source: dict[str, int]) -> int:
     # 玩家魅力
     favor_delta += player.get_talent_value('charm')
     # 陷落阶段
-    favor_delta *= {1: 1.2, 2: 1.5, 3: 1.7, 4: 2.0}.get(npc.get_talent_value('relationship'), 1)
+    favor_delta *= {1: 1.1, 2: 1.3, 3: 1.5, 4: 1.7}.get(npc.get_talent_value('relationship'), 1) if favor_delta > 0 else 1
     # 恋人
-    if player.has_talent('lover'):
-        favor_delta *= 1.5
+    if player.has_talent('lover') and favor_delta > 0:
+        favor_delta *= 1.2
     favor_delta = int(favor_delta)
 
     temp = 0
@@ -90,10 +90,17 @@ def favor_calc(player: Player, npc: ShipGirl, source: dict[str, int]) -> int:
 
     favor_delta += int(temp // 10)
 
+    # 信赖4倍限制
+    if npc.favor > npc.trust * 4:
+        over = npc.favor - npc.trust * 4
+        # 进行非线性衰减
+        decay = 1 / (1 + over / 200)
+        favor_delta = max(int(favor_delta * decay), 0)
+
     # palam等级对好感的修正
-    favor_delta += palam2favor(npc.palam_lv)
+    # favor_delta += palam2favor(npc.palam_lv)
 
     # 情绪&理性对好感的修正
-    favor_delta += emo_rat2favor(npc.base.get('emotion', 0), npc.base.get('rationality', 1000))
+    # favor_delta += emo_rat2favor(npc.base.get('emotion', 0), npc.base.get('rationality', 1000))
 
     return favor_delta

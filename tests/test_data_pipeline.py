@@ -142,7 +142,7 @@ class TestJuel2Abl:
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
         z23.juel['kindness_juel'] = 20  # < 30 需求
-        juel2abl(z23, ATTR_DEFS)
+        juel2abl(z23)
         assert z23.abl['intimacy_abl'] == 0
 
     def test_or_semantic_first_matching_juel_consumed(self, world, z23):
@@ -167,7 +167,7 @@ class TestJuel2Abl:
         z23.juel['submission_juel'] = 100
         before = {k: z23.juel[k] for k in
                   ('fear_juel', 'obedience_juel', 'lust_juel', 'submission_juel')}
-        juel2abl(z23, ATTR_DEFS)
+        juel2abl(z23)
         # 升1级后 lv1 demand 变贵（fear100+）不够再升
         assert z23.abl['obedience_abl'] == 1
         # 按字典序 fear 最先满足 → 只扣 fear
@@ -190,7 +190,7 @@ class TestJuel2Abl:
         z23.juel['lust_juel'] = 0
         z23.juel['submission_juel'] = 0
         before_fear = z23.juel['fear_juel']
-        juel2abl(z23, ATTR_DEFS)
+        juel2abl(z23)
         assert z23.abl['obedience_abl'] == 1
         assert before_fear - z23.juel['fear_juel'] == 30
 
@@ -215,7 +215,7 @@ class TestJuel2Abl:
         z23.juel['lust_juel'] = 5000   # 有但标 -1
         z23.juel['submission_juel'] = 5000
         before_lust = z23.juel['lust_juel']
-        juel2abl(z23, ATTR_DEFS)
+        juel2abl(z23)
         # fear 连续升 lv3→4→5（20000够扣5000+7500，lv5需10000不够停）
         assert z23.abl['obedience_abl'] == 5
         assert z23.juel['lust_juel'] == before_lust, 'lust_juel 标-1不应被 obedience 扣'
@@ -225,7 +225,7 @@ class TestJuel2Abl:
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
         z23.juel['kindness_juel'] = 30 + 100 + 300 + 1000  # 足够升 4 级
-        juel2abl(z23, ATTR_DEFS)
+        juel2abl(z23)
         assert z23.abl['intimacy_abl'] == 4  # 若固定 demand=30 会升到 13（bug）
 
 
@@ -248,7 +248,7 @@ class TestExp2Abl:
         from config.attr_defs import ATTR_DEFS
         z23.exp['talk_exp'] = 19
         z23.abl['talk_abl'] = 2
-        exp2abl(z23, ATTR_DEFS)
+        exp2abl(z23)
         assert z23.abl['talk_abl'] == 2
 
     def test_exp2abl_max_level_cap(self, world, z23):
@@ -402,4 +402,105 @@ class TestExpCalc:
         mes = exp_calc('talk_exp', world.player)
         assert world.player.exp['talk_exp'] == before + 1
         assert '会话经验' in mes
+
+
+# ============================================================
+# 绝顶体气消耗与 ABL 升级前置互锁
+# ============================================================
+
+class TestOrgasmDrain:
+    def test_single_orgasm_consumes_stamina_and_energy(self, z23):
+        """单部位绝顶扣减体力和气力，并累加绝顶经验"""
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_proc
+        z23.set_stamina(1000)
+        z23.set_energy(1000)
+        z23.exp['c_orgasm_exp'] = 0
+        z23.exp['orgasm_exp'] = 0
+        # C 绝顶 lv1: 体力-20, 气力-10
+        orgasm_lv = {'c_pleasure_palam': 1, 'v_pleasure_palam': 0, 'a_pleasure_palam': 0, 'b_pleasure_palam': 0, 'm_pleasure_palam': 0}
+        orgasm_proc(orgasm_lv, z23, 1)
+        assert z23.get_stamina() == 980
+        assert z23.get_energy() == 990
+        assert z23.exp['c_orgasm_exp'] == 1
+        assert z23.exp['orgasm_exp'] == 1
+
+    def test_multiple_orgasm_extra_drain(self, z23):
+        """多重绝顶额外扣减体力和气力"""
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_proc
+        z23.set_stamina(1000)
+        z23.set_energy(1000)
+        # C(20) + V(30) + 2重额外(10) = 60 体力
+        # C(10) + V(20) + 2重额外(5) = 35 气力
+        orgasm_lv = {'c_pleasure_palam': 1, 'v_pleasure_palam': 1, 'a_pleasure_palam': 0, 'b_pleasure_palam': 0, 'm_pleasure_palam': 0}
+        orgasm_proc(orgasm_lv, z23, 2)
+        assert z23.get_stamina() == 940
+        assert z23.get_energy() == 965
+
+
+class TestAblPrerequisites:
+    def test_check_abl_prerequisites_logic(self, z23):
+        """测试 check_abl_prerequisites 判定逻辑"""
+        from game_engine.data_pipeline.abl.abl_lv_check import check_abl_prerequisites
+        # 1. 欲望受顺从限制
+        z23.abl['desire_abl'] = 2
+        z23.abl['obedience_abl'] = 1
+        assert check_abl_prerequisites(z23, 'desire_abl') is False  # obedience 1 < desire 2，不可升到 3
+        z23.abl['obedience_abl'] = 2
+        assert check_abl_prerequisites(z23, 'desire_abl') is True   # obedience 2 >= desire 2，可升到 3
+
+        # 2. 侍奉精神受亲密限制
+        z23.abl['servant_abl'] = 2
+        z23.abl['intimacy_abl'] = 1
+        assert check_abl_prerequisites(z23, 'servant_abl') is False  # intimacy 1 < servant 2，不可升到 3
+        z23.abl['intimacy_abl'] = 2
+        assert check_abl_prerequisites(z23, 'servant_abl') is True   # intimacy 2 >= servant 2，可升到 3
+
+        # 3. 感觉受绝顶经验限制
+        z23.abl['c_sen_abl'] = 2  # 欲升到 3
+        z23.exp['c_orgasm_exp'] = 0
+        assert check_abl_prerequisites(z23, 'c_sen_abl') is False
+        z23.exp['c_orgasm_exp'] = 1
+        assert check_abl_prerequisites(z23, 'c_sen_abl') is True
+
+    def test_desire_upgrade_capped_by_obedience(self, z23):
+        """欲望升级受顺从上限约束"""
+        from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
+        z23.talent = {}
+        z23.abl['obedience_abl'] = 2
+        z23.abl['desire_abl'] = 0
+        # 清空 obedience 升级所需的其它珠子
+        for k in z23.juel:
+            z23.juel[k] = 0
+        z23.juel['lust_juel'] = 100000
+        juel2abl(z23)
+        # obedience 从 2 升到 3（耗尽 lust 途径），desire 最多升到 obedience(3)
+        assert z23.abl['desire_abl'] <= z23.abl['obedience_abl'] + 1
+
+    def test_servant_locked_by_intimacy(self, z23):
+        """侍奉精神升级受亲密限制（侍奉精神不可超过亲密）"""
+        from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
+        z23.talent = {}
+        z23.abl['intimacy_abl'] = 1
+        z23.abl['servant_abl'] = 0
+        z23.juel['submission_juel'] = 100000
+        z23.juel['obedience_juel'] = 100000
+        z23.juel['learn_juel'] = 100000
+        juel2abl(z23)
+        # 亲密为 1 时，侍奉精神最多升到 2（即 intimacy + 1）
+        assert z23.abl['servant_abl'] <= 2
+
+    def test_sen_abl_lv3_requires_orgasm_exp(self, z23):
+        """感觉升级到 3 级及以上需要绝顶经验"""
+        from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
+        z23.talent = {}
+        z23.abl['c_sen_abl'] = 2
+        z23.juel['c_pleasure_juel'] = 1000000
+        z23.exp['c_orgasm_exp'] = 0  # 绝顶经验不足
+        juel2abl(z23)
+        assert z23.abl['c_sen_abl'] == 2  # 无法升到 3 级
+
+        z23.exp['c_orgasm_exp'] = 1  # 满足 lv3 条件（>=1）
+        juel2abl(z23)
+        assert z23.abl['c_sen_abl'] >= 3  # 成功升级
+
 

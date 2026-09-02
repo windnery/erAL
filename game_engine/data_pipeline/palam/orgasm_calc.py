@@ -10,6 +10,8 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
     mes: list[str] = []
     mark_mes: str = ''
     climaxed = [(palam_id, lv) for palam_id, lv in orgasm_lv.items() if lv > 0]
+    stamina_drain = 0
+    energy_drain = 0
     for palam_id, lv in climaxed:
         part = palam_id[0].upper()  # 绝顶部位
         text = orgasm_lv_print(part, lv)
@@ -21,6 +23,43 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
             mark_mes = f'[[c:#ffd400]]{target.name}获得了快乐刻印lv{self_plv}！[[/c]]'
         # 绝顶后palam和juel处理
         orgasm_palam_juel_proc(palam_id, target, orgasm_num, lv)
+
+        # 各部位绝顶体力和气力消耗
+        part_lower = palam_id[0].lower()
+        if part_lower in ('c', 'b'):
+            stamina_drain += 20 * lv
+            energy_drain += 10 * lv
+        elif part_lower == 'v':
+            stamina_drain += 30 * lv
+            energy_drain += 20 * lv
+        elif part_lower == 'a':
+            stamina_drain += 40 * lv
+            energy_drain += 20 * lv
+        elif part_lower == 'm':
+            stamina_drain += 10 * lv
+            energy_drain += 5 * lv
+
+    # 多重绝顶额外消耗
+    if orgasm_num == 2:
+        stamina_drain += 10
+        energy_drain += 5
+    elif orgasm_num == 3:
+        stamina_drain += 20
+        energy_drain += 10
+    elif orgasm_num == 4:
+        stamina_drain += 40
+        energy_drain += 30
+    elif orgasm_num >= 5:
+        stamina_drain += 80
+        energy_drain += 70
+
+    if stamina_drain > 0:
+        target.set_stamina(target.get_stamina() - stamina_drain)
+    if energy_drain > 0:
+        target.set_energy(target.get_energy() - energy_drain)
+    if stamina_drain > 0 or energy_drain > 0:
+        mes.append(f'[[c:#ff6fae]]{target.name} 体力-{stamina_drain}，气力-{energy_drain}！[[/c]]')
+
     climaxed_lv = [lv for _, lv in climaxed]
     if orgasm_num >= 2 and len(set(climaxed_lv)) == 1:
         lv = climaxed_lv[0]
@@ -61,6 +100,11 @@ def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1,
     target.juel[juel_id] += int(best * modifier)
 
     target.palam[palam_id] -= _palam
+
+    # 累加绝顶经验
+    part_lower = palam_id[0].lower()
+    target.set_exp(f'{part_lower}_orgasm_exp', target.get_exp(f'{part_lower}_orgasm_exp') + orgasm_lv)
+    target.set_exp('orgasm_exp', target.get_exp('orgasm_exp') + orgasm_lv)
 
 
 def orgasm_check_parts(target: ShipGirl):
