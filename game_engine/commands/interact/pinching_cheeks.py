@@ -8,7 +8,9 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
+from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_notice
 
 if TYPE_CHECKING:
     from world import World
@@ -81,6 +83,16 @@ def pinching_cheeks(world: World, option: str):
         source['happiness_source'] //= 2
         source['love_source'] //= 2
         source['pain_source'] *= 2
+
+        # 旁人在场
+    if (
+        NpcManager.with_mob(npc.location['region'], npc.location['node'])
+        and npc.abl['exposure_abl'] < 2  # abl:露出 < 2
+        and npc.get_talent_value('sense_of_shame') > -1  # talent:不知羞耻
+    ):
+        source['exposure_source'] += 50
+        source['escape_source'] += 30
+        ctx.say(c_notice(f"有旁人在场，{npc.name}似乎有些害羞……"))
 
     # 通用source修正
     source = common_src_modify(source, npc)

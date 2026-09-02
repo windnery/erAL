@@ -561,6 +561,15 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     temp = npc.get_emotion() // 25 + (MAX_RATIONALITY - npc.get_rationality()) // 25
     attitude += temp
     mes = add_attitude_mes(mes, f'情绪&理性({temp})')
+    # ===================================== 旁人在场 =====================================
+    if (
+        NpcManager.with_mob(npc.location['region'], npc.location['node'])
+        and npc.abl['exposure_abl'] < 6  # abl:露出 < 6
+        and npc.get_talent_value('sense_of_shame') > -1  # talent:不知羞耻
+    ):
+        temp = -20 + npc.abl['exposure_abl'] * 3 - npc.get_talent_value('sense_of_shame') * 5
+        attitude += temp
+        mes = add_attitude_mes(mes, f'旁人在场({temp})')
     # ===================================== abl =====================================
     # 亲密
     temp = npc.abl['intimacy_abl'] * 10

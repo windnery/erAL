@@ -294,6 +294,7 @@ class World:
             npc.reset_emotion()
             npc.reset_rationality()
             npc.set_mood(roll_daily_mood())
+        pages.extend(talent_check(self, self.player))
 
         # 生成新的一天的工作量
         self.work_manager.set_works()

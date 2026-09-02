@@ -9,7 +9,9 @@ from game_engine.commands._context import CommandContext
 from data.time.time_data import command_time_data
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
+from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_notice
 
 if TYPE_CHECKING:
     from world import World
@@ -89,6 +91,17 @@ def request_a_lap_pillow(world: World, option: str):
         source['happiness_source'] += 1200 + (npc.favor - 5000) // 4
 
     source['passivity_source'] = 120 + 240 * npc.abl['obedience_abl']
+
+    # 旁人在场
+    if (
+        NpcManager.with_mob(npc.location['region'], npc.location['node'])
+        and npc.abl['exposure_abl'] < 5  # abl:露出 < 5
+        and npc.get_talent_value('sense_of_shame') > -1  # talent:不知羞耻
+    ):
+        source['exposure_source'] += 150
+        source['escape_source'] += 100
+        ctx.say(c_notice(f"有旁人在场，{npc.name}似乎有些害羞……"))
+
 
     # 通用source修正
     source = common_src_modify(source, npc)

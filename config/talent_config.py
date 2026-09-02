@@ -7,7 +7,7 @@ TALENT2SRC_SET = {
     'wetness', 'urophilia', 'foul_tolerance', 'devoted',
     'pleasure_response', 'vaginal_fan', 'anal_fan', 'breast_fan',
     'oral_fan', 'c_sensitivity', 'v_sensitivity', 'a_sensitivity', 
-    'b_sensitivity', 'm_sensitivity', 'bra_size', 'hip_size',
+    'b_sensitivity', 'm_sensitivity', 'bra_size', 'hip_size', 'personality'
 }
 
 RELATIONSHIP = {

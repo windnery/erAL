@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from config.map_config import HAVE_BED_LOC
 from config.mood_config import MOOD_BAD
 from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
     source_proc, say_chara_line
@@ -18,6 +19,11 @@ def can(world: World, npc: ShipGirl):
     """执行判定"""
     # 通用判定(气力0 睡眠)
     if not global_can(world.player, npc):
+        return False
+    # 地点没有床
+    region = npc.location.get('region')
+    node = npc.location.get('node')
+    if region not in HAVE_BED_LOC or node not in HAVE_BED_LOC[region]:
         return False
     # 愤怒状态
     if npc.get_mood() == MOOD_BAD:
@@ -54,6 +60,12 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
         temp = 10
         score += temp
         mes = add_attitude_mes(mes, f"受虐狂({temp})")
+
+    # 强势
+    if npc.get_talent_value('personality') == 1:
+        temp = -10
+        score += temp
+        mes = add_attitude_mes(mes, f"强势({temp})")
 
     # 秘书舰
     if npc == world.npc_manager.secretary_ship:

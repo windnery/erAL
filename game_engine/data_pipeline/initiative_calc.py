@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from config.initiative_config import (
     INITIATIVE_BASE_GROWTH,
@@ -10,6 +11,9 @@ from config.source_config import PLEASURE_SRC
 from game_engine.models.character import Character
 from game_engine.utils.text_color import c_initiative
 
+if TYPE_CHECKING:
+    from game_engine.managers.TrainManager import Train
+    
 
 def pleasure_sum(source: dict) -> int:
     """该份source中的快感系source之和"""
@@ -22,7 +26,7 @@ def growth_delta(received: int) -> int:
     return int(INITIATIVE_BASE_GROWTH * suppress)
 
 
-def initiative_grow_proc(train, chara_pleasures: list[tuple[Character, int]]) -> list[str]:
+def initiative_grow_proc(train: Train, chara_pleasures: list[tuple[Character, int]]) -> list[str]:
     """每轮主导权增长结算：所有参与者基础增长，受快感越多增长越少
 
     chara_pleasures: [(角色, 本轮受到的快感系source之和), ...]
@@ -35,6 +39,9 @@ def initiative_grow_proc(train, chara_pleasures: list[tuple[Character, int]]) ->
         if chara.cflag.get('unconscious'):
             continue
         delta = growth_delta(received)
+        # talent:强势修正
+        if chara.get_talent_value("personality") == 1:
+            delta = int(delta * 1.5)
         if delta <= 0:
             continue
         train.initiative[chara.id] += delta

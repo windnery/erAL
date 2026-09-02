@@ -101,6 +101,8 @@ def invite_date(world: World, option: str):
         npc.cflag["dating"] = True
         world.player.cflag["dating"] = True
         npc.cflag['dating_day'] = world.time_manager.day
+        # 默认同行解除 施加约会同行
+        npc.cflag["following"] = False
         npc.cflag["dating_following"] = True
         npc.cflag['have_dated_today'] = True
 

@@ -553,44 +553,42 @@ def _bra_size2src(flag: str, source: dict[str, int | float]):
     """胸围对source的修正"""
     if flag == '-2':
         # 绝壁
-        source['b_pleasure_source'] *= 0.6
+        source['b_pleasure_source'] *= 0.7
     elif flag == '-1':
         # 贫乳
-        source['b_pleasure_source'] *= 0.8
+        source['b_pleasure_source'] *= 0.9
     elif flag == '1':
         # 巨乳
         source['b_pleasure_source'] *= 1.2
     elif flag == '2':
-        # 丰乳
-        source['b_pleasure_source'] *= 1.5
-    elif flag == '3':
         # 爆乳
-        source['b_pleasure_source'] *= 2.0
-    elif flag == '4':
-        # 超乳
-        source['b_pleasure_source'] *= 2.5
-    elif flag == '5':
-        # 魔乳
-        source['b_pleasure_source'] *= 3.0
+        source['b_pleasure_source'] *= 1.5
+
 
 
 def _hip_size2src(flag: str, source: dict[str, int | float]):
     """臀围对source的修正"""
     if flag == '-2':
         # 纤臀
-        source['a_pleasure_source'] *= 0.6
+        source['a_pleasure_source'] *= 0.7
     elif flag == '-1':
         # 小臀
-        source['a_pleasure_source'] *= 0.8
+        source['a_pleasure_source'] *= 0.9
     elif flag == '1':
         # 巨臀
         source['a_pleasure_source'] *= 1.2
     elif flag == '2':
-        # 丰满
-        source['a_pleasure_source'] *= 1.5
-    elif flag == '3':
         # 爆臀
-        source['a_pleasure_source'] *= 2.0
-    elif flag == '4':
-        # 超臀
-        source['a_pleasure_source'] *= 2.5
+        source['a_pleasure_source'] *= 1.5
+
+
+def _personality2src(flag: str, source: dict[str, int | float]):
+    """性格对source的修正"""
+    if flag == '-1':
+        # 柔弱
+        source['conquest_source'] *= 1.2
+        source['passivity_source'] *= 1.2
+    elif flag == '1':
+        # 强势
+        source['conquest_source'] *= 0.8
+        source['passivity_source'] *= 0.8
