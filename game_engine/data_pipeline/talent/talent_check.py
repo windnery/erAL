@@ -1,7 +1,8 @@
-from __future__ import  annotations
+from __future__ import annotations
 from typing import TYPE_CHECKING
 from game_engine.models.shipgirl import ShipGirl
 from config.talent_config import RELATIONSHIP
+from game_engine.utils.text_color import c_talent
 
 if TYPE_CHECKING:
     from world import World
@@ -31,7 +32,7 @@ def _relationship(world: World, npc: ShipGirl):
         npc.abl['intimacy_abl'] >= RELATIONSHIP['3']['intimacy_abl']
     ):
         npc.set_talent('relationship', '3')
-        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了[[c:#ff6fae]][爱][[/c]]！')
+        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了{c_talent("[爱]")}！')
     elif (
         # 喜欢
         cur < 2 and
@@ -40,7 +41,7 @@ def _relationship(world: World, npc: ShipGirl):
         npc.abl['intimacy_abl'] >= RELATIONSHIP['2']['intimacy_abl']
     ):
         npc.set_talent('relationship', '2')
-        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了[[c:#ff6fae]][喜欢][[/c]]！')
+        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了{c_talent("[喜欢]")}！')
     elif (
         # 友好
         cur < 1 and
@@ -49,6 +50,6 @@ def _relationship(world: World, npc: ShipGirl):
         npc.abl['intimacy_abl'] >= RELATIONSHIP['1']['intimacy_abl']
     ):
         npc.set_talent('relationship', '1')
-        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了[[c:#ff6fae]][友好][[/c]]！')
+        mes.append(f'{npc.name}最近似乎更在意{world.player.name}了……{npc.name}和{world.player.name}的关系变成了{c_talent("[友好]")}！')
 
     return mes

@@ -1,6 +1,7 @@
 from config.juel_config import JUEL_GET
 from config.palam_config import ORGASM_BASE, ORGASM_LV_CN, ORGASM_LV_JUEL_MODIFIER, ORGASM_NUM_CN, ORGASM_NUM_JUEL_MODIFIER
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_orgasm, c_mark
 
 
 def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
@@ -15,12 +16,12 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
     for palam_id, lv in climaxed:
         part = palam_id[0].upper()  # 绝顶部位
         text = orgasm_lv_print(part, lv)
-        mes.append(f'[[c:#ff6fae]]{text}[[/c]]')
+        mes.append(c_orgasm(text))
         # 快乐刻印判定（刻印最高lv3，与其它刻印一致）
         if lv > target.mark['pleasure_mark'] and target.mark['pleasure_mark'] < 3:
             self_plv = min(lv, 3)
             target.mark['pleasure_mark'] = self_plv
-            mark_mes = f'[[c:#ffd400]]{target.name}获得了快乐刻印lv{self_plv}！[[/c]]'
+            mark_mes = c_mark(f'{target.name}获得了快乐刻印lv{self_plv}！')
         # 绝顶后palam和juel处理
         orgasm_palam_juel_proc(palam_id, target, orgasm_num, lv)
 
@@ -58,13 +59,13 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
     if energy_drain > 0:
         target.set_energy(target.get_energy() - energy_drain)
     if stamina_drain > 0 or energy_drain > 0:
-        mes.append(f'[[c:#ff6fae]]{target.name} 体力-{stamina_drain}，气力-{energy_drain}！[[/c]]')
+        mes.append(c_orgasm(f'{target.name} 体力-{stamina_drain}，气力-{energy_drain}！'))
 
     climaxed_lv = [lv for _, lv in climaxed]
     if orgasm_num >= 2 and len(set(climaxed_lv)) == 1:
         lv = climaxed_lv[0]
         text = f'{ORGASM_NUM_CN[orgasm_num]}{ORGASM_LV_CN[lv]}！（各部位珠子加成）'
-        mes.append(f'[[c:#ff6fae]]{text}[[/c]]')
+        mes.append(c_orgasm(text))
     if mark_mes:
         mes.append(mark_mes)
     return mes

@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import color_text
 
 if TYPE_CHECKING:
     from world import World
@@ -100,7 +101,7 @@ class CommandContext:
         if color is None:
             self.blocks['narrative'].extend(filtered_msgs)
         else:
-            self.blocks['narrative'].extend(f'[[c:{color}]]{msg}[[/c]]' for msg in filtered_msgs)
+            self.blocks['narrative'].extend(color_text(msg, color) for msg in filtered_msgs)
 
     def say_source(self, source: dict[str, int], prefix: str = ''):
         """添加一条source消息（打印 source 信息，自动过滤 0 值项）

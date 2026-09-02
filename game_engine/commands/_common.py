@@ -28,6 +28,7 @@ from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.character import Character
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_chara, c_orgasm, c_ejaculation
 
 if TYPE_CHECKING:
     from world import World
@@ -41,7 +42,7 @@ def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrat
     scene = get_scene(chara, action, ctx.world.player.name)
     if scene:
         for msg in scene:
-            ctx.say_block(block, f'[[c:{chara.color}]]{msg}[[/c]]')
+            ctx.say_block(block, c_chara(msg, chara.color))
         return True
     # False说明无口上
     return False
@@ -401,12 +402,12 @@ def favor_trust_proc(source: dict[str, int], npc: ShipGirl, ctx: CommandContext,
 
     if favor_delta > 0:
         ctx.say_block(block,
-                      f'好感+{favor_delta} ({npc.name})' + ('[[c:#ff6fae]](射精加成)[[/c]]' if is_ejaculation else ''))
+                      f'好感+{favor_delta} ({npc.name})' + (f'{c_orgasm("(射精加成)")}' if is_ejaculation else ''))
     elif favor_delta < 0:
         ctx.say_block(block, f'好感{favor_delta} ({npc.name})')
     if trust_delta > 0:
         ctx.say_block(block,
-                      f'信赖+{trust_delta} ({npc.name})' + ('[[c:#ff6fae]](射精加成)[[/c]]' if is_ejaculation else ''))
+                      f'信赖+{trust_delta} ({npc.name})' + (f'{c_orgasm("(射精加成)")}' if is_ejaculation else ''))
     elif trust_delta < 0:
         ctx.say_block(block, f'信赖{trust_delta} ({npc.name})')
 
@@ -694,7 +695,7 @@ def ejaculation_proc(ctx: CommandContext, position: str = '身体', check_orgasm
 
     player.set_exp('ejaculation_exp', player.get_exp('ejaculation_exp') + 1)
     player.set_vitality(player.get_vitality() - EJACULATION_VITALITY_COST)
-    ctx.say_block('palam', f'[[c:#f5f5f5]]{player.name}射精了！（{position}）[[/c]]')
+    ctx.say_block('palam', c_ejaculation(f'{player.name}射精了！（{position}）'))
     # 射精主导权衰减
     if train.initiative:
         decay_mes = initiative_ejaculation_proc(train, player)

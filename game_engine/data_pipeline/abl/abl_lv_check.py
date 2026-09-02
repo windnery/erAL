@@ -2,6 +2,7 @@ from config.attr_defs import ATTR_DEFS
 from config.juel_config import get_juel_demand
 from config.abl_config import EXP2ABL, ABL_LV, JUEL2ABL_MAX_LV, EXP2ABL_MAX_LV
 from game_engine.models.character import Character
+from game_engine.utils.text_color import c_abl
 
 
 # 感觉升至指定等级所需的对应部位绝顶经验阈值
@@ -71,7 +72,7 @@ def juel2abl(chara: Character):
                 if chara.juel[k] >= v != -1:
                     chara.juel[k] -= v
                     break
-            mes.append(f"[[c:#ffd400]]{chara.name}的{ATTR_DEFS['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！[[/c]]")
+            mes.append(c_abl(f"{chara.name}的{ATTR_DEFS['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！"))
     return mes
 
 
@@ -87,5 +88,5 @@ def exp2abl(chara: Character):
                 chara.exp[exp_k] >= ABL_LV[chara.abl[abl_k] + 1]
         ):
             chara.abl[abl_k] += 1
-            mes.append(f'[[c:#ffd400]]{chara.name}的{ATTR_DEFS["abl"][abl_k]["name"]}提升到了{chara.abl[abl_k]}！[[/c]]')
+            mes.append(c_abl(f"{chara.name}的{ATTR_DEFS['abl'][abl_k]['name']}提升到了{chara.abl[abl_k]}！"))
     return mes

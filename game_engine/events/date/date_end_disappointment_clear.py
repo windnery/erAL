@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from game_engine.commands._common import say_chara_line
 from game_engine.events._base import BaseEvent, register_event
 from game_engine.events._enums import EventTrigger
+from game_engine.utils.text_color import c_success
 
 if TYPE_CHECKING:
     from world import World
@@ -64,9 +65,9 @@ class DateEndDisappointmentClearEvent(BaseEvent):
 
         ctx.say(f"在愉快的约会气氛中，{target.name}心中的隔阂与芥蒂悄然消解……")
         if new_disappointment == 0:
-            ctx.say(f"[[c:#50c878]]{target.name}完全失去了失望刻印！[[/c]]")
+            ctx.say(c_success(f"{target.name}完全失去了失望刻印！"))
         else:
-            ctx.say(f"[[c:#50c878]]{target.name}的失望刻印下降为 LV{new_disappointment}！[[/c]]")
+            ctx.say(c_success(f"{target.name}的失望刻印下降为 LV{new_disappointment}！"))
 
         say_chara_line(target, ctx, 'date_end_disappointment_clear')
         return True

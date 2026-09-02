@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from config.mark_config import MARK_PAIN, MARK_SUBMISSION, MARK_DISAPPOINTMENT
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_mark
 
 if TYPE_CHECKING:
     from game_engine.commands._context import CommandContext
@@ -18,8 +19,7 @@ def mark_calc(source: dict[str, int], chara: ShipGirl, ctx: CommandContext):
         for lv, threshold in MARK_PAIN.items():
             if pain_source >= threshold and chara.mark['pain_mark'] < lv:
                 chara.mark['pain_mark'] = lv
-                
-                ctx.say_block('palam', f'[[c:#ffd400]]{chara.name}获得了苦痛刻印lv{lv}！[[/c]]')
+                ctx.say_block('palam', c_mark(f'{chara.name}获得了苦痛刻印lv{lv}！'))
     # 屈服
     if chara.mark['submission_mark'] < 3:
         submission_source = source['submission_source']
@@ -28,7 +28,7 @@ def mark_calc(source: dict[str, int], chara: ShipGirl, ctx: CommandContext):
         for lv, threshold in MARK_SUBMISSION.items():
             if src >= threshold and chara.mark['submission_mark'] < lv:
                 chara.mark['submission_mark'] = lv
-                ctx.say_block('palam', f'[[c:#ffd400]]{chara.name}获得了屈服刻印lv{lv}！[[/c]]')
+                ctx.say_block('palam', c_mark(f'{chara.name}获得了屈服刻印lv{lv}！'))
     # 失望
     if chara.mark['disappointment_mark'] < 3:
         disgust_source = source['disgust_source']
@@ -39,4 +39,4 @@ def mark_calc(source: dict[str, int], chara: ShipGirl, ctx: CommandContext):
         for lv, threshold in MARK_DISAPPOINTMENT.items():
             if src >= threshold and chara.mark['disappointment_mark'] < lv:
                 chara.mark['disappointment_mark'] = lv
-                ctx.say_block('palam', f'[[c:#ffd400]]{chara.name}获得了失望刻印lv{lv}！[[/c]]')
+                ctx.say_block('palam', c_mark(f'{chara.name}获得了失望刻印lv{lv}！'))

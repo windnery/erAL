@@ -8,6 +8,7 @@ from config.initiative_config import (
 )
 from config.source_config import PLEASURE_SRC
 from game_engine.models.character import Character
+from game_engine.utils.text_color import c_initiative
 
 
 def pleasure_sum(source: dict) -> int:
@@ -51,7 +52,7 @@ def initiative_orgasm_proc(train, target: Character, max_lv: int, orgasm_num: in
     if loss <= 0:
         return ''
     train.initiative[target.id] = max(0, train.initiative[target.id] - loss)
-    return f'[[c:#ffd400]]{target.name}被玩弄到顶峰！主导权-{loss}[[/c]]'
+    return c_initiative(f'{target.name}被玩弄到顶峰！主导权-{loss}')
 
 
 def initiative_ejaculation_proc(train, player: Character) -> str:
@@ -64,4 +65,4 @@ def initiative_ejaculation_proc(train, player: Character) -> str:
     train.initiative[pid] = new
     if new == old:
         return ''
-    return f'[[c:#ffd400]]{player.name}射精失神，主导权 {old} → {new}！[[/c]]'
+    return c_initiative(f'{player.name}射精失神，主导权 {old} → {new}！')

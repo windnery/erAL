@@ -2,6 +2,7 @@ from game_engine.dialogue import get_scene
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
+from game_engine.utils.text_color import c_loc, c_chara
 
 
 class TimeManager:
@@ -97,8 +98,9 @@ class TimeManager:
         for sg_id, name in before.items():
             if sg_id not in after:
                 sg = self.npc_manager.get_npc_by_id(sg_id)
-                events.append(
-                    f'{name}前往了[[c:#ffd400]]{self.map_manager.get_region_name(sg.location["region"])}[[/c]]的[[c:#ffd400]]{self.map_manager.get_node_name(sg.location["region"], sg.location["node"])}[[/c]]')
+                region_str = c_loc(self.map_manager.get_region_name(sg.location["region"]))
+                node_str = c_loc(self.map_manager.get_node_name(sg.location["region"], sg.location["node"]))
+                events.append(f'{name}前往了{region_str}的{node_str}')
         for sg_id, name in after.items():
             if sg_id not in before:
                 events.append(f'{name}走了过来。')
@@ -110,7 +112,7 @@ class TimeManager:
             sg = self.npc_manager.get_npc_by_id(sg_id)
             if not sg.is_following():
                 # 未跟随
-                events.append(f'遇到了[[c:{sg.color}]]{name}[[/c]]。')
+                events.append(f'遇到了{c_chara(name, sg.color)}。')
 
             if not sg.cflag['have_encountered']:
                 # 之前没见过
@@ -119,7 +121,7 @@ class TimeManager:
                 scene = get_scene(sg, 'first_encounter', self.player.name)
                 if scene:
                     for msg in scene:
-                        events.append(f'[[c:{sg.color}]]{msg}[[/c]]')
+                        events.append(c_chara(msg, sg.color))
 
         return events
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from config.base_config import TALK_FATIGUE_THRESHOLD
 from game_engine.commands._common import say_chara_line
+from game_engine.utils.text_color import c_danger, c_notice
 from typing import TYPE_CHECKING
 
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
@@ -102,13 +103,13 @@ def talk(world: World, option: str):
         if npc.talk_fatigue + talk_failure >= TALK_FATIGUE_THRESHOLD:
             npc.is_talk_fatigue = True
             ctx.say(
-                f'{npc.name} 会话疲劳值 {npc.talk_fatigue}+{talk_failure}=[[c:#ff0000]]{npc.talk_fatigue + talk_failure}[[/c]]')
+                f'{npc.name} 会话疲劳值 {npc.talk_fatigue}+{talk_failure}={c_danger(str(npc.talk_fatigue + talk_failure))}')
         else:
             ctx.say(f'{npc.name} 会话疲劳值 {npc.talk_fatigue}+{talk_failure}={npc.talk_fatigue + talk_failure}')
         npc.talk_fatigue += talk_failure
     elif npc.has_talent('lover'):
-        ctx.say(f'[[c:#ffd400]]作为{npc.name}的[恋人]，她和你好像有说不完的话！[[/c]]')
+        ctx.say(c_notice(f'作为{npc.name}的[恋人]，她和你好像有说不完的话！'))
     elif npc.get_talent_value('relationship') >= 2:
-        ctx.say(f'[[c:#ffd400]]由于和{npc.name}的关系非凡({npc.get_talent_name("relationship")})，她和你好像有说不完的话！[[/c]]')
+        ctx.say(c_notice(f'由于和{npc.name}的关系非凡({npc.get_talent_name("relationship")})，她和你好像有说不完的话！'))
 
     return ctx.result()

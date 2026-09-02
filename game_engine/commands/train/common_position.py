@@ -20,6 +20,7 @@ from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.models.continuous_command import ContinuousCommand
 from game_engine.models.shipgirl import ShipGirl
+from game_engine.utils.text_color import c_talent
 
 if TYPE_CHECKING:
     from world import World
@@ -140,7 +141,7 @@ def continuous_tick(world: World, ctx: CommandContext, cmd: ContinuousCommand):
         actor_sources[actor_id] = source
         if actor.id == PLAYER_ID and actor.get_talent_value('male_virgin') == 1:
             actor.set_talent('male_virgin', '0')
-            ctx.say(f'[[c:#ff6fae]]{actor.name}失去了[处男]！[[/c]]')
+            ctx.say(c_talent(f'{actor.name}失去了[处男]！'))
         exp_mes.append(exp_calc('insert_exp', actor))
 
         # 50% 消耗
@@ -157,7 +158,7 @@ def continuous_tick(world: World, ctx: CommandContext, cmd: ContinuousCommand):
         if chara.get_talent_value('virgin') == 1:
             defloration[target_id] = True
             source['pain_source'] += 500
-            ctx.say(f'[[c:#ff6fae]]{chara.name}失去了[处女]！[[/c]]')
+            ctx.say(c_talent(f'{chara.name}失去了[处女]！'))
             say_chara_line(chara, ctx, 'defloration')
 
         pain_check_v(source, chara)
@@ -275,7 +276,7 @@ def common_position(world: World):
         actor_sources[actor_id] = source
         if actor.id == PLAYER_ID and actor.get_talent_value('male_virgin') == 1:
             actor.set_talent('male_virgin', '0')
-            ctx.say(f'[[c:#ff6fae]]{actor.name}失去了[处男]！[[/c]]')
+            ctx.say(c_talent(f'{actor.name}失去了[处男]！'))
         # 插入经验
         exp_mes.append(exp_calc('insert_exp', actor))
         # 消费体力和气力
@@ -292,7 +293,7 @@ def common_position(world: World):
         if chara.get_talent_value('virgin') == 1:
             defloration[target_id] = True
             source['pain_source'] += 1000
-            ctx.say(f'[[c:#ff6fae]]{chara.name}失去了[处女]！[[/c]]')
+            ctx.say(c_talent(f'{chara.name}失去了[处女]！'))
             say_chara_line(chara, ctx, 'defloration')
 
         # v苦痛处理

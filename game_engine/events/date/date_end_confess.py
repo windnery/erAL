@@ -6,6 +6,7 @@ from game_engine.commands._common import say_chara_line
 from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.events._base import BaseEvent, register_event, ChoiceOption
 from game_engine.events._enums import EventTrigger
+from game_engine.utils.text_color import c_talent
 
 if TYPE_CHECKING:
     from world import World
@@ -91,7 +92,7 @@ class DateEndConfessEvent(BaseEvent):
         player = world.player
         if option_key == "accept":
             ctx.say(f"{player.name}温柔地微笑着握住{target.name}的手，将她紧紧拥入怀中，接受了这份真挚的心意。")
-            ctx.say(f"从今天开始，{player.name}和{target.name}正式成为了[[c:#ff6fae]][恋人][[/c]]！")
+            ctx.say(f"从今天开始，{player.name}和{target.name}正式成为了{c_talent('[恋人]')}！")
 
             # 确立恋人关系
             target.set_talent('lover', '1')

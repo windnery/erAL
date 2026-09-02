@@ -6,6 +6,7 @@ from game_engine.commands._common import favor_trust_proc, global_can, new_sourc
     source_proc
 from game_engine.commands._common import say_chara_line
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+from game_engine.utils.text_color import c_talent
 from .._commands import register_cmd
 from .._context import CommandContext
 from ...models.shipgirl import ShipGirl
@@ -80,7 +81,7 @@ def confess(world: World, option: str):
         )
     else:
         ctx.say(f"{npc.name}接受了你的告白！")
-        ctx.say(f"现在开始{world.player.name}和{npc.name}成为[[c:#ff6fae]][恋人][[/c]]了！")
+        ctx.say(f"现在开始{world.player.name}和{npc.name}成为{c_talent('[恋人]')}了！")
         source: dict[str, int] = new_source(
             {
                 "love_source": 800,
