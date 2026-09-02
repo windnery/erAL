@@ -140,9 +140,11 @@ class Character:
         """获取天赋列表"""
         talents = []
         for k, v in self.talent.items():
+            if k not in ATTR_DEFS['talent']:
+                continue
             if ATTR_DEFS['talent'][k]['has_value']:
                 # 多分类素质
-                talents.append(ATTR_DEFS['talent'][k]['value'][v])
+                talents.append(ATTR_DEFS['talent'][k]['value'].get(str(v), str(v)))
             else:
                 # 二分类素质
                 talents.append(ATTR_DEFS['talent'][k]['name'])

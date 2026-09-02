@@ -4,6 +4,8 @@
 覆盖：update_positions 调度、settle_day 全流程、存档读档一致性
 """
 
+import pytest
+
 from conftest import place_next_to_player
 
 
@@ -15,6 +17,17 @@ class TestUpdatePositions:
     """update_positions(elapsed_minutes, map_manager, player)
     当前时间从 world.time_manager 读取（方案 B）
     """
+
+    @pytest.fixture(autouse=True)
+    def _reset_z23_flags(self, world):
+        z23 = world.npc_manager.shipgirls['Z23']
+        world.npc_manager.secretary_ship = None
+        z23.cflag['secretary_ship'] = False
+        z23.cflag['secretary_ship_following'] = False
+        z23.cflag['dating'] = False
+        z23.cflag['dating_following'] = False
+        z23.cflag['working'] = False
+        z23.cflag['sleeping'] = False
 
     def _set_time(self, world, hour, minute=0):
         """设置 time_manager 的当前时间"""
@@ -234,6 +247,7 @@ class TestSettleDay:
         world.time_manager.hour = 23
         world.time_manager.minute = 0
         world.player.wake_time = {'hour': 7, 'minute': 0}
+        world.settle_day(sleep=True, exhaustion=False)
         assert world.player.get_stamina() > 0
         assert world.time_manager.hour == 7
         assert world.time_manager.day == 2
@@ -242,6 +256,7 @@ class TestSettleDay:
         """体力耗尽结算：全恢复 + 时间推进"""
         world.player.base['stamina'] = 0
         world.player.base['energy'] = 50
+        world.settle_day(sleep=False, exhaustion=True)
         assert world.player.get_stamina() == world.player.base['max_stamina']
         assert world.player.get_energy() == world.player.base['max_energy']
 
@@ -269,6 +284,7 @@ class TestSettleDay:
         z23.trust = 200
         z23.abl['intimacy_abl'] = 5
         z23.set_talent('relationship', '0')
+        world.settle_day()
         assert z23.get_talent_value('relationship') >= 1
 
 
@@ -335,9 +351,9 @@ class TestSaveLoadVersions:
     def test_save_then_load_skins_and_items(self, world, tmp_path):
         """存档→读档：皮肤购买/穿戴 + 背包道具一致"""
         # 制造皮肤/道具状态
-        world.skin_manager.gain_skin('laffey_snow_rabbit_and_candy_apple')
-        world.skin_manager.locked_skins.discard('laffey_snow_rabbit_and_candy_apple')
-        world.skin_manager.equip_skin('laffey', 'laffey_snow_rabbit_and_candy_apple')
+        world.skin_manager.gain_skin('laffey_lafei_3')
+        world.skin_manager.locked_skins.discard('laffey_lafei_3')
+        world.skin_manager.equip_skin('laffey', 'laffey_lafei_3')
         world.item_manager.gain_items('oath_ring', 2)
 
         world.save_manager.sav_dir = tmp_path
@@ -350,9 +366,9 @@ class TestSaveLoadVersions:
         assert err is None, f'读档失败: {err}'
 
         # 皮肤：已购买 + 穿戴
-        assert 'laffey_snow_rabbit_and_candy_apple' in world2.skin_manager.unlocked_skins
-        assert 'laffey_snow_rabbit_and_candy_apple' not in world2.skin_manager.locked_skins
-        assert world2.skin_manager.ships_wear_skin['laffey'] == 'laffey_snow_rabbit_and_candy_apple'
+        assert 'laffey_lafei_3' in world2.skin_manager.unlocked_skins
+        assert 'laffey_lafei_3' not in world2.skin_manager.locked_skins
+        assert world2.skin_manager.ships_wear_skin['laffey'] == 'laffey_lafei_3'
         # 道具
         assert world2.item_manager.items.get('oath_ring') == 2
 
@@ -517,6 +533,7 @@ class TestTrainCommands:
 
     def test_push_down_registered_and_enters_train(self, world, z23, player):
         """推倒成功：进入调教模式并建立会话"""
+        world.player.location = {'region': 'home', 'node': 'bedroom'}
         place_next_to_player(world, z23)
         z23.set_talent('relationship', '1')
         z23.abl['intimacy_abl'] = 10
@@ -532,6 +549,7 @@ class TestTrainCommands:
 
     def test_push_down_can_gate(self, world, z23, player):
         """亲密不足6时推倒不可用且不进入调教"""
+        world.player.location = {'region': 'home', 'node': 'bedroom'}
         place_next_to_player(world, z23)
         z23.set_talent('relationship', '1')
         z23.abl['intimacy_abl'] = 5
@@ -544,6 +562,7 @@ class TestTrainCommands:
 
     def test_push_down_failure_does_not_enter_train(self, world, z23, player):
         """合意判定失败：负source惩罚，不进入调教"""
+        world.player.location = {'region': 'home', 'node': 'bedroom'}
         place_next_to_player(world, z23)
         z23.set_talent('relationship', '1')
         z23.abl['intimacy_abl'] = 10

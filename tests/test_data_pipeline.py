@@ -91,6 +91,8 @@ class TestJuelCalc:
     def test_palam_to_juel_basic(self, world, z23):
         """5000 快感 palam（6级）→ 1000 快感珠"""
         from game_engine.data_pipeline.juel.juel_calc import juel_calc
+        z23.juel = {k: 0 for k in z23.juel}
+        z23.palam = {k: 0 for k in z23.palam}
         z23.palam['c_pleasure_palam'] = 5000  # PALAM_LV[6] = 5000
         juel_calc(z23)
         assert z23.juel['c_pleasure_juel'] == 1000  # JUEL_GET[PALAM_LV[6]] = 1000
@@ -98,6 +100,8 @@ class TestJuelCalc:
     def test_high_palam_higher_juel(self, world, z23):
         """等级越高 juel 越多"""
         from game_engine.data_pipeline.juel.juel_calc import juel_calc
+        z23.juel = {k: 0 for k in z23.juel}
+        z23.palam = {k: 0 for k in z23.palam}
         z23.palam['c_pleasure_palam'] = 200_000  # 11级
         juel_calc(z23)
         assert z23.juel['c_pleasure_juel'] == 20_000
@@ -105,6 +109,8 @@ class TestJuelCalc:
     def test_negative_palam_goes_to_negation_juel(self, world, z23):
         """负面 palam → 否定珠"""
         from game_engine.data_pipeline.juel.juel_calc import juel_calc
+        z23.juel = {k: 0 for k in z23.juel}
+        z23.palam = {k: 0 for k in z23.palam}
         z23.palam['disgust_palam'] = 1000  # 4级
         juel_calc(z23)
         assert z23.juel['disgust_juel'] == 0
@@ -113,13 +119,15 @@ class TestJuelCalc:
     def test_negation_juel_cancels_positive(self, world, z23):
         """否定珠抵消正面珠"""
         from game_engine.data_pipeline.juel.juel_calc import juel_calc
+        z23.juel = {k: 0 for k in z23.juel}
+        z23.palam = {k: 0 for k in z23.palam}
         z23.palam['c_pleasure_palam'] = 5000    # +1000 快感珠
         z23.palam['disgust_palam'] = 5000       # +1000 否定珠
         juel_calc(z23)
         # 否定珠优先抵消第一个非否定键（字典序）: a_pleasure_juel 等
         # c_pleasure_juel 剩余 = 1000 - 1000 = 0（取决于抵消顺序）
         assert z23.juel['negation_juel'] == 0
-        assert z23.juel['c_pleasure_juel'] + z23.juel['negation_juel'] >= 0
+        assert z23.juel['c_pleasure_juel'] == 0
 
 
 # ============================================================
@@ -131,8 +139,10 @@ class TestJuel2Abl:
         """回归：1000 好意珠只应升到亲密 3 级（30+100+300=430），而不是满级 13"""
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
+        z23.talent = {}
         z23.juel['kindness_juel'] = 1000
         z23.abl['intimacy_abl'] = 0
+        juel2abl(z23)
         assert z23.abl['intimacy_abl'] == 3, f'应升到 3 级，实际 {z23.abl["intimacy_abl"]}（固定 demand bug 回归）'
         # 剩余 570：1000 - 430
         assert z23.juel['kindness_juel'] == 570
@@ -141,6 +151,8 @@ class TestJuel2Abl:
         """珠不够不升级"""
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
+        z23.talent = {}
+        z23.abl['intimacy_abl'] = 0
         z23.juel['kindness_juel'] = 20  # < 30 需求
         juel2abl(z23)
         assert z23.abl['intimacy_abl'] == 0
@@ -224,6 +236,8 @@ class TestJuel2Abl:
         """每次升级 demand 递增（回归：循环外只算一次）"""
         from game_engine.data_pipeline.abl.abl_lv_check import juel2abl
         from config.attr_defs import ATTR_DEFS
+        z23.talent = {}
+        z23.abl['intimacy_abl'] = 0
         z23.juel['kindness_juel'] = 30 + 100 + 300 + 1000  # 足够升 4 级
         juel2abl(z23)
         assert z23.abl['intimacy_abl'] == 4  # 若固定 demand=30 会升到 13（bug）
@@ -240,6 +254,7 @@ class TestExp2Abl:
         from config.attr_defs import ATTR_DEFS
         z23.exp['talk_exp'] = 20  # EXP_LV[20] = 3 级
         z23.abl['talk_abl'] = 2
+        exp2abl(z23)
         assert z23.abl['talk_abl'] == 3, \
             f'exp=20 应升到 3 级，实际 {z23.abl["talk_abl"]}（bug：阈值判定问题）'
 
@@ -379,6 +394,8 @@ class TestCommonSrcModify:
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         result = common_src_modify(src, z23_nearby)
         # 1000 * 1.3(favor300) * 0.8(relationship0陌生) * 1.0(emo/rat默认) = 1040
         assert result['love_source'] == 1040
@@ -389,6 +406,8 @@ class TestCommonSrcModify:
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         z23_nearby.cflag['dating'] = True
         result = common_src_modify(src, z23_nearby)
         # 1000 * 1.3 * 0.8(relationship0) * 1.2(dating) * 1.0(emo/rat默认) = 1248

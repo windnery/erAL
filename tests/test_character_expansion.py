@@ -44,6 +44,8 @@ def test_shipgirl_portrait_files_exist():
     for sg_id, sg in shipgirls.items():
         name = sg["name"]
         portrait_path = portraits_dir / name / f"{sg_id}_default.webp"
+        if not portrait_path.exists():
+            portrait_path = portraits_dir / f"{name}JP" / f"{sg_id}_default.webp"
         assert portrait_path.exists(), f"舰娘 {name}({sg_id}) 立绘缺失: {portrait_path}"
 
 

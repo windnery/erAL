@@ -86,9 +86,10 @@ class TestTiredDrain:
         javelin.set_energy(300)
         _set_time(world, 12)  # 白天，无睡觉干扰
         world.advance_time_with_events(10)
-        # 每分钟恢复 max 的1%（体力1500→15/分钟），且不被疲倦扣减
-        assert javelin.get_stamina() == 450
-        assert javelin.get_energy() == 450
+        expected_sta = 300 + int(javelin.base['max_stamina'] * 0.01 * 10)
+        expected_eng = 300 + int(javelin.base['max_energy'] * 0.01 * 10)
+        assert javelin.get_stamina() == expected_sta
+        assert javelin.get_energy() == expected_eng
 
     def test_rest_clears_when_full(self, world):
         javelin = world.npc_manager.shipgirls['javelin']

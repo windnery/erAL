@@ -37,6 +37,9 @@ class NpcManager:
     shipgirls = {sg_id: ShipGirl(**sg_data) for sg_id, sg_data in shipgirls_db.items()}
 
     def __init__(self, world: World):
+        from copy import deepcopy
+        self.shipgirls = {sg_id: ShipGirl(**deepcopy(sg_data)) for sg_id, sg_data in self.shipgirls_db.items()}
+        NpcManager.shipgirls = self.shipgirls
         # 秘书舰
         self.secretary_ship: ShipGirl | None = None
         self.world = world

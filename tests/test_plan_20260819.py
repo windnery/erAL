@@ -63,4 +63,4 @@ def test_old_location_still_loads_in_memory():
     world = World()
     npc = world.npc_manager.shipgirls["Z23"]
     npc.location = {"region": "home", "node": "bedroom"}
-    assert world.map_manager.get_current_loc(npc) == "家 · 卧室"
+    assert world.map_manager.get_current_loc(npc) == "指挥官的家 · 卧室"

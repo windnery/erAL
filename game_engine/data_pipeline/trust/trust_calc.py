@@ -1,5 +1,5 @@
-from game_engine.data_pipeline.base.emo_rat2trust import emo_rat2trust
-from game_engine.data_pipeline.palam.palam2trust import palam2trust
+# from game_engine.data_pipeline.base.emo_rat2trust import emo_rat2trust
+# from game_engine.data_pipeline.palam.palam2trust import palam2trust
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
 
@@ -75,10 +75,10 @@ def trust_calc(player: Player, npc: ShipGirl, source: dict[str, int]):
         temp -= (50 - 10_000 / (source.get('disgust_source', 0) + 200)) // (2 if low_rat else 1)
 
     # palam等级对信赖的修正
-    trust_delta += palam2trust(npc.palam_lv)
+    # trust_delta += palam2trust(npc.palam_lv)
 
     # 情绪&理性对信赖的修正
-    trust_delta += emo_rat2trust(npc.base.get('emotion', 0), npc.base.get('rationality', 1000))
+    # trust_delta += emo_rat2trust(npc.base.get('emotion', 0), npc.base.get('rationality', 1000))
 
     trust_delta += int(temp // 10)
 

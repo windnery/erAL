@@ -54,11 +54,10 @@ class TestFormulas:
         assert initiative_orgasm_proc(train, laffey, 1, 1) != ''
         expected = 100 - int(100 * ORGASM_INITIATIVE_RATE_LV[1] * ORGASM_INITIATIVE_MULT_NUM[1])
         assert train.initiative[laffey.id] == expected
-        # 二重强绝顶 lv2 num2：等级系数 × 部位数乘数
-        rate2 = ORGASM_INITIATIVE_RATE_LV[2] * ORGASM_INITIATIVE_MULT_NUM[2]
+        expected2 = 100 - int(100 * ORGASM_INITIATIVE_RATE_LV[2] * ORGASM_INITIATIVE_MULT_NUM[2])
         train.initiative[laffey.id] = 100
         initiative_orgasm_proc(train, laffey, 2, 2)
-        assert train.initiative[laffey.id] == 100 - int(100 * rate2)
+        assert train.initiative[laffey.id] == expected2
         # 五重最强绝顶 lv4 num5：扣完且不为负
         train.initiative[laffey.id] = 80
         initiative_orgasm_proc(train, laffey, 4, 5)

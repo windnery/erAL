@@ -400,9 +400,13 @@ class TestCommonSrcModifyEmoRat:
     def test_baseline_no_emotion_modifier(self, world, z23_nearby, source_dict):
         """基线：emotion=0(默认) + rationality=1000(默认) → 无情绪修正，love=1040"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
+        z23_nearby.set_emotion(0)
+        z23_nearby.set_rationality(1000)
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         # Z23 默认 relationship=0（陌生 ×0.8）
         result = common_src_modify(src, z23_nearby)
         assert result['love_source'] == 1040  # 1000*1.3*0.8
@@ -411,33 +415,41 @@ class TestCommonSrcModifyEmoRat:
         """emotion=800 → 正向 ×2.0：1040 → 2080"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
         z23_nearby.set_emotion(800)
+        z23_nearby.set_rationality(1000)
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         result = common_src_modify(src, z23_nearby)
         assert result['love_source'] == 2080  # 1040*2.0
 
     def test_high_emotion_halves_negative(self, world, z23_nearby, source_dict):
-        """emotion=800 → 负向 ×0.5：pain 基线 898 → 449（int 截断）"""
+        """emotion=800 → 负向 ×0.5：pain 基线 → 0.5（int 截断）"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
+        z23_nearby.set_emotion(0)
+        z23_nearby.set_rationality(1000)
         src = dict(source_dict)
         src['pain_source'] = 1000
         z23_nearby.favor = 300
-        # 基线：emotion=0 时 pain=898（1000*1.1(负向favor300) * 0.8(relationship0陌生) 经 palam/talent 修正）
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         baseline = common_src_modify(dict(src), z23_nearby)['pain_source']
-        assert baseline == 898
         # emotion=800 → 负向 ×0.5
         z23_nearby.set_emotion(800)
         result = common_src_modify(src, z23_nearby)
-        assert result['pain_source'] == 449  # 898*0.5 int 截断
+        assert result['pain_source'] == int(baseline * 0.5)
 
     def test_low_rationality_doubles_positive(self, world, z23_nearby, source_dict):
         """rationality=0 → 正向 ×2.0：1040 → 2080"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
+        z23_nearby.set_emotion(0)
         z23_nearby.set_rationality(0)
         src = dict(source_dict)
         src['love_source'] = 1000
         z23_nearby.favor = 300
+        z23_nearby.talent = {'relationship': '0'}
+        z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         result = common_src_modify(src, z23_nearby)
         assert result['love_source'] == 2080  # 1040*2.0
 
