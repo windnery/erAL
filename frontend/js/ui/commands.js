@@ -4,7 +4,6 @@ const CAT_ORDER = ['日常', '亲昵', '性骚扰'];
 const TRAIN_CAT_ORDER = ['特殊', '爱抚', '交流', '性交', '道具'];
 // 每类指令区独立的分类选中态（act 与 train 互不影响）
 const selectedCat = { act: CAT_ORDER[0], train: TRAIN_CAT_ORDER[0] };
-
 function makeCmdSpan(cmd, callbacks, type) {
     if (type === 'train' && cmd.continuous) {
         let group = document.createElement('span');
@@ -79,6 +78,11 @@ function makeCmdSpan(cmd, callbacks, type) {
         if (cmd.needs_target) {
             let result = await callbacks.doCmd(cmd.key, callbacks.getSelectedNpc());
             show_text_result(result, callbacks);
+            return;
+        }
+        // 移动指令：双模式入口——有字符画的区域打开地图面板，无字符画回退列表
+        if (cmd.key === 'move') {
+            callbacks.openMap(callbacks);
             return;
         }
         let options = await callbacks.getCmdOptions(cmd.key);

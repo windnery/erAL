@@ -9,6 +9,7 @@ import { openDailyShop } from './ui/daily_shop.js';
 import { openInventory } from './ui/inventory.js';
 import { showPlayerInfo } from './ui/player_info.js';
 import { openJuus } from './ui/juus.js';
+import { openMap } from './ui/map_panel.js';
 import { parseColoredMessage } from './ui/colored_text.js';
 import { showNewGameSetup } from './ui/new_game_setup.js';
 
@@ -274,7 +275,7 @@ async function refresh() {
     if (selectedNpcId && !validIds.includes(selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, openJuus, toggleActor, toggleTarget, cancelContinuousCmd };
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, openJuus, openMap, toggleActor, toggleTarget, cancelContinuousCmd };
     renderStatusBar(state.location, state.time, state.player);
 
     // 若有挂起的事件选择，直接展示选项幕

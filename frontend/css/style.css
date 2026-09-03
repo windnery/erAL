@@ -35,7 +35,7 @@
    全局重置与通用规范
    ========================================================================== */
 * {
-    margin: 0 2px;
+    /* margin: 0 2px; */
     padding: 0;
     box-sizing: border-box;
     scrollbar-width: thin;
@@ -681,6 +681,8 @@ button {
 }
 
 .charinfo-content {
+    margin: 0px 10px;
+    padding: 0% 10px;
     font-size: 14px;
     line-height: 1.8;
 }
@@ -1857,4 +1859,87 @@ button {
 
 .juus-goto-btn.disabled {
     color: var(--color-text-disabled) !important;
+}
+
+/* ==========================================================================
+   更纱黑体等宽（地图字符画专用）
+   ========================================================================== */
+@font-face {
+    font-family: 'Sarasa Mono SC';
+    src: url('../font/SarasaMonoSC-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+/* ==========================================================================
+   字符画地图面板 (ASCII Map Panel)
+   ========================================================================== */
+#map_screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(2px);
+}
+
+.map-panel {
+    background-color: var(--color-bg-panel);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.95);
+    padding: 20px 28px;
+    max-width: 95vw;
+    max-height: 92vh;
+    overflow: auto;
+}
+
+.map-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    color: var(--color-text-main);
+}
+
+.map-title .map-region-name {
+    font-size: 16px;
+}
+
+.map-close {
+    font-size: 16px;
+    color: var(--color-text-main);
+    user-select: none;
+}
+
+.map-close:hover {
+    color: var(--color-hover);
+}
+
+.map-art {
+    font-family: 'Sarasa Mono SC', monospace;
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0;
+    user-select: none;
+}
+
+.map-art .map-line {
+    white-space: pre;
+}
+
+.map-token {
+    cursor: default;
+    color: var(--color-text-main);
+}
+
+.map-token:hover {
+    color: var(--color-hover);
+}
+
+.map-token-current {
+    color: #ff0;
+    cursor: default;
 }

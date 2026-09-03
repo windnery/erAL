@@ -6,6 +6,10 @@ export async function getState(selectedNpcId = null) {
     return await call('world', 'get_state', selectedNpcId);
 }
 
+export async function getMapView(regionId = null) {
+    return await call('world', 'get_map_view', regionId);
+}
+
 export async function getCmdOptions(cmd) {
     return await call('command_manager', 'get_cmd_options', cmd);
 }
