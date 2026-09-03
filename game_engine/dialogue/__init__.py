@@ -15,12 +15,9 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     pass
 
-# chara_id -> 口上模块名（本包内）
+# chara_id -> 口上模块名（本包内，目前仅标枪保留）
 _CHARA_MODULES: dict[str, str] = {
-    "laffey": "laffey",
     "javelin": "javelin",
-    "Z23": "Z23",
-    "ayanami": "ayanami",
 }
 
 _MODULE_CACHE: dict[str, Any] = {}
