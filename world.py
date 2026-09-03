@@ -16,7 +16,6 @@ from game_engine.managers.TimeManager import TimeManager
 from game_engine.managers.TrainManager import TrainManager
 from game_engine.managers.WorkManager import WorkManager
 from game_engine.models.player import Player
-import game_engine.commands
 
 
 class World:
@@ -125,6 +124,9 @@ class World:
 
     def _update_tired_flag(self, chara):
         """按当前时间重算疲倦标志"""
+        if chara.cflag.get('sleeping'):
+            chara.cflag['tired'] = False
+            return
         now = self.time_manager.hour * 60 + self.time_manager.minute
         elapsed = (now - self._wake_minute_of(chara)) % (24 * 60)
         chara.cflag['tired'] = elapsed >= self.TIRED_THRESHOLD_MINUTES
@@ -236,6 +238,11 @@ class World:
                 npc.set_energy(npc.get_energy() + npc.base['max_energy'] * sleep_minutes // 480)
             pages.append(f'{self.player.name}准备睡觉……')
             pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}　精力+{self.player.get_vitality() - current_vitality}')
+
+            # 舰娘回家睡觉
+            for sg_id, sg in self.npc_manager.shipgirls.items():
+                sleep_loc = self.npc_manager.shipgirls_db[sg_id]['location']
+                self.npc_manager.set_loc(sg_id, sleep_loc['region'], sleep_loc['node'])
 
             self.time_manager.to_next_day()  # 推进到第二天
             # 更新舰娘到新时间的位置（起床后的调度）

@@ -160,11 +160,10 @@ class NpcManager:
                 self.set_loc(sg.id, player.location['region'], player.location['node'])
 
             # 自由行动：根据推进时长影响移动概率
-            # 基础概率：移动节点15%，离开区域5%，留在原地80%
             # 每推进1分钟，移动节点概率+1%（离开区域概率不变）
-            if all(sg.cflag.get(key, False) is False for key in NOT_MAPPING['free']):
-                move_chance = min(15 + elapsed_minutes, 95)  # 上限95%，保证离开区域至少有5%空间
-                leave_chance = 5
+            if elapsed_minutes > 0 and all(sg.cflag.get(key, False) is False for key in NOT_MAPPING['free']):
+                move_chance = min(elapsed_minutes, 95)  # 上限95%，保证离开区域至少有5%空间
+                leave_chance = min(elapsed_minutes, 5)
                 p = randint(1, 100)
                 if p <= move_chance:
                     # 去当前区域的其他节点

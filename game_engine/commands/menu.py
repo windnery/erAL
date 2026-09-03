@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 def open_your_eyes(world: World, option=None):
     """睁开眼睛：结束缓冲菜单，进入游戏"""
     world.menu_active = False
+    # 开局作息调度
+    world.npc_manager.update_positions(0, world.map_manager, world.player)
     return []
 
 
@@ -29,6 +31,8 @@ def set_wake_up_time(world: World, option=None):
 @register_cmd('set_secretary_ship', '设定秘书舰', '菜单', needs_target=False)
 def set_secretary_ship(world: World, option=None):
     """设定秘书舰：option 为 {shipgirl_id}"""
+    if not option:
+        return ['输入无效']
     sg_id = option['shipgirl_id']
     npc_manager = world.npc_manager
     # 设定秘书舰后的处理
