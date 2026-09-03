@@ -7,6 +7,7 @@ from game_engine.data_pipeline.talent.talent_check import talent_check
 from game_engine.managers.CommandManager import CommandManager
 from game_engine.managers.EventManager import EventManager
 from game_engine.managers.ItemManager import ItemManager
+from game_engine.managers.JuusManager import JuusManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.SaveManager import SaveManager
@@ -29,6 +30,7 @@ class World:
         self.event_manager = EventManager(self)
         self.skin_manager = SkinManager(self.npc_manager)
         self.item_manager = ItemManager(self.player)
+        self.juus_manager = JuusManager(self)
         self.train_manager = TrainManager(self.npc_manager)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
@@ -98,10 +100,10 @@ class World:
             })
         return participants
 
-    def advance_time_with_events(self, minutes: int):
+    def advance_time_with_events(self, minutes: int, player_move: bool = False) -> list[str]:
         """推进时间并返回玩家附近舰娘的变动消息（委托给 TimeManager）
         随后结算休息恢复与疲倦扣减"""
-        events = self.time_manager.advance_time_with_events(minutes)
+        events = self.time_manager.advance_time_with_events(minutes, player_move)
         self._rest_recover(minutes)
         drain_pages = self._tired_drain(minutes)
         if drain_pages:

@@ -19,6 +19,7 @@ class Api:
             'save_manager': world.save_manager,
             'skin_manager': world.skin_manager,
             'item_manager': world.item_manager,
+            'juus_manager': world.juus_manager,
             'train_manager': world.train_manager,
             'event_manager': world.event_manager,
             'setting_manager': SettingManager(world),

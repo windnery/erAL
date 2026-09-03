@@ -75,7 +75,7 @@ class TimeManager:
             self.player.base['max_energy'] - self.player.base['energy']) * 600 // self.player.base['max_energy']
         return max(stamina_recovery_time, energy_recovery_time)
 
-    def advance_time_with_events(self, minutes: int):
+    def advance_time_with_events(self, minutes: int, player_move: bool = False) -> list[str]:
         """推进时间并返回玩家附近舰娘的变动消息
         返回: list[str] 事件消息列表"""
         r, n = self.player.location['region'], self.player.location['node']
@@ -107,17 +107,18 @@ class TimeManager:
 
         # encounter 事件
         for sg_id, name in after.items():
-            if sg_id in before:
-                continue  # 已经在这里的舰娘不触发 encounter
+            # if sg_id in before:
+            #     continue  # 已经在这里的舰娘不触发 encounter
             sg = self.npc_manager.get_npc_by_id(sg_id)
-            if not sg.is_following():
+            if player_move and not sg.is_following():
                 # 未跟随
-                events.append(f'遇到了{c_chara(name, sg.color)}。')
+                events.append(f'在目的地遇到了{c_chara(name, sg.color)}。')
 
             if not sg.cflag['have_encountered']:
                 # 之前没见过
                 sg.cflag['have_encountered'] = True
                 events.append(f'第一次遇到{name}。')
+                events.append(f'将{c_chara(name, sg.color)}加入到了通讯录中。')
                 scene = get_scene(sg, 'first_encounter', self.player.name)
                 if scene:
                     for msg in scene:

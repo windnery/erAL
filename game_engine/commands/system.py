@@ -24,7 +24,7 @@ def leave(world: World, option: str):
     player.location['node'] = map_manager.regions[option]['entry_node']
 
     # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(minutes)
+    npc_events = world.advance_time_with_events(minutes, player_move=True)
 
     region_name = map_manager.regions[option]['name']
     node_name = map_manager.maps[option][player.location['node']]['name']
@@ -47,7 +47,7 @@ def move(world: World, option: str):
     player.location['node'] = option
 
     # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(minutes)
+    npc_events = world.advance_time_with_events(minutes, player_move=True)
 
     return npc_events if npc_events else []
 
@@ -55,6 +55,12 @@ def move(world: World, option: str):
 @register_cmd('items', '道具', '系统', needs_target=False, frontend=True)
 def items(world: World, option: str):
     """道具"""
+    return []
+
+
+@register_cmd('juus', '☆啾信☆', '系统', needs_target=False, frontend=True)
+def juus(world: World, option: str):
+    """打开啾信"""
     return []
 
 

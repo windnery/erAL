@@ -94,6 +94,8 @@ class SaveManager:
                 'items': dict(world.item_manager.items),
                 # v3 新增：事件系统
                 'events': world.event_manager.get_state(),
+                # 啾信系统
+                'juus': world.juus_manager.serialize(),
                 'train': None if train is None else {
                     'location': train.location,
                     'actors': list(train.actors),
@@ -208,6 +210,9 @@ class SaveManager:
 
             events = d.get('events')
             self.world.event_manager.load_state(events)
+
+            juus_data = d.get('juus')
+            self.world.juus_manager.deserialize(juus_data)
 
             train_state = d.get('train')
             if train_state is None:

@@ -62,6 +62,10 @@ function makeCmdSpan(cmd, callbacks, type) {
                 callbacks.openInventory(callbacks.refresh);
                 return;
             }
+            if (cmd.key === 'juus') {
+                callbacks.openJuus(callbacks);
+                return;
+            }
             if (cmd.key === 'show_player_info') {
                 callbacks.showPlayerInfo();
                 return;
