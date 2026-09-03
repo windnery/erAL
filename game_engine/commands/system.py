@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from data.time.time_data import leave_time_data, move_time_data
+from data.time.time_data import leave_time_data
 
 if TYPE_CHECKING:
     from world import World
@@ -36,18 +36,24 @@ def leave(world: World, option: str):
 
 @register_cmd('move', '移动', '系统', needs_target=False)
 def move(world: World, option: str):
-    """移动"""
+    """移动（区域内；地图补全前与地图指令并存，补全后由地图面板取代）"""
     if option == 'return':
         # 取消移动
         return
 
     player = world.player
-    minutes = move_time_data[player.location['node']][option]
+    region = player.location['region']
+    # 图上寻路：目标可为任意可达节点，途经中间节点（时间按最短路合计）
+    path = world.map_manager.find_path(
+        region, player.location['node'], region, option)
+    if path is None:
+        return ['无法前往该地点']
+
     # 先更新玩家位置到目的地，再推进时间（事件基于目的地生成）
     player.location['node'] = option
 
     # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(minutes, player_move=True)
+    npc_events = world.advance_time_with_events(path['total_time'], player_move=True)
 
     return npc_events if npc_events else []
 

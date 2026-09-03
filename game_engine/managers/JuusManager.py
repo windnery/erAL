@@ -182,43 +182,12 @@ class JuusManager:
         contact_base['schedule_list'] = schedule_list
         return contact_base
 
-    def _calc_node_distance(self, start_node: str, end_node: str, move_time_data: dict) -> int:
-        """计算同一区域内两个节点间的最短通行时间"""
-        if start_node == end_node:
-            return 0
-        if start_node in move_time_data and end_node in move_time_data[start_node]:
-            return move_time_data[start_node][end_node]
-        # BFS 寻找节点间最短通行耗时
-        queue = [(start_node, 0)]
-        visited = {start_node}
-        while queue:
-            curr, d = queue.pop(0)
-            for neighbor, cost in move_time_data.get(curr, {}).items():
-                if neighbor == end_node:
-                    return d + cost
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append((neighbor, d + cost))
-        return 1
-
     def _calc_travel_time(self, src_reg: str, src_node: str, dst_reg: str, dst_node: str) -> int:
-        """计算玩家从当前地点前往目标地点的通行时间"""
-        from data.time.time_data import leave_time_data, move_time_data
-
-        total_time = 0
-        if src_reg == dst_reg:
-            # 同区域移动
-            total_time = self._calc_node_distance(src_node, dst_node, move_time_data)
-        else:
-            # 跨区域：当前区域 -> 目标区域
-            leave_time = leave_time_data.get(src_reg, {}).get(dst_reg, 3)
-            total_time += leave_time
-            # 目标区域入口节点 -> 目标房间
-            entry_node = self.world.map_manager.regions.get(dst_reg, {}).get('entry_node', dst_node)
-            if entry_node != dst_node:
-                total_time += self._calc_node_distance(entry_node, dst_node, move_time_data)
-
-        return max(total_time, 1)
+        """计算玩家从当前地点前往目标地点的通行时间（统一走 MapManager 图寻路）"""
+        path = self.world.map_manager.find_path(src_reg, src_node, dst_reg, dst_node)
+        if path is None:
+            return 3  # 兜底：不可达时按最短跨区域时间估算
+        return max(path['total_time'], 1)
 
     def navigate_to_contact(self, shipgirl_id: str) -> dict[str, Any]:
         """前往指定舰娘所在位置，计算通行时间并推进时间"""

@@ -109,6 +109,19 @@ class World:
             events.extend(drain_pages)
         return events
 
+    def get_map_view(self, region_id: str | None = None) -> dict:
+        """获取字符画地图视图（前端地图面板用）
+
+        region_id 为空时默认当前玩家所在区域；查看当前区域时附带 current_node 高亮信息
+        """
+        if region_id is None:
+            region_id = self.player.location['region']
+        view = self.map_manager.get_map_view(region_id)
+        view['current_region'] = self.player.location['region']
+        if region_id == self.player.location['region']:
+            view['current_node'] = self.player.location['node']
+        return view
+
     # ==================== 疲倦/休息 ====================
     TIRED_THRESHOLD_MINUTES = 15 * 60  # 距起床15小时进入疲倦
     REST_RECOVER_RATE = 0.01  # 休息中每分钟恢复1%
