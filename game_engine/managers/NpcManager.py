@@ -131,7 +131,7 @@ class NpcManager:
                         break
 
             # 秘书舰
-            if sg == self.secretary_ship:
+            if self.secretary_ship and sg.id == self.secretary_ship.id:
                 # 设置秘书舰的附属状态
                 sg.cflag_set_attach('secretary_ship')
                 current = hour * 60 + minute
