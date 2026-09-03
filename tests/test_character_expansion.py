@@ -1,7 +1,7 @@
 """测试舰娘扩充数据完整性（支持 114 位全量舰娘）"""
 import os
 from pathlib import Path
-from data.data_loader import load_shipgirls, load_maps, load_move_time, load_attr_defs
+from data.data_loader import load_shipgirls, load_maps, load_attr_defs
 from config.map_config import CAN_SIT_LOC, HAVE_BED_LOC
 from world import World
 
@@ -14,23 +14,24 @@ def test_all_114_shipgirls_loaded():
 
 
 def test_shipgirl_locations_and_maps():
-    """测试舰娘初始位置在地图中存在且寻路配置有效"""
+    """测试舰娘初始位置在地图中存在且图邻接配置有效"""
     shipgirls = load_shipgirls()
     maps = load_maps()
-    move_time = load_move_time()
-    
+
     for sg_id, sg in shipgirls.items():
         region = sg["location"]["region"]
         node = sg["location"]["node"]
-        
+
         # 地图区域存在
         assert region in maps, f"舰娘 {sg_id} 的区域 {region} 不在地图中"
         # 节点在对应区域存在
         assert node in maps[region], f"舰娘 {sg_id} 的房间 {node} 不在区域 {region} 的地图中"
-        # 寻路配置存在
-        assert node in move_time, f"房间 {node} 不在 move_time.json 中"
-        assert "corridor" in move_time[node], f"房间 {node} 到走廊无寻路配置"
-        assert node in move_time["corridor"], f"走廊到房间 {node} 无寻路配置"
+        # 图邻接配置存在（宿舍房间应与走廊相连）
+        links = maps[region][node].get("links", [])
+        assert links, f"房间 {region}/{node} 缺少 links 图邻接配置"
+        if "corridor" in maps[region] and node != "corridor":
+            assert any(l["to"] == "corridor" for l in links), \
+                f"房间 {region}/{node} 未与走廊相连"
         # map_config 配置存在
         assert node in CAN_SIT_LOC.get(region, []), f"房间 {node} 不在 CAN_SIT_LOC[{region}] 中"
         assert node in HAVE_BED_LOC.get(region, []), f"房间 {node} 不在 HAVE_BED_LOC[{region}] 中"

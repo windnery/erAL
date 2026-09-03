@@ -1,202 +1,694 @@
 {
   "corridor": {
     "name": "白鹰宿舍走廊",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "laffey_room",
+        "time": 1
+      },
+      {
+        "to": "oklahoma_room",
+        "time": 1
+      },
+      {
+        "to": "nevada_room",
+        "time": 1
+      },
+      {
+        "to": "langley_room",
+        "time": 1
+      },
+      {
+        "to": "bogue_room",
+        "time": 1
+      },
+      {
+        "to": "ranger_room",
+        "time": 1
+      },
+      {
+        "to": "omaha_room",
+        "time": 1
+      },
+      {
+        "to": "raleigh_room",
+        "time": 1
+      },
+      {
+        "to": "pensacola_room",
+        "time": 1
+      },
+      {
+        "to": "cassin_room",
+        "time": 1
+      },
+      {
+        "to": "downes_room",
+        "time": 1
+      },
+      {
+        "to": "craven_room",
+        "time": 1
+      },
+      {
+        "to": "mccall_room",
+        "time": 1
+      },
+      {
+        "to": "aulick_room",
+        "time": 1
+      },
+      {
+        "to": "foote_room",
+        "time": 1
+      },
+      {
+        "to": "spence_room",
+        "time": 1
+      },
+      {
+        "to": "enterprise_room",
+        "time": 1
+      },
+      {
+        "to": "cleveland_room",
+        "time": 1
+      },
+      {
+        "to": "saratoga_room",
+        "time": 1
+      },
+      {
+        "to": "lexington_room",
+        "time": 1
+      },
+      {
+        "to": "yorktown_room",
+        "time": 1
+      },
+      {
+        "to": "hornet_room",
+        "time": 1
+      },
+      {
+        "to": "san_diego_room",
+        "time": 1
+      },
+      {
+        "to": "helena_room",
+        "time": 1
+      },
+      {
+        "to": "eldridge_room",
+        "time": 1
+      },
+      {
+        "to": "hammann_room",
+        "time": 1
+      },
+      {
+        "to": "arizona_room",
+        "time": 1
+      },
+      {
+        "to": "pennsylvania_room",
+        "time": 1
+      },
+      {
+        "to": "south_dakota_room",
+        "time": 1
+      },
+      {
+        "to": "california_room",
+        "time": 1
+      },
+      {
+        "to": "tennessee_room",
+        "time": 1
+      },
+      {
+        "to": "portland_room",
+        "time": 1
+      },
+      {
+        "to": "indianapolis_room",
+        "time": 1
+      },
+      {
+        "to": "chicago_room",
+        "time": 1
+      },
+      {
+        "to": "houston_room",
+        "time": 1
+      },
+      {
+        "to": "wichita_room",
+        "time": 1
+      },
+      {
+        "to": "northampton_room",
+        "time": 1
+      },
+      {
+        "to": "brooklyn_room",
+        "time": 1
+      },
+      {
+        "to": "atlanta_room",
+        "time": 1
+      },
+      {
+        "to": "juneau_room",
+        "time": 1
+      },
+      {
+        "to": "phoenix_room",
+        "time": 1
+      },
+      {
+        "to": "vestal_room",
+        "time": 1
+      },
+      {
+        "to": "fletcher_room",
+        "time": 1
+      },
+      {
+        "to": "thatcher_room",
+        "time": 1
+      },
+      {
+        "to": "charles_ausburne_room",
+        "time": 1
+      },
+      {
+        "to": "gridley_room",
+        "time": 1
+      },
+      {
+        "to": "maury_room",
+        "time": 1
+      },
+      {
+        "to": "sims_room",
+        "time": 1
+      },
+      {
+        "to": "long_island_room",
+        "time": 1
+      }
+    ]
   },
   "laffey_room": {
     "name": "拉菲的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "oklahoma_room": {
     "name": "俄克拉荷马的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "nevada_room": {
     "name": "内华达的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "langley_room": {
     "name": "兰利的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "bogue_room": {
     "name": "博格的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "ranger_room": {
     "name": "突击者的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "omaha_room": {
     "name": "奥马哈的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "raleigh_room": {
     "name": "罗利的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "pensacola_room": {
     "name": "彭萨科拉的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "cassin_room": {
     "name": "卡辛的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "downes_room": {
     "name": "唐斯的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "craven_room": {
     "name": "克雷文的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "mccall_room": {
     "name": "麦考尔的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "aulick_room": {
     "name": "奥利克的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "foote_room": {
     "name": "富特的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "spence_room": {
     "name": "斯彭斯的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "enterprise_room": {
     "name": "企业的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "cleveland_room": {
     "name": "克利夫兰的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "saratoga_room": {
     "name": "萨拉托加的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "lexington_room": {
     "name": "列克星敦的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "yorktown_room": {
     "name": "约克城的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "hornet_room": {
     "name": "大黄蜂的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "san_diego_room": {
     "name": "圣地亚哥的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "helena_room": {
     "name": "海伦娜的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "eldridge_room": {
     "name": "埃尔德里奇的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "hammann_room": {
     "name": "哈曼的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "arizona_room": {
     "name": "亚利桑那的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "pennsylvania_room": {
     "name": "宾夕法尼亚的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "south_dakota_room": {
     "name": "南达科他的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "california_room": {
     "name": "加利福尼亚的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "tennessee_room": {
     "name": "田纳西的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "portland_room": {
     "name": "波特兰的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "indianapolis_room": {
     "name": "印第安纳波利斯的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "chicago_room": {
     "name": "芝加哥的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "houston_room": {
     "name": "休斯敦的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "wichita_room": {
     "name": "威奇塔的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "northampton_room": {
     "name": "北安普敦的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "brooklyn_room": {
     "name": "布鲁克林的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "atlanta_room": {
     "name": "亚特兰大的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "juneau_room": {
     "name": "朱诺的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "phoenix_room": {
     "name": "菲尼克斯的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "vestal_room": {
     "name": "女灶神的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "fletcher_room": {
     "name": "弗莱彻的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "thatcher_room": {
     "name": "撒切尔的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "charles_ausburne_room": {
     "name": "查尔斯·奥斯本的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "gridley_room": {
     "name": "格里德利的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "maury_room": {
     "name": "莫里的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "sims_room": {
     "name": "西姆斯的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   },
   "long_island_room": {
     "name": "长岛的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   }
 }

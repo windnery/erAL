@@ -1,22 +1,52 @@
 {
-	"food_window": {
-		"name": "取餐窗口",
-		"actions": {
-			"queue_for_food": "排队取餐"
-		}
-	},
-	"hall": {
-		"name": "大厅",
-		"actions": {
-			"relax": "休息",
-			"have_a_meal": "吃饭",
-			"book_a_private_room": "预定包厢"
-		}
-	},
-	"private_room": {
-		"name": "包厢",
-		"actions": {
-			"have_a_meal": "吃饭"
-		}
-	}
+  "food_window": {
+    "name": "取餐窗口",
+    "actions": {
+      "queue_for_food": "排队取餐"
+    },
+    "links": [
+      {
+        "to": "hall",
+        "time": 1
+      },
+      {
+        "to": "private_room",
+        "time": 2
+      }
+    ]
+  },
+  "hall": {
+    "name": "大厅",
+    "actions": {
+      "relax": "休息",
+      "have_a_meal": "吃饭",
+      "book_a_private_room": "预定包厢"
+    },
+    "links": [
+      {
+        "to": "food_window",
+        "time": 1
+      },
+      {
+        "to": "private_room",
+        "time": 1
+      }
+    ]
+  },
+  "private_room": {
+    "name": "包厢",
+    "actions": {
+      "have_a_meal": "吃饭"
+    },
+    "links": [
+      {
+        "to": "food_window",
+        "time": 2
+      },
+      {
+        "to": "hall",
+        "time": 1
+      }
+    ]
+  }
 }

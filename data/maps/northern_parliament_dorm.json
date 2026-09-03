@@ -1,10 +1,22 @@
 {
   "corridor": {
     "name": "北方联合宿舍走廊",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "avrora_room",
+        "time": 1
+      }
+    ]
   },
   "avrora_room": {
     "name": "阿芙乐尔的房间",
-    "actions": {}
+    "actions": {},
+    "links": [
+      {
+        "to": "corridor",
+        "time": 1
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
     "name": "办公桌",
     "actions": {
       "work": "工作"
-    }
+    },
+    "links": []
   }
 }

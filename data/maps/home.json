@@ -1,21 +1,81 @@
 {
+  "lines": [
+    "■■■■■■■■■■▣▣▣■■■■■■■■",
+    "■           ▍                          ■",
+    "■   [02]    ▍                          ■",
+    "■   卧室    ▍                          ■",
+    "■          门                          ■",
+    "▣           ▍                          ■",
+    "▣           ▍                ■■■■■■",
+    "■           ▍      [01]      ┃         ▣",
+    "■■■■■■■      客厅      门  [03]  ▣",
+    "■                            ┃   厨房  ■",
+    "■                            ┃         ■",
+    "■■■■■■■■■▤▤▤■■■■■■■■■",
+    "                  ▤▤▤",
+    "                 ↓[离开]"
+  ],
+  "tokens": {
+    "01": {
+      "node": "living_room"
+    },
+    "02": {
+      "node": "bedroom"
+    },
+    "03": {
+      "node": "kitchen"
+    },
+    "离开": {
+      "exit": true
+    }
+  },
   "living_room": {
     "name": "客厅",
     "actions": {
       "nap": "小憩"
-    }
+    },
+    "links": [
+      {
+        "to": "bedroom",
+        "time": 1
+      },
+      {
+        "to": "kitchen",
+        "time": 1
+      }
+    ]
   },
   "bedroom": {
     "name": "卧室",
     "actions": {
       "nap": "小憩",
       "sleep": "睡觉"
-    }
+    },
+    "links": [
+      {
+        "to": "living_room",
+        "time": 1
+      },
+      {
+        "to": "kitchen",
+        "time": 1
+      }
+    ]
   },
   "kitchen": {
     "name": "厨房",
     "actions": {
       "cook": "做饭"
-    }
+    },
+    "links": [
+      {
+        "to": "living_room",
+        "time": 1
+      },
+      {
+        "to": "bedroom",
+        "time": 1
+      }
+    ]
   }
 }

@@ -1,8 +1,20 @@
 {
   "street": {
-    "name": "街道"
+    "name": "街道",
+    "links": [
+      {
+        "to": "shop",
+        "time": 3
+      }
+    ]
   },
   "shop": {
-    "name": "商店"
+    "name": "商店",
+    "links": [
+      {
+        "to": "street",
+        "time": 3
+      }
+    ]
   }
 }

@@ -540,13 +540,16 @@ def update_maps_and_configs():
         json.dump(regions_data, f, ensure_ascii=False, indent=2)
     print(" [+] 更新 _regions.json (注册东煌与北方联合宿舍区)")
 
-    # 3. 收集所有房间 node 列表
+    # 3. 收集所有房间 node 列表（排除字符画元数据键与走廊）
+    META_KEYS = ("lines", "tokens")
     all_rooms_by_region = {}
     for r in ["eagle_union_dorm", "royal_dorm", "sakura_dorm", "ironblood_dorm", "dragon_empiry_dorm", "northern_parliament_dorm"]:
         mf = MAPS_DIR / f"{r}.json"
         if mf.exists():
             d = json.loads(mf.read_text(encoding="utf-8"))
-            all_rooms_by_region[r] = [k for k in d.keys() if k != "corridor"]
+            all_rooms_by_region[r] = [
+                k for k in d.keys() if k != "corridor" and k not in META_KEYS
+            ]
 
     # 4. 更新 config/map_config.py
     map_config_content = f'''# -*- coding: utf-8 -*-
@@ -588,19 +591,33 @@ HAVE_BED_LOC: dict[str, list[str]] = {{
     (CONFIG_DIR / 'map_config.py').write_text(map_config_content, encoding='utf-8')
     print(" [+] 更新 config/map_config.py")
 
-    # 5. 更新 data/time/move_time.json
-    move_time_file = TIME_DIR / "move_time.json"
-    move_time_data = json.loads(move_time_file.read_text(encoding="utf-8"))
-    corridor_moves = move_time_data.setdefault("corridor", {})
-    
+    # 5. 更新各区域 JSON 节点的 links 图邻接（房间 <-> 走廊）
     for r, rooms in all_rooms_by_region.items():
+        mf = MAPS_DIR / f"{r}.json"
+        if not mf.exists():
+            continue
+        region_data = json.loads(mf.read_text(encoding="utf-8"))
+        region_nodes = {
+            k: v for k, v in region_data.items() if k not in META_KEYS
+        }
         for room in rooms:
-            corridor_moves[room] = 1
-            move_time_data[room] = {"corridor": 1}
-
-    with open(move_time_file, "w", encoding="utf-8") as f:
-        json.dump(move_time_data, f, ensure_ascii=False, indent=2)
-    print(" [+] 更新 data/time/move_time.json")
+            room_node = region_nodes.setdefault(room, {"name": room})
+            room_links = room_node.setdefault("links", [])
+            if not any(l["to"] == "corridor" for l in room_links):
+                room_links.append({"to": "corridor", "time": 1})
+            if "corridor" in region_nodes:
+                corridor_links = region_nodes["corridor"].setdefault("links", [])
+                if not any(l["to"] == room for l in corridor_links):
+                    corridor_links.append({"to": room, "time": 1})
+        out = {}
+        for key in META_KEYS:
+            if key in region_data:
+                out[key] = region_data[key]
+        out.update(region_nodes)
+        mf.write_text(
+            json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+    print(" [+] 更新区域地图 links 图邻接（房间 <-> 走廊）")
 
     # 6. 更新 data/time/leave_time.json
     leave_time_file = TIME_DIR / "leave_time.json"

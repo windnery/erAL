@@ -5,8 +5,11 @@ from typing import Any
 DATA_DIR = Path(__file__).parent
 
 
+_MAP_META_KEYS = ('lines', 'tokens')
+
+
 def load_maps():
-	"""加载地图"""
+	"""加载地图（仅节点数据；lines/tokens 等字符画元数据由 load_map_meta 单独返回）"""
 	all_maps: dict[str, dict[str, dict[str, Any]]] = {}
 	folder = DATA_DIR / 'maps'
 
@@ -18,9 +21,30 @@ def load_maps():
 
 		with open(json_file, 'r', encoding='utf-8') as f:
 			region_data = json.load(f)
-			all_maps[region_id] = region_data
+			all_maps[region_id] = {
+				k: v for k, v in region_data.items() if k not in _MAP_META_KEYS
+			}
 
 	return all_maps
+
+
+def load_map_meta():
+	"""加载地图字符画元数据 {region: {'lines': [...], 'tokens': {...}}}"""
+	metas: dict[str, dict[str, Any]] = {}
+	folder = DATA_DIR / 'maps'
+
+	for json_file in folder.glob('*.json'):
+		if json_file.name.startswith('_'):
+			continue
+		with open(json_file, 'r', encoding='utf-8') as f:
+			region_data = json.load(f)
+		metas[json_file.stem] = {
+			'lines': region_data.get('lines', []),
+			'tokens': region_data.get('tokens', {}),
+		}
+
+	return metas
+
 
 def load_regions():
 	"""加载区域注册表"""
@@ -33,12 +57,6 @@ def load_leave_time():
 	with open(DATA_DIR / 'time/leave_time.json', 'r', encoding='utf-8') as f:
 		leave_time = json.load(f)
 	return leave_time
-
-def load_move_time():
-	"""加载移动时间"""
-	with open(DATA_DIR / 'time/move_time.json', 'r', encoding='utf-8') as f:
-		move_time = json.load(f)
-	return move_time
 
 def load_command_time():
 	"""加载日常指令时间"""
