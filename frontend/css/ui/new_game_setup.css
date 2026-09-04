@@ -1,0 +1,144 @@
+/* ==========================================================================
+   开局设置面板 (New Game Setup)
+   ========================================================================== */
+#new_game_setup {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-black);
+    color: var(--color-text-main);
+    z-index: 120;
+    overflow-y: auto;
+}
+
+.setup-screen {
+    padding: 24px 32px;
+    font-family: Consolas, 'Courier New', 'SimSun', monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text-main);
+}
+
+.setup-header {
+    color: var(--color-text-main);
+    margin-bottom: 4px;
+}
+
+.setup-divider {
+    border-bottom: 1px dashed var(--color-border-dashed);
+    margin: 8px 0 10px 0;
+    width: 100%;
+}
+
+.setup-row {
+    display: flex;
+    align-items: center;
+    min-height: 28px;
+    margin: 3px 0;
+}
+
+.setup-name-val {
+    color: var(--color-text-main);
+    font-weight: normal;
+    margin: 0 4px;
+}
+
+.setup-btn {
+    color: var(--color-active-green);
+    cursor: default;
+    user-select: none;
+    margin: 0 3px;
+    font-family: inherit;
+    font-size: inherit;
+    transition: color 0.1s ease;
+}
+
+.setup-btn:hover:not(.disabled) {
+    color: var(--color-hover);
+}
+
+.setup-name-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.setup-prompt-text {
+    color: var(--color-text-sub);
+}
+
+.setup-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.setup-text-input {
+    background: var(--color-bg-dark);
+    border: 1px solid var(--color-active-green);
+    color: var(--color-text-main);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 3px 8px;
+    outline: none;
+}
+
+.setup-text-input:focus {
+    border-color: var(--color-hover);
+}
+
+.setup-base-row {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    white-space: nowrap;
+}
+
+.setup-base-label {
+    width: 44px;
+    flex-shrink: 0;
+    color: var(--color-text-main);
+}
+
+.setup-base-track {
+    display: inline-block;
+    width: 280px;
+    height: 12px;
+    background-color: var(--color-bg-track);
+    margin: 0 8px;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 1px;
+}
+
+.setup-base-fill {
+    display: block;
+    height: 100%;
+}
+
+.setup-base-val {
+    color: var(--color-text-main);
+    font-family: monospace;
+    min-width: 100px;
+    margin-right: 6px;
+}
+
+.setup-bottom-box {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.setup-menu-option {
+    color: var(--color-active-green);
+    cursor: default;
+    user-select: none;
+    font-size: 15px;
+    width: fit-content;
+    transition: color 0.1s ease;
+}
+
+.setup-menu-option:hover:not(.disabled) {
+    color: var(--color-hover);
+}

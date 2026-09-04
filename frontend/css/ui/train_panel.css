@@ -1,0 +1,50 @@
+/* ==========================================================================
+   调教目标区 (Train Target Panel)
+   ========================================================================== */
+#train_members {
+    margin-top: 8px;
+    min-height: 24px;
+    line-height: 1.8;
+    padding: 4px 0;
+}
+
+.member-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0;
+}
+
+.member-name {
+    color: var(--color-text-main);
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.member-initiative {
+    color: #9cf;
+    min-width: 70px;
+}
+
+.member-btn {
+    border: none;
+    color: var(--color-text-main);
+    font-size: 15px;
+    cursor: default;
+    padding: 0 2px;
+    transition: color 0.15s ease;
+}
+
+.member-btn:hover {
+    color: var(--color-hover);
+}
+
+.member-arrow {
+    color: var(--color-text-dim);
+    font-size: 12px;
+}
+
+.member-info {
+    color: #9cf;
+    margin-left: 8px;
+}

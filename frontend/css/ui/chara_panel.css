@@ -1,0 +1,168 @@
+/* ==========================================================================
+   角色信息区 (Character Panel)
+   ========================================================================== */
+#charaPanel {
+    height: 250px;
+    min-height: 24px;
+    padding: 4px 0;
+}
+
+/* Palam：每行5个，格式 [名称 数值] */
+.palam-row {
+    display: flex;
+    gap: 4px;
+    margin: 1px 0;
+}
+
+.palam-item {
+    color: var(--color-text-sub);
+    font-size: 13px;
+    width: 20%;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.palam-name-lv {
+    flex-shrink: 0;
+}
+
+.palam-bar-track {
+    display: inline-block;
+    width: 80px;
+    height: 8px;
+    background-color: var(--color-border-dark);
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.palam-bar-fill {
+    display: inline-block;
+    height: 100%;
+    background: #66c;
+    vertical-align: top;
+}
+
+.palam-val {
+    flex-shrink: 0;
+}
+
+#charaPortrait {
+    min-height: 120px;
+    max-height: 156px;
+    padding: 6px 10px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: safe center;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-blue) #111;
+}
+
+#charaPortrait::-webkit-scrollbar {
+    height: 4px;
+}
+
+#charaPortrait::-webkit-scrollbar-track {
+    background: #111;
+}
+
+#charaPortrait::-webkit-scrollbar-thumb {
+    background: var(--color-border-blue);
+    border-radius: 2px;
+}
+
+/* 头像块：点击选中的舰娘高亮；头像尺寸 116x116 */
+.npc-avatar {
+    text-align: center;
+    border: 2px solid transparent;
+    padding: 2px;
+    flex-shrink: 0;
+    cursor: default;
+}
+
+.npc-avatar.selected {
+    border-color: var(--color-selected);
+}
+
+.npc-avatar-img {
+    width: 116px;
+    height: 116px;
+    display: block;
+    margin: 0 auto;
+}
+
+.npc-avatar-name {
+    color: var(--color-text-main);
+    margin-top: 2px;
+}
+
+.chara-hint {
+    color: var(--color-text-disabled);
+}
+
+/* 名字行（含好感/信赖，同行同字号） */
+.chara-name {
+    color: var(--color-text-main);
+    margin-bottom: 2px;
+}
+
+/* 角色面板里的属性条：体力/气力同一行 */
+.chara-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+
+.chara-bar-label {
+    color: var(--color-text-main);
+}
+
+.chara-bar-text {
+    color: var(--color-text-main);
+    margin-right: 12px;
+}
+
+/* 角色面板体力/气力条配色 */
+.chara-bar-fill-sta {
+    background: #6f6;
+}
+
+/* 情绪/理性展示行：固定占位 5 颗 */
+.chara-emo-rat-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+    min-height: 20px;
+}
+
+.chara-emo-rat-label {
+    color: var(--color-text-main);
+}
+
+/* 爱心：粉色 */
+.chara-hearts {
+    display: inline-block;
+    min-width: 5em;
+    color: #ff6fae;
+    letter-spacing: 2px;
+    font-size: 14px;
+    line-height: 1;
+    margin-right: 12px;
+}
+
+/* 星星：金色/黄色 */
+.chara-stars {
+    display: inline-block;
+    min-width: 5em;
+    color: #ffd700;
+    letter-spacing: 2px;
+    font-size: 14px;
+    line-height: 1;
+}

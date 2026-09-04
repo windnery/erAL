@@ -1,0 +1,57 @@
+/* ==========================================================================
+   共享状态栏 (Status Bar)
+   ========================================================================== */
+#status_bar {
+    margin-top: 5px;
+    padding: 4px 10px;
+    border-top: 3px double var(--color-border-blue);
+    border-bottom: 3px double var(--color-border-blue);
+}
+
+#day {
+    color: var(--color-border-blue);
+}
+
+#period {
+    color: #0ff;
+}
+
+#loc {
+    font-weight: bold;
+}
+
+#money {
+    color: var(--color-gold);
+}
+
+/* 共享状态条进度条样式 */
+.bar-track {
+    display: inline-block;
+    width: 80px;
+    height: 14px;
+    background-color: var(--color-bg-track);
+    vertical-align: middle;
+}
+
+.bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    vertical-align: top;
+}
+
+#stamina_fill {
+    background: var(--color-stamina);
+}
+
+#energy_fill {
+    background: var(--color-energy);
+}
+
+#vitality_fill {
+    background: var(--color-vitality);
+}
+
+/* 角色面板气力条复用同色 */
+.chara-bar-fill-ene {
+    background: #66c;
+}

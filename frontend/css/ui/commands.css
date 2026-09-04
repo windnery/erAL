@@ -1,0 +1,150 @@
+/* ==========================================================================
+   指令交互区 (Act_COM, Ex_COM, Menu_COM, Train_COM)
+   ========================================================================== */
+#Act_COM,
+#Ex_COM {
+    min-height: 24px;
+    line-height: 1.8;
+    padding: 4px 0;
+}
+
+#Ex_COM {
+    margin-top: 8px;
+}
+
+/* 分界线标签：左侧文字 + 右侧横线 */
+.section-divider {
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.section-label {
+    color: var(--color-text-main);
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.section-line {
+    flex: 1;
+    border-bottom: 1px solid var(--color-border-divider);
+    margin-left: 8px;
+}
+
+/* Act 分类链接 */
+.act-cat-link {
+    color: var(--color-text-main);
+    cursor: default;
+    letter-spacing: 1px;
+}
+
+.act-cat-link:hover {
+    color: var(--color-hover);
+}
+
+.act-cat-link.selected {
+    color: var(--color-selected);
+}
+
+/* 指令文本 */
+#Act_COM .com-cmd,
+#Ex_COM .com-cmd {
+    color: var(--color-text-main);
+    margin-left: 36px;
+    white-space: nowrap;
+}
+
+.act-commands,
+.ex-command-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    padding: 2px 0;
+}
+
+/* 指令悬浮效果统一 */
+#Act_COM .com-cmd,
+#Ex_COM .com-cmd,
+#MENU_COM .com-cmd,
+#TRAIN_COM .com-cmd {
+    color: var(--color-text-main);
+    cursor: default;
+    user-select: none;
+    transition: color 0.15s ease;
+}
+
+#Act_COM .com-cmd:hover,
+#Ex_COM .com-cmd:hover,
+#MENU_COM .com-cmd:hover,
+#TRAIN_COM .com-cmd:hover {
+    color: var(--color-hover);
+}
+
+/* 持续指令组与单次/持续按钮 */
+.com-cmd-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 20px;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.com-cmd-group .com-cmd-name {
+    color: var(--color-text-main);
+    cursor: default;
+    transition: color 0.15s ease;
+}
+
+.com-cmd-group .com-cmd-name:hover {
+    color: var(--color-hover);
+}
+
+.com-cmd-group .com-cmd-action {
+    color: var(--color-text-sub);
+    cursor: default;
+    font-size: 13px;
+    transition: color 0.15s ease;
+}
+
+.com-cmd-group .com-cmd-action:hover {
+    color: var(--color-hover);
+}
+
+.com-cmd-group .com-cmd-action.disabled {
+    color: var(--color-text-sub);
+    cursor: default;
+    opacity: 0.7;
+}
+
+/* 持续指令固定状态栏（固定在舰娘palam面板下方） */
+.train-continuous-container {
+    margin: 6px 12px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.continuous-cmd-item {
+    font-size: 14px;
+    color: var(--color-text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.continuous-cmd-text {
+    color: var(--color-text-main);
+}
+
+.continuous-cmd-cancel {
+    color: var(--color-text-main);
+    cursor: default;
+    user-select: none;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+.continuous-cmd-cancel:hover {
+    color: var(--color-hover);
+}

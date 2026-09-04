@@ -1,0 +1,76 @@
+/* ==========================================================================
+   全局重置与通用规范
+   ========================================================================== */
+* {
+    /* margin: 0 2px; */
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #4a688a #080d14;
+}
+
+/* 全局自定义科技暗黑细滚动条 */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #080d14;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4a688a;
+    border-radius: 3px;
+    border: 1px solid #638ab5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-hover);
+    border-color: var(--color-hover);
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-corner {
+    background: #090e15;
+}
+
+body {
+    margin: 0;
+    background-color: var(--color-bg-black);
+    color: var(--color-text-main);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+button {
+    border: none;
+    background: none;
+    font-family: inherit;
+    color: inherit;
+    cursor: default;
+    user-select: none;
+}
+
+/* 统一通用禁用样式 */
+.disabled,
+:disabled {
+    color: var(--color-text-disabled) !important;
+    cursor: default !important;
+    text-decoration: none !important;
+}
+
+/* 弱化按钮基础样式 */
+.btn-dim {
+    color: var(--color-text-dim);
+}
+
+.btn-dim:hover:not(.disabled) {
+    color: var(--color-hover) !important;
+}

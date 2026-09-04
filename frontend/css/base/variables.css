@@ -1,0 +1,32 @@
+/* ==========================================================================
+   全局设计变量 (Design Tokens)
+   ========================================================================== */
+:root {
+    /* 核心交互与状态高亮 */
+    --color-hover: #ffff00;          /* 统一鼠标悬浮高亮色：纯黄 */
+    --color-selected: #ffff00;       /* 图片选中边框：纯黄 */
+    --color-active-green: #70c070;   /* 选项激活 */
+    --color-gold: #fc0;              /* 资金 */
+    --color-danger: #ff4d4f;         /* 警告/疲劳 */
+    --color-stamina: #6f6;           /* 体力 */
+    --color-energy: #66c;            /* 气力 */
+    --color-vitality: #ccc;          /* 精力 */
+
+    /* 文本色阶 */
+    --color-text-main: #ffffff;      /* 主要正文：纯白 */
+    --color-text-sub: #cccccc;       /* 次要描述：浅灰白 */
+    --color-text-dim: #888888;       /* 辅助文本：暗灰 */
+    --color-text-disabled: #555555;  /* 禁用状态文本：深灰 */
+
+    /* 线条与边框 */
+    --color-border-divider: rgba(255, 255, 255, 0.55);
+    --color-border-dashed: #555555;
+    --color-border-blue: #3366ff;
+    --color-border-dark: #333333;
+
+    /* 背景与色块 */
+    --color-bg-black: #000000;
+    --color-bg-dark: #111111;
+    --color-bg-panel: #0a0d12;
+    --color-bg-track: #222222;
+}

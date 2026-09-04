@@ -1,0 +1,88 @@
+/* ==========================================================================
+   全屏文字区 & 选项幕
+   ========================================================================== */
+#fullscreen_text {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-black);
+    padding: 30px;
+    white-space: pre-line;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.fullscreen_text_hint {
+    color: #ff0;
+    font-size: 14px;
+    margin-top: 16px;
+    user-select: none;
+}
+
+#fullscreen_options {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-black);
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+#fullscreen_options .option-prompt {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--color-text-main);
+}
+
+#fullscreen_options .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#fullscreen_options .option-item {
+    font-size: 15px;
+    color: var(--color-text-main);
+    cursor: default;
+    user-select: none;
+    padding: 4px 0;
+    transition: color 0.15s ease;
+}
+
+#fullscreen_options .option-item:hover {
+    color: var(--color-hover);
+}
+
+#fullscreen_options .option-hint {
+    color: #ff0;
+    font-size: 13px;
+    margin-top: 24px;
+    user-select: none;
+}
+
+#fullscreen_portrait {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-black);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: default;
+}
+
+#fullscreen_portrait img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
