@@ -1901,7 +1901,28 @@ button {
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 12px;
-    color: var(--color-text-main);
+}
+
+.map-tile-wall {
+    color: #806040;
+}
+
+.map-tile-floor {
+    color: #342724;
+}
+
+.map-tile-window {
+    color: #a0c0ff;
+}
+
+.map-tile-pillar {
+    /* 和墙壁一个颜色 */
+    color: #806040;
+}
+
+.map-tile-door {
+    /* 和地板一个颜色 */
+    color: #342724;
 }
 
 .map-title .map-region-name {

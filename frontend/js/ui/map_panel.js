@@ -74,6 +74,14 @@ function renderMap(view, callbacks) {
     screen.style.display = 'flex';
 }
 
+const TILE_CLASS_MAP = {
+    '■': 'map-tile-wall',       // 实体墙壁
+    '▣': 'map-tile-window',     // 窗户
+    '▤': 'map-tile-floor',      // 地板
+    '┃': 'map-tile-pillar',      // 隔墙立柱
+    '╂': 'map-tile-door',        // 门
+};
+
 function renderLine(line, view, callbacks) {
     const div = document.createElement('div');
     div.className = 'map-line';
@@ -93,7 +101,20 @@ function renderLine(line, view, callbacks) {
                 }
             }
         }
-        div.appendChild(document.createTextNode(line[i]));
+
+        const char = line[i];
+        const tileClass = TILE_CLASS_MAP[char];
+
+        if (tileClass) {
+            // 地图元素：包成 span，便于 CSS 定位和样式（如墙壁、地板等）
+            const span = document.createElement('span');
+            span.className = `map-tile ${tileClass}`;
+            span.textContent = char;
+            div.appendChild(span);
+        } else {
+            // 汉字保持原样
+            div.appendChild(document.createTextNode(char));
+        }
         i += 1;
     }
     return div;
