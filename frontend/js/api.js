@@ -1,5 +1,31 @@
 async function call(manager_name, func_name, ...args) {
-    return await window.pywebview.api.call(manager_name, func_name, ...args);
+    if (window.pywebview?.api?.call) {
+        return await window.pywebview.api.call(manager_name, func_name, ...args);
+    }
+
+    // Browser development mode fallback via Flask HTTP server
+    const response = await fetch('/api/call', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            manager: manager_name,
+            func: func_name,
+            args: args,
+        }),
+    });
+
+    if (!response.ok) {
+        const errPayload = await response.json().catch(() => ({}));
+        throw new Error(errPayload.error || `HTTP ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    if (!data.success) {
+        throw new Error(data.error || 'Unknown backend error');
+    }
+    return data.result;
 }
 
 export async function getState(selectedNpcId = null) {
@@ -55,20 +81,39 @@ export async function applyInitialSettings(name, maxStamina, maxEnergy) {
 }
 
 export async function reportFrontendError(error) {
-    const api = window.pywebview?.api;
-    if (!api?.report_frontend_error) return false;
+    if (window.pywebview?.api?.report_frontend_error) {
+        try {
+            await window.pywebview.api.report_frontend_error(
+                error.message || 'Unknown frontend error',
+                error.source || '',
+                error.line || null,
+                error.column || null,
+                error.stack || '',
+            );
+            return true;
+        } catch (_) {
+            // Reporting must never create a second frontend error.
+            return false;
+        }
+    }
 
+    // Browser development mode fallback via Flask HTTP server
     try {
-        await api.report_frontend_error(
-            error.message || 'Unknown frontend error',
-            error.source || '',
-            error.line || null,
-            error.column || null,
-            error.stack || '',
-        );
+        await fetch('/api/report_error', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: error.message || 'Unknown frontend error',
+                source: error.source || '',
+                line: error.line || null,
+                column: error.column || null,
+                stack: error.stack || '',
+            }),
+        });
         return true;
     } catch (_) {
-        // Reporting must never create a second frontend error.
         return false;
     }
 }
