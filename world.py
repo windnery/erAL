@@ -1,3 +1,4 @@
+from config.cflag_config import NOT_MAPPING
 from config.palam_config import PALAM_LV
 from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
@@ -189,7 +190,9 @@ class World:
         sleep_loc = self.npc_manager.shipgirls_db[sg.id]['location']
         self.npc_manager.set_loc(sg.id, sleep_loc['region'], sleep_loc['node'])
         sg.cflag['resting'] = True
-        sg.cflag['working'] = False
+        for cflag in NOT_MAPPING['resting']:
+            # 清除与resting冲突的cflag
+            sg.cflag[cflag] = False
 
     def _rest_recover(self, minutes: int):
         """休息中的舰娘每分钟恢复1%体力和气力，双满后解除"""

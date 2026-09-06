@@ -51,7 +51,7 @@ def can_work(world: World, npc=None):
     return True
 
 @register_cmd('nap', '小睡', '日常', can=can_nap, needs_target=False)
-def nap(world, option=None):
+def nap(world: World, option=None):
     """小睡"""
     ctx = CommandContext(world)
     player = world.player
@@ -62,8 +62,8 @@ def nap(world, option=None):
     ctx.advance_time(command_time_data['nap'])
 
     # 回复体力和气力
-    stamina_recovered = max(0, int(player.get_stamina() * 0.25) + randint(-80, 100))
-    energy_recovered = max(0, int(player.get_energy() * 0.25) + randint(-80, 100))
+    stamina_recovered = max(0, int(player.get_max_stamina() * 0.25) + randint(-80, 100))
+    energy_recovered = max(0, int(player.get_max_energy() * 0.25) + randint(-80, 100))
     ctx.recover(stamina=stamina_recovered, energy=energy_recovered)
 
     ctx.say(f"小睡了一会儿，恢复了{stamina_recovered}点体力和{energy_recovered}点气力")
@@ -71,7 +71,7 @@ def nap(world, option=None):
 
 
 @register_cmd('sleep', '睡觉', '日常', can=can_sleep, needs_target=False)
-def sleep(world, option=None):
+def sleep(world: World, option=None):
     """睡觉"""
     # 调用settle_day方法进行日终结算
     mes = world.settle_day(sleep=True)
@@ -79,7 +79,7 @@ def sleep(world, option=None):
 
 
 @register_cmd('work', '工作', '日常', can=can_work, needs_target=False)
-def work(world, option=None):
+def work(world: World, option=None):
     """工作"""
     ctx = CommandContext(world)
     work_manager = world.work_manager

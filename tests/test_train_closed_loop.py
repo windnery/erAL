@@ -267,3 +267,82 @@ class TestEjaculationAndOrgasmFormat:
 
         mes_compat = orgasm_check(world.player)
         assert mes_compat == []
+
+
+class TestOrgasmDrainThroughConsume:
+    """绝顶体气消耗经注入的 ctx.consume 结算：
+    体力归零应触发与体力耗尽同源的强制结束调教/回家休息"""
+
+    @staticmethod
+    def _train_with_laffey(world):
+        TestTrainClosedLoop._make_train(world, ['player'], ['laffey'])
+        world.train_manager.train.participants = ['player', 'laffey']
+        laffey = world.npc_manager.shipgirls['laffey']
+        laffey.cflag.update({'resting': False, 'sleeping': False})
+        return laffey
+
+    @staticmethod
+    def _climax_via_ctx(world, laffey):
+        from game_engine.commands._context import CommandContext
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check_parts
+        laffey.palam['v_pleasure_palam'] = 30_000  # V绝顶lv2：体力-60 气力-40
+        ctx = CommandContext(world)
+        orgasm_check_parts(laffey, drain_fn=ctx.consume)
+        return ctx
+
+    def test_drain_via_ctx_ends_train_on_stamina_zero(self, world):
+        """调教中绝顶把体力扣到0：强制结束调教并回家休息"""
+        laffey = self._train_with_laffey(world)
+        laffey.set_stamina(50)
+        laffey.set_energy(1000)
+
+        ctx = self._climax_via_ctx(world, laffey)
+
+        assert laffey.get_stamina() == 0
+        assert laffey.get_energy() == 960
+        assert world.train_mode is False, '体力归零应强制结束调教'
+        assert laffey.cflag.get('resting') is True, '体力归零应回家进入休息中'
+        result = ctx.result()
+        assert any('本次调教被迫结束' in line for line in result)
+        assert any('回家休息了' in line for line in result)
+
+    def test_drain_via_ctx_keeps_train_with_stamina_left(self, world):
+        """体力充足时绝顶消耗走 ctx 记账，调教不中断"""
+        laffey = self._train_with_laffey(world)
+        laffey.set_stamina(1000)
+        laffey.set_energy(1000)
+
+        ctx = self._climax_via_ctx(world, laffey)
+
+        assert laffey.get_stamina() == 940
+        assert laffey.get_energy() == 960
+        assert world.train_mode is True
+        assert laffey.cflag.get('resting') is not True
+
+    def test_drain_via_ctx_sets_unconscious_on_energy_zero(self, world):
+        """调教中绝顶把气力扣到0：陷入神志不清，主导权归0"""
+        laffey = self._train_with_laffey(world)
+        laffey.set_stamina(1000)
+        laffey.set_energy(30)
+        train = world.train_manager.train
+        train.initiative = {'player': 100, 'laffey': 50}
+
+        ctx = self._climax_via_ctx(world, laffey)
+
+        assert laffey.get_energy() == 0
+        assert laffey.cflag.get('unconscious') is True
+        assert train.initiative['laffey'] == 0
+        assert world.train_mode is True
+
+    def test_drain_without_fn_keeps_legacy_behavior(self, world):
+        """不传 drain_fn 时维持直接扣减的旧行为（离线计算/旧调用兼容）"""
+        from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check_parts
+        laffey = self._train_with_laffey(world)
+        laffey.set_stamina(50)
+        laffey.palam['v_pleasure_palam'] = 30_000
+
+        orgasm_check_parts(laffey)
+
+        assert laffey.get_stamina() == 0
+        assert world.train_mode is True, '旧路径不触发强制结束调教'
+        assert laffey.cflag.get('resting') is not True

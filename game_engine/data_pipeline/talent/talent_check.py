@@ -184,7 +184,7 @@ def _flexible_fingers(world: World, chara: Character):
     """灵巧手指"""
     mes: list[str] = []
     # 获得灵巧手指
-    if chara.abl['finger_abl'] >= 5:
+    if not chara.has_talent('flexible_fingers') and chara.abl['finger_abl'] >= 5:
         chara.set_talent('flexible_fingers', '1')
         mes.append(f'{chara.name}的手指现在无比灵巧……')
         mes.append(f'{chara.name}获得了{c_talent("[灵巧手指]", "common")}！')
@@ -195,7 +195,7 @@ def _flexible_tongue(world: World, chara: Character):
     """灵巧舌头"""
     mes: list[str] = []
     # 获得灵巧舌头
-    if chara.abl['tongue_abl'] >= 5:
+    if not chara.has_talent('flexible_tongue') and chara.abl['tongue_abl'] >= 5:
         chara.set_talent('flexible_tongue', '1')
         mes.append(f'{chara.name}的舌头现在无比灵巧……')
         mes.append(f'{chara.name}获得了{c_talent("[灵巧舌头]", "common")}！')
@@ -247,7 +247,7 @@ def _vaginal_fan(world: World, chara: ShipGirl):
         return []
     mes: list[str] = []
     # 获得淫壶
-    if chara.abl['v_sen_abl'] >= 5 and chara.exp['v_orgasm_exp'] >= 50:
+    if not chara.has_talent('vaginal_fan') and chara.abl['v_sen_abl'] >= 5 and chara.exp['v_orgasm_exp'] >= 50:
         chara.set_talent('vaginal_fan', '1')
         mes.append(f'{chara.name}的阴道对刺激的反应越来越强烈……')
         mes.append(f'{chara.name}获得了{c_talent("[淫壶]", "common")}！')
@@ -260,7 +260,7 @@ def _anal_fan(world: World, chara: ShipGirl):
         return []
     mes: list[str] = []
     # 获得淫尻
-    if chara.abl['a_sen_abl'] >= 5 and chara.exp['a_orgasm_exp'] >= 50:
+    if not chara.has_talent('anal_fan') and chara.abl['a_sen_abl'] >= 5 and chara.exp['a_orgasm_exp'] >= 50:
         chara.set_talent('anal_fan', '1')
         mes.append(f'{chara.name}的肛门对刺激的反应越来越强烈……')
         mes.append(f'{chara.name}获得了{c_talent("[淫尻]", "common")}！')
@@ -273,7 +273,7 @@ def _breast_fan(world: World, chara: ShipGirl):
         return []
     mes: list[str] = []
     # 获得淫乳
-    if chara.abl['b_sen_abl'] >= 5 and chara.exp['b_orgasm_exp'] >= 50:
+    if not chara.has_talent('breast_fan') and chara.abl['b_sen_abl'] >= 5 and chara.exp['b_orgasm_exp'] >= 50:
         chara.set_talent('breast_fan', '1')
         mes.append(f'{chara.name}的乳房对刺激的反应越来越强烈……')
         mes.append(f'{chara.name}获得了{c_talent("[淫乳]", "common")}！')
@@ -286,7 +286,7 @@ def _oral_fan(world: World, chara: ShipGirl):
         return []
     mes: list[str] = []
     # 获得淫舌
-    if chara.abl['m_sen_abl'] >= 5 and chara.exp['m_orgasm_exp'] >= 30:
+    if not chara.has_talent('oral_fan') and chara.abl['m_sen_abl'] >= 5 and chara.exp['m_orgasm_exp'] >= 30:
         chara.set_talent('oral_fan', '1')
         mes.append(f'{chara.name}的嘴巴对刺激的反应越来越强烈……')
         mes.append(f'{chara.name}获得了{c_talent("[淫舌]", "common")}！')

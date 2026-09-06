@@ -131,6 +131,10 @@ class ShipGirl(Character):
         )
         return is_following
 
+    def is_resting(self) -> bool:
+        """是否正在休息"""
+        return self.cflag.get("resting", False)
+
     def talk_fatigue_decay(self, dt: int):
         """会话疲劳值衰减"""
         self.talk_fatigue = max(self.talk_fatigue - dt, 0)
