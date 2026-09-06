@@ -25,6 +25,9 @@ def can(world: World, npc: ShipGirl):
     node = npc.location.get('node')
     if region not in HAVE_BED_LOC or node not in HAVE_BED_LOC[region]:
         return False
+    # 休息中
+    if npc.cflag.get('resting'):
+        return False
     # 愤怒状态
     if npc.get_mood() == MOOD_BAD:
         return False

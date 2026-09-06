@@ -90,6 +90,18 @@ class Character:
         """获取气力"""
         return self.base['energy']
 
+    def get_max_stamina(self) -> int:
+        """获取最大体力"""
+        return self.base['max_stamina']
+
+    def get_max_energy(self) -> int:
+        """获取最大气力"""
+        return self.base['max_energy']
+
+    def get_max_vitality(self) -> int:
+        """获取最大精力"""
+        return self.base.get('max_vitality', 2000)
+
     def set_vitality(self, value: int) -> bool:
         """设置精力，并返回是否还有剩余。"""
         max_vitality = self.base.get('max_vitality', 2000)

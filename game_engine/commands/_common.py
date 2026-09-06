@@ -69,7 +69,7 @@ def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx:
         ctx.say_block(block, *mes_target)
     # 绝顶判定
     if isinstance(target, ShipGirl):
-        orgasm_mes = orgasm_check(target)
+        orgasm_mes = orgasm_check(target, drain_fn=ctx.consume)
         if orgasm_mes:
             ctx.say_block(block, *orgasm_mes)
     # 更新palam等级
@@ -160,7 +160,7 @@ def source_proc_batch(pairs: list[tuple[dict[str, int], Character, Character]], 
         if tid not in processed:
             processed.add(tid)
             if isinstance(target, ShipGirl):
-                orgasm_mes, org_lv, org_num = orgasm_check_parts(target)
+                orgasm_mes, org_lv, org_num = orgasm_check_parts(target, drain_fn=ctx.consume)
                 if orgasm_mes:
                     ctx.say_block('palam', *orgasm_mes)
                     # 绝顶主导权衰减（按最高等级 × 部位数）
@@ -726,7 +726,7 @@ def ejaculation_proc(ctx: CommandContext, position: str = '身体', check_orgasm
         if mes_target:
             ctx.say_block('palam', *mes_target)
         if check_orgasm:
-            orgasm_mes, org_lv, org_num = orgasm_check_parts(chara)
+            orgasm_mes, org_lv, org_num = orgasm_check_parts(chara, drain_fn=ctx.consume)
             if orgasm_mes:
                 ctx.say_block('palam', *orgasm_mes)
                 # 绝顶主导权衰减（按最高等级 × 部位数）

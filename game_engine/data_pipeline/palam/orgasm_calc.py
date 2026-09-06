@@ -4,8 +4,10 @@ from game_engine.models.shipgirl import ShipGirl
 from game_engine.utils.text_color import c_orgasm, c_mark
 
 
-def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
-    """绝顶处理"""
+def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int, drain_fn=None):
+    """绝顶处理
+    drain_fn: 消耗结算回调（命令层的 ctx.consume），签名 (stamina=, energy=, chara=)。
+    不传时退回直接扣减，仅供离线计算/旧调用使用"""
     if not isinstance(target, ShipGirl):
         return []
     mes: list[str] = []
@@ -54,12 +56,15 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int):
         stamina_drain += 80
         energy_drain += 70
 
-    if stamina_drain > 0:
-        target.set_stamina(target.get_stamina() - stamina_drain)
-    if energy_drain > 0:
-        target.set_energy(target.get_energy() - energy_drain)
-    if stamina_drain > 0 or energy_drain > 0:
-        mes.append(c_orgasm(f'{target.name} 体力-{stamina_drain}，气力-{energy_drain}！'))
+    if drain_fn is not None:
+        # 走命令层统一结算：体力归零强制结束调教/回家休息、气力归零神志不清、体力分区记账
+        if stamina_drain > 0 or energy_drain > 0:
+            drain_fn(stamina=stamina_drain, energy=energy_drain, chara=target)
+    else:
+        if stamina_drain > 0:
+            target.set_stamina(target.get_stamina() - stamina_drain)
+        if energy_drain > 0:
+            target.set_energy(target.get_energy() - energy_drain)
 
     climaxed_lv = [lv for _, lv in climaxed]
     if orgasm_num >= 2 and len(set(climaxed_lv)) == 1:
@@ -108,7 +113,7 @@ def orgasm_palam_juel_proc(palam_id: str, target: ShipGirl, orgasm_num: int = 1,
     target.set_exp('orgasm_exp', target.get_exp('orgasm_exp') + orgasm_lv)
 
 
-def orgasm_check_parts(target: ShipGirl):
+def orgasm_check_parts(target: ShipGirl, drain_fn=None):
     """绝顶检查，返回 (文案列表, 各部位绝顶等级dict, 绝顶部位数)"""
     if not isinstance(target, ShipGirl):
         return [], {}, 0
@@ -135,16 +140,16 @@ def orgasm_check_parts(target: ShipGirl):
 
     if orgasm_num > 0:
         # 绝顶
-        mes = orgasm_proc(orgasm_lv, target, orgasm_num)
+        mes = orgasm_proc(orgasm_lv, target, orgasm_num, drain_fn=drain_fn)
     else:
         mes = []
 
     return mes, orgasm_lv, orgasm_num
 
 
-def orgasm_check(target: ShipGirl):
+def orgasm_check(target: ShipGirl, drain_fn=None):
     """绝顶检查（仅返回文案，兼容旧调用）"""
     if not isinstance(target, ShipGirl):
         return []
-    mes, _, _ = orgasm_check_parts(target)
+    mes, _, _ = orgasm_check_parts(target, drain_fn=drain_fn)
     return mes

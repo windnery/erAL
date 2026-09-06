@@ -83,8 +83,11 @@ class NpcManager:
 
         # 更新秘书舰情况
         if self.secretary_ship:
-            self.secretary_ship.cflag['secretary_ship_following'] = True
             self.secretary_ship.cflag['secretary_ship'] = True
+            if self.secretary_ship.is_resting() or self.secretary_ship.is_sleeping():
+                # 秘书舰在休息/睡觉时，取消秘书舰同行状态
+                self.secretary_ship.cflag['secretary_ship_following'] = False
+            self.secretary_ship.cflag_set_attach('secretary_ship')
 
         for sg in self.shipgirls.values():
             # 情绪&理性&心情自然变化
@@ -131,7 +134,7 @@ class NpcManager:
                         break
 
             # 秘书舰
-            if sg == self.secretary_ship:
+            if self.secretary_ship and sg == self.secretary_ship:
                 # 设置秘书舰的附属状态
                 sg.cflag_set_attach('secretary_ship')
                 current = hour * 60 + minute
@@ -155,8 +158,8 @@ class NpcManager:
                     from game_engine.commands.interact.end_date import end_date
                     end_date(self.world, sg.id, True)
 
-            if sg.is_following():
-                # 同行中
+            if sg.is_following() and not sg.is_sleeping() and not sg.is_resting():
+                # 同行中(且不在休息/睡觉)
                 self.set_loc(sg.id, player.location['region'], player.location['node'])
 
             # 自由行动：根据推进时长影响移动概率
