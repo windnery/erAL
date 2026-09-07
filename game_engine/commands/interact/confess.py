@@ -2,14 +2,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
-    source_proc
-from game_engine.commands._common import say_chara_line
+from game_engine.commands._common import (
+    add_attitude_mes,
+    favor_trust_proc,
+    get_attitude,
+    global_can,
+    new_source,
+    say_chara_line,
+    source_proc,
+)
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.utils.text_color import c_talent
+
+from ...models.shipgirl import ShipGirl
 from .._commands import register_cmd
 from .._context import CommandContext
-from ...models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
     from world import World
@@ -33,10 +40,7 @@ def can(world: World, npc: ShipGirl):
     if npc.abl["intimacy_abl"] < 7:
         return False
     # 好感度低于800
-    if npc.favor < 800:
-        return False
-
-    return True
+    return not npc.favor < 800
 
 
 def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
@@ -92,7 +96,7 @@ def confess(world: World, option: str):
             }
         )
         # talent: 恋人
-        npc.set_talent("lover", 1)
+        npc.set_talent("lover", '1')
 
     # 通用source修正
     source = common_src_modify(source, npc)

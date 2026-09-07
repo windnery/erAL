@@ -2,7 +2,6 @@ from pathlib import Path
 
 from game_engine.logging_config import configure_logging
 
-
 FRONTEND_DIR = Path(__file__).parent / 'frontend'
 
 
@@ -11,6 +10,7 @@ def main():
     configure_logging()
 
     import webview
+
     from api import Api
 
     api = Api()

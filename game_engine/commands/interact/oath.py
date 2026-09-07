@@ -2,10 +2,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from game_engine.commands._common import favor_trust_proc, global_can, new_source, get_attitude, add_attitude_mes, \
-    source_proc
-from game_engine.commands._common import say_chara_line
+from game_engine.commands._common import (
+    add_attitude_mes,
+    favor_trust_proc,
+    get_attitude,
+    global_can,
+    new_source,
+    say_chara_line,
+    source_proc,
+)
 from game_engine.data_pipeline.common_src_modify import common_src_modify
+
 from ...models.shipgirl import ShipGirl
 
 if TYPE_CHECKING:
@@ -23,8 +30,8 @@ def can(world: World, npc: ShipGirl):
     # 工作中
     if npc.is_working():
         return False
-    # 关系未达到爱
-    if npc.get_talent_value("relationship") < 3:
+    # 关系未达到爱或已誓约
+    if npc.get_talent_value("relationship") < 3 or npc.get_talent_value("relationship") == 4:
         return False
     # 不是恋人
     if not npc.has_talent("lover"):
@@ -42,9 +49,7 @@ def can(world: World, npc: ShipGirl):
     if npc.trust < 1000:
         return False
     # 没有誓约之戒
-    if not world.item_manager.has_item("oath_ring"):
-        return False
-    return True
+    return world.item_manager.has_item("oath_ring")
 
 
 def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
@@ -63,7 +68,7 @@ def able(world: World, npc: ShipGirl) -> tuple[bool, str]:
     # 恋人
     if npc.has_talent("lover"):
         score += 60
-        mes = add_attitude_mes(mes, f"恋人(60)")
+        mes = add_attitude_mes(mes, "恋人(60)")
 
     if score >= success_score:
         mes += f"={score}≥{success_score} 成功！"
@@ -95,7 +100,7 @@ def oath(world: World, option: str):
     else:
         ctx.say(f"{npc.name}接受了你的求爱！亲手将戒指戴在了{npc.name}的指尖！")
         ctx.say(f"和{npc.name}的关系变成了[誓约]！")
-        ctx.say(f"是时候挑选良辰吉日举办婚礼了！")
+        ctx.say("是时候挑选良辰吉日举办婚礼了！")
         source: dict[str, int] = new_source(
             {
                 "love_source": 1000,
