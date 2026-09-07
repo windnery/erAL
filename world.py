@@ -1,6 +1,6 @@
+from config.attr_defs import ATTR_DEFS
 from config.cflag_config import NOT_MAPPING
 from config.palam_config import PALAM_LV
-from config.attr_defs import ATTR_DEFS
 from game_engine.data_pipeline.abl.abl_lv_check import abl_lv_process
 from game_engine.data_pipeline.juel.juel_calc import juel_calc
 from game_engine.data_pipeline.mood.mood_calc import roll_daily_mood
@@ -29,7 +29,7 @@ class World:
         self.command_manager = CommandManager(self)
         self.event_manager = EventManager(self)
         self.skin_manager = SkinManager(self.npc_manager)
-        self.item_manager = ItemManager(self.player)
+        self.item_manager = ItemManager(self.player, self.npc_manager)
         self.juus_manager = JuusManager(self)
         self.train_manager = TrainManager(self.npc_manager)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
@@ -146,7 +146,7 @@ class World:
         chara.cflag['tired'] = elapsed >= self.TIRED_THRESHOLD_MINUTES
 
     def _tired_drain(self, minutes: int):
-        """疲倦状态每分钟扣1点体力和气力；处理归零后果
+        """疲倦状态体力和气力处理；处理归零后果
         返回: 事件文本列表"""
         pages = []
         for chara in [self.player, *self.npc_manager.get_all_npcs()]:
@@ -156,8 +156,13 @@ class World:
                 continue
             if chara.cflag.get('sleeping') or chara.cflag.get('resting'):
                 continue
-            chara.set_stamina(chara.get_stamina() - minutes)
-            chara.set_energy(chara.get_energy() - minutes)
+
+            drain = minutes
+            if chara.cflag.get('caffeine'):
+                # 咖啡因：疲倦扣减减半（每2分钟扣1点）
+                drain = drain // 2
+            chara.set_stamina(chara.get_stamina() - drain)
+            chara.set_energy(chara.get_energy() - drain)
 
         # 玩家体力归零：昏倒日结
         if self.player.get_stamina() == 0:
@@ -242,6 +247,9 @@ class World:
         if sleep:
             sleep_minutes = self.time_manager.get_sleep_time()
 
+            # 睡觉解除咖啡因效果（舰娘走调度时 cflag_clear_except 自动清除）
+            self.player.cflag['caffeine'] = False
+
             # 体力和气力恢复，按8小时为满值恢复
             current_stamina = self.player.get_stamina()
             current_energy = self.player.get_energy()
@@ -256,7 +264,7 @@ class World:
             pages.append(f'睡了一觉（{sleep_minutes // 60}时{sleep_minutes % 60}分）\n体力+{self.player.get_stamina() - current_stamina}　气力+{self.player.get_energy() - current_energy}　精力+{self.player.get_vitality() - current_vitality}')
 
             # 舰娘回家睡觉
-            for sg_id, sg in self.npc_manager.shipgirls.items():
+            for sg_id in self.npc_manager.shipgirls:
                 sleep_loc = self.npc_manager.shipgirls_db[sg_id]['location']
                 self.npc_manager.set_loc(sg_id, sleep_loc['region'], sleep_loc['node'])
 
@@ -278,7 +286,7 @@ class World:
                 npc.set_stamina(npc.base['max_stamina'])
                 npc.set_energy(npc.base['max_energy'])
 
-            pages.append(f'强制休息了一段时间，恢复了全部体力与气力')
+            pages.append('强制休息了一段时间，恢复了全部体力与气力')
             # 体力耗尽也可能推进到深夜/次日，统一走调度，处理约会超时与舰娘回位
             self.npc_manager.update_positions(exhaustion_minutes, self.map_manager, self.player)
 

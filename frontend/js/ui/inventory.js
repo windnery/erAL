@@ -1,20 +1,24 @@
 // 道具背包（系统指令「道具」）
 // 数据源：item_manager.get_state() / item_manager.use_items()
 // 交互：
-//   - 点击道具 -> 选中（字体变黄），底部 desc 块显示描述
+//   - 点击道具 -> 选中（字体变黄），下方 desc 区显示描述
 //   - 仅选中 is_usable=true 的道具时「使用」可点
-//   - 使用成功：刷新列表（is_consumable 会减数量），留在背包
+//   - 「使用」对自己使用；「对选中目标使用(<名字>)」对当前选中舰娘使用（无选中目标时灰色）
+//   - 使用成功：显示效果消息，刷新列表（is_consumable 会减数量），留在背包
 //   - 「返回」：关面板，refresh 游戏界面
 
+import { call } from '../api.js';
 import { showToast } from './daily_shop.js';
 
 let inventoryItems = [];   // [{item_id, name, num, desc, is_consumable, is_usable, price}]
 let selectedItemId = null; // 当前选中的道具 id
-let invOnClose = null;     // 关闭回调（main.js 注入）
+let invOnClose = null;     // 关闭回调（main.js 注入，用于 refresh）
+let invCallbacks = null;   // main.js 注入的回调（getSelectedTarget / refresh）
 
 // 打开背包：拉取已拥有道具并渲染
-export async function openInventory(onClose) {
+export async function openInventory(onClose, callbacks) {
     invOnClose = onClose || null;
+    invCallbacks = callbacks || null;
     selectedItemId = null;
 
     const el = document.getElementById('inventory_screen');
@@ -38,7 +42,7 @@ async function loadInventory() {
     el.innerHTML = '';
 
     try {
-        const data = await window.pywebview.api.call('item_manager', 'get_state');
+        const data = await call('item_manager', 'get_state');
         // get_state 返回 {item_id: {name, num, desc, is_consumable, is_usable, price}}
         inventoryItems = Object.entries(data || {}).map(([item_id, info]) => ({
             item_id,
@@ -116,7 +120,25 @@ function renderDescBlock(el) {
     el.appendChild(desc);
 }
 
-// 底部：分界线 + 使用/返回
+// 使用道具：targetId 为 null 时对自己使用，否则对指定舰娘使用
+async function doUse(item, targetId) {
+    const result = await call('item_manager', 'use_items', item.item_id, 1, targetId || null);
+    // result: [ok, 消息列表]
+    if (result && result[0]) {
+        const msgs = result[1] || [];
+        if (msgs.length > 0 && invCallbacks && invCallbacks.showFullscreenText) {
+            // 效果消息复用全屏信息面板展示（与「会话」等指令同款分页幕）
+            invCallbacks.showFullscreenText(msgs);
+        }
+        // 使用成功：刷新背包（消耗品数量-1 或消失）+ 底层游戏界面（体力/气力等已变化）
+        await loadInventory();
+        if (invCallbacks && invCallbacks.refresh) await invCallbacks.refresh();
+    } else {
+        showToast((result && result[1] && result[1][0]) || '使用失败');
+    }
+}
+
+// 底部：分界线 + 使用（自己）/ 对选中目标使用 / 返回
 function renderBottomBar(el) {
     const oldBar = el.querySelector('.inv-bottom');
     if (oldBar) oldBar.remove();
@@ -129,29 +151,39 @@ function renderBottomBar(el) {
     divider.className = 'inv-divider';
     bar.appendChild(divider);
 
-    // 使用 / 返回
+    // 使用 / 对选中目标使用 / 返回
     const actionRow = document.createElement('div');
     actionRow.className = 'inv-actionrow';
 
     const selected = inventoryItems.find(i => i.item_id === selectedItemId);
-    // 使用：仅选中且 is_usable=true 可点
+    const target = (invCallbacks && invCallbacks.getSelectedTarget)
+        ? invCallbacks.getSelectedTarget() : null;
+
+    // 使用：对自己使用，仅选中且 is_usable=true 可点
     const useBtn = document.createElement('span');
     const canUse = selected && selected.is_usable;
     useBtn.className = 'inv-action' + (canUse ? '' : ' disabled');
     useBtn.textContent = '使用';
     if (canUse) {
         useBtn.onclick = async function () {
-            const result = await window.pywebview.api.call('item_manager', 'use_items', selected.item_id, 1);
-            // result: [ok, msg]
-            if (result && result[0]) {
-                // 使用成功：刷新背包（消耗品数量-1 或消失）
-                await loadInventory();
-            } else {
-                showToast((result && result[1]) || '使用失败');
-            }
+            await doUse(selected, null);
         };
     }
     actionRow.appendChild(useBtn);
+
+    // 对选中目标使用：需有道具可选、可用，且当前选中了舰娘
+    const useTargetBtn = document.createElement('span');
+    const canUseTarget = canUse && !!target;
+    useTargetBtn.className = 'inv-action' + (canUseTarget ? '' : ' disabled');
+    useTargetBtn.textContent = target
+        ? `对选中目标使用(${target.name})`
+        : '对选中目标使用';
+    if (canUseTarget) {
+        useTargetBtn.onclick = async function () {
+            await doUse(selected, target.id);
+        };
+    }
+    actionRow.appendChild(useTargetBtn);
 
     // 返回
     const backBtn = document.createElement('span');

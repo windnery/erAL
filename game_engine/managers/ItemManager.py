@@ -1,14 +1,20 @@
-from data.data_loader import load_items
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+from data.data_loader import load_items
+from game_engine.items import effect
 from game_engine.models.player import Player
+
+if TYPE_CHECKING:
+    from game_engine.managers.NpcManager import NpcManager
 
 
 class ItemManager:
     """道具管理器"""
-    def __init__(self, player: Player):
+    def __init__(self, player: Player, npc_manager: 'NpcManager|None'=None):
         # 玩家
         self.player = player
+        # 舰娘管理器：按 id 解析「对选中目标使用」的目标
+        self.npc_manager = npc_manager
         # 道具数据库
         self.items_db: dict[str, dict[str, Any]] = load_items()
         # 玩家的道具
@@ -31,15 +37,29 @@ class ItemManager:
         """获得道具"""
         self.items[item_id] = self.items.get(item_id, 0) + num
 
-    def use_items(self, item_id: str, num: int=1):
-        """使用道具：返回 (是否成功, 消息)
-        is_usable=False 的道具不可使用；is_consumable=True 使用时消耗
+    def use_items(self, item_id: str, num: int=1, target_id: str|None=None):
+        """使用道具：返回 (是否成功, 消息列表)
+        is_usable 校验由前端按钮 disabled 承担，后端不重复校验；
+        is_consumable=True 使用时消耗。
+        target_id 为舰娘 id 时对舰娘使用，否则默认对自己（玩家）使用。
         """
+        mes_lst: list[str] = []
         info = self.items_db[item_id]
+        if target_id is not None:
+            target = self.npc_manager.shipgirls.get(target_id) if self.npc_manager else None
+            if target is None:
+                return False, [f'目标不存在（{target_id}）']
+        else:
+            target = self.player
         if info.get('is_consumable', False):
             self.items[item_id] = self.items.get(item_id, 0) - num
-        # TODO: 道具的效果后续补充
-        return True, ''
+            mes_lst.append(f'使用了 {info["name"]} x{num}')
+        # 道具效果
+        effect_func = getattr(effect, item_id, None)
+        if effect_func:
+            mes_lst += effect_func(target)
+
+        return True, mes_lst
 
     def buy_items(self, item_id: str, num: int=1):
         """购买道具"""
@@ -47,7 +67,7 @@ class ItemManager:
         if self.player.get_money() >= total_price:
             self.player.set_money(self.player.get_money() - total_price)
             self.gain_items(item_id, num)
-            return True, f'购买成功！'
+            return True, '购买成功！'
         return False, f'资金不足：需要 {total_price}，当前 {self.player.money}'
 
 
@@ -58,3 +78,7 @@ class ItemManager:
     def get_shop_items(self):
         """返回商店道具"""
         return self.items_db
+
+    def get_item_name_by_id(self, item_id: str):
+        """根据道具ID获取道具名称"""
+        return self.items_db[item_id]['name']

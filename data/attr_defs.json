@@ -221,6 +221,10 @@
       "name": "已见过面",
       "default": false,
       "is_shown": false
+    },
+    "caffeine": {
+      "name": "咖啡因",
+      "default": false
     }
   },
   "exp": {

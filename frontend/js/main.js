@@ -275,8 +275,8 @@ async function refresh() {
     if (selectedNpcId && !validIds.includes(selectedNpcId)) {
         selectedNpcId = null;
     }
-    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, openJuus, openMap, toggleActor, toggleTarget, cancelContinuousCmd };
-    renderStatusBar(state.location, state.time, state.player);
+    const callbacks = { doCmd, getCmdOptions, refresh, showFullscreenText, showFullscreenOptions, getSelectedNpc: () => selectedNpcId, getSelectedTarget: () => { const npc = currentNearby.find(n => n.id === selectedNpcId); return npc ? { id: npc.id, name: npc.name } : null; }, showCharaInfo, showPlayerInfo: showPlayerInfoPanel, openSkinShop, openDailyShop, openInventory, openJuus, openMap, toggleActor, toggleTarget, cancelContinuousCmd };
+    renderStatusBar(state.location, state.time, state.player, state.cflag_defs);
 
     // 若有挂起的事件选择，直接展示选项幕
     if (state.pending_choice) {

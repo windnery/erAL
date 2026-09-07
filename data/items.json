@@ -5,5 +5,26 @@
     "is_usable": false,
     "desc": "象征着永恒的钻戒，寄托与心爱之人携手共度余生的誓言。可用来和舰娘誓约，誓约失败不会消耗。",
     "price": 1000
+  },
+  "royal_tea": {
+    "name": "皇家红茶",
+    "is_consumable": true,
+    "is_usable": true,
+    "desc": "皇家红茶，口感醇厚，香气浓郁。饮用后可以恢复少量体力和气力。",
+    "price": 50
+  },
+  "ice_cola": {
+    "name": "冰可乐",
+    "is_consumable": true,
+    "is_usable": true,
+    "desc": "冰镇可乐，清凉解渴。饮用后可以恢复少量气力。若对舰娘使用，有概率变为好心情（好心情以上不变）。",
+    "price": 30
+  },
+  "caffe": {
+    "name": "咖啡",
+    "is_consumable": true,
+    "is_usable": true,
+    "desc": "提神醒脑的咖啡，打工人必备！饮用后可以恢复中量气力。疲倦的影响变小，效果持续到睡觉。",
+    "price": 80
   }
 }

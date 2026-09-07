@@ -7,7 +7,8 @@
 //   - 点「购买」 -> 调 buy_items(item_id, num)，成功留在商店（道具无限量，不消失）+ 同步金钱
 //   - 点「返回」 -> 关闭商店，refresh 游戏界面
 
-import { getState } from '../api.js';
+import { call, getState } from '../api.js';
+import { parseColoredMessage } from './colored_text.js';
 
 let shopItems = [];        // 商店在售道具列表
 let selectedItemId = null; // 当前选中的道具 id
@@ -54,7 +55,7 @@ async function loadShopItems() {
     el.innerHTML = '';
 
     try {
-        const data = await window.pywebview.api.call('item_manager', 'get_shop_items');
+        const data = await call('item_manager', 'get_shop_items');
         // items_db 是 {item_id: {name, desc, price, ...}}，转成列表
         shopItems = Object.entries(data || {}).map(([item_id, info]) => ({
             item_id,
@@ -123,7 +124,7 @@ function renderAll() {
     renderBottomBar(el);
 }
 
-// 描述块：选中道具时显示 desc，未选中为空
+// 描述区：固定展示区域，选中道具时显示 desc，未选中为空
 function renderDescBlock(el) {
     const desc = document.createElement('div');
     desc.className = 'daily-shop-desc';
@@ -174,36 +175,39 @@ function renderBottomBar(el) {
     const actionRow = document.createElement('div');
     actionRow.className = 'daily-shop-actionrow';
 
-    // 购买（选中 + 数量>0 + 资金足够 才可点）
-    const selected = shopItems.find(i => i.item_id === selectedItemId);
-    const selectedCount = selected ? (buyCounts[selected.item_id] || 0) : 0;
-    const totalPrice = selected ? selected.price * selectedCount : 0;
-    const canBuy = selected && selectedCount > 0 && playerMoney >= totalPrice;
+    // 购买对象是「所有购买数量>0 的道具」合集，总价为它们的总和
+    const entries = shopItems.filter(i => (buyCounts[i.item_id] || 0) > 0);
+    const totalPrice = entries.reduce((sum, i) => sum + i.price * buyCounts[i.item_id], 0);
+    const canBuy = entries.length > 0 && playerMoney >= totalPrice;
     const buyBtn = document.createElement('span');
     buyBtn.className = 'daily-shop-action' + (canBuy ? '' : ' disabled');
     buyBtn.textContent = '购买';
     if (canBuy) {
         buyBtn.onclick = async function () {
-            const result = await window.pywebview.api.call('item_manager', 'buy_items', selected.item_id, selectedCount);
-            // result: [ok, msg]
-            if (result && result[0]) {
-                await refreshMoneyDisplay();
-                await loadPlayerMoney();
-                // 成功：数量清零（道具常驻），留在商店
-                buyCounts[selected.item_id] = 0;
-                renderAll();
-            } else {
-                // 失败：轻提示原因，留在商店
-                showToast((result && result[1]) || '购买失败');
+            // 依次购买所有数量>0的道具；中途失败（如资金不足）则提示并停止
+            for (const item of shopItems) {
+                const count = buyCounts[item.item_id] || 0;
+                if (count <= 0) continue;
+                const result = await call('item_manager', 'buy_items', item.item_id, count);
+                if (result && result[0]) {
+                    // 成功：数量清零（道具常驻，不消失）
+                    buyCounts[item.item_id] = 0;
+                } else {
+                    showToast((result && result[1]) || '购买失败');
+                    break;
+                }
             }
+            await refreshMoneyDisplay();
+            await loadPlayerMoney();
+            renderAll();
         };
     }
     actionRow.appendChild(buyBtn);
 
-    // 总花费提示
+    // 总花费提示（有任一数量>0 时展示合计）
     const totalSpan = document.createElement('span');
     totalSpan.className = 'daily-shop-total';
-    totalSpan.textContent = selected ? `(总花费：¥${totalPrice})` : '';
+    totalSpan.textContent = entries.length > 0 ? `(总花费：¥${totalPrice})` : '';
     actionRow.appendChild(totalSpan);
 
     // 返回
@@ -249,7 +253,7 @@ async function refreshMoneyDisplay() {
     }
 }
 
-// 轻提示条：界面内短暂显示消息，不打断操作
+// 轻提示条：界面内短暂显示消息，不打断操作；支持 [[c:#...]]彩色标记
 let toastTimer = null;
 export function showToast(msg) {
     let toast = document.getElementById('shop_toast');
@@ -259,7 +263,15 @@ export function showToast(msg) {
         toast.className = 'shop-toast';
         document.body.appendChild(toast);
     }
-    toast.textContent = msg;
+    // 解析彩色标记（多条消息用全角空格连接），逐段渲染为带色 span
+    const text = Array.isArray(msg) ? msg.join('　') : msg;
+    toast.innerHTML = '';
+    for (const node of parseColoredMessage(text)) {
+        const span = document.createElement('span');
+        span.textContent = node.text;
+        if (node.color) span.style.color = node.color;
+        toast.appendChild(span);
+    }
     toast.style.display = 'block';
     toast.style.opacity = '1';
     if (toastTimer) clearTimeout(toastTimer);

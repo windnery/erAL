@@ -1,4 +1,4 @@
-export function renderStatusBar(location, time, player) {
+export function renderStatusBar(location, time, player, cflagDefs) {
     const dayElement = document.getElementById('day');
     const timeElement = document.getElementById('time');
     const periodElement = document.getElementById('period');
@@ -28,7 +28,30 @@ export function renderStatusBar(location, time, player) {
     document.getElementById('vitality_fill').style.width = vitPct + '%';
     document.getElementById('vitality_text').textContent = player.base.vitality + '/' + player.base.max_vitality;
 
-    // 疲倦标记（精力条后面，红色）
-    const tiredEl = document.getElementById('player_tired');
-    tiredEl.style.display = player.cflag && player.cflag.tired ? '' : 'none';
+    // cflag 状态标记（精力条后面）：与舰娘信息面板同规则——
+    // 仅显示 true 且 is_shown!==false 的项，按 cflag_defs 映射名字，疲倦红色
+    const flagsEl = document.getElementById('player_flags');
+    flagsEl.innerHTML = '';
+    const flags = Object.entries(player.cflag || {})
+        .filter(([k, v]) => {
+            if (v !== true) return false;
+            const def = cflagDefs && cflagDefs[k];
+            return !(def && typeof def === 'object' && def.is_shown === false);
+        })
+        .map(([k]) => {
+            const def = cflagDefs && cflagDefs[k];
+            if (def && typeof def === 'object') {
+                return def.name || k;
+            }
+            return def || k;
+        });
+    const flagColors = { '疲倦': '#ff4d4f' };
+    for (const f of flags) {
+        const flagSpan = document.createElement('span');
+        if (flagColors[f]) {
+            flagSpan.style.color = flagColors[f];
+        }
+        flagSpan.textContent = ` [${f}]`;
+        flagsEl.appendChild(flagSpan);
+    }
 }

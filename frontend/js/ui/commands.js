@@ -58,7 +58,7 @@ function makeCmdSpan(cmd, callbacks, type) {
                 return;
             }
             if (cmd.key === 'items') {
-                callbacks.openInventory(callbacks.refresh);
+                callbacks.openInventory(callbacks.refresh, callbacks);
                 return;
             }
             if (cmd.key === 'juus') {
