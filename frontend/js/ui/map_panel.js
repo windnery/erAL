@@ -2,7 +2,8 @@ import { getMapView, doCmd } from '../api.js';
 
 /**
  * 移动指令的双模式入口（由 commands.js 的 move 指令触发）
- * - 有字符画的区域：渲染 eratw 风格 ASCII 地图，点击 [记号] 移动 / [离开] 切换区域
+ * - 有字符画的区域：在全屏面板（fullscreen_options 容器）中渲染 eratw 风格 ASCII 地图，
+ *   点击 [记号] 移动 / [离开] 切换区域，底部 [返回] 关闭
  * - 无字符画的区域：回退到旧版文字列表（地图补全后移除）
  */
 
@@ -26,7 +27,7 @@ export async function openMap(callbacks) {
 }
 
 function closeMap() {
-    const el = document.getElementById('map_screen');
+    const el = document.getElementById('fullscreen_options');
     el.style.display = 'none';
     el.innerHTML = '';
 }
@@ -42,25 +43,8 @@ function showMoveResult(result, callbacks) {
 }
 
 function renderMap(view, callbacks) {
-    const screen = document.getElementById('map_screen');
-    screen.innerHTML = '';
-
-    const panel = document.createElement('div');
-    panel.className = 'map-panel';
-
-    // 标题栏
-    const title = document.createElement('div');
-    title.className = 'map-title';
-    const regionName = document.createElement('span');
-    regionName.className = 'map-region-name';
-    regionName.textContent = `【${view.region_name}】`;
-    const closeBtn = document.createElement('span');
-    closeBtn.className = 'map-close';
-    closeBtn.textContent = '[返回]';
-    closeBtn.onclick = closeMap;
-    title.appendChild(regionName);
-    title.appendChild(closeBtn);
-    panel.appendChild(title);
+    const el = document.getElementById('fullscreen_options');
+    el.innerHTML = '';
 
     // 字符画主体：逐行扫描，记号包成可点击 span（行内元素天然贴在画上，无需定位）
     const pre = document.createElement('div');
@@ -68,10 +52,24 @@ function renderMap(view, callbacks) {
     for (const line of view.lines) {
         pre.appendChild(renderLine(line, view, callbacks));
     }
-    panel.appendChild(pre);
+    el.appendChild(pre);
 
-    screen.appendChild(panel);
-    screen.style.display = 'flex';
+    // 底部 [返回]：关闭全屏地图并刷新主界面
+    const footer = document.createElement('div');
+    footer.className = 'map-footer';
+    const backBtn = document.createElement('span');
+    backBtn.className = 'map-close';
+    backBtn.textContent = '[返回]';
+    backBtn.onclick = () => {
+        closeMap();
+        if (callbacks.refresh) callbacks.refresh();
+    };
+    footer.appendChild(backBtn);
+    el.appendChild(footer);
+
+    // 与 showFullscreenOptions 同款行为：隐藏主界面，显示全屏容器
+    document.getElementById('game_screen').style.display = 'none';
+    el.style.display = 'block';
 }
 
 const TILE_CLASS_MAP = {
@@ -127,13 +125,14 @@ function makeToken(token, meta, view, callbacks) {
 
     if (meta.exit) {
         // 出口记号：打开区域选择（沿用 leave 指令的选项列表）
+        // 注意：区域选择列表与地图共用 fullscreen_options 容器，选择列表会覆盖地图画面
         span.className = 'map-token';
         span.onclick = async () => {
             const options = await callbacks.getCmdOptions('leave');
             callbacks.showFullscreenOptions(options, async (opt) => {
-                // 取消：主界面被隐藏，必须 refresh 恢复，否则空屏
+                // 取消：重新拉取视图渲染地图（选择列表已覆盖地图画面）
                 if (opt.key === 'return') {
-                    callbacks.refresh();
+                    await openMap(callbacks);
                     return;
                 }
                 const result = await doCmd('leave', opt.key);

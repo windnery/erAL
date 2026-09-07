@@ -10,36 +10,8 @@
 }
 
 /* ==========================================================================
-   字符画地图面板 (ASCII Map Panel)
+   字符画地图（渲染于 fullscreen_options 全屏容器内，容器样式见 fullscreen_dialog.css）
    ========================================================================== */
-#map_screen {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.82);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    backdrop-filter: blur(2px);
-}
-
-.map-panel {
-    background-color: var(--color-bg-panel);
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.95);
-    padding: 20px 28px;
-    max-width: 95vw;
-    max-height: 92vh;
-    overflow: auto;
-}
-
-.map-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 12px;
-}
-
 .map-tile-wall {
     color: #806040;
 }
@@ -62,10 +34,6 @@
     color: #342724;
 }
 
-.map-title .map-region-name {
-    font-size: 16px;
-}
-
 .map-close {
     font-size: 16px;
     color: var(--color-text-main);
@@ -74,6 +42,11 @@
 
 .map-close:hover {
     color: var(--color-hover);
+}
+
+/* 底部指令行：[返回] 等 */
+.map-footer {
+    margin-top: 16px;
 }
 
 .map-art {
