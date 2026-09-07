@@ -1,7 +1,7 @@
-from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import NEGATIVE_SRC, POSITIVE_SRC
 
 # abl等级上限
-JUEL2ABL_MAX_LV: int = 13
+JUEL2ABL_MAX_LV: int = 10
 EXP2ABL_MAX_LV: int = 6
 
 # exp->abl升级规则
@@ -13,14 +13,7 @@ ABL_LV: dict[int, int] = {
     3: 20,
     4: 50,
     5: 200,
-    6: 500,
-    # 7: 1000,
-    # 8: 2000,
-    # 9: 3000,
-    # 10: 4000,
-    # 11: 5000,
-    # 12: 6000,
-    # 13: 10000
+    6: 500
 }
 
 EXP_LV: dict[int, int] = {

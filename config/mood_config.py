@@ -31,9 +31,9 @@ MOOD_MAX_PROB = 90
 MOOD_DECAY_INTERVAL = 120
 
 # 心情对source的修正参数
-BLISS_POSITIVE_K = 1.5  # 幸福对正向source的修正参数
-GOOD_POSITIVE_K = 1.2   # 好心情对正向source的修正参数
+BLISS_POSITIVE_K = 1.3  # 幸福对正向source的修正参数
+GOOD_POSITIVE_K = 1.1   # 好心情对正向source的修正参数
 BAD_POSITIVE_K = 0.8    # 愤怒对正向source的修正参数
-BLISS_NEGATIVE_K = 0.7  # 幸福对负向source的修正参数
+BLISS_NEGATIVE_K = 0.8  # 幸福对负向source的修正参数
 GOOD_NEGATIVE_K = 0.9   # 好心情对负向source的修正参数
 BAD_NEGATIVE_K = 1.5    # 愤怒对负向source的修正参数

@@ -1,4 +1,4 @@
-from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import NEGATIVE_SRC, POSITIVE_SRC
 from game_engine.data_pipeline.abl.abl2src import abl2src
 from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
 from game_engine.data_pipeline.favor.favor2src import favor2source
@@ -37,7 +37,7 @@ def common_src_modify(source: dict[str, int | float], chara: Character) -> dict[
 
     # 约会状态下source的修正
     if isinstance(chara, ShipGirl) and chara.is_dating():
-        source = {k: (source[k] * 1.2) for k in POSITIVE_SRC} | {k: (source[k] * 0.8) for k in NEGATIVE_SRC}
+        source = {k: (source[k] * 1.1) for k in POSITIVE_SRC} | {k: (source[k] * 0.9) for k in NEGATIVE_SRC}
 
     # 情绪&理性、心情对source的修正
     if isinstance(chara, ShipGirl):

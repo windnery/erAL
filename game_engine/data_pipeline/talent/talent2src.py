@@ -1,4 +1,4 @@
-from config.source_config import ALL_SOURCE_KEYS, POSITIVE_SRC, NEGATIVE_SRC
+from config.source_config import ALL_SOURCE_KEYS, NEGATIVE_SRC, POSITIVE_SRC
 from config.talent_config import TALENT2SRC_SET
 from game_engine.models.character import Character
 
@@ -42,33 +42,33 @@ def _relationship2src(flag: str, source: dict[str, int | float]):
         for p in POSITIVE_SRC:
             source[p] *= 1.2
         for n in NEGATIVE_SRC:
-            source[n] *= 0.8
+            source[n] *= 0.9
     elif flag == '2':
         # 喜欢
         for p in POSITIVE_SRC:
             source[p] *= 1.5
         for n in NEGATIVE_SRC:
-            source[n] *= 0.6
+            source[n] *= 0.75
     elif flag == '3':
         # 爱
         for p in POSITIVE_SRC:
-            source[p] *= 2.0
+            source[p] *= 1.7
         for n in NEGATIVE_SRC:
-            source[n] *= 0.4
+            source[n] *= 0.6
     else:
         # 誓约
         for p in POSITIVE_SRC:
-            source[p] *= 3.0
+            source[p] *= 2.0
         for n in NEGATIVE_SRC:
-            source[n] *= 0.1
+            source[n] *= 0.5
 
 
 def _lover2src(source: dict[str, int | float]):
     """恋人对source的修正"""
     for p in POSITIVE_SRC:
-        source[p] *= 1.5
+        source[p] *= 1.2
     for n in NEGATIVE_SRC:
-        source[n] *= 0.7
+        source[n] *= 0.8
 
 
 def _courage2src(flag: str, source: dict[str, int | float]):
@@ -420,23 +420,23 @@ def _pleasure_response2src(flag: str, source: dict[str, int | float]):
 
 def _vaginal_fan2src(source: dict[str, int | float]):
     """淫壶对source的修正"""
-    source['c_pleasure_source'] *= 2.0
-    source['v_pleasure_source'] *= 2.0
+    source['c_pleasure_source'] *= 1.5
+    source['v_pleasure_source'] *= 1.5
 
 
 def _anal_fan2src(source: dict[str, int | float]):
     """淫尻对source的修正"""
-    source['a_pleasure_source'] *= 2.0
+    source['a_pleasure_source'] *= 1.5
 
 
 def _breast_fan2src(source: dict[str, int | float]):
     """淫乳对source的修正"""
-    source['b_pleasure_source'] *= 2.0
+    source['b_pleasure_source'] *= 1.5
 
 
 def _oral_fan2src(source: dict[str, int | float]):
     """淫舌对source的修正"""
-    source['m_pleasure_source'] *= 2.0
+    source['m_pleasure_source'] *= 1.5
 
 
 def _c_sensitivity2src(flag: str, source: dict[str, int | float]):
@@ -446,19 +446,16 @@ def _c_sensitivity2src(flag: str, source: dict[str, int | float]):
         source['c_pleasure_source'] *= 0.7
     elif flag == '1':
         # 敏感
-        source['c_pleasure_source'] *= 1.3
+        source['c_pleasure_source'] *= 1.2
     elif flag == '2':
         # 过敏
-        source['c_pleasure_source'] *= 1.6
+        source['c_pleasure_source'] *= 1.5
     elif flag == '3':
         # 超敏
-        source['c_pleasure_source'] *= 2.0
+        source['c_pleasure_source'] *= 1.7
     elif flag == '4':
-        # 极敏
-        source['c_pleasure_source'] *= 2.5
-    elif flag == '5':
         # 一触即溃
-        source['c_pleasure_source'] *= 3.0
+        source['c_pleasure_source'] *= 2.0
 
 
 def _v_sensitivity2src(flag: str, source: dict[str, int | float]):
@@ -468,19 +465,16 @@ def _v_sensitivity2src(flag: str, source: dict[str, int | float]):
         source['v_pleasure_source'] *= 0.7
     elif flag == '1':
         # 敏感
-        source['v_pleasure_source'] *= 1.3
+        source['v_pleasure_source'] *= 1.2
     elif flag == '2':
         # 过敏
-        source['v_pleasure_source'] *= 1.6
+        source['v_pleasure_source'] *= 1.5
     elif flag == '3':
         # 超敏
-        source['v_pleasure_source'] *= 2.0
+        source['v_pleasure_source'] *= 1.7
     elif flag == '4':
-        # 极敏
-        source['v_pleasure_source'] *= 2.5
-    elif flag == '5':
         # 一触即溃
-        source['v_pleasure_source'] *= 3.0
+        source['v_pleasure_source'] *= 2.0
 
 
 def _a_sensitivity2src(flag: str, source: dict[str, int | float]):
@@ -490,19 +484,16 @@ def _a_sensitivity2src(flag: str, source: dict[str, int | float]):
         source['a_pleasure_source'] *= 0.7
     elif flag == '1':
         # 敏感
-        source['a_pleasure_source'] *= 1.3
+        source['a_pleasure_source'] *= 1.2
     elif flag == '2':
         # 过敏
-        source['a_pleasure_source'] *= 1.6
+        source['a_pleasure_source'] *= 1.5
     elif flag == '3':
         # 超敏
-        source['a_pleasure_source'] *= 2.0
+        source['a_pleasure_source'] *= 1.7
     elif flag == '4':
-        # 极敏
-        source['a_pleasure_source'] *= 2.5
-    elif flag == '5':
         # 一触即溃
-        source['a_pleasure_source'] *= 3.0
+        source['a_pleasure_source'] *= 2.0
 
 
 def _b_sensitivity2src(flag: str, source: dict[str, int | float]):
@@ -512,19 +503,16 @@ def _b_sensitivity2src(flag: str, source: dict[str, int | float]):
         source['b_pleasure_source'] *= 0.7
     elif flag == '1':
         # 敏感
-        source['b_pleasure_source'] *= 1.3
+        source['b_pleasure_source'] *= 1.2
     elif flag == '2':
         # 过敏
-        source['b_pleasure_source'] *= 1.6
+        source['b_pleasure_source'] *= 1.5
     elif flag == '3':
         # 超敏
-        source['b_pleasure_source'] *= 2.0
+        source['b_pleasure_source'] *= 1.7
     elif flag == '4':
-        # 极敏
-        source['b_pleasure_source'] *= 2.5
-    elif flag == '5':
         # 一触即溃
-        source['b_pleasure_source'] *= 3.0
+        source['b_pleasure_source'] *= 2.0
 
 
 def _m_sensitivity2src(flag: str, source: dict[str, int | float]):
@@ -534,19 +522,16 @@ def _m_sensitivity2src(flag: str, source: dict[str, int | float]):
         source['m_pleasure_source'] *= 0.7
     elif flag == '1':
         # 敏感
-        source['m_pleasure_source'] *= 1.3
+        source['m_pleasure_source'] *= 1.2
     elif flag == '2':
         # 过敏
-        source['m_pleasure_source'] *= 1.6
+        source['m_pleasure_source'] *= 1.5
     elif flag == '3':
         # 超敏
-        source['m_pleasure_source'] *= 2.0
+        source['m_pleasure_source'] *= 1.7
     elif flag == '4':
         # 极敏
-        source['m_pleasure_source'] *= 2.5
-    elif flag == '5':
-        # 一触即溃
-        source['m_pleasure_source'] *= 3.0
+        source['m_pleasure_source'] *= 2.0
 
 
 def _bra_size2src(flag: str, source: dict[str, int | float]):

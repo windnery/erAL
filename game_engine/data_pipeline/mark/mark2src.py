@@ -1,5 +1,11 @@
-from config.mark_config import MARK_PAIN2SRC, MARK_PLEASURE2SRC, MARK_SUBMISSION2POS, MARK_SUBMISSION2NEG, \
-    MARK_DISAPPOINTMENT2POS, MARK_DISAPPOINTMENT2NEG
+from config.mark_config import (
+    MARK_DISAPPOINTMENT2NEG,
+    MARK_DISAPPOINTMENT2POS,
+    MARK_PAIN2SRC,
+    MARK_PLEASURE2SRC,
+    MARK_SUBMISSION2NEG,
+    MARK_SUBMISSION2POS,
+)
 
 
 def mark2src(mark: dict[str, int], source: dict[str, int | float]):

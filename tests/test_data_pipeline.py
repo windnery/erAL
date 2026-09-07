@@ -401,7 +401,7 @@ class TestCommonSrcModify:
         assert result['love_source'] == 1040
 
     def test_dating_state_modifies_source(self, world, z23_nearby, source_dict):
-        """约会状态下正向 source 放大 1.2 倍（uniform 已移除，无随机）"""
+        """约会状态下正向 source 放大 1.1 倍（uniform 已移除，无随机）"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
         src = dict(source_dict)
         src['love_source'] = 1000
@@ -410,8 +410,8 @@ class TestCommonSrcModify:
         z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         z23_nearby.cflag['dating'] = True
         result = common_src_modify(src, z23_nearby)
-        # 1000 * 1.3 * 0.8(relationship0) * 1.2(dating) * 1.0(emo/rat默认) = 1248
-        assert result['love_source'] == 1248
+        # 1000 * 1.3 * 0.8(relationship0) * 1.1(dating) * 1.0(emo/rat默认) = 1144
+        assert result['love_source'] == 1144
 
 
 class TestExpCalc:
@@ -435,11 +435,11 @@ class TestOrgasmDrain:
         z23.set_energy(1000)
         z23.exp['c_orgasm_exp'] = 0
         z23.exp['orgasm_exp'] = 0
-        # C 绝顶 lv1: 体力-20, 气力-10
+        # C 绝顶 lv1: 体力-2, 气力-3
         orgasm_lv = {'c_pleasure_palam': 1, 'v_pleasure_palam': 0, 'a_pleasure_palam': 0, 'b_pleasure_palam': 0, 'm_pleasure_palam': 0}
         orgasm_proc(orgasm_lv, z23, 1)
-        assert z23.get_stamina() == 980
-        assert z23.get_energy() == 990
+        assert z23.get_stamina() == 998
+        assert z23.get_energy() == 997
         assert z23.exp['c_orgasm_exp'] == 1
         assert z23.exp['orgasm_exp'] == 1
 
@@ -448,12 +448,12 @@ class TestOrgasmDrain:
         from game_engine.data_pipeline.palam.orgasm_calc import orgasm_proc
         z23.set_stamina(1000)
         z23.set_energy(1000)
-        # C(20) + V(30) + 2重额外(10) = 60 体力
-        # C(10) + V(20) + 2重额外(5) = 35 气力
+        # C(2) + V(3) + 2重额外(5) = 10 体力
+        # C(3) + V(4) + 2重额外(10) = 17 气力
         orgasm_lv = {'c_pleasure_palam': 1, 'v_pleasure_palam': 1, 'a_pleasure_palam': 0, 'b_pleasure_palam': 0, 'm_pleasure_palam': 0}
         orgasm_proc(orgasm_lv, z23, 2)
-        assert z23.get_stamina() == 940
-        assert z23.get_energy() == 965
+        assert z23.get_stamina() == 990
+        assert z23.get_energy() == 983
 
 
 class TestAblPrerequisites:

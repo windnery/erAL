@@ -1,5 +1,5 @@
-from config.source_config import POSITIVE_SRC, NEGATIVE_SRC
 from config import mood_config
+from config.source_config import NEGATIVE_SRC, POSITIVE_SRC
 
 
 def mood2src(mood: int, source: dict[str, int | float]):

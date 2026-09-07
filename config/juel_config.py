@@ -1,6 +1,7 @@
 from game_engine.models.character import Character
-from .palam_config import PALAM_LV
+
 from .abl_config import EXP_LV
+from .palam_config import PALAM_LV
 
 JUEL_GET: dict[int, int] = {
     PALAM_LV[1]: 0,
