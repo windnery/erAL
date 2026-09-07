@@ -161,6 +161,8 @@ class SaveManager:
 
             from game_engine.models.shipgirl import ShipGirl
             for sg_id, st in d['shipgirls'].items():
+                if sg_id not in self.world.npc_manager.shipgirls_db:
+                    continue
                 sg = ShipGirl(**self.world.npc_manager.shipgirls_db[sg_id])
                 sg.location = st['location']
                 sg.base = st['base']
@@ -189,7 +191,8 @@ class SaveManager:
 
             sec_id = d['secretary_ship_id']
             self.world.npc_manager.secretary_ship = (
-                self.world.npc_manager.shipgirls[sec_id] if sec_id else None
+                self.world.npc_manager.shipgirls[sec_id]
+                if sec_id and sec_id in self.world.npc_manager.shipgirls else None
             )
             self.world.player.update_palam_level()
 
