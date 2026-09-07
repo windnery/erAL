@@ -105,7 +105,12 @@ function showFullscreenOptions(options, onPick, promptText = null) {
     if (promptText) {
         const prompt = document.createElement('div');
         prompt.className = 'option-prompt';
-        prompt.textContent = promptText;
+        for (const node of parseColoredMessage(promptText)) {
+            const span = document.createElement('span');
+            span.textContent = node.text;
+            if (node.color) span.style.color = node.color;
+            prompt.appendChild(span);
+        }
         el.appendChild(prompt);
     }
 

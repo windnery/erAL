@@ -96,6 +96,8 @@ class SaveManager:
                 'events': world.event_manager.get_state(),
                 # 啾信系统
                 'juus': world.juus_manager.serialize(),
+                # 移动系统
+                'movement': world.movement_manager.serialize(),
                 'train': None if train is None else {
                     'location': train.location,
                     'actors': list(train.actors),
@@ -216,6 +218,9 @@ class SaveManager:
 
             juus_data = d.get('juus')
             self.world.juus_manager.deserialize(juus_data)
+
+            if hasattr(self.world, 'movement_manager'):
+                self.world.movement_manager.deserialize(d.get('movement'))
 
             train_state = d.get('train')
             if train_state is None:

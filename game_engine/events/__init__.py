@@ -6,6 +6,7 @@ from game_engine.managers.EventManager import EventManager
 
 # 导入所有内置事件子模块以完成自动注册
 import game_engine.events.date
+import game_engine.events.movement_encounter
 
 __all__ = [
     'EventManager',

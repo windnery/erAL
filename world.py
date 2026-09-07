@@ -12,6 +12,7 @@ from game_engine.managers.JuusManager import JuusManager
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.managers.SaveManager import SaveManager
+from game_engine.managers.MovementManager import MovementManager
 from game_engine.managers.SkinManager import SkinManager
 from game_engine.managers.TimeManager import TimeManager
 from game_engine.managers.TrainManager import TrainManager
@@ -32,6 +33,7 @@ class World:
         self.item_manager = ItemManager(self.player, self.npc_manager)
         self.juus_manager = JuusManager(self)
         self.train_manager = TrainManager(self.npc_manager)
+        self.movement_manager = MovementManager(self)
         # 缓冲菜单状态：游戏开始/每天日终后为 True，点“睁开眼睛”后为 False
         self.menu_active = True
         self.save_manager = SaveManager(self)

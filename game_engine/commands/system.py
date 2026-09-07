@@ -11,51 +11,20 @@ if TYPE_CHECKING:
 
 @register_cmd('leave', '离开当前区域', '系统', needs_target=False)
 def leave(world: World, option: str):
-    """离开当前区域"""
+    """离开当前区域（三段式复合流水线）"""
     if option == 'return':
         # 取消离开
         return None
-    player = world.player
-    map_manager = world.map_manager
-    current_region = player.location['region']
-    minutes = leave_time_data[current_region][option]
-    # 先更新玩家位置到目的区域，再推进时间（事件基于目的地生成）
-    player.location['region'] = option
-    player.location['node'] = map_manager.regions[option]['entry_node']
-
-    # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(minutes, player_move=True)
-
-    region_name = map_manager.regions[option]['name']
-    node_name = map_manager.maps[option][player.location['node']]['name']
-    mes = [f"离开了{region_name}……",
-           f"来到了{region_name}的{node_name}"]
-    mes += npc_events
-    return mes
+    return world.movement_manager.start_leave(option)
 
 
 @register_cmd('move', '移动', '系统', needs_target=False)
 def move(world: World, option: str):
-    """移动（区域内；地图补全前与地图指令并存，补全后由地图面板取代）"""
+    """移动（区域内；通过 MovementManager 逐点步进状态机处理）"""
     if option == 'return':
         # 取消移动
-        return
-
-    player = world.player
-    region = player.location['region']
-    # 图上寻路：目标可为任意可达节点，途经中间节点（时间按最短路合计）
-    path = world.map_manager.find_path(
-        region, player.location['node'], region, option)
-    if path is None:
-        return ['无法前往该地点']
-
-    # 先更新玩家位置到目的地，再推进时间（事件基于目的地生成）
-    player.location['node'] = option
-
-    # 推进时间并获取NPC变动消息
-    npc_events = world.advance_time_with_events(path['total_time'], player_move=True)
-
-    return npc_events if npc_events else []
+        return None
+    return world.movement_manager.start_local_move(option)
 
 
 @register_cmd('items', '道具', '系统', needs_target=False, frontend=True)
