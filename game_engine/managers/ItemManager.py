@@ -21,16 +21,16 @@ class ItemManager:
         self.items: dict[str, int] = {}
 
     def get_state(self):
-        """返回道具管理器状态"""
+        """返回道具管理器状态（仅包含持有数量 > 0 的道具）"""
         return {
             item_id: {
                 'name': self.items_db[item_id]['name'],
-                'num': self.items[item_id],
+                'num': count,
                 'desc': self.items_db[item_id]['desc'],
                 'is_consumable': self.items_db[item_id]['is_consumable'],
                 'is_usable': self.items_db[item_id]['is_usable'],
                 'price': self.items_db[item_id]['price']
-            } for item_id in self.items
+            } for item_id, count in self.items.items() if count > 0
         }
 
     def gain_items(self, item_id: str, num: int=1):
@@ -45,6 +45,9 @@ class ItemManager:
         """
         mes_lst: list[str] = []
         info = self.items_db[item_id]
+        if info.get('is_consumable', False) and self.items.get(item_id, 0) < num:
+            return False, [f'{info["name"]} 数量不足']
+
         if target_id is not None:
             target = self.npc_manager.shipgirls.get(target_id) if self.npc_manager else None
             if target is None:

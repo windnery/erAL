@@ -48,15 +48,18 @@ class TestUseItems:
         assert ok is True
         assert world.item_manager.items['oath_ring'] == 0
 
-    def test_use_missing_item_returns_true(self, world):
-        """没有持有该道具时也返回成功（不校验持有量，数量不足由前端隐藏）
-
-        注意：这是宽松语义——后端不检查 items 中是否持有，直接消耗（可能变负）。
-        设计决策（用户）：前端背包只显示持有道具，后端信任调用方。
-        """
-        _give(world, 'oath_ring', 1)
+    def test_use_insufficient_item_returns_false(self, world):
+        """持有数量不足时返回 False，不扣除也不执行效果"""
         ok, msg = world.item_manager.use_items('oath_ring', 1)
-        assert ok is True
+        assert ok is False
+        assert '数量不足' in msg[0]
+
+    def test_get_state_only_positive_items(self, world):
+        """get_state 仅返回数量 > 0 的道具"""
+        _give(world, 'oath_ring', 1)
+        assert 'oath_ring' in world.item_manager.get_state()
+        world.item_manager.use_items('oath_ring', 1)
+        assert 'oath_ring' not in world.item_manager.get_state()
 
     def test_use_unknown_item_raises_keyerror(self, world):
         """未知道具 id 直接崩溃（KeyError）

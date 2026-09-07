@@ -1,4 +1,6 @@
 import pytest
+
+pytest.importorskip('flask')
 from dev_server import create_app
 from api import Api
 

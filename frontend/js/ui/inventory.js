@@ -58,6 +58,11 @@ async function loadInventory() {
         inventoryItems = [];
     }
 
+    // 选中道具若已消耗完且不在列表中，重置选中项
+    if (selectedItemId && !inventoryItems.some(i => i.item_id === selectedItemId)) {
+        selectedItemId = null;
+    }
+
     if (inventoryItems.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'inv-empty';
@@ -159,9 +164,9 @@ function renderBottomBar(el) {
     const target = (invCallbacks && invCallbacks.getSelectedTarget)
         ? invCallbacks.getSelectedTarget() : null;
 
-    // 使用：对自己使用，仅选中且 is_usable=true 可点
+    // 使用：对自己使用，仅选中、is_usable=true 且数量 > 0 可点
     const useBtn = document.createElement('span');
-    const canUse = selected && selected.is_usable;
+    const canUse = selected && selected.is_usable && selected.num > 0;
     useBtn.className = 'inv-action' + (canUse ? '' : ' disabled');
     useBtn.textContent = '使用';
     if (canUse) {
