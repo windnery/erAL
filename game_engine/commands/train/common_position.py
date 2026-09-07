@@ -8,13 +8,15 @@ from data.time.time_data import command_time_data
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import (
     accumulate_sources,
+    add_attitude_mes,
+    check_body_slots,
     get_entity_by_id,
     get_name_by_id,
     new_source,
     pain_check_v,
-    train_global_can, add_attitude_mes, check_body_slots,
+    say_chara_line,
+    train_global_can,
 )
-from game_engine.commands._common import say_chara_line
 from game_engine.commands._context import CommandContext
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
@@ -251,7 +253,7 @@ def common_position(world: World):
         'disgust_source': 300
     })
     feedback_source = new_source({
-        'c_pleasure_source': 400,
+        'c_pleasure_source': 300,
     })
 
     src_name = get_name_by_id(world.player, train.actors[0])
@@ -306,6 +308,9 @@ def common_position(world: World):
                 and len(train.actors) == 1
                 and train.actors[0] == PLAYER_ID):
             source['v_pleasure_source'] += chara.exp['love_exp']
+            feedback_source['c_pleasure_source'] += chara.exp['love_exp']
+            source['v_pleasure_source'] = min(700, source['v_pleasure_source'])
+            feedback_source['c_pleasure_source'] = min(700, feedback_source['c_pleasure_source'])
 
         source = common_src_modify(source, chara)
         target_sources[target_id] = source

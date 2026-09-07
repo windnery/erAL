@@ -1,7 +1,13 @@
 from config.juel_config import JUEL_GET
-from config.palam_config import ORGASM_BASE, ORGASM_LV_CN, ORGASM_LV_JUEL_MODIFIER, ORGASM_NUM_CN, ORGASM_NUM_JUEL_MODIFIER
+from config.palam_config import (
+    ORGASM_BASE,
+    ORGASM_LV_CN,
+    ORGASM_LV_JUEL_MODIFIER,
+    ORGASM_NUM_CN,
+    ORGASM_NUM_JUEL_MODIFIER,
+)
 from game_engine.models.shipgirl import ShipGirl
-from game_engine.utils.text_color import c_orgasm, c_mark
+from game_engine.utils.text_color import c_mark, c_orgasm
 
 
 def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int, drain_fn=None):
@@ -29,32 +35,26 @@ def orgasm_proc(orgasm_lv: dict[str, int], target: ShipGirl, orgasm_num: int, dr
 
         # 各部位绝顶体力和气力消耗
         part_lower = palam_id[0].lower()
-        if part_lower in ('c', 'b'):
-            stamina_drain += 20 * lv
-            energy_drain += 10 * lv
+        if part_lower in ('c', 'b', 'm', 'a'):
+            stamina_drain += 2 * lv
+            energy_drain += 3 * lv
         elif part_lower == 'v':
-            stamina_drain += 30 * lv
-            energy_drain += 20 * lv
-        elif part_lower == 'a':
-            stamina_drain += 40 * lv
-            energy_drain += 20 * lv
-        elif part_lower == 'm':
-            stamina_drain += 10 * lv
-            energy_drain += 5 * lv
+            stamina_drain += 3 * lv
+            energy_drain += 4 * lv
 
     # 多重绝顶额外消耗
     if orgasm_num == 2:
-        stamina_drain += 10
-        energy_drain += 5
-    elif orgasm_num == 3:
-        stamina_drain += 20
+        stamina_drain += 5
         energy_drain += 10
+    elif orgasm_num == 3:
+        stamina_drain += 10
+        energy_drain += 15
     elif orgasm_num == 4:
-        stamina_drain += 40
-        energy_drain += 30
+        stamina_drain += 15
+        energy_drain += 20
     elif orgasm_num >= 5:
-        stamina_drain += 80
-        energy_drain += 70
+        stamina_drain += 20
+        energy_drain += 25
 
     if drain_fn is not None:
         # 走命令层统一结算：体力归零强制结束调教/回家休息、气力归零神志不清、体力分区记账

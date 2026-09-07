@@ -1,6 +1,5 @@
 from config.abl_config import ABL_LV
 from config.attr_defs import ATTR_DEFS
-from config.base_config import MAX_EMOTION
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.character import Character
 from game_engine.models.shipgirl import ShipGirl
@@ -70,14 +69,11 @@ def palam_calc(src: dict[str, int], source: Character, target: Character, dry_ru
 
 def c_pleasure_source(source: dict[str, int], target: Character) -> dict[str, dict[str, str | int]]:
     """处理c_pleasure_source
-        return: 快C 欲情"""
+        return: 快C 欲情 润滑"""
     c_pleasure_source = source.get('c_pleasure_source', 0)
-    # talent: C感度
-    c_sensitivity = target.get_talent_value('c_sensitivity')
-    c_pleasure_source *= {-1: 0.7, 0: 1, 1: 1.5, 2: 2.0, 3: 2.5, 4: 3.0, 5: 4.0}[c_sensitivity]
     # abl: C感觉
     c_sen_abl = target.abl['c_sen_abl']
-    c_pleasure_source *= p_source_revision(c_sen_abl, True) / 10
+    c_pleasure_source *= p_source_revision(c_sen_abl, True)
     # palam_lv: 欲情
     if target.palam_lv['lust_palam'] < 1:
         c_pleasure_source *= 0.8
@@ -86,12 +82,12 @@ def c_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     elif target.palam_lv['lust_palam'] < 5:
         c_pleasure_source *= 1.2
     elif target.palam_lv['lust_palam'] < 7:
-        c_pleasure_source *= 1.4
+        c_pleasure_source *= 1.3
     else:
-        c_pleasure_source *= 1.6
+        c_pleasure_source *= 1.5
 
     lust_source = c_pleasure_source
-    lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
+    lust_source *= p_source_revision(target.abl['desire_abl'], False)
     lubrication_source = c_pleasure_source * 0.2
 
     return {
@@ -105,12 +101,9 @@ def v_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     """处理v_pleasure_source
         return: 快V 欲情"""
     v_pleasure_source = source.get('v_pleasure_source', 0)
-    # talent: V感度
-    v_sensitivity = target.get_talent_value('v_sensitivity')
-    v_pleasure_source *= {-1: 0.7, 0: 1, 1: 1.5, 2: 2.0, 3: 2.5, 4: 3.0, 5: 4.0}[v_sensitivity]
     # abl: V感觉
     v_sen_abl = target.abl['v_sen_abl']
-    v_pleasure_source *= p_source_revision(v_sen_abl, True) / 10
+    v_pleasure_source *= p_source_revision(v_sen_abl, True)
     # exp: V经验
     v_exp = target.exp['v_exp']
     if v_exp < ABL_LV[1]:
@@ -133,8 +126,10 @@ def v_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     elif target.palam_lv['lubrication_palam'] < 3:
         v_pleasure_source *= 0.4
     elif target.palam_lv['lubrication_palam'] < 4:
-        v_pleasure_source *= 0.75
+        v_pleasure_source *= 0.6
     elif target.palam_lv['lubrication_palam'] < 5:
+        v_pleasure_source *= 0.8
+    elif target.palam_lv['lubrication_palam'] < 6:
         v_pleasure_source *= 0.9
     else:
         pass
@@ -151,7 +146,7 @@ def v_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
         v_pleasure_source *= 1.5
 
     lust_source = v_pleasure_source
-    lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
+    lust_source *= p_source_revision(target.abl['desire_abl'], False)
     lubrication_source = v_pleasure_source * 0.2
 
     return {
@@ -165,12 +160,9 @@ def a_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     """处理v_pleasure_source
         return: 快A 欲情"""
     a_pleasure_source = source.get('a_pleasure_source', 0)
-    # talent: A感度
-    a_sensitivity = target.get_talent_value('a_sensitivity')
-    a_pleasure_source *= {-1: 0.7, 0: 1, 1: 1.5, 2: 2.0, 3: 2.5, 4: 3.0, 5: 4.0}[a_sensitivity]
     # abl: A感觉
     a_sen_abl = target.abl['a_sen_abl']
-    a_pleasure_source *= p_source_revision(a_sen_abl, True) / 10
+    a_pleasure_source *= p_source_revision(a_sen_abl, True)
     # exp: A经验
     a_exp = target.exp['a_exp']
     if a_exp < ABL_LV[1]:
@@ -211,7 +203,7 @@ def a_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
         a_pleasure_source *= 1.5
 
     lust_source = a_pleasure_source
-    lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
+    lust_source *= p_source_revision(target.abl['desire_abl'], False)
     lubrication_source = a_pleasure_source * 0.2
 
     return {
@@ -225,26 +217,23 @@ def b_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     """处理b_pleasure_source
         return: 快B 欲情"""
     b_pleasure_source = source.get('b_pleasure_source', 0)
-    # talent: B感度
-    b_sensitivity = target.get_talent_value('b_sensitivity')
-    b_pleasure_source *= {-1: 0.7, 0: 1, 1: 1.5, 2: 2.0, 3: 2.5, 4: 3.0, 5: 4.0}[b_sensitivity]
     # abl: B感觉
     b_sen_abl = target.abl['b_sen_abl']
-    b_pleasure_source *= p_source_revision(b_sen_abl, True) / 10
+    b_pleasure_source *= p_source_revision(b_sen_abl, True)
     # palam_lv: 欲情
     if target.palam_lv['lust_palam'] < 1:
         b_pleasure_source *= 0.8
     elif target.palam_lv['lust_palam'] < 3:
         pass
     elif target.palam_lv['lust_palam'] < 5:
-        b_pleasure_source *= 1.2
+        b_pleasure_source *= 1.1
     elif target.palam_lv['lust_palam'] < 7:
-        b_pleasure_source *= 1.4
+        b_pleasure_source *= 1.3
     else:
-        b_pleasure_source *= 1.6
+        b_pleasure_source *= 1.5
 
     lust_source = b_pleasure_source
-    lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
+    lust_source *= p_source_revision(target.abl['desire_abl'], False)
     lubrication_source = b_pleasure_source * 0.2
 
     return {
@@ -258,12 +247,9 @@ def m_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
     """处理m_pleasure_source
         return: 快M 欲情"""
     m_pleasure_source = source.get('m_pleasure_source', 0)
-    # talent: M感度
-    m_sensitivity = target.get_talent_value('m_sensitivity')
-    m_pleasure_source *= {-1: 0.7, 0: 1, 1: 1.5, 2: 2.0, 3: 2.5, 4: 3.0, 5: 4.0}[m_sensitivity]
     # abl: M感觉
     m_sen_abl = target.abl['m_sen_abl']
-    m_pleasure_source *= p_source_revision(m_sen_abl, True) / 10
+    m_pleasure_source *= p_source_revision(m_sen_abl, True)
     # exp: M经验
     m_exp = target.exp['m_exp']
     if m_exp < ABL_LV[1]:
@@ -291,7 +277,7 @@ def m_pleasure_source(source: dict[str, int], target: Character) -> dict[str, di
         m_pleasure_source *= 1.5
 
     lust_source = m_pleasure_source
-    lust_source *= p_source_revision(target.abl['desire_abl'], False) / 100
+    lust_source *= p_source_revision(target.abl['desire_abl'], False)
     lubrication_source = m_pleasure_source * 0.2
 
     return {
@@ -349,9 +335,9 @@ def sex_act_source(source: dict[str, int], target: Character, self_initiative: b
         case 8:
             sex_act_source *= 2.8
         case 9:
-            sex_act_source *= 4.0
+            sex_act_source *= 3.2
         case _:
-            sex_act_source *= 5.0
+            sex_act_source *= 3.6
     return {
         'learn_palam': {'chara': 'target', 'value': int(sex_act_source)}
     }
@@ -403,11 +389,11 @@ def pain_source(source: dict[str, int], actor: Character, target: Character) -> 
         case 9:
             pain_source2lust *= 1.5
         case _:
-            pain_source2lust *= 3.0
+            pain_source2lust *= 2.0
     # TODO: 体型
     # 调教者施虐狂
     if actor.has_talent('sadism'):
-        pain_source2lust *= 2.5
+        pain_source2lust *= 2.0
     # 胆怯
     if target.get_talent_value('courage'):
         pain_source2fear *= 2.0
@@ -482,9 +468,9 @@ def obedience_source(source: dict[str, int], target: Character, self_initiative:
         case 8:
             obedience_source *= 2.4
         case 9:
-            obedience_source *= 3.0
+            obedience_source *= 2.8
         case _:
-            obedience_source *= 5.0
+            obedience_source *= 3.2
     return {
         'obedience_palam': {'chara': 'target', 'value': int(obedience_source)}
     }
@@ -564,25 +550,25 @@ def submission_source(source: dict[str, int], target: Character, self_initiative
         case 0:
             pass
         case 1:
-            submission_source *= 1.5
+            submission_source *= 1.2
         case 2:
-            submission_source *= 2.0
+            submission_source *= 1.5
         case 3:
-            submission_source *= 2.5
+            submission_source *= 1.8
         case 4:
-            submission_source *= 3.0
+            submission_source *= 2.0
         case 5:
-            submission_source *= 3.5
+            submission_source *= 2.2
         case 6:
-            submission_source *= 4.0
+            submission_source *= 2.5
         case 7:
-            submission_source *= 4.5
+            submission_source *= 2.7
         case 8:
-            submission_source *= 5.0
+            submission_source *= 3.0
         case 9:
-            submission_source *= 5.5
+            submission_source *= 3.2
         case _:
-            submission_source *= 7.0
+            submission_source *= 3.6
     return {
         'submission_palam': {'chara': 'target', 'value': int(submission_source)}
     }
@@ -611,7 +597,7 @@ def happiness_source(source: dict[str, int], target: Character, self_initiative:
 
     # 约会中
     if isinstance(target, ShipGirl) and target.is_dating():
-        happiness_source *= 1.3
+        happiness_source *= 1.2
     # abl: 亲密
     happiness_source *= (100 + 5 * target.abl['intimacy_abl']) // 100
     # abl: 欲望
@@ -627,13 +613,13 @@ def happiness_source(source: dict[str, int], target: Character, self_initiative:
         elif target.favor <= 300:
             happiness_source *= 1.2
         elif target.favor <= 500:
-            happiness_source *= 1.2
-        elif target.favor <= 700:
             happiness_source *= 1.3
-        elif target.favor <= 1000:
+        elif target.favor <= 700:
             happiness_source *= 1.4
-        elif target.favor <= 3000:
+        elif target.favor <= 1000:
             happiness_source *= 1.5
+        elif target.favor <= 3000:
+            happiness_source *= 1.6
         elif target.favor <= 5000:
             happiness_source *= 1.7
         elif target.favor <= 500_000:
@@ -661,9 +647,9 @@ def conquest_source(source: dict[str, int], target: Character, self_initiative: 
         case 2:
             conquest_source *= 1.3
         case 3:
-            conquest_source *= 1.7
+            conquest_source *= 1.5
         case 4:
-            conquest_source *= 2.0
+            conquest_source *= 1.8
         case _:
             conquest_source *= (175 + target.abl['sadism_abl'] * 15) / 100
 
@@ -704,12 +690,9 @@ def unclean_source(source: dict[str, int], target: Character) -> dict[str, dict[
             pass
         case 7 | 8 | 9:
             unclean_source *= 0.75
-        case 10 | 11 | 12:
-            unclean_source *= 0.5
-        case 13 | 14 | 15:
-            unclean_source *= 0.25
         case _:
-            unclean_source *= 0.1
+            unclean_source *= 0.5
+
     # TODO: 心智魔方
     return {
         'disgust_palam': {'chara': 'target', 'value': int(unclean_source)}
@@ -738,12 +721,8 @@ def depression_source(source: dict[str, int], target: Character) -> dict[str, di
             pass
         case 7 | 8 | 9:
             depression_source *= 0.75
-        case 10 | 11 | 12:
-            depression_source *= 0.5
-        case 13 | 14 | 15:
-            depression_source *= 0.25
         case _:
-            depression_source *= 0.1
+            depression_source *= 0.5
     # abl: 欲望
     match target.abl['desire_abl']:
         case 0:
@@ -754,12 +733,8 @@ def depression_source(source: dict[str, int], target: Character) -> dict[str, di
             pass
         case 7 | 8 | 9:
             depression_source *= 0.75
-        case 10 | 11 | 12:
-            depression_source *= 0.5
-        case 13 | 14 | 15:
-            depression_source *= 0.25
         case _:
-            depression_source *= 0.1
+            depression_source *= 0.5
     # TODO: 心智魔方
     return {
         'depression_palam': {'chara': 'target', 'value': int(depression_source)}
@@ -785,12 +760,8 @@ def escape_source(source: dict[str, int], target: Character) -> dict[str, dict[s
             pass
         case 7 | 8 | 9:
             escape_source *= 0.75
-        case 10 | 11 | 12:
-            escape_source *= 0.5
-        case 13 | 14 | 15:
-            escape_source *= 0.25
         case _:
-            escape_source *= 0.1
+            escape_source *= 0.5
     # abl: 受虐属性
     match target.abl['masochistic_abl']:
         case 0:
@@ -803,12 +774,8 @@ def escape_source(source: dict[str, int], target: Character) -> dict[str, dict[s
             escape_source *= 0.6
         case 8 | 9:
             escape_source *= 0.5
-        case 10 | 11 | 12:
-            escape_source *= 0.3
-        case 13 | 14 | 15:
-            escape_source *= 0.2
         case _:
-            escape_source *= 0.1
+            escape_source *= 0.3
     # TODO: 心智魔方
     return {
         'disgust_palam': {'chara': 'target', 'value': int(escape_source)}
@@ -835,14 +802,8 @@ def disgust_source(source: dict[str, int], target: Character, self_initiative: b
             pass
         case 8 | 9 | 10:
             disgust_source *= 0.75
-        case 11 | 12 | 13 | 14:
-            disgust_source *= 0.5
-        case 15 | 16 | 17 | 18 | 19:
-            disgust_source *= 0.25
-        case 20 | 21 | 22 | 23 | 24:
-            disgust_source *= 0.1
         case _:
-            disgust_source *= 0.05
+            disgust_source *= 0.5
     # abl: 侍奉精神
     match target.abl['servant_abl']:
         case 0:
@@ -855,12 +816,8 @@ def disgust_source(source: dict[str, int], target: Character, self_initiative: b
             disgust_source *= 0.6
         case 8 | 9:
             disgust_source *= 0.5
-        case 10 | 11 | 12:
-            disgust_source *= 0.3
-        case 13 | 14 | 15:
-            disgust_source *= 0.2
         case _:
-            disgust_source *= 0.1
+            disgust_source *= 0.3
     # abl: 受虐属性
     match target.abl['masochistic_abl']:
         case 0:
@@ -873,72 +830,54 @@ def disgust_source(source: dict[str, int], target: Character, self_initiative: b
             disgust_source *= 0.6
         case 8 | 9:
             disgust_source *= 0.5
-        case 10 | 11 | 12:
-            disgust_source *= 0.3
-        case 13 | 14 | 15:
-            disgust_source *= 0.2
         case _:
-            disgust_source *= 0.1
+            disgust_source *= 0.3
     # TODO: 心智魔方
     return {
         'disgust_palam': {'chara': 'target', 'value': int(disgust_source)}
     }
 
 
-def abl_revision(source: int | float, abl: int, abl_type: bool):
+def abl_revision(source: float, abl: int, abl_type: bool):
     """处理abl对source的修正"""
     modifier1 = {
         0: 0.1,
         1: 0.3,
         2: 0.5,
         3: 1.0,
-        4: 1.5,
-        5: 2.0,
-        6: 2.5,
-        7: 3.0,
-        8: 3.5,
-        9: 4.0,
-        10: 5.0,
+        4: 1.2,
+        5: 1.5,
+        6: 1.8,
+        7: 2.2,
+        8: 2.7,
+        9: 3.2,
+        10: 3.6,
     }
     modifier2 = {
         0: 0.2,
         1: 0.4,
         2: 0.8,
         3: 1.2,
-        4: 1.6,
-        5: 2.0,
-        6: 2.4,
-        7: 2.8,
-        8: 3.2,
-        9: 3.6,
+        4: 1.5,
+        5: 1.7,
+        6: 2.2,
+        7: 2.5,
+        8: 3.0,
+        9: 3.2,
     }
     if abl_type:
-        return source * modifier1.get(abl, 6.0)
+        return source * modifier1.get(abl, 3.6)
     else:
-        return source * modifier2.get(abl, 5.0)
+        return source * modifier2.get(abl, 3.2)
 
 
 def p_source_revision(abl: int, is_sen: bool):
     """处理abl对快感系source的修正"""
     if is_sen:
-        if 0 <= abl <= 5:
-            return 10 + 5 * abl
-        elif 5 < abl <= 9:
-            return 22 + 3 * abl
-        elif 9 < abl <= 15:
-            return 35 + 2 * abl
-        elif 15 < abl <= 19:
-            return 55 + abl
-        else:
-            return 80
+        # abl:0->1 10->3.6
+        abl = min(abl, 10)
+        return 0.26 * (abl - 10) + 3.6
     else:
-        if 0 <= abl <= 5:
-            return 25 + 7 * abl
-        elif 5 < abl <= 9:
-            return 45 + 3 * abl
-        elif 9 < abl <= 15:
-            return 60 + 2 * abl
-        elif 15 < abl <= 19:
-            return 80 + abl
-        else:
-            return 100
+        # abl:0->0.2 10->1
+        abl = min(abl, 10)
+        return 0.08 * (abl - 10) + 1

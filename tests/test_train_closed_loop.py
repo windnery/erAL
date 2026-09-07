@@ -285,7 +285,7 @@ class TestOrgasmDrainThroughConsume:
     def _climax_via_ctx(world, laffey):
         from game_engine.commands._context import CommandContext
         from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check_parts
-        laffey.palam['v_pleasure_palam'] = 30_000  # V绝顶lv2：体力-60 气力-40
+        laffey.palam['v_pleasure_palam'] = 30_000  # V绝顶lv2：体力-6 气力-8
         ctx = CommandContext(world)
         orgasm_check_parts(laffey, drain_fn=ctx.consume)
         return ctx
@@ -293,13 +293,13 @@ class TestOrgasmDrainThroughConsume:
     def test_drain_via_ctx_ends_train_on_stamina_zero(self, world):
         """调教中绝顶把体力扣到0：强制结束调教并回家休息"""
         laffey = self._train_with_laffey(world)
-        laffey.set_stamina(50)
+        laffey.set_stamina(5)
         laffey.set_energy(1000)
 
         ctx = self._climax_via_ctx(world, laffey)
 
         assert laffey.get_stamina() == 0
-        assert laffey.get_energy() == 960
+        assert laffey.get_energy() == 992
         assert world.train_mode is False, '体力归零应强制结束调教'
         assert laffey.cflag.get('resting') is True, '体力归零应回家进入休息中'
         result = ctx.result()
@@ -314,8 +314,8 @@ class TestOrgasmDrainThroughConsume:
 
         ctx = self._climax_via_ctx(world, laffey)
 
-        assert laffey.get_stamina() == 940
-        assert laffey.get_energy() == 960
+        assert laffey.get_stamina() == 994
+        assert laffey.get_energy() == 992
         assert world.train_mode is True
         assert laffey.cflag.get('resting') is not True
 
@@ -323,7 +323,7 @@ class TestOrgasmDrainThroughConsume:
         """调教中绝顶把气力扣到0：陷入神志不清，主导权归0"""
         laffey = self._train_with_laffey(world)
         laffey.set_stamina(1000)
-        laffey.set_energy(30)
+        laffey.set_energy(5)
         train = world.train_manager.train
         train.initiative = {'player': 100, 'laffey': 50}
 
@@ -338,7 +338,7 @@ class TestOrgasmDrainThroughConsume:
         """不传 drain_fn 时维持直接扣减的旧行为（离线计算/旧调用兼容）"""
         from game_engine.data_pipeline.palam.orgasm_calc import orgasm_check_parts
         laffey = self._train_with_laffey(world)
-        laffey.set_stamina(50)
+        laffey.set_stamina(5)
         laffey.palam['v_pleasure_palam'] = 30_000
 
         orgasm_check_parts(laffey)

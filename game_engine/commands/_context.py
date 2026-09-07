@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 from config.attr_defs import ATTR_DEFS
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
-from game_engine.utils.text_color import color_text
+from game_engine.utils.text_color import c_notice, color_text
 
 if TYPE_CHECKING:
     from world import World
@@ -55,7 +55,7 @@ class CommandContext:
                 if train and target_chara.id in train.targets and not target_chara.cflag.get('unconscious'):
                     target_chara.cflag['unconscious'] = True
                     train.initiative[target_chara.id] = 0
-                    self._exhaustion_mes += f'{target_chara.name}气力0，开始神志不清了……彻底失去了主导权！'
+                    self._exhaustion_mes += c_notice(f'{target_chara.name}开始神志不清了……彻底失去了主导权！')
             # 体力归零：回家休息（调教中被强制结束调教）
             if stamina and target_chara.get_stamina() == 0 and not target_chara.cflag.get('sleeping') \
                     and not target_chara.cflag.get('resting'):
