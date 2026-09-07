@@ -143,83 +143,83 @@ class TestEmoRat2Src:
         assert src['pain_source'] == 1000
 
     def test_emotion_100_tier(self, z23):
-        """情绪 100 档：正向 ×1.25、负向 ×0.9"""
+        """情绪 100 档：正向 ×1.1、负向 ×0.9"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(100)
         z23.set_rationality(1000)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 125
+        assert src['love_source'] == 110
         assert src['pain_source'] == 90
 
     def test_emotion_250_tier(self, z23):
-        """情绪 250 档：正向 ×1.5、负向 ×0.75"""
+        """情绪 250 档：正向 ×1.2、负向 ×0.8"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(250)
         z23.set_rationality(1000)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 150
-        assert src['pain_source'] == 75
+        assert src['love_source'] == 120
+        assert src['pain_source'] == 80
 
     def test_emotion_500_tier(self, z23):
-        """情绪 500 档：正向 ×1.75、负向 ×0.6"""
+        """情绪 500 档：正向 ×1.3、负向 ×0.7"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(500)
         z23.set_rationality(1000)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 175
-        assert src['pain_source'] == 60
+        assert src['love_source'] == 130
+        assert src['pain_source'] == 70
 
     def test_emotion_750_tier(self, z23):
-        """情绪 750 档：正向 ×2.0、负向 ×0.5"""
+        """情绪 750 档：正向 ×1.5、负向 ×0.6"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(750)
         z23.set_rationality(1000)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 200
-        assert src['pain_source'] == 50
+        assert src['love_source'] == 150
+        assert src['pain_source'] == 60
 
     def test_rationality_low_tier(self, z23):
-        """理性 0~249 档：正向 ×2.0、负向 ×0.5"""
+        """理性 0~249 档：正向不受理性影响、负向 ×0.6"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(0)
         z23.set_rationality(249)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 200
-        assert src['pain_source'] == 50
+        assert src['love_source'] == 100
+        assert src['pain_source'] == 60
 
     def test_rationality_250_tier(self, z23):
-        """理性 250 档：正向 ×1.75、负向 ×0.6"""
+        """理性 250 档：正向不受理性影响、负向 ×0.7"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(0)
         z23.set_rationality(250)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 175
-        assert src['pain_source'] == 60
+        assert src['love_source'] == 100
+        assert src['pain_source'] == 70
 
     def test_rationality_500_tier(self, z23):
-        """理性 500 档：正向 ×1.5、负向 ×0.75"""
+        """理性 500 档：正向不受理性影响、负向 ×0.8"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(0)
         z23.set_rationality(500)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 150
-        assert src['pain_source'] == 75
+        assert src['love_source'] == 100
+        assert src['pain_source'] == 80
 
     def test_rationality_750_tier(self, z23):
-        """理性 750 档：正向 ×1.25、负向 ×0.9"""
+        """理性 750 档：正向不受理性影响、负向 ×0.9"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(0)
         z23.set_rationality(750)
         src = _src(love_source=100, pain_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 125
+        assert src['love_source'] == 100
         assert src['pain_source'] == 90
 
     def test_rationality_above_900_no_modifier(self, z23):
@@ -233,13 +233,13 @@ class TestEmoRat2Src:
         assert src['pain_source'] == 100
 
     def test_emotion_and_rationality_multiply(self, z23):
-        """情绪×理性 权重相乘：emo=750(2.0) × rat=0(2.0) → 正向 ×4"""
+        """理性不再参与正向放大：emo=750 → 正向 ×1.5（rat=0 不影响）"""
         from game_engine.data_pipeline.base.emo_rat2src import emo_rat2src
         z23.set_emotion(750)
         z23.set_rationality(0)
         src = _src(love_source=100)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 400
+        assert src['love_source'] == 150
 
     def test_positive_negative_independent(self, z23):
         """正负 source 独立修正：同时存在互不干扰"""
@@ -248,9 +248,9 @@ class TestEmoRat2Src:
         z23.set_rationality(1000)
         src = _src(love_source=200, pain_source=200, escape_source=200)
         emo_rat2src(z23, src)
-        assert src['love_source'] == 400   # 200 × 2.0
-        assert src['pain_source'] == 100   # 200 × 0.5
-        assert src['escape_source'] == 100  # 200 × 0.5（负向统一 ×0.5）
+        assert src['love_source'] == 300   # 200 × 1.5
+        assert src['pain_source'] == 120   # 200 × 0.6
+        assert src['escape_source'] == 120  # 200 × 0.6（负向统一 ×0.6）
 
 
 # ============================================================
@@ -412,7 +412,7 @@ class TestCommonSrcModifyEmoRat:
         assert result['love_source'] == 1040  # 1000*1.3*0.8
 
     def test_high_emotion_doubles_positive(self, world, z23_nearby, source_dict):
-        """emotion=800 → 正向 ×2.0：1040 → 2080"""
+        """emotion=800 → 正向 ×1.5：1040 → 1560"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
         z23_nearby.set_emotion(800)
         z23_nearby.set_rationality(1000)
@@ -422,10 +422,10 @@ class TestCommonSrcModifyEmoRat:
         z23_nearby.talent = {'relationship': '0'}
         z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         result = common_src_modify(src, z23_nearby)
-        assert result['love_source'] == 2080  # 1040*2.0
+        assert result['love_source'] == 1560  # 1040*1.5
 
     def test_high_emotion_halves_negative(self, world, z23_nearby, source_dict):
-        """emotion=800 → 负向 ×0.5：pain 基线 → 0.5（int 截断）"""
+        """emotion=800 → 负向 ×0.6：pain 基线 → 0.6（int 截断）"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
         z23_nearby.set_emotion(0)
         z23_nearby.set_rationality(1000)
@@ -435,13 +435,13 @@ class TestCommonSrcModifyEmoRat:
         z23_nearby.talent = {'relationship': '0'}
         z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         baseline = common_src_modify(dict(src), z23_nearby)['pain_source']
-        # emotion=800 → 负向 ×0.5
+        # emotion=800 → 负向 ×0.6
         z23_nearby.set_emotion(800)
         result = common_src_modify(src, z23_nearby)
-        assert result['pain_source'] == int(baseline * 0.5)
+        assert result['pain_source'] == int(baseline * 0.6)
 
     def test_low_rationality_doubles_positive(self, world, z23_nearby, source_dict):
-        """rationality=0 → 正向 ×2.0：1040 → 2080"""
+        """rationality=0 → 正向不受理性影响：仍为 1040"""
         from game_engine.data_pipeline.common_src_modify import common_src_modify
         z23_nearby.set_emotion(0)
         z23_nearby.set_rationality(0)
@@ -451,7 +451,7 @@ class TestCommonSrcModifyEmoRat:
         z23_nearby.talent = {'relationship': '0'}
         z23_nearby.abl = {k: 0 for k in z23_nearby.abl}
         result = common_src_modify(src, z23_nearby)
-        assert result['love_source'] == 2080  # 1040*2.0
+        assert result['love_source'] == 1040
 
 
 # ============================================================
