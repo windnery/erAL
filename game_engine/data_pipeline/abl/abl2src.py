@@ -7,8 +7,6 @@ def abl2src(abl: dict[str, int], source: dict[str, int | float]):
     """abl等级对source的修正"""
     for abl_key, lv in abl.items():
         if lv <= 0: continue
-        # 限制abl有效等级的上限为6，防止数值膨胀
-        # lv = min(lv, 6)
         modify = lv * (1 + K_ACCEL * (lv - 1) / 2)
         # 每个 abl 只修正自己语义对应的 source
         if abl_key not in ABL2SRC_WEIGHTS: continue
