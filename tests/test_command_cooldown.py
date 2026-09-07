@@ -66,6 +66,7 @@ class TestCommandCooldown:
 
         # 执行后：Z23 处于冷却中，指令列表中 poke_the_cheek 消失
         assert world.command_manager.is_cmd_cooling_down('poke_the_cheek', z23)
+        place_next_to_player(world, z23)
         z23_cmds_after = [c['key'] for c in world.command_manager.get_act_com('Z23')]
         assert 'poke_the_cheek' not in z23_cmds_after
 
@@ -77,6 +78,7 @@ class TestCommandCooldown:
         assert 'poke_the_cheek' in laffey_cmds_after
 
         # 再次对 Z23 执行 poke_the_cheek 应被拦截
+        place_next_to_player(world, z23)
         repeat_result = world.command_manager.do_cmd('poke_the_cheek', 'Z23')
         assert repeat_result == ''
 
@@ -99,11 +101,14 @@ class TestCommandCooldown:
 
         # 推进 4 分钟：仍在冷却中
         world.time_manager.advance_time(4)
+        # 保证 Z23 仍在身边（避免执行指令推进时间时触发自由移动）
+        place_next_to_player(world, z23)
         assert world.command_manager.is_cmd_cooling_down('poke_the_cheek', z23)
         assert 'poke_the_cheek' not in [c['key'] for c in world.command_manager.get_act_com('Z23')]
 
         # 再推进 2 分钟（总计 6 分钟）：冷却结束
         world.time_manager.advance_time(2)
+        place_next_to_player(world, z23)
         assert not world.command_manager.is_cmd_cooling_down('poke_the_cheek', z23)
         assert 'poke_the_cheek' in [c['key'] for c in world.command_manager.get_act_com('Z23')]
 
@@ -144,6 +149,7 @@ class TestCommandCooldown:
 
         # 读档后验证 Z23 仍在冷却中
         new_z23 = new_world.npc_manager.shipgirls['Z23']
+        place_next_to_player(new_world, new_z23)
         assert new_world.command_manager.is_cmd_cooling_down('hug', new_z23)
         assert 'hug' not in [c['key'] for c in new_world.command_manager.get_act_com('Z23')]
 
