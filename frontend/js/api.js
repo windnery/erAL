@@ -1,4 +1,4 @@
-async function call(manager_name, func_name, ...args) {
+export async function call(manager_name, func_name, ...args) {
     if (window.pywebview?.api?.call) {
         return await window.pywebview.api.call(manager_name, func_name, ...args);
     }

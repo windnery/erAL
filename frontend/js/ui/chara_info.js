@@ -2,6 +2,7 @@
 // 数据来源：showCharacterInfo(npc) 传入的 nearby_npcs 单项（含 id/name/avatar/portrait/favor/trust/talent...）
 // 皮肤页数据：通过 api.call('skin_manager', 'get_owned_skins', npc.id) 异步拉取
 
+import { call } from '../api.js';
 import { showToast } from './daily_shop.js';
 
 const TABS = [
@@ -246,7 +247,7 @@ async function renderCostumeTab(content, npc) {
 
     let skins = [];
     try {
-        skins = await window.pywebview.api.call('skin_manager', 'get_owned_skins', npc.id) || [];
+        skins = await call('skin_manager', 'get_owned_skins', npc.id) || [];
     } catch (e) {
         content.textContent = '';
         hint.textContent = '皮肤数据加载失败';
@@ -363,7 +364,7 @@ function renderCharinfoBottomBar(el, npc) {
         changeBtn.textContent = '更换';
         if (selected) {
             changeBtn.onclick = async function () {
-                const result = await window.pywebview.api.call('skin_manager', 'equip_skin', npc.id, selected.skin_id);
+                const result = await call('skin_manager', 'equip_skin', npc.id, selected.skin_id);
                 if (result && result[0]) {
                     // 换装成功：通过 onChanged 回调通知 main.js 重新拉数据
                     // （更新 currentNearby 中的 avatar/portrait，重开面板显示「穿戴中」）

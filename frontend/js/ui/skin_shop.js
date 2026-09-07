@@ -6,7 +6,7 @@
 //   - 点「购买」 -> 调 buy_skin，成功则留在商店刷新（已购皮肤移除 + 状态栏金钱同步）
 //   - 点「取消」 -> 关闭商店，refresh 游戏界面
 
-import { getState } from '../api.js';
+import { call, getState } from '../api.js';
 import { showToast } from './daily_shop.js';
 
 const SHOP_PAGE_SIZE = 18; // 每页展示皮肤数（每日随机上架18个）
@@ -57,7 +57,7 @@ async function loadShopSkins() {
     el.innerHTML = '';
 
     try {
-        shopSkins = await window.pywebview.api.call('skin_manager', 'get_shop_skins');
+        shopSkins = await call('skin_manager', 'get_shop_skins');
     } catch (e) {
         console.error('获取皮肤列表失败:', e);
         shopSkins = [];
@@ -183,7 +183,7 @@ function renderBottomBar(el) {
     buyBtn.textContent = '购买';
     if (canBuy) {
         buyBtn.onclick = async function () {
-            const result = await window.pywebview.api.call('skin_manager', 'buy_skin', selected.skin_id);
+            const result = await call('skin_manager', 'buy_skin', selected.skin_id);
             // result: [ok, msg]
             if (result && result[0]) {
                 // 成功：留在商店刷新（已购皮肤移除）+ 同步状态栏金钱

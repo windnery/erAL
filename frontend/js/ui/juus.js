@@ -1,6 +1,8 @@
 // 港区战术终端 (Juus Pad) 交互模块
 // 特性：平板大视窗、双栏Master-Detail架构、纯文字无Emoji终端风格、通讯录/即时状态雷达
 
+import { call } from '../api.js';
+
 const FACTIONS = [
     { key: 'all', label: '[全部]' },
     { key: '0', label: '[白鹰]' },
@@ -44,11 +46,7 @@ export function closeJuus() {
 
 async function fetchAndRenderContacts(preserveSelection = true) {
     try {
-        if (window.pywebview && window.pywebview.api) {
-            contactsList = await window.pywebview.api.call('juus_manager', 'get_contacts_list') || [];
-        } else {
-            contactsList = [];
-        }
+        contactsList = await call('juus_manager', 'get_contacts_list') || [];
     } catch (e) {
         console.error('获取通讯录失败:', e);
         contactsList = [];
@@ -234,8 +232,8 @@ async function renderDetailView(container) {
 
     let detail = null;
 
-    if (window.pywebview && window.pywebview.api && selectedContactId) {
-        detail = await window.pywebview.api.call('juus_manager', 'get_contact_detail', selectedContactId);
+    if (selectedContactId) {
+        detail = await call('juus_manager', 'get_contact_detail', selectedContactId);
     } else {
         return;
     }
@@ -269,16 +267,14 @@ async function renderDetailView(container) {
         gotoBtn.textContent = '[前往]';
         gotoBtn.onclick = async () => {
             try {
-                if (window.pywebview && window.pywebview.api) {
-                    const res = await window.pywebview.api.call('juus_manager', 'navigate_to_contact', detail.id);
-                    closeJuus();
-                    if (res && res.success) {
-                        if (callbacksRef) {
-                            if (res.messages && res.messages.length > 0 && callbacksRef.showFullscreenText) {
-                                callbacksRef.showFullscreenText(res.messages);
-                            } else if (callbacksRef.refresh) {
-                                callbacksRef.refresh();
-                            }
+                const res = await call('juus_manager', 'navigate_to_contact', detail.id);
+                closeJuus();
+                if (res && res.success) {
+                    if (callbacksRef) {
+                        if (res.messages && res.messages.length > 0 && callbacksRef.showFullscreenText) {
+                            callbacksRef.showFullscreenText(res.messages);
+                        } else if (callbacksRef.refresh) {
+                            callbacksRef.refresh();
                         }
                     }
                 }
