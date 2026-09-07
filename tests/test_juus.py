@@ -107,7 +107,28 @@ class TestJuusManager:
         z23.set_talent('relationship', '1')
         contacts = world_instance.juus_manager.get_contacts_list()
         z23_c = next(c for c in contacts if c['id'] == 'Z23')
+        assert z23_c['relationship_label'] == '友好'
         assert z23_c['first_met_label'] == '友好'
+
+        # 4. 关系提升为喜欢（relationship=2）
+        z23.set_talent('relationship', '2')
+        contacts = world_instance.juus_manager.get_contacts_list()
+        z23_c = next(c for c in contacts if c['id'] == 'Z23')
+        assert z23_c['relationship_label'] == '喜欢'
+
+        # 5. 关系提升为爱（relationship=3）
+        z23.set_talent('relationship', '3')
+        contacts = world_instance.juus_manager.get_contacts_list()
+        z23_c = next(c for c in contacts if c['id'] == 'Z23')
+        assert z23_c['relationship_label'] == '爱'
+        assert z23_c['first_met_label'] == '爱'
+
+        # 6. 关系提升为誓约（relationship=4）
+        z23.set_talent('relationship', '4')
+        contacts = world_instance.juus_manager.get_contacts_list()
+        z23_c = next(c for c in contacts if c['id'] == 'Z23')
+        assert z23_c['relationship_label'] == '誓约'
+        assert z23_c['first_met_label'] == '誓约'
 
     def test_get_contact_detail_schedule(self, world_instance):
         """获取已相识即时档案包含作息概况列表，未相识返回 None"""

@@ -39,14 +39,13 @@ SHIP_TYPE_MAP = {
     '12': '超巡',
 }
 
-# 好感阶段映射（非交互文本不加 [] 括号）
+# 好感阶段映射（与 data/attr_defs.json 陷落阶段一致）
 RELATIONSHIP_LABELS = {
     '0': '陌生',
     '1': '友好',
     '2': '喜欢',
-    '3': '恋慕',
-    '4': '爱意',
-    '5': '誓约',
+    '3': '爱',
+    '4': '誓约',
 }
 
 
@@ -108,7 +107,7 @@ class JuusManager:
             # 皮肤与立绘路径
             skin_paths = self.world.skin_manager.get_ship_skin_paths(sg.id)
 
-            rel_label = RELATIONSHIP_LABELS.get(rel_val, '陌生')
+            rel_label = sg.get_talent_name('relationship')
             is_met = sg.cflag.get('have_encountered', False)
 
             contacts.append({

@@ -178,7 +178,7 @@ class Character:
         """获取某天赋的名字"""
         if ATTR_DEFS['talent'][talent_id]['has_value']:
             # 多分类素质
-            return ATTR_DEFS['talent'][talent_id]['value'][self.talent.get(talent_id, '0')]
+            return ATTR_DEFS['talent'][talent_id]['value'].get(str(self.talent.get(talent_id, '0')), '')
         else:
             # 二分类素质
             return ATTR_DEFS['talent'][talent_id]['name']
