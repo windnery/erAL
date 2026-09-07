@@ -13,7 +13,7 @@ era-碧蓝航线（开发中）
 ---
 
 ## 普通玩家指南
-1. 在仓库右侧 Releases 下载最新打包好的 Windows 压缩包（如 `erAL_v0.1.0-alpha_win64.zip`）；
+1. 在仓库右侧 Releases 下载最新打包好的 Windows 压缩包（如 `erAL_v0.1.4-alpha_win64.zip`）；
 2. 解压到本地文件夹，双击运行 `erAL.exe` 即可开始游戏；
 3. 绿色免安装，解压即玩，游戏存档会自动保存在游戏根目录下的 `sav/` 文件夹中。
 
@@ -24,7 +24,7 @@ era-碧蓝航线（开发中）
 1. 检查游戏根目录下的 `logs/crash.log` 文件；
 2. 在本仓库的 Issues 页面提交反馈；
 3. 为方便快速定位排查，请在反馈时附带：
-   - 游戏版本号（如 `v0.1.0-alpha`）
+   - 游戏版本号（如 `v0.1.4-alpha`）
    - 报错前大致在执行什么操作
    - `logs/crash.log` 中的错误日志内容
    - 若属于特定状态异常，可附带 `sav/` 目录下的对应存档文件
@@ -46,13 +46,24 @@ era-碧蓝航线（开发中）
 ```bash
 git clone https://github.com/windnery/erAL.git
 cd erAL
+
+# 基础依赖
 pip install pywebview pytest pyinstaller
+
+# （可选）如需使用 Web 调试服务器进行前端热更新调试
+pip install flask
 ```
 
 ### 2. 源码启动
-```bash
-python main.py
-```
+- **客户端模式（默认）**：
+  ```bash
+  python main.py
+  ```
+- **Web 调试模式（基于 Flask）**：
+  ```bash
+  python dev_server.py
+  ```
+  启动后访问 `http://127.0.0.1:5000`，支持在普通浏览器中开启开发者工具（F12）高效调试前端页面与样式。
 
 ### 3. 运行测试
 ```bash
