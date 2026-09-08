@@ -2,7 +2,7 @@ from game_engine.dialogue import get_scene
 from game_engine.managers.MapManager import MapManager
 from game_engine.managers.NpcManager import NpcManager
 from game_engine.models.player import Player
-from game_engine.utils.text_color import c_loc, c_chara
+from game_engine.utils.text_color import c_chara, c_loc
 
 
 class TimeManager:

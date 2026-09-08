@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Any, ClassVar
 
-from config.base_config import MAX_RATIONALITY, MIN_EMOTION, MAX_EMOTION
-from config.mood_config import MOOD_LABELS, MOOD_COLORS, MOOD_BAD, MOOD_BLISS
+from config.base_config import MAX_EMOTION, MAX_RATIONALITY, MIN_EMOTION
+from config.mood_config import MOOD_BAD, MOOD_BLISS, MOOD_COLORS, MOOD_LABELS
 from game_engine.models.character import Character
 
 
