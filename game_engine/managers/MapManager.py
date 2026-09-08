@@ -4,7 +4,7 @@ from config.map_config import MAP_DB
 from data.data_loader import load_map_meta, load_regions
 from data.time.time_data import LEAVE_TIME_DATA
 
-_INF = float("inf")
+_INF = int(1e9)
 
 
 class MapManager:
@@ -157,21 +157,12 @@ class MapManager:
         - 同区域：返回区域内从 src_node 到 dst_node 的完整节点路径
         - 跨区域：返回 [目标区入口节点, ...目标节点]（与旧契约一致），total_time 含区域内/区域间全部耗时
         """
-        if (
-            src_reg not in self.maps
-            or src_node not in self.maps[src_reg]
-            or dst_reg not in self.maps
-            or dst_node not in self.maps[dst_reg]
-        ):
-            return None
-
         u = self._node_index[(src_reg, src_node)]
         v = self._node_index[(dst_reg, dst_node)]
         total = self._dist[u][v]
-        if total == _INF:
-            return None
 
         if (src_reg, src_node) == (dst_reg, dst_node):
+            # 起点与终点相同，直接返回
             return {"total_time": 0, "path": [src_node], "cross_region": False}
 
         # 重建完整节点路径 [(region, node), ...]（含起点）
@@ -183,8 +174,6 @@ class MapManager:
                 break  # 防御：表已全连通，正常不会走到
             node_path.append(self._nodes[step])
             cur = step
-        if cur != v:
-            return None
 
         if src_reg == dst_reg:
             path_ids = [node_id for _, node_id in node_path]
