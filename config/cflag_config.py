@@ -8,7 +8,8 @@ NOT_MAPPING = {
     # key不能和value共存
     'working': ['secretary_ship', 'dating', 'resting'],
     'free': ['sleeping', 'working', 'following', 'secretary_ship_following', 'dating_following', 'resting'],
-    'resting': ['sleeping', 'working', 'following', 'secretary_ship_following', 'dating_following']
+    'resting': ['sleeping', 'working', 'following', 'secretary_ship_following', 'dating_following'],
+    'activity': ['sleeping', 'working', 'following', 'secretary_ship_following', 'dating_following', 'resting']
 }
 
 ATTACH_MAPPING = {

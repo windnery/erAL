@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from random import randint, choice
+from random import choice
 from typing import TYPE_CHECKING, Any
 
+from config import map_config
 from config.base_config import TALK_FATIGUE_RECOVER_THRESHOLD
 from config.cflag_config import EXCEPT_MAPPING, NOT_MAPPING
-from config.time_config import SECRETARY_FOLLOWING_END_TIME, DATING_END_TIME
+from config.time_config import DATING_END_TIME, SECRETARY_FOLLOWING_END_TIME
 from data.data_loader import load_shipgirls
+from game_engine.managers import ACTIVITY_REGISTRY
 from game_engine.managers.MapManager import MapManager
 from game_engine.models.player import Player
 from game_engine.models.shipgirl import ShipGirl
@@ -31,6 +33,7 @@ def time_check(hour: int, minute: int, start: list[int], end: list[int]) -> bool
 
 class NpcManager:
     """NPC管理器类"""
+
     # 所有舰娘的初始化数据
     shipgirls_db = load_shipgirls()
     # 初始化所有舰娘对象
@@ -38,7 +41,11 @@ class NpcManager:
 
     def __init__(self, world: World):
         from copy import deepcopy
-        self.shipgirls = {sg_id: ShipGirl(**deepcopy(sg_data)) for sg_id, sg_data in self.shipgirls_db.items()}
+
+        self.shipgirls = {
+            sg_id: ShipGirl(**deepcopy(sg_data))
+            for sg_id, sg_data in self.shipgirls_db.items()
+        }
         NpcManager.shipgirls = self.shipgirls
         # 秘书舰
         self.secretary_ship: ShipGirl | None = None
@@ -46,13 +53,7 @@ class NpcManager:
 
     def set_loc(self, shipgirl_id: str, region: str, node: str):
         """设置舰娘位置"""
-        self.shipgirls[shipgirl_id].location = {'region': region, 'node': node}
-
-    @staticmethod
-    def get_npcs_at(region: str, node: str):
-        """获取指定位置的NPC列表"""
-        return [sg for sg in NpcManager.shipgirls.values()
-                if sg.location['region'] == region and sg.location['node'] == node]
+        self.shipgirls[shipgirl_id].location = {"region": region, "node": node}
 
     def get_all_npcs(self):
         """获取所有NPC列表"""
@@ -63,14 +64,16 @@ class NpcManager:
         if self.secretary_ship:
             """当前有秘书舰的情况"""
             # 移除当前秘书舰
-            self.secretary_ship.cflag['secretary_ship'] = False
-            self.secretary_ship.cflag['secretary_ship_following'] = False
+            self.secretary_ship.cflag["secretary_ship"] = False
+            self.secretary_ship.cflag["secretary_ship_following"] = False
 
         self.secretary_ship = self.shipgirls[sg_id]
-        self.secretary_ship.cflag['secretary_ship'] = True
-        self.secretary_ship.cflag['secretary_ship_following'] = True
+        self.secretary_ship.cflag["secretary_ship"] = True
+        self.secretary_ship.cflag["secretary_ship_following"] = True
 
-    def update_positions(self, elapsed_minutes: int, map_manager: MapManager, player: Player):
+    def update_positions(
+        self, elapsed_minutes: int, map_manager: MapManager, player: Player
+    ):
         """根据当前时间和推进时长更新所有舰娘位置
         elapsed_minutes: 本次推进的分钟数（仅用于自由行动时的移动概率）
         map_manager: 地图管理器（用于查询可前往的节点/区域）
@@ -83,11 +86,11 @@ class NpcManager:
 
         # 更新秘书舰情况
         if self.secretary_ship:
-            self.secretary_ship.cflag['secretary_ship'] = True
+            self.secretary_ship.cflag["secretary_ship"] = True
+            self.secretary_ship.cflag_set_attach("secretary_ship")
             if self.secretary_ship.is_resting() or self.secretary_ship.is_sleeping():
                 # 秘书舰在休息/睡觉时，取消秘书舰同行状态
-                self.secretary_ship.cflag['secretary_ship_following'] = False
-            self.secretary_ship.cflag_set_attach('secretary_ship')
+                self.secretary_ship.cflag["secretary_ship_following"] = False
 
         for sg in self.shipgirls.values():
             # 情绪&理性&心情自然变化
@@ -105,87 +108,114 @@ class NpcManager:
                 continue
 
             # 睡觉时间：回家（睡觉优先级除调教外最高）
-            sleep_start_time: list[int] = sg.schedule['sleep']['start']
-            sleep_end_time: list[int] = sg.schedule['sleep']['end']
+            sleep_start_time: list[int] = sg.schedule["sleep"]["start"]
+            sleep_end_time: list[int] = sg.schedule["sleep"]["end"]
             if time_check(hour, minute, sleep_start_time, sleep_end_time):
-                sleep_region = self.shipgirls_db[sg.id]['location']['region']
-                sleep_node = self.shipgirls_db[sg.id]['location']['node']
+                sleep_region = self.shipgirls_db[sg.id]["location"]["region"]
+                sleep_node = self.shipgirls_db[sg.id]["location"]["node"]
                 self.set_loc(sg.id, sleep_region, sleep_node)
                 # 清除sleeping覆盖掉的cflag
-                sg.cflag_clear_except(EXCEPT_MAPPING['sleeping'])
-                sg.cflag['sleeping'] = True
+                sg.cflag_clear_except(EXCEPT_MAPPING["sleeping"])
+                sg.cflag["sleeping"] = True
                 continue
             else:
-                sg.cflag['sleeping'] = False
+                sg.cflag["sleeping"] = False
 
             # 工作时间：去工作地点
-            sg.cflag['working'] = False
-            if all(sg.cflag.get(key, False) is False for key in NOT_MAPPING['working']):
-                works: list[dict[str, Any]] = sg.schedule.get('works') or []
+            sg.cflag["working"] = False
+            if all(sg.cflag.get(key, False) is False for key in NOT_MAPPING["working"]):
+                works: list[dict[str, Any]] = sg.schedule.get("works") or []
                 for work in works:
-                    work_region: str = work['location']['region']
-                    work_node: str = work['location']['node']
-                    work_start_time: list[int] = work['time']['start']
-                    work_end_time: list[int] = work['time']['end']
+                    work_region: str = work["location"]["region"]
+                    work_node: str = work["location"]["node"]
+                    work_start_time: list[int] = work["time"]["start"]
+                    work_end_time: list[int] = work["time"]["end"]
                     if time_check(hour, minute, work_start_time, work_end_time):
                         # 工作时间
                         self.set_loc(sg.id, work_region, work_node)
-                        sg.cflag['working'] = True
+                        sg.cflag["working"] = True
                         break
 
             # 秘书舰
             if self.secretary_ship and sg.id == self.secretary_ship.id:
+                # TODO: 秘书舰的逻辑似乎可以提出去
                 # 设置秘书舰的附属状态
-                sg.cflag_set_attach('secretary_ship')
+                sg.cflag_set_attach("secretary_ship")
                 current = hour * 60 + minute
                 secretary_end_time = SECRETARY_FOLLOWING_END_TIME
                 if current >= secretary_end_time:
                     # 取消秘书舰同行状态
-                    self.secretary_ship.cflag['secretary_ship_following'] = False
+                    self.secretary_ship.cflag["secretary_ship_following"] = False
 
             # 约会中
             if sg.is_dating():
                 # 设置约会的附属状态
-                sg.cflag_set_attach('dating')
+                sg.cflag_set_attach("dating")
                 # 判断约会是否已到期
                 current = self.world.time_manager.day * 24 * 60 + hour * 60 + minute
-                dating_day = sg.cflag.get('dating_day')
+                dating_day = sg.cflag.get("dating_day")
                 if dating_day is None:
                     dating_day = self.world.time_manager.day
                 end_time = dating_day * 24 * 60 + DATING_END_TIME
                 if current >= end_time:
                     # 取消约会状态
                     from game_engine.commands.interact.end_date import end_date
+
                     end_date(self.world, sg.id, True)
 
             if sg.is_following() and not sg.is_sleeping() and not sg.is_resting():
                 # 同行中(且不在休息/睡觉)
-                self.set_loc(sg.id, player.location['region'], player.location['node'])
+                self.set_loc(sg.id, player.location["region"], player.location["node"])
 
-            # 自由行动：根据推进时长影响移动概率
-            # 每推进1分钟，移动节点概率+1%（离开区域概率不变）
-            if elapsed_minutes > 0 and all(sg.cflag.get(key, False) is False for key in NOT_MAPPING['free']):
-                move_chance = min(elapsed_minutes, 95)  # 上限95%，保证离开区域至少有5%空间
-                leave_chance = min(elapsed_minutes, 5)
-                p = randint(1, 100)
-                if p <= move_chance:
-                    # 去当前区域的其他节点
-                    nodes = map_manager.get_available_nodes(sg.location['region'], sg.location['node'])
-                    nodes = nodes[:-1]  # 移除返回选项
-                    if nodes:
-                        target_node = choice(nodes)
-                        self.set_loc(sg.id, sg.location['region'], target_node['key'])
-                elif p <= move_chance + leave_chance:
-                    # 去别的区域
-                    regions = map_manager.get_available_regions(sg.location['region'])
-                    regions = regions[:-1]  # 移除返回选项
-                    if regions:
-                        target_region = choice(regions)
-                        # 直接从目标区域的地图中随机选一个节点（不依赖 move_time_data）
-                        target_nodes = list(map_manager.maps[target_region['key']].keys())
-                        if target_nodes:
-                            target_node = choice(target_nodes)
-                            self.set_loc(sg.id, target_region['key'], target_node)
+            if elapsed_minutes > 0 and all(
+                sg.cflag.get(key, False) is False for key in NOT_MAPPING["free"]
+            ):
+                # 自由行动中
+                will_activity = self.world.activity_manager.will_activities[sg.id]
+                activity = self.world.activity_manager.activities[sg.id]
+                # 决定舰娘的活动
+                if will_activity == "free" and activity.id == "free":
+                    # 现在和候选都是自由
+                    # TODO: 随机选取一个地点移动
+                    # roll候选活动
+                    self.world.activity_manager.roll_activity(sg.id)
+                elif will_activity != "free" and activity.id == "free":
+                    # 现在是自由 候选不是自由 前往候选活动的地点
+                    # 活动的地点标签
+                    required_loc_tags = ACTIVITY_REGISTRY[will_activity].loc_tags
+                    # 优先选择当前区域的合适节点
+                    for tag in required_loc_tags:
+                        loc_dict: dict[str, list[str]] = getattr(map_config, tag)
+                        if loc_dict.get(sg.location["region"], []):
+                            # 当前区域有合适节点，选一个最近的
+                            available_nodes = loc_dict[sg.location["region"]]
+                            if sg.location["node"] in available_nodes:
+                                # 当前节点已经是合适节点，无需移动，直接开始活动
+                                self.world.activity_manager.activate_activity(sg.id)
+                                break
+                            else:
+                                # 当前节点不是合适节点，移动到一个合适节点
+                                target_node = choice(available_nodes)
+                                # TODO: 接入寻路算法，选择最近的合适节点
+                                break
+                        else:
+                            # TODO: 当前区域没有合适节点，尝试去其他区域
+                            break
+                else:
+                    # 现在不是自由活动 不打断当前活动
+                    pass
+
+        mes_lst = self.world.activity_manager.tick_all(player, elapsed_minutes)
+        # TODO: 前端显示活动的tick信息
+
+    @staticmethod
+    def get_npcs_at(region: str, node: str):
+        """获取指定位置的NPC列表"""
+        return [
+            sg
+            for sg in NpcManager.shipgirls.values()
+            if sg.location["region"] == region and sg.location["node"] == node
+        ]
 
     @staticmethod
     def get_npc_by_id(shipgirl_id: str):
@@ -198,6 +228,4 @@ class NpcManager:
     @staticmethod
     def with_mob(region: str, node: str) -> bool:
         """判断是否有旁人在场"""
-        if len(NpcManager.get_npcs_at(region, node)) > 1:
-            return True
-        return False
+        return len(NpcManager.get_npcs_at(region, node)) > 1
