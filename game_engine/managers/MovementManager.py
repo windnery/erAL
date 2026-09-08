@@ -36,11 +36,8 @@ class MovementManager:
         for i in range(len(path_nodes) - 1):
             u = path_nodes[i]
             v = path_nodes[i + 1]
-            time_cost = 1
-            for link in region_map.get(u, {}).get("links", []):
-                if link.get("to") == v:
-                    time_cost = link.get("time", 1)
-                    break
+            # links 为单字典模式 {目标: 耗时}，O(1) 取边耗时
+            time_cost = region_map.get(u, {}).get("links", {}).get(v, 1)
             steps.append({
                 "region": region,
                 "node": v,

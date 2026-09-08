@@ -3,14 +3,19 @@ from typing import Any
 from data.data_loader import load_map_meta, load_maps, load_regions
 from data.time.time_data import leave_time_data
 
+_INF = float("inf")
+
 
 class MapManager:
     """地图管理器
 
     地图 = 区域内节点组成的无向连通图：
-    - 每个节点通过 links: [{'to': 节点id, 'time': 通行分钟}] 声明邻接边
+    - 每个节点通过 links: {目标节点id: 通行分钟, ...} 声明邻接边（单字典模式）
     - 跨区域通行时间由 leave_time.json（区域×区域矩阵）提供
     - 区域可携带字符画元数据（lines/tokens）供前端渲染 eratw 风格地图
+
+    启动时构建全局全对最短路表（Floyd）：dist[u][v] 耗时分钟 + nxt[u][v] 路径重建。
+    玩家/舰娘寻路统一查表 O(1) 取时耗，无需每次实时计算。
     """
 
     def __init__(self):
@@ -22,6 +27,70 @@ class MapManager:
 
         # 字符画元数据
         self.map_meta: dict[str, dict[str, Any]] = load_map_meta()
+
+        # 全局最短路表（Floyd）
+        self._build_all_pairs_shortest_path()
+
+    # ==================== Floyd 全局最短路表 ====================
+
+    def _build_all_pairs_shortest_path(self):
+        """构建全局 Floyd 全对最短路表
+
+        - 节点 = (region, node) 复合键（corridor 等节点 id 跨区域重名，必须复合）
+        - 区域内部边取各节点 links
+        - 区域间边：各区域 entry_node 互连，权重 leave_time[a][b]
+        - 产出 self._dist[u][v]（总耗时）/ self._nxt[u][v]（路径下一步节点索引）
+        """
+        self._nodes: list[tuple[str, str]] = []
+        self._node_index: dict[tuple[str, str], int] = {}
+        for region, region_nodes in self.maps.items():
+            for node in region_nodes:
+                self._node_index[(region, node)] = len(self._nodes)
+                self._nodes.append((region, node))
+        n = len(self._nodes)
+
+        self._dist = [[_INF] * n for _ in range(n)]
+        self._nxt: list[list[int | None]] = [[None] * n for _ in range(n)]
+        for i in range(n):
+            self._dist[i][i] = 0
+            self._nxt[i][i] = -1
+
+        # 区域内部边
+        for region, region_nodes in self.maps.items():
+            for node, node_data in region_nodes.items():
+                u = self._node_index[(region, node)]
+                for to, cost in node_data.get("links", {}).items():
+                    v = self._node_index[(region, to)]
+                    if cost < self._dist[u][v]:
+                        self._dist[u][v] = cost
+                        self._nxt[u][v] = v
+
+        # 区域间边：各区域入口节点双向互连，权重 = leave_time 矩阵
+        for a in self.regions:
+            for b in self.regions:
+                if a == b:
+                    continue
+                u = self._node_index[(a, self.regions[a]["entry_node"])]
+                v = self._node_index[(b, self.regions[b]["entry_node"])]
+                cost = leave_time_data.get(a, {}).get(b)
+                if cost is not None and cost < self._dist[u][v]:
+                    self._dist[u][v] = cost
+                    self._nxt[u][v] = v
+
+        # Floyd 迭代
+        for k in range(n):
+            dk = self._dist[k]
+            for i in range(n):
+                via_i = self._dist[i][k]
+                if via_i == _INF:
+                    continue
+                di, ni = self._dist[i], self._nxt[i]
+                for j in range(n):
+                    nd = via_i + dk[j]
+                    if nd < di[j]:
+                        di[j] = nd
+                        # 路径 i->...->k->...->j：从 i 出发的第一步沿用 i->k 的第一步
+                        ni[j] = self._nxt[i][k]
 
     def get_current_loc(self, character):
         """获取当前位置信息"""
@@ -35,15 +104,14 @@ class MapManager:
 
     def get_available_nodes(self, region: str, node: str):
         """获取当前区域可前往的节点（图邻接节点）"""
-        nodes: list[dict[str, str]] = []
-        for link in self.maps[region].get(node, {}).get("links", []):
-            to = link["to"]
+        nodes: list[dict[str, Any]] = []
+        for to, cost in self.maps[region].get(node, {}).get("links", {}).items():
             if to in self.maps[region]:
                 nodes.append(
                     {
                         "key": to,
                         "name": self.maps[region][to]["name"],
-                        "time": link["time"],
+                        "time": cost,
                     }
                 )
         nodes.append({"key": "return", "name": "返回"})  # 添加返回选项
@@ -80,71 +148,50 @@ class MapManager:
             and player.location["node"] == sg.location["node"]
         )
 
-    # ==================== 图模型：寻路 ====================
-
-    def _dijkstra(self, region: str, start: str, goal: str):
-        """区域内 Dijkstra 最短路：返回 (总耗时, 节点路径)；不可达返回 (None, [])"""
-        if start == goal:
-            return 0, [start]
-        import heapq
-
-        dist = {start: 0}
-        prev: dict[str, str] = {}
-        pq = [(0, start)]
-        visited: set[str] = set()
-        while pq:
-            d, cur = heapq.heappop(pq)
-            if cur == goal:
-                break
-            if cur in visited:
-                continue
-            visited.add(cur)
-            for link in self.maps[region].get(cur, {}).get("links", []):
-                to = link["to"]
-                if to not in self.maps[region]:
-                    continue
-                nd = d + link["time"]
-                if nd < dist.get(to, float("inf")):
-                    dist[to] = nd
-                    prev[to] = cur
-                    heapq.heappush(pq, (nd, to))
-        if goal not in dist:
-            return None, []
-        path = [goal]
-        while path[-1] != start:
-            path.append(prev[path[-1]])
-        return dist[goal], list(reversed(path))
+    # ==================== 图模型：寻路（查 Floyd 表） ====================
 
     def find_path(self, src_reg: str, src_node: str, dst_reg: str, dst_node: str):
-        """跨图寻路：返回 {'total_time': 分钟, 'path': [节点], 'cross_region': bool}；不可达返回 None
+        """跨图寻路（查全局 Floyd 表）：返回 {'total_time': 分钟, 'path': [节点], 'cross_region': bool}；不可达返回 None
 
-        - 同区域：区域内 Dijkstra
-        - 跨区域：leave_time（区域间通行）+ 目标区域从入口节点到目标节点的 Dijkstra
+        - 同区域：返回区域内从 src_node 到 dst_node 的完整节点路径
+        - 跨区域：返回 [目标区入口节点, ...目标节点]（与旧契约一致），total_time 含区域内/区域间全部耗时
         """
-        if src_reg == dst_reg:
-            total, path = self._dijkstra(src_reg, src_node, dst_node)
-            if total is None:
-                return None
-            return {"total_time": total, "path": path, "cross_region": False}
+        if (
+            src_reg not in self.maps
+            or src_node not in self.maps[src_reg]
+            or dst_reg not in self.maps
+            or dst_node not in self.maps[dst_reg]
+        ):
+            return None
 
-        leave_minutes = leave_time_data.get(src_reg, {}).get(dst_reg)
-        if leave_minutes is None:
+        u = self._node_index[(src_reg, src_node)]
+        v = self._node_index[(dst_reg, dst_node)]
+        total = self._dist[u][v]
+        if total == _INF:
             return None
-        entry_node = self.regions[dst_reg]["entry_node"]
-        if entry_node == dst_node:
-            return {
-                "total_time": leave_minutes,
-                "path": [dst_node],
-                "cross_region": True,
-            }
-        total2, path2 = self._dijkstra(dst_reg, entry_node, dst_node)
-        if total2 is None:
+
+        if (src_reg, src_node) == (dst_reg, dst_node):
+            return {"total_time": 0, "path": [src_node], "cross_region": False}
+
+        # 重建完整节点路径 [(region, node), ...]（含起点）
+        node_path = [(src_reg, src_node)]
+        cur = u
+        while cur != v:
+            step = self._nxt[cur][v]
+            if step is None or step == cur:
+                break  # 防御：表已全连通，正常不会走到
+            node_path.append(self._nodes[step])
+            cur = step
+        if cur != v:
             return None
-        return {
-            "total_time": leave_minutes + total2,
-            "path": [entry_node] + path2[1:],
-            "cross_region": True,
-        }
+
+        if src_reg == dst_reg:
+            path_ids = [node_id for _, node_id in node_path]
+            return {"total_time": total, "path": path_ids, "cross_region": False}
+
+        # 跨区域：路径为 [目标区入口节点, ...目标区节点]
+        path_ids = [node_id for reg, node_id in node_path if reg == dst_reg]
+        return {"total_time": total, "path": path_ids, "cross_region": True}
 
     # ==================== 字符画地图视图 ====================
 

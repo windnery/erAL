@@ -2,105 +2,63 @@
   "corridor": {
     "name": "铁血宿舍走廊",
     "actions": {},
-    "links": [
-      {
-        "to": "z23_room",
-        "time": 1
-      },
-      {
-        "to": "konigsberg_room",
-        "time": 1
-      },
-      {
-        "to": "karlsruhe_room",
-        "time": 1
-      },
-      {
-        "to": "koln_room",
-        "time": 1
-      },
-      {
-        "to": "prinz_eugen_room",
-        "time": 1
-      },
-      {
-        "to": "z1_room",
-        "time": 1
-      },
-      {
-        "to": "leipzig_room",
-        "time": 1
-      }
-    ]
+    "links": {
+      "z23_room": 1,
+      "konigsberg_room": 1,
+      "karlsruhe_room": 1,
+      "koln_room": 1,
+      "prinz_eugen_room": 1,
+      "z1_room": 1,
+      "leipzig_room": 1
+    }
   },
   "z23_room": {
     "name": "Z23的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "konigsberg_room": {
     "name": "柯尼斯堡的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "karlsruhe_room": {
     "name": "卡尔斯鲁厄的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "koln_room": {
     "name": "科隆的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "prinz_eugen_room": {
     "name": "欧根亲王的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "z1_room": {
     "name": "Z1的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "leipzig_room": {
     "name": "莱比锡的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   }
 }

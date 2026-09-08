@@ -27,10 +27,10 @@ def test_shipgirl_locations_and_maps():
         # 节点在对应区域存在
         assert node in maps[region], f"舰娘 {sg_id} 的房间 {node} 不在区域 {region} 的地图中"
         # 图邻接配置存在（宿舍房间应与走廊相连）
-        links = maps[region][node].get("links", [])
+        links = maps[region][node].get("links", {})
         assert links, f"房间 {region}/{node} 缺少 links 图邻接配置"
         if "corridor" in maps[region] and node != "corridor":
-            assert any(l["to"] == "corridor" for l in links), \
+            assert "corridor" in links, \
                 f"房间 {region}/{node} 未与走廊相连"
         # map_config 配置存在
         assert node in CAN_SIT_LOC.get(region, []), f"房间 {node} 不在 CAN_SIT_LOC[{region}] 中"

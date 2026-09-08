@@ -2,259 +2,151 @@
   "corridor": {
     "name": "重樱宿舍走廊",
     "actions": {},
-    "links": [
-      {
-        "to": "ayanami_room",
-        "time": 1
-      },
-      {
-        "to": "shiranui_room",
-        "time": 1
-      },
-      {
-        "to": "akashi_room",
-        "time": 1
-      },
-      {
-        "to": "furutaka_room",
-        "time": 1
-      },
-      {
-        "to": "kako_room",
-        "time": 1
-      },
-      {
-        "to": "akagi_room",
-        "time": 1
-      },
-      {
-        "to": "kaga_room",
-        "time": 1
-      },
-      {
-        "to": "souryuu_room",
-        "time": 1
-      },
-      {
-        "to": "hiryuu_room",
-        "time": 1
-      },
-      {
-        "to": "houshou_room",
-        "time": 1
-      },
-      {
-        "to": "shouhou_room",
-        "time": 1
-      },
-      {
-        "to": "takao_room",
-        "time": 1
-      },
-      {
-        "to": "fusou_room",
-        "time": 1
-      },
-      {
-        "to": "yamashiro_room",
-        "time": 1
-      },
-      {
-        "to": "yuudachi_room",
-        "time": 1
-      },
-      {
-        "to": "shigure_room",
-        "time": 1
-      },
-      {
-        "to": "shiratsuyu_room",
-        "time": 1
-      },
-      {
-        "to": "kagerou_room",
-        "time": 1
-      }
-    ]
+    "links": {
+      "ayanami_room": 1,
+      "shiranui_room": 1,
+      "akashi_room": 1,
+      "furutaka_room": 1,
+      "kako_room": 1,
+      "akagi_room": 1,
+      "kaga_room": 1,
+      "souryuu_room": 1,
+      "hiryuu_room": 1,
+      "houshou_room": 1,
+      "shouhou_room": 1,
+      "takao_room": 1,
+      "fusou_room": 1,
+      "yamashiro_room": 1,
+      "yuudachi_room": 1,
+      "shigure_room": 1,
+      "shiratsuyu_room": 1,
+      "kagerou_room": 1
+    }
   },
   "ayanami_room": {
     "name": "绫波的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "shiranui_room": {
     "name": "不知火的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "akashi_room": {
     "name": "明石的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "furutaka_room": {
     "name": "古鹰的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "kako_room": {
     "name": "加古的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "akagi_room": {
     "name": "赤城的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "kaga_room": {
     "name": "加贺的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "souryuu_room": {
     "name": "苍龙的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "hiryuu_room": {
     "name": "飞龙的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "houshou_room": {
     "name": "凤翔的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "shouhou_room": {
     "name": "祥凤的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "takao_room": {
     "name": "高雄的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "fusou_room": {
     "name": "扶桑的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "yamashiro_room": {
     "name": "山城的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "yuudachi_room": {
     "name": "夕立的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "shigure_room": {
     "name": "时雨的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "shiratsuyu_room": {
     "name": "白露的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "kagerou_room": {
     "name": "阳炎的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   }
 }

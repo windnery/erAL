@@ -34,16 +34,10 @@
     "actions": {
       "nap": "小憩"
     },
-    "links": [
-      {
-        "to": "bedroom",
-        "time": 1
-      },
-      {
-        "to": "kitchen",
-        "time": 1
-      }
-    ]
+    "links": {
+      "bedroom": 1,
+      "kitchen": 1
+    }
   },
   "bedroom": {
     "name": "卧室",
@@ -51,31 +45,19 @@
       "nap": "小憩",
       "sleep": "睡觉"
     },
-    "links": [
-      {
-        "to": "living_room",
-        "time": 1
-      },
-      {
-        "to": "kitchen",
-        "time": 1
-      }
-    ]
+    "links": {
+      "living_room": 1,
+      "kitchen": 1
+    }
   },
   "kitchen": {
     "name": "厨房",
     "actions": {
       "cook": "做饭"
     },
-    "links": [
-      {
-        "to": "living_room",
-        "time": 1
-      },
-      {
-        "to": "bedroom",
-        "time": 1
-      }
-    ]
+    "links": {
+      "living_room": 1,
+      "bedroom": 1
+    }
   }
 }

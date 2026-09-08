@@ -2,525 +2,303 @@
   "corridor": {
     "name": "皇家宿舍走廊",
     "actions": {},
-    "links": [
-      {
-        "to": "javelin_room",
-        "time": 1
-      },
-      {
-        "to": "leander_room",
-        "time": 1
-      },
-      {
-        "to": "hermes_room",
-        "time": 1
-      },
-      {
-        "to": "bulldog_room",
-        "time": 1
-      },
-      {
-        "to": "beagle_room",
-        "time": 1
-      },
-      {
-        "to": "cygnet_room",
-        "time": 1
-      },
-      {
-        "to": "comet_room",
-        "time": 1
-      },
-      {
-        "to": "crescent_room",
-        "time": 1
-      },
-      {
-        "to": "foxhound_room",
-        "time": 1
-      },
-      {
-        "to": "queen_elizabeth_room",
-        "time": 1
-      },
-      {
-        "to": "warspite_room",
-        "time": 1
-      },
-      {
-        "to": "hood_room",
-        "time": 1
-      },
-      {
-        "to": "illustrious_room",
-        "time": 1
-      },
-      {
-        "to": "unicorn_room",
-        "time": 1
-      },
-      {
-        "to": "ark_royal_room",
-        "time": 1
-      },
-      {
-        "to": "nelson_room",
-        "time": 1
-      },
-      {
-        "to": "rodney_room",
-        "time": 1
-      },
-      {
-        "to": "renown_room",
-        "time": 1
-      },
-      {
-        "to": "repulse_room",
-        "time": 1
-      },
-      {
-        "to": "york_room",
-        "time": 1
-      },
-      {
-        "to": "exeter_room",
-        "time": 1
-      },
-      {
-        "to": "london_room",
-        "time": 1
-      },
-      {
-        "to": "suffolk_room",
-        "time": 1
-      },
-      {
-        "to": "norfolk_room",
-        "time": 1
-      },
-      {
-        "to": "kent_room",
-        "time": 1
-      },
-      {
-        "to": "shropshire_room",
-        "time": 1
-      },
-      {
-        "to": "dorsetshire_room",
-        "time": 1
-      },
-      {
-        "to": "galatea_room",
-        "time": 1
-      },
-      {
-        "to": "arethusa_room",
-        "time": 1
-      },
-      {
-        "to": "ajax_room",
-        "time": 1
-      },
-      {
-        "to": "achilles_room",
-        "time": 1
-      },
-      {
-        "to": "amazon_room",
-        "time": 1
-      },
-      {
-        "to": "juno_room",
-        "time": 1
-      },
-      {
-        "to": "fortune_room",
-        "time": 1
-      },
-      {
-        "to": "glowworm_room",
-        "time": 1
-      },
-      {
-        "to": "erebus_room",
-        "time": 1
-      },
-      {
-        "to": "terror_room",
-        "time": 1
-      }
-    ]
+    "links": {
+      "javelin_room": 1,
+      "leander_room": 1,
+      "hermes_room": 1,
+      "bulldog_room": 1,
+      "beagle_room": 1,
+      "cygnet_room": 1,
+      "comet_room": 1,
+      "crescent_room": 1,
+      "foxhound_room": 1,
+      "queen_elizabeth_room": 1,
+      "warspite_room": 1,
+      "hood_room": 1,
+      "illustrious_room": 1,
+      "unicorn_room": 1,
+      "ark_royal_room": 1,
+      "nelson_room": 1,
+      "rodney_room": 1,
+      "renown_room": 1,
+      "repulse_room": 1,
+      "york_room": 1,
+      "exeter_room": 1,
+      "london_room": 1,
+      "suffolk_room": 1,
+      "norfolk_room": 1,
+      "kent_room": 1,
+      "shropshire_room": 1,
+      "dorsetshire_room": 1,
+      "galatea_room": 1,
+      "arethusa_room": 1,
+      "ajax_room": 1,
+      "achilles_room": 1,
+      "amazon_room": 1,
+      "juno_room": 1,
+      "fortune_room": 1,
+      "glowworm_room": 1,
+      "erebus_room": 1,
+      "terror_room": 1
+    }
   },
   "javelin_room": {
     "name": "标枪的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "leander_room": {
     "name": "利安得的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "hermes_room": {
     "name": "竞技神的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "bulldog_room": {
     "name": "大斗犬的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "beagle_room": {
     "name": "小猎兔犬的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "cygnet_room": {
     "name": "小天鹅的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "comet_room": {
     "name": "彗星的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "crescent_room": {
     "name": "新月的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "foxhound_room": {
     "name": "狐提的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "queen_elizabeth_room": {
     "name": "伊丽莎白女王的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "warspite_room": {
     "name": "厌战的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "hood_room": {
     "name": "胡德的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "illustrious_room": {
     "name": "光辉的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "unicorn_room": {
     "name": "独角兽的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "ark_royal_room": {
     "name": "皇家方舟的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "nelson_room": {
     "name": "纳尔逊的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "rodney_room": {
     "name": "罗德尼的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "renown_room": {
     "name": "声望的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "repulse_room": {
     "name": "反击的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "york_room": {
     "name": "约克的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "exeter_room": {
     "name": "埃克塞特的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "london_room": {
     "name": "伦敦的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "suffolk_room": {
     "name": "萨福克的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "norfolk_room": {
     "name": "诺福克的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "kent_room": {
     "name": "肯特的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "shropshire_room": {
     "name": "什罗普郡的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "dorsetshire_room": {
     "name": "多塞特郡的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "galatea_room": {
     "name": "加拉蒂亚的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "arethusa_room": {
     "name": "阿瑞托莎的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "ajax_room": {
     "name": "阿贾克斯的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "achilles_room": {
     "name": "阿基里斯的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "amazon_room": {
     "name": "女将的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "juno_room": {
     "name": "天后的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "fortune_room": {
     "name": "命运女神的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "glowworm_room": {
     "name": "萤火虫的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "erebus_room": {
     "name": "黑暗界的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "terror_room": {
     "name": "恐怖的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   }
 }

@@ -14,10 +14,10 @@ def test_all_nodes_have_valid_links():
     for region, nodes in maps.items():
         for node_id, node in nodes.items():
             assert 'links' in node, f'{region}/{node_id} 缺少 links'
-            for link in node['links']:
-                assert link['to'] in nodes, f'{region}/{node_id} -> {link["to"]} 不是本区域节点'
-                assert isinstance(link['time'], int) and link['time'] > 0, \
-                    f'{region}/{node_id} -> {link["to"]} 通行时间非法'
+            for to, cost in node['links'].items():
+                assert to in nodes, f'{region}/{node_id} -> {to} 不是本区域节点'
+                assert isinstance(cost, int) and cost > 0, \
+                    f'{region}/{node_id} -> {to} 通行时间非法'
 
 
 def test_links_are_bidirectional():
@@ -25,10 +25,9 @@ def test_links_are_bidirectional():
     maps = load_maps()
     for region, nodes in maps.items():
         for node_id, node in nodes.items():
-            for link in node['links']:
-                back_targets = [l['to'] for l in nodes[link['to']]['links']]
-                assert node_id in back_targets, \
-                    f'{region}: {link["to"]} -> {node_id} 缺少反向边'
+            for to in node['links']:
+                assert node_id in nodes[to]['links'], \
+                    f'{region}: {to} -> {node_id} 缺少反向边'
 
 
 def test_regions_are_connected():
@@ -40,10 +39,10 @@ def test_regions_are_connected():
         queue = [start]
         while queue:
             cur = queue.pop()
-            for link in nodes[cur]['links']:
-                if link['to'] not in visited:
-                    visited.add(link['to'])
-                    queue.append(link['to'])
+            for to in nodes[cur]['links']:
+                if to not in visited:
+                    visited.add(to)
+                    queue.append(to)
         assert visited == set(nodes), f'{region} 存在不可达节点: {set(nodes) - visited}'
 
 
@@ -130,3 +129,74 @@ def test_art_files_are_consistent():
             if meta.get('node'):
                 assert meta['node'] in maps[json_file.stem], \
                     f'{json_file.stem}: 记号 {token} 指向不存在的节点 {meta["node"]}'
+
+
+# ==================== Floyd 全局最短路表 ====================
+
+def _all_node_pairs(mm: MapManager):
+    """产出 (src_reg, src_node, dst_reg, dst_node) 全节点对"""
+    pairs = []
+    for s_reg, s_nodes in mm.maps.items():
+        for s_node in s_nodes:
+            for d_reg, d_nodes in mm.maps.items():
+                for d_node in d_nodes:
+                    pairs.append((s_reg, s_node, d_reg, d_node))
+    return pairs
+
+
+def test_floyd_table_complete_and_symmetric():
+    """Floyd 表全连通（任意节点对可达），且时耗对称（无向图）"""
+    mm = MapManager()
+    for s_reg, s_node, d_reg, d_node in _all_node_pairs(mm):
+        u = mm._node_index[(s_reg, s_node)]
+        v = mm._node_index[(d_reg, d_node)]
+        assert mm._dist[u][v] != float('inf'), \
+            f'不可达: {s_reg}/{s_node} -> {d_reg}/{d_node}'
+        # 无向：dist 对称
+        assert mm._dist[u][v] == mm._dist[v][u], \
+            f'不对称: {s_reg}/{s_node} <-> {d_reg}/{d_node}'
+
+
+def test_floyd_path_reconstruction_matches_dist():
+    """由 nxt 重建的路径总耗时 == dist[u][v]，且路径片段都为真实节点"""
+    mm = MapManager()
+    for s_reg, s_node, d_reg, d_node in _all_node_pairs(mm):
+        u = mm._node_index[(s_reg, s_node)]
+        v = mm._node_index[(d_reg, d_node)]
+        expected = mm._dist[u][v]
+        path = mm.find_path(s_reg, s_node, d_reg, d_node)
+        assert path is not None, f'{s_reg}/{s_node} -> {d_reg}/{d_node} 不可达'
+        assert path['total_time'] == expected
+        assert path['path'], f'{s_reg}/{s_node} -> {d_reg}/{d_node} 空路径'
+        assert path['path'][-1] == d_node, '路径终点应为目标节点'
+
+
+def test_find_path_cross_region_includes_entry():
+    """跨区寻路（查表）时耗正确，路径含目标区入口节点跳点"""
+    mm = MapManager()
+    # home/living_room -> ironblood_dorm/z1_room：home 内 0 + leave 3 + corridor->z1 1 = 4
+    result = mm.find_path('home', 'living_room', 'ironblood_dorm', 'z1_room')
+    assert result is not None
+    assert result['total_time'] == 4
+    assert result['cross_region'] is True
+    # 目标区入口 corridor（ironblood_dorm）应在路径中
+    assert result['path'][0] == 'corridor'
+    assert result['path'][-1] == 'z1_room'
+
+
+def test_find_path_cross_region_accounts_for_src_walk():
+    """跨区时源区域内部走到入口节点的耗时计入 total_time"""
+    mm = MapManager()
+    # home/bedroom -> bedroom->living(1) + leave home->ironblood(3) + corridor->z1(1) = 5
+    result = mm.find_path('home', 'bedroom', 'ironblood_dorm', 'z1_room')
+    assert result is not None
+    assert result['total_time'] == 5
+
+
+def test_floyd_build_time_reasonable():
+    """建表耗时应在合理范围（规模 129 节点，亚秒级）"""
+    import time
+    start = time.perf_counter()
+    MapManager()
+    elapsed = time.perf_counter() - start
+    assert elapsed < 1.0, f'Floyd 建表耗时异常: {elapsed:.3f}s'

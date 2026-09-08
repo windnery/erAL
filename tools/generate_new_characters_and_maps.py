@@ -602,13 +602,13 @@ HAVE_BED_LOC: dict[str, list[str]] = {{
         }
         for room in rooms:
             room_node = region_nodes.setdefault(room, {"name": room})
-            room_links = room_node.setdefault("links", [])
-            if not any(l["to"] == "corridor" for l in room_links):
-                room_links.append({"to": "corridor", "time": 1})
+            room_links = room_node.setdefault("links", {})
+            if "corridor" not in room_links:
+                room_links["corridor"] = 1
             if "corridor" in region_nodes:
-                corridor_links = region_nodes["corridor"].setdefault("links", [])
-                if not any(l["to"] == room for l in corridor_links):
-                    corridor_links.append({"to": room, "time": 1})
+                corridor_links = region_nodes["corridor"].setdefault("links", {})
+                if room not in corridor_links:
+                    corridor_links[room] = 1
         out = {}
         for key in META_KEYS:
             if key in region_data:

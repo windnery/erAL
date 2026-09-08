@@ -2,35 +2,23 @@
   "corridor": {
     "name": "东煌宿舍走廊",
     "actions": {},
-    "links": [
-      {
-        "to": "ning_hai_room",
-        "time": 1
-      },
-      {
-        "to": "ping_hai_room",
-        "time": 1
-      }
-    ]
+    "links": {
+      "ning_hai_room": 1,
+      "ping_hai_room": 1
+    }
   },
   "ning_hai_room": {
     "name": "宁海的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   },
   "ping_hai_room": {
     "name": "平海的房间",
     "actions": {},
-    "links": [
-      {
-        "to": "corridor",
-        "time": 1
-      }
-    ]
+    "links": {
+      "corridor": 1
+    }
   }
 }
