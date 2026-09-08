@@ -72,6 +72,14 @@ class MapManager:
         """获取节点名称"""
         return self.maps[region_id][node_id]["name"]
 
+    @staticmethod
+    def is_same_loc(player, sg):
+        """判断玩家与舰娘是否在同一位置"""
+        return (
+            player.location["region"] == sg.location["region"]
+            and player.location["node"] == sg.location["node"]
+        )
+
     # ==================== 图模型：寻路 ====================
 
     def _dijkstra(self, region: str, start: str, goal: str):
