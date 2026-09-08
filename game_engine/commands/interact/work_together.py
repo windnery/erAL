@@ -4,7 +4,7 @@ from random import randint
 from typing import TYPE_CHECKING
 
 from config.map_config import WORK_LOC
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import favor_trust_proc, new_source
 from game_engine.commands._context import CommandContext
@@ -42,7 +42,7 @@ def work_together(world, option=None):
     say_chara_line(npc, ctx, 'work_together')
 
     # 推进时间
-    ctx.advance_time(command_time_data['work_together'])
+    ctx.advance_time(COMMAND_TIME_DATA['work_together'])
 
     # 做工作
     # 玩家的工作部分

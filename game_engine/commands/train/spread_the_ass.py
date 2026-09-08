@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from config.abl_config import ABL_LV
 from config.chara_config import PLAYER_ID
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import add_attitude_mes, train_global_can, new_source, get_name_by_id, get_entity_by_id, \
     check_body_slots
@@ -233,7 +233,7 @@ def spread_the_ass(world: World):
             say_chara_line(chara, ctx, 'spread_the_ass')
 
     # 推进时间
-    ctx.advance_time(command_time_data['spread_the_ass'])
+    ctx.advance_time(COMMAND_TIME_DATA['spread_the_ass'])
 
     sources: dict[str, dict[str, int]] = {}
     # 被调教者

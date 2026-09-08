@@ -6,7 +6,7 @@ from config.map_config import CAN_SIT_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import new_source, global_can, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.managers.NpcManager import NpcManager
@@ -58,7 +58,7 @@ def request_a_lap_pillow(world: World, option: str):
     say_chara_line(npc, ctx, 'request_a_lap_pillow')
 
     # 推进时间
-    ctx.advance_time(command_time_data['request_a_lap_pillow'])
+    ctx.advance_time(COMMAND_TIME_DATA['request_a_lap_pillow'])
 
     # ABL: 亲密
     if npc.abl['intimacy_abl'] <= 1:

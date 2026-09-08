@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_engine.commands._commands import register_cmd
-from data.time.time_data import leave_time_data
+from data.time.time_data import LEAVE_TIME_DATA
 
 if TYPE_CHECKING:
     from world import World

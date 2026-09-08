@@ -6,7 +6,7 @@ from config.map_config import NAP_LOC, SLEEP_LOC, WORK_LOC
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import work_abl_modifier
 from game_engine.commands._context import CommandContext
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.data_pipeline.exp_calc import exp_calc
 
 if TYPE_CHECKING:
@@ -59,7 +59,7 @@ def nap(world: World, option=None):
     ctx.say(f"{player.name}在沙发上躺下……")
 
     # 推进时间
-    ctx.advance_time(command_time_data['nap'])
+    ctx.advance_time(COMMAND_TIME_DATA['nap'])
 
     # 回复体力和气力
     stamina_recovered = max(0, int(player.get_max_stamina() * 0.25) + randint(-80, 100))
@@ -87,7 +87,7 @@ def work(world: World, option=None):
     ctx.say("埋头认真工作……")
 
     # 推进时间
-    ctx.advance_time(command_time_data['work'])
+    ctx.advance_time(COMMAND_TIME_DATA['work'])
 
     # 做工作
     works = randint(120, 180)

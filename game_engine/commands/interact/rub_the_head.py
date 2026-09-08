@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import new_source, favor_trust_proc, source_proc
 from game_engine.commands._context import CommandContext
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.data_pipeline.common_src_modify import common_src_modify
 from game_engine.data_pipeline.exp_calc import exp_calc
 from game_engine.managers.NpcManager import NpcManager
@@ -55,7 +55,7 @@ def rub_the_head(world: World, option: str):
     say_chara_line(npc, ctx, 'rub_the_head')
 
     # 推进时间
-    ctx.advance_time(command_time_data['rub_the_head'])
+    ctx.advance_time(COMMAND_TIME_DATA['rub_the_head'])
 
     # abl对source修正
     # abl: 亲密

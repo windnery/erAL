@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from config.chara_config import PLAYER_ID
 from config.map_config import HAVE_BED_LOC
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import (
     accumulate_sources,
@@ -269,7 +269,7 @@ def common_position(world: World):
         if target_id != PLAYER_ID:
             say_chara_line(chara, ctx, 'common_position')
 
-    ctx.advance_time(command_time_data['common_position'])
+    ctx.advance_time(COMMAND_TIME_DATA['common_position'])
 
     actor_sources: dict[str, dict[str, int | float]] = {}
     for actor_id in train.actors:

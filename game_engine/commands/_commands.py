@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Any
-from data.time.time_data import command_cooldown_data
+from data.time.time_data import COMMAND_COOLDOWN_DATA
 
 REGISTER_CMD = {}
 REGISTER_CMD_NAME: dict[str, str] = {}
@@ -56,7 +56,7 @@ def register_cmd(
         REGISTER_TARGET_SLOTS[key] = target_slots or {}
         if continuous_tick:
             REGISTER_CONTINUOUS_TICK[key] = continuous_tick
-        cd = cooldown if cooldown is not None else command_cooldown_data.get(key, 0)
+        cd = cooldown if cooldown is not None else COMMAND_COOLDOWN_DATA.get(key, 0)
         REGISTER_COOLDOWN[key] = cd
         return func
     return decorator

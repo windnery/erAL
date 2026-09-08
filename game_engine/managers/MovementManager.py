@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
-from data.time.time_data import leave_time_data
+from data.time.time_data import LEAVE_TIME_DATA
 from game_engine.events._base import ChoiceOption
 from game_engine.models.movement import MovementSession
 from game_engine.utils.text_color import c_chara, c_loc
@@ -85,7 +85,7 @@ class MovementManager:
         if target_region == src_region:
             return ["已经在该区域"]
 
-        if target_region not in leave_time_data.get(src_region, {}):
+        if target_region not in LEAVE_TIME_DATA.get(src_region, {}):
             return ["无法前往该区域"]
 
         src_entry_node = self.world.map_manager.regions[src_region]["entry_node"]
@@ -167,7 +167,7 @@ class MovementManager:
         if self.session.is_cross_region and self.session.phase == 1:
             # 阶段一（出境程）顺利到达出入口，转入阶段二（大地图通勤程）
             self.session.phase = 2
-            commute_minutes = leave_time_data[self.session.src_region][self.session.dst_region]
+            commute_minutes = LEAVE_TIME_DATA[self.session.src_region][self.session.dst_region]
             self.world.time_manager.advance_time(commute_minutes)
             self.world.npc_manager.update_positions(
                 commute_minutes, self.world.map_manager, self.world.player

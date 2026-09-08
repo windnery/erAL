@@ -3,7 +3,7 @@ from game_engine.commands._common import say_chara_line
 from typing import TYPE_CHECKING
 
 from config.chara_config import PLAYER_ID
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 from game_engine.commands._commands import register_cmd
 from game_engine.commands._common import train_global_can, new_source, get_name_by_id, get_entity_by_id, \
     accumulate_sources, check_body_slots
@@ -148,7 +148,7 @@ def breast_massage(world: World):
             say_chara_line(chara, ctx, 'breast_massage')
 
     # 推进时间
-    ctx.advance_time(command_time_data['breast_massage'])
+    ctx.advance_time(COMMAND_TIME_DATA['breast_massage'])
 
     sources: dict[str, dict[str, int | float]] = {}
     # 调教者

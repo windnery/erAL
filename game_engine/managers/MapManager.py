@@ -2,7 +2,7 @@ from typing import Any
 
 from config.map_config import MAP_DB
 from data.data_loader import load_map_meta, load_regions
-from data.time.time_data import leave_time_data
+from data.time.time_data import LEAVE_TIME_DATA
 
 _INF = float("inf")
 
@@ -73,7 +73,7 @@ class MapManager:
                     continue
                 u = self._node_index[(a, self.regions[a]["entry_node"])]
                 v = self._node_index[(b, self.regions[b]["entry_node"])]
-                cost = leave_time_data.get(a, {}).get(b)
+                cost = LEAVE_TIME_DATA.get(a, {}).get(b)
                 if cost is not None and cost < self._dist[u][v]:
                     self._dist[u][v] = cost
                     self._nxt[u][v] = v
@@ -120,14 +120,14 @@ class MapManager:
 
     def get_available_regions(self, region: str):
         """获取可前往的区域"""
-        regions: list[dict[str, str]] = []
+        regions: list[dict[str, str|int]] = []
         for r_id in self.regions:
             if r_id != region:  # 移除当前区域
                 regions.append(
                     {
                         "key": r_id,
                         "name": self.regions[r_id]["name"],
-                        "time": leave_time_data[region][r_id],
+                        "time": LEAVE_TIME_DATA[region][r_id],
                     }
                 )
         regions.append({"key": "return", "name": "返回"})  # 添加返回选项

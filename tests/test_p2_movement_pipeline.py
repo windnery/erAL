@@ -1,7 +1,7 @@
 from __future__ import annotations
 import pytest
 from world import World
-from data.time.time_data import leave_time_data
+from data.time.time_data import LEAVE_TIME_DATA
 
 
 class TestMovementPipeline:
@@ -130,7 +130,7 @@ class TestMovementPipeline:
         assert world.movement_manager.session is None
 
         # 耗时包含出境步数 + 通勤耗时
-        commute = leave_time_data["eagle_union_dorm"]["shop_street"]
+        commute = LEAVE_TIME_DATA["eagle_union_dorm"]["shop_street"]
         assert end_time - start_time >= commute
         assert any("离开了白鹰宿舍区" in msg for msg in res)
         assert any("前往了商店街" in msg for msg in res)
@@ -140,7 +140,7 @@ class TestMovementPipeline:
         home_entry = world.map_manager.regions["home"]["entry_node"]
         world.player.location = {"region": "home", "node": home_entry}
 
-        commute = leave_time_data["home"]["shop_street"]
+        commute = LEAVE_TIME_DATA["home"]["shop_street"]
         start_time = world.time_manager.get_total_minutes()
         res = world.command_manager.do_cmd("leave", "shop_street")
         end_time = world.time_manager.get_total_minutes()

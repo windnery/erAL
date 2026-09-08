@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 from .._commands import register_cmd
 from .._context import CommandContext
-from data.time.time_data import command_time_data
+from data.time.time_data import COMMAND_TIME_DATA
 
 
 def can(world: World, npc: ShipGirl):
@@ -47,7 +47,7 @@ def talk(world: World, option: str):
     say_chara_line(npc, ctx, 'talk')
 
     # 推进时间
-    ctx.advance_time(command_time_data['talk'])
+    ctx.advance_time(COMMAND_TIME_DATA['talk'])
 
     # abl对source修正
     # abl: 亲密
