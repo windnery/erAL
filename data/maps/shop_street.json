@@ -3,12 +3,14 @@
     "name": "街道",
     "links": {
       "shop": 3
-    }
+    },
+    "tags": []
   },
   "shop": {
     "name": "商店",
     "links": {
       "street": 3
-    }
+    },
+    "tags": ["can_sit"]
   }
 }

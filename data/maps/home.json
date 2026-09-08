@@ -37,7 +37,8 @@
     "links": {
       "bedroom": 1,
       "kitchen": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "bedroom": {
     "name": "卧室",
@@ -48,7 +49,8 @@
     "links": {
       "living_room": 1,
       "kitchen": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "kitchen": {
     "name": "厨房",
@@ -58,6 +60,7 @@
     "links": {
       "living_room": 1,
       "bedroom": 1
-    }
+    },
+    "tags": ["can_sit"]
   }
 }

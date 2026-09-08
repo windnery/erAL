@@ -7,7 +7,8 @@
     "links": {
       "hall": 1,
       "private_room": 2
-    }
+    },
+    "tags": []
   },
   "hall": {
     "name": "大厅",
@@ -19,7 +20,8 @@
     "links": {
       "food_window": 1,
       "private_room": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "private_room": {
     "name": "包厢",
@@ -29,6 +31,7 @@
     "links": {
       "food_window": 2,
       "hall": 1
-    }
+    },
+    "tags": ["can_sit"]
   }
 }

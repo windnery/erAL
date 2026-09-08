@@ -10,55 +10,63 @@
       "prinz_eugen_room": 1,
       "z1_room": 1,
       "leipzig_room": 1
-    }
+    },
+    "tags": []
   },
   "z23_room": {
     "name": "Z23的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "konigsberg_room": {
     "name": "柯尼斯堡的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "karlsruhe_room": {
     "name": "卡尔斯鲁厄的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "koln_room": {
     "name": "科隆的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "prinz_eugen_room": {
     "name": "欧根亲王的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "z1_room": {
     "name": "Z1的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "leipzig_room": {
     "name": "莱比锡的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   }
 }

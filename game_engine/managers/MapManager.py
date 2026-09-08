@@ -1,6 +1,7 @@
 from typing import Any
 
-from data.data_loader import load_map_meta, load_maps, load_regions
+from config.map_config import MAP_DB
+from data.data_loader import load_map_meta, load_regions
 from data.time.time_data import leave_time_data
 
 _INF = float("inf")
@@ -20,7 +21,7 @@ class MapManager:
 
     def __init__(self):
         # 地图库
-        self.maps: dict[str, dict[str, dict[str, Any]]] = load_maps()
+        self.maps: dict[str, dict[str, dict[str, Any]]] = MAP_DB
 
         # 区域地图
         self.regions: dict[str, dict[str, str]] = load_regions()

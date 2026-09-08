@@ -52,349 +52,399 @@
       "maury_room": 1,
       "sims_room": 1,
       "long_island_room": 1
-    }
+    },
+    "tags": []
   },
   "laffey_room": {
     "name": "拉菲的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "oklahoma_room": {
     "name": "俄克拉荷马的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "nevada_room": {
     "name": "内华达的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "langley_room": {
     "name": "兰利的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "bogue_room": {
     "name": "博格的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "ranger_room": {
     "name": "突击者的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "omaha_room": {
     "name": "奥马哈的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "raleigh_room": {
     "name": "罗利的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "pensacola_room": {
     "name": "彭萨科拉的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "cassin_room": {
     "name": "卡辛的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "downes_room": {
     "name": "唐斯的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "craven_room": {
     "name": "克雷文的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "mccall_room": {
     "name": "麦考尔的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "aulick_room": {
     "name": "奥利克的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "foote_room": {
     "name": "富特的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "spence_room": {
     "name": "斯彭斯的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "enterprise_room": {
     "name": "企业的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "cleveland_room": {
     "name": "克利夫兰的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "saratoga_room": {
     "name": "萨拉托加的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "lexington_room": {
     "name": "列克星敦的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "yorktown_room": {
     "name": "约克城的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "hornet_room": {
     "name": "大黄蜂的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "san_diego_room": {
     "name": "圣地亚哥的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "helena_room": {
     "name": "海伦娜的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "eldridge_room": {
     "name": "埃尔德里奇的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "hammann_room": {
     "name": "哈曼的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "arizona_room": {
     "name": "亚利桑那的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "pennsylvania_room": {
     "name": "宾夕法尼亚的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "south_dakota_room": {
     "name": "南达科他的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "california_room": {
     "name": "加利福尼亚的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "tennessee_room": {
     "name": "田纳西的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "portland_room": {
     "name": "波特兰的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "indianapolis_room": {
     "name": "印第安纳波利斯的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "chicago_room": {
     "name": "芝加哥的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "houston_room": {
     "name": "休斯敦的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "wichita_room": {
     "name": "威奇塔的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "northampton_room": {
     "name": "北安普敦的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "brooklyn_room": {
     "name": "布鲁克林的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "atlanta_room": {
     "name": "亚特兰大的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "juneau_room": {
     "name": "朱诺的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "phoenix_room": {
     "name": "菲尼克斯的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "vestal_room": {
     "name": "女灶神的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "fletcher_room": {
     "name": "弗莱彻的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "thatcher_room": {
     "name": "撒切尔的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "charles_ausburne_room": {
     "name": "查尔斯·奥斯本的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "gridley_room": {
     "name": "格里德利的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "maury_room": {
     "name": "莫里的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "sims_room": {
     "name": "西姆斯的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "long_island_room": {
     "name": "长岛的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   }
 }

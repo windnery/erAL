@@ -4,6 +4,7 @@
     "actions": {
       "work": "工作"
     },
-    "links": {}
+    "links": {},
+    "tags": ["can_sit"]
   }
 }

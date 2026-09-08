@@ -11,6 +11,7 @@ _MAP_META_KEYS = ('lines', 'tokens')
 def load_maps():
 	"""加载地图（仅节点数据；lines/tokens 等字符画元数据由 load_map_meta 单独返回）"""
 	all_maps: dict[str, dict[str, dict[str, Any]]] = {}
+	# {region_id: {node_id: {key: value}}}
 	folder = DATA_DIR / 'maps'
 
 	for json_file in folder.glob('*.json'):

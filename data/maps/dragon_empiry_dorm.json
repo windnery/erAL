@@ -5,20 +5,23 @@
     "links": {
       "ning_hai_room": 1,
       "ping_hai_room": 1
-    }
+    },
+    "tags": []
   },
   "ning_hai_room": {
     "name": "宁海的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   },
   "ping_hai_room": {
     "name": "平海的房间",
     "actions": {},
     "links": {
       "corridor": 1
-    }
+    },
+    "tags": ["can_sit"]
   }
 }
