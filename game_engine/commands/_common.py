@@ -56,7 +56,7 @@ def new_source(base: dict[str, int]):
     return s
 
 
-def source_proc(source: dict[str, int], actor: Character, target: ShipGirl, ctx: CommandContext, block: str = 'palam'):
+def source_proc(source: dict[str, int], actor: Character, target: Character, ctx: CommandContext, block: str = 'palam'):
     """source的统一转换过程（单对）"""
     # 刻印处理（仅舰娘有刻印）
     if isinstance(target, ShipGirl):
@@ -560,7 +560,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     # ===================================== 情绪&理性 =====================================
     temp = npc.get_emotion() // 25 + (MAX_RATIONALITY - npc.get_rationality()) // 25
     attitude += temp
-    mes = add_attitude_mes(mes, f'情绪&理性({temp})')
+    mes = add_attitude_mes(mes, f'情绪&理性({temp})') if temp != 0 else mes
     # ===================================== 旁人在场 =====================================
     if (
         NpcManager.with_mob(npc.location['region'], npc.location['node'])
@@ -569,7 +569,7 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     ):
         temp = -20 + npc.abl['exposure_abl'] * 3 - npc.get_talent_value('sense_of_shame') * 5
         attitude += temp
-        mes = add_attitude_mes(mes, f'旁人在场({temp})')
+        mes = add_attitude_mes(mes, f'旁人在场({temp})') if temp != 0 else mes
     # ===================================== abl =====================================
     # 亲密
     temp = npc.abl['intimacy_abl'] * 10
@@ -680,11 +680,11 @@ def get_attitude(player: Player, npc: ShipGirl, impassable_line: int):
     # 屈服&快乐刻印
     temp = npc.mark['submission_mark'] * 20 + npc.mark['pleasure_mark'] * 20
     attitude += temp
-    mes = add_attitude_mes(mes, f'屈服&快乐刻印({temp})')
+    mes = add_attitude_mes(mes, f'屈服&快乐刻印({temp})') if temp != 0 else mes
     # 失望刻印
     temp = npc.mark['disappointment_mark'] * 30
     attitude -= temp
-    mes = add_attitude_mes(mes, f'失望刻印({-temp})')
+    mes = add_attitude_mes(mes, f'失望刻印({-temp})') if temp != 0 else mes
     # TODO: cflag
 
     return mes, attitude

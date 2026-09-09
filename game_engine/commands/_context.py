@@ -35,8 +35,7 @@ class CommandContext:
             self.blocks['time'] = [f'度过了{minutes}分钟']
 
     def consume(self, stamina: int = 0, energy: int = 0, chara: Character | None = None):
-        """消耗体力和气力（传正数表示消耗量）
-        npc: 若指定，NPC 也同步消耗"""
+        """消耗体力和气力（传正数表示消耗量）"""
         target_chara = chara if chara is not None else self.world.player
         # 如果传入玩家
         if isinstance(target_chara, Player):

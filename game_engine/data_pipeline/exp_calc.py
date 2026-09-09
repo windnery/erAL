@@ -7,6 +7,7 @@ def exp_calc(exp: str, chara: Character, num: int = 1):
     chara.set_exp(exp, num + chara.get_exp(exp))
     mes = f"{ATTR_DEFS['exp'][exp]['name']}+{num} ({chara.name})"
 
+    # hook: 移除无接吻经验天赋
     if chara.has_talent('no_kiss_exp') and chara.exp['kiss_exp'] > 0:
         chara.talent.pop('no_kiss_exp')
 

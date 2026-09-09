@@ -40,7 +40,7 @@ def can(world: World, npc: ShipGirl):
     if npc.exp["love_exp"] < 50:
         return False
     # 亲密度不足
-    if npc.abl["intimacy_abl"] < 9:
+    if npc.abl["intimacy_abl"] < 8:
         return False
     # 好感不足
     if npc.favor < 3500:
@@ -89,6 +89,7 @@ def oath(world: World, option: str):
     ctx.say(f'{world.player.name}掏出了事先准备好的誓约之戒，向{npc.name}发起神圣的誓约之邀！')
 
     ok, detail = able(world, npc)
+    # TODO: 成功和失败不同口上
     say_chara_line(npc, ctx, 'oath')
     ctx.say(detail)
 
