@@ -84,11 +84,11 @@ class NpcManager:
         """
         hour = self.world.time_manager.hour
         minute = self.world.time_manager.minute
+        current = self.world.time_manager.get_total_minutes()
+        secretary_end_time = (self.world.time_manager.day - 1) * 24 * 60 + SECRETARY_FOLLOWING_END_TIME
 
         # 更新秘书舰情况
         if self.secretary_ship:
-            current = hour * 60 + minute
-            secretary_end_time = SECRETARY_FOLLOWING_END_TIME
             self.secretary_ship.cflag["secretary_ship"] = True
             # 设置秘书舰的附属状态
             self.secretary_ship.cflag_set_attach("secretary_ship")
@@ -144,16 +144,24 @@ class NpcManager:
                         sg.cflag["working"] = True
                         break
 
+            # 睡觉结束后再判断一次秘书舰
+            if sg == self.secretary_ship:
+                if not sg.is_sleeping() and not sg.is_resting() and current < secretary_end_time:
+                    # 秘书舰在秘书时间内且不在休息/睡觉状态时，跟随玩家
+                    self.set_loc(sg.id, player.location["region"], player.location["node"])
+                    sg.cflag_set_attach("secretary_ship")
+                else:
+                    sg.cflag["secretary_ship_following"] = False
+
             # 约会中
             if sg.is_dating():
                 # 设置约会的附属状态
                 sg.cflag_set_attach("dating")
                 # 判断约会是否已到期
-                current = self.world.time_manager.day * 24 * 60 + hour * 60 + minute
                 dating_day = sg.cflag.get("dating_day")
                 if dating_day is None:
                     dating_day = self.world.time_manager.day
-                end_time = dating_day * 24 * 60 + DATING_END_TIME
+                end_time = (dating_day - 1) * 24 * 60 + DATING_END_TIME
                 if current >= end_time:
                     # 取消约会状态
                     from game_engine.commands.interact.end_date import end_date
@@ -174,7 +182,6 @@ class NpcManager:
                 if will_activity == "free" and activity.id == "free":
                     # 现在和候选都是自由
                     # 随机选取一个地点移动 elapsed_minutes当做移动的概率
-                    # 同区域概率elapsed_minutes 跨区域概率elapsed_minutes//2
                     move_ratio = max(50, elapsed_minutes)
                     if randint(1, 100) <= move_ratio:
                         # ========== 同区域移动 ==========
@@ -186,7 +193,9 @@ class NpcManager:
                                 ].keys()
                             )
                             if sg.location["node"] in nodes:
-                                nodes.remove(sg.location["node"])  # 移除当前节点，避免原地移动
+                                nodes.remove(
+                                    sg.location["node"]
+                                )  # 移除当前节点，避免原地移动
                             if nodes:
                                 target_node = choice(nodes)  # 随机选择一个目标节点
                                 sg.move_steps = self.world.map_manager.find_path(
@@ -197,12 +206,8 @@ class NpcManager:
                                 )
 
                     elif (
-                        # 只有在NPC位于区域入口(出口)节点时才考虑跨区域移动
-                        sg.location["node"]
-                        == self.world.map_manager.regions[sg.location["region"]][
-                            "entry_node"
-                        ]
-                        and randint(1, 100) <= move_ratio // 2
+                        # 跨区域移动的概率减半
+                        randint(1, 100) <= move_ratio // 2
                         and not sg.move_steps
                     ):
                         # ========== 跨区域移动 ==========

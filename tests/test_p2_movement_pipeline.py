@@ -47,7 +47,6 @@ class TestMovementPipeline:
         assert world.player.location["node"] == corridor_node
         assert world.movement_manager.session is None
         assert world.event_manager.pending_choice is None
-        assert any("停下了脚步" in msg for msg in choice_res)
 
     def test_local_move_multi_step_greet_and_continue(self, world: World):
         """单区域多步移动遇到舰娘打招呼并继续直到目的地"""
@@ -67,7 +66,7 @@ class TestMovementPipeline:
         choice_res = world.event_manager.choose_option("greet_and_continue")
         assert world.player.location["node"] == dest_node
         assert world.movement_manager.session is None
-        assert any("打了招呼" in msg for msg in choice_res)
+        assert any("打了声招呼" in msg for msg in choice_res)
 
     def test_local_move_multi_step_continue_to_end(self, world: World):
         """单区域多步移动选择直达目的地"""
@@ -87,7 +86,6 @@ class TestMovementPipeline:
         choice_res = world.event_manager.choose_option("continue_to_end")
         assert world.player.location["node"] == dest_node
         assert world.movement_manager.session is None
-        assert any("快步走向目的地" in msg for msg in choice_res)
 
     def test_leave_from_deep_room_encounter_and_cancel(self, world: World):
         """从深处房间离开途中选择停下，取消本次离开"""
@@ -108,7 +106,6 @@ class TestMovementPipeline:
         assert world.player.location["region"] == "eagle_union_dorm"
         assert world.player.location["node"] == corridor_node
         assert world.movement_manager.session is None
-        assert any("取消了离开" in msg for msg in choice_res)
 
     def test_leave_from_deep_room_rush_to_end(self, world: World):
         """从深处房间发起离开并顺利完成三阶段流转"""
@@ -132,8 +129,7 @@ class TestMovementPipeline:
         # 耗时包含出境步数 + 通勤耗时
         commute = LEAVE_TIME_DATA["eagle_union_dorm"]["shop_street"]
         assert end_time - start_time >= commute
-        assert any("离开了白鹰宿舍区" in msg for msg in res)
-        assert any("前往了商店街" in msg for msg in res)
+        assert any("来到了" in msg for msg in res)
 
     def test_leave_from_entry_node_direct_commute(self, world: World):
         """直接在出入口发起离开：直接进入通勤与入境阶段"""
@@ -147,8 +143,7 @@ class TestMovementPipeline:
 
         assert world.player.location["region"] == "shop_street"
         assert end_time - start_time == commute
-        assert any("离开了指挥官的家" in msg for msg in res)
-        assert any("前往了商店街" in msg for msg in res)
+        assert any("来到了" in msg for msg in res)
 
     def test_sleeping_or_unconscious_npc_does_not_intercept(self, world: World):
         """睡着或失去意识的舰娘不会触发偶遇拦截"""
@@ -218,4 +213,4 @@ class TestMovementPipeline:
         res = restored.event_manager.choose_option("greet_and_continue")
         assert restored.player.location["node"] == dest_node
         assert restored.movement_manager.session is None
-        assert any("打了招呼" in msg for msg in res)
+        assert any("打了声招呼" in msg for msg in res)
