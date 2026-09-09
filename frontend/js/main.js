@@ -1,7 +1,7 @@
 import { getState, getCmdOptions, doCmd, getSaveList, doLoad, toggleActor, toggleTarget, cancelContinuousCmd, chooseOption, reportFrontendError } from './api.js';
 import { renderStatusBar } from './ui/status_bar.js';
 import { renderCommands } from './ui/commands.js';
-import { renderPortrait, renderCharaPanel } from './ui/chara_panel.js';
+import { renderPortrait, renderCharaPanel, renderActivitiesStatus } from './ui/chara_panel.js';
 import { renderTrainAvatars, renderTrainMembers, renderContinuousStatus } from './ui/train_panel.js';
 import { showCharacterInfo } from './ui/chara_info.js';
 import { openSkinShop } from './ui/skin_shop.js';
@@ -210,6 +210,7 @@ async function refreshCharacterInfo(npcId) {
     currentTrainParticipants = state.train_participants || [];
     // 同步刷新游戏界面（头像选择栏/详情面板），换装后的图片立即生效
     refreshAvatarsPanel();
+    renderActivitiesStatus(currentNearby);
     renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     const npc = currentNearby.find(n => n.id === npcId);
     if (npc) {
@@ -296,6 +297,7 @@ async function refresh() {
         // 缓冲菜单：状态区 + 菜单指令区
         menu_screen.style.display = 'block';
         main_menu.style.display = 'none';
+        renderActivitiesStatus([]);
         renderCommands(state.menu_com || [], 'menu', callbacks);
     } else {
         // 正常游戏界面
@@ -311,12 +313,14 @@ async function refresh() {
             renderCommands(state.train_com || [], 'train', callbacks);
             renderTrainMembers(currentTrainParticipants, callbacks);
             renderContinuousStatus(state.continuous_commands || [], callbacks);
+            renderActivitiesStatus([]);
         } else {
             // 后端已按当前选中的舰娘过滤交互指令
             renderCommands(state.act_com || [], 'act', callbacks);
             renderCommands(state.ex_com, 'ex', callbacks);
             renderPortrait(currentNearby, selectedNpcId, selectNpc);
             renderContinuousStatus([], callbacks);
+            renderActivitiesStatus(currentNearby);
         }
         renderCharaPanel(currentNearby, selectedNpcId, currentPalamDefs, currentPalamLvMap, currentCflagDefs);
     }

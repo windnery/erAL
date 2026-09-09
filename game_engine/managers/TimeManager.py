@@ -87,7 +87,7 @@ class TimeManager:
         self.advance_time(minutes)
 
         # 更新舰娘位置（当前时间由 NpcManager 内部读 time_manager，minutes 仅作推进量）
-        self.npc_manager.update_positions(
+        activity_events = self.npc_manager.update_positions(
             minutes, self.map_manager, self.player)
 
         # 推进后：谁在这
@@ -123,6 +123,9 @@ class TimeManager:
                 if scene:
                     for msg in scene:
                         events.append(c_chara(msg, sg.color))
+
+        if activity_events:
+            events.extend(activity_events)
 
         return events
 

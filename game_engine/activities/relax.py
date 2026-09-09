@@ -15,30 +15,34 @@ class Relax(Activity):
 
     def __init__(self, id: str = "relax", start_time = None):
         super().__init__(id=id, start_time=start_time)
-        self.duration = randint(40, 60)  # 放松活动持续时间(分钟)
+        self.duration = randint(40, 90)  # 放松活动持续时间(分钟)
 
     def on_start(self, sg: ShipGirl):
         """放松活动开始时的处理逻辑"""
-        mes = f"{sg.name} 准备开始放松了"
-
-        return mes
+        if sg.id == "laffey":
+            return f"{sg.name}的眼睛要睁不开了…开始寻找休息点zzz……"
+        return f"{sg.name}准备坐下来放松"
 
     def on_end(self, sg: ShipGirl):
         """放松活动结束时的处理逻辑"""
-        mes = f"{sg.name} 结束了放松"
-        return mes
+        if sg.id == "laffey":
+            return f"{sg.name}总算是恢复了活力…大概…"
+        return f"{sg.name} 结束了放松"
 
     def tick(self, sg: ShipGirl, minutes: int):
         """放松活动进行中的处理逻辑"""
-        # 每分钟恢复0.5%体力和气力
-        stamina_recovery = int(sg.get_max_stamina() * 0.005 * minutes)
-        energy_recovery = int(sg.get_max_energy() * 0.005 * minutes)
-        sg.set_stamina(sg.get_stamina() + stamina_recovery)
-        sg.set_energy(sg.get_energy() + energy_recovery)
-        # 更新活动持续时间
-        self.duration = max(self.duration - minutes, 0)
-        
-        mes = f"{sg.name} 正在放松 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
+        mes = ""
+        if minutes > 0:
+            # 每分钟恢复0.5%体力和气力
+            stamina_recovery = int(sg.get_max_stamina() * 0.003 * minutes)
+            energy_recovery = int(sg.get_max_energy() * 0.005 * minutes)
+            sg.set_stamina(sg.get_stamina() + stamina_recovery)
+            sg.set_energy(sg.get_energy() + energy_recovery)
+            # 更新活动持续时间
+            self.duration = max(self.duration - minutes, 0)
+            if sg.id == "laffey":
+                mes = f"{sg.name}懒洋洋地躺在一边 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
+            mes = f"{sg.name}正在放松 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
         return mes
 
     @classmethod
@@ -47,13 +51,24 @@ class Relax(Activity):
         # 体力和气力低于50%权重增加
         stamina_ratio = sg.get_stamina() / sg.get_max_stamina()
         energy_ratio = sg.get_energy() / sg.get_max_energy()
+        weight = cls.weight
         if stamina_ratio < 0.3 or energy_ratio < 0.3:
-            return cls.weight + 3
+            weight += 3
         elif stamina_ratio < 0.5 or energy_ratio < 0.5:
-            return cls.weight + 2
-        return cls.weight
+            weight += 2
+        elif stamina_ratio < 0.7 or energy_ratio < 0.7:
+            pass
+        else:
+            weight -= 1
+        # 特定角色增加权重
+        if sg.id == "laffey":
+            weight += 2
+
+        return weight
 
     def get_description(self, sg: ShipGirl):
         """获取活动描述"""
-        return f"{sg.name} 正在放松"
+        if sg.id == "laffey":
+            return f"{sg.name}正在休息zzz…"
+        return f"{sg.name}正在放松"
         

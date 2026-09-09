@@ -2,6 +2,8 @@
 // 数据来源：state.nearby_npcs（每只舰娘含 id / name / base / talent ...）
 // 选中态由 main.js 维护并传入，本模块只负责渲染。
 
+import { parseColoredMessage } from './colored_text.js';
+
 export function renderPortrait(npcs, selectedId, onSelect) {
     const el = document.getElementById('charaPortrait');
     el.innerHTML = '';
@@ -204,4 +206,28 @@ function appendBar(row, label, value, max, fillClass) {
     txt.className = 'chara-bar-text';
     txt.textContent = `${value ?? 0}/${max ?? 0}`;
     row.appendChild(txt);
+}
+
+export function renderActivitiesStatus(npcs) {
+    const el = document.getElementById('chara_activity_status');
+    if (!el) return;
+    el.innerHTML = '';
+    const activeNpcs = (npcs || []).filter(n => n.activity_desc);
+    if (activeNpcs.length === 0) {
+        el.style.display = 'none';
+        return;
+    }
+    el.style.display = 'flex';
+
+    for (const npc of activeNpcs) {
+        const item = document.createElement('div');
+        item.className = 'chara-activity-desc';
+        for (const node of parseColoredMessage(npc.activity_desc)) {
+            const span = document.createElement('span');
+            span.textContent = node.text;
+            if (node.color) span.style.color = node.color;
+            item.appendChild(span);
+        }
+        el.appendChild(item);
+    }
 }

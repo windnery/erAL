@@ -79,15 +79,18 @@ class ActivityManager:
                     continue
                 if MapManager.is_same_loc(player, sg):
                     # 只展示和玩家同一地点的活动的tick信息
-                    mes_lst.append(activity.tick(sg, minutes))
+                    tick_mes = activity.tick(sg, minutes)
+                    if tick_mes:
+                        mes_lst.append(tick_mes)
                 else:
                     activity.tick(sg, minutes)
-            if activity.duration == 0:
+            if activity.id != "free" and activity.duration == 0:
                 # 活动结束，重置为自由活动
                 if MapManager.is_same_loc(player, NpcManager.get_npc_by_id(sg_id)):
                     # 只展示和玩家同一地点的活动的结束信息
                     mes = activity.on_end(NpcManager.get_npc_by_id(sg_id))
-                    mes_lst.append(mes)
+                    if mes:
+                        mes_lst.append(mes)
                 self.reset_activity(sg_id)
         return mes_lst
 

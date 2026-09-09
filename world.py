@@ -51,6 +51,8 @@ class World:
             # 当前穿戴皮肤的图片路径（下轮更换皮肤后即时生效）
             st['avatar'] = self.skin_manager.get_ship_skin_paths(sg.id)['avatar']
             st['portrait'] = self.skin_manager.get_ship_skin_paths(sg.id)['portrait']
+            activity = self.activity_manager.activities.get(sg.id)
+            st['activity_desc'] = activity.get_description(sg) if activity else ""
             nearby.append(st)
         return {
             'player': self.player.get_state(),

@@ -2,7 +2,7 @@
    角色信息区 (Character Panel)
    ========================================================================== */
 #charaPanel {
-    height: 250px;
+    height: 200px;
     min-height: 24px;
     padding: 4px 0;
 }
@@ -165,4 +165,14 @@
     letter-spacing: 2px;
     font-size: 14px;
     line-height: 1;
+}
+
+/* 舰娘当前活动描述*/
+.chara-activity-desc {
+    font-size: 16px;
+    color: var(--color-text-main);
+    margin: 2px 0;
+    min-height: 22px;
+    display: flex;
+    align-items: center;
 }

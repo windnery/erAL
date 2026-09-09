@@ -75,9 +75,11 @@ class MovementManager:
             # 推进单步时间并调度 NPC
             step_time = step.get("time", 1)
             self.world.time_manager.advance_time(step_time)
-            self.world.npc_manager.update_positions(
+            step_msgs = self.world.npc_manager.update_positions(
                 step_time, self.world.map_manager, self.world.player
             )
+            if step_msgs:
+                self.session.accumulated_msgs.extend(step_msgs)
 
             # 触发 MOVE_ENTER 事件（委托事件管理器处理在途拦截）
             from game_engine.commands._context import CommandContext

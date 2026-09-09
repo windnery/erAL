@@ -74,7 +74,7 @@ class NpcManager:
 
     def update_positions(
         self, elapsed_minutes: int, map_manager: MapManager, player: Player
-    ):
+    ) -> list[str]:
         """根据当前时间和推进时长更新所有舰娘位置
         elapsed_minutes: 本次推进的分钟数（仅用于自由行动时的移动概率）
         map_manager: 地图管理器（用于查询可前往的节点/区域）
@@ -82,6 +82,7 @@ class NpcManager:
 
         当前时间（hour/minute）直接读 self.world.time_manager，不靠参数传入
         """
+        activity_msgs: list[str] = []
         hour = self.world.time_manager.hour
         minute = self.world.time_manager.minute
         current = self.world.time_manager.get_total_minutes()
@@ -243,7 +244,8 @@ class NpcManager:
                             available_nodes = loc_dict[sg.location["region"]]
                             if sg.location["node"] in available_nodes:
                                 # 当前节点已经是合适节点，无需移动，直接开始活动
-                                self.world.activity_manager.activate_activity(sg.id)
+                                start_msgs = self.world.activity_manager.activate_activity(sg.id)
+                                activity_msgs.extend([m for m in start_msgs if m])
                                 break
                             else:
                                 # 当前节点不是合适节点，移动到一个合适节点
@@ -294,10 +296,12 @@ class NpcManager:
                     in getattr(map_config, tag).get(sg.location["region"], [])
                     for tag in loc_tags
                 ):
-                    self.world.activity_manager.activate_activity(sg.id)
+                    start_msgs = self.world.activity_manager.activate_activity(sg.id)
+                    activity_msgs.extend([m for m in start_msgs if m])
 
         mes_lst = self.world.activity_manager.tick_all(player, elapsed_minutes)
-        # TODO: 前端显示活动的tick信息
+        activity_msgs.extend([m for m in mes_lst if m])
+        return activity_msgs
 
     @staticmethod
     def get_npcs_at(region: str, node: str):
