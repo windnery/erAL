@@ -57,7 +57,7 @@ class NpcManager:
         self.shipgirls[shipgirl_id].location = {"region": region, "node": node}
         # 清空移动路径和目标区域
         self.shipgirls[shipgirl_id].move_path = []
-        self.shipgirls[shipgirl_id].to_region = ''
+        self.shipgirls[shipgirl_id].to_region = ""
         self.shipgirls[shipgirl_id].next_node_time = 0
 
     def get_all_npcs(self):
@@ -74,7 +74,7 @@ class NpcManager:
 
         self.secretary_ship = self.shipgirls[sg_id]
         self.secretary_ship.cflag["secretary_ship"] = True
-        self.secretary_ship.cflag["secretary_ship_following"] = True
+        self.secretary_ship.cflag_set_attach("secretary_ship")
 
     def update_positions(
         self, elapsed_minutes: int, map_manager: MapManager, player: Player
@@ -91,10 +91,17 @@ class NpcManager:
 
         # 更新秘书舰情况
         if self.secretary_ship:
+            current = hour * 60 + minute
+            secretary_end_time = SECRETARY_FOLLOWING_END_TIME
             self.secretary_ship.cflag["secretary_ship"] = True
+            # 设置秘书舰的附属状态
             self.secretary_ship.cflag_set_attach("secretary_ship")
-            if self.secretary_ship.is_resting() or self.secretary_ship.is_sleeping():
-                # 秘书舰在休息/睡觉时，取消秘书舰同行状态
+            if (
+                self.secretary_ship.is_resting()
+                or self.secretary_ship.is_sleeping()
+                or current >= secretary_end_time
+            ):
+                # 秘书舰在休息/睡觉/不在秘书时间时，取消秘书舰同行状态
                 self.secretary_ship.cflag["secretary_ship_following"] = False
 
         for sg in self.shipgirls.values():
@@ -141,17 +148,6 @@ class NpcManager:
                         sg.cflag["working"] = True
                         break
 
-            # 秘书舰
-            if self.secretary_ship and sg.id == self.secretary_ship.id:
-                # TODO: 秘书舰的逻辑似乎可以提出去
-                # 设置秘书舰的附属状态
-                sg.cflag_set_attach("secretary_ship")
-                current = hour * 60 + minute
-                secretary_end_time = SECRETARY_FOLLOWING_END_TIME
-                if current >= secretary_end_time:
-                    # 取消秘书舰同行状态
-                    self.secretary_ship.cflag["secretary_ship_following"] = False
-
             # 约会中
             if sg.is_dating():
                 # 设置约会的附属状态
@@ -181,15 +177,21 @@ class NpcManager:
                 # 决定舰娘的活动
                 if will_activity == "free" and activity.id == "free":
                     # 现在和候选都是自由
-                    # TODO: 随机选取一个地点移动 elapsed_minutes当做移动的概率
+                    # 随机选取一个地点移动 elapsed_minutes当做移动的概率
                     # 同区域概率elapsed_minutes 跨区域概率elapsed_minutes//2
                     move_ratio = max(50, elapsed_minutes)
                     if randint(1, 100) <= move_ratio:
                         # ========== 同区域移动 ==========
                         if not sg.move_path and not sg.to_region:
                             # 随机选取一个同区域的节点
-                            nodes = list(self.world.map_manager.maps[sg.location["region"]].keys())
-                            nodes.remove(sg.location["node"])  # 移除当前节点，避免原地移动
+                            nodes = list(
+                                self.world.map_manager.maps[
+                                    sg.location["region"]
+                                ].keys()
+                            )
+                            nodes.remove(
+                                sg.location["node"]
+                            )  # 移除当前节点，避免原地移动
                             target_node = choice(nodes)  # 随机选择一个目标节点
                             sg.move_path = self.world.map_manager.find_path(
                                 sg.location["region"],
@@ -197,54 +199,38 @@ class NpcManager:
                                 sg.location["region"],
                                 target_node,
                             )["path"][1:]
-                            u = self.world.map_manager._node_index[(sg.location["region"], sg.location["node"])]
-                            v = self.world.map_manager._node_index[(sg.location["region"], sg.move_path[0])]
+                            u = self.world.map_manager._node_index[
+                                (sg.location["region"], sg.location["node"])
+                            ]
+                            v = self.world.map_manager._node_index[
+                                (sg.location["region"], sg.move_path[0])
+                            ]
                             sg.next_node_time = self.world.map_manager._dist[u][v]
-                        temp_time = elapsed_minutes
-                        while temp_time > 0 and sg.move_path and not sg.to_region:
-                            # 逐步前往目的地
-                            if temp_time >= sg.next_node_time:
-                                # 到达下一节点
-                                temp_time -= sg.next_node_time
-                                sg.location["node"] = sg.move_path.pop(0)
-                                if sg.move_path:
-                                    # 还未走完
-                                    u = self.world.map_manager._node_index[(sg.location["region"], sg.location["node"])]
-                                    v = self.world.map_manager._node_index[(sg.location["region"], sg.move_path[0])]
-                                    sg.next_node_time = self.world.map_manager._dist[u][v]
-                                else:
-                                    sg.next_node_time = 0
-                            else:
-                                # 尚未到达下一节点
-                                sg.next_node_time -= temp_time
-                                temp_time = 0
+
                     elif (
                         # 只有在NPC位于区域入口(出口)节点时才考虑跨区域移动
-                        sg.location["node"] == self.world.map_manager.regions[sg.location["region"]]["entry_node"]
+                        sg.location["node"]
+                        == self.world.map_manager.regions[sg.location["region"]][
+                            "entry_node"
+                        ]
                         and randint(1, 100) <= move_ratio // 2
+                        and not sg.to_region
+                        and not sg.move_path
                     ):
                         # ========== 跨区域移动 ==========
                         # 随机选取一个跨区域的节点
-                        if not sg.move_path and not sg.to_region:
-                            regions = list(self.world.map_manager.regions.keys())
-                            regions.remove(sg.location["region"])
-                            target_region = choice(regions)
-                            sg.to_region = target_region
-                            # 目标区域的入口(出口)节点
-                            target_node = self.world.map_manager.regions[target_region]["entry_node"]
-                            sg.move_path = [target_node]
-                            sg.next_node_time = LEAVE_TIME_DATA[sg.location["region"]][target_region]
-                        if sg.to_region:
-                            if elapsed_minutes >= sg.next_node_time:
-                                # 到达目标区域入口节点
-                                # NOTE: 这里有个在意的地方 如果elapsed_minutes大于sg.next_node_time，多出来的那部分时间会浪费掉
-                                sg.location["region"] = sg.to_region
-                                sg.location["node"] = sg.move_path.pop(0)
-                                sg.next_node_time = 0
-                                sg.to_region = ''
-                            else:
-                                # 未到达
-                                sg.next_node_time -= elapsed_minutes
+                        regions = list(self.world.map_manager.regions.keys())
+                        regions.remove(sg.location["region"])
+                        target_region = choice(regions)
+                        sg.to_region = target_region
+                        # 目标区域的入口(出口)节点
+                        target_node = self.world.map_manager.regions[target_region][
+                            "entry_node"
+                        ]
+                        sg.move_path = [target_node]
+                        sg.next_node_time = LEAVE_TIME_DATA[sg.location["region"]][
+                            target_region
+                        ]
 
                     if not sg.move_path:
                         # 双自由且不在移动 -> roll候选活动
@@ -267,14 +253,83 @@ class NpcManager:
                             else:
                                 # 当前节点不是合适节点，移动到一个合适节点
                                 target_node = choice(available_nodes)
-                                # TODO: 接入寻路算法，选择最近的合适节点
+                                sg.move_path = self.world.map_manager.find_path(
+                                    sg.location["region"],
+                                    sg.location["node"],
+                                    sg.location["region"],
+                                    target_node,
+                                )["path"][1:]
+                                u = self.world.map_manager._node_index[
+                                    (sg.location["region"], sg.location["node"])
+                                ]
+                                v = self.world.map_manager._node_index[
+                                    (sg.location["region"], sg.move_path[0])
+                                ]
+                                sg.next_node_time = self.world.map_manager._dist[u][v]
                                 break
                         else:
                             # TODO: 当前区域没有合适节点，尝试去其他区域
+                            # 该功能暂时不做 区域没有合适节点直接重置该活动
+                            self.world.activity_manager.reset_activity(sg.id)
                             break
                 else:
                     # 现在不是自由活动 不打断当前活动
                     pass
+
+            # 处理舰娘同区域移动逻辑
+            temp_time = elapsed_minutes
+            while temp_time > 0 and sg.move_path and not sg.to_region:
+                # 逐步前往目的地
+                if temp_time >= sg.next_node_time:
+                    # 到达下一节点
+                    temp_time -= sg.next_node_time
+                    sg.location["node"] = sg.move_path.pop(0)
+                    if sg.move_path:
+                        # 还未走完
+                        u = self.world.map_manager._node_index[
+                            (sg.location["region"], sg.location["node"])
+                        ]
+                        v = self.world.map_manager._node_index[
+                            (sg.location["region"], sg.move_path[0])
+                        ]
+                        sg.next_node_time = self.world.map_manager._dist[u][v]
+                    else:
+                        sg.next_node_time = 0
+                else:
+                    # 尚未到达下一节点
+                    sg.next_node_time -= temp_time
+                    temp_time = 0
+
+            # 处理舰娘跨区域移动逻辑
+            if sg.to_region:
+                if elapsed_minutes >= sg.next_node_time:
+                    # 到达目标区域入口节点
+                    # NOTE: 这里有个在意的地方 如果elapsed_minutes大于sg.next_node_time，多出来的那部分时间会浪费掉
+                    sg.location["region"] = sg.to_region
+                    sg.location["node"] = sg.move_path.pop(0)
+                    sg.next_node_time = 0
+                    sg.to_region = ""
+                else:
+                    # 未到达
+                    sg.next_node_time -= elapsed_minutes
+
+            # 移动结束后：有候选活动且已到达合适地点 -> 激活
+            will_id = self.world.activity_manager.will_activities[sg.id]
+            if (
+                will_id != "free"
+                and not sg.move_path
+                and not sg.to_region
+                and all(
+                    sg.cflag.get(key, False) is False for key in NOT_MAPPING["free"]
+                )
+            ):
+                loc_tags = ACTIVITY_REGISTRY[will_id].loc_tags
+                if any(
+                    sg.location["node"]
+                    in getattr(map_config, tag).get(sg.location["region"], [])
+                    for tag in loc_tags
+                ):
+                    self.world.activity_manager.activate_activity(sg.id)
 
         mes_lst = self.world.activity_manager.tick_all(player, elapsed_minutes)
         # TODO: 前端显示活动的tick信息

@@ -19,7 +19,7 @@ class Relax(Activity):
 
     def on_start(self, sg: ShipGirl):
         """放松活动开始时的处理逻辑"""
-        mes = f"{sg.name} 开始放松了"
+        mes = f"{sg.name} 准备开始放松了"
 
         return mes
 
