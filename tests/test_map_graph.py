@@ -51,31 +51,28 @@ def test_regions_are_connected():
 def test_find_path_same_region():
     """同区域寻路：home 客厅到厨房直连 1 分钟"""
     mm = MapManager()
-    result = mm.find_path('home', 'living_room', 'home', 'kitchen')
-    assert result is not None
-    assert result['total_time'] == 1
-    assert result['path'] == ['living_room', 'kitchen']
-    assert result['cross_region'] is False
+    steps = mm.find_path('home', 'living_room', 'home', 'kitchen')
+    assert len(steps) == 1
+    assert steps[0] == {"region": "home", "node": "kitchen", "time": 1}
+    assert sum(s['time'] for s in steps) == 1
 
 
 def test_find_path_same_region_through_intermediate():
     """同区域寻路可途经中间节点：白鹰宿舍 laffey_room 到 oklahoma_room 经走廊"""
     mm = MapManager()
-    result = mm.find_path('eagle_union_dorm', 'laffey_room', 'eagle_union_dorm', 'oklahoma_room')
-    assert result is not None
-    assert result['total_time'] == 2
-    assert result['path'] == ['laffey_room', 'corridor', 'oklahoma_room']
+    steps = mm.find_path('eagle_union_dorm', 'laffey_room', 'eagle_union_dorm', 'oklahoma_room')
+    assert len(steps) == 2
+    assert [s['node'] for s in steps] == ['corridor', 'oklahoma_room']
+    assert sum(s['time'] for s in steps) == 2
 
 
 def test_find_path_cross_region():
     """跨区域寻路：leave_time + 目标区域入口到目标节点"""
     mm = MapManager()
-    result = mm.find_path('home', 'living_room', 'ironblood_dorm', 'z1_room')
-    assert result is not None
+    steps = mm.find_path('home', 'living_room', 'ironblood_dorm', 'z1_room')
     # home -> ironblood_dorm 3 分钟 + corridor -> z1_room 1 分钟
-    assert result['total_time'] == 4
-    assert result['cross_region'] is True
-    assert result['path'] == ['corridor', 'z1_room']
+    assert sum(s['time'] for s in steps) == 4
+    assert [s['node'] for s in steps] == ['corridor', 'z1_room']
 
 
 def test_find_path_unknown_node_raises():
@@ -168,33 +165,34 @@ def test_floyd_path_reconstruction_matches_dist():
         u = mm._node_index[(s_reg, s_node)]
         v = mm._node_index[(d_reg, d_node)]
         expected = mm._dist[u][v]
-        path = mm.find_path(s_reg, s_node, d_reg, d_node)
-        assert path is not None, f'{s_reg}/{s_node} -> {d_reg}/{d_node} 不可达'
-        assert path['total_time'] == expected
-        assert path['path'], f'{s_reg}/{s_node} -> {d_reg}/{d_node} 空路径'
-        assert path['path'][-1] == d_node, '路径终点应为目标节点'
+        steps = mm.find_path(s_reg, s_node, d_reg, d_node)
+        assert sum(s['time'] for s in steps) == expected
+        if (s_reg, s_node) != (d_reg, d_node):
+            assert len(steps) > 0
+            assert steps[-1]['node'] == d_node, '路径终点应为目标节点'
+            assert steps[-1]['region'] == d_reg, '路径终点区域应为目标区域'
+        else:
+            assert len(steps) == 0
 
 
 def test_find_path_cross_region_includes_entry():
     """跨区寻路（查表）时耗正确，路径含目标区入口节点跳点"""
     mm = MapManager()
     # home/living_room -> ironblood_dorm/z1_room：home 内 0 + leave 3 + corridor->z1 1 = 4
-    result = mm.find_path('home', 'living_room', 'ironblood_dorm', 'z1_room')
-    assert result is not None
-    assert result['total_time'] == 4
-    assert result['cross_region'] is True
+    steps = mm.find_path('home', 'living_room', 'ironblood_dorm', 'z1_room')
+    assert sum(s['time'] for s in steps) == 4
     # 目标区入口 corridor（ironblood_dorm）应在路径中
-    assert result['path'][0] == 'corridor'
-    assert result['path'][-1] == 'z1_room'
+    assert steps[0]['node'] == 'corridor'
+    assert steps[-1]['node'] == 'z1_room'
 
 
 def test_find_path_cross_region_accounts_for_src_walk():
-    """跨区时源区域内部走到入口节点的耗时计入 total_time"""
+    """跨区时源区域内部走到入口节点的耗时计入总耗时"""
     mm = MapManager()
     # home/bedroom -> bedroom->living(1) + leave home->ironblood(3) + corridor->z1(1) = 5
-    result = mm.find_path('home', 'bedroom', 'ironblood_dorm', 'z1_room')
-    assert result is not None
-    assert result['total_time'] == 5
+    steps = mm.find_path('home', 'bedroom', 'ironblood_dorm', 'z1_room')
+    assert sum(s['time'] for s in steps) == 5
+    assert [s['node'] for s in steps] == ['living_room', 'corridor', 'z1_room']
 
 
 def test_floyd_build_time_reasonable():

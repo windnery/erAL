@@ -151,19 +151,27 @@ class MapManager:
 
     # ==================== 图模型：寻路（查 Floyd 表） ====================
 
-    def find_path(self, src_reg: str, src_node: str, dst_reg: str, dst_node: str):
-        """跨图寻路（查全局 Floyd 表）：返回 {'total_time': 分钟, 'path': [节点], 'cross_region': bool}；不可达返回 None
+    def get_travel_time(self, src_reg: str, src_node: str, dst_reg: str, dst_node: str) -> int:
+        """获取两点间最短通行总耗时（分钟）"""
+        if (src_reg, src_node) == (dst_reg, dst_node):
+            return 0
+        u = self._node_index[(src_reg, src_node)]
+        v = self._node_index[(dst_reg, dst_node)]
+        return self._dist[u][v]
 
-        - 同区域：返回区域内从 src_node 到 dst_node 的完整节点路径
-        - 跨区域：返回 [目标区入口节点, ...目标节点]（与旧契约一致），total_time 含区域内/区域间全部耗时
+    def find_path(
+        self, src_reg: str, src_node: str, dst_reg: str, dst_node: str
+    ) -> list[dict[str, Any]]:
+        """跨图寻路（查全局 Floyd 表）：直接返回带耗时的单步队列 [{'region': r, 'node': n, 'time': t}, ...]
+
+        - 起点与终点相同时返回空列表 []
+        - 返回的步骤列表不包含起点自身，第一项即为迈向的下一个节点
         """
         u = self._node_index[(src_reg, src_node)]
         v = self._node_index[(dst_reg, dst_node)]
-        total = self._dist[u][v]
 
         if (src_reg, src_node) == (dst_reg, dst_node):
-            # 起点与终点相同，直接返回
-            return {"total_time": 0, "path": [src_node], "cross_region": False}
+            return []
 
         # 重建完整节点路径 [(region, node), ...]（含起点）
         node_path = [(src_reg, src_node)]
@@ -175,13 +183,22 @@ class MapManager:
             node_path.append(self._nodes[step])
             cur = step
 
-        if src_reg == dst_reg:
-            path_ids = [node_id for _, node_id in node_path]
-            return {"total_time": total, "path": path_ids, "cross_region": False}
+        # 将节点路径转换为带耗时的单步列表
+        steps: list[dict[str, Any]] = []
+        for i in range(len(node_path) - 1):
+            r1, n1 = node_path[i]
+            r2, n2 = node_path[i + 1]
+            if r1 == r2:
+                cost = self.maps[r1].get(n1, {}).get("links", {}).get(n2, 1)
+            else:
+                cost = LEAVE_TIME_DATA.get(r1, {}).get(r2, 1)
+            steps.append({
+                "region": r2,
+                "node": n2,
+                "time": cost,
+            })
 
-        # 跨区域：路径为 [目标区入口节点, ...目标区节点]
-        path_ids = [node_id for reg, node_id in node_path if reg == dst_reg]
-        return {"total_time": total, "path": path_ids, "cross_region": True}
+        return steps
 
     # ==================== 字符画地图视图 ====================
 

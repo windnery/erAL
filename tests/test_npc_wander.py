@@ -59,13 +59,9 @@ class TestNpcWander:
 
     def test_set_loc_clears_move_state(self):
         """set_loc（睡觉/工作/跟随接管）必须清空全部在途状态"""
-        self.z23.move_path = ["corridor"]
-        self.z23.to_region = "home"
-        self.z23.next_node_time = 7
+        self.z23.move_steps = [{"region": "home", "node": "corridor", "time": 7}]
         self.nm.set_loc("Z23", DORM, ENTRY)
-        assert self.z23.move_path == []
-        assert self.z23.to_region == ""
-        assert self.z23.next_node_time == 0
+        assert self.z23.move_steps == []
 
     # ==================== 同区域移动 ====================
 
@@ -75,9 +71,7 @@ class TestNpcWander:
         self.nm.set_loc("Z23", DORM, "laffey_room")
         self._call(10)
         assert self.z23.location == {"region": DORM, "node": "corridor"}
-        assert self.z23.move_path == []
-        assert self.z23.next_node_time == 0
-
+        assert self.z23.move_steps == []
 
     def test_same_region_inflight_walks_partway_then_arrives(self, monkeypatch):
         """同区在途：走不完停在原地只扣时间，下一 tick 续走直到到达"""
@@ -85,45 +79,41 @@ class TestNpcWander:
         self._patch_random(monkeypatch, [1])
         self.nm.set_loc("Z23", DORM, "laffey_room")
         # 人为构造在途状态：还剩 corridor -> oklahoma_room 两步，到下一节点还差 5 分钟
-        self.z23.move_path = ["corridor", "oklahoma_room"]
-        self.z23.next_node_time = 5
+        self.z23.move_steps = [
+            {"region": DORM, "node": "corridor", "time": 5},
+            {"region": DORM, "node": "oklahoma_room", "time": 1},
+        ]
 
         self._call(3)
         assert self.z23.location == {"region": DORM, "node": "laffey_room"}
-        assert self.z23.move_path == ["corridor", "oklahoma_room"]
-        assert self.z23.next_node_time == 2
+        assert self.z23.move_steps[0] == {"region": DORM, "node": "corridor", "time": 2}
 
         self._call(10)
         assert self.z23.location == {"region": DORM, "node": "oklahoma_room"}
-        assert self.z23.move_path == []
-        assert self.z23.next_node_time == 0
+        assert self.z23.move_steps == []
 
     def test_same_region_inflight_at_entry_not_corrupted(self, monkeypatch):
         """回归（region 空串污染）：同区在途且恰好位于 entry_node，
         即使二掷成功进入跨区分支，也不得动 region/误开始跨区移动"""
         self._patch_random(monkeypatch, [100, 1])
         self.nm.set_loc("Z23", DORM, ENTRY)  # 在途且站在 entry_node
-        self.z23.move_path = ["oklahoma_room"]
-        self.z23.next_node_time = 5
+        self.z23.move_steps = [{"region": DORM, "node": "oklahoma_room", "time": 5}]
 
         self._call(3)
         # 推进已提到分支外：首掷失败在途也照样前进（3 < 5，未到下一节点）
         assert self.z23.location == {"region": DORM, "node": ENTRY}
-        assert self.z23.move_path == ["oklahoma_room"]
-        assert self.z23.next_node_time == 2
+        assert self.z23.move_steps == [{"region": DORM, "node": "oklahoma_room", "time": 2}]
 
     # ==================== 跨区域移动 ====================
 
     def test_cross_region_move_arrives(self, monkeypatch):
-        """跨区移动：时间充足时到达目标区入口，region/to_region/路径全部正确"""
+        """跨区移动：时间充足时到达目标区入口，region 与路径全部正确"""
         # 首掷失败 + 二掷成功 → 进入跨区分支；choice 取第一个候选区域 = home
         self._patch_random(monkeypatch, [100, 1])
         self.nm.set_loc("Z23", DORM, ENTRY)
         self._call(10)  # commute=3，一步到达
         assert self.z23.location == {"region": "home", "node": "living_room"}
-        assert self.z23.to_region == ""
-        assert self.z23.move_path == []
-        assert self.z23.next_node_time == 0
+        assert self.z23.move_steps == []
 
     def test_cross_region_inflight_counts_down_then_arrives(self, monkeypatch):
         """回归（跨区在途永久冻结）：走不完时倒计时留存，下一 tick 续走并落地"""
@@ -132,33 +122,25 @@ class TestNpcWander:
 
         self._call(1)  # 开启跨区移动但走不完
         assert self.z23.location == {"region": DORM, "node": ENTRY}
-        assert self.z23.to_region == "home"
-        assert self.z23.move_path == ["living_room"]
-        assert self.z23.next_node_time == COMMUTE - 1
+        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 1}]
 
         self._call(10)  # 时间充足，到达
         assert self.z23.location == {"region": "home", "node": "living_room"}
-        assert self.z23.to_region == ""
-        assert self.z23.move_path == []
-        assert self.z23.next_node_time == 0
+        assert self.z23.move_steps == []
 
     def test_cross_region_inflight_not_consumed_by_same_region_branch(self, monkeypatch):
         """回归（同区 while 消费跨区路径）：跨区在途 + 首掷成功进入同区分支时，
-        同区 while 必须被 to_region 拦下；跨区推进独立完成正确落地"""
+        统一步进处理正常扣减并正确落地"""
         self._patch_random(monkeypatch, [100, 1, 1])  # tick1 开启跨区；tick2 首掷成功
         self.nm.set_loc("Z23", DORM, ENTRY)
 
         self._call(1)  # 进入跨区在途，剩 2 分钟
         assert self.z23.location == {"region": DORM, "node": ENTRY}
-        assert self.z23.to_region == "home"
-        assert self.z23.move_path == ["living_room"]
-        assert self.z23.next_node_time == COMMUTE - 1
+        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 1}]
 
-        self._call(10)  # 首掷成功：同区 while 被拦下，跨区 handler 正常落地
+        self._call(10)  # 时间充足正常落地
         assert self.z23.location == {"region": "home", "node": "living_room"}
-        assert self.z23.to_region == ""
-        assert self.z23.move_path == []
-        assert self.z23.next_node_time == 0
+        assert self.z23.move_steps == []
 
     # ==================== 候选活动到达激活 ====================
 

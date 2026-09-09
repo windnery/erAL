@@ -54,13 +54,12 @@ class MovementManager:
         if cur_node == target_node:
             return ["已经在该地点"]
 
-        path_info = self.world.map_manager.find_path(region, cur_node, region, target_node)
-        if not path_info or not path_info.get("path"):
+        try:
+            steps = self.world.map_manager.find_path(region, cur_node, region, target_node)
+        except KeyError:
             return ["无法前往该地点"]
-
-        steps = self._build_steps(region, path_info["path"])
         if not steps:
-            return ["已经在该地点"]
+            return ["无法前往该地点"]
 
         dst_name = self.world.map_manager.get_node_name(region, target_node)
         self.session = MovementSession(
@@ -93,9 +92,10 @@ class MovementManager:
 
         steps: list[dict] = []
         if cur_node != src_entry_node:
-            path_info = self.world.map_manager.find_path(src_region, cur_node, src_region, src_entry_node)
-            if path_info and path_info.get("path"):
-                steps = self._build_steps(src_region, path_info["path"])
+            try:
+                steps = self.world.map_manager.find_path(src_region, cur_node, src_region, src_entry_node)
+            except KeyError:
+                steps = []
 
         dst_name = self.world.map_manager.get_node_name(target_region, dst_entry_node)
         self.session = MovementSession(

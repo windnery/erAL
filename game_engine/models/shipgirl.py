@@ -16,9 +16,6 @@ class ShipGirl(Character):
     talk_fatigue: int = 0  # 会话疲劳值
     is_talk_fatigue: bool = False  # 是否会话疲劳
     schedule: dict[str, Any] = field(default_factory=dict)  # 作息时间表
-    move_path: list[str] = field(default_factory=list)  # 移动路径
-    to_region: str = ''  # 目标区域
-    next_node_time: int = 0  # 下一节点到达时间
     color: str = '#ffffff'
     DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {
         'hands': 2,

@@ -190,10 +190,11 @@ class JuusManager:
         self, src_reg: str, src_node: str, dst_reg: str, dst_node: str
     ) -> int:
         """计算玩家从当前地点前往目标地点的通行时间（统一走 MapManager 图寻路）"""
-        path = self.world.map_manager.find_path(src_reg, src_node, dst_reg, dst_node)
-        if path is None:
+        try:
+            t = self.world.map_manager.get_travel_time(src_reg, src_node, dst_reg, dst_node)
+            return max(t, 1)
+        except Exception:
             return 3  # 兜底：不可达时按最短跨区域时间估算
-        return max(path["total_time"], 1)
 
     def navigate_to_contact(self, shipgirl_id: str) -> dict[str, Any]:
         """前往指定舰娘所在位置，计算通行时间并推进时间"""

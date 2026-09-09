@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from config.cflag_config import ATTACH_MAPPING
 from config.palam_config import PALAM_LV
@@ -22,6 +22,7 @@ class Character:
     talent: dict[str, str] = field(default_factory=dict)
     body_slots: dict[str, int] = field(default_factory=dict)
     cmd_cooldowns: dict[str, int] = field(default_factory=dict)
+    move_steps: list[dict[str, Any]] = field(default_factory=list)
     DEFAULT_BODY_SLOTS: ClassVar[dict[str, int]] = {}
 
     def __post_init__(self):
