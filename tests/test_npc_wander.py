@@ -48,9 +48,10 @@ class TestNpcWander:
         monkeypatch.setattr(npc_mod, "randint", lambda a, b: queue.pop(0) if queue else 1)
         monkeypatch.setattr(npc_mod, "choice", lambda seq: seq[0])
 
-    def _call(self, elapsed):
-        """重置为双自由后调用 update_positions（上一次 tick 的 roll 会污染暂存活动）"""
-        self.world.activity_manager.will_activities["Z23"] = "free"
+    def _call(self, elapsed, will="free"):
+        """重置活动后调用 update_positions（上一次 tick 的 roll 会污染暂存活动）
+        will: 非默认时先设置候选活动（模拟 roll_activity 已选中某活动）"""
+        self.world.activity_manager.will_activities["Z23"] = will
         self.world.activity_manager.reset_activity("Z23")
         self.nm.update_positions(elapsed, self.world.map_manager, self.world.player)
 
@@ -99,16 +100,17 @@ class TestNpcWander:
 
     def test_same_region_inflight_at_entry_not_corrupted(self, monkeypatch):
         """回归（region 空串污染）：同区在途且恰好位于 entry_node，
-        首掷失败二掷成功进入跨区分支时，不得动 region"""
+        即使二掷成功进入跨区分支，也不得动 region/误开始跨区移动"""
         self._patch_random(monkeypatch, [100, 1])
         self.nm.set_loc("Z23", DORM, ENTRY)  # 在途且站在 entry_node
         self.z23.move_path = ["oklahoma_room"]
         self.z23.next_node_time = 5
 
         self._call(3)
+        # 推进已提到分支外：首掷失败在途也照样前进（3 < 5，未到下一节点）
         assert self.z23.location == {"region": DORM, "node": ENTRY}
         assert self.z23.move_path == ["oklahoma_room"]
-        assert self.z23.next_node_time == 5
+        assert self.z23.next_node_time == 2
 
     # ==================== 跨区域移动 ====================
 
@@ -142,13 +144,52 @@ class TestNpcWander:
 
     def test_cross_region_inflight_not_consumed_by_same_region_branch(self, monkeypatch):
         """回归（同区 while 消费跨区路径）：跨区在途 + 首掷成功进入同区分支时，
-        在途状态必须原样保留，不得出现旧 region + 新 region 节点的非法位置"""
+        同区 while 必须被 to_region 拦下；跨区推进独立完成正确落地"""
         self._patch_random(monkeypatch, [100, 1, 1])  # tick1 开启跨区；tick2 首掷成功
         self.nm.set_loc("Z23", DORM, ENTRY)
 
         self._call(1)  # 进入跨区在途，剩 2 分钟
-        self._call(10)  # 首掷成功：while 被 to_region 拦下，本 tick 停滞但状态完好
         assert self.z23.location == {"region": DORM, "node": ENTRY}
         assert self.z23.to_region == "home"
         assert self.z23.move_path == ["living_room"]
         assert self.z23.next_node_time == COMMUTE - 1
+
+        self._call(10)  # 首掷成功：同区 while 被拦下，跨区 handler 正常落地
+        assert self.z23.location == {"region": "home", "node": "living_room"}
+        assert self.z23.to_region == ""
+        assert self.z23.move_path == []
+        assert self.z23.next_node_time == 0
+
+    # ==================== 候选活动到达激活 ====================
+
+    def test_heading_activity_activates_on_arrival(self, monkeypatch):
+        """前往候选活动的舰娘到达合适节点后，同 tick 激活活动"""
+        self._patch_random(monkeypatch, [1])  # 首掷必成功（relax 权重路径不掷骰，保险）
+        # Z23 在走廊（非 CAN_SIT 节点），候选活动 relax 要求 CAN_SIT 地点
+        self.nm.set_loc("Z23", DORM, ENTRY)
+        self._call(10, will="relax")
+        # 走到第一个 CAN_SIT 节点（laffey_room）并立即激活
+        assert self.z23.location == {"region": DORM, "node": "laffey_room"}
+        assert self.world.activity_manager.activities["Z23"].id == "relax"
+        assert self.world.activity_manager.will_activities["Z23"] == "free"
+
+    def test_pending_activity_not_activated_at_unsuitable_node(self):
+        """站在不合适节点时，候选活动不得被就地激活"""
+        self.nm.set_loc("Z23", DORM, ENTRY)  # 走廊不是 CAN_SIT 节点
+        self._call(0, will="relax")  # elapsed=0：不发生移动与决策
+        assert self.world.activity_manager.activities["Z23"].id == "free"
+        assert self.world.activity_manager.will_activities["Z23"] == "relax"
+
+    def test_pending_activity_not_activated_while_working(self):
+        """working 状态下候选活动不得被激活（否则会被 tick_all 的活动守卫吞掉）"""
+        self.z23.schedule["works"] = [{
+            "desc": "测试工作",
+            "location": {"region": "office", "node": "desk"},
+            "time": {"start": [9, 0], "end": [17, 0]},
+        }]
+        self._call(10, will="relax")  # 12:00 在工作时段内
+        assert self.z23.cflag["working"] is True
+        assert self.z23.location == {"region": "office", "node": "desk"}
+        # 候选活动保留到下班，不被激活也不被吞掉
+        assert self.world.activity_manager.activities["Z23"].id == "free"
+        assert self.world.activity_manager.will_activities["Z23"] == "relax"

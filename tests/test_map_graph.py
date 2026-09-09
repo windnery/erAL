@@ -2,8 +2,10 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from data.data_loader import load_maps
-from game_engine.managers.MapManager import MapManager
+from game_engine.managers.MapManager import MapManager, _INF
 
 MAPS_DIR = Path(__file__).parent.parent / 'data' / 'maps'
 
@@ -76,10 +78,12 @@ def test_find_path_cross_region():
     assert result['path'] == ['corridor', 'z1_room']
 
 
-def test_find_path_unreachable_returns_none():
-    """不可达目标返回 None（不存在的节点）"""
+def test_find_path_unknown_node_raises():
+    """契约收紧：find_path 不再返回 None，不存在的节点直接 KeyError（fail-fast）。
+    图的全连通性由 test_floyd_table_complete_and_symmetric 保证"""
     mm = MapManager()
-    assert mm.find_path('home', 'living_room', 'home', 'nonexistent') is None
+    with pytest.raises(KeyError):
+        mm.find_path('home', 'living_room', 'home', 'nonexistent')
 
 
 def test_map_view_with_art():
@@ -150,7 +154,7 @@ def test_floyd_table_complete_and_symmetric():
     for s_reg, s_node, d_reg, d_node in _all_node_pairs(mm):
         u = mm._node_index[(s_reg, s_node)]
         v = mm._node_index[(d_reg, d_node)]
-        assert mm._dist[u][v] != float('inf'), \
+        assert mm._dist[u][v] != _INF, \
             f'不可达: {s_reg}/{s_node} -> {d_reg}/{d_node}'
         # 无向：dist 对称
         assert mm._dist[u][v] == mm._dist[v][u], \
