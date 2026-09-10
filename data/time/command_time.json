@@ -12,7 +12,14 @@
     "rub_the_butt": 3,
     "hug": 5,
     "kiss_i": 5,
+    "breast_caress_i": 5,
+    "ass_caress_i": 5,
+    "pussy_caress_i": 5,
+    "finger_insert_i": 5,
+    "listen_to_complaints": 20,
+    "do_nothing": 5,
     "work_together": 60,
+    "relax_together": 30,
 
     "ass_caress": 5,
     "breast_caress": 5,
@@ -26,5 +33,6 @@
     "nipple_caress": 5,
     "nipple_sucking": 5,
     "spread_the_ass": 5,
-    "spread_the_labia": 5
+    "spread_the_labia": 5,
+    "pussy_caress": 5
 }

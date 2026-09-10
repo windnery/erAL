@@ -7,7 +7,7 @@ MOOD_LABELS = {
     MOOD_BLISS: '幸福',
     MOOD_GOOD: '好心情',
     MOOD_NEUTRAL: '',
-    MOOD_BAD: '愤怒'
+    MOOD_BAD: '生气'
 }
 
 MOOD_COLORS = {

@@ -188,7 +188,7 @@ class Character:
         """是否有插入能力"""
         # 男
         # TODO: 穿戴假阳具的女
-        if self.get_talent_value('sex') > 0:
+        if self.is_male():
             return True
 
         return False
@@ -212,3 +212,7 @@ class Character:
     def is_dating(self) -> bool:
         """是否正在约会"""
         return self.cflag.get("dating", False)
+
+    def is_male(self) -> bool:
+        """是否男性"""
+        return self.get_talent_value("sex") > 0

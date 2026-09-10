@@ -194,6 +194,23 @@ def kiss_i(world: World, option: str):
         ctx.consume(energy=100, chara=world.player)
 
     # 好感和信赖处理
-    favor_trust_proc(source, npc, ctx, True)
+    if not ok:
+        ex_favor = 0
+        if npc.favor <= 500:
+            ex_favor = -50
+        elif npc.favor <= 1000:
+            ex_favor = -30
+        elif npc.favor <= 2000:
+            ex_favor = -10
+    else:
+        ex_favor = 0
+        if npc.favor <= 100:
+            ex_favor = -3
+        elif npc.favor <= 300:
+            ex_favor = -2
+        elif npc.favor <= 500:
+            ex_favor = -1
+
+    favor_trust_proc(source, npc, ctx, True, ex_favor=ex_favor)
 
     return ctx.result()
