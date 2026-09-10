@@ -120,9 +120,10 @@ class TestNpcWander:
         self._patch_random(monkeypatch, [100, 1, 100, 1])
         self.nm.set_loc("Z23", DORM, ENTRY)
 
-        self._call(1)  # 开启跨区移动但走不完
+        # elapsed=2：自由移动概率 2%（跨区 1%），开启跨区移动但走不完
+        self._call(2)
         assert self.z23.location == {"region": DORM, "node": ENTRY}
-        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 1}]
+        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 2}]
 
         self._call(10)  # 时间充足，到达
         assert self.z23.location == {"region": "home", "node": "living_room"}
@@ -134,9 +135,10 @@ class TestNpcWander:
         self._patch_random(monkeypatch, [100, 1, 1])  # tick1 开启跨区；tick2 首掷成功
         self.nm.set_loc("Z23", DORM, ENTRY)
 
-        self._call(1)  # 进入跨区在途，剩 2 分钟
+        # elapsed=2：进入跨区在途，剩 1 分钟
+        self._call(2)
         assert self.z23.location == {"region": DORM, "node": ENTRY}
-        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 1}]
+        assert self.z23.move_steps == [{"region": "home", "node": "living_room", "time": COMMUTE - 2}]
 
         self._call(10)  # 时间充足正常落地
         assert self.z23.location == {"region": "home", "node": "living_room"}

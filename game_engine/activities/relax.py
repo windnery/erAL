@@ -15,24 +15,25 @@ class Relax(Activity):
 
     def __init__(self, id: str = "relax", start_time = None):
         super().__init__(id=id, start_time=start_time)
-        self.duration = randint(40, 90)  # 放松活动持续时间(分钟)
+        self.duration = randint(60, 90)  # 放松活动持续时间(分钟)
 
     def on_start(self, sg: ShipGirl):
         """放松活动开始时的处理逻辑"""
         if sg.id == "laffey":
-            return f"{sg.name}的眼睛要睁不开了…开始寻找休息点zzz……"
-        return f"{sg.name}准备坐下来放松"
+            return f"{sg.name} 的眼睛要睁不开了…开始寻找休息点zzz……"
+        return f"{sg.name} 准备坐下来放松"
 
     def on_end(self, sg: ShipGirl):
         """放松活动结束时的处理逻辑"""
         if sg.id == "laffey":
-            return f"{sg.name}总算是恢复了活力…大概…"
+            return f"{sg.name} 总算是恢复了活力…大概…"
         return f"{sg.name} 结束了放松"
 
     def tick(self, sg: ShipGirl, minutes: int):
         """放松活动进行中的处理逻辑"""
         mes = ""
         if minutes > 0:
+            minutes = min(minutes, self.duration)
             # 每分钟恢复0.5%体力和气力
             stamina_recovery = int(sg.get_max_stamina() * 0.003 * minutes)
             energy_recovery = int(sg.get_max_energy() * 0.005 * minutes)
@@ -40,9 +41,9 @@ class Relax(Activity):
             sg.set_energy(sg.get_energy() + energy_recovery)
             # 更新活动持续时间
             self.duration = max(self.duration - minutes, 0)
+            mes = f"{sg.name} 正在放松 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
             if sg.id == "laffey":
-                mes = f"{sg.name}懒洋洋地躺在一边 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
-            mes = f"{sg.name}正在放松 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
+                mes = f"{sg.name} 懒洋洋地躺在一边 " + c_recover(f"体力+{stamina_recovery} 气力+{energy_recovery}")
         return mes
 
     @classmethod
@@ -69,6 +70,6 @@ class Relax(Activity):
     def get_description(self, sg: ShipGirl):
         """获取活动描述"""
         if sg.id == "laffey":
-            return f"{sg.name}正在休息zzz…"
-        return f"{sg.name}正在放松"
+            return f"{sg.name} 正在打哈欠zzz…"
+        return f"{sg.name} 正在放松"
         

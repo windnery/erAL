@@ -183,7 +183,7 @@ class NpcManager:
                 if will_activity == "free" and activity.id == "free":
                     # 现在和候选都是自由
                     # 随机选取一个地点移动 elapsed_minutes当做移动的概率
-                    move_ratio = max(50, elapsed_minutes)
+                    move_ratio = min(50, elapsed_minutes)
                     if randint(1, 100) <= move_ratio:
                         # ========== 同区域移动 ==========
                         if not sg.move_steps:
