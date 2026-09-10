@@ -89,8 +89,7 @@ def oath(world: World, option: str):
     ctx.say(f'{world.player.name}掏出了事先准备好的誓约之戒，向{npc.name}发起神圣的誓约之邀！')
 
     ok, detail = able(world, npc)
-    # TODO: 成功和失败不同口上
-    say_chara_line(npc, ctx, 'oath')
+    say_chara_line(npc, ctx, 'oath', outcome="success" if ok else "fail")
     ctx.say(detail)
 
     if not ok:

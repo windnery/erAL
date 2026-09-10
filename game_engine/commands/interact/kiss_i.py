@@ -79,8 +79,7 @@ def kiss_i(world: World, option: str):
     ctx.say(f"尝试和{npc.name}接吻……")
 
     ok, detail = able(world, npc)
-    # TODO: 成功和失败不同口上
-    say_chara_line(npc, ctx, "kiss_i")
+    say_chara_line(npc, ctx, "kiss_i", outcome="success" if ok else "fail")
     ctx.say(detail)
 
     if not ok:

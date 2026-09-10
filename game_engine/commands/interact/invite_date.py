@@ -79,7 +79,7 @@ def invite_date(world: World, option: str):
 
     ok, detail = able(world, npc)
     ctx.say(detail)
-    say_chara_line(npc, ctx, 'invite_date')
+    say_chara_line(npc, ctx, 'invite_date', outcome="success" if ok else "fail")
 
     if not ok:
         ctx.say(f"{npc.name}拒绝了你的邀请")

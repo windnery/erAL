@@ -76,7 +76,7 @@ def confess(world: World, option: str):
 
     ok, detail = able(world, npc)
     ctx.say(detail)
-    say_chara_line(npc, ctx, 'confess')
+    say_chara_line(npc, ctx, 'confess', outcome="success" if ok else "fail")
 
     if not ok:
         ctx.say(f"尽管很诚心地告白了，但还是被{npc.name}拒绝了……")

@@ -35,11 +35,15 @@ if TYPE_CHECKING:
     from game_engine.managers.TrainManager import TrainManager
 
 
-def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative'):
-    """输出角色口上场景（按角色色逐条染色）；无口上时静默。"""
+def say_chara_line(chara, ctx: CommandContext, action: str, block: str = 'narrative',
+                   outcome: str | None = None):
+    """输出角色口上场景（按角色色逐条染色）；无口上时静默。
+
+    ``outcome`` 供带成功率判定的指令选择成功/失败分支（见 dialogue_config）。
+    """
     from game_engine.dialogue import get_scene
 
-    scene = get_scene(chara, action, ctx.world.player.name)
+    scene = get_scene(chara, action, ctx.world.player.name, outcome)
     if scene:
         for msg in scene:
             ctx.say_block(block, c_chara(msg, chara.color))
