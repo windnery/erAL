@@ -33,7 +33,7 @@ class TestMoodModel:
 
         sg.set_mood(MOOD_BAD)
         assert sg.get_mood() == MOOD_BAD
-        assert sg.get_mood_label() == "愤怒"
+        assert sg.get_mood_label() == "生气"
 
         # 上限钳制 (MOOD_BLISS = 2)
         sg.set_mood(5)

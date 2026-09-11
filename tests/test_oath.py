@@ -11,7 +11,7 @@ def _make_oathable(world, npc, favor=5000, trust=1500, intimacy=10, relationship
     - 关系=爱（relationship=3）
     - 是恋人（lover=1）
     - 爱情经验>=50
-    - 亲密>=9
+    - 亲密>=8
     - 好感>=3500
     - 信赖>=1000
     - 持有誓约之戒
@@ -76,9 +76,9 @@ class TestOathCan:
         from game_engine.commands.interact.oath import can
         assert can(world, z23) is False
 
-    def test_can_false_when_intimacy_below_9(self, world, z23):
-        """亲密<9时不可誓约"""
-        _make_oathable(world, z23, intimacy=8)
+    def test_can_false_when_intimacy_below_8(self, world, z23):
+        """亲密<8时不可誓约"""
+        _make_oathable(world, z23, intimacy=7)
         from game_engine.commands.interact.oath import can
         assert can(world, z23) is False
 
@@ -159,4 +159,3 @@ class TestOathExecution:
         world.command_manager.do_cmd('oath', 'Z23')
         # escape_palam / disgust_palam 应增加（由 source 转化）
         assert z23.palam.get('escape_palam', 0) > 0 or z23.palam.get('disgust_palam', 0) > 0 or z23.palam.get('depression_palam', 0) > 0
-
