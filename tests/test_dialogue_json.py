@@ -186,3 +186,135 @@ def test_laffey_uses_chara_specific_voice():
     c.set_talent("relationship", "4")
     scenes = [get_scene(c, "talk") for _ in range(40)]
     assert scenes and any("拉菲" in m for scene in scenes for m in scene)
+
+
+def _illustrious():
+    return World().npc_manager.shipgirls["illustrious"]
+
+
+def test_illustrious_covers_entire_contract_with_content():
+    from config.dialogue_config import ACTION_CONTRACT
+
+    c = _illustrious()
+    for rel in (0, 2, 4):
+        c.set_talent("relationship", str(rel))
+        for action in ACTION_CONTRACT:
+            assert get_scene(c, action) is not None, (action, rel)
+
+
+def test_illustrious_outcome_branches():
+    c = _illustrious()
+    c.set_talent("relationship", "4")
+    fails = {tuple(get_scene(c, "invite_date", "指挥官", "fail")) for _ in range(40)}
+    oks = {tuple(get_scene(c, "invite_date", "指挥官", "success")) for _ in range(40)}
+    assert fails and oks
+    assert fails.isdisjoint(oks)
+    ok = get_scene(c, "oath", "指挥官", "success")
+    fail = get_scene(c, "oath", "指挥官", "fail")
+    assert ok and fail and ok != fail
+
+
+def test_illustrious_uses_chara_specific_voice():
+    c = _illustrious()
+    c.set_talent("relationship", "4")
+    scenes = [get_scene(c, "talk") for _ in range(40)]
+    assert scenes and any("光辉" in m for scene in scenes for m in scene)
+
+
+def _akagi():
+    return World().npc_manager.shipgirls["akagi"]
+
+
+def test_akagi_covers_entire_contract_with_content():
+    from config.dialogue_config import ACTION_CONTRACT
+
+    c = _akagi()
+    for rel in (0, 2, 4):
+        c.set_talent("relationship", str(rel))
+        for action in ACTION_CONTRACT:
+            assert get_scene(c, action) is not None, (action, rel)
+
+
+def test_akagi_outcome_branches():
+    c = _akagi()
+    c.set_talent("relationship", "4")
+    fails = {tuple(get_scene(c, "invite_date", "指挥官", "fail")) for _ in range(40)}
+    oks = {tuple(get_scene(c, "invite_date", "指挥官", "success")) for _ in range(40)}
+    assert fails and oks
+    assert fails.isdisjoint(oks)
+    ok = get_scene(c, "oath", "指挥官", "success")
+    fail = get_scene(c, "oath", "指挥官", "fail")
+    assert ok and fail and ok != fail
+
+
+def test_akagi_uses_chara_specific_voice():
+    c = _akagi()
+    c.set_talent("relationship", "4")
+    scenes = [get_scene(c, "talk") for _ in range(40)]
+    assert scenes and any("赤城" in m for scene in scenes for m in scene)
+    # 赤城 的标志性自称「妾身」应出现在每一个高好感场景里
+    assert all(any("妾身" in m for m in scene) for scene in scenes)
+
+
+def _unicorn():
+    return World().npc_manager.shipgirls["unicorn"]
+
+
+def test_unicorn_covers_entire_contract_with_content():
+    from config.dialogue_config import ACTION_CONTRACT
+    from game_engine.dialogue import get_available_actions
+
+    assert get_available_actions("unicorn") == set(ACTION_CONTRACT)
+    c = _unicorn()
+    for rel in (0, 2, 4):
+        c.set_talent("relationship", str(rel))
+        for action in ACTION_CONTRACT:
+            assert get_scene(c, action) is not None, (action, rel)
+
+
+def test_unicorn_outcome_branches():
+    c = _unicorn()
+    c.set_talent("relationship", "4")
+    fails = {tuple(get_scene(c, "invite_date", "指挥官", "fail")) for _ in range(40)}
+    oks = {tuple(get_scene(c, "invite_date", "指挥官", "success")) for _ in range(40)}
+    assert fails and oks
+    assert fails.isdisjoint(oks)
+    ok = get_scene(c, "oath", "指挥官", "success")
+    fail = get_scene(c, "oath", "指挥官", "fail")
+    assert ok and fail and ok != fail
+
+
+def test_unicorn_uses_chara_specific_voice():
+    c = _unicorn()
+    c.set_talent("relationship", "4")
+    scenes = [get_scene(c, "talk") for _ in range(40)]
+    # 独角兽 的第三人称自称应频繁出现
+    assert scenes and any("独角兽" in m for scene in scenes for m in scene)
+
+
+def test_unicorn_calls_player_only_gege():
+    """人设契约：独角兽对指挥官只称呼「哥哥」，台词中不出现「指挥官」。"""
+    import json as _json
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "data" / "dialogue" / "unicorn.json"
+    data = _json.loads(path.read_text(encoding="utf-8"))
+    for entries in data["actions"].values():
+        for entry in entries:
+            for scene in entry["variants"]:
+                for msg in scene:
+                    assert "指挥官" not in msg, msg
+    # 「哥哥」称呼必须实际出现
+    raw = path.read_text(encoding="utf-8")
+    assert raw.count("哥哥") > 100
+
+
+def test_unicorn_companion_named_youjiang():
+    """人设契约：绒偶的名字是「优酱」，不能退化成无名玩偶。"""
+    import json as _json
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "data" / "dialogue" / "unicorn.json"
+    data = _json.loads(path.read_text(encoding="utf-8"))
+    assert any("优酱" in m for entries in data["actions"].values()
+               for entry in entries for scene in entry["variants"] for m in scene)

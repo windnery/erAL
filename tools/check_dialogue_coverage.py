@@ -37,8 +37,9 @@ SCAN_DIRS = ("game_engine", "events", "managers")
 CALL_NAMES = ("say_chara_line", "get_scene")
 
 # 第一批口上目标角色（见 docs/roadmap.md §2.1）
+# 注意：Z23 的 chara id 为大写 "Z23"（见 data/characters/Z23.json）
 TARGET_ROSTER = (
-    "javelin", "laffey", "z23", "ayanami",
+    "javelin", "laffey", "Z23", "ayanami",
     "illustrious", "enterprise", "akagi", "unicorn",
 )
 
